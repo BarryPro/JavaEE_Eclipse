@@ -1,0 +1,52 @@
+package com.sitech.acctmgr.atom.dto.pay;
+
+import com.sitech.acctmgr.common.dto.CommonInDTO;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+/**
+ *
+ * <p>Title:   </p>
+ * <p>Description:   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author 
+ * @version 1.0
+ */
+public class SFeeOrderPayBackInDTO extends CommonInDTO{
+
+	private static final long serialVersionUID = -3682083701969326333L;
+	
+	private MBean allJson;	//所有调用报文
+
+	@ParamDesc(path="BUSI_INFO.ORIGIN_BUSI_CODE",cons=ConsType.QUES,type="String",len="40",desc="服务号码",memo="略")
+	private String oriBusiCode;		//费用冲正正向BUSI_CODE
+	
+	public void decode(MBean arg0){
+		
+		super.decode(arg0);
+		
+		allJson = arg0;
+		
+		oriBusiCode =  arg0.getStr(getPathByProperName("ORIGIN_BUSI_CODE"));
+		
+	}
+
+	public MBean getAllJson() {
+		return allJson;
+	}
+
+	public void setAllJson(MBean allJson) {
+		this.allJson = allJson;
+	}
+
+	public String getOriBusiCode() {
+		return oriBusiCode;
+	}
+
+	public void setOriBusiCode(String oriBusiCode) {
+		this.oriBusiCode = oriBusiCode;
+	}
+	
+}

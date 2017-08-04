@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<import resource="classpath:jcf-config.xml"/>
+<import resource="../db.xml"/>
+
+<!-- RESTFUL服务配置 -->
+<import resource="../rest.xml"/>
+
+<!-- 业务工单调用Bean定义Svc -->
+<import resource="../springconfig/service/BusiBean.xml"/>
+<import resource="../springconfig/service/EntityBean.xml"/>
+<import resource="../springconfig/service/CompBusiBean.xml"/>
+<import resource="../springconfig/service/service.xml"/>
+
+<!-- 后台工程：公共实体 -->
+<import resource="../springconfig/service/BackCommEnt.xml"/>
+
+<!-- 统一启动Quartz配置文件 ，新业务需在此xml文件中配置 
+<import resource="../springconfig/startQuartzJob.xml"/>
+-->
+
+<!-- 测试：分业务启动Quartz 配置方式 -->
+
+<!-- 测试：CRM->BOSS BusiOdr 业务工单同步
+<import resource="../springconfig/BusiOrderPub.xml"/>
+-->
+ 
+<!-- 测试：CRM->BOSS BusiOdr 业务工单同步：测试 busi主题
+<import resource="../springconfig/BusiOrderSyn.xml"/>
+-->
+
+<!-- 测试：CRM->BOSS 数据工单同步 
+<import resource="../springconfig/DataOrder.xml"/>
+-->
+
+<!-- 测试：分线程 消息发送处理
+<import resource="../springconfig/MsgSendJob.xml"/>
+-->
+ 
+</beans>

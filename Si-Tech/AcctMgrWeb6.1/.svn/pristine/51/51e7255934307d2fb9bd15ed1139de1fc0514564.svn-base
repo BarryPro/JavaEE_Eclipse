@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_bill_mid">
+
+    <select id="selectBillFeeInfo" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT
+        NVL(SUM(SHOULD_PAY),0) SHOULD_PAY,
+        NVL(SUM(FAVOUR_FEE),0) FAVOUR_FEE,
+        NVL(SUM(PAYED_PREPAY),0) PAYED_PREPAY,
+        NVL(SUM(PAYED_LATER),0) PAYED_LATER,
+        B.PARENT_ITEM_ID,
+        NVL(SUM(MOBILE_PAY), 0) MOBILE_PAY,
+        NVL(SUM(CUST_PAY), 0) CUST_PAY
+        FROM
+        ACT_BILL_MID A,
+        ACT_BILLITEM_REL B
+        WHERE
+        A.ACCT_ITEM_CODE = B.ITEM_ID
+        AND ID_NO = #ID_NO#
+        AND BILL_CYCLE = #YEAR_MONTH#
+        /*AND PROD_PRCID = 'XXXXXXXXXX'*/
+        AND B.PARENT_LEVEL = '0'
+        AND B.CURRENT_LEVEL = '3'
+        GROUP BY
+        B.PARENT_ITEM_ID
+    </select>
+
+    <!-- 套餐及固定费 -->
+    <select id="selectPrcBillFee" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT
+        NVL(SUM(SHOULD_PAY),0) SHOULD_PAY,
+        NVL(SUM(FAVOUR_FEE),0) FAVOUR_FEE,
+        NVL(SUM(PAYED_PREPAY),0) PAYED_PREPAY,
+        NVL(SUM(PAYED_LATER),0) PAYED_LATER,
+        NVL(SUM(MOBILE_PAY), 0) MOBILE_PAY,
+        NVL(SUM(CUST_PAY), 0) CUST_PAY
+        FROM
+        ACT_BILL_MID
+        WHERE
+        ID_NO = #ID_NO#
+        AND BILL_CYCLE = #YEAR_MONTH#
+        AND PROD_PRCID != 'XXXXXXXXXX'
+    </select>
+
+    <insert id="iActBillMidFromPayedowe" parameterClass="Map">
+        INSERT INTO ACT_BILL_MID
+        (CONTRACT_NO,ID_NO,ACCT_ITEM_CODE,NATURAL_MONTH,BILL_CYCLE,SHOULD_PAY,FAVOUR_FEE,
+        PAYED_PREPAY,PAYED_LATER,BILL_DAY,CYCLE_TYPE,BILL_BEGIN,BILL_TYPE,PROD_PRCID, TAX_RATE, VAT_EXCLUDED, TAX_FEE,
+        BILL_END, MOBILE_PAY, CUST_PAY)
+        SELECT CONTRACT_NO,ID_NO,ACCT_ITEM_CODE,NATURAL_MONTH,
+        BILL_CYCLE,SHOULD_PAY,FAVOUR_FEE,PAYED_PREPAY,PAYED_LATER,BILL_DAY,
+        CYCLE_TYPE,BILL_BEGIN,BILL_TYPE,PROD_PRCID,TAX_RATE, (SHOULD_PAY - FAVOUR_FEE - NVL(TAX_FEE, 0)) VAT_EXCLUDED,
+        NVL(TAX_FEE, 0) as TAX_FEE, BILL_END,
+        (NVL(PREPAY_FAVOUR_EXTAX,0) + NVL(PREPAY_FAVOUR_TAX,0) + NVL(LATER_FAVOUR_EXTAX,0) + NVL(LATER_FAVOUR_TAX,0)) AS
+        MOBILE_PAY,
+        (PAYED_PREPAY + PAYED_LATER - (NVL(PREPAY_FAVOUR_EXTAX,0) + NVL(PREPAY_FAVOUR_TAX,0) + NVL(LATER_FAVOUR_EXTAX,0)
+        + NVL(LATER_FAVOUR_TAX,0)))
+        AS CUST_PAY
+        FROM ACT_PAYEDOWE_$SUFFIX$
+        WHERE CONTRACT_NO = #CONTRACT_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BILL_CYCLE">
+                BILL_CYCLE = #BILL_CYCLE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BILL_DAY">
+                <isNotEmpty prepend="AND" property="NATURAL_MONTH">
+                    ( (BILL_DAY! = #BILL_DAY# AND NATURAL_MONTH = #NATURAL_MONTH#)
+                    or ( NATURAL_MONTH! = #NATURAL_MONTH#) )
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="EXCLUDE_ADJ">
+                (BILL_DAY <![CDATA[ < ]]> 9000 OR SHOULD_PAY >= 0 )
+            </isNotEmpty>
+        </dynamic>
+    </insert>
+
+    <insert id="iActBillMidFromUnPayOwe" parameterClass="Map">
+        INSERT INTO ACT_BILL_MID
+        (CONTRACT_NO,ID_NO,ACCT_ITEM_CODE,NATURAL_MONTH,BILL_CYCLE,SHOULD_PAY,FAVOUR_FEE,
+        PAYED_PREPAY,PAYED_LATER,BILL_DAY,CYCLE_TYPE,BILL_BEGIN,BILL_TYPE,PROD_PRCID,
+        TAX_RATE, VAT_EXCLUDED, TAX_FEE, BILL_END, MOBILE_PAY, CUST_PAY)
+        SELECT CONTRACT_NO,ID_NO,ACCT_ITEM_CODE,NATURAL_MONTH,
+        BILL_CYCLE,SHOULD_PAY,FAVOUR_FEE,PAYED_PREPAY,PAYED_LATER,BILL_DAY,CYCLE_TYPE,BILL_BEGIN,BILL_TYPE,PROD_PRCID,TAX_RATE,
+        (SHOULD_PAY - FAVOUR_FEE - NVL(TAX_FEE, 0)) VAT_EXCLUDED, NVL(TAX_FEE, 0) as TAX_FEE,
+        BILL_END,
+        (NVL(PREPAY_FAVOUR_EXTAX,0) + NVL(PREPAY_FAVOUR_TAX,0) + NVL(LATER_FAVOUR_EXTAX,0) + NVL(LATER_FAVOUR_TAX,0)) AS
+        MOBILE_PAY,
+        (PAYED_PREPAY + PAYED_LATER - (NVL(PREPAY_FAVOUR_EXTAX,0) + NVL(PREPAY_FAVOUR_TAX,0) + NVL(LATER_FAVOUR_EXTAX,0)
+        + NVL(LATER_FAVOUR_TAX,0)))
+        AS CUST_PAY
+        FROM ACT_UNPAYOWE_INFO
+        WHERE CONTRACT_NO = #CONTRACT_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="MIN_BILL_CYCLE">
+                BILL_CYCLE >= #MIN_BILL_CYCLE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="MAX_BILL_CYCLE">
+                BILL_CYCLE <![CDATA[ <= ]]>
+                #MAX_BILL_CYCLE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="MIN_NATURAL_MONTH">
+                NATURAL_MONTH >= #MIN_NATURAL_MONTH#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="MAX_NATURAL_MONTH">
+                NATURAL_MONTH <![CDATA[ <= ]]>
+                #MAX_NATURAL_MONTH#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BILL_DAY">
+                <isNotEmpty prepend="AND" property="NATURAL_MONTH">
+                    ( (BILL_DAY! = #BILL_DAY# AND NATURAL_MONTH = #NATURAL_MONTH#)
+                    or ( NATURAL_MONTH! = #NATURAL_MONTH#) )
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="EXCLUDE_ADJ">
+                (BILL_DAY <![CDATA[ < ]]> 9000 OR SHOULD_PAY >= 0 )
+            </isNotEmpty>
+        </dynamic>
+    </insert>
+
+    <insert id="iActBillMidFromUnbill" parameterClass="Map">
+        INSERT INTO ACT_BILL_MID
+        (CONTRACT_NO,ID_NO,ACCT_ITEM_CODE,NATURAL_MONTH,BILL_CYCLE,SHOULD_PAY,FAVOUR_FEE,
+        PAYED_PREPAY,PAYED_LATER,BILL_DAY,CYCLE_TYPE,BILL_BEGIN,BILL_TYPE,PROD_PRCID, TAX_RATE,
+        VAT_EXCLUDED, TAX_FEE, BILL_END, MOBILE_PAY, CUST_PAY)
+        VALUES
+        (#CONTRACT_NO#,#ID_NO#,#ACCT_ITEM_CODE#,#NATURAL_MONTH#,#BILL_CYCLE#,#SHOULD_PAY#,#FAVOUR_FEE#,
+        #PAYED_PREPAY#,#PAYED_LATER#,#BILL_DAY#,#CYCLE_TYPE#,#BILL_BEGIN#,#BILL_TYPE#,#PROD_PRCID#, #TAX_RATE#,
+        #VAT_EXCLUDED#, #TAX_FEE#, #BILL_END#, #MOBILE_PAY#, #CUST_PAY#)
+    </insert>
+
+    <resultMap id="BillEntity" class="com.sitech.acctmgr.atom.domains.bill.BillEntity">
+        <result property="contractNo" column="CONTRACT_NO"/>
+        <result property="idNo" column="ID_NO"/>
+        <result property="acctItemCode" column="ACCT_ITEM_CODE"/>
+        <result property="naturalMonth" column="NATURAL_MONTH"/>
+        <result property="billCycle" column="BILL_CYCLE"/>
+        <result property="shouldPay" column="SHOULD_PAY"/>
+        <result property="favourFee" column="FAVOUR_FEE"/>
+        <result property="payedPrepay" column="PAYED_PREPAY"/>
+        <result property="payedLater" column="PAYED_LATER"/>
+        <result property="billDay" column="BILL_DAY"/>
+        <result property="billBegin" column="BILL_BEGIN"/>
+        <result property="taxRate" column="TAX_RATE"/>
+        <result property="taxFee" column="TAX_FEE"/>
+        <result property="billEnd" column="BILL_END"/>
+        <result property="parentItemId" column="PARENT_ITEM_ID"/>
+        <result property="prodPrcId" column="PROD_PRCID"/>
+        <result property="mobilePay" column="MOBILE_PAY"/>
+        <result property="custPay" column="CUST_PAY"/>
+        <result property="realFee" column="REAL_FEE"/>
+    </resultMap>
+    <select id="qUserDetailBill" parameterClass="Map" resultMap="BillEntity">
+        SELECT
+        A.CONTRACT_NO,
+        A.ID_NO,
+        A.ACCT_ITEM_CODE,
+        A.NATURAL_MONTH,
+        A.BILL_CYCLE,
+        A.SHOULD_PAY,
+        A.FAVOUR_FEE,
+        A.PAYED_PREPAY,
+        A.PAYED_LATER,
+        A.BILL_DAY,
+        A.BILL_BEGIN,
+        NVL(A.TAX_RATE, 0.00) TAX_RATE,
+        nvl(A.TAX_FEE, 0) TAX_FEE,
+        A.BILL_END,
+        B.PARENT_ITEM_ID,
+        A.PROD_PRCID,
+        NVL(A.MOBILE_PAY,0) as MOBILE_PAY,
+        NVL(A.CUST_PAY,0) as CUST_PAY,
+        NVL((A.SHOULD_PAY - A.FAVOUR_FEE),0) REAL_FEE
+        FROM
+        ACT_BILL_MID A,
+        act_billitem_rel b
+        WHERE
+        a.acct_item_code = b.item_id
+        and current_level = '3'
+        and BILL_CYCLE = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                A.ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                A.CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PARENT_ITEM_ID">
+                B.PARENT_ITEM_ID = #PARENT_ITEM_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PARENT_LEVEL">
+                B.PARENT_LEVEL = #PARENT_LEVEL#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_NOS">
+                A.ID_NO IN
+                <iterate open="(" close=")" property="ID_NOS" conjunction="," prepend="">
+                    #ID_NOS[]#
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <resultMap id="BillDispEntity" class="com.sitech.acctmgr.atom.domains.bill.BillDispEntity">
+        <result property="contractNo" column="CONTRACT_NO"/>
+        <result property="idNo" column="ID_NO"/>
+        <result property="billDay" column="BILL_DAY"/>
+        <result property="showCode" column="ACCT_ITEM_CODE"/>
+        <result property="showName" column="ITEM_NAME"/>
+        <result property="shouldPay" column="SHOULD_PAY"/>
+        <result property="favourFee" column="FAVOUR_FEE"/>
+        <result property="payedPrepay" column="PAYED_PREPAY"/>
+        <result property="payedLater" column="PAYED_LATER"/>
+        <result property="parentItemId" column="PARENT_ITEM_ID"/>
+    </resultMap>
+    <select id="selectBillDetail" parameterClass="Map" resultMap="BillDispEntity">
+        SELECT A.ID_NO ID_NO,
+        A.CONTRACT_NO CONTRACT_NO,
+        DECODE (TO_NUMBER (SUBSTR (C.ACCT_ITEM_ATTR, 2, 1)),
+        0, A.BILL_CYCLE,
+        A.NATURAL_MONTH)AS NATURAL_MONTH,
+        A.BILL_CYCLE BILL_CYCLE,
+        TO_NUMBER (A.CYCLE_TYPE) CYCLE_TYPE,
+        C.ITEM_NAME ITEM_NAME,
+        A.BILL_DAY BILL_DAY,
+        NVL (B.PARENT_ITEM_ID, '0000000010') PARENT_ITEM_ID,
+        NVL (SUM (A.SHOULD_PAY), 0) SHOULD_PAY,
+        NVL (SUM (A.FAVOUR_FEE), 0) FAVOUR_FEE,
+        NVL (SUM (A.PAYED_PREPAY), 0) PAYED_PREPAY,
+        NVL (SUM (A.PAYED_LATER), 0) PAYED_LATER,
+        A.ACCT_ITEM_CODE ACCT_ITEM_CODE
+        FROM ACT_BILL_MID A, ACT_BILLITEM_REL B, ACT_ITEM_CONF C
+        WHERE A.ACCT_ITEM_CODE = B.ITEM_ID(+)
+        AND B.ITEM_ID = C.ACCT_ITEM_CODE
+        AND A.BILL_CYCLE = #BILL_CYCLE#
+        AND B.PARENT_LEVEL = '0'
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                A.ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                A.CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PARENT_ITEM_ID">
+                B.PARENT_ITEM_ID = #PARENT_ITEM_ID#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY A.ID_NO,
+        A.CONTRACT_NO,
+        A.NATURAL_MONTH,
+        A.BILL_CYCLE,
+        A.CYCLE_TYPE,
+        C.ITEM_NAME,
+        A.BILL_DAY,
+        B.PARENT_ITEM_ID,
+        TO_NUMBER (SUBSTR (C.ACCT_ITEM_ATTR, 2, 1)),
+        A.ACCT_ITEM_CODE
+    </select>
+
+    <insert id="iActBillMidFromDeadOwe" parameterClass="Map">
+        INSERT INTO ACT_BILL_MID
+        (CONTRACT_NO,ID_NO,ACCT_ITEM_CODE,NATURAL_MONTH,BILL_CYCLE,SHOULD_PAY,FAVOUR_FEE,
+        PAYED_PREPAY,PAYED_LATER,BILL_DAY,CYCLE_TYPE,BILL_BEGIN,BILL_TYPE,PROD_PRCID,BILL_END, MOBILE_PAY, CUST_PAY)
+        SELECT CONTRACT_NO,ID_NO,
+        ACCT_ITEM_CODE,NATURAL_MONTH
+        ,BILL_CYCLE,SHOULD_PAY,FAVOUR_FEE,PAYED_PREPAY,PAYED_LATER,BILL_DAY,CYCLE_TYPE,
+        BILL_BEGIN,BILL_TYPE,PROD_PRCID,BILL_END,
+        (NVL(PREPAY_FAVOUR_EXTAX,0) + NVL(PREPAY_FAVOUR_TAX,0) + NVL(LATER_FAVOUR_EXTAX,0) + NVL(LATER_FAVOUR_TAX,0)) AS
+        MOBILE_PAY,
+        (PAYED_PREPAY + PAYED_LATER - (NVL(PREPAY_FAVOUR_EXTAX,0) + NVL(PREPAY_FAVOUR_TAX,0) + NVL(LATER_FAVOUR_EXTAX,0)
+        + NVL(LATER_FAVOUR_TAX,0)))
+        AS CUST_PAY
+        FROM ACT_DEADOWE_INFO
+        WHERE
+        ID_NO = #ID_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BILL_CYCLE">
+                BILL_CYCLE = #BILL_CYCLE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="STATUS">
+                STATUS = #STATUS#
+            </isNotEmpty>
+        </dynamic>
+    </insert>
+
+    <!-- 网厅和自助端按帐单状态查询帐单七大类 -->
+    <typeAlias type="com.sitech.acctmgr.atom.domains.bill.StatusBillInfoEntity"
+               alias="StatusBillInfo"/>
+    <resultMap id="StatusBillInfoEntity" class="StatusBillInfo">
+        <result property="itemId" column="PARENT_ITEM_ID"/>
+        <result property="shouldPay" column="SHOULD_PAY"/>
+        <result property="favourFee" column="FAVOUR_FEE"/>
+        <result property="payedPrepay" column="PAYED_PREPAY"/>
+        <result property="payedLater" column="PAYED_LATER"/>
+        <result property="itemName" column="SHOW_NAME"/>
+        <result property="oweFee" column="OWE_FEE"/>
+        <result property="realFee" column="REAL_FEE"/>
+        <result property="billCycle" column="BILL_CYCLE"/>
+    </resultMap>
+    <select id="qStatusBillGroup" parameterClass="Map"
+            resultMap="StatusBillInfoEntity">
+        SELECT NVL(SUM(A.SHOULD_PAY), 0) SHOULD_PAY,
+        NVL(SUM(A.FAVOUR_FEE), 0) FAVOUR_FEE,
+        NVL(SUM(SHOULD_PAY-FAVOUR_FEE),0) REAL_FEE,
+        NVL(SUM(A.PAYED_PREPAY), 0) PAYED_PREPAY,
+        NVL(SUM(A.PAYED_LATER), 0) PAYED_LATER,
+        NVL(SUM(A.SHOULD_PAY - A.FAVOUR_FEE - A.PAYED_PREPAY - A.PAYED_LATER), 0) OWE_FEE,
+        B.PARENT_ITEM_ID PARENT_ITEM_ID,
+        DECODE(B.PARENT_ITEM_ID,
+        '0000000001', '套餐及固定费',
+        '0000000002', '语音通信费',
+        '0000000003', '可视电话通信费',
+        '0000000004', '上网费',
+        '0000000005', '短彩信费',
+        '0000000006', '增值业务费',
+        '0000000008', '集团业务费',
+        '0000000009', '代收费业务费',
+        '0000000010', '其他费') SHOW_NAME,
+        BILL_CYCLE
+        FROM
+        ACT_BILL_MID A,ACT_BILLITEM_REL B
+        WHERE
+        A.ACCT_ITEM_CODE = B.ITEM_ID
+        AND B.PARENT_LEVEL = #PARENT_LEVEL#
+        AND A.ID_NO = #ID_NO#
+        AND A.BILL_CYCLE = #BILL_CYCLE#
+        GROUP BY B.PARENT_ITEM_ID,BILL_CYCLE
+    </select>
+
+    <resultMap id="BillDisp3LevelEntity" class="com.sitech.acctmgr.atom.domains.bill.BillDisp3LevelEntity">
+        <result property="showCode" column="ACCT_ITEM_CODE"/>
+        <result property="shouldPay" column="SHOULD_PAY"/>
+        <result property="favourFee" column="FAVOUR_FEE"/>
+        <result property="payedPrepay" column="PAYED_PREPAY"/>
+        <result property="payedLater" column="PAYED_LATER"/>
+        <result property="parentItemId" column="PARENT_ITEM_ID"/>
+        <result property="realFee" column="REAL_FEE"/>
+    </resultMap>
+    <select id="qUserBillGroupByItemCode" parameterClass="Map" resultMap="BillDisp3LevelEntity">
+        SELECT
+        A.ACCT_ITEM_CODE,
+        NVL(SUM(A.SHOULD_PAY), 0) AS SHOULD_PAY,
+        NVL(SUM(A.FAVOUR_FEE), 0) AS FAVOUR_FEE,
+        NVL(SUM(A.PAYED_PREPAY), 0) AS PAYED_PREPAY,
+        NVL(SUM(A.PAYED_LATER), 0) AS PAYED_LATER,
+        B.PARENT_ITEM_ID,
+        NVL(SUM((A.SHOULD_PAY - A.FAVOUR_FEE)),0) AS REAL_FEE
+        FROM
+        ACT_BILL_MID A, ACT_BILLITEM_REL B
+        WHERE A.ACCT_ITEM_CODE = B.ITEM_ID
+        AND CURRENT_LEVEL = '3'
+        AND BILL_CYCLE = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                A.ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                A.CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PARENT_ITEM_ID">
+                B.PARENT_ITEM_ID = #PARENT_ITEM_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PARENT_LEVEL">
+                B.PARENT_LEVEL = #PARENT_LEVEL#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_NOS">
+                A.ID_NO IN
+                <iterate open="(" close=")" property="ID_NOS" conjunction="," prepend="">
+                    #ID_NOS[]#
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY B.PARENT_ITEM_ID, A.ACCT_ITEM_CODE
+    </select>
+
+</sqlMap>

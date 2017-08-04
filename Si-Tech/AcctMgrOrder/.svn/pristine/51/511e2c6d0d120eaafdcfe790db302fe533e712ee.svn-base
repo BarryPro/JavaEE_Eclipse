@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- fortress 框架需要的池 -->
+    <bean id="idmmMessagePool" class="com.sitech.acctmgr.app.task.pool.IdmmMessagePool" init-method="init">
+        <property name="addr" value="${PUB_ORDER_ADDR}"/>
+        <property name="processingTime" value="${PUB_PROCESSTIME}"/>
+        <property name="startNum" value="${PUBSTART_NUM}"/>
+    </bean>
+
+    <!-- fortress 框架消息发送的操作提供的数据库连接 -->
+    <bean id="msgInfoDspSvc" class="com.sitech.acctmgr.app.task.dao.MsgInfoDspDao" parent="baseBusi"/>
+
+    <!-- 后台工程：公共实体 
+    <bean id="testMainEnt" class="com.sitech.acctmgr.app.testApp.TestMain" parent="baseBusi"/>
+-->
+    <bean id="jsonTransEnt" class="com.sitech.acctmgr.app.busiorder.jsontrans.JsonTrans" parent="baseBusi"/>
+    <bean id="odrLineContDAOAppEnt" class="com.sitech.acctmgr.app.odrBlob.OdrLineContDAO" parent="baseBusi"/>
+    <bean id="iSpliceSqlEnt" class="com.sitech.acctmgr.app.dataorder.splicesql.SpliceSql" parent="baseBusi"/>
+    <bean id="iSpecDataSynEnt" class="com.sitech.acctmgr.app.dataorder.SpecDataSynJL" parent="baseBusi"/>
+
+    <bean id="BusiOrderSynEnt" class="com.sitech.acctmgr.app.busiorder.BusiOrderSyn" parent="baseBusi">
+        <property name="odrLineContDAO" ref="odrLineContDAOAppEnt"/>
+        <property name="jsonTrans" ref="jsonTransEnt"/>
+    </bean>
+
+    <!-- BOSS 消息发送 bean -->
+    <bean id="MsgDAOAppEnt" class="com.sitech.acctmgr.app.msgodrsend.MsgSendDAO" parent="baseBusi"/>
+    <bean id="MsgSendEnt" class="com.sitech.acctmgr.app.msgodrsend.MsgSend" parent="baseBusi">
+        <property name="odrLineContDAO" ref="odrLineContDAOAppEnt"/>
+        <property name="msgSendDAO" ref="MsgDAOAppEnt"/>
+    </bean>
+    <bean id="MsgSendThrd" class="com.sitech.acctmgr.app.msgodrsend.MsgSendThread" scope="prototype">
+        <property name="msgSend" ref="MsgSendEnt"/>
+    </bean>
+
+    <!-- 业务工单 -->
+    <!-- 前台方法新增Bean定义在service.xml中 -->
+    <bean id="BusiOrderSynSvc" class="com.sitech.acctmgr.app.busiorder.BusiOrderSyn" parent="baseBusi">
+        <property name="odrLineContDAO" ref="odrLineContDAOAppEnt"/>
+        <property name="jsonTrans" ref="jsonTransEnt"/>
+    </bean>
+
+    <!-- crm2boss 数据工单同步 bean -->
+    <bean id="DataOrderSvc" class="com.sitech.acctmgr.app.dataorder.DataOrder" parent="baseBusi">
+        <property name="odrLineContDAO" ref="odrLineContDAOAppEnt"/>
+        <property name="iSpecDataSyn" ref="iSpecDataSynEnt"/>
+        <property name="iSpliceSql" ref="iSpliceSqlEnt"/>
+        <property name="busiOrderSyn" ref="BusiOrderSynEnt"/>
+    </bean>
+
+	<!-- com.sitech.acctmgr.app.batchOpen 批量开机 
+	<bean id="OpenSvc" class="com.sitech.acctmgr.app.batchOpen.Open" parent="baseBusi">
+	    <property name="svcOrder" ref="SvcOrderEnt"/>
+	</bean>
+	-->
+    
+</beans>

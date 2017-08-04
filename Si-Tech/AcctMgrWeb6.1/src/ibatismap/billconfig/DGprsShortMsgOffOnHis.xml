@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dGprsShortMsgOffOnHis">
+
+	<typeAlias alias="gprsChangeRecd"
+		type="com.sitech.acctmgr.atom.domains.query.GprsChangeRecdEntity" />
+	<insert id="insert" parameterClass="Map">
+		insert into
+		dGprsShortMsgOffOnHis
+		(phone_no,id_no,login_no,op_code,OffOn_type,login_accept,op_time,
+		update_accept,update_time,update_date,update_login,update_type,update_code)
+		select
+		phone_no,id_no,login_no,op_code,OffOn_type,login_accept,op_time,
+		#LOGIN_ACCEPT#,sysdate,to_char(sysdate,'yyyymmdd'),#LOGIN_NO#,'D',#OP_CODE#
+		from dGprsShortMsgOffOn
+		where phone_no=#PHONE_NO#
+		and op_code=#OP_CODE#
+		and OffOn_type='D'
+	</insert>
+
+	<select id="qChangeRecd" parameterClass="Map" resultClass="gprsChangeRecd">
+		SELECT UPDATE_ACCEPT loginAccept,
+		UPDATE_TIME openTime,
+		UPDATE_LOGIN
+		openLoginNo,
+		OP_TIME closeTime,
+		LOGIN_NO closeLoginNo
+		FROM
+		DGPRSSHORTMSGOFFONHIS
+		WHERE PHONE_NO = #PHONE_NO#
+		AND TO_CHAR(OP_TIME,
+		'YYYYMM') BETWEEN #BEGIN_YM# AND #END_YM#
+		ORDER BY UPDATE_TIME DESC
+	</select>
+
+</sqlMap>

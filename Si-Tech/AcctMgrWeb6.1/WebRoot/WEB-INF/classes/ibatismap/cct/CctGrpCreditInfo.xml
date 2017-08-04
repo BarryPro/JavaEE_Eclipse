@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="cct_grpcredit_info">
+
+  <typeAlias alias="GrpCreditEntity" type="com.sitech.acctmgr.atom.domains.cct.GrpCreditEntity"/>
+  <select id="qryHand"  parameterClass="Map" resultClass="GrpCreditEntity">
+	select d.unit_id unitId,
+	       d.credit_code creditCode,
+	       d.begin_time beginTime,
+	       d.end_time endTime,
+	       d.OP_code opCode,
+	       d.LOGIN_NO loginNo,
+	       to_char(d.OP_TIME, 'YYYYMMDD hh24:mi:ss') opTime,
+	       to_char(sysdate, 'YYYYMM') sysYm
+	  from (select to_char(a.unit_id) unit_id,
+	               nvl(c.credit_code, '0') credit_code,
+	               c.begin_time,
+	               c.end_time,
+	               c.OP_code,
+	               c.LOGIN_NO,
+	               c.OP_TIME
+	          from ct_GrpCust_info a, cct_grpCredit_info c
+	         where a.unit_id = #UNIT_ID#
+	           and trim(c.begin_time) <![CDATA[ <= ]]> to_char(sysdate, 'YYYYMM')
+	           and trim(c.end_time) >= to_char(sysdate, 'YYYYMM')
+	           and auto_flag = 'N' 
+	           and a.unit_id = c.unit_id(+)) d
+  </select>
+  
+  <select id="qryAuto"  parameterClass="Map" resultClass="GrpCreditEntity">
+	select d.unit_id unitId,
+	       d.credit_code creditCode,
+	       d.begin_time beginTime,
+	       d.end_time endTime,
+	       d.OP_code opCode,
+	       d.LOGIN_NO loginNo,
+	       to_char(d.OP_TIME, 'YYYYMMDD hh24:mi:ss') opTime,
+	       to_char(sysdate, 'YYYYMM') sysYm
+	  from (select to_char(a.unit_id) unit_id,
+	               nvl(c.credit_code, '0') credit_code,
+	               c.begin_time,
+	               c.end_time,
+	               c.OP_code,
+	               c.LOGIN_NO,
+	               c.OP_TIME
+	          from ct_GrpCust_info a, cct_grpCredit_info c
+	         where a.unit_id = #UNIT_ID#
+	           and trim(c.begin_time) <![CDATA[ <= ]]> to_char(sysdate, 'YYYYMM')
+	           and trim(c.end_time) >= to_char(sysdate, 'YYYYMM')
+	           and a.unit_id = c.unit_id(+)) d
+  </select>
+  
+  <select id="qryCount"  parameterClass="Map" resultClass="java.lang.Integer">
+	select count(*) count 
+	from cct_grpCredit_info 
+	where unit_id=#UNIT_ID#  
+	and  auto_flag='N'
+  </select>
+  
+  <insert id="iGrpCredit"  parameterClass="GrpCreditEntity">
+	insert into cct_grpCredit_info
+	(UNIT_ID,credit_code,credit_value,BEGIN_TIME,END_TIME,auto_flag,OP_CODE,LOGIN_NO,OP_TIME)
+	values
+	(#unitId#,#creditCode#,'0',#beginTime#,#endTime#,'N',#opCode#,#loginNo#,sysdate)
+  </insert>
+  
+  <update id="uGrpCredit"  parameterClass="GrpCreditEntity">
+	update cct_grpCredit_info
+	   set credit_code = #creditCode#,
+	       BEGIN_TIME  = #beginTime#,
+	       END_TIME    = #endTime#,
+	       LOGIN_NO = #loginNo#,
+	       OP_TIME     = sysdate
+	 where UNIT_ID = #unitId#
+	   and auto_flag = 'N'
+  </update>
+  
+  
+	  
+</sqlMap>

@@ -1,0 +1,43 @@
+[EAI_BUSI_CS_1]
+eai.host=10.110.26.33
+eai.port=55555
+eai.timeout=10
+
+[EAI_BUSI_CS_2]
+eai.host=10.163.106.18
+eai.port=29999
+eai.timeout=10
+
+[EAI_BUSI_1]
+eai.host=10.162.200.97
+eai.port=39999
+eai.timeout=10
+
+[EAI_BUSI_2]
+eai.host=10.162.200.97
+eai.port=39998
+eai.timeout=10
+
+[EAI_INVOICE_1]
+eai.host=10.110.13.52
+eai.port=55555
+eai.timeout=10
+
+[SERVICES]
+#appid,transcode
+
+#8069银行卡签约用户缴费
+EAI_BankCard_Pay=EAI_BUSI_CS_2,602025,3
+
+#10086充值卡充值
+EAI_CARD10086_PAY=EAI_BUSI_CS_1,605003,1
+#10086充值卡黑名单更新接口，模拟变成705003 正式环境改成605003
+EAI_CARD10086_BLACKUPDATE=EAI_BUSI_CS_1,705003,1
+EAI_CARD_PAY=EAI_BUSI_CS_1,605001,1009
+
+EAI_TRANS_ACTIVE=EAI_BUSI_CS_1,605001,1004
+EAI_CreateOrder_PAY=EAI_BUSI_CS_1,602032,4
+EAI_ZHIFUBAO_PAY=EAI_BUSI_CS_1,609037,2
+EAI_ElecInvoicePrint_SYN = EAI_INVOICE_1,602084,1
+EAI_ElecInvoicePrint_ASYN = EAI_INVOICE_1,602084,2
+EAI_ElecInvoicePrint_SYNPDF = EAI_BUSI_CS_1,600048,3

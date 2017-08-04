@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>增删表</title>
+<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+<script type="text/javascript">
+	var tr_id = 2;//当全局变量来为id计数
+	$(function(){
+		$("#button1").click(function(){						
+			tr_id++;
+			alert(tr_id);
+			str = "<tr id = '"+tr_id+"'><td width='30%'>re1</td><td width='30%'>re2</td><td width='30%'>re3</td></tr>";
+			$('#test').append(str);	
+		});
+		$("#button2").click(function(){		
+			tr_id--;
+			alert(tr_id);			
+			$('#' + tr_id).remove();
+		});
+	});
+</script>
+</head>
+<body>
+	<table border="1px #ooo" id="test" cellpadding="0" cellspacing="0"
+		width="20%">
+		<tr id="1">
+			<td width="30%">1</td>
+			<td width="30%">2</td>
+			<td width="30%">3</td>	
+		</tr>
+		<tr id="2" >
+			<td width="30%">11</td>
+			<td width="30%">22</td>
+			<td width="30%">33</td>	
+		</tr>
+	
+	
+	</table>
+	<input type="button" id="button1" value="增加一行">
+	<input type="button" id="button2" value="删除一行">
+</body>
+</html>

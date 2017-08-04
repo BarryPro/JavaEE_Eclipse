@@ -1,0 +1,254 @@
+package com.sitech.acctmgr.atom.domains.invoice.elecInvoice;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+/**
+ * 项目明细（发票明细）
+ * 
+ * @author liuhl_bj
+ *
+ */
+@XStreamAlias("FPKJXX_XMXX")
+public class InvoiceDetailInfo {
+
+	// 项目名称
+	@XStreamAlias("XMMC")
+	private String xmmc;
+
+	// 项目单位
+	@XStreamAlias("XMDW")
+	private String xmdw;
+
+	// 规格型号
+	@XStreamAlias("GGXH")
+	private String ggxh;
+
+	// 项目数量
+	@XStreamAlias("XMSL")
+	private String xmsl;
+
+	// 含税标志
+	@XStreamAlias("HSBZ")
+	private String hsbz;
+
+	// 发票行性质
+	@XStreamAlias("FPHXZ")
+	private String fphxz;
+
+	// 项目单价
+	@XStreamAlias("XMDJ")
+	private String xmdj;
+
+	// 商品编码
+	@XStreamAlias("SPBM")
+	private String spbm;
+
+	// 自行编码
+	@XStreamAlias("ZXBM")
+	private String zxbm;
+
+	// 优惠政策标识
+	@XStreamAlias("YHZCBS")
+	private String yhzcbs;
+
+	// 零税率标识
+	@XStreamAlias("LSLBS")
+	private String lslbs;
+
+	// 增值税特殊管理 0:正 1：负
+	@XStreamAlias("ZZSTSGL")
+	private String zzstsgl;
+
+	// 项目金额
+	@XStreamAlias("XMJE")
+	private String xmje;
+
+	// 税率
+	@XStreamAlias("SL")
+	private String sl;
+
+	// 税额
+	@XStreamAlias("SE")
+	private String se;
+
+	// 备用字段1
+	@XStreamAlias("BYZD1")
+	private String byzd1;
+
+	// 备用字段2
+	@XStreamAlias("BYZD2")
+	private String byzd2;
+
+	// 备用字段3
+	@XStreamAlias("BYZD3")
+	private String byzd3;
+
+	// 备用字段4
+	@XStreamAlias("BYZD4")
+	private String byzd4;
+
+	// 备用字段5
+	@XStreamAlias("BYZD5")
+	private String byzd5;
+
+	public String getXmmc() {
+		return xmmc;
+	}
+
+	public void setXmmc(String xmmc) {
+		this.xmmc = xmmc;
+	}
+
+	public String getXmdw() {
+		return xmdw;
+	}
+
+	public void setXmdw(String xmdw) {
+		this.xmdw = xmdw;
+	}
+
+	public String getGgxh() {
+		return ggxh;
+	}
+
+	public void setGgxh(String ggxh) {
+		this.ggxh = ggxh;
+	}
+
+	public String getXmsl() {
+		return xmsl;
+	}
+
+	public void setXmsl(String xmsl) {
+		this.xmsl = xmsl;
+	}
+
+	public String getHsbz() {
+		return hsbz;
+	}
+
+	public void setHsbz(String hsbz) {
+		this.hsbz = hsbz;
+	}
+
+	public String getFphxz() {
+		return fphxz;
+	}
+
+	public void setFphxz(String fphxz) {
+		this.fphxz = fphxz;
+	}
+
+	public String getXmdj() {
+		return xmdj;
+	}
+
+	public void setXmdj(String xmdj) {
+		this.xmdj = xmdj;
+	}
+
+	public String getSpbm() {
+		return spbm;
+	}
+
+	public void setSpbm(String spbm) {
+		this.spbm = spbm;
+	}
+
+	public String getZxbm() {
+		return zxbm;
+	}
+
+	public void setZxbm(String zxbm) {
+		this.zxbm = zxbm;
+	}
+
+	public String getYhzcbs() {
+		return yhzcbs;
+	}
+
+	public void setYhzcbs(String yhzcbs) {
+		this.yhzcbs = yhzcbs;
+	}
+
+	public String getLslbs() {
+		return lslbs;
+	}
+
+	public void setLslbs(String lslbs) {
+		this.lslbs = lslbs;
+	}
+
+	public String getZzstsgl() {
+		return zzstsgl;
+	}
+
+	public void setZzstsgl(String zzstsgl) {
+		this.zzstsgl = zzstsgl;
+	}
+
+	public String getXmje() {
+		return xmje;
+	}
+
+	public void setXmje(String xmje) {
+		this.xmje = xmje;
+	}
+
+	public String getSl() {
+		return sl;
+	}
+
+	public void setSl(String sl) {
+		this.sl = sl;
+	}
+
+	public String getSe() {
+		return se;
+	}
+
+	public void setSe(String se) {
+		this.se = se;
+	}
+
+	public String getByzd1() {
+		return byzd1;
+	}
+
+	public void setByzd1(String byzd1) {
+		this.byzd1 = byzd1;
+	}
+
+	public String getByzd2() {
+		return byzd2;
+	}
+
+	public void setByzd2(String byzd2) {
+		this.byzd2 = byzd2;
+	}
+
+	public String getByzd3() {
+		return byzd3;
+	}
+
+	public void setByzd3(String byzd3) {
+		this.byzd3 = byzd3;
+	}
+
+	public String getByzd4() {
+		return byzd4;
+	}
+
+	public void setByzd4(String byzd4) {
+		this.byzd4 = byzd4;
+	}
+
+	public String getByzd5() {
+		return byzd5;
+	}
+
+	public void setByzd5(String byzd5) {
+		this.byzd5 = byzd5;
+	}
+
+}

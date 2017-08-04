@@ -1,0 +1,589 @@
+<%
+    /********************
+     * @ OpCode    :  7897
+     * @ OpName    :  集团成员资费变更
+     * @ CopyRight :  si-tech
+     * @ Author    :  qidp
+     * @ Date      :  2009-10-13
+     * @ Update    :
+     ********************/
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page contentType="text/html;charset=GBK"%>
+<%@ include file="/npage/include/public_title_name.jsp" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+
+<%
+    String opCode = "7897";
+    String opName = "集团成员资费变更";
+
+    String workNo = WtcUtil.repNull((String)session.getAttribute("workNo"));
+    String workName = WtcUtil.repNull((String)session.getAttribute("workName"));
+    String orgCode = WtcUtil.repNull((String)session.getAttribute("orgCode"));
+    String regionCode = WtcUtil.repNull((String)session.getAttribute("regCode"));
+
+    /**************
+     * 取操作流水
+     **************/
+    String sysAccept = "";
+    %>
+        <wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regionCode%>"  id="seq"/>
+    <%
+    sysAccept = seq;
+%>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>集团成员属性变更</title>
+
+<script type=text/javascript>
+    /* 获取集团用户信息 */
+    function getCustInfo(){
+        var pageTitle = "集团客户选择";
+
+        var fieldName = "证件号码|集团客户ID|集团客户名称|集团产品ID|集团号|产品代码|产品名称|集团编号|产品付费帐户|品牌代码|品牌名称|包月标识|操作类型|";
+        var sqlStr = "";
+        var selType = "S";    //'S'单选；'M'多选
+        var retQuence = "10|0|1|7|4|5|9|10|3|2|6|";
+
+        var retToField = "iccid|cust_id|unit_id|user_no|product_id|sm_code|sm_name|id_no|cust_name|product_name|";
+        /**add by liwd 20081127,group_id来自dcustDoc的group_id end **/
+
+        if(document.frm.iccid.value == "" && document.frm.cust_id.value == "" && document.frm.unit_id.value == "" && document.frm.user_no.value == "")
+        {
+            rdShowMessageDialog("请输入证件号码、客户ID、集团ID或集团号进行查询！");
+            document.frm.iccid.focus();
+            return false;
+        }
+
+        if((document.frm.cust_id.value) != "" && forNonNegInt(frm.cust_id) == false)
+        {
+            frm.cust_id.value = "";
+            rdShowMessageDialog("客户ID必须是数字！");
+            return false;
+        }
+
+        if((document.frm.unit_id.value) != "" && forNonNegInt(frm.unit_id) == false)
+        {
+            frm.unit_id.value = "";
+            rdShowMessageDialog("集团ID必须是数字！");
+            return false;
+        }
+
+        PubSimpSelCust(pageTitle,fieldName,sqlStr,selType,retQuence,retToField);
+    }
+
+    function PubSimpSelCust(pageTitle,fieldName,sqlStr,selType,retQuence,retToField){
+        var path = "<%=request.getContextPath()%>/npage/s7897/fpubcust_sel.jsp";
+        path = path + "?sqlStr=" + sqlStr + "&retQuence=" + retQuence;
+        path = path + "&fieldName=" + fieldName + "&pageTitle=" + pageTitle;
+        path = path + "&selType=" + selType+"&iccid=" + document.frm.iccid.value;
+        path = path + "&cust_id=" + document.frm.cust_id.value;
+        path = path + "&unit_id=" + document.frm.unit_id.value;
+        path = path + "&service_no=" + document.frm.user_no.value;
+        path = path + "&regionCode=" + document.frm.iRegionCode.value;
+        retInfo = window.open(path,"newwindow","height=450, width=1000,top=50,left=200,scrollbars=yes, resizable=no,location=no, status=yes");
+    	return true;
+    }
+
+    function getvaluecust(retInfo){
+        var retToField = "iccid|cust_id|unit_id|user_no|product_id|sm_code|sm_name|id_no|cust_name|product_name|";
+        if(retInfo ==undefined)
+        {   return false;   }
+
+    	var chPos_field = retToField.indexOf("|");
+        var chPos_retStr;
+        var valueStr;
+        var obj;
+        while(chPos_field > -1)
+        {
+            obj = retToField.substring(0,chPos_field);
+            chPos_retInfo = retInfo.indexOf("|");
+            valueStr = retInfo.substring(0,chPos_retInfo);
+            document.all(obj).value = valueStr;
+            retToField = retToField.substring(chPos_field + 1);
+            retInfo = retInfo.substring(chPos_retInfo + 1);
+            chPos_field = retToField.indexOf("|");
+        }
+
+        $("#iccid").attr("readOnly",true);
+        $("#cust_id").attr("readOnly",true);
+        $("#unit_id").attr("readOnly",true);
+        $("#user_no").attr("readOnly",true);
+        $("#id_no").attr("readOnly",true);
+        $("#cust_name").attr("readOnly",true);
+        $("#product_id").attr("readOnly",true);
+        $("#product_name").attr("readOnly",true);
+
+        $("#iccid").addClass("InputGrey");
+        $("#cust_id").addClass("InputGrey");
+        $("#unit_id").addClass("InputGrey");
+        $("#user_no").addClass("InputGrey");
+        $("#id_no").addClass("InputGrey");
+        $("#cust_name").addClass("InputGrey");
+        $("#product_id").addClass("InputGrey");
+        $("#product_name").addClass("InputGrey");
+
+        checkWorkNoPerm();
+    }
+
+    /* 判断工号或集团是否有办理此业务的权限 */
+    function checkWorkNoPerm(){
+        var vSmCode = $("#sm_code").val();
+        var vOpType = "m03";
+        var vRequestType = "";
+        var vProductId = $("#product_id").val();
+        var vCustId = $("#cust_id").val();
+        var vIdNo = $("#id_no").val();
+
+        var checkWorkNoPermPacket = new AJAXPacket("<%=request.getContextPath()%>/npage/s7897/checkWorkNoPerm.jsp","正在查询工号权限信息，请稍候......");
+    	checkWorkNoPermPacket.data.add("smCode",vSmCode);
+    	checkWorkNoPermPacket.data.add("opType",vOpType);
+    	checkWorkNoPermPacket.data.add("requestType",vRequestType);
+    	checkWorkNoPermPacket.data.add("productId",vProductId);
+    	checkWorkNoPermPacket.data.add("custId",vCustId);
+    	checkWorkNoPermPacket.data.add("idNo",vIdNo);
+    	core.ajax.sendPacket(checkWorkNoPermPacket,doCheckWorkNoPermPacket,true);
+    	checkWorkNoPermPacket = null;
+    }
+
+    function doCheckWorkNoPermPacket(packet){
+        var returnCode = packet.data.findValueByName("retCode");
+        var returnMsg = packet.data.findValueByName("retMsg");
+
+        if(returnCode == "000000"){
+
+        }else if(returnCode == "999999"){
+            rdShowMessageDialog("取工号权限信息失败！<br/>错误信息:"+returnMsg,0);
+            window.location="f7897_1.jsp";
+        }else{
+            rdShowMessageDialog("错误代码："+returnCode+"<br/>错误信息:"+returnMsg,0);
+            window.location="f7897_1.jsp";
+        }
+    }
+
+    /* 获取成员资费信息 */
+    function queryPhoneNo(){
+        if($("#phone_no").val() == ""){
+            rdShowMessageDialog("成员手机号码不能为空！",0);
+            $("#phone_no").select();
+            $("#phone_no").focus();
+            return false;
+        }
+
+        var vPhoneNo = $("#phone_no").val();
+        var vSmCode = $("#sm_code").val();
+        var vGrpIdNo = $("#id_no").val();
+        var vOpCode = "<%=opCode%>";
+        var vWorkNo = "<%=workNo%>";
+        var vProductId = $("#product_id").val();
+
+        var queryPhoneNoPacket = new AJAXPacket("<%=request.getContextPath()%>/npage/s7897/queryPhoneNo.jsp","正在查询成员信息，请稍候......");
+    	queryPhoneNoPacket.data.add("phoneNo",vPhoneNo);
+    	queryPhoneNoPacket.data.add("smCode",vSmCode);
+    	queryPhoneNoPacket.data.add("grpIdNo",vGrpIdNo);
+    	queryPhoneNoPacket.data.add("opCode",vOpCode);
+    	queryPhoneNoPacket.data.add("workNo",vWorkNo);
+    	queryPhoneNoPacket.data.add("productId",vProductId);
+    	core.ajax.sendPacket(queryPhoneNoPacket,doQueryPhoneNo);
+    	queryPhoneNoPacket = null;
+    }
+
+    /* 获取AJAX方法queryPhoneNo()的返回值,进行处理 */
+    function doQueryPhoneNo(packet){
+        var returnCode = packet.data.findValueByName("retCode");
+        var returnMsg = packet.data.findValueByName("retMsg");
+
+        if(returnCode == "000000"){
+            var rUserIdNo = packet.data.findValueByName("userIdNo");
+            var rSmCode = packet.data.findValueByName("smCode");
+            var rSmName = packet.data.findValueByName("smName");
+            var rCustName = packet.data.findValueByName("custName");
+            var rUserPwd = packet.data.findValueByName("userPwd");
+            var rMainRate = packet.data.findValueByName("mainRate");
+            var rMainRateName = packet.data.findValueByName("mainRateName");
+            var rRunCode = packet.data.findValueByName("runCode");
+            var rRunNameErr = packet.data.findValueByName("runNameErr");
+            var rIccid = packet.data.findValueByName("iccid");
+            var rCustAddr = packet.data.findValueByName("custAddr");
+
+            $("#user_id").val(rUserIdNo);
+            $("#user_name").val(rCustName);
+            $("#fee_code").val(rMainRate);
+            $("#fee_name").val(rMainRateName);
+
+            $("#phone_no").attr("readOnly",true);
+            $("#phone_no").addClass("InputGrey");
+        }else if(returnCode == "999998"){
+            rdShowMessageDialog("没有此成员信息，请重新输入！",0);
+            $("#phone_no").val("");
+            $("#phone_no").focus();
+        }else{
+            rdShowMessageDialog("错误代码："+returnCode+",错误信息："+returnMsg,0);
+            $("#phone_no").val("");
+            $("#phone_no").focus();
+        }
+    }
+
+    /* 获取新资费信息 */
+    function queryRate(){
+        var vUserType = "";
+        var vBizCode = "";
+        var vMebMonthFlag = "Y";
+        var vGrpProdCode = $("#product_id").val();
+        var vRegionCode = $("#iRegionCode").val();
+        var vSmCode = $("#sm_code").val();
+        var vOpType = "";
+        var vOpCode = $("#op_code").val();
+        var vOldFeeCode = $("#fee_code").val();
+        var vIdNo = $("#id_no").val();
+
+        var path = "queryRate.jsp";
+        path = path + "?userType=" + vUserType + "&bizCode=" + vBizCode;
+        path = path + "&mebMonthFlag=" + vMebMonthFlag + "&grpProdCode=" + vGrpProdCode;
+        path = path + "&regionCode=" + vRegionCode + "&smCode=" + vSmCode;
+        path = path + "&opType=" + vOpType;
+        path = path + "&opCode=" + vOpCode;
+        path = path + "&oldFeeCode=" + vOldFeeCode;
+        path = path + "&idNo=" + vIdNo;
+        retInfo = window.open(path,"newwindow","height=450, width=400,top=90,left=300,scrollbars=yes, resizable=no,location=no, status=yes");
+    	return true;
+    }
+
+    /* 处理queryRate()方法中获取的新资费信息，在queryRate.jsp中调用 */
+    function doQueryRate(rateCode,rateName){
+        $("#new_fee_code").val(rateCode);
+        $("#new_fee_name").val(rateName);
+    }
+
+    /* 提交 */
+    function refMain(){
+        if($("#id_no").val() == ""){
+            rdShowMessageDialog("集团用户ID不能为空！",0);
+            $("#id_no").select();
+            $("#id_no").focus();
+            return false;
+        }
+        if($("#user_no").val() == ""){
+            rdShowMessageDialog("集团外部编号不能为空！",0);
+            $("#user_no").select();
+            $("#user_no").focus();
+            return false;
+        }
+        if($("#phone_no").val() == ""){
+            rdShowMessageDialog("成员手机号码不能为空！",0);
+            $("#phone_no").select();
+            $("#phone_no").focus();
+            return false;
+        }else{
+            if(!forMobil(document.all.phone_no)){
+                return false;
+            }
+        }
+        if($("#new_fee_code").val() == ""){
+            rdShowMessageDialog("成员新资费代码不能为空！",0);
+            $("#new_fee_code").select();
+            $("#new_fee_code").focus();
+            return false;
+        }
+
+        $("#opNote").val("操作员<%=workNo%>进行集团成员资费变更操作！");
+
+        showPrtDlg("Detail","确实要进行电子免填单打印吗？","Yes");
+
+        var confirmFlag=0;
+		confirmFlag = rdShowConfirmDialog("是否提交本次操作？");
+		if (confirmFlag==1) {
+		    $("#bSure").attr("disabled",true);
+			frm.action="f7897_2.jsp";
+    		frm.method="post";
+    		frm.submit();
+    		$("bSure").attr("disabled",true);
+    		loading();
+		}
+    }
+
+	//打印信息
+	function printInfo(printType)
+	{
+		var retInfo = "";
+		var tmpOpCode= "<%=opCode%>";
+
+		retInfo+='<%=workName%>'+"|";
+    	retInfo+='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new java.util.Date())%>'+"|";
+    	retInfo+="证件号码:"+document.frm.iccid.value+"|";
+    	retInfo+="用户名称:"+document.frm.cust_name.value+"|";
+    	retInfo+="集团产品名称:"+document.frm.product_name.value+"|";
+    	retInfo+=""+"|";
+        retInfo+=""+"|";
+        retInfo+=""+"|";
+        retInfo+=""+"|";
+        retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+=""+"|";
+    	retInfo+="业务类型：集团成员资费变更"+"|";
+    	retInfo+="流水："+document.frm.sys_accept.value+"|";
+    	retInfo+=" "+"|";
+    	retInfo+=" "+"|";
+    	retInfo+=" "+"|";
+    	retInfo+=" "+"|";
+    	retInfo+=" "+"|";
+    	retInfo+=" "+"|";
+    	retInfo+="新资费："+document.frm.new_fee_name.value+"|";
+    	retInfo+=document.frm.opNote.value+"|";
+		return retInfo;
+
+	}
+
+    function showPrtDlg(printType,DlgMessage,submitCfm){
+        var h=200;
+		var w=352;
+		var t=screen.availHeight/2-h/2;
+		var l=screen.availWidth/2-w/2;
+		var printStr = printInfo(printType);
+		if(printStr == "failed")
+		{
+			return false;
+		}
+		var prop="dialogHeight:"+h+"px; dialogWidth:"+w+"px; dialogLeft:"+l+"px; dialogTop:"+t+"px;toolbar:no; menubar:no; scrollbars:yes; resizable:no;location:no;status:no;help:no"
+		var path = "<%=request.getContextPath()%>/npage/innet/hljPrint.jsp?DlgMsg=" + DlgMessage;
+		var path = path + "&printInfo=" + printStr + "&submitCfm=" + submitCfm;
+		var ret=window.showModalDialog(path,"",prop);
+    }
+
+    /* 校验集团产品密码 */
+    function chkProductPwd(){
+        var cust_id = document.all.cust_id.value;
+        var Pwd1 = document.all.product_pwd.value;
+        var checkPwd_Packet = new AJAXPacket("<%=request.getContextPath()%>/npage/s7897/pubCheckPwd.jsp","正在进行密码校验，请稍候......");
+        checkPwd_Packet.data.add("retType","checkPwd");
+    	checkPwd_Packet.data.add("cust_id",cust_id);
+    	checkPwd_Packet.data.add("Pwd1",Pwd1);
+    	core.ajax.sendPacket(checkPwd_Packet);
+    	checkPwd_Packet = null;
+    }
+
+    function doProcess(packet)
+    {
+        error_code = packet.data.findValueByName("errorCode");
+        error_msg =  packet.data.findValueByName("errorMsg");
+        verifyType = packet.data.findValueByName("verifyType");
+        var backArrMsg = packet.data.findValueByName("backArrMsg");
+        var backArrMsg1 = packet.data.findValueByName("backArrMsg1");
+        self.status="";
+
+        if(verifyType == "checkPwd") //集团客户密码校验
+        {
+            if(error_code == "000000")
+            {
+                var retResult = packet.data.findValueByName("retResult");
+                if (retResult == "false") {
+                    rdShowMessageDialog("客户密码校验失败，请重新输入！",0);
+                    frm.product_pwd.value = "";
+                    frm.product_pwd.focus();
+                    return false;
+                } else {
+                    rdShowMessageDialog("客户密码校验成功！",2);
+                    $("#bSure").attr("disabled",false);
+                    $("#phoneno_query").attr("disabled",false);
+                    $("#fee_query").attr("disabled",false);
+                }
+            }
+            else
+            {
+                rdShowMessageDialog("客户密码校验出错，请重新校验！",0);
+                return false;
+            }
+        }
+        else{
+            rdShowMessageDialog("错误代码："+error_code+"错误信息："+error_msg+"",0);
+            return false;
+        }
+    }
+</script>
+
+</head>
+<body>
+<form name="frm" action="" method="post" >
+<%@ include file="/npage/include/header.jsp" %>
+<div class="title">
+	<div id="title_zi">集团用户信息</div>
+</div>
+<table cellspacing=0>
+    <tr>
+        <td class='blue' nowrap width='18%'>证件号码</td>
+        <td width='32%'>
+            <input name='iccid' id='iccid' maxlength='18' v_type='string' v_must='1' index='1' />
+            <input type='button' class='b_text' name='iccid_query' id='iccid_query' value='查询' onClick="getCustInfo()" />
+            <font class='orange'>*</font>
+        </td>
+        <td class='blue' nowrap width='18%'>集团客户ID</td>
+        <td width='32%'>
+            <input type='text' id='cust_id' name='cust_id' value='' v_must='1' />
+            <font class='orange'>*</font>
+        </td>
+    </tr>
+
+    <TR>
+        <td class='blue' nowrap>集团编号</TD>
+        <TD>
+            <input name=unit_id id="unit_id"   maxlength="11" v_type="0_9" v_must=1 index="3"  >
+            <font class="orange">*</font>
+        </TD>
+        <TD class="blue">集团号或智能网编号</TD>
+        <TD>
+            <input name="user_no" id='user_no'  v_must=1 v_type=string index="4"  >
+            <font class="orange">*</font>
+        </TD>
+    </TR>
+
+    <TR>
+        <TD class="blue">集团产品ID</TD>
+        <TD>
+            <input type="text"   name="id_no" id='id_no'  maxlength="18" v_type="0_9" v_must=1 index="2"  >
+            <font class="orange">*</font>
+        </TD>
+        <TD class="blue">集团客户名称</TD>
+        <TD COLSPAN="1">
+            <input type="text"   name="cust_name" id='cust_name'  maxlength="18" v_type="0_9" v_must=1 index="2"  >
+        </TD>
+    </TR>
+    <TR>
+        <TD class="blue">产品名称</TD>
+        <TD>
+            <input type='text' id='product_name' name='product_name' readOnly/>
+            <input type="hidden"   name="product_id"  id='product_id'  maxlength="18" v_type="0_9" v_must=1 index="2"  >
+        </TD>
+
+        <td class='blue' nowrap>集团产品密码</td>
+        <td>
+                <jsp:include page="/npage/common/pwd_8.jsp">
+                    <jsp:param name="width1" value="16%"  />
+                    <jsp:param name="width2" value="34%"  />
+                    <jsp:param name="pname" value="product_pwd"  />
+                    <jsp:param name="pwd" value=""  />
+                </jsp:include>
+            <input type='button' class='b_text' id='chk_productPwd' name='chk_productPwd' onClick='chkProductPwd()' value='校验' />
+            <font class="orange">*</font>
+        </td>
+    </TR>
+</table>
+
+</div>
+<div id="Operation_Table">
+<div class="title">
+	<div id="title_zi">成员资费信息</div>
+</div>
+
+<TABLE  cellSpacing="0">
+    <TR>
+        <TD class="blue" width='18%'>手机号码</TD>
+        <TD width='32%'>
+            <input name="phone_no"  id="phone_no"  maxlength='11' onblur='if(this.value!="" && !forMobil(this)){return false;}' style='ime-mode:disabled' onKeyPress='return isKeyNumberdot(0)'  v_type="string" v_must=1 >
+            <input type='button' class='b_text' name='phoneno_query' id='phoneno_query' value='查询' onClick="queryPhoneNo()" disabled />
+            <font class="orange">*</font>
+        </TD>
+        <TD class="blue" width='18%'>品牌名称</TD>
+        <TD width='32%'>
+            <input type="text" name="sm_name" id="sm_name" v_must=1 readOnly class='InputGrey' >
+            <font class="orange">*</font>
+            <input type="hidden" name="sm_code" id="sm_code" v_must=1 >
+        </TD>
+    </TR>
+    <TR>
+        <TD class="blue">用户ID</TD>
+        <TD>
+            <input name=user_id id="user_id" maxlength="11" v_type="0_9" readOnly class='InputGrey' >
+        </TD>
+        <TD class="blue">用户名称</TD>
+        <TD>
+            <input name="user_name" id='user_name' v_type=string readOnly class='InputGrey' >
+        </TD>
+    </TR>
+    <TR>
+        <TD class="blue">成员资费代码</TD>
+        <TD>
+            <input type="text"   name="fee_code" id="fee_code"  maxlength="18" v_type="0_9" readOnly class='InputGrey' >
+        </TD>
+        <TD class="blue">成员资费名称</TD>
+        <TD>
+            <input type="text"   name="fee_name" id="fee_name"  maxlength="18" readOnly class='InputGrey' >
+        </TD>
+    </TR>
+</table>
+
+<!--
+</div>
+<div id="Operation_Table">
+<div id="CRInfo" style="display:none">
+<div class="title">
+	<div id="title_zi">彩铃信息</div>
+</div>
+
+<TABLE  cellSpacing="0">
+    <TR>
+        <TD class="blue">产品类型</TD>
+        <TD>
+            <select name="product_type" id="product_type">
+            </select>
+            <font class="orange">*</font>
+        </TD>
+        <TD class="blue">集团成员产品</TD>
+        <TD>
+            <select name="member_product" id="member_product">
+            </select>
+        </TD>
+    </TR>
+</table>
+</div>
+
+-->
+</div>
+<div id="Operation_Table">
+<div class="title">
+	<div id="title_zi">资费信息</div>
+</div>
+
+<TABLE  cellSpacing="0">
+    <TR>
+        <TD class="blue" width='18%'>成员新资费代码</TD>
+        <TD width='32%'>
+            <input name="new_fee_code"  id="new_fee_code" class="InputGrey" readOnly v_type="string" v_must=1 >
+            <input type='button' class='b_text' name='fee_query' id='fee_query' value='查询' onClick="queryRate()" disabled />
+            <font class="orange">*</font>
+        </TD>
+        <TD class="blue">成员新资费名称</TD>
+        <TD>
+            <input name="new_fee_name"  id="new_fee_name" class="InputGrey" readOnly v_type="string" v_must=1 >
+        </TD>
+    </TR>
+</table>
+
+<TABLE cellSpacing="0">
+    <TR>
+        <TD id="footer">
+            <input class="b_foot" name="bSure" id="bSure" type=button value="确认" onclick="refMain()" disabled />
+            <input class="b_foot" name="bBack" id="bBack" type=button value="清除" onclick='window.location="f7897_1.jsp?opCode=<%=opCode%>&opName=<%=opName%>"'>
+            <input class="b_foot" name="bClose" id="bClose" onClick="removeCurrentTab()" type=button value="关闭">
+        </TD>
+    </TR>
+</TABLE>
+
+<input type='hidden' id='iRegionCode' name='iRegionCode' value='<%=regionCode%>' />
+<input type='hidden' id='op_code' name='op_code' value='<%=opCode%>' />
+<input type="hidden" name="sys_accept" id="sys_accept" value="<%=sysAccept%>" />
+<input type='hidden' id='opNote' name='opNote' />
+<jsp:include page="/npage/common/pwd_comm.jsp"/>
+<%@ include file="/npage/include/footer.jsp" %>
+</form>
+</body>
+</html>

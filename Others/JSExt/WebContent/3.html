@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript">
+		function sumNums(){
+			
+			var sum=0;
+			for(var i=0;i<arguments.length;i++){//argument:形参
+				
+				var num=parseFloat(arguments[i]);//代表的是可变参数的元素
+				if(!isNaN(num)){//判断是否是非数
+					sum+=num;
+				}
+				
+			}
+			return sum;
+		}
+		alert(sumNums(1,2,3,"apple","4"));
+	</script>
+</head>
+<body>
+
+</body>
+</html>

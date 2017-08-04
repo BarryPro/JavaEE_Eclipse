@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_usergroupmbr_info">
+
+    <resultMap id="UserGroupMbrEntity" class="com.sitech.acctmgr.atom.domains.user.UserGroupMbrEntity">
+        <result property="idNo" column="ID_NO"/>
+        <result property="groupId" column="GROUP_ID"/>
+        <result property="memberRoleId" column="MEMBER_ROLE_ID"/>
+        <result property="groupType" column="GROUP_TYPE"/>
+        <result property="groupIdNo" column="VIRTUAL_ID"/>
+    </resultMap>
+
+    <!-- 获取群组成员及群组信息 -->
+    <select id="qGroupInfo" parameterClass="Map" resultMap="UserGroupMbrEntity">
+        SELECT A.OBJECT_ID ID_NO, A.GROUP_ID, A.MEMBER_ROLE_ID, B.ID_NO VIRTUAL_ID, B.GROUP_TYPE
+        FROM UR_USERGROUPMBR_INFO A, UR_USERGROUP_INFO B
+        WHERE OBJECT_TYPE = '1'
+        AND A.GROUP_ID = B.GROUP_ID
+        AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ID_NO">
+                AND A.OBJECT_ID = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="GROUP_TYPES">
+                AND B.GROUP_TYPE = ANY
+                <iterate open="(" close=")" conjunction="," property="GROUP_TYPES">
+                    #GROUP_TYPES[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="GROUP_TYPE">
+                AND B.GROUP_TYPE = #GROUP_TYPE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="GROUP_ID">
+                AND A.GROUP_ID = #GROUP_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="MEMBER_ROLE_IDS">
+                AND A.MEMBER_ROLE_ID = ANY
+                <iterate open="(" close=")" conjunction="," property="MEMBER_ROLE_IDS">
+                    #MEMBER_ROLE_IDS[]#
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="qUserGroupInfo" parameterClass="Map" resultClass="java.util.HashMap">
+        select id_no, GROUP_ID, GROUP_TYPE,GROUP_CODE
+        from ur_usergroup_info where 1=1
+        <isNotEmpty prepend="and" property="ID_NO">
+            ID_NO = #ID_NO#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="GROUP_ID">
+           group_id = #GROUP_ID#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="GROUP_TYPES">
+            group_type in
+            <iterate open="(" close=")" conjunction="," property="GROUP_TYPES">
+                #GROUP_TYPES[]#
+            </iterate>
+        </isNotEmpty>
+    </select>
+
+	<select id="qMemberRoleId" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT MEMBER_ROLE_ID
+		FROM UR_USERGROUPMBR_INFO
+		WHERE OBJECT_ID = #ID_NO#
+		AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+	</select>
+
+    <select id="qryUrGrpInfo" parameterClass="Map" resultClass="java.util.HashMap">
+        select GROUP_ID GROUP_ID,
+        GROUP_NAME GROUP_NAME,
+        GROUP_CODE GROUP_CODE
+        from ur_usergroup_info
+        where ID_NO = #ID_NO#
+    </select>
+
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Long">
+		select count(1)
+		from UR_USERGROUPMBR_INFO A, UR_USERGROUP_INFO B
+		WHERE OBJECT_ID = #ID_NO#
+		and OBJECT_TYPE = '1'
+		AND A.GROUP_ID = B.GROUP_ID
+		AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+		<isNotEmpty prepend="" property="MEMBER_ROLE_IDS">
+			AND A.MEMBER_ROLE_ID = ANY
+			<iterate open="(" close=")" conjunction="," property="MEMBER_ROLE_IDS">
+				#MEMBER_ROLE_IDS[]#
+			</iterate>
+		</isNotEmpty>
+	</select>
+	
+	<!-- 查询用户归属的集团统付账户 -->
+	<select id="qTDCon" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT A.CONTRACT_NO CONTRACT_NO
+		FROM UR_USER_INFO A,
+		UR_USERGROUPMBR_INFO B,
+		UR_USERGROUP_INFO C
+		WHERE A.ID_NO = C.ID_NO
+		AND C.GROUP_ID = B.GROUP_ID
+		AND C.GROUP_TYPE = '375'
+		AND B.OBJECT_ID = #ID_NO#
+	</select>
+	
+</sqlMap>

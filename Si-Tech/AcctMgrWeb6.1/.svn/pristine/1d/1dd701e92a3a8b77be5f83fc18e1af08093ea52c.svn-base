@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_shortmsg_info">
+
+    <delete id="delShortmsg" parameterClass="Map">
+	 	delete from bal_shortmsg_info
+		where contract_no = #CONTRACT_NO#
+    </delete>
+
+   <select id="qCnt"  parameterClass="Map" resultClass="Integer">
+		select count(1) CNT
+		from bal_shortmsg_info
+		where contract_no = #CONTRACT_NO#
+  </select>
+  
+  <select id="qShortmsg"  parameterClass="Map" resultClass="java.util.HashMap">
+	select phone_no, contract_no
+ 	from bal_shortmsg_info
+	where 1=1
+	    <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                contract_no = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PHONE_NO">
+                phone_no = #PHONE_NO#
+            </isNotEmpty>
+        </dynamic>
+  </select>
+
+  <insert id="iShortmsg" parameterClass="Map">
+	  INSERT INTO BAL_SHORTMSG_INFO (CONTRACT_NO, PHONE_NO, ID_NO, 
+	  		  LOGIN_NO, OP_CODE, OP_TIME, REMARK)
+        VALUES(#CONTRACT_NO#, #PHONE_NO#, #ID_NO#, 
+             #LOGIN_NO# , #OP_CODE# , SYSDATE , #REMARK#)
+  </insert>
+
+    <update id="uShortmsg" parameterClass="Map">
+        UPDATE BAL_SHORTMSG_INFO
+        SET PHONE_NO=#PHONE_NO#
+        WHERE CONTRACT_NO=#CONTRACT_NO#
+    </update>
+
+</sqlMap>

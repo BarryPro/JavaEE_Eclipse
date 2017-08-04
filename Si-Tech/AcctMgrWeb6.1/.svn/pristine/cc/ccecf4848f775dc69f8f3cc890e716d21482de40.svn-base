@@ -1,0 +1,254 @@
+package com.sitech.acctmgr.atom.busi.pay.backfee;
+
+import com.alibaba.fastjson.JSON;
+import com.sitech.acctmgr.atom.domains.account.ContractDeadInfoEntity;
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.bill.BillEntity;
+import com.sitech.acctmgr.atom.domains.pay.BalanceNBEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayBookEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayUserBaseEntity;
+import com.sitech.acctmgr.atom.domains.user.UserBrandEntity;
+import com.sitech.acctmgr.atom.domains.user.UserDeadEntity;
+import com.sitech.acctmgr.atom.impl.pay.S8008;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.jcf.core.exception.BusiException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.collections.MapUtils.getLongValue;
+import static org.apache.commons.collections.MapUtils.getString;
+
+
+/**
+* @Title:   []
+* @Description: 
+* @Date : 2016年3月15日上午9:00:34
+* @Company: SI-TECH
+* @author : LIJXD
+* @version : 1.0
+* @modify history
+*  <p>修改日期    修改人   修改目的<p> 	
+*/
+public class BackFeeDEAD extends BackFeeType{
+
+
+	/**
+	 * @paramwer back8008
+	 */
+	public BackFeeDEAD(S8008 inBack8008) {
+		super(inBack8008);
+	}
+ 
+
+	/**
+	 * 获取离网用户基本信息
+	 */
+	public Map<String, Object> getBaseInfo(String phoneNo, long contractNo, String provinceId){
+		Map<String,Object> inTmpMap = null;
+		Map<String,Object> outTmpMap = null;
+
+		String contractName = "";
+		String brandId = "";
+		long idNo = 0;
+		String userGroup = "";
+		
+		// 1.取离网账户信息
+		if (!"".equals(phoneNo)) {
+			List<UserDeadEntity> userdeadList = back8008.getUser().getUserdeadEntity(phoneNo, null, contractNo);
+			idNo = userdeadList.get(0).getIdNo();
+			userGroup = userdeadList.get(0).getGroupId();
+			
+			try{
+				UserBrandEntity brandEnt = back8008.getUser().getUserBrandRel(idNo);
+				brandId = brandEnt.getBrandId();
+			}catch(Exception e){
+				brandId = "2200xx";
+			}
+			
+		} else {
+			phoneNo = "99999999999";
+			idNo = 0;
+			brandId = "2200xx";
+		}
+		
+		// 2.取离网账户名称
+		inTmpMap = new HashMap<String, Object>();
+		inTmpMap.put("CONTRACT_NO", contractNo);
+		ContractDeadInfoEntity conDeadInfo = back8008.getAccount().getConDeadInfo(contractNo);
+		contractName = conDeadInfo.getContractName();
+		if("".equals(userGroup)){
+			userGroup = getString(outTmpMap, "GROUP_ID");
+		}
+			
+		//3.账户模糊化
+		String conEncrypName = back8008.getControl().pubEncryptData(contractName, 2);
+		
+		userGroup = ("".equals(userGroup) ? "0" : userGroup);	 
+		
+		 //4.取用户地市归属
+		inTmpMap=new HashMap<String, Object>();
+		inTmpMap.put( "GROUP_ID", userGroup );
+		ChngroupRelEntity groupEnt = back8008.getGroup().getRegionDistinct(userGroup, "2", provinceId);
+		String regionId = groupEnt.getRegionCode();
+		
+		// 5.出参
+		Map<String, Object> outMap = new HashMap<String, Object>();
+		PayUserBaseEntity userInfo = new PayUserBaseEntity();
+		userInfo.setBrandId(brandId);
+		userInfo.setContractNo(contractNo);
+		userInfo.setIdNo(idNo);
+		userInfo.setPhoneNo(phoneNo);
+		userInfo.setRegionId(regionId);
+		userInfo.setUserGroupId(userGroup);	
+		outMap.put("USER_BASE_INFO", userInfo);
+		outMap.put("CONTRACT_NAME", conEncrypName);
+		outMap.put("CONTRACTATT_TYPE", "");
+		log.info("----->getBaseInfo_end = "+outMap.toString());
+		return outMap;
+	}
+	
+	/**
+	 * 获取用户当前预存、欠费、可退金额
+	 */
+	public Map<String, Object> getBackFeeFinal(long idNo, long contractNo) {
+		Map<String, Object> inTmpMap = null;
+		Map<String, Object> outTmpMap = null;
+		List<Map<String, Object>> backfeeList = null;
+
+		// 1.获取离网用户总预存
+		inTmpMap=new HashMap<String, Object>();
+		inTmpMap.put("CONTRACT_NO", contractNo);
+		long prepayFee = back8008.getBalance().getAcctBookDeadSum(inTmpMap);
+
+		// 2.获取用户总欠费
+		long oweFee = 0 ;
+		List<BillEntity> billList = back8008.getBill().getCycleDeadOwe(idNo, 0, null);
+		for (BillEntity billEnt : billList) {
+			oweFee += billEnt.getOweFee();
+		}
+		
+		// 3.可退账本余额
+		long outBalance = 0;
+		
+		inTmpMap = new HashMap<String, Object>();
+		inTmpMap.put("CONTRACT_NO", contractNo);
+		inTmpMap.put("BACK_FLAG", "0");// pay_attr 第2位- 0可退1不可退
+		backfeeList = back8008.getBalance().getDeadBookList(inTmpMap);
+		for (Map<String, Object> specMap : backfeeList) {
+			outBalance += Long.parseLong(specMap.get("CUR_BALANCE").toString());
+		}
+		
+		// 4.计算最终可退预存
+		long returnMoney = 0;
+		if (outBalance > prepayFee - oweFee) {
+			if (prepayFee - oweFee > 0) {
+				returnMoney = prepayFee - oweFee;
+			}
+		} else {
+			returnMoney = outBalance;
+		}
+
+		// 5. 返回值
+		Map<String, Object> outMap = new HashMap<>();
+		outMap.put("PREPAY_FEE", prepayFee);
+		outMap.put("OWE_FEE", oweFee);
+		outMap.put("RETURN_MONEY", returnMoney);
+		return outMap;
+	}
+ 
+	
+	/**
+	* 名称：离网退费核心函数：覆盖BackFeeType的doBackMoney
+	* @param 
+	* @return pay_accept 退费流水
+	* @author LIJXD
+	*/
+	public Map<String, Object> doBackMoney(PayUserBaseEntity userBaseInfo,PayBookEntity bookIn) {
+		log.info("------> doBackMoneyOff begin");
+		return back8008.getPayManage().doBackMoneyDead(userBaseInfo,bookIn);
+	}
+	
+	/**
+	* 名称：离网不可退预存列表
+	* @param contractNo 账户
+	* @return List<BalanceNBEntity>
+	* @author LIJXD
+	*/
+	public List<BalanceNBEntity> getNoBackList(long contractNo) {
+		
+		// 1.获取账本列表
+		List<Map<String, Object>> infoList=new ArrayList<Map<String,Object>>();
+
+		Map<String, Object>  inTmpMap=new HashMap<String, Object>();
+		inTmpMap.put("CONTRACT_NO", contractNo);
+		inTmpMap.put("BACK_FLAG", "1");
+		List<Map<String, Object>>preBackList= back8008.getBalance().getDeadBookList(inTmpMap);
+		for ( Map<String, Object> resultMap : preBackList ) {
+			Map<String, Object> outForMap = null;
+
+			long noBackPrepay=Long.valueOf( resultMap.get("CUR_BALANCE").toString());
+			String payType=  resultMap.get("PAY_TYPE").toString().trim();
+
+			if("0".equals(payType)){
+				log.info("----> 过滤掉0账本");
+				continue;
+			}
+			
+			int cycleFlag = 0;
+			for(Map<String, Object> map: infoList){
+				if(getString(map, "PAY_TYPE").equals(payType)){
+					map.put("PREPAY_FEE", getLongValue(map, "PREPAY_FEE")+noBackPrepay) ;
+					cycleFlag =1;
+				}else{
+					continue;
+				}
+			}
+			
+			if(cycleFlag==0){
+				inTmpMap=new HashMap<String, Object>();
+				inTmpMap.put("PAY_TYPE", payType);
+				outForMap=back8008.getBalance().getBookTypeDict(inTmpMap);
+				String payTypeName=outForMap.get("PAY_TYPE_NAME").toString().trim();
+				
+				Map<String, Object> infoMap = new HashMap<String, Object>();
+				infoMap.put("PAY_TYPE", payType);
+				infoMap.put("PAY_TYPE_NAME", payTypeName);
+				infoMap.put("PREPAY_FEE", noBackPrepay);
+				infoList.add(infoMap);
+			}
+		}
+		
+		// 2.转换为 List<BalanceNBEntity>
+		List<BalanceNBEntity> noBackList = new ArrayList<BalanceNBEntity>();
+		for (Map<String, Object>map : infoList) {
+			String jsonMap =JSON.toJSONString(map);
+			noBackList.add(JSON.parseObject(jsonMap, BalanceNBEntity.class));
+		}
+		
+		if(noBackList.size()==0){
+			log.error("------> 该账户无不可退账本"+contractNo);
+ 			throw new BusiException(AcctMgrError.getErrorCode("8008", "00004"),"该账户无不可退账本["+contractNo+"]");
+		}
+		
+		return noBackList;
+	}
+	
+	/*地市日限额验证*/
+	public void checkRegionDistrict(String regionGroup,String limitType,long backMoney,String districtGroup,String cLimitCycle,String rLimitCycle){
+		Map<String,Object> checkRegionMap = new HashMap<String,Object>();
+		Map<String,Object> rMsgForm = new HashMap<String,Object>();
+		
+		System.out.println(regionGroup);
+		rMsgForm.put("REGION_GROUP", regionGroup);
+		rMsgForm.put("LIMIT_TYPE", limitType);
+		rMsgForm.put("TRANS_FEE", backMoney);
+		checkRegionMap.put("LIMIT_CYCLE", rLimitCycle);
+		checkRegionMap.put("MSG_FORM", rMsgForm);
+		
+		back8008.getPayManage().judgeRLimitCycle(checkRegionMap);
+	}	
+	
+}

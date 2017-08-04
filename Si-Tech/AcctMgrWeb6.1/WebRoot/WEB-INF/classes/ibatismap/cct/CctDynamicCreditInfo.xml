@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_dynamiccredit_info">
+    <typeAlias alias="cctDynamicCredit" type="com.sitech.acctmgr.atom.domains.cct.CctDynamicCreditInfoEntity"/>
+	<select id="qDynamicCredit" parameterClass="long" resultClass="cctDynamicCredit">
+		SELECT ID_NO idNo,
+		PHONE_NO phoneNo,
+		LIMIT_OWE limitOwe,
+		EFF_TIME effTime,
+		EXP_TIME expTime,
+		NOTES notes
+		FROM CCT_DYNAMICCREDIT_INFO
+		WHERE ID_NO = #idNo#
+		and sysdate between eff_time and exp_time
+	</select>
+   
+   <select id="qCnt" parameterClass="long" resultClass="java.lang.Integer">
+		SELECT COUNT(*) CNT FROM CCT_DYNAMICCREDIT_INFO WHERE ID_NO=#idNo#
+	</select>
+
+	<insert id="iDynamicCredit" parameterClass="cctDynamicCredit">
+		INSERT INTO	CCT_DYNAMICCREDIT_INFO
+		(ID_NO, PHONE_NO, LIMIT_OWE, EFF_TIME, EXP_TIME, NOTES)
+		VALUES
+		(#idNo#,
+		#phoneNo#,
+		#limitOwe#,
+		SYSDATE,
+		TO_DATE(#expTime#, 'YYYYMMDD'),
+		#notes#)
+	</insert>
+   
+   <update id="uDnyCredit" parameterClass="cctDynamicCredit">
+		UPDATE CCT_DYNAMICCREDIT_INFO
+		SET LIMIT_OWE=#limitOwe#,eff_time=sysdate,exp_time=to_date(#expTime#,'YYYYMMDD'),notes=#notes#
+		WHERE
+		ID_NO = #idNo#
+	</update>
+	
+	
+   
+   
+</sqlMap>

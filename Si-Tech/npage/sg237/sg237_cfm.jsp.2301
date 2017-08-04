@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//Dtd Xhtml 1.0 transitional//EN" "http://www.w3.org/tr/xhtml1/Dtd/xhtml1-transitional.dtd">
+
+<%@	page contentType="text/html;charset=GBK"%>
+<%@ include file="/npage/include/public_title_name.jsp" %>
+<%@ include file="../../npage/bill/getMaxAccept.jsp" %>
+<%
+	request.setCharacterEncoding("GBK");
+%>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>不良信息投诉解黑</title>
+<%
+
+
+    String opCode="g237";
+	String opName="不良信息投诉解黑";	
+ 
+    String workNo=(String)session.getAttribute("workNo");
+    String loginName = (String)session.getAttribute("workName");
+    String regionCode=(String)session.getAttribute("regCode");
+    String orgCode = (String)session.getAttribute("orgCode") ;
+    String phone_no=(String)request.getParameter("phone_no");
+    String souce_type=(String)request.getParameter("souceType");
+    String deal_accept=(String)request.getParameter("deal_accept");
+    String sysdate=(String)request.getParameter("sysdate");
+    String handing_type =souce_type+"04";
+    String return_msg="";
+ 
+%>
+
+ 
+<form name="frm" method="POST" action="sg237_cfm.jsp">
+<%@ include file="/npage/include/header.jsp" %>
+<div class="title">
+		<div id="title_zi"><%=opName%></div>
+</div>
+
+<wtc:service name="sBadInfoCfm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="0">
+	<wtc:param value="02"/>
+	<wtc:param value="<%=deal_accept%>"/>
+	<wtc:param value="<%=phone_no%>"/>
+	<wtc:param value="<%=handing_type%>"/>
+	<wtc:param value="0202"/>
+	<wtc:param value="<%=souce_type%>"/>
+	<wtc:param value="04"/>
+	<wtc:param value="不良信息投诉解黑"/>
+	<wtc:param value="<%=workNo%>"/>
+</wtc:service>
+
+<%
+	if("000000".equals(retCode))
+	{
+%>
+		<wtc:service name="sk002Snd" routerKey="region" routerValue="<%=regionCode%>" retcode="retCodeOneBoss" retmsg="retMsgOneBoss" outnum="0">
+			<wtc:param value="<%=workNo%>"/>
+			<wtc:param value="<%=orgCode%>"/>
+			<wtc:param value="k002"/>
+			<wtc:param value="<%=deal_accept%>"/>
+			<wtc:param value="<%=phone_no%>"/>
+			<wtc:param value="451"/>
+			<wtc:param value="<%=sysdate%>"/>
+			<wtc:param value="0202"/>
+			<wtc:param value="<%=souce_type%>"/>
+		</wtc:service>
+<%
+		if( "0000".equals(retCodeOneBoss) )
+		{
+			return_msg="解黑并向平台发指令成功！！" ;
+		}
+		else
+		{
+			return_msg="解黑失败2！！"+retMsgOneBoss ;
+		}
+	}
+	else
+	{
+		return_msg="解黑操作失败！！"+retMsg ;
+	}
+%>
+
+<table cellspacing="0" >
+	
+	<tr>
+		<td class="blue" width="15%">用户手机号码:</td>
+		<td ><%=phone_no%></td>
+		<td><%=return_msg%></td>
+	</tr>
+
+</table>
+
+
+	 	<table cellspacing="0">
+		<tr>
+			<td noWrap id="footer">
+			<div align="center">
+
+				<input name="back" onClick="history.go(-1);" type="button" class="b_foot"  value="返回">
+				&nbsp;
+				<input type="button" name="close" class="b_foot" value="关闭" onClick="removeCurrentTab();"/>
+			</div>
+			</td>
+		</tr>
+	</table>
+		<div id="gongdans">
+		</div>	  
+	    
+ <%@ include file="/npage/include/footer.jsp" %>
+</form>
+ 
+ 
+</form>
+</body>
+</html>
+
+ 
+ 

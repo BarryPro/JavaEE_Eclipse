@@ -1,0 +1,7 @@
+1_boss_partition_acct_data.sql
+2_act_payedowe_yyyymm.sql
+2_bal_writeoff_yyyymm.sql
+3_boss_acct_data.sql
+3_boss_acct_sdata.sql
+4_crm_cust_data.sql
+模型变更--BOSS库新增表.sql

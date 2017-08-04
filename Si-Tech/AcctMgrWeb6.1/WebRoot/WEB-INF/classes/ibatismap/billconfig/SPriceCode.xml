@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="spricecode">
+	<select id="qPriceCodeInfo" parameterClass="Map"
+		resultClass="com.sitech.acctmgr.atom.domains.query.PriceCodeEntity">
+		SELECT price_code as priceCode,
+		 trim(PRICE_NAME) as priceName,
+		CHARGE_TYPE as chargeType,
+		CHARGE_FLAG as chargeFlag,
+		decode(CHARGE_FLAG,'2','账单收取','前台收取') as chargeFlagName,
+		PRICE_FEE * 100 as priceFee
+		FROM SPRICECODE
+		where PRICE_CODE = #PRICE_CODE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="SERVICE_TYPE">
+				AND SERVICE_TYPE= #SERVICE_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="SERVICE_CODE">
+				AND SERVICE_CODE= #SERVICE_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CHARGE_FLAGS">
+				AND CHARGE_FLAG IN
+				<iterate open="(" close=")" conjunction="," property="CHARGE_FLAGS">
+					#CHARGE_FLAGS[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+
+</sqlMap>

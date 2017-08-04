@@ -1,0 +1,501 @@
+<!--jiangbing test_tool-->
+<html>
+<head>
+<script>
+function doeval(){
+var jstext = document.getElementById('jstext').value;
+eval(jstext);
+}
+</script>
+</head>
+<body>
+<font size=2>输入脚本可执行，如输入: alert(opener.cCcommonTool.getCaller());</font>
+ 
+<textarea  id="jstext"  rows="20" cols="140" ></textarea>
+<br>
+<input type='button' value='执行脚本' onclick = 'doeval()'>
+<script>
+//CollectGarbage();
+</script>
+<br></br>
+
+
+cCcommonTool下面的变量:
+:[
+<br>
+<div style="color: blue;">
+<script>
+
+document.write("acdsNum:\t["+opener.cCcommonTool.acdsNum+"]<br>");
+document.write("mainCcsIp:\t["+opener.cCcommonTool.mainCcsIp+"]<br>");
+document.write("BackCcsIP:\t["+opener.cCcommonTool.BackCcsIP+"]<br>");
+document.write("ccsID:\t["+opener.cCcommonTool.ccsID+"]<br>");
+document.write("agentType:\t["+opener.cCcommonTool.agentType+"]<br>");
+document.write("workNo:\t["+opener.cCcommonTool.workNo+"]<br>");
+document.write("password:\t["+opener.cCcommonTool.password+"]<br>");
+document.write("sign_phone_no:\t["+opener.cCcommonTool.sign_phone_no+"]<br>");
+document.write("是否自动应答:\t["+opener.parPhone.autoAnswer+"]<br>");
+document.write("autoAdjust:\t["+opener.cCcommonTool.autoAdjust+"]<br>");
+document.write("控件标识：true公司控件，false华为控件:\t["+opener.cCcommonTool.sitechFlag+"]<br>");
+document.write("号码caller:\t["+opener.cCcommonTool.caller+"]<br>");
+document.write("被叫号码:\t["+opener.cCcommonTool.called+"]<br>");
+document.write("DTMFDigits:\t["+opener.cCcommonTool.DTMFDigits+"]<br>");
+document.write("功能opcode:\t["+opener.cCcommonTool.op_code+"]<br>");
+document.write("坐席IP地址:\t["+opener.cCcommonTool.ipAddress+"]<br>");
+document.write("当前的callid:\t["+opener.cCcommonTool.currentCallId+"]<br>");
+document.write("当前挂机方0：用户挂机，1：话务员挂机，2：密码验证失败自动挂机，3：其他，4：转IVR挂机:\t["+opener.cCcommonTool.currentHangUp+"]<br>");
+document.write("受理号码:\t["+opener.cCcommonTool.acceptPhone+"]<br>");
+document.write("班组名字:\t["+opener.cCcommonTool.workGroupOcxName+"]<br>");
+document.write("班组Id:\t["+opener.cCcommonTool.workGroupOcxId+"]<br>");
+document.write("原始被叫:\t["+opener.cCcommonTool.OrgCalledNoEx+"]<br>");
+document.write("呼叫技能:\t["+opener.cCcommonTool.CallSkillDescEx+"]<br>");
+document.write("等待时间:\t["+opener.cCcommonTool.waitingTimeEx+"]<br>");
+document.write("从来电原因树中传过来的变量名:\t["+opener.cCcommonTool.variableName+"]<br>");
+document.write("从来电原因树中传过来的变量值:\t["+opener.cCcommonTool.variableValue+"]<br>");
+document.write("发送通知携带的发送方工号:\t["+opener.cCcommonTool.sendWork+"]<br>");
+document.write("发送通知的内容:\t["+opener.cCcommonTool.messageNotice+"]<br>");
+document.write("是否是班长:\t["+opener.cCcommonTool.MonitorFlag+"]<br>");
+document.write("NeedMinIE:\t["+opener.cCcommonTool.NeedMinIE+"]<br>");
+document.write("CurrentIEMemUsed:\t["+opener.cCcommonTool.CurrentIEMemUsed+"]<br>");
+document.write("用于全局判断坐席角色id是否为12580,0代表非12580坐席，1代表12580坐席:\t["+opener.cCcommonTool.isAnswerCause1258+"]<br>");
+document.write("针对所有调用有问题的方法:\t["+opener.cCcommonTool.iniCallFunc+"]<br>");
+document.write("针对应答，外呼，内部呼叫失败标识:\t["+opener.cCcommonTool.errorRemark+"]<br>");
+document.write("坐席连接的vdn:\t["+opener.cCcommonTool.AgentInfoEx_VdnID+"]<br>");
+document.write("放音失败代码:\t["+opener.cCcommonTool.errorCode+"]<br>");
+document.write("放音失败原因:\t["+opener.cCcommonTool.errorCause+"]<br>");
+
+</script>
+</div>
+]
+<br>
+
+设置全部parPhone的模拟数据:
+[<input value="设置全部模拟数据" type="button" onclick="setParPhoneAllTestValue();">
+]<br>
+<script>
+function setParPhoneAllTestValue(){
+	var date = new Date();
+	opener.parPhone.RoutPackage_BigZone="1";
+	opener.parPhone.RoutPackage_CityCode="0430";
+	opener.parPhone.RoutPackage_UserClass="30";
+	opener.parPhone.RoutPackage_TransferFlag="IVR";
+	opener.parPhone.RoutPackage_CharLanguage="1";
+	opener.parPhone.RoutPackage_CallerNo=opener.cCcommonTool.getFirstCallerNo();//"13654314076";
+	opener.parPhone.RoutPackage_CalledNo="10086";//"10086431";
+	opener.parPhone.RoutPackage_ServiceNo=opener.cCcommonTool.getFirstCallerNo();//"13654314076";
+	opener.parPhone.RoutPackage_UserType="0";
+	opener.parPhone.RoutPackage_CheckPswIVR="6000";
+	//opener.parPhone.RoutPackage_DigitCode="1a";
+	opener.parPhone.RoutPackage_KeyTrace="10";
+	opener.parPhone.RoutPackage_BranchTrace="1~10";
+	opener.parPhone.RoutPackage_EnterDateTime=date.getFullYear()+"0"+(date.getMonth()+1)+date.getDate()+date.getHours()+"="+date.getMinutes()+"="+date.getSeconds();
+	opener.parPhone.RoutPackage_ConfirmDateTime="";
+	opener.parPhone.RoutPackage_DelayTime="6";
+	opener.parPhone.RoutPackage_CheckFlag="";
+	opener.parPhone.RoutPackage_LogFlag="0";
+	opener.parPhone.RoutPackage_LocalDSN="icdmain";
+	opener.parPhone.RoutPackage_LogDSN="";
+	opener.parPhone.RoutPackage_RoutFailCounter="0";
+	//opener.parPhone.RoutPackage_SerialID="009082511253662120Zt";
+	//opener.parPhone.RoutPackage_PathHead="y=\\voice\\";
+	//opener.parPhone.RoutPackage_Ext1="2120";
+	//opener.parPhone.RoutPackage_Ext2="0001~2~3~"+opener.cCcommonTool.getFirstCallerNo();
+	opener.parPhone.SetCallDataEx(5);
+	alert("设置成功!");
+	}
+</script>
+
+
+设置parPhone的属性:
+opener.parPhone.:[
+<input id="setParPhoneName" type="text" value="WorkNo" >
+<input id="setParPhoneNameValue" type="text" value="" >
+<input value="设置" type="button" onclick="setParPhoneName();">
+]<br>
+<script>
+function setParPhoneName(){
+	var setParPhoneName = document.getElementById('setParPhoneName').value;
+	var setParPhoneNameValue = document.getElementById('setParPhoneNameValue').value;
+	eval("opener.parPhone."+setParPhoneName+"='"+setParPhoneNameValue+"';");
+	}
+</script>
+
+得到parPhone的属性:
+opener.parPhone.:[
+<input id="getParPhoneName" type="text" value="WorkNo" >
+<input value="显示" type="button" onclick="getParPhoneName();">
+]<br>
+<script>
+function getParPhoneName(){
+	var getParPhoneName = document.getElementById('getParPhoneName').value;
+	eval("alert(opener.parPhone."+getParPhoneName+")");
+	}
+</script>
+
+调用cCcommonTool的函数:
+opener.cCcommonTool.:[
+<input id="idCCcommonToolName" type="text" value="getWorkNo()">
+<input value="调用" type="button" onclick="doCCcommonTool();">
+]<br>
+<script>
+function doCCcommonTool(){
+	var idNameIs = document.getElementById('idCCcommonToolName').value;
+	eval("alert(opener.cCcommonTool."+idNameIs+")");
+	}
+</script>
+
+<br>新添加测试函数。随时检查变量变化。 <br>
+座席状态:[
+<script type="text/javascript">
+  var workNo = opener.cCcommonTool.getWorkNo();
+  var    ret = opener.parPhone.QueryAgentStatusEx(workNo);
+  var  state = opener.parPhone.AgentInfoEx_CurState;
+  document.write(state);
+  state = null;
+</script>
+]
+<br />
+getCurrentIEMemUsed:[
+<script type="text/javascript">
+var str2136849283 = opener.cCcommonTool.getCurrentIEMemUsed();
+document.write(str2136849283);
+var str2136849283 =  null;
+</script>
+]<br>
+
+getNeedMinIE:[
+<script type="text/javascript">
+var str2064234348 = opener.cCcommonTool.getNeedMinIE();
+document.write(str2064234348);
+var str2064234348 =  null;
+</script>
+]<br>
+getKeyTrace:[
+<script type="text/javascript">
+var str1155266935 = opener.cCcommonTool.getKeyTrace();
+document.write(str1155266935);
+var str1155266935 =  null;
+</script>
+]<br>
+getAcdsNum:[
+<script type="text/javascript">
+var str220007356 = opener.cCcommonTool.getAcdsNum();
+document.write(str220007356);
+var str220007356 =  null;
+</script>
+]<br>
+getBackCcsIP:[
+<script type="text/javascript">
+var str1920035957 = opener.cCcommonTool.getBackCcsIP();
+document.write(str1920035957);
+var str1920035957 =  null;
+</script>
+]<br>
+getSn12580:[
+<script type="text/javascript">
+var str425536076 = opener.cCcommonTool.getSn12580();
+document.write(str425536076);
+var str425536076 =  null;
+</script>
+]<br>
+getCallerUserName:[
+<script type="text/javascript">
+var str376805950 = opener.cCcommonTool.getCallerUserName();
+document.write(str376805950);
+var str376805950 =  null;
+</script>
+]<br>
+getAccessCityNo:[
+<script type="text/javascript">
+var str761019625 = opener.cCcommonTool.getAccessCityNo();
+document.write(str761019625);
+var str761019625 =  null;
+</script>
+]<br>
+getCurrentHangUp:[
+<script type="text/javascript">
+var str790910735 = opener.cCcommonTool.getCurrentHangUp();
+document.write(str790910735);
+var str790910735 =  null;
+</script>
+]<br>
+getMainCcsIp:[
+<script type="text/javascript">
+var str1098610808 = opener.cCcommonTool.getMainCcsIp();
+document.write(str1098610808);
+var str1098610808 =  null;
+</script>
+]<br>
+getCcsID:[
+<script type="text/javascript">
+var str1603772434 = opener.cCcommonTool.getCcsID();
+document.write(str1603772434);
+var str1603772434 =  null;
+</script>
+]<br>
+getAgentType:[
+<script type="text/javascript">
+var str1967612996 = opener.cCcommonTool.getAgentType();
+document.write(str1967612996);
+var str1967612996 =  null;
+</script>
+]<br>
+getWorkNo:[
+<script type="text/javascript">
+var str1814117356 = opener.cCcommonTool.getWorkNo();
+document.write(str1814117356);
+var str1814117356 =  null;
+</script>
+]<br>
+getSign_phone_no:[
+<script type="text/javascript">
+var str226025494 = opener.cCcommonTool.getSign_phone_no();
+document.write(str226025494);
+var str226025494 =  null;
+</script>
+]<br>
+getAcceptPhone:[
+<script type="text/javascript">
+var str114261623 = opener.cCcommonTool.getAcceptPhone();
+document.write(str114261623);
+var str114261623 =  null;
+</script>
+]<br>
+getOrgCalledNoEx:[
+<script type="text/javascript">
+var str1513724526 = opener.cCcommonTool.getOrgCalledNoEx();
+document.write(str1513724526);
+var str1513724526 =  null;
+</script>
+]<br>
+getCallSkillDescEx:[
+<script type="text/javascript">
+var str952344069 = opener.cCcommonTool.getCallSkillDescEx();
+document.write(str952344069);
+var str952344069 =  null;
+</script>
+]<br>
+getDTMFDigits:[
+<script type="text/javascript">
+//var str2136627538 = opener.cCcommonTool.getDTMFDigits();
+//document.write(str2136627538);
+//var str2136627538 =  null;
+</script>
+]<br>
+getIpAddress:[
+<script type="text/javascript">
+var str1053565846 = opener.cCcommonTool.getIpAddress();
+document.write(str1053565846);
+var str1053565846 =  null;
+</script>
+]<br>
+getCardType:[
+<script type="text/javascript">
+var str1348652521 = opener.cCcommonTool.getCardType();
+document.write(str1348652521);
+var str1348652521 =  null;
+</script>
+]<br>
+getTotalTime:[
+<script type="text/javascript">
+var str736484015 = opener.cCcommonTool.getTotalTime();
+document.write(str736484015);
+var str736484015 =  null;
+</script>
+]<br>
+getWorkGroup:[
+<script type="text/javascript">
+var str1225600558 = opener.cCcommonTool.getWorkGroup();
+document.write(str1225600558);
+var str1225600558 =  null;
+</script>
+]<br>
+getWorkGroupOcxId:[
+<script type="text/javascript">
+var str2010973420 = opener.cCcommonTool.getWorkGroupOcxId();
+document.write(str2010973420);
+var str2010973420 =  null;
+</script>
+]<br>
+isLogon:[
+<script type="text/javascript">
+var str1350887600 = opener.cCcommonTool.isLogon();
+document.write(str1350887600);
+var str1350887600 =  null;
+</script>
+]<br>
+isSignIn:[
+<script type="text/javascript">
+var str1313358971 = opener.cCcommonTool.isSignIn();
+document.write(str1313358971);
+var str1313358971 =  null;
+</script>
+]<br>
+isFree:[
+<script type="text/javascript">
+var str591216483 = opener.cCcommonTool.isFree();
+document.write(str591216483);
+var str591216483 =  null;
+</script>
+]<br>
+IsInitial:[
+<script type="text/javascript">
+var str1438621835 = opener.cCcommonTool.IsInitial();
+document.write(str1438621835);
+var str1438621835 =  null;
+</script>
+]<br>
+getAutoRecord:[
+<script type="text/javascript">
+var str1176537294 = opener.cCcommonTool.getAutoRecord();
+document.write(str1176537294);
+var str1176537294 =  null;
+</script>
+]<br>
+getOp_code:[
+<script type="text/javascript">
+var str933748006 = opener.cCcommonTool.getOp_code();
+document.write(str933748006);
+var str933748006 =  null;
+</script>
+]<br>
+getMonitorFlag:[
+<script type="text/javascript">
+var str724604424 = opener.cCcommonTool.getMonitorFlag();
+document.write(str724604424);
+var str724604424 =  null;
+</script>
+]<br>
+getData:[
+<script type="text/javascript">
+var str189759298 =  "RoutPackage_BigZone:["+opener.parPhone.RoutPackage_BigZone+"]<br>"
++ "RoutPackage_CityCode:["+opener.parPhone.RoutPackage_CityCode+"]<br>"
++ "RoutPackage_UserClass:["+opener.parPhone.RoutPackage_UserClass+"]<br>"
++ "RoutPackage_TransferFlag:["+opener.parPhone.RoutPackage_TransferFlag+"]<br>"
++ "RoutPackage_CharLanguage:["+opener.parPhone.RoutPackage_CharLanguage+"]<br>"
++ "RoutPackage_CallerNo:["+opener.parPhone.RoutPackage_CallerNo+"]<br>"
++ "RoutPackage_CalledNo:["+opener.parPhone.RoutPackage_CalledNo+"]<br>"
++ "RoutPackage_ServiceNo:["+opener.parPhone.RoutPackage_ServiceNo+"]<br>"
++ "RoutPackage_UserType:["+opener.parPhone.RoutPackage_UserType+"]<br>"
++ "RoutPackage_CheckPswIVR:["+opener.parPhone.RoutPackage_CheckPswIVR+"]<br>"
++ "RoutPackage_DigitCode:["+opener.parPhone.RoutPackage_DigitCode+"]<br>"
++ "RoutPackage_KeyTrace:["+opener.parPhone.RoutPackage_KeyTrace+"]<br>"
++ "RoutPackage_BranchTrace:["+opener.parPhone.RoutPackage_BranchTrace+"]<br>"
++ "RoutPackage_EnterDateTime:["+opener.parPhone.RoutPackage_EnterDateTime+"]<br>"
++ "RoutPackage_ConfirmDateTime:["+opener.parPhone.RoutPackage_ConfirmDateTime+"]<br>"
++ "RoutPackage_DelayTime:["+opener.parPhone.RoutPackage_DelayTime+"]<br>"
++ "RoutPackage_CheckFlag:["+opener.parPhone.RoutPackage_CheckFlag+"]<br>"
++ "RoutPackage_LogFlag:["+opener.parPhone.RoutPackage_LogFlag+"]<br>"
++ "RoutPackage_LocalDSN:["+opener.parPhone.RoutPackage_LocalDSN+"]<br>"
++ "RoutPackage_LogDSN:["+opener.parPhone.RoutPackage_LogDSN+"]<br>"
++ "RoutPackage_RoutFailCounter:["+opener.parPhone.RoutPackage_RoutFailCounter+"]<br>"
++ "RoutPackage_SerialID:["+opener.parPhone.RoutPackage_SerialID+"]<br>"
++ "RoutPackage_PathHead:["+opener.parPhone.RoutPackage_PathHead+"]<br>"
++ "RoutPackage_Ext1:["+opener.parPhone.RoutPackage_Ext1+"]<br>"
++ "RoutPackage_Ext2:["+opener.parPhone.RoutPackage_Ext2+"]<br>";
+document.write(str189759298);
+var str189759298 =  null;
+
+function callOut(){
+
+		var height = 208;
+		var width = 201;
+		var top = screen.availHeight/2 - height/2;
+		var left=screen.availWidth/2 - width/2;
+		var winParam = "height=" + height + ",width=" + width + ",top=" + top + ",left= " + left + ",toolbar=no,menubar=no,scrollbars=no, resizable=yes,location=no, status=no";
+
+		outCallHandle=window.open("../../../npage/callbosspage/k025/caller_phone.jsp", "callOutWin", winParam);
+	//xiaofh 20090809 分班组添加主叫号码  上线时去掉下面的注释
+	// var class_name = "神州";
+	//if (cCcommonTool.getWorkGroup()!=undefined && cCcommonTool.getWorkGroup()!="" )
+	 //   {
+//		class_name=cCcommonTool.getWorkGroup();
+//		}
+	// outCallHandle=window.open("../../npage/callbosspage/k025/caller_phone.jsp?class_name1="+class_name, "callOutWin", winParam);
+	// cCcommonTool.DebugLog("javascript classname1="+class_name);
+	      
+	  height = null;
+	  width = null;
+	  top = null;
+	  left = null;
+	  winParam = null;
+}
+</script>
+]<br>
+analysisRoutPackage:[
+<script type="text/javascript">
+var str1658147985 = opener.cCcommonTool.analysisRoutPackage();
+document.write(str1658147985);
+var str1658147985 =  null;
+</script>
+]<br>
+getWaitingTime:[
+<script type="text/javascript">
+var str722256415 = opener.cCcommonTool.getWaitingTime();
+document.write(str722256415);
+var str722256415 =  null;
+</script>
+]<br>
+getAcceptId:[
+<script type="text/javascript">
+var str886118931 = opener.cCcommonTool.getAcceptId();
+document.write(str886118931);
+var str886118931 =  null;
+</script>
+]<br>
+getFirstCallerNo:[
+<input value="getFirstCallerNo" type="button" onclick="alert(opener.cCcommonTool.getFirstCallerNo());">
+]<br>
+getFirstCalledNo:[
+<input value="getFirstCallerNo" type="button" onclick="alert(opener.cCcommonTool.getFirstCalledNo());">
+]<br>
+getCurrentTime:[
+<script type="text/javascript">
+var str854516789 = opener.cCcommonTool.getCurrentTime();
+document.write(str854516789);
+var str854516789 =  null;
+</script>
+]<br>
+getEventPro:[
+<script type="text/javascript">
+var str699151565 = opener.cCcommonTool.getEventPro();
+document.write(str699151565);
+var str699151565 =  null;
+</script>
+]<br>
+修改密码测试:[
+<input value="测试" type="button" onclick="
+alert('开始进行测试');
+opener.parPhone.TransToIVR(5,1,'10084100848006');
+alert('结束进行测试');
+">
+]
+状态转移测试[
+<input value="stateTran" type="button" onclick="window.open('/test/testcall/test_trans/trans_main.jsp')">
+]<br>
+呼叫转移[
+<input value="呼叫转移" type="button" onclick="opener.showTransWin();">
+]<br>
+呼出[
+<input value="呼叫转移" type="button" onclick="callOut();">
+]<br>
+强制示闲[
+<input value="呼叫转移" type="button" onclick="opener.showForceIdle('K050');">
+]<br>
+强制示忙[
+<input value="呼叫转移" type="button" onclick="opener.showIntergrepWin('K051');">
+]<br>
+强制签出[
+<input value="呼叫转移" type="button" onclick="opener.showIntergrepWin('K052');">
+]<br>
+插入[
+<input value="呼叫转移" type="button" onclick="opener.showInsertWorkNoWin();;">
+]<br>
+来电原因[
+<input value="来电原因" type="button" onclick="opener.initcallreason();">
+]<br>
+<a href="list.jsp">查询结果</a>
+<a href="K083/K083_msgSend2.jsp">K083_msgSend2.jsp</a>
+<a href="callTrans/childTab_callMain.jsp">K083_msgSend2.jsp</a>
+</body>
+</html>

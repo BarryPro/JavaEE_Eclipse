@@ -1,0 +1,8 @@
+package com.sitech.acctmgr.atom.dto.volume;
+
+import com.sitech.acctmgr.common.dto.CommonInDTO;
+
+@SuppressWarnings("serial")
+public class VolumeBookShareInDTO extends CommonInDTO {
+
+}

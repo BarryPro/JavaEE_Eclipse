@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						    http://www.springframework.org/schema/beans/spring-beans.xsd">	
+						    
+
+<!-- 实体层基类 抽象类，不能实例化-->
+<bean id="baseBusi" class="com.sitech.acctmgr.common.BaseBusi" abstract="true">
+	<property name="baseDao" ref="baseDao" />
+</bean>
+
+<!-- 费用工单 在BusuBean.xml中加载 -->
+<!-- 测试用Bean <bean id="feeOrderSvc" class="com.sitech.acctmgr.app.busiorder.TestOrder"/> -->
+
+<bean id="odrLineContDAOAppEnt" class="com.sitech.acctmgr.app.odrBlob.OdrLineContDAO" parent="baseBusi"/>
+<bean id="iSpliceSqlEnt"     class="com.sitech.acctmgr.app.dataorder.splicesql.SpliceSql" parent="baseBusi"/>
+<bean id="iSpecDataSynEnt"   class="com.sitech.acctmgr.app.dataorder.SpecDataSynJL" parent="baseBusi"/>
+<bean id="BusiOrderSynEnt" class="com.sitech.acctmgr.app.busiorder.BusiOrderSyn" parent="baseBusi">
+    <property name="odrLineContDAO" ref="odrLineContDAOAppEnt" />
+    <property name="jsonTrans" ref="jsonTransEnt" />
+</bean>
+
+<!-- crm2boss bean -->
+<bean id="DataOrderSvc" class="com.sitech.acctmgr.app.dataorder.DataOrder" parent="baseBusi">
+	<property name="odrLineContDAO" ref="odrLineContDAOAppEnt" />
+	<property name="iSpecDataSyn"   ref="iSpecDataSynEnt" />
+	<property name="iSpliceSql"     ref="iSpliceSqlEnt" />
+	<property name="busiOrderSyn"   ref="BusiOrderSynEnt" />
+</bean>
+    
+	<bean id="DataOrderDeal" class="com.sitech.acctmgr.app.dataorder.DataOrderDeal"/>
+	<bean id="DataOrderErrDeal" class="com.sitech.acctmgr.app.dataorder.DataOrderErrDeal"/>
+
+    <!-- 定义调用对象和调用对象的方法 -->
+    <bean id="jobtaskData" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="DataOrderDeal"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+             <value>run</value>
+        </property>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 --> 
+        <property name="concurrent" value="false"/>
+    </bean>
+    
+    <bean id="jobtaskDataErr" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="DataOrderErrDeal"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+             <value>run</value>
+        </property>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 --> 
+        <property name="concurrent" value="true"/>
+    </bean>
+    
+    <!-- 定义触发时间 -->
+    <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="jobtaskData"/>
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <value>0/20 * * * * ?</value>
+            <!-- <value>10 22 21 * * ?</value>  -->
+        </property>
+    </bean>
+  
+    <bean id="doTimeDataErr" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="jobtaskDataErr"/>
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <value>0/20 * * * * ?</value>
+            <!-- <value>10 22 21 * * ?</value>  -->
+        </property>
+    </bean>
+    
+    <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+    <bean id="startQuartz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+               <ref bean="doTime"/>
+               <!-- <ref bean="doTimeDataErr"/> -->
+            </list>
+        </property>
+    </bean>
+
+</beans>

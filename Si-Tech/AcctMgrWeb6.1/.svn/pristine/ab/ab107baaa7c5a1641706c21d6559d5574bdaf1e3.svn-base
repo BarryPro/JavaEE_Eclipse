@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_batchpay_info">
+
+  <insert id="iBatchpay"  parameterClass="Map">
+    INSERT INTO BAL_BATCHPAY_INFO (BATCH_SN, ACT_TYPE, ACT_ID, ACT_UNIQ_CODE, ACT_SN,
+    	PHONE_NO, ID_NO, REGION_CODE, CONTRACT_NO, GRP_CON_NO, AUDIT_FLAG, TOTAL_DATE,
+    	OP_TYPE, PAY_TYPE, PAY_FEE, PAY_SN, PAY_FLAG, PAY_COMMENT, SMS_FLAG, LOGIN_NO,
+    	OP_TIME, REMARK, BEGIN_TIME, END_TIME, FOREIGN_SN, OP_CODE, YEAR_MONTH)
+	VALUES(SEQ_SYSTEM_SN.NEXTVAL, 0, #ACT_ID#, 0, SEQ_SYSTEM_SN.NEXTVAL,
+		#PHONE_NO#, #ID_NO#, #REGION_CODE#, #CONTRACT_NO#, 0, #AUDIT_FLAG#, #TOTAL_DATE#,
+		'1', #PAY_TYPE#, #PAY_FEE#, #PAY_SN#, '1', '缴费成功', '2', #LOGIN_NO#,
+		SYSDATE, 'crm营销返费-费用工单',TO_DATE(#BEGIN_TIME#,'YYYYMMDD HH24:MI:SS'), TO_DATE(#END_TIME#,'YYYYMMDD HH24:MI:SS'), #FOREIGN_SN#,
+		#OP_CODE#, #YEAR_MONTH#)
+  </insert>
+  
+    <typeAlias alias="BatchpayInfoEntity" type="com.sitech.acctmgr.atom.domains.balance.BatchpayInfoEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="BatchpayInfoEntity">
+		SELECT NVL(A.PAY_FEE,0) payFee,
+		NVL(B.FUNCTION_NAME,'未知') funcName,
+		TO_CHAR(A.BEGIN_TIME,'yyyymmddhh24miss') beginTime
+		FROM BAL_BATCHPAY_INFO A, bs_function_dict B
+		WHERE CONTRACT_NO=#CONTRACT_NO#
+		AND YEAR_MONTH=#YEAR_MONTH#
+		AND ID_NO = #ID_NO#
+		AND A.OP_CODE=B.FUNCTION_CODE(+)		
+		AND SYSDATE >= BEGIN_TIME
+		ORDER BY A.OP_TIME DESC
+	</select>
+
+	<select id="getBatchPayByContract" parameterClass="Map" resultClass="BatchpayInfoEntity">
+		SELECT B.PAY_TYPE_NAME payName,
+		NVL(sum(A.PAY_FEE), 0) payFee,
+		TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD') beginTime,
+		to_char(nvl(to_char(A.END_TIME,'YYYYMMDD'),20500101)) endTime
+		FROM BAL_BATCHPAY_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE = B.PAY_TYPE
+		AND CONTRACT_NO = #CONTRACT_NO#
+		and sysdate <![CDATA[ >= ]]> A.BEGIN_TIME
+		and (sysdate <![CDATA[ <= ]]>
+		A.END_TIME or TO_CHAR(A.END_TIME, 'YYYYMMDD') is null)
+		group by PAY_TYPE_NAME, TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD'),
+		to_char(nvl(to_char(A.END_TIME,'YYYYMMDD'),20500101))
+		UNION ALL
+		SELECT B.PAY_TYPE_NAME PRODUCT_NAME,
+		NVL(sum(A.CUR_BALANCE), 0) FAV_USED_SUM,
+		TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD') EFF_DATE,
+		to_char(nvl(to_char(A.END_TIME,'YYYYMMDD'),20500101)) EXP_DATE
+		FROM BAL_RETURNACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE = B.PAY_TYPE
+		AND CONTRACT_NO = #CONTRACT_NO#
+		AND SYSDATE <![CDATA[ < ]]> BEGIN_TIME
+		and A.STATUS IN ('0', '2')
+		and sysdate <![CDATA[ <= ]]>
+		A.END_TIME
+		group by PAY_TYPE_NAME, BEGIN_TIME, END_TIME
+
+	</select>
+
+	<select id="getBatchPayByTime" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT B.PAY_TYPE_NAME RETRUNFEENAME,
+		A.PAY_FEE RETURN_FEE,
+		nvl(TO_CHAR(A.OP_TIME,'YYYYMMDD'),0) RETURN_TIME,
+		(CASE WHEN SYSDATE <![CDATA[ < ]]> BEGIN_TIME then '1' else '0' end) STATUS
+		FROM BAL_BATCHPAY_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE = B.PAY_TYPE
+		AND CONTRACT_NO=#CONTRACT_NO#
+		AND YEAR_MONTH= #OP_YM#
+		and TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD')= #BEGIN_TIME#
+		and (TO_CHAR(A.END_TIME, 'YYYYMMDD') = #END_TIME#
+		or TO_CHAR(A.END_TIME, 'YYYYMMDD') is null)
+		and b.PAY_TYPE_NAME = #PAY_TYPE_NAME#
+		UNION ALL
+		SELECT B.PAY_TYPE_NAME RETRUNFEENAME,
+		A.CUR_BALANCE RETURN_FEE,
+		nvl(TO_CHAR(A.PAY_TIME,'YYYYMMDD'),0) RETURN_TIME,
+		'1' STATUS
+		FROM BAL_RETURNACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE=B.PAY_TYPE
+		AND CONTRACT_NO=#CONTRACT_NO#
+		and TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD')= #BEGIN_TIME#
+		and (TO_CHAR(A.END_TIME, 'YYYYMMDD') = #END_TIME#
+		or TO_CHAR(A.END_TIME, 'YYYYMMDD') is null)
+		and b.PAY_TYPE_NAME = #PAY_TYPE_NAME#
+		and a.bill_cycle = #OP_YM#
+		AND SYSDATE <![CDATA[ < ]]>
+		BEGIN_TIME
+		and A.STATUS IN ('0', '2')
+	</select>
+
+	<select id="qBatchPay" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT A.PAY_TYPE PAY_TYPE,
+		NVL(A.PAY_FEE,0) PAY_FEE,
+		B.PAY_TYPE_NAME PAY_TYPE_NAME,
+		TO_CHAR(A.OP_TIME,'YYYYMMDD HH24:MI:SS') OP_TIME,
+		TO_CHAR(A.BEGIN_TIME,'YYYYMMDD HH24:MI:SS') BEGIN_TIME,
+		TO_CHAR(A.END_TIME,'YYYYMMDD HH24:MI:SS') END_TIME,
+		PAY_ATTR
+		FROM BAL_BATCHPAY_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE=B.PAY_TYPE
+		AND CONTRACT_NO=#CONTRACT_NO#
+		AND SYSDATE >= BEGIN_TIME
+		AND TO_CHAR(OP_TIME, 'YYYYMM')=#OP_YM#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PAY_SN">
+				A.PAY_SN = #PAY_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FOREIGN_SN">
+				A.FOREIGN_SN = #FOREIGN_SN#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.OP_TIME DESC
+	</select>
+
+</sqlMap>

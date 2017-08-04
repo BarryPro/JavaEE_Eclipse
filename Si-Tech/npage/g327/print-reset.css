@@ -1,0 +1,10 @@
+@charset "utf-8";
+/*
+*Copyright (c) 2011-2012, si-tech! Inc. All rights reserved.
+*description: css for print
+*version: 1.0.0
+*author: kevin.uid.sc.si-tech
+*creat: 2012-1-11&kevin
+*/
+body {_zoom:70%;}
+.toolbar {display:none;}

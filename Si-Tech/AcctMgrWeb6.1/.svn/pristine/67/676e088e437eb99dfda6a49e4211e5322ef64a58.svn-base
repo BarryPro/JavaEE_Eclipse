@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bs_chngroup_rel">
+<typeAlias alias="BsChngroupRel" type="com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity"/>
+    <select id="qRegionByGroupId" parameterClass="Map" resultClass="BsChngroupRel">
+	SELECT B.GROUP_ID groupId,
+	       B.PARENT_GROUP_ID parentGroupId,
+	       TO_CHAR(A.REGION_ID) regionCode,
+	       A.GROUP_NAME regionName,
+	       A.PROVINCE_ID provinceId
+	  FROM BS_CHNGROUP_DICT A,
+	       (SELECT GROUP_ID, PARENT_GROUP_ID,PROVINCE_ID
+	          FROM BS_CHNGROUP_REL
+	         WHERE GROUP_ID = #GROUP_ID#
+	           AND PARENT_LEVEL = #PARENT_LEVEL#
+	           AND PROVINCE_ID = #PROVINCE_ID#) B
+	 WHERE A.GROUP_ID = B.PARENT_GROUP_ID
+	 AND A.PROVINCE_ID = B.PROVINCE_ID
+	</select>
+
+    <select id="qGroupLevelByGroupId" parameterClass="Map" resultClass="BsChngroupRel">
+	SELECT CURRENT_LEVEL currentLevel, 
+	PARENT_GROUP_ID parentGroupId, 
+	PARENT_LEVEL parentLevel
+	  FROM BS_CHNGROUP_REL
+	 WHERE GROUP_ID = #GROUP_ID#
+	   AND DENORM_LEVEL = #DENORM_LEVEL#
+	   AND PROVINCE_ID = #PROVINCE_ID#
+	</select>
+
+  <select id="qRegionCodeByGroupId"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT B.GROUP_ID GROUP_ID, B.P_GROUP_ID P_GROUP_ID, TO_CHAR (A.REGION_ID) REGION_CODE, A.GROUP_NAME REGION_NAME 
+  	FROM (  SELECT GROUP_ID GROUP_ID, PARENT_GROUP_ID P_GROUP_ID
+    		FROM BS_CHNGROUP_REL WHERE 1=1
+    <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="GROUP_ID">
+    		GROUP_ID = #GROUP_ID#
+    	</isNotEmpty>
+    	
+    	<isEmpty prepend="AND" property="PARENT_LEVEL">
+    		PARENT_LEVEL <![CDATA[ <= ]]> 2 ORDER BY PARENT_LEVEL DESC) B,BS_CHNGROUP_DICT A WHERE A.GROUP_ID = B.P_GROUP_ID 
+    	</isEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="PARENT_LEVEL">
+    		PARENT_LEVEL = #PARENT_LEVEL# ORDER BY PARENT_LEVEL DESC) B,BS_CHNGROUP_DICT A WHERE A.GROUP_ID = B.P_GROUP_ID
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="REGION_ID">
+ 			A.REGION_ID = #REGION_ID#
+     	</isNotEmpty>
+    </dynamic>
+ 	AND ROWNUM <![CDATA[ < ]]> 2
+  </select>
+  
+  
+</sqlMap>

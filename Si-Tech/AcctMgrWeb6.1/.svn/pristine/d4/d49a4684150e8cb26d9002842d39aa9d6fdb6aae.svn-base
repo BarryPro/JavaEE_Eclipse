@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="mmapp_info">
+    <select id="qryMmappName" parameterClass="Map" resultClass="java.lang.String">
+        SELECT TRIM(PROVIDER_NAME)||':'||TRIM(CONTEXT_NAME) AS CONTENT_NAME
+        FROM MMAPP_INFO
+        WHERE CONTEXT_CODE = ##
+        AND TO_DATE(#TOTAL_DATE#, 'YYYY/MM/DD') BETWEEN TO_DATE(EFF_DATE, 'YYYYMMDD') AND
+        TO_DATE(EXP_DATE, 'YYYYMMDD')
+    </select>
+</sqlMap>

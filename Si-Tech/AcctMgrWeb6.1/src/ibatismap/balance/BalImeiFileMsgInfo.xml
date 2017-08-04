@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_imeifilemsg_info">
+ 	
+	<typeAlias type="com.sitech.acctmgr.atom.domains.balance.ImeiFileMsgInfoEntity" alias="ImeiFileMsgInfoEnt"/>
+	<select id="query" parameterClass="Map"  resultClass="ImeiFileMsgInfoEnt">
+		SELECT A.STATIS_MONTH statisMonth,
+       A.UNPACK_TYPE_FLAG unpackTypeFlag,
+       A.OP_CODE || '--' || B.FUNCTION_NAME  opName, 
+       NVL(A.IMEI1, '0') imei1,
+       NVL(A.IMEI2, '0') imei2,
+       NVL(A.PHONE1, '0') phone1,
+       NVL(A.PHONE2, '0') phone2,
+       TO_CHAR(A.OP_TIME, 'YYYYMMDD hh24:mi:ss') opTime,
+       NVL(A.OP_CODE, '0') opCode
+  FROM BAL_IMEIFILEMSG_INFO A, BS_FUNCTION_DICT B
+ WHERE PHONE_NO = #PHONE_NO#
+   AND  STATIS_MONTH  BETWEEN #START_MONTH# AND  #END_MONTH# 
+   AND TRIM(A.OP_CODE) = TRIM(B.FUNCTION_CODE(+))
+	</select>
+	
+	
+</sqlMap>

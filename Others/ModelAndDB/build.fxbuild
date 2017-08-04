@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<anttasks:AntTask xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:anttasks="http://org.eclipse.fx.ide.jdt/1.0" buildDirectory="${project}/build">
+  <deploy packagingFormat="exe">
+    <application name="ModelAndDB" mainclass="application.Main" version="1.0"/>
+    <info title="&#x51c6;&#x751f;&#x4ea7;&#x73af;&#x5883;&#x4e0e;&#x6a21;&#x578b;&#x4fdd;&#x6301;&#x4e00;&#x81f4;&#x68c0;&#x67e5;" vendor="Belong"/>
+  </deploy>
+  <signjar/>
+</anttasks:AntTask>

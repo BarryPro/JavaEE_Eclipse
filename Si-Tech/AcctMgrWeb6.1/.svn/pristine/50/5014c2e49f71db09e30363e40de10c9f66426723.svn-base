@@ -1,0 +1,16 @@
+package com.sitech.acctmgr.atom.busi.pay.trans;
+
+
+/**
+ * 名称:统付转账个性化实现类
+ * 功能描述:主要为集团账户统付和省内一点支付转账
+ * @author suzj
+ *
+ */
+public class TransAccountRel extends TransAccount {
+	
+	public String getTransTypes(){
+		return "0";
+	}
+	
+}

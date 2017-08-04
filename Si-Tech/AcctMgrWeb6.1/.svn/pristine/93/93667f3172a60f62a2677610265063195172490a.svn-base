@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_cardpayrequest_info">
+
+  <insert id="iCardpayrequest" parameterClass="Map">
+	  INSERT INTO bal_cardpayrequest_info (LOGIN_ACCEPT, CALL_PHONE, PHONE_NO, 
+	      SERVICE_TYPE, KEY_ID, FOREIGN_SN, CARD_PASSWD, CARD_FEE, CARD_NO, 
+	      EFFECT_TIME, LOGIN_NO, OP_TIME, OP_NOTE, YEAR_MONTH)
+        VALUES(#LOGIN_ACCEPT#, #CALL_PHONE#, #PHONE_NO#, 
+	      #SERVICE_TYPE#, #KEY_ID#, #FOREIGN_SN#, #CARD_PASSWD#, #CARD_FEE#, #CARD_NO#, 
+	      #EFFECT_TIME#, #LOGIN_NO#, sysdate, #OP_NOTE#, #YEAR_MONTH#)
+  </insert>
+
+</sqlMap>

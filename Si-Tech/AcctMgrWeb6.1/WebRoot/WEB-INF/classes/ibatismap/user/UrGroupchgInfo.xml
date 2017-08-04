@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="ur_groupchg_info">
+    
+<typeAlias alias="UrGroupchgInfo" type="com.sitech.acctmgr.atom.domains.user.GroupchgInfoEntity"/>
+<select id="qGroupChgInfo" parameterClass="Map" resultClass="UrGroupchgInfo">
+SELECT IN_GROUP inGroup, TO_CHAR(EFF_DATE, 'YYYYMMDD') effDate
+  FROM UR_GROUPCHG_INFO
+ WHERE 1 = 1
+     <dynamic prepend=" ">
+    	<isNotEmpty prepend=" "  property="PHONE_NO">
+    		AND PHONE_NO = #PHONE_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend=" "  property="ID_NO">
+    		AND ID_NO = #ID_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend=" "  property="CONTRACT_NO">
+    		AND CONTRACT_NO = #CONTRACT_NO#
+    	</isNotEmpty>
+    </dynamic>
+    AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+  </select>
+
+</sqlMap>

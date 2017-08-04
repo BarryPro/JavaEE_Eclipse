@@ -1,0 +1,260 @@
+package com.sitech.acctmgr.atom.dto.pay;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+import com.sitech.acctmgr.atom.domains.pay.AccountPayedEntity;
+import com.sitech.acctmgr.common.dto.CommonInDTO;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+ 
+/**
+* @Title:   []
+* @Description: 一点支付账户缴费确认服务入参DTO
+* @Date :2016/6/22
+* @Company: SI-TECH
+* @author : qiaolin
+* @version : 1.0
+* @modify history
+*  <p>修改日期    修改人   修改目的<p>
+ */
+public class S8020CfmInDTO extends CommonInDTO{
+ 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3686455472641785760L;
+	
+	@ParamDesc(path="BUSI_INFO.CONTRACT_NO",cons=ConsType.CT001,type="long",len="18",desc="账号",memo="略")
+	protected long  contractNo ;
+	
+	@ParamDesc(path="BUSI_INFO.PAY_MONEY",cons=ConsType.CT001,type="long",len="14",desc="缴费金额",memo="略")
+	protected long  payMoney ;
+	
+	@ParamDesc(path="BUSI_INFO.PAY_TYPE",cons=ConsType.CT001,type="String",len="5",desc="账本类型",memo="略")
+	protected String payType ;
+	
+	@ParamDesc(path="BUSI_INFO.DELAY_RATE",cons=ConsType.CT001,type="String",len="12",desc="滞纳金优惠比率",memo="略")
+	protected String delayRate ;
+	
+	@ParamDesc(path="BUSI_INFO.YEAR_MONTH",cons=ConsType.CT001	,type="String",len="6",desc="年月",memo="略")
+	protected String yearMonth ;
+	 
+	@ParamDesc(path="BUSI_INFO.BANK_CODE",cons=ConsType.QUES,type="String",len="12",desc="银行代码",memo="略")
+	protected String bankCode;
+	
+	@ParamDesc(path="BUSI_INFO.CHECK_NO",cons=ConsType.QUES,type="String",len="20",desc="支票代码",memo="略")
+	protected String checkNo;
+	
+	@ParamDesc(path="BUSI_INFO.PAY_NOTE",cons=ConsType.QUES,type="String",len="1024",desc="备注",memo="略")
+	protected String payNote ;
+	
+	@ParamDesc(path="BUSI_INFO.CONTRACT_SEL_STR",cons=ConsType.QUES,type="String",len="50000",desc="勾选中的被支付账户字符串",memo="略")
+	protected String contractSelstr ;
+	
+	@ParamDesc(path = "BUSI_INFO.IS_DOWEINV", cons = ConsType.QUES, type = "String", len = "1", desc = "先开票后缴费标识", memo = "先开票后缴费： Y")
+	private String isDoweInv;
+	
+	@ParamDesc(path="BUSI_INFO.LIST_CONTRACT",cons=ConsType.PLUS,type="compx",len="1",desc="被支付账户列表",memo="略")
+	protected List<AccountPayedEntity> conSelList = new ArrayList<AccountPayedEntity>();
+
+	
+	@Override
+	public void decode(MBean arg0) {
+		super.decode(arg0);
+		setContractNo(Long.parseLong(arg0.getObject(getPathByProperName("contractNo")).toString()));
+		setPayMoney(Long.parseLong(arg0.getObject(getPathByProperName("payMoney")).toString()));
+		setPayType(arg0.getStr(getPathByProperName("payType")));
+		setDelayRate(arg0.getStr(getPathByProperName("delayRate")));
+		setYearMonth(arg0.getStr(getPathByProperName("yearMonth")));
+
+		if(StringUtils.isNotEmptyOrNull(arg0.getStr(getPathByProperName("checkNo")))){
+			setCheckNo(arg0.getStr(getPathByProperName("checkNo")));
+		}
+		if(StringUtils.isNotEmptyOrNull(arg0.getStr(getPathByProperName("bankCode")))){
+			setBankCode(arg0.getStr(getPathByProperName("bankCode")));
+		}
+		if(StringUtils.isNotEmptyOrNull(arg0.getStr(getPathByProperName("payNote")))){
+			setPayNote(arg0.getStr(getPathByProperName("payNote")).trim());
+		}else {
+			String sFee = String.format("%.2f", (double)payMoney/100);
+			payNote = loginNo +"支付帐户交费:"+contractNo+"缴纳:"+sFee+"元";
+		}
+		setContractSelstr(arg0.getStr(getPathByProperName("contractSelstr")));
+		
+		isDoweInv = arg0.getStr(getPathByProperName("isDoweInv"));
+		if (StringUtils.isEmptyOrNull(isDoweInv)){
+			isDoweInv = "N";
+		}
+		
+		//被支付账户列表：cfm不查询，直接传入查询的列表
+		List<Map<String, Object>> conListTmp = (List<Map<String, Object>>) arg0.getList(getPathByProperName("conSelList"));
+		for(Map<String, Object> con: conListTmp){
+			String jsonSel = JSON.toJSONString(con);
+			conSelList.add(JSON.parseObject(jsonSel,AccountPayedEntity.class));
+		}
+	}
+
+	/**
+	 * @return the contractNo
+	 */
+	public long getContractNo() {
+		return contractNo;
+	}
+
+	/**
+	 * @param contractNo the contractNo to set
+	 */
+	public void setContractNo(long contractNo) {
+		this.contractNo = contractNo;
+	}
+
+	/**
+	 * @return the payMoney
+	 */
+	public long getPayMoney() {
+		return payMoney;
+	}
+
+	/**
+	 * @param payMoney the payMoney to set
+	 */
+	public void setPayMoney(long payMoney) {
+		this.payMoney = payMoney;
+	}
+
+	/**
+	 * @return the payType
+	 */
+	public String getPayType() {
+		return payType;
+	}
+
+	/**
+	 * @param payType the payType to set
+	 */
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+
+	/**
+	 * @return the delayRate
+	 */
+	public String getDelayRate() {
+		return delayRate;
+	}
+
+	/**
+	 * @param delayRate the delayRate to set
+	 */
+	public void setDelayRate(String delayRate) {
+		this.delayRate = delayRate;
+	}
+
+	/**
+	 * @return the payNote
+	 */
+	public String getPayNote() {
+		return payNote;
+	}
+
+	/**
+	 * @param payNote the payNote to set
+	 */
+	public void setPayNote(String payNote) {
+		this.payNote = payNote;
+	}
+
+	/**
+	 * @return the yearMonth
+	 */
+	public String getYearMonth() {
+		return yearMonth;
+	}
+
+	/**
+	 * @param yearMonth the yearMonth to set
+	 */
+	public void setYearMonth(String yearMonth) {
+		this.yearMonth = yearMonth;
+	}
+
+	/**
+	 * @return the bankCode
+	 */
+	public String getBankCode() {
+		return bankCode;
+	}
+
+	/**
+	 * @param bankCode the bankCode to set
+	 */
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
+
+	/**
+	 * @return the checkNo
+	 */
+	public String getCheckNo() {
+		return checkNo;
+	}
+
+	/**
+	 * @param checkNo the checkNo to set
+	 */
+	public void setCheckNo(String checkNo) {
+		this.checkNo = checkNo;
+	}
+
+	/**
+	 * @return the contractSelstr
+	 */
+	public String getContractSelstr() {
+		return contractSelstr;
+	}
+
+	/**
+	 * @param contractSelstr the contractSelstr to set
+	 */
+	public void setContractSelstr(String contractSelstr) {
+		this.contractSelstr = contractSelstr;
+	}
+
+	/**
+	 * @return the isDoweInv
+	 */
+	public String getIsDoweInv() {
+		return isDoweInv;
+	}
+
+	/**
+	 * @param isDoweInv the isDoweInv to set
+	 */
+	public void setIsDoweInv(String isDoweInv) {
+		this.isDoweInv = isDoweInv;
+	}
+
+	/**
+	 * @return the conSelList
+	 */
+	public List<AccountPayedEntity> getConSelList() {
+		return conSelList;
+	}
+
+	/**
+	 * @param conSelList the conSelList to set
+	 */
+	public void setConSelList(List<AccountPayedEntity> conSelList) {
+		this.conSelList = conSelList;
+	}
+ 
+	
+ 
+}
+

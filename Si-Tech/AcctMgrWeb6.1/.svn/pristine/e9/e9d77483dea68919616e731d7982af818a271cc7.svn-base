@@ -1,0 +1,161 @@
+package com.sitech.acctmgr.atom.busi.invoice;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.collections.MapUtils;
+
+import com.sitech.acctmgr.atom.busi.invoice.inter.IElecInvoice;
+import com.sitech.acctmgr.atom.domains.invoice.PrintDataBlob;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.BaseBusi;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.common.utils.HbaseUtils;
+import com.sitech.common.CrossEntity;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.dt.MBean;
+
+public class ElecInvoice extends BaseBusi implements IElecInvoice {
+	private IControl control;
+	@Override
+	public String getInvPdfFile(String requestSn, String phoneNo) {
+
+		String invcYmTmp = requestSn.substring(1, 7); // 发票年月
+		int curYm = DateUtils.getCurYm();
+		String oracleYmCnt = control.getPubCodeValue(3015, "82851", "0"); // oracle数据库保存月数，当月算一个月
+		String hbaseYmCnt = control.getPubCodeValue(3015, "82852", "0"); // hbase数据库保存月数，当月算一个月
+
+		String invStr = null;
+		long invYm = Long.parseLong(invcYmTmp);
+		long monthCnt = (curYm / 100) * 12 + (curYm % 100) - (invYm / 100) * 12 - (invYm % 100);
+
+		if (monthCnt < Long.parseLong(oracleYmCnt)) {
+			// 从bal_einvpdf_info表获取PDF文件
+			Map<String, Object> inParam = new HashMap<String, Object>();
+			inParam.put("YEAR_MONTH", requestSn.substring(1, 7));// requestSn以 B20161013形式开头
+			inParam.put("REQUEST_SN", requestSn);
+			PrintDataBlob printData = (PrintDataBlob) baseDao.queryForObject("bal_einvpdf_info.qPdfInfo", inParam);
+			if (printData.getPrintContent() != null) {
+				invStr = new String(printData.getPrintContent());
+			} else {
+				throw new BusiException(AcctMgrError.getErrorCode("0000", "60002"), "未查询到发票数据！");
+			}
+		} else if (monthCnt < Long.parseLong(hbaseYmCnt)) {
+			// 从Hbase获取PDF文件
+
+			// 生成hbase 表名
+			StringBuilder tablename = new StringBuilder();
+			tablename.append("einvoice_").append(requestSn.substring(1, 7));// invReqSn以 B20161013形式开头
+
+			// 生成hbase key值
+			StringBuilder key = new StringBuilder();
+			key.append(StringUtils.reverse(phoneNo)).append(requestSn);// 手机号码必须反序，hbase用key值前3位做域划分
+
+			log.debug("tablename：" + tablename.toString() + ", key:" + key.toString());
+
+			// 查询hbase
+			long startTime = Long.parseLong(DateUtils.getCurDate("yyyyMMddHHmmssSSS"));
+			try {
+				invStr = HbaseUtils.getValue(tablename.toString(), key.toString());
+				log.debug("invStr：" + invStr);
+			} catch (Exception e) {
+				throw new BusiException(AcctMgrError.getErrorCode("0000", "60001"), "查询过程出错：Hbase访问问题！");
+			}
+			long endTime = Long.parseLong(DateUtils.getCurDate("yyyyMMddHHmmssSSS"));
+
+			log.debug("查询Hbase总用时-->" + (endTime - startTime) + "ms");
+			if ((endTime - startTime) > 200) {
+				log.error("查询Hbase总用时-->" + (endTime - startTime) + "ms");
+			}
+
+			// 验证返回串
+			if (com.sitech.common.utils.StringUtils.isEmptyOrNull(invStr)) {
+				throw new BusiException(AcctMgrError.getErrorCode("0000", "60002"), "未查询到发票数据！");
+			}
+		} else {
+			throw new BusiException(AcctMgrError.getErrorCode("0000", "60002"), "未查询到发票数据！");
+		}
+
+		return invStr;
+	}
+
+	/**
+	 * 获取发票文件，fileType 0, 原始PDF文件 1, 黑白PDF 2， PNG图片
+	 */
+	public String getInvFile(String requestSn, String phoneNo, String fileType) {
+		// 获取原始PDF文件
+		String pdfFile = getInvPdfFile(requestSn, phoneNo);
+
+		if (fileType.equals("0")) {
+			return pdfFile;
+		}
+
+		// 生成发送报文
+		MBean serviceMBean = new MBean();
+		String dpi = "150"; // 待转换图像dpi值
+		String zipCode = "0"; // 0,1是否压缩
+		// String fileType = "1"; //1, 黑白PDF 2， PNG图片 3， PDF&PNG
+
+		String content = "<REQUEST_PDF2IMAGE>" + "<dpi>" + dpi + "</dpi>" + "<zipCode>" + zipCode + "</zipCode>" + "<fileType>" + fileType
+				+ "</fileType>" + "<pdfContent>" + pdfFile + "</pdfContent>" + "</REQUEST_PDF2IMAGE>";
+		serviceMBean.setBody("content", content);
+
+		// 调用航信接口
+		String sEaiServe = "EAI_ElecInvoicePrint_SYNPDF";
+		Map<String, String> EaiResult = CrossEntity.callService(sEaiServe, serviceMBean);
+
+		// 对返回报文转码
+		String returnMsgByPd = "";
+		if (EaiResult != null) {
+			try {
+				returnMsgByPd = new String(EaiResult.toString().getBytes("GBK"), "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+			log.debug("===> reQuestSn : {},调用开具转码响应结果:{} ", requestSn, returnMsgByPd);
+		}
+
+		String response = MapUtils.getString(EaiResult, "return", "8888");
+		if (response.equals("8888")) {
+			log.error("===> reQuestSn : " + requestSn + ",调用黑白打印没有返回结果");
+			return "";
+		}
+
+		/**
+		 * 解析XML <?xml version="1.0" encoding="UTF-8" ?> <RESPONSE_PDF2IMAGE> <returnCode>0000</returnCode> <returnMessage>6L2s5o2i5oiQ5Yqf</returnMessage> <zipCode>0</zipCode> <pdfFile>xxxx</pdfFile> <fileType>1</fileType> <pdfPages size="0"/> <pdfPages size="1"> <pdfPage> <pageIndex>0</pageIndex> <imageContent>编码后PNG文件数据</imageContent> <imageWidth>2539</imageWidth> <imageHeight>1642</imageHeight> </pdfPage> </pdfPages> </RESPONSE_PDF2IMAGE>
+		 */
+		int beginIndex = 0;
+		int endIndex = 0;
+		beginIndex = response.indexOf("<returnCode>");
+		endIndex = response.indexOf("</returnCode>");
+		String retCode = response.substring(beginIndex + 12, endIndex);
+
+		beginIndex = response.indexOf("<returnMessage>");
+		endIndex = response.indexOf("</returnMessage>");
+		String returnMsg = response.substring(beginIndex + 15, endIndex);
+
+		if (!retCode.equals("0000")) {
+			log.error("===> reQuestSn : " + requestSn + ",调用黑白打印错误：" + returnMsg);
+			return "";
+		}
+
+		beginIndex = response.indexOf("<pdfFile>");
+		endIndex = response.indexOf("</pdfFile>");
+		String retPdfFile = response.substring(beginIndex + 9, endIndex);
+
+		if (fileType.equals("1")) {
+			return retPdfFile;
+		}
+
+		beginIndex = response.indexOf("<imageContent>");
+		endIndex = response.indexOf("</imageContent>");
+		String retPngFile = response.substring(beginIndex + 14, endIndex);
+
+		return retPngFile;
+
+	}
+
+}

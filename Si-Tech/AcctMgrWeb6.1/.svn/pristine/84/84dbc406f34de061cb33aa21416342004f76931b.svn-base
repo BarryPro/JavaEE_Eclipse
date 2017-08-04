@@ -1,0 +1,137 @@
+package com.sitech.acctmgr.atom.domains.user;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+public class UserPrcEntity {
+
+	@JSONField(name = "ID_NO")
+    private Long idNo;
+
+	@JSONField(name = "PROD_PRCID")
+    private String prodPrcid;
+	
+	@JSONField(name = "PROD_PRC_NAME")
+    private String prodPrcName;
+
+	private String prcType;
+
+	private String prcClass;
+
+	private String effDate;
+
+	private String expDate;
+
+	private String stateDate;
+	
+	private String loginNo;
+	
+	private String expFlag;
+
+	/*半月标识*/
+	private String halfFlag;
+
+	public Long getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(Long idNo) {
+		this.idNo = idNo;
+	}
+
+	public String getProdPrcid() {
+		return prodPrcid;
+	}
+
+	public void setProdPrcid(String prodPrcid) {
+		this.prodPrcid = prodPrcid;
+	}
+
+	public String getProdPrcName() {
+		return prodPrcName;
+	}
+
+	public void setProdPrcName(String prodPrcName) {
+		this.prodPrcName = prodPrcName;
+	}
+
+	public String getPrcType() {
+		return prcType;
+	}
+
+	public void setPrcType(String prcType) {
+		this.prcType = prcType;
+	}
+
+	public String getPrcClass() {
+		return prcClass;
+	}
+
+	public void setPrcClass(String prcClass) {
+		this.prcClass = prcClass;
+	}
+
+	public String getEffDate() {
+		return effDate;
+	}
+
+	public void setEffDate(String effDate) {
+		this.effDate = effDate;
+	}
+
+	public String getExpDate() {
+		return expDate;
+	}
+
+	public void setExpDate(String expDate) {
+		this.expDate = expDate;
+	}
+
+	public String getStateDate() {
+		return stateDate;
+	}
+
+	public void setStateDate(String stateDate) {
+		this.stateDate = stateDate;
+	}
+
+	public String getLoginNo() {
+		return loginNo;
+	}
+
+	public void setLoginNo(String loginNo) {
+		this.loginNo = loginNo;
+	}
+
+	public String getExpFlag() {
+		return expFlag;
+	}
+
+	public void setExpFlag(String expFlag) {
+		this.expFlag = expFlag;
+	}
+
+	public String getHalfFlag() {
+		return halfFlag;
+	}
+
+	public void setHalfFlag(String halfFlag) {
+		this.halfFlag = halfFlag;
+	}
+
+	@Override
+	public String toString() {
+		return "UserPrcEntity{" +
+				"idNo=" + idNo +
+				", prodPrcid='" + prodPrcid + '\'' +
+				", prodPrcName='" + prodPrcName + '\'' +
+				", prcType='" + prcType + '\'' +
+				", prcClass='" + prcClass + '\'' +
+				", effDate='" + effDate + '\'' +
+				", expDate='" + expDate + '\'' +
+				", stateDate='" + stateDate + '\'' +
+				", loginNo='" + loginNo + '\'' +
+				", expFlag='" + expFlag + '\'' +
+				", halfFlag='" + halfFlag + '\'' +
+				'}';
+	}
+}

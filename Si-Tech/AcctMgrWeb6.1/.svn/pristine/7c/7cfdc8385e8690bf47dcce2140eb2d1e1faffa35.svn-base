@@ -1,0 +1,187 @@
+package com.sitech.acctmgr.atom.impl.bill;
+
+import com.sitech.acctmgr.atom.domains.bill.BankBillDispEntity;
+import com.sitech.acctmgr.atom.domains.bill.ItemGroupBillEntity;
+import com.sitech.acctmgr.atom.domains.bill.BillEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.bill.SBankBillQueryInDTO;
+import com.sitech.acctmgr.atom.dto.bill.SBankBillQueryOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.*;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.inter.bill.IBankBill;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+import java.util.*;
+
+import static org.apache.commons.collections.MapUtils.getDouble;
+import static org.apache.commons.collections.MapUtils.getInteger;
+import static org.apache.commons.collections.MapUtils.safeAddToMap;
+
+/**
+ * Created by wangyla on 2016/12/27.
+ */
+@ParamTypes({
+        @ParamType(c = SBankBillQueryInDTO.class, m = "query", oc = SBankBillQueryOutDTO.class)
+})
+public class SBankBill extends AcctMgrBaseService implements IBankBill {
+    private IUser user;
+    private IAccount account;
+    private IBill bill;
+    private IDelay delay;
+
+    @Override
+    public OutDTO query(InDTO inParam) {
+        SBankBillQueryInDTO inDto = (SBankBillQueryInDTO) inParam;
+        log.debug("inDto=" + inDto.getMbean());
+
+        String phoneNo = inDto.getPhoneNo();
+
+        UserInfoEntity userInfo = user.getUserEntityByPhoneNo(phoneNo, true);
+        long idNo = userInfo.getIdNo();
+        long contractNo = userInfo.getContractNo();
+
+        Map<Integer, BankBillDispEntity> indexMap = getBankDispList(idNo, contractNo);
+
+        /*将用户欠费月份的帐单封闭成列表返回*/
+        List<BankBillDispEntity> billList = new ArrayList<>();
+        Set<Integer> billYms = indexMap.keySet();
+        for (Integer billYm : billYms) {
+            billList.add(indexMap.get(billYm));
+        }
+
+        SBankBillQueryOutDTO outDto = new SBankBillQueryOutDTO();
+        outDto.setBillList(billList);
+        log.debug("outDto=" + outDto.toJson());
+        return outDto;
+    }
+
+    /**
+     * 功能：取用户往月欠费的帐单信息
+     *
+     * @param idNo
+     * @param contractNo
+     * @return
+     */
+    private Map<Integer, BankBillDispEntity> getBankDispList(long idNo, long contractNo) {
+        Map<String, Object> inMap = new HashMap<>();
+        safeAddToMap(inMap, "CONTRACT_NO", contractNo);
+        Map<String, Object> delayInfo = delay.getDelayRate(inMap);
+        int delayBegin = getInteger(delayInfo, "DELAY_BEGIN");
+        double delayRate = getDouble(delayInfo, "DELAY_RATE");
+
+        Map<Integer/*欠费月份*/, BankBillDispEntity> indexMap = new HashMap<>(); /*存放欠费帐期的总费用*/
+        List<BillEntity> unPayList = bill.getUnpayOweOnBillCycle(contractNo, idNo);
+        for (BillEntity unpayBillEnt : unPayList) {
+            int billMonth = unpayBillEnt.getBillCycle();
+            long oweFee = unpayBillEnt.getOweFee();
+            if (oweFee <= 0) {
+                continue;
+            }
+
+            //获取欠费月已缴帐单信息
+            Map<String, Long> payedMap = bill.getSumPayedInfo(contractNo, idNo, billMonth);
+
+            BankBillDispEntity bankBillEnt = new BankBillDispEntity();
+            bankBillEnt.setYearMonth(billMonth);
+            bankBillEnt.setShouldPay(unpayBillEnt.getShouldPay() + payedMap.get("SHOULD_PAY"));
+            bankBillEnt.setFavourFee(unpayBillEnt.getFavourFee() + payedMap.get("FAVOUR_FEE"));
+            bankBillEnt.setPayedPrepay(unpayBillEnt.getPayedPrepay() + payedMap.get("PAYED_PREPAY"));
+            bankBillEnt.setPayedLater(unpayBillEnt.getPayedLater() + payedMap.get("PAYED_LATER"));
+            bankBillEnt.setOweFee(unpayBillEnt.getOweFee() + payedMap.get("OWE_FEE"));
+
+            int billBegin = unpayBillEnt.getBillBegin();
+            inMap = new HashMap<>();
+            safeAddToMap(inMap, "BILL_BEGIN", billBegin);
+            safeAddToMap(inMap, "OWE_FEE", oweFee);
+            safeAddToMap(inMap, "DELAY_BEGIN", delayBegin);
+            safeAddToMap(inMap, "DELAY_RATE", delayRate);
+            safeAddToMap(inMap, "BILL_CYCLE", billMonth);
+            safeAddToMap(inMap, "TOTAL_DATE", DateUtils.getCurDay());
+            long delayFee = delay.getDelayFee(inMap);
+            bankBillEnt.setDelayFee(delayFee);
+
+            List<ItemGroupBillEntity> bill1List = bill.getBillListByItemGroup(contractNo, billMonth, "D00"); //D00表示银行帐单展示帐目组，对应130a
+            for (ItemGroupBillEntity biillEnt : bill1List) {
+                int pid = Integer.parseInt(biillEnt.getAcctItemGroup());
+                long realFee = biillEnt.getRealFee();
+                switch (pid) {
+                    case 1:
+                        bankBillEnt.setFee1(bankBillEnt.getFee1() + realFee);
+                        break;
+                    case 2:
+                        bankBillEnt.setFee2(bankBillEnt.getFee2() + realFee);
+                        break;
+                    case 3:
+                        bankBillEnt.setFee3(bankBillEnt.getFee3() + realFee);
+                        break;
+                    case 4:
+                        bankBillEnt.setFee4(bankBillEnt.getFee4() + realFee);
+                        break;
+                    case 5:
+                        bankBillEnt.setFee5(bankBillEnt.getFee5() + realFee);
+                        break;
+                    case 6:
+                        bankBillEnt.setFee6(bankBillEnt.getFee6() + realFee);
+                        break;
+                    case 7:
+                        bankBillEnt.setFee7(bankBillEnt.getFee7() + realFee);
+                        break;
+                    case 8:
+                        bankBillEnt.setFee8(bankBillEnt.getFee8() + realFee);
+                        break;
+                    case 9:
+                        bankBillEnt.setFee9(bankBillEnt.getFee9() + realFee);
+                        break;
+                    case 10:
+                        bankBillEnt.setFee10(bankBillEnt.getFee10() + realFee);
+                        break;
+                    case 11:
+                        bankBillEnt.setFee11(bankBillEnt.getFee11() + realFee);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            indexMap.put(billMonth, bankBillEnt);
+
+        }
+        return indexMap;
+    }
+
+    public IUser getUser() {
+        return user;
+    }
+
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public IAccount getAccount() {
+        return account;
+    }
+
+    public void setAccount(IAccount account) {
+        this.account = account;
+    }
+
+    public IBill getBill() {
+        return bill;
+    }
+
+    public void setBill(IBill bill) {
+        this.bill = bill;
+    }
+
+    public IDelay getDelay() {
+        return delay;
+    }
+
+    public void setDelay(IDelay delay) {
+        this.delay = delay;
+    }
+}

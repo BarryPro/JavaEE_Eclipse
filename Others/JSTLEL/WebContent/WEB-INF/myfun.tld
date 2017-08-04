@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	
+	
+	<tlib-version>1.0</tlib-version>
+	<short-name>myfunctionlib</short-name>
+	
+	<!-- 定义该标签库的URI -->
+	<uri>http://www.belong.org/myfun</uri>
+	<function>
+		<name>converse</name>
+		<function-class>com.belong.fun.MyFun</function-class>
+		<function-signature> java.lang.String converse(java.lang.String)</function-signature>
+	
+	</function>
+	
+	<function>
+		<name>count</name>
+		<function-class>com.belong.fun.MyFun</function-class>
+		<function-signature> int count(java.lang.String)</function-signature>
+	
+	</function>
+	
+</taglib>

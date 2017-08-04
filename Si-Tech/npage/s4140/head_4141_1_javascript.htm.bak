@@ -1,0 +1,280 @@
+<%
+/********************
+ * version v2.0
+ * 开发商: si-tech
+ * update by zhangshuaia @ 2009-08-05
+ ********************/
+%>
+<script language=javascript>
+<!--
+  //core.loadUnit("debug");
+  //core.loadUnit("rpccore");
+ 
+onload=function()
+{
+	//document.all.phoneno.focus();
+	//self.status="";
+}
+
+var change_flag = "";   
+
+function doReset()
+{
+		window.location.href = "f4141.jsp";
+}
+
+function tochange(par)
+{
+	if(par == "secondclass")//查询二级原因
+	{
+		change_flag = "flag_secondclass";
+		var FirstClass = document.all.FirstClass[document.all.FirstClass.selectedIndex].value;
+		var FirstClass_text = document.all.FirstClass[document.all.FirstClass.selectedIndex].text;
+		 
+		if(FirstClass == "1003" || FirstClass == "1006" || FirstClass == "1009" || FirstClass == "1012" || FirstClass == "1015" || FirstClass == "1018" || FirstClass == "1021" || FirstClass == "1024" || FirstClass == "1027" || FirstClass == "1030" || FirstClass == "1033" || FirstClass == "1036" || FirstClass == "1039")
+		{
+			document.all.spEnterCode.disabled = false;
+			document.all.spTranCode.disabled = false;
+			document.all.qryId_No.disabled = false;
+			document.all.spinfo.style.display = "block";
+			document.all.sptime1.style.display = "block";
+			document.all.sptime2.style.display = "block";
+			/*if(FirstClass == "1003")
+			{*/
+				document.all.sptime1.style.display = "none";
+				document.all.sptime2.style.display = "none";
+				document.all.sptime3.style.display = "block";
+				document.all.sptime4.style.display = "block";
+				document.all.sptime5.style.display = "block";
+				//补充需求
+				document.all.sptime6.style.display = "block";
+				//xl add for gongjian
+				document.all.spname_show.style.display = "block";
+			//}
+		}
+		else
+		{
+			document.all.spinfo.style.display = "none";
+			document.all.sptime1.style.display = "none";
+			document.all.sptime2.style.display = "none";
+			document.all.sptime3.style.display = "none";
+			document.all.sptime4.style.display = "none";
+			document.all.sptime5.style.display = "none";
+			//补充需求
+			document.all.sptime6.style.display = "none";
+			//xl add for gongjian
+			document.all.spname_show.style.display = "none";
+			//xl add for fanyan beign
+			if(document.all.FirstClass[document.all.FirstClass.selectedIndex].text=="客户原因")
+			{
+				document.all.khyy_note.style.display = "block";
+			}
+			//end of fanyan
+		}
+
+		var myPacket = new AJAXPacket("select_rpc.jsp","正在获得二级原因信息，请稍候......");
+		var sqlStr = "select second_code,second_name from SrefundSecond where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and valid_flag='1'";
+	}
+	else if(par == "thirdclass")//查询三级原因
+	{
+		change_flag = "flag_thirdclass";
+		var FirstClass = document.all.FirstClass[document.all.FirstClass.selectedIndex].value;
+		//alert("FirstClass is "+FirstClass);
+		var SecondClass = document.all.SecondClass[document.all.SecondClass.selectedIndex].value;
+		var FirstClass_text = document.all.FirstClass[document.all.FirstClass.selectedIndex].text; 
+		var SecondClass_text = document.all.SecondClass[document.all.SecondClass.selectedIndex].text;
+		//xl add for IVR
+		var ivrCk = document.all.ivrcheck;
+		var myPacket = new AJAXPacket("select_rpc.jsp","正在获得三级原因信息，请稍候......");
+		//if(FirstClass=="1003" &&SecondClass=="1006")
+		/*
+		if(FirstClass_text=="sp责任")
+		{
+			if(FirstClass_text=="sp责任" &&(!ivrCk.checked) &&(SecondClass!="") )
+			{
+				var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag='2' ";
+			}
+			else if(FirstClass_text=="sp责任" &&(ivrCk.checked) &&(SecondClass!=""))
+			{
+				var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag ='3' ";
+			}
+		}
+		
+		else
+		{
+			var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag='1'";
+		}*/
+		if(FirstClass_text=="sp责任")
+		{
+			document.all.ivrcheck.disabled=false;
+			if(!ivrCk.checked  )
+			{
+				var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag='2' ";
+			}
+			else
+			{
+				var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag ='3' ";
+			}
+		}
+		
+		else
+		{
+			var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag='1'";
+		}
+		
+	}
+	
+	myPacket.data.add("sqlStr",sqlStr);
+	myPacket.data.add("retType","reason");
+	core.ajax.sendPacket(myPacket);
+	myPacket=null;
+}
+/*xl add 单选框*/
+function ivrCheck()
+{
+	var FirstClass = document.all.FirstClass[document.all.FirstClass.selectedIndex].value;
+		//alert("FirstClass is "+FirstClass);
+		var SecondClass = document.all.SecondClass[document.all.SecondClass.selectedIndex].value;
+	//xl add for IVR
+		var ivrCk = document.all.ivrcheck;
+		var myPacket = new AJAXPacket("select_rpc.jsp","正在获得三级原因信息，请稍候......");
+		
+		if(!ivrCk.checked  )
+		{
+			var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag='2' ";
+		}
+		else
+		{
+			var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag ='3' ";
+		}
+	
+	myPacket.data.add("sqlStr",sqlStr);
+	myPacket.data.add("retType","reason");
+	core.ajax.sendPacket(myPacket);
+	myPacket=null;
+}
+function simChk()
+{
+	//alert(document.all.phoneno1.value);
+	
+	if(((document.all.phoneno1.value).trim()).length<1)
+	{
+  	rdShowMessageDialog("客户投诉号码不能为空！");
+ 	  return;
+	} 
+
+	//if(((document.all.spEnterCode.value).trim()).length<1){
+  //	rdShowMessageDialog("Sp企业代码不能为空！");
+ 	//  return;
+	//} 
+
+	//if(((document.all.spTranCode.value).trim()).length<1){
+  //	rdShowMessageDialog("业务代码不能为空！");
+ 	//  return;
+	//} 
+
+	var myPacket = new AJAXPacket("post4141Qry.jsp","正在查询客户，请稍候......");
+	myPacket.data.add("phoneno1",(document.all.phoneno1.value).trim());
+	myPacket.data.add("opCode",(document.all.op_code.value).trim());
+	myPacket.data.add("EnterCode",(document.all.spEnterCode.value).trim());
+	myPacket.data.add("TranCode",(document.all.spTranCode.value).trim());	
+	myPacket.data.add("retType","spcheck");
+	core.ajax.sendPacket(myPacket);
+	myPacket = null;
+}
+  
+ //--------4---------doProcess函数----------------
+function doProcess(packet)
+{
+	var vRetPage=packet.data.findValueByName("rpc_page");  
+	var retCode = packet.data.findValueByName("retCode");
+	var retMsg = packet.data.findValueByName("retMsg");
+	var retType = packet.data.findValueByName("retType");
+	var triListData = packet.data.findValueByName("tri_list");
+  	
+	var cust_name = packet.data.findValueByName("cust_name");
+	var sp_sum = packet.data.findValueByName("sp_sum");
+	
+	var first_order_date = packet.data.findValueByName("first_order_date");
+	var opr_time = packet.data.findValueByName("opr_time");
+	var end_time = packet.data.findValueByName("end_time");
+	var option0 = new Option("--请选择--","");
+	if(retType == "reason")
+	{
+		var triList=new Array(triListData.length);
+		if(change_flag == "flag_secondclass")
+		{
+			  triList[0]="SecondClass";
+			  document.all("SecondClass").length=0;
+			  document.all("SecondClass").add(option0);
+			  document.all("SecondClass").options.length=triListData.length+1;//triListData[i].length;
+			  for(j=0;j<triListData.length;j++)
+			  {
+				document.all("SecondClass").options[j+1].text=triListData[j][1];
+				document.all("SecondClass").options[j+1].value=triListData[j][0];
+			  }
+
+			  document.all("SecondClass").options[0].selected=true;
+			  tochange("thirdclass");
+		}
+		else if(change_flag == "flag_thirdclass")
+		{
+			  triList[0]="ThirdClass";
+			  document.all("ThirdClass").length=0;
+			  document.all("ThirdClass").add(option0);
+			  document.all("ThirdClass").options.length=triListData.length+1;//triListData[i].length;
+			  for(j=0;j<triListData.length;j++)
+			  {
+				document.all("ThirdClass").options[j+1].text=triListData[j][1];
+				document.all("ThirdClass").options[j+1].value=triListData[j][0];
+			  }
+			  document.all("ThirdClass").options[0].selected=true;
+		}
+		
+	}
+	else if(retType == "spcheck")
+	{
+		if(retCode == 0){
+			rdShowMessageDialog("验证成功!");
+			document.all.useing_time.value = first_order_date.substr(0,8);
+			document.all.op_time.value = opr_time.substr(0,8);
+			document.all.end_time.value = end_time.substr(0,8);
+			document.all.sptime1.style.display = "block";
+			document.all.sptime2.style.display = "block";
+		}else
+		{
+			rdShowMessageDialog("错误:"+ retCode + "->" + retMsg,0);
+			return;
+		} 		
+	} 
+}
+
+//-------2---------验证及提交函数-----------------
+
+function printCommit(){
+    getAfterPrompt();
+	//校验
+  if(!checkElement(document.f4141_1.phoneno)) return false;	
+  
+	if (document.all.FirstClass.value == 0)
+	{
+		rdShowMessageDialog("请一级退费原因!");
+		return;
+	}
+	if (document.all.SecondClass.value == 0)
+	{
+		rdShowMessageDialog("请二级退费原因!");
+		return;
+	}  
+	if (document.all.ThirdClass.value == 0)
+	{
+		rdShowMessageDialog("请三级退费原因!");
+		return;
+	}  
+	
+	f4141.submit();
+   
+  }
+
+ //-->
+</script>

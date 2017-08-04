@@ -1,0 +1,231 @@
+package com.sitech.acctmgr.atom.dto.volume;
+
+import java.util.List;
+
+import com.sitech.acctmgr.atom.domains.volume.PsIdListEntity;
+import com.sitech.acctmgr.common.dto.CommonInDTO;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+/**
+ * Created by wangyla on 2017/3/28.
+ */
+public class SGrpVolumeDataSynInDTO extends CommonInDTO {
+    @ParamDesc(path = "BUSI_INFO.ORDER_ID", cons = ConsType.CT001, len = "20", desc = "订单号（流水）", memo = "")
+    private String orderId;
+    @ParamDesc(path = "BUSI_INFO.UNIT_ID_NO", cons = ConsType.CT001, len = "18", desc = "集团用户ID", memo = "")
+    private long unitIdNo;
+    @ParamDesc(path = "BUSI_INFO.GOODS_ID", cons = ConsType.CT001, len = "20", desc = "商品ID", memo = "")
+    private String goodsId;
+
+    /*集团批发数据入参*/
+    @ParamDesc(path = "BUSI_INFO.PS_ID", cons = ConsType.CT001, len = "20", desc = "库存批次ID  入库", memo = "")
+    private String psId;
+    @ParamDesc(path = "BUSI_INFO.BUYS_DATE", cons = ConsType.CT001, len = "14", desc = "购买时间", memo = "格式：yyyymmddhhmiss")
+    private String buysDate;
+    @ParamDesc(path = "BUSI_INFO.BUYS_NUMBER", cons = ConsType.CT001, len = "18", desc = "购买数量", memo = "")
+    private long buysNumber;
+    @ParamDesc(path = "BUSI_INFO.BUYS_SIZE", cons = ConsType.CT001, len = "18", desc = "购买单商品流量大小（M） ", memo = "")
+    private long buysSize;
+    @ParamDesc(path = "BUSI_INFO.BUYS_PRICE", cons = ConsType.CT001, len = "18", desc = "购买单价", memo = "")
+    private long buysPrice;
+    @ParamDesc(path = "BUSI_INFO.SALE_EFF_DATE", cons = ConsType.CT001, type = "String", len = "14", desc = "可售卖生效时间", memo = "格式：yyyymmddhhmiss")
+    private String saleEffDate;
+    @ParamDesc(path = "BUSI_INFO.SALE_EXP_DATE", cons = ConsType.CT001, type = "String", len = "14", desc = "可售卖失效时间", memo = "格式：yyyymmddhhmiss")
+    private String saleExpDate;
+
+    /*集团零售/赠送入参*/
+    @ParamDesc(path = "BUSI_INFO.PS_ID_LIST", cons = ConsType.PLUS, type = "complex", len = "", desc = "", memo = "PS_ID && SALE_NUMBER合并")
+    private List<PsIdListEntity> psIdList;
+    @ParamDesc(path = "BUSI_INFO.SALE_DATE", cons = ConsType.CT001, len = "14", desc = "售卖时间", memo = "格式：yyyymmddhhmiss")
+    private String saleDate;
+    @ParamDesc(path = "BUSI_INFO.SALE_SIZE", cons = ConsType.CT001, len = "18", desc = "售卖单商品流量大小（M） ", memo = "")
+    private long saleSize;
+    @ParamDesc(path = "BUSI_INFO.SALE_PRICE", cons = ConsType.CT001, len = "18", desc = "售卖单价", memo = "")
+    private long salePrice;
+    @ParamDesc(path = "BUSI_INFO.BUYER_ID", cons = ConsType.CT001, len = "18", desc = "购买者ID_NO", memo = "")
+    private long buyerId;
+    @ParamDesc(path = "BUSI_INFO.BUYER_PHONE", cons = ConsType.CT001, len = "18", desc = "购买者手机号", memo = "")
+    private String buyerPhone;
+    @ParamDesc(path = "BUSI_INFO.USE_EFF_DATE", cons = ConsType.CT001, len = "14", desc = "可售卖生效时间", memo = "格式：yyyymmddhhmiss")
+    private String useEffDate;
+    @ParamDesc(path = "BUSI_INFO.USE_EXP_DATE", cons = ConsType.CT001, len = "14", desc = "可售卖失效时间", memo = "格式：yyyymmddhhmiss")
+    private String useExpDate;
+
+    @Override
+    public void decode(MBean arg0) {
+        super.decode(arg0);
+
+        orderId = arg0.getStr(getPathByProperName("orderId"));
+        psId = arg0.getStr(getPathByProperName("psId"));
+        if (StringUtils.isNotEmpty(arg0.getStr(getPathByProperName("unitIdNo")))) {
+            unitIdNo = Long.parseLong(arg0.getStr(getPathByProperName("unitIdNo")));
+        }
+        goodsId = arg0.getStr(getPathByProperName("goodsId"));
+        if (opCode.equals("10011")) {
+            buysDate = arg0.getStr(getPathByProperName("buysDate"));
+            buysNumber = Long.parseLong(arg0.getStr(getPathByProperName("buysNumber")));
+            buysSize = Long.parseLong(arg0.getStr(getPathByProperName("buysSize")));
+            buysPrice = Long.parseLong(arg0.getStr(getPathByProperName("buysPrice")));
+            saleEffDate = arg0.getStr(getPathByProperName("saleEffDate"));
+            saleExpDate = arg0.getStr(getPathByProperName("saleExpDate"));
+        } else if (opCode.equals("10013")) {
+            saleDate = arg0.getStr(getPathByProperName("saleDate"));
+            saleSize = Long.parseLong(arg0.getStr(getPathByProperName("saleSize")));
+            salePrice = Long.parseLong(arg0.getStr(getPathByProperName("salePrice")));
+            buyerId = Long.parseLong(arg0.getStr(getPathByProperName("buyerId")));
+            buyerPhone = arg0.getStr(getPathByProperName("buyerPhone"));
+            useEffDate = arg0.getStr(getPathByProperName("useEffDate"));
+            useExpDate = arg0.getStr(getPathByProperName("useExpDate"));
+            psIdList = arg0.getList(getPathByProperName("psIdList"), PsIdListEntity.class);
+        }
+
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPsId() {
+        return psId;
+    }
+
+    public void setPsId(String psId) {
+        this.psId = psId;
+    }
+
+    public long getUnitIdNo() {
+        return unitIdNo;
+    }
+
+    public void setUnitIdNo(long unitIdNo) {
+        this.unitIdNo = unitIdNo;
+    }
+
+    public String getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public String getBuysDate() {
+        return buysDate;
+    }
+
+    public void setBuysDate(String buysDate) {
+        this.buysDate = buysDate;
+    }
+
+    public long getBuysNumber() {
+        return buysNumber;
+    }
+
+    public void setBuysNumber(long buysNumber) {
+        this.buysNumber = buysNumber;
+    }
+
+    public long getBuysSize() {
+        return buysSize;
+    }
+
+    public void setBuysSize(long buysSize) {
+        this.buysSize = buysSize;
+    }
+
+    public long getBuysPrice() {
+        return buysPrice;
+    }
+
+    public void setBuysPrice(long buysPrice) {
+        this.buysPrice = buysPrice;
+    }
+
+    public String getSaleEffDate() {
+        return saleEffDate;
+    }
+
+    public void setSaleEffDate(String saleEffDate) {
+        this.saleEffDate = saleEffDate;
+    }
+
+    public String getSaleExpDate() {
+        return saleExpDate;
+    }
+
+    public void setSaleExpDate(String saleExpDate) {
+        this.saleExpDate = saleExpDate;
+    }
+
+    public String getSaleDate() {
+        return saleDate;
+    }
+
+    public void setSaleDate(String saleDate) {
+        this.saleDate = saleDate;
+    }
+
+    public long getSaleSize() {
+        return saleSize;
+    }
+
+    public void setSaleSize(long saleSize) {
+        this.saleSize = saleSize;
+    }
+
+    public long getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(long salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public long getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(long buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public String getBuyerPhone() {
+        return buyerPhone;
+    }
+
+    public void setBuyerPhone(String buyerPhone) {
+        this.buyerPhone = buyerPhone;
+    }
+
+    public String getUseEffDate() {
+        return useEffDate;
+    }
+
+    public void setUseEffDate(String useEffDate) {
+        this.useEffDate = useEffDate;
+    }
+
+    public String getUseExpDate() {
+        return useExpDate;
+    }
+
+    public void setUseExpDate(String useExpDate) {
+        this.useExpDate = useExpDate;
+    }
+
+	public List<PsIdListEntity> getPsIdList() {
+		return psIdList;
+	}
+
+	public void setPsIdList(List<PsIdListEntity> psIdList) {
+		this.psIdList = psIdList;
+	}
+
+}

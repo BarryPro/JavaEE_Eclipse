@@ -1,0 +1,9 @@
+package com.sitech.acctmgr.atom.busi.pay.trans;
+
+public class TransAccounRel extends TransAccount {
+	
+	public String getTransTypes(){
+		return "0";
+	}
+	
+}

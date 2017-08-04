@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="balTaxinvoicePre">
+	<typeAlias alias="taxInvoicePre" type="com.sitech.acctmgr.atom.domains.invoice.BalTaxinvoicePre"/>
+	<insert id="insertInvoicePre" parameterClass="taxInvoicePre">
+		insert into
+		BAL_TAXINVOICE_PRE
+		(ID_NO,
+		CONTRACT_NO,
+		PHONE_NO,
+		INVOICE_ACCEPT,
+		INVOICE_TIME,
+		INVOICE_LOGIN,
+		OP_CODE,
+		REAL_INV_MONEY,
+		CURRENT_INVLEFT,
+		PRE_INV_MONEY,
+		STATUS,
+		PAY_SN,
+		PAY_LOGIN,
+		PAY_TIME,
+		CHG_FLAG)
+		values
+		(#idNo#,
+		#contractNo#,
+		#phoneNo#,
+		#invoiceAccept#,
+		sysdate,
+		#invoiceLogin#,
+		#opCode#,
+		#realInvMoney#,
+		#currentInvleft#,
+		#preInvMoney#,
+		#status#,
+		#paySn#,
+		#payLogin#,
+		#payTime#,
+		#chgFlag#)
+	</insert>
+	
+	<update id="updateStatus" parameterClass="Map">
+		update BAL_TAXINVOICE_PRE set CHG_FLAG=#CHG_FLAG#
+		WHERE INVOICE_ACCEPT=#PRINT_SN#
+	</update>
+
+	<select id="qTaxInvoiceTax" parameterClass="Map" resultClass="taxInvoicePre">
+		select ID_NO idNo,
+		CONTRACT_NO contractNo,
+		PHONE_NO phoneNo,
+		INVOICE_ACCEPT invoiceAccept,
+		TO_CHAR(INVOICE_TIME, 'YYYY/MM/DD HH:MI:SS') invoiceTime,
+		INVOICE_LOGIN invoiceLogin,
+		OP_CODE opCode,
+		REAL_INV_MONEY realInvMoney,
+		CURRENT_INVLEFT currentInvleft,
+		PRE_INV_MONEY preInvMoney,
+		STATUS status,
+		PAY_SN paySn,
+		PAY_LOGIN payLogin,
+		TO_CHAR(PAY_TIME, 'YYYY/MM/DD HH:MI:SS') payTime,
+		CHG_FLAG chgFlag
+		from BAL_TAXINVOICE_PRE
+		where 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="INVOICE_ACCEPT">
+				AND INVOICE_ACCEPT=#INVOICE_ACCEPT#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATUS">
+				and STATUS=#STATUS#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CHG_FLAG">
+				AND CHG_FLAG=#CHG_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+
+		</dynamic>
+	</select>
+	
+	
+	<update id="updatePaysn" parameterClass="Map">
+		UPDATE BAL_TAXINVOICE_PRE SET STATUS=#STATUS#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PAY_SN_UPDATE">
+				 ,PAY_SN = #PAY_SN_UPDATE#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PAY_TIME">
+				 ,PAY_TIME = #PAY_TIME#
+			</isNotEmpty>
+		</dynamic>
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="LOGIN_ACCPET">
+				AND LOGIN_ACCEPT=#LOGIN_ACCPET#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+</sqlMap>

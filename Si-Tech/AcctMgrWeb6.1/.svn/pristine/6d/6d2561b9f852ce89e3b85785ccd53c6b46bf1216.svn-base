@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pricing_combine">
+
+    <resultMap class="com.sitech.acctmgr.atom.domains.query.PrcIdTransEntity" id="PrcIdTransEntity">
+        <result column="PRC_ID" property="prcId"/>
+        <result column="DETAIL_CODE" property="detailCode"/>
+        <result column="DETAIL_TYPE" property="detailType"/>
+        <result column="DETAIL_NOTE" property="detailNote"/>
+        <result column="REGION_CODE" property="regionCode"/>
+        <result column="TYPE_NAME" property="detailTypeName"/>
+        <result column="BARGAINPARA_FLAG" property="bargainparaFlag"/>
+    </resultMap>
+
+    <select id="getModeList" parameterClass="Map" resultMap="PrcIdTransEntity">
+        SELECT B.PRC_ID, A.DETAIL_CODE, A.DETAIL_NOTE, A.DETAIL_TYPE, A.BARGAINPARA_FLAG, '23' || B.BELONG_CODE as REGION_CODE,
+        trim(C.TYPE_NAME) as TYPE_NAME
+        FROM PRICING_COMBINE A, PD_TRANSPRODPRC B, SBILLDETNAME C
+        WHERE A.PRICING_PLAN_ID = B.PRICING_PLAN_ID
+        AND A.DETAIL_TYPE = C.DETAIL_TYPE
+        AND B.PRC_ID = #PRC_ID#
+        AND B.BELONG_CODE = #REGION_CODE#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="DETAIL_TYPES">
+                A.DETAIL_TYPE in
+                <iterate open="(" close=")" conjunction="," property="DETAIL_TYPES">
+                    #DETAIL_TYPES[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BARGAINPARA_FLAG">
+                A.BARGAINPARA_FLAG = #BARGAINPARA_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY FAV_ORDER
+    </select>
+
+
+    <select id="qryCount" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(1) 
+		FROM PD_TRANSPRODPRC A, PRICING_COMBINE B, SGRPTOTCODE C 
+		WHERE A.PRICING_PLAN_ID = B.PRICING_PLAN_ID 
+		AND B.DETAIL_CODE = C.TOTAL_CODE
+		AND A.PRC_ID = #PRC_ID#
+		AND A.BELONG_CODE = #REGION_CODE#
+		AND B.DETAIL_TYPE = #DETAIL_TYPE#
+		AND B.DETAIL_CODE = #DETAIL_CODE#	 
+		AND C.FAVOUR1 <![CDATA[ < ]]> 0 
+		AND C.STEP_VAL2 <![CDATA[ > ]]> 0
+		AND ABS(C.FAVOUR1) = C.STEP_VAL2
+		AND C.FAVOUR2 = 0		
+	</select>
+
+    <select id="qryGprsMinOrder" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT distinct C.SUBPRIORITY
+		FROM PD_TRANSPRODPRC A, PRICING_COMBINE B, T_PP_BILLPRCPLAN_P C	
+		WHERE A.PRICING_PLAN_ID=B.PRICING_PLAN_ID
+		AND B.DETAIL_CODE=C.BILLPRCID 
+		AND B.DETAIL_TYPE='0' 
+		AND C.BILLPRCSUBTYPE='gg'
+		AND A.PRC_ID = #PRC_ID#
+		AND A.BELONG_CODE = #REGION_CODE#
+	</select>
+
+    <select id="qryCarryGprsInfo" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(1) 
+		FROM PD_TRANSPRODPRC A, PRICING_COMBINE B, T_PP_BILLPRCPLAN_P C
+		WHERE   ((C.QUERY_FLAG_NEW = '1' AND SYSDATE >= C.CHANGE_DATE) 
+		OR   (C.QUERY_FLAG = '1' AND SYSDATE <![CDATA[ < ]]> C.CHANGE_DATE))
+		AND B.DETAIL_CODE = C.BILLPRCID 
+		AND B.DETAIL_TYPE='0' 
+		AND A.PRICING_PLAN_ID = B.PRICING_PLAN_ID
+		AND A.PRC_ID = #PRC_ID#
+		AND A.BELONG_CODE = #REGION_CODE#
+	</select>
+
+    <select id="qryVoiceDisOrder" parameterClass="Map" resultClass="java.lang.Integer">
+        SELECT MAX(C.DISCOUNT_ORDER)
+        FROM PD_TRANSPRODPRC A, PRICING_COMBINE B, FAV_INDEX C
+        WHERE A.PRICING_PLAN_ID = B.PRICING_PLAN_ID
+        AND B.DETAIL_CODE = C.FAV_TYPE
+        AND B.DETAIL_TYPE = '0'
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="EXPECT">
+                AND (SUBSTR(C.AFFECT_SERVICE,1,1) != 'g' AND SUBSTR(C.AFFECT_SERVICE,1,1) != 'v')
+            </isNotEmpty>
+            <isEmpty prepend="" property="EXPECT">
+                AND SUBSTR(C.AFFECT_SERVICE,1,1) = 'v'
+            </isEmpty>
+        </dynamic>
+        AND A.PRC_ID = #PRC_ID#
+        AND A.BELONG_CODE = #REGION_CODE#
+    </select>
+
+    <select id="qryWlanOrder" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT MAX(C.DISCOUNT_ORDER)
+		FROM PD_TRANSPRODPRC A,PRICING_COMBINE B,FAV_INDEX C ,DATAFAV_CFEE_PLAN D
+		WHERE A.PRICING_PLAN_ID=B.PRICING_PLAN_ID 
+		AND B.DETAIL_TYPE='0' 
+		AND B.DETAIL_CODE=C.FAV_TYPE
+		AND C.FAV_PLAN=D.FAV_PLAN
+		AND D.SYSTEM_TYPE='wl'
+		AND A.PRC_ID = #PRC_ID#
+		AND A.BELONG_CODE = #REGION_CODE#
+	</select>
+
+    <select id="qryShareCount" parameterClass="Map" resultClass="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PRICING_COMBINE A, PD_TRANSPRODPRC B , QUERY_BY_FAVTYPE C
+        WHERE A.PRICING_PLAN_ID = B.PRICING_PLAN_ID
+        AND A.DETAIL_CODE = C.FAV_TYPE
+        AND B.PRC_ID = C.OFFER_ID
+        AND B.BELONG_CODE = #REGION_CODE#
+        AND B.PRC_ID = #PRC_ID#
+    </select>
+
+    <select id="qrySendCount" parameterClass="Map" resultClass="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM QUERY_BY_FAVTYPE
+        WHERE OFFER_ID = #PRC_ID#
+        AND FAV_TYPE = #FAV_TYPE#
+    </select>
+</sqlMap>

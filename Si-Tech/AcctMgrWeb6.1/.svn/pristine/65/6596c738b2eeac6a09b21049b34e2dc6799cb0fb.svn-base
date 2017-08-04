@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="tt_wcityinvoice">
+
+	<typeAlias alias="TtWcityInvoice" type="com.sitech.acctmgr.atom.domains.invoice.TtWcityinvoice"/>
+	
+	<select id="qCityInvoice" parameterClass="Map" resultClass="TtWcityInvoice">
+		SELECT S_INVOICE_NUMBER sInvoiceNumber,
+		E_INVOICE_NUMBER eInvoiceNumber,
+		INVOICE_NUMBER invoiceNumber,
+		INVOICE_CODE invoiceCode,
+		REGION_CODE regionCode,
+		LOGIN_NO loginNo,
+		OP_TIME opTime,
+		YEAR_MONTH yearMonth,
+		FLAG flag
+		FROM TT_WCITYINVOICE
+		WHERE 1=1
+		AND INVOICE_CODE=#INVOICE_CODE#
+		AND FLAG='N'
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="REGION_CODE">
+				AND REGION_CODE = #REGION_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="insCityInvoice" parameterClass="TtWcityInvoice">
+		INSERT INTO TT_WCITYINVOICE
+		(LOGIN_ACCEPT,
+		S_INVOICE_NUMBER,
+		E_INVOICE_NUMBER,
+		INVOICE_NUMBER,
+		INVOICE_CODE,
+		REGION_CODE,
+		LOGIN_NO,
+		OP_TIME,
+		YEAR_MONTH,
+		FLAG)
+		values
+		(#loginAccept#,
+		#sInvoiceNumber#,
+		#eInvoiceNumber#,
+		#invoiceNumber#,
+		#invoiceCode#,
+		#regionCode#,
+		#loginNo#,
+		SYSDATE,
+		#yearMonth#,
+		#flag#)
+	</insert>
+	
+</sqlMap>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="act_collfile_info">
+
+    <insert id="instCollFileInfo" parameterClass="Map">
+      INSERT INTO act_collfile_info (FILE_NAME, YEAR_MONTH, LOGIN_NO,OP_TIME, REMARK)
+      VALUES (#FILE_NAME#,#YEAR_MONTH#,#LOGIN_NO#, sysdate, #REMARK#)
+    </insert>
+
+</sqlMap>

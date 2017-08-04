@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pub_idroute_conf">
+	
+	<typeAlias alias="serverInfo" type="com.sitech.acctmgr.net.impl.SimpleServerInfoImpl" />
+	
+	<resultMap class="serverInfo" id="routeInfo">
+		<result property="ip" column="ip" />
+		<result property="port" column="port" />
+	</resultMap>
+	
+	<select id="getRouteConf" parameterClass="Map" resultMap="routeInfo">
+		select 
+			decode ( SWITCH_FLAG, '0', ROUTE_IP, '1', EM_ROUTE_IP ) ip, 
+			decode ( SWITCH_FLAG, '0', ROUTE_PORT, '1', EM_ROUTE_PORT ) port 
+		from 
+      		PUB_IDROUTE_CONF
+	    WHERE 
+	      QRY_TYPE = #QRY_TYPE#
+	      AND #ID# BETWEEN BEGIN_ID AND END_ID
+	      AND (ID_TAIL = 'X' OR ID_TAIL = #ID_TAIL#)
+	      AND APP_NAME = #APP_NAME#
+	</select>
+	
+	<select id="getOnlineFlag" parameterClass="Map" resultClass="java.lang.String">
+		select 
+			ONLINE_FLAG
+		from 
+      		PUB_IDROUTE_CONF
+	    WHERE 
+	      APP_NAME = #APP_NAME#
+
+	      AND #ID# BETWEEN BEGIN_ID AND END_ID
+	      AND (ID_TAIL = 'X' OR ID_TAIL = #ID_TAIL#)
+	      AND rownum &lt; 2
+	</select>
+	
+</sqlMap>
+  
+   

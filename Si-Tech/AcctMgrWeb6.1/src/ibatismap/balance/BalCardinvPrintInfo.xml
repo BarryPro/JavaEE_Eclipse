@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_cardinvprint_info">
+
+  <insert id="icardinvprint"  parameterClass="Map">
+   insert into BAL_CARDINVPRINT_INFO
+             (FOREIGN_SN, GROUP_ID, OP_CODE, LOGIN_NO, OP_TIME, BEGIN_NO, END_NO, 
+              SUM_NUM, BACK_FLAG) 
+       VALUES(#FOREIGN_SN#, #GROUP_ID#, #OP_CODE#, #LOGIN_NO#, SYSDATE, #BEGIN_NO#, #END_NO#, 
+              #SUM_NUM#, #BACK_FLAG#) 
+  </insert>
+  
+ <select id="qryCnt"  parameterClass="Map" resultClass="Integer">
+   select count(1) CNT
+	from bal_cardinvprint_info
+	where #CARD_ID# between begin_no and end_no
+	and back_flag = '0'
+  </select>
+  
+  <select id="qryCntByForeignSn"  parameterClass="Map" resultClass="java.util.HashMap">
+   select count(1) CNT
+	from bal_cardinvprint_info
+	  where  back_flag = '0'
+	  	<dynamic prepend="">
+    		<isNotEmpty prepend="" property="FOREIGN_SN">
+    			and foreign_sn = #FOREIGN_SN#
+    		</isNotEmpty>
+    		<isNotEmpty prepend="" property="CARD_SN">
+    			and begin_no = #CARD_SN# and end_no =  #CARD_SN#
+    		</isNotEmpty>
+   		</dynamic>
+  </select>
+  
+   <update id= "uForBack"  parameterClass="Map" >
+	  update BAL_CARDINVPRINT_INFO set back_flag = '1'
+	  where  back_flag = '0'
+	  	<dynamic prepend="">
+    		<isNotEmpty prepend="" property="FOREIGN_SN">
+    			and foreign_sn = #FOREIGN_SN#
+    		</isNotEmpty>
+    		<isNotEmpty prepend="" property="CARD_SN">
+    			and begin_no = #CARD_SN# and end_no =  #CARD_SN#
+    		</isNotEmpty>
+   		</dynamic>
+  </update>
+
+
+</sqlMap>
+

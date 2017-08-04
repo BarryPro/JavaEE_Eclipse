@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_cbtable_sync_relation">
+
+  <select id="qDestTableBySrcTable" parameterClass="Map" resultClass="java.util.HashMap">
+	 SELECT distinct DEST_TABLE 
+	   FROM IN_CBTABLE_SYNC_RELATION 
+	  WHERE SOURCE_TABLE=#SOURCE_TABLE# 
+  </select>
+
+  <select id="qDestDataBySrcDestTable" parameterClass="Map" resultClass="java.util.HashMap">
+	 SELECT DEST_TABLE,
+		    DEST_COLUMN,
+		    DATA_TYPE,
+		    INDEX_FLAG,
+		    SYNC_FLAG,
+		    DEAL_FLAG,
+		    DEAL_VALUE,
+		    TRIGGER_FLAG,
+		    CHG_TABLE,
+		    OPER_FLAG 
+	 FROM  IN_CBTABLE_SYNC_RELATION
+	 WHERE SOURCE_TABLE=#SOURCE_TABLE# 
+	   AND DEST_TABLE=#DEST_TABLE#
+	 ORDER BY DEST_TABLE ASC
+  </select>
+
+</sqlMap>

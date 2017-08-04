@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dGprsShortMsgOffOnNew">
+
+	<select id="qry" parameterClass="Map" resultClass="java.util.HashMap">
+		select OffOn_type from dGprsShortMsgOffOnNew
+		where phone_no=#PHONE_NO#
+	</select>
+
+	<insert id="insert" parameterClass="Map" >
+		insert into dGprsShortMsgOffOnNew
+		(phone_no,id_no,login_no,op_code,OffOn_type,login_accept,op_time)
+		values(#PHONE_NO#,#ID_NO#,#LOGIN_NO#,#OP_CODE#,#OFFON_TYPE#,#LOGIN_ACCEPT#,sysdate)
+	</insert>
+
+	<delete id="delete" parameterClass="Map">
+		delete from
+		dGprsShortMsgOffOnNew
+		where phone_no=#PHONE_NO#
+		and op_code=#OP_CODE# 
+		and login_no = #LOGIN_NO#
+		and OffOn_type='A'
+	</delete>
+
+</sqlMap>

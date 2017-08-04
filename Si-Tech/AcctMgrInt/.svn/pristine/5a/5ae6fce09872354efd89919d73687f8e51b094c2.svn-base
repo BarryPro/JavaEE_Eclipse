@@ -1,0 +1,151 @@
+##set datasource
+#if true, use dbcp datasource
+DBCP.DataSource=true
+
+#if true, use appserver's datasource
+AppServer.DataSource=false
+
+#the defalt datasource name
+DefaultDataSourceName=ijdbc
+
+AppServer.DataSource.ijdbc.jndi=esop
+
+#the default database class
+DEFAULT_DB_CLASS=oracle
+DEFAULT_DB_CLASS_IMPL=com.sitech.jcf.ijdbc.support.OracleSqlBuilder
+
+
+ALL_DB_ID=A1,B1
+####datasource provide by DBCP1.1
+
+DBCP.DataSource.ijdbc.driver=oracle.jdbc.OracleDriver
+
+DBCP.DataSourceA1.ijdbc.username=dbaccopr
+DBCP.DataSourceA1.ijdbc.password=Support1
+#DBCP.DataSourceA1.ijdbc.password=dbaccopr
+#DBCP.DataSourceA1.ijdbc.url=jdbc\:oracle\:thin\:@172.21.0.73\:1543\:kaccadb
+DBCP.DataSourceA1.ijdbc.url=jdbc\:oracle\:thin\:@10.110.13.53\:1821\:taccadb
+
+DBCP.DataSourceA2.ijdbc.username=dbaccopr
+#DBCP.DataSourceA2.ijdbc.password=dbaccopr
+DBCP.DataSourceA2.ijdbc.password=Support1
+#DBCP.DataSourceA2.ijdbc.url=jdbc\:oracle\:thin\:@172.21.0.73\:1543\:kaccadb
+DBCP.DataSourceA2.ijdbc.url=jdbc\:oracle\:thin\:@10.110.13.53\:1821\:taccadb
+
+DBCP.DataSourceB1.ijdbc.username=dbaccopr
+#DBCP.DataSourceB1.ijdbc.password=dbaccopr
+DBCP.DataSourceB1.ijdbc.password=Support1
+#DBCP.DataSourceB1.ijdbc.url=jdbc\:oracle\:thin\:@172.21.0.73\:1543\:kaccadb
+DBCP.DataSourceB1.ijdbc.url=jdbc\:oracle\:thin\:@10.110.13.53\:1821\:taccadb
+
+DBCP.DataSourceB2.ijdbc.username=dbaccopr
+#DBCP.DataSourceB2.ijdbc.password=dbaccopr
+DBCP.DataSourceB2.ijdbc.password=Support1
+#DBCP.DataSourceB2.ijdbc.url=jdbc\:oracle\:thin\:@172.21.0.73\:1543\:kaccadb
+DBCP.DataSourceB2.ijdbc.url=jdbc\:oracle\:thin\:@10.110.13.53\:1821\:taccadb
+
+DBCP.DataSource.ijdbc.defaultAutoCommit=false
+DBCP.DataSource.ijdbc.initialSize=3
+DBCP.DataSource.ijdbc.maxactive=30
+DBCP.DataSource.ijdbc.maxwait=5000
+DBCP.DataSource.ijdbc.maxIdle=10
+DBCP.DataSource.ijdbc.minIdle=0
+DBCP.DataSource.ijdbc.testWhileIdle=true
+DBCP.DataSource.ijdbc.testOnBorrow=false
+DBCP.DataSource.ijdbc.testOnReturn=false
+DBCP.DataSource.ijdbc.validationQuery=select '1' from dual
+DBCP.DataSource.ijdbc.timeBetweenEvictionRunsMillis=-1
+DBCP.DataSource.ijdbc.poolPreparedStatements=false
+DBCP.DataSource.ijdbc.maxOpenPreparedStatements=10
+
+##datasource provide by application server
+
+##cache key's num in mem every time
+#CACHE_KEYS=1
+
+##set JDBC tuning boolean value,true=opened,false=closed
+JDBC_TUNING=false
+
+##set MAX rows return from db when used jdbc
+JDBC_MAX_ROW=100000
+
+##url for ejb to lookup from jndi tree
+INITIAL_CONTEXT_FACTORY=weblogic.jndi.WLInitialContextFactory
+DEFAULT_PROVIDER_URL=t3://172.21.0.129:10303
+#INITIAL_CONTEXT_FACTORY=com.ibm.websphere.naming.WsnInitialContextFactory
+#DEFAULT_PROVIDER_URL=iiop://172.16.28.11:7001
+
+##page size
+PAGE_SIZE=10
+
+##set FtpConfig
+##if true, use ftpUpload
+USE_FTP=false
+
+#USE_FTP_USERNAME=webtec
+#USE_FTP_PASSWORD=webtec
+#USE_FTP_HOST=172.16.9.113
+#USE_FTP_PORT=21
+#USE_FTP_PATH=/webtec/download
+
+USE_FTP_USERNAME=oracle
+USE_FTP_PASSWORD=oracle
+USE_FTP_HOST=172.16.24.105
+USE_FTP_PORT=21
+
+USE_FTP_PATH=/download
+
+##crm6.0
+PRODUCTION_NAME=sitech.acctmgr
+#BP_PATH=crmpd.sample.bp
+
+#Default serrvice mode
+DEFAULT_SERVICE_MODE=HSF
+
+##restful service url
+DEFAULT_RESTFULURL=http\://172.21.3.96\:51000/esbWS/
+
+#rest,hsf 
+#service.type=rest
+
+##HSF service config
+hsf.consumerAppName=AcctmgrWeb
+#\u5317\u4EAC\u73AF\u5883
+hsf.zookeeper=172.21.3.92\:2180,172.21.3.99\:2181,172.21.3.100\:2182
+hsf.provider.port=31002
+
+#hsf.zookeeper=10.149.85.32:2180,10.149.85.33:2181,10.149.85.34:2182
+#hsf.provider.port=30150
+
+debug=true
+
+## \u89C4\u5219\u5F15\u64CE\u662F\u5426\u4F7F\u7528\u914D\u7F6E
+BUSI_RULE_ENABLED=true
+
+SERVICE_ECHO_ENABLED=true
+
+## in/output param check flag
+check.param.json=true
+
+##flume
+e2e.log=false
+e2e.logAppender=flume
+e2e.linkType=B001
+
+
+#################MSGMIDWARE CFG STT####################
+#1:YES 0:NO
+LOAD_DATA=0
+MAX_PER_KEY=100
+PROCESS_TIME=6000
+TIME_OUT=6
+COMPRESS=true
+PUB_CLIENT=Pub109
+DATA_TOPIC=T109DataRpt
+ADDR=172.21.3.92:4621,172.21.3.99:4621,172.21.3.100:4621
+DATASOURCE=dataSourceA1
+##################MSGMIDWARE CFG END###################
+
+##\u670D\u52A1\u90E8\u5206\u542F\u52A8\u4F7F\u7528\u914D\u7F6E
+hsf.autoreg=false
+

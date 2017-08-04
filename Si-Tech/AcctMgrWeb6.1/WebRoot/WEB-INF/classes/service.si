@@ -1,0 +1,5 @@
+on=[
+"com.sitech.acctmgr.inter.invoice.I8005",
+"com.sitech.acctmgr.inter.invoice.I8248TaxInvo",
+"com.sitech.acctmgr.inter.invoice.I8248TaxInvoAo"
+]

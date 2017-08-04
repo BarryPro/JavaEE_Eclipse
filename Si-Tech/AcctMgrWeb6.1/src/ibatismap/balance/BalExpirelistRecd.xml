@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_expirelist_recd">
+
+<typeAlias alias="ExpireOprEntity" type="com.sitech.acctmgr.atom.domains.user.ExpireOprEntity"/>
+  <insert id="insert"  parameterClass="Map">
+    INSERT INTO BAL_EXPIRELIST_RECD ( ID_NO , LOGIN_ACCEPT , TOTAL_DATE , TIME_CODE , DAYS, 
+       LOGIN_NO , OP_CODE , OP_TIME , REMARK ) 
+    VALUES ( #ID_NO# , #LOGIN_ACCEPT# , #TOTAL_DATE# , #TIME_CODE# , #DAYS# ,
+       #LOGIN_NO# , #OP_CODE# , SYSDATE ,  #REMARK# )
+  </insert>
+  
+   <select id="qDaysByPaySn"  parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT NVL(DAYS, 0) DAYS, TIME_CODE
+  	FROM BAL_EXPIRELIST_RECD
+ 	WHERE LOGIN_ACCEPT = #PAY_SN#
+   		AND ID_NO = #ID_NO#
+  </select>
+  
+  <select id="select" parameterClass="Map" resultClass="ExpireOprEntity">
+    SELECT  DAYS days,OP_CODE opCode,LOGIN_NO loginNo,to_char(OP_TIME,'YYYY/MM/DD HH24:MI:SS') opTime,REMARK remark
+	FROM BAL_EXPIRELIST_RECD  
+	WHERE ID_NO = #ID_NO#
+  </select>
+  
+</sqlMap>
+

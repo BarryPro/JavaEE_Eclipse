@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_depositfee_info">
+    <resultMap id="DepositInfo" class="com.sitech.acctmgr.atom.domains.deposit.DepositInfoEntity">
+    	<result property="depositId" column="DEPOSIT_ID" />
+    	<result property="contractNo" column="CONTRACT_NO"/>
+    	<result property="idNo" column="ID_NO"/>
+    	<result property="phoneNo" column="PHONE_NO"/>
+    	<result property="feeType" column="FEE_TYPE"/>
+    	<result property="depositType" column="DEPOSIT_TYPE"/>
+    	<result property="payType" column="PAY_TYPE"/>
+    	<result property="payTypeName" column="PAY_TYPE_NAME"/>
+    	<result property="backType" column="BACK_TYPE"/>
+    	<result property="backTypeName" column="BACK_TYPE_NAME"/>
+    	<result property="paySn" column="PAY_SN"/>
+    	<result property="initDeposit" column="INIT_DEPOSIT"/>
+    	<result property="curDeposit" column="CUR_DEPOSIT"/>
+    	<result property="costMoney" column="COST_MONEY"/>
+    	<result property="groupId" column="GROUP_ID"/>
+    	<result property="status" column="STATUS"/>
+    	<result property="autoFlag" column="AUTO_FLAG"/>
+    	<result property="beginTime" column="BEGIN_TIME"/>
+    	<result property="endTime" column="END_TIME"/>
+    	<result property="payTime" column="PAY_TIME"/>
+    	<result property="refundTime" column="REFUND_TIME"/>
+    	
+    </resultMap>
+    
+    <select id="qryByPhoneOrCon" parameterClass="Map" resultMap="DepositInfo">
+        SELECT
+        A.DEPOSIT_ID,
+        A.CONTRACT_NO AS CONTRACT_NO,
+        A.ID_NO,
+        A.PHONE_NO,
+        A.FEE_TYPE,
+        A.DEPOSIT_TYPE AS DEPOSIT_TYPE,
+        A.PAY_TYPE AS PAY_TYPE,
+        B.PAY_TYPE_NAME AS PAY_TYPE_NAME,
+        SUBSTR(B.PAY_ATTR, 2, 1) AS BACK_TYPE,
+        DECODE(SUBSTR(B.PAY_ATTR, 2, 1), 0, '可退', '不可退') BACK_TYPE_NAME,
+        A.PAY_SN,
+        A.INIT_DEPOSIT INIT_DEPOSIT,
+        A.CUR_DEPOSIT CUR_DEPOSIT,
+        A.COST_MONEY,
+        A.GROUP_ID,
+        DECODE(A.STATUS,0,'未退还',1,'已退还') STATUS,
+        DECODE(A.AUTO_FLAG,0,'否',1,'是') AUTO_FLAG,
+        TO_CHAR(A.BEGIN_TIME, 'YYYY-MM-DD HH24:MI:SS') BEGIN_TIME,
+        TO_CHAR(A.END_TIME, 'YYYY-MM-DD HH24:MI:SS') END_TIME,
+        TO_CHAR(A.PAY_TIME, 'YYYY-MM-DD HH24:MI:SS') PAY_TIME,
+        A.REFUND_TIME
+        FROM BAL_DEPOSITFEE_INFO A, BAL_BOOKTYPE_DICT B
+        WHERE A.PAY_TYPE = B.PAY_TYPE
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PHONE_NO">
+                A.PHONE_NO = #PHONE_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                A.CONTRACT_NO= #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="STATUS">
+                A.STATUS = #STATUS#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+</sqlMap>

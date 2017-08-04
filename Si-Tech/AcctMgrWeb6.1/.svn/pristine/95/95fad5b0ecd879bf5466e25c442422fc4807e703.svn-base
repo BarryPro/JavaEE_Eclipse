@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_cyclebegfee_info">
+
+    <select id="qTotalCycleFee" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+        SELECT NVL(SUM(CUR_BALANCE), 0) CUR_BALANCE
+        FROM BAL_CYCLEBEGFEE_INFO
+        WHERE CONTRACT_NO = #CONTRACT_NO#
+        AND YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="BALANCE_FLAG">
+                AND BALANCE_FLAG = #BALANCE_FLAG#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+
+
+    <select id="qBalCycleFee" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+        SELECT NVL(SUM(CUR_BALANCE), 0) CUR_BALANCE
+        FROM BAL_CYCLEBEGFEE_INFO A, BAL_BOOKTYPE_DICT B
+        WHERE A.PAY_TYPE = B.PAY_TYPE
+        AND CONTRACT_NO = #CONTRACT_NO#
+        AND YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="BALANCE_FLAG">
+                AND A.BALANCE_FLAG = #BALANCE_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(B.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="PRESENT_FLAGS">
+                AND SUBSTR(B.PAY_ATTR, 6, 1) in (#PRESENT_FLAGS#)
+            </isNotEmpty>
+        </dynamic>
+        AND A.PAY_TYPE != 'AX'
+    </select>
+
+    <resultMap id="FeeEntity" class="com.sitech.acctmgr.atom.domains.bill.FeeEntity">
+        <result property="money" column="CUR_BALANCE"/>
+        <result property="specialFlag" column="SPECIAL_FLAG"/>
+        <result property="presentFlag" column="PRESENT_FLAG"/>
+    </resultMap>
+    <!-- 不取出帐缴预存款 -->
+    <select id="qBalCycleFeeInfo" parameterClass="java.util.Map" resultMap="FeeEntity">
+        SELECT NVL(SUM(CUR_BALANCE), 0) CUR_BALANCE,
+        SPECIAL_FLAG,
+        PRESENT_FLAG
+        FROM (SELECT NVL(A.CUR_BALANCE,0) AS CUR_BALANCE , SUBSTR(B.PAY_ATTR,0,1) AS SPECIAL_FLAG,
+        DECODE(SUBSTR(B.PAY_ATTR, 6, 1), '0', '0', '1') AS PRESENT_FLAG
+        FROM BAL_CYCLEBEGFEE_INFO A, BAL_BOOKTYPE_DICT B
+        WHERE A.PAY_TYPE = B.PAY_TYPE
+        AND CONTRACT_NO = #CONTRACT_NO#
+        AND YEAR_MONTH = #YEAR_MONTH#
+        AND A.PAY_TYPE != 'AX'
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="BALANCE_FLAG">
+                AND A.BALANCE_FLAG = #BALANCE_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(B.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        ) GROUP BY SPECIAL_FLAG, PRESENT_FLAG
+    </select>
+
+    <resultMap id="FeeEntity2" class="com.sitech.acctmgr.atom.domains.bill.FeeEntity">
+        <result property="money" column="CUR_BALANCE"/>
+        <result property="type" column="PAY_TYPE"/>
+        <result property="typeName" column="PAY_TYPE_NAME"/>
+        <result property="specialFlag" column="SPECIAL_FLAG"/>
+        <result property="presentFlag" column="PRESENT_FLAG"/>
+    </resultMap>
+    <select id="qBalCycleFeeInfoGroupByPayType" parameterClass="java.util.Map" resultMap="FeeEntity2">
+        SELECT NVL(SUM(CUR_BALANCE), 0) CUR_BALANCE,
+        PAY_TYPE,
+        PAY_TYPE_NAME,
+        SPECIAL_FLAG,
+        PRESENT_FLAG
+        FROM (SELECT NVL(A.CUR_BALANCE,0) AS CUR_BALANCE ,
+        B.PAY_TYPE, B.PAY_TYPE_NAME,
+        SUBSTR(B.PAY_ATTR,0,1) AS SPECIAL_FLAG,
+        DECODE(SUBSTR(B.PAY_ATTR, 6, 1), '0', '0', '1') AS PRESENT_FLAG
+        FROM BAL_CYCLEBEGFEE_INFO A, BAL_BOOKTYPE_DICT B
+        WHERE A.PAY_TYPE = B.PAY_TYPE
+        AND CONTRACT_NO = #CONTRACT_NO#
+        AND YEAR_MONTH = #YEAR_MONTH#
+        AND A.PAY_TYPE != 'AX'
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="BALANCE_FLAG">
+                AND A.BALANCE_FLAG = #BALANCE_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(B.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        ) GROUP BY PAY_TYPE, PAY_TYPE_NAME, SPECIAL_FLAG, PRESENT_FLAG
+    </select>
+</sqlMap>

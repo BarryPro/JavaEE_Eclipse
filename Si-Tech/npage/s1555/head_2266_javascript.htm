@@ -1,0 +1,324 @@
+
+<script language=javascript>
+<!--
+
+  var pwdFlag="false";
+ 
+function doProcess(packet)
+{
+	var vRetPage=packet.data.findValueByName("rpc_page");
+ 
+  if(vRetPage=="awarddetailname"){
+	  var triListData = packet.data.findValueByName("detailcode"); 
+	  var triList=new Array(triListData.length);
+	  triList[0]="detailcode";
+	
+	  if(triListData==""){
+	  	rdShowMessageDialog("没有奖品类别明细数据！");
+	    triListData="";
+	    
+	    document.all("detailcode").length=0;
+	  	document.all("detailcode").options.length=1;
+	  	document.all("detailcode").options[0].text="*请选择*";
+	  	document.all("detailcode").options[0].value="0000";
+	    return;
+	  }
+	      
+	  document.all("detailcode").length=0;
+	  document.all("detailcode").options.length=triListData.length+1;
+	  document.all("detailcode").options[0].text="*请选择*";
+	  document.all("detailcode").options[0].value="0000";
+
+	  for(i=0;i<triListData.length;i++){
+	  	document.all("detailcode").options[i+1].text=triListData[i][1];
+	    document.all("detailcode").options[i+1].value=triListData[i][0];
+	  }
+	  
+	  document.all("detailcode").options[0].selected=true;
+  }else if(vRetPage=="awardresname"){
+	  var triListData = packet.data.findValueByName("res_name"); 
+	   
+	  var triList=new Array(triListData.length);
+	  triList[0]="res_name";
+	
+	  if(triListData==""){
+	  	rdShowMessageDialog("没有奖品类别明细数据！");
+	    triListData="";
+	    
+	    document.all("rescode").length=0;
+	  	document.all("rescode").options.length=1;
+	  	document.all("rescode").options[0].text="*请选择*";
+	  	document.all("rescode").options[0].value="00000000";
+	    return;
+	  }
+	  
+	  document.all("rescode").length=0;
+	  document.all("rescode").options.length=triListData.length+1;
+	  document.all("rescode").options[0].text="*请选择*";
+	  document.all("rescode").options[0].value="00000000";
+
+	  for(i=0;i<triListData.length;i++){
+	  	document.all("rescode").options[i+1].text=triListData[i][1];
+	    document.all("rescode").options[i+1].value=triListData[i][0];
+	  }
+	  
+	  document.all("rescode").options[0].selected=true;
+  }else if(vRetPage=="awardresgradename"){ 
+	  var triListData = packet.data.findValueByName("res_grade_name"); 
+	   
+	  var triList=new Array(triListData.length);
+	  triList[0]="res_grade_name";
+	
+	  if(triListData==""){
+	  	rdShowMessageDialog("没有奖品等级信息数据！");
+	    triListData="";
+	    
+	    document.all("res_grade_code").length=0;
+	  	document.all("res_grade_code").options.length=1;
+	  	document.all("res_grade_code").options[0].text="*请选择*";
+	  	document.all("res_grade_code").options[0].value="00000000";
+	    return;
+	  }
+	  
+	  document.all("res_grade_code").length=0;
+	  document.all("res_grade_code").options.length=triListData.length+1;
+	  document.all("res_grade_code").options[0].text="*请选择*";
+	  document.all("res_grade_code").options[0].value="00000000";
+
+	  for(i=0;i<triListData.length;i++){
+	  	document.all("res_grade_code").options[i+1].text=triListData[i][1];
+	    document.all("res_grade_code").options[i+1].value=triListData[i][0];
+	  }
+	  
+	  document.all("rescode").options[0].selected=true;
+  }else if(vRetPage=="phoneqry"){
+	  var vCustName = packet.data.findValueByName("cust_name");
+	  var vIdiccid = packet.data.findValueByName("id_iccid");
+	  var vIdAddress = packet.data.findValueByName("id_address");
+	  var vReturnCode  = "999999";
+	  vReturnCode = packet.data.findValueByName("return_code");
+	  var vReturnMsg = packet.data.findValueByName("return_msg");
+	  var smName = packet.data.findValueByName("smName");
+	  
+  
+		if(vReturnCode == "000000"){
+			document.all.cust_name.value = vCustName;
+	  	document.all.id_iccid.value = vIdiccid;
+	  	document.all.id_address.value = vIdAddress;
+	  	document.all.smName.value = smName;
+     	document.frm.confirm.disabled = false;
+     	
+		 	return true; 
+		}else{
+			rdShowMessageDialog(vReturnMsg);
+		 	document.all.phone_no.focus();
+		 	document.all.confirm.disabled = true;
+		 	return false;
+	 }
+  }else if(vRetPage=="listqry"){
+	 
+	  
+	  var vReturnCode  = "999999";
+	  vReturnCode = packet.data.findValueByName("return_code");
+	  var vReturnMsg = packet.data.findValueByName("return_msg");
+  	//alert(vReturnCode);
+		if(vReturnCode == "000000"){
+			var liststr = packet.data.findValueByName("liststr");
+			//alert("liststr=["+liststr+"]");
+			if(liststr!="a"){
+				rdShowMessageDialog(liststr);
+			}
+     	
+		 	return true; 
+		}else{
+			rdShowMessageDialog(vReturnMsg);
+		 	return false;
+	 }
+  }
+  else  if(vRetPage=="phonepasswd"){
+  	var vRetResult = packet.data.findValueByName("retResult");
+ 		if(retResult == "000000"){
+		 rdShowMessageDialog("密码输入准确！");
+	     document.all.confirm.disabled = false;
+		 return true; 
+		 }else{
+		 rdShowMessageDialog("密码输入错误，请重新输入！");
+		 document.all.cus_pass.focus();
+		 document.all.confirm.disabled = true;
+		 return false;
+	 	}
+	}else if (vRetPage=="loginacceptqry"){
+  	var vCheckFlag = packet.data.findValueByName("check_flag");
+ 		if(vCheckFlag == "1"){
+			rdShowMessageDialog("用户流水号码验证成功");
+	    document.all.confirm.disabled = false;
+		 	return true; 
+		}else if(vCheckFlag == "2"){
+		 rdShowMessageDialog("用户没有可兑奖数据！");
+		 document.all.loginaccepttext.focus();
+		 document.all.confirm.disabled = true;
+		 return false;
+	 	}else{
+			rdShowMessageDialog("用户流水号码验证失败");
+	    document.all.confirm.disabled = true;
+		 	return false; 
+	 	}		
+	}	
+}
+
+
+  //***
+function frmCfm()
+{
+	document.frm.action = "f2266Cfm.jsp";
+	document.frm.submit();
+	return true;
+}
+
+ function showPrtDlg(printType,DlgMessage,submitCfm,varPrintInfo)
+ {  //显示打印对话框 
+		var h=210;
+		var w=400;
+ 		var t=screen.availHeight/2-h/2;
+ 		var l=screen.availWidth/2-w/2;
+ 		var pType="subprint";
+		var billType="1";  
+ 		var printStr = printInfo(varPrintInfo);
+		var mode_code=null;
+		var fav_code=null;
+		var area_code=null; 		
+		
+		var sysAccept = "<%=printAccept%>";
+		
+		var prop="dialogHeight:"+h+"px; dialogWidth:"+w+"px; dialogLeft:"+l+"px; dialogTop:"+t+"px;toolbar:no; menubar:no; scrollbars:yes; resizable:no;location:no;status:no;help:no"; 
+		var path = "<%=request.getContextPath()%>/npage/innet/hljBillPrint_jc.jsp?DlgMsg=" + DlgMessage;
+		var path = path  + "&mode_code="+mode_code+"&fav_code="+fav_code+"&area_code="+area_code+"&opCode=<%=opCode%>&sysAccept="+sysAccept+"&phoneNo=<%=strPhoneNo%>&submitCfm=" + submitCfm+"&pType="+pType+"&billType="+billType+ "&printInfo=" + printStr;
+		var ret=window.showModalDialog(path,printStr,prop);
+		return ret;     
+ }
+
+function printInfo(varPrintInfo)
+{
+	var i = 0;
+	var varPhoneNo = "";	  //手机号码
+	var varLoginName = "";  //操作名称
+	var varUserName = "";   //用户名称
+	var varUserId = "";		  //用户ID
+	var varUserAddress = "";//用户地址
+	var varOpCode = "";			//操作类型
+	var varLoginAccept = "";//操作流水
+	var varAwardName = "";  //奖品名称
+	var varOpNote = "";     //操作备注
+	var	vResCodeSum = "";	  //领奖数量
+	var vPrintCont = "";    //动态打印内容
+	var vPrintName = "";    //动态打印项名称
+	var vPrintSum = "";     //动态打印项数量
+	
+	for(;varPrintInfo.indexOf("|") > 0;)
+	{
+		varString = varPrintInfo.substring(0,varPrintInfo.indexOf("|"));
+		i++;
+		switch(i)
+		{
+			case 1:
+				varLoginName = varString;
+				break;
+			case 2:
+				varPhoneNo = varString;
+				break;
+			case 3:
+				varUserName = varString;
+				break;
+			case 4:
+				varUserId = varString;
+				break;
+			case 5:
+				varUserAddress = varString;
+				break;
+			case 6:
+				varOpCode = varString;
+				break;
+			case 7:
+				varLoginAccept = varString;
+				break;	
+			case 8:
+				varAwardName = varString;
+				break;					
+			case 9:
+				varOpNote = varString;
+				break;
+			case 10:
+				vResCodeSum = varString;
+				break;		
+			case 11:
+				vPrintCont = varString;
+				break;					
+		}
+		
+		varPrintInfo= varPrintInfo.substring(varPrintInfo.indexOf("|")+1,varPrintInfo.length);
+	}
+	
+	var retInfo = "";
+	var cust_info="";
+	var opr_info="";
+	var note_info1="";
+	var note_info2="";
+	var note_info3="";
+	var note_info4="";
+	var exeDate = "<%=new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new java.util.Date())%>";//得到执行时间
+	//retInfo+=varLoginName+"|";
+ 
+	//retInfo+='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:MM:ss", Locale.getDefault()).format(new java.util.Date())%>'+"|";
+	cust_info+="手机号码："+varPhoneNo+"|";
+	cust_info+="客户姓名：" +varUserName+"|";
+	cust_info+="证件号码：" +varUserId+"|";
+	cust_info+="客户地址：" +varUserAddress+"|";
+	
+	opr_info+="业务受理时间："+'<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:MM:ss", Locale.getDefault()).format(new java.util.Date())%>'+"  "+"用户品牌: "+document.all.smName.value+ "|";
+
+	if(varOpCode == "2266"){
+		opr_info+="办理业务: "+"促销品统一付奖"+"  操作流水: "+varLoginAccept+" 奖品已经领取"+"|";
+	}else if(varOpCode == "2249"){ 		
+		opr_info+="办理业务: "+"促销品统一付奖预约登记"+"  操作流水: "+varLoginAccept+" 奖品已经登记"+"|";
+	}else if(varOpCode == "2279"){		
+		opr_info+="办理业务: "+"促销品统一付奖冲正"+"  操作流水: "+varLoginAccept+" 奖品已经冲正"+"|";
+	}	
+		
+	if (0 == vPrintCont.length){
+		opr_info+="奖品名称: "+varAwardName+"+ 奖品数量: " + vResCodeSum + "|";
+	}else{
+		i = 0;
+		for(;vPrintCont.indexOf("~") > 0;)
+		{
+			varString = vPrintCont.substring(0,vPrintCont.indexOf("~"));
+			i++;
+			switch(i)
+			{
+				case 1:
+					vPrintName = varString;
+					break;
+				case 2:
+					vPrintSum = varString;
+					opr_info+="奖品名称: "+vPrintName+"+ 奖品数量: " + vPrintSum + "|";
+					i=0;
+					break;
+			}
+	
+			vPrintCont= vPrintCont.substring(vPrintCont.indexOf("~")+1,vPrintCont.length);
+		}
+	}
+	note_info1+="备注: "+varOpNote+"|";
+	document.all.cust_info.value=cust_info+"#";
+	document.all.opr_info.value=opr_info+"#";
+	document.all.note_info1.value=note_info1+"#";
+	document.all.note_info2.value=note_info2+"#";
+	document.all.note_info3.value=note_info3+"#";
+	document.all.note_info4.value=note_info4+"#";
+	retInfo = cust_info+"#"+opr_info+"#"+note_info1+"#"+note_info2+"#"+note_info3+"#"+note_info4+"#";
+	retInfo=retInfo.replace(new RegExp("#","gm"),"%23");
+
+	return retInfo;	
+}
+
+ //-->
+</script>

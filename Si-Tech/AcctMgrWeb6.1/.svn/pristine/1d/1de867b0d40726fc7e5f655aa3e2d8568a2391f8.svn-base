@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DGprsOffOnChg">
+
+	<insert id="insert" parameterClass="Map">
+		insert into DGPRSOFFONCHG(
+		MSISDN ,
+		BEGIN_DATE ,
+		END_DATE ,
+		OP_TIME ,
+		OP_NO ,
+		OP_TYPE
+		)
+		SELECT MSISDN,EFF_DATE,EXP_DATE,sysdate,'3','6'
+		from REMIND_WARN_USER_INFO 
+		where ID_NO=#ID_NO#
+	</insert>
+
+</sqlMap>

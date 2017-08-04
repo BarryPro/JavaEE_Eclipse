@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_user_info">
+
+    <typeAlias alias="UrUserInfo" type="com.sitech.acctmgr.atom.domains.user.UserInfoEntity"/>
+
+    <select id="qUserInfo" parameterClass="Map" resultClass="UrUserInfo">
+        SELECT PHONE_NO as phoneNo,
+        ID_NO as idNo,
+        CONTRACT_NO contractNo,
+        CUST_ID as custId,
+        MASTER_SERV_ID as masterServId,
+        OWNER_TYPE as ownerType,
+        GROUP_ID as groupId,
+        GROUP_FLAG as groupFlag,
+        TO_CHAR(OPEN_TIME, 'YYYYMMDD HH24miss') as openTime ,
+        TO_CHAR(BILL_START_TIME, 'YYYYMMDD') as billStartTime,
+        ACCESS_TYPE accessType
+        FROM UR_USER_INFO
+        WHERE 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PHONE_NO">
+                PHONE_NO = #PHONE_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <typeAlias alias="UrServaddnumInfo" type="com.sitech.acctmgr.atom.domains.user.ServAddNumEntity"/>
+    <select id="qAddServiceNo" parameterClass="Map" resultClass="UrServaddnumInfo">
+        select add_service_no addServiceNo, phone_no phoneNo,add_nbr_type addNbrType from ur_servaddnum_info
+        where 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ADD_SERVICE_NO">
+                ADD_SERVICE_NO = #ADD_SERVICE_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ADD_NBR_TYPE">
+                ADD_NBR_TYPE = #ADD_NBR_TYPE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ADD_NBR_TYPES">
+				ADD_NBR_TYPE IN 
+				<iterate property="ADD_NBR_TYPES" close=")" open="(" conjunction="," prepend="">
+				#ADD_NBR_TYPES[]#
+				</iterate>
+			</isNotEmpty>
+        </dynamic>
+    </select>
+
+	<select id="qryGrpUserInfo" parameterClass="Map" resultClass="UrUserInfo">
+		SELECT A.CONTRACT_NO contractNo,
+		A.ID_NO idNo,
+		A.PHONE_NO phoneNo,
+		a.CUST_ID custId,
+		a.GROUP_ID groupId,
+		A.OWNER_TYPE as ownerType,
+		b.UNIT_ID unitId
+		FROM ur_user_info a,
+		ct_grpcust_info b
+		WHERE A.CUST_ID = B.CUST_ID
+		AND A.OWNER_TYPE='3'
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="UNIT_ID">
+				AND	B.UNIT_ID=#UNIT_ID#	
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CUST_ID">
+				AND B.CUST_ID=#CUST_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BRAND_ID_LIST">
+				AND EXISTS (SELECT 1 FROM UR_USERBRAND_REL C
+				WHERE A.ID_NO = C.ID_NO
+				AND C.BRAND_ID IN
+				<iterate open="(" close=")" conjunction="," property="BRAND_ID_LIST">
+					#BRAND_ID_LIST[]#
+				</iterate>
+				)
+			</isNotEmpty>
+		</dynamic>
+		
+	</select>
+	
+    <typeAlias alias="GroupUserInfo" type="com.sitech.acctmgr.atom.domains.user.GroupUserInfo"/>
+	<select id="qryGrpInfo" parameterClass="Map" resultClass="GroupUserInfo">
+		SELECT A.CONTRACT_NO contractNo,
+		A.ID_NO idNo,
+		A.PHONE_NO phoneNo,
+		a.CUST_ID custId,
+		a.GROUP_ID groupId,
+		b.UNIT_ID unitId,
+		c.ID_ICCID iccId
+		FROM ur_user_info a,
+		ct_grpcust_info b,
+		ct_cust_info c
+		WHERE A.OWNER_TYPE='3'
+		and A.CUST_ID = C.CUST_ID
+		AND A.CUST_ID = B.CUST_ID
+		<isNotEmpty prepend=" and " property="UNIT_ID">
+		B.UNIT_ID=#UNIT_ID#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="CUST_ID">
+		A.CUST_ID = #CUST_ID#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="ID_ICCID">
+		c.ID_ICCID = #ID_ICCID#
+		</isNotEmpty>
+		<isNotEmpty prepend=" and " property="CONTRACT_NO">
+		A.CONTRACT_NO != #CONTRACT_NO#
+		</isNotEmpty>
+	</select>
+
+
+
+	<select id="qryZnwCnt" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT COUNT(1) COUNT FROM UR_USER_INFO A, UR_USERGOODS_INFO B,
+		PD_GOODSPRC_DICT C
+		WHERE A.ID_NO=#ID_NO# 
+		AND A.ID_NO=B.ID_NO
+		AND B.PRC_ID=C.PRC_ID AND C.PRC_ID =
+		ANY('M017916', 'M019557','M019683','M021513','M015046','M022606','M023186',
+                            'M015290','M026240','M026857','M029035','M027936','M022467')
+	</select>
+
+	<select id="qCustIdInfoByIdNo" maxRows="1000" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT CUST_ID,GROUP_ID,PHONE_NO,CONTRACT_NO ,B.RUN_CODE OLD_RUN
+		FROM UR_USER_INFO A, CS_USERDETAIL_INFO B
+		WHERE A.ID_NO = B.ID_NO
+		AND A.ID_NO=#ID_NO#
+	</select>
+	
+</sqlMap>

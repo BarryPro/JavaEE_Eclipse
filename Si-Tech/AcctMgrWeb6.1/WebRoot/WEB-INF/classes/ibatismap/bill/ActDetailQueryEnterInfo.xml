@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_detailqueryenter_info">
+
+    <typeAlias alias="DetailEnterInfo" type="com.sitech.acctmgr.atom.domains.bill.DetailEnterEntity"/>
+    <insert id="insert" parameterClass="DetailEnterInfo">
+        INSERT INTO act_detailqueryenter_info
+        (ID_NO,PHONE_NO,LOGIN_NO,START_DATE,END_DATE,QUERY_TYPE,ENTER_TIME,VALID_FLAG)
+        VALUES
+        (#idNo#,#phoneNo#,#loginNo#,#startDate#,#endDate#,#queryType#,sysdate,#validFlag#)
+    </insert>
+
+    <select id="qryDetailEnterInfo" parameterClass="Map" resultClass="DetailEnterInfo">
+        select id_no as idNo,phone_no as phoneNo,login_no as loginNo,start_date as startDate ,end_date as endDate ,
+        query_type as queryType , to_char(enter_time,'YYYYMMDDHH24MISS') as enterTime ,valid_flag as validFlag
+        FROM ACT_DETAILQUERYENTER_INFO
+        WHERE ID_NO = #ID_NO#
+        AND VALID_FLAG = 'Y'
+    </select>
+
+    <update id="updDetailEnterInfo" parameterClass="Map">
+        UPDATE ACT_DETAILQUERYENTER_INFO
+        SET VALID_FLAG = 'N',
+        QUERY_TIME = SYSDATE
+        WHERE ID_NO = #ID_NO#
+        AND VALID_FLAG = 'Y'
+    </update>
+
+</sqlMap>

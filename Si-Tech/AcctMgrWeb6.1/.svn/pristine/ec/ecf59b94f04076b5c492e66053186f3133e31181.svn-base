@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="cBillStatCfg">
+	<select id="qMonthCfg" parameterClass="Map" resultClass="java.lang.Integer">
+		select count(*) from cBillStatCfg
+		where region_code = #REGION_CODE#
+		and	mode_code = #MODE_CODE#
+		and day_flag = 0
+	</select>
+
+</sqlMap>

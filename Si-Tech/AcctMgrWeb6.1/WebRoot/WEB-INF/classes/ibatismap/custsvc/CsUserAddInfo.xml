@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cs_useradd_info">
+
+	<!-- 神舟行签约用户判断 0：没；1：签 -->
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(1) CNT
+		FROM 
+			CS_USERADD_INFO
+		WHERE 
+			ID_NO= #ID_NO#
+			AND FIELD_CODE = #FIELD_CODE#
+	</select>
+</sqlMap>

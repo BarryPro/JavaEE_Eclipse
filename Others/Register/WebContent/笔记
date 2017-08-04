@@ -1,0 +1,8 @@
+做项目
+1.先建立数据库
+2.分成
+3.写jdbc
+4.dao
+5.vo (一般visual object)要实现Serializable便于网络传输（变成了二进制码）
+6.serive
+7.网页布局

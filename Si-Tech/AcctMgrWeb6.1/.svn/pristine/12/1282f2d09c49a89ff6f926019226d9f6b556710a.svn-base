@@ -1,0 +1,173 @@
+package com.sitech.acctmgr.atom.impl.invoice;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.busi.invoice.inter.IPrintDataXML;
+import com.sitech.acctmgr.atom.domains.collection.CollectionBillEntity;
+import com.sitech.acctmgr.atom.domains.collection.CollectionDispEntity;
+import com.sitech.acctmgr.atom.domains.invoice.ActCollbillprintRecd;
+import com.sitech.acctmgr.atom.domains.invoice.InvNoOccupyEntity;
+import com.sitech.acctmgr.atom.dto.invoice.S8226QueryOrPrintInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8226QueryOrPrintOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IBill;
+import com.sitech.acctmgr.atom.entity.inter.ICollection;
+import com.sitech.acctmgr.atom.entity.inter.IInvoice;
+import com.sitech.acctmgr.common.utils.BeanToMapUtils;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.acctmgr.inter.invoice.I8226;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+@ParamTypes({ @ParamType(c = S8226QueryOrPrintInDTO.class, m = "queryOrPrint", oc = S8226QueryOrPrintOutDTO.class) })
+public class S8226 implements I8226 {
+	private ICollection collection;
+	private IBill bill;
+	private IInvoice invoice;
+	private IPrintDataXML printDataXml;
+	@Override
+	public OutDTO queryOrPrint(InDTO inParam) {
+		S8226QueryOrPrintInDTO inDto = (S8226QueryOrPrintInDTO) inParam;
+		
+		int yearMonth=inDto.getYearMonth();
+		String groupId = inDto.getGroupId();
+		String beginBank = inDto.getBeginBank();
+		String endBank = inDto.getEndBank();
+		String beginPrintNo = inDto.getBeginPrintNo();
+		String endPrintNo = inDto.getEndPrintNo();
+		int printFlag = inDto.getPrintFlag();
+		int printType = inDto.getPrintType();
+		
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		inMap.put("YEAR_MONTH", yearMonth);
+		inMap.put("GROUP_ID", groupId);
+		inMap.put("BEGIN_BANK", beginBank);
+		inMap.put("END_BANK", endBank);
+		inMap.put("BEGIN_PRINT_NO", beginPrintNo);
+		inMap.put("PRINT_FLAG", printFlag);
+		inMap.put("PRINT_TYPE", printType);
+		inMap.put("END_PRINT_NO", endPrintNo);
+
+		int curDay = DateUtils.getCurDay();
+		String year = curDay / 10000 + "";
+		String month = curDay % 10000 / 100 + "";
+		String day = curDay % 100 + "";
+		if (ValueUtils.intValue(month) < 10) {
+			month = "0" + month;
+		}
+		if (ValueUtils.intValue(day) < 10) {
+			day = "0" + day;
+		}
+		String printDate = year + "   " + month + "   " + day;
+		// 查询未处理的托收账户信息
+		List<Map<String, Object>> unDealConList = collection.getUnDealConInfo(inMap);
+		List<CollectionDispEntity> collectionList = new ArrayList<CollectionDispEntity>();
+		List<InvNoOccupyEntity> xmlList = new ArrayList<InvNoOccupyEntity>();
+
+		long loginAccept = 0;
+		if (printFlag == 1) {
+			loginAccept = invoice.getPrintSn();
+		}
+		// 获取打印流水
+		for (Map<String, Object> unDealCon : unDealConList) {
+			long contractNo = ValueUtils.longValue(unDealCon.get("CONTRACT_NO"));
+			// 判断是否为重复打印 ACT_COLLBILLPRINT_RECD表中取数据(控制托收单打印和托收单补打只能进行一次)
+			boolean flag = collection.isRePrint(contractNo, yearMonth, printType);
+			if (flag) {
+				continue;
+			}
+			// 查询账单总金额查询账目明细
+			CollectionDispEntity collBillInfo = collection.getCollBill(contractNo, yearMonth);
+			// TODO:根据银行代码查询局方银行账号(老系统取这块也没用，暂时不取)
+
+			// 查询托收数量
+			CollectionBillEntity collectionBill = bill.getCollectionBill(contractNo, yearMonth, null, null, null);
+			long payNum = collectionBill.getPayNum();
+			collBillInfo.setPayNum(payNum);
+			collBillInfo.setBigMoney(ValueUtils.transYuanToChnaBig(ValueUtils.transFenToYuan(collBillInfo.getPayFee())));
+			collectionList.add(collBillInfo);
+			if (printFlag == 1) {
+				// 入打印记录表
+				ActCollbillprintRecd printRecd = new ActCollbillprintRecd();
+				printRecd.setAccountNo(collBillInfo.getAccountNo());
+				printRecd.setBankCode(collBillInfo.getBankCode());
+				printRecd.setBillCycle(yearMonth);
+				printRecd.setContractNo(collBillInfo.getContractNo());
+				printRecd.setLoginAccept(loginAccept);
+				printRecd.setLoginNo(inDto.getLoginNo());
+				printRecd.setOpCode(inDto.getOpCode());
+				printRecd.setPayFee(collBillInfo.getPayFee());
+				printRecd.setPrintFlag(printType + "");
+				invoice.insCollBillPrintRecd(printRecd);
+				// 拼xml
+				Map<String, Object> xmlMap = new HashMap<String, Object>();
+				xmlMap = BeanToMapUtils.beanToMap(collBillInfo);
+				xmlMap.put("LOGIN_NO", inDto.getLoginNo());
+				xmlMap.put("PRINT_TIME", printDate);
+				xmlMap.put("BIG_MONEY", ValueUtils.transYuanToChnaBig(ValueUtils.transFenToYuan(collBillInfo.getPayFee())));
+				xmlMap.put("PAY_FEE", ValueUtils.transFenToYuan(collBillInfo.getPayFee()));
+				xmlMap.put("MEAL_FEE", ValueUtils.transFenToYuan(collBillInfo.getMealFee()));
+				xmlMap.put("SPEC_FEE", ValueUtils.transFenToYuan(collBillInfo.getSpecFee()));
+				xmlMap.put("LOCAL_CALL_FEE", ValueUtils.transFenToYuan(collBillInfo.getLocalCallFee()));
+				xmlMap.put("LONG_DIS_FEE", ValueUtils.transFenToYuan(collBillInfo.getLongDisFee()));
+				xmlMap.put("ROAM_FEE", ValueUtils.transFenToYuan(collBillInfo.getRoamFee()));
+				xmlMap.put("MSG_FEE", ValueUtils.transFenToYuan(collBillInfo.getMsgFee()));
+				xmlMap.put("PZ_FEE", ValueUtils.transFenToYuan(collBillInfo.getPzFee()));
+				xmlMap.put("IP_FEE", ValueUtils.transFenToYuan(collBillInfo.getIpFee()));
+				xmlMap.put("OTHER_FEE", ValueUtils.transFenToYuan(collBillInfo.getOtherFee()));
+				xmlMap.put("VIDEO_PHONE_FEE", ValueUtils.transFenToYuan(collBillInfo.getVideoPhoneFee()));
+				xmlMap.put("FEE11", ValueUtils.transFenToYuan(collBillInfo.getFee11()));
+				xmlMap.put("OP_CODE", inDto.getOpCode());
+				xmlMap.put("PRINT_TYPE", "0nn");
+				String xmlStr = printDataXml.getPrintXml(xmlMap);
+				InvNoOccupyEntity occupy = new InvNoOccupyEntity();
+				occupy.setXmlStr(xmlStr);
+				xmlList.add(occupy);
+			}
+		}
+
+		S8226QueryOrPrintOutDTO outDto = new S8226QueryOrPrintOutDTO();
+		outDto.setOccupyList(xmlList);
+		outDto.setCollectionList(collectionList);
+		return outDto;
+	}
+
+	public ICollection getCollection() {
+		return collection;
+	}
+
+	public void setCollection(ICollection collection) {
+		this.collection = collection;
+	}
+
+	public IBill getBill() {
+		return bill;
+	}
+
+	public void setBill(IBill bill) {
+		this.bill = bill;
+	}
+
+	public IInvoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(IInvoice invoice) {
+		this.invoice = invoice;
+	}
+
+	public IPrintDataXML getPrintDataXml() {
+		return printDataXml;
+	}
+
+	public void setPrintDataXml(IPrintDataXML printDataXml) {
+		this.printDataXml = printDataXml;
+	}
+
+
+}

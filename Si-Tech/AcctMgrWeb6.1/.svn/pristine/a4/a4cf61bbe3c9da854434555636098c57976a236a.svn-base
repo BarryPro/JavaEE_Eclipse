@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_adjowe_info">
+	<typeAlias alias="refundEntity"	type="com.sitech.acctmgr.atom.domains.query.RefundEntity" />
+	<typeAlias alias="ActAdjoweInfo" type="com.sitech.acctmgr.atom.domains.bill.AdjOweEntity" />
+	<select id="qry" parameterClass="Map" resultClass="ActAdjoweInfo">
+		select
+		CONTRACT_NO contractNo,
+		BILL_CYCLE yearMonth,
+		BILL_DAY billDay,
+		SHOULD_PAY shouldPay,
+		FAVOUR_FEE favourFee,
+		b.ITEM_NAME detailName,
+		LOGIN_NO loginNo,
+		to_char(a.OP_TIME, 'YYYYMMDD HH24:MI:SS') opTime
+		from
+		act_adjowe_info a, act_item_conf b
+		where ID_NO = #ID_NO#
+		AND
+		a.acct_item_code=b.acct_item_code
+		AND to_char(a.OP_TIME, 'YYYYMMDD')
+		BETWEEN #BEGIN_TIME# AND #END_TIME#
+	</select>
+
+	<select id="qryRufund" parameterClass="Map" resultClass="ActAdjoweInfo">
+		select
+		remark,
+		login_no loginNo,
+		op_code opCode,
+		op_sn opSn,
+		should_pay shouldPay,
+		to_char(OP_TIME, 'YYYYMMDD HH24:MI:SS') opTime
+		from
+		act_adjowe_info
+		where ID_NO = #ID_NO#
+		and op_code in ('8010', '8041')
+		AND to_char(OP_TIME, 'YYYYMMDD') BETWEEN #BEGIN_TIME# AND #END_TIME#
+		order by op_time desc
+	</select>
+
+	<select id="qBillDay" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT decode(nvl(max(bill_day), 0) + 1, 1, 9000, max(bill_day) + 1)
+		billDay
+		FROM ACT_ADJOWE_INFO
+		WHERE TO_CHAR(OP_TIME,'YYYYMM') =
+		#YEAR_MONTH#
+		AND CONTRACT_NO = #CONTRACT_NO#
+		AND ID_NO=#ID_NO#
+		AND
+		BILL_DAY <![CDATA[ >= ]]>9000
+	</select>
+
+	<insert id="iAdjOweInfo" parameterClass="Map">
+		INSERT INTO
+		ACT_ADJOWE_INFO
+		(BILL_ID,CONTRACT_NO,PHONE_NO,ID_NO,BRAND_ID,GROUP_ID,NATURAL_MONTH,CYCLE_TYPE
+		,BILL_CYCLE,BILL_BEGIN,
+		BILL_TYPE,BILL_DAY,ACCT_ITEM_CODE,SHOULD_PAY,FAVOUR_FEE,ADJ_FLAG,OP_SN
+		,OP_CODE,LOGIN_NO,OP_TIME,REMARK,ADJ_REASON,ADJ_TYPE,ERR_SERIAL,STATUS,
+		REFUND_BEGIN_DT,REFUND_END_DT,OPER_CODE,OPER_NAME,BALANCE_TYPE,DEAL_TYPE)
+		VALUES
+		(#BILL_ID#,#CONTRACT_NO#,#PHONE_NO#,#ID_NO#,#BRAND_ID#,#GROUP_ID#,#NATURAL_MONTH#,#CYCLE_TYPE#
+		,#BILL_CYCLE#,#BILL_BEGIN#,#BILL_TYPE#,#BILL_DAY#,#ACCT_ITEM_CODE#,#SHOULD_PAY#,#FAVOUR_FEE#
+		,#ADJ_FLAG#,#OP_SN#,#OP_CODE#,#LOGIN_NO#,sysdate,#REMARK#,#ADJ_REASON#,#ADJ_TYPE#,#ERR_SERIAL#,#ADJ_FLAG#,
+		#REFUND_BEGIN_DT#,#REFUND_END_DT#,#OPER_CODE#,#OPER_NAME#,#BALANCE_TYPE#,#DEAL_TYPE#)
+	</insert>
+
+	<typeAlias alias="adjExtendEntity"
+		type="com.sitech.acctmgr.atom.domains.adj.AdjExtendEntity" />
+	<select id="qAdjInfo" parameterClass="Map" resultClass="adjExtendEntity">
+		SELECT SHOULD_PAY backFee,REMARK remark,ADJ_REASON adjReason,ADJ_TYPE
+		adjType,ERR_SERIAL errSerial, STATUS status,OP_SN opSn,
+		TO_CHAR(OP_TIME,'YYYYMMDD')
+		opTime, LOGIN_NO loginNo, ID_NO userIdNo
+		FROM ACT_ADJOWE_INFO
+		WHERE 1 = 1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="OP_SN">
+				OP_SN = #OP_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ADJ_FLAG">
+				TRIM(ADJ_FLAG) = #ADJ_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="STATUS">
+				STATUS = #STATUS#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ADJ_TYPE">
+				ADJ_TYPE IN 
+				<iterate property="ADJ_TYPE" close=")" open="(" conjunction="," prepend="">
+				#ADJ_TYPE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="LOGIN_NO">
+				LOGIN_NO = #LOGIN_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BEGIN_TIME">
+				<isNotEmpty prepend="AND" property="END_TIME">
+			<!-- 		OP_TIME BETWEEN TO_DATE(#BEGIN_TIME#,'YYYYMMDD HH24:MI:SS') AND
+					TO_DATE(#END_TIME#,'YYYYMMDD HH24:MI:SS') -->
+					TO_CHAR(OP_TIME,'YYYYMMDD') BETWEEN #BEGIN_TIME# AND
+					#END_TIME#
+					
+				</isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YEAR_MONTH">
+				TO_CHAR(OP_TIME,'YYYYMM') =#YEAR_MONTH#
+			</isNotEmpty>
+			
+			ORDER BY OP_TIME ASC
+		</dynamic>
+	</select>
+
+	<select id="qBatchAdjInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT A.OP_SN OP_SN, A.ID_NO ID_NO, TO_CHAR(A.OP_TIME, 'YYYYMMDD')
+		OP_TIME, A.ADJ_REASON ADJ_REASON,
+		A.SHOULD_PAY SHOULD_PAY, A.ADJ_TYPE
+		ADJ_TYPE, A.LOGIN_NO LOGIN_NO, A.ERR_SERIAL ERR_SERIAL,A.GROUP_ID,
+		B.SP_NAME SP_NAME,B.OPER_NAME OPER_NAME,
+		B.SP_CODE SP_CODE, B.OPER_CODE OPER_CODE, B.BILL_TYPE BILL_TYPE,
+		B.LAST_TIME USER_TIME,B.UNIT_PRICE PRICE,B.QUANTITY COUNT
+		FROM
+		ACT_ADJOWE_INFO A,
+		ACT_OBBIZBACK_INFO B,
+		BS_LOGINMSG_DICT C,
+		BS_CHNGROUP_DICT D
+		WHERE A.OP_SN = B.LOGIN_ACCEPT(+)
+		AND A.LOGIN_NO = C.LOGIN_NO
+		AND C.GROUP_ID = D.GROUP_ID
+		AND D.REGION_ID = #REGION_ID#
+		AND C.PROVINCE_ID = #PROVINCE_ID#
+		AND A.GROUP_ID = D.GROUP_ID(+)
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ID_NO">
+				A.ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ADJ_FLAG">
+				ADJ_FLAG = #ADJ_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="STATUS">
+				A.STATUS = #STATUS#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="OP_CODE">
+				A.OP_CODE = #OP_CODE#
+			</isNotEmpty>
+		</dynamic>
+		AND TO_CHAR(A.OP_TIME,'YYYYMMDD') BETWEEN #BEGIN_TIME# AND
+		#END_TIME#
+	</select>
+
+
+	<select id="qryRefundInfo" parameterClass="Map" resultClass="refundEntity">
+		select ID_NO idNo,
+		OP_SN loginAccept,
+		TO_CHAR(OP_TIME,'YYYYMMDDHH24MISS') opTime,
+		ERR_SERIAL foreignAccept,
+		ADJ_TYPE refundType,
+		SHOULD_PAY refundMoney,
+		LOGIN_NO loginNo,
+		ADJ_REASON reasonCode
+		from ACT_ADJOWE_INFO
+		WHERE TO_CHAR(OP_TIME, 'YYYYMM') = #YEAR_MONTH#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="ADJ_REASON">
+				AND ADJ_REASON=#REASON#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BEGIN_TIME">
+				AND TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[>=]]> #BEGIN_TIME#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="END_TIME">
+				AND TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[<=]]> #END_TIME#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="LOGIN_ACCEPT">
+				AND OP_SN = #LOGIN_ACCEPT#
+			</isNotEmpty>
+		</dynamic>
+		
+		
+	</select>
+
+	<select id="qryMonthFee" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT NVL(SUM(SHOULD_PAY),0)
+		FROM  ACT_ADJOWE_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="ID_NO">
+				AND ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="YEAR_MONTH">
+				AND TO_CHAR(OP_TIME, 'YYYYMM') = #YEAR_MONTH#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="F">
+				AND SHOULD_PAY <![CDATA[>]]> 0
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="qryMinusMonthFee" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT NVL(SUM(SHOULD_PAY),0)
+		FROM  ACT_ADJOWE_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="YEAR_MONTH">
+				AND TO_CHAR(OP_TIME, 'YYYYMM') = #YEAR_MONTH#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="F">
+				AND SHOULD_PAY <![CDATA[<]]> 0
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="uAdjOweInfo" parameterClass="Map">
+		UPDATE ACT_ADJOWE_INFO SET STATUS='1' 
+		WHERE ID_NO=#ID_NO# 
+		AND OP_SN=#OP_SN#
+	</update>
+</sqlMap>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_obbizback_info">
+
+	<typeAlias alias="refundEntity" type="com.sitech.acctmgr.atom.domains.query.RefundEntity" />
+	<insert id="iObbizbackInfo" parameterClass="Map">
+		INSERT INTO
+		ACT_OBBIZBACK_INFO (LOGIN_ACCEPT, FILE_TYPE, BILL_CYCLE, MSISDN,
+		ID_NO, SERVICE_TYPE, SP_CODE, OPER_CODE, BACK_FEE, BACK_TYPE,
+		BILL_TYPE, LAST_TIME, BACK_TIME, RETURN_TYPE, LOGIN_NO, 
+		OP_CODE,CHECK_TIME,SP_NAME,OPER_NAME,
+		OP_TIME, BACK_RSLT, REMARK, THIRD_DN, MSG_SEQ, CONTENT_ID, ORDER_ID,
+		BRAND_ID, USER_GROUP_ID, EXT1, EXT2, FOREIGN_ACCEPT, ACCT_ITEM_CODE,STATUS,FLAG,
+		ORDER_ID_MG, TRANSACTION_ID, CHANNEL_ID, SPBILL_ID, YEAR_MONTH,UNIT_PRICE,QUANTITY,CHECK_TYPE)
+		VALUES
+		(#LOGIN_ACCEPT#, #FILE_TYPE#, #BILL_CYCLE#, #MSISDN#,
+		#ID_NO#, #SERVICE_TYPE#, #SP_CODE#, #OPER_CODE#,#BACK_FEE#, #BACK_TYPE#,
+		#BILL_TYPE#, #LAST_TIME#, #BACK_TIME#, #RETURN_TYPE#, #LOGIN_NO#,
+		#OP_CODE#,TO_DATE(#CHECK_TIME#,'YYYYMMDD HH24:MI:SS'),#SP_NAME#,#OPER_NAME#,
+		SYSDATE, #BACK_RSLT#, #REMARK#, NULL, NULL, NULL,NULL,
+		#BRAND_ID#, #USER_GROUP_ID#, NULL, NULL, NULL, #ACCT_ITEM_CODE#,#STATUS#,#FLAG#,
+		NULL, NULL, NULL, #SPBILL_ID#,#YEAR_MONTH#,#UNIT_PRICE#,#QUANTITY#,#CHECK_TYPE#)
+	</insert>
+
+	<select id="qryCnt" parameterClass="Map" resultClass="Integer">
+		SELECT
+		COUNT(1) CNT
+		FROM ACT_OBBIZBACK_INFO
+		WHERE 1=1
+		 <dynamic prepend="">
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND MSISDN = #PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="LOGIN_ACCEPT">
+				AND LOGIN_ACCEPT = #LOGIN_ACCEPT#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qryRefundInfo" parameterClass="Map" resultClass="refundEntity">
+		SELECT MSISDN phoneNo,
+		LOGIN_ACCEPT loginAccept,
+		ID_NO idNo,
+		SP_CODE spCode,
+		OPER_CODE operCode,
+		BACK_TYPE refundType,
+		BACK_FEE refundMoney,
+		BILL_TYPE billType,
+		LOGIN_NO loginNo,
+		OP_CODE opCode,
+		TO_CHAR(OP_TIME,'YYYY-MM-DD HH24:MI:SS') opTime,
+		BACK_RSLT reasonCode,
+		REMARK remark,
+		EXT1 beginTime,
+		EXT2 endTime,
+		FOREIGN_ACCEPT foreignAccept,
+		SP_NAME spName,
+		OPER_NAME operName
+		FROM ACT_OBBIZBACK_INFO
+		WHERE YEAR_MONTH=#YEAR_MONTH#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="REASON">
+				AND BACK_RSLT LIKE	#REASON#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="BEGIN_TIME">
+				AND OP_TIME <![CDATA[>=]]>
+				TO_DATE(#BEGIN_TIME#,'YYYYMMDD')
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="END_TIME">
+				AND OP_TIME <![CDATA[<=]]>
+				TO_DATE(#END_TIME#,'YYYYMMDD')
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND MSISDN = #PHONE_NO#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="FLAG">
+				AND FLAG = #FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="LOGIN_ACCEPT">
+				AND LOGIN_ACCEPT = #LOGIN_ACCEPT#
+			</isNotEmpty>
+		</dynamic>
+		
+		ORDER BY OP_TIME DESC
+	</select>
+	
+	<select id="qrySPBackInfo" parameterClass="Map" resultClass="refundEntity">
+		SELECT MSISDN phoneNo,
+		LOGIN_ACCEPT loginAccept,
+		ID_NO idNo,
+		UNIT_PRICE unitPrice,
+		QUANTITY quantity,
+		to_char(CHECK_TIME,'YYYYMMDD HH24:MI:SS') checkTime,
+		LAST_TIME lastTime,
+		CHECK_TYPE checkType,
+		RETURN_TYPE returnType,
+		FLAG ivrFlag,
+		SP_CODE spCode,
+		SP_NAME spName,
+		OPER_NAME operName,
+		OPER_CODE operCode,
+		BACK_TYPE refundType,
+		BACK_FEE backFee,
+		BILL_TYPE billType,
+		LOGIN_NO loginNo,
+		OP_CODE opCode,
+		to_char(OP_TIME,'YYYYMMDD HH24:MI:SS') opTime,
+		BACK_RSLT reasonCode,
+		REMARK remark,
+		EXT1 beginTime,
+		EXT2 endTime,
+		FOREIGN_ACCEPT foreignAccept
+		FROM ACT_OBBIZBACK_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="REASON">
+				AND BACK_RSLT LIKE	#REASON#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="FOREIGN_ACCEPT">
+				AND FOREIGN_ACCEPT = #FOREIGN_ACCEPT#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="BEGIN_TIME">
+				AND OP_TIME <![CDATA[>=]]>
+				TO_DATE(#BEGIN_TIME#,'YYYYMMDD')
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="END_TIME">
+				AND OP_TIME <![CDATA[<=]]>
+				TO_DATE(#END_TIME#,'YYYYMMDD')
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND MSISDN = #PHONE_NO#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="" property="FLAG">
+				AND FLAG = #FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="LOGIN_ACCEPT">
+				AND LOGIN_ACCEPT = #LOGIN_ACCEPT#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATUS">
+				AND STATUS = #STATUS#
+			</isNotEmpty>
+		</dynamic>
+		
+		ORDER BY OP_TIME DESC
+	</select>
+
+</sqlMap>

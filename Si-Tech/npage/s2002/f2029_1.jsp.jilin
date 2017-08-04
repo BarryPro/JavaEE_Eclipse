@@ -1,0 +1,759 @@
+<%
+  /*
+   * 功能: 问题反馈
+　 * 版本: v1.0
+　 * 日期: 2008年10月25日
+　 * 作者: piaoyi
+　 * 版权: sitech
+   * 修改历史
+   * 修改日期      修改人      修改目的
+ 　*/
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd>
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib uri="weblogic-tags.tld" prefix="wl" %>
+<%@ include file="/npage/include/public_title_name.jsp" %>
+<%@ page contentType="text/html; charset=gb2312" %>
+<%@ page import="java.io.*"%>
+<%@ page import="java.util.*"%>
+<%
+	response.setHeader("Pragma","No-Cache");
+	response.setHeader("Cache-Control","No-Cache");
+  response.setDateHeader("Expires", 0);
+  String workName = (String)session.getAttribute("workName");
+  String ipAddr = (String)session.getAttribute("ipAddr");
+  String orgCode = (String)session.getAttribute("orgCode");
+  String regionCode = orgCode.substring(0,2);
+  String opCode="2029";
+  String opName="商品订购管理";
+  String sqlStr="";
+%>
+<HTML>
+<HEAD>
+<link href="s2002.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="/njs/extend/jquery/portalet/interface_pack.js"></script>
+</HEAD>
+<BODY>
+	<FORM name="form1" method="post">
+<%@ include file="/npage/include/header.jsp" %>
+<div class="title"><div id="title_zi">商品订购</div></div>
+<input name="p_OrderSourceID" id=p_OrderSourceID value="0" type="hidden">
+<wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regionCode%>"  id="seq"/>
+<input name="p_POOrderNumber" id="p_POOrderNumber" value="<%=seq%>" type="hidden">
+<table cellSpacing=0>
+  <tr>
+    <td class="blue" width="15%">
+    操作类型
+    </td>
+    <td colspan="3">
+      <select align="left" name="p_OperType" id=p_OperType width=50>      
+      <option value="0">新增</option>
+      <option value="2">变更</option>
+      </select>
+    </td>
+   </tr>
+   <tr>     
+    <td class="blue" width="15%">
+    集团客户归属省编码
+    </td>
+    <td width="35%">
+      <input name="p_CustomerProvinceNumber" id="p_CustomerProvinceNumber" v_type="0_9"  v_must="1" size="20" maxlength="18">
+      <input name="CustomerNumberCheckDiv" type="button" class="b_text" onclick="checkCustomerNumber()" id="CustomerNumberCheckDiv" value="效验">
+      <input name="CustomerNumberQueryDiv" type="button" class="b_text" onclick="getOrderInfo()" id="CustomerNumberQueryDiv" value="查询">
+    </td>  
+    <td class="blue" width="15%">
+    EC集团客户编码
+    </td>
+    <td width="35%">
+      <input name="p_CustomerNumber" id="p_CustomerNumber" v_type="0_9"  v_must="1" size="20" maxlength="18">
+    </td>
+   </tr>
+   <tr>     
+    <td  class="blue">
+    商品规格编号
+    </td>
+    <td>
+      <input name="p_POSpecNumber" id="p_POSpecNumber" v_type="0_9" size="20" maxlength="9" readonly>
+      <input name="POSpecNumberQueryDiv" type="button" class="b_text" onclick="getPOSpecNumber()" id="POSpecNumberQueryDiv" value="查询">
+    </td>
+    <td  class="blue">
+    商品规格名称
+    </td>
+    <td>
+      <input name="p_POSpecName" id="p_POSpecName" v_type="0_9" size="20" maxlength="9" readonly>
+    </td>    
+   </tr>
+   <tr>
+    <td class="blue">
+    商品订购关系ID
+    </td>
+    <td>
+      <input name="p_ProductOfferingID" id="p_ProductOfferingID" v_type="string" size="20" maxlength="20" readonly>
+    </td>
+    <td class="blue">
+    主办省
+    </td>
+    <td>
+      <select name="p_HostCompany" id=p_HostCompany>
+       <option value="431">吉林</option>
+      </select>
+    </td>
+  </tr>
+   <tr>
+    <td class="blue">
+    套餐生效规则
+    </td>
+    <td>
+      <select name="p_PORatePolicyEffRule" id=p_PORatePolicyEffRule>
+       <option value="">------不限制------</option>
+       <%sqlStr ="select detail_code, detail_name from sbbossListCode where list_code = 'PORatePolicyER' order by detail_order ";%>
+			 <wtc:qoption name="sPubSelect" outnum="2">
+			 <wtc:sql><%=sqlStr%></wtc:sql>
+			 </wtc:qoption>
+      </select>
+    </td>
+    <td class="blue">
+    业务开展模式
+    </td>
+    <td>
+      <select name="p_BusinessMode" id="p_BusinessMode">
+       <option>------不限制------</option>		
+  		 <option value="5">本省处理本省支付</option> 
+  		 <option value="3">主办省一点受理一点支付</option> 
+  		 <option value="4">主办省一点受理分省支付</option> 
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="blue">
+    合作伙伴编码
+    </td>
+    <td>
+      <input name="p_SICode" id="p_SICode" v_type="string" size="20" maxlength="20">
+    </td>
+    <td class="blue">商品订购状态
+    </td>
+    <td>
+      <select name="p_Status" id=p_Status>
+       <option value="">------不限制------</option>
+       <option value="1">新增</option>
+       <!--option value="2">取消</option-->
+       <option value="3">暂停</option>
+       <option value="4">恢复</option>
+      </select>
+    </td>
+  </tr>
+</table>
+<input name="p_operationSubTypeID" id="p_operationSubTypeID" type="hidden" value="">
+<br>
+<div id="divold">
+<div class="title"><div id="title_zi">商品级业务操作</div></div>
+
+<table cellSpacing=0>
+  <tr>
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="2">
+      取消商品订购
+    </td class="blue">
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="3" disabled>
+      商品暂停(保留)
+    </td class="blue">
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="4" disabled>
+      商品恢复(保留)
+    </td class="blue">
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="5" disabled>
+      修改商品资费(保留)
+    </td class="blue">
+  </tr>
+  <tr>
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="6">
+      变更成员
+    </td class="blue">
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="7">
+      修改订购商品组成关系
+    </td class="blue">
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="8" disabled>
+      修改缴费关系(保留)
+    </td class="blue">
+    <td class="blue" width="25%">
+    	<input type="checkbox" name="OperationSubTypeIDChkBox" value="9">
+      修改订购产品属性
+    </td class="blue">
+  </tr>
+  <input type="hidden" id="OperationTypeID" value="">
+</table>
+
+  </div>
+<br>
+
+<DIV id="div1_show"   class="groupItem">
+   <DIV class="title">
+	    <DIV id="zi"><img id="div1_switch" class="closeEl" src="../../../nresources/default/images/jia.gif" style='cursor:hand' width="15" height="15"></DIV>
+   	  <DIV id="zi0">商品套餐列表</DIV>
+   </DIV>
+   <DIV class="itemContent" id="mydiv1">
+	 	  <DIV id="wait1"><img src="/nresources/default/images/protalloading.gif"  width="150" height="30">
+	 	  </DIV>
+   </DIV>
+</DIV>
+<DIV id="div2_show"   class="groupItem">
+   <DIV class="title">
+	    <DIV id="zi"><img id="div2_switch" class="closeEl" src="../../../nresources/default/images/jia.gif" style='cursor:hand' width="15" height="15"></DIV>
+   	  <DIV id="zi0">产品订购列表</DIV>
+   </DIV>
+   <DIV class="itemContent" id="mydiv2">
+	 	  <DIV id="wait2"><img src="/nresources/default/images/protalloading.gif"  width="150" height="30">
+	 	  </DIV>
+   </DIV>
+</DIV>
+<table>
+  <tr>
+    <td align="center" id="footer" colspan="2">
+      <input class="b_foot" name=next id=nextoper type=button value="确认">
+      <input class="b_foot" name=reset type=button value="关闭" onClick="parent._exttabref.removeTab('<%=opCode%>')">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="hiddendate_PospecratePolicy_num"           id="hiddendate_PospecratePolicy_num"            value="0">
+<input type="hidden" name="hiddendate_RatePlans_num"                  id="hiddendate_RatePlans_num"                   value="0">
+<input type="hidden" name="hiddendate_POICBs_num"                     id="hiddendate_POICBs_num"                      value="0">
+<input type="hidden" name="hiddendate_ProductOrder_num"               id="hiddendate_ProductOrder_num"                value="0">
+<input type="hidden" name="hiddendate_ProductOrderRatePlan_num"       id="hiddendate_ProductOrderRatePlan_num"        value="0">
+<input type="hidden" name="hiddendate_ProductOrderPOICB_num"          id="hiddendate_ProductOrderPOICB_num"           value="0">
+<input type="hidden" name="hiddendate_PayCompany_num"                 id="hiddendate_PayCompany_num"                  value="0">
+<input type="hidden" name="hiddendate_ProductOrderChara_num"          id="hiddendate_ProductOrderChara_num"           value="0">
+<input type="hidden" name="hiddendate_PospecratePolicy_num_delete"    id="hiddendate_PospecratePolicy_num_delete"     value="0">
+<input type="hidden" name="hiddendate_RatePlans_num_delete"           id="hiddendate_RatePlans_num_delete"            value="0">
+<input type="hidden" name="hiddendate_POICBs_num_delete"              id="hiddendate_POICBs_num_delete"               value="0">
+<input type="hidden" name="hiddendate_ProductOrder_num_delete"        id="hiddendate_ProductOrder_num_delete"         value="0">
+<input type="hidden" name="hiddendate_ProductOrderRatePlan_num_delete"id="hiddendate_ProductOrderRatePlan_num_delete" value="0">
+<input type="hidden" name="hiddendate_ProductOrderPOICB_num_delete"   id="hiddendate_ProductOrderPOICB_num_delete"    value="0">
+<input type="hidden" name="hiddendate_PayCompany_num_delete"          id="hiddendate_PayCompany_num_delete"           value="0">
+<input type="hidden" name="hiddendate_ProductOrderChara_num_delete"   id="hiddendate_ProductOrderChara_num_delete"    value="0">
+
+<DIV id="hiddendate_new">
+</DIV>
+<DIV id="hiddendate_delete">
+	<input type="hidden" class="POSOper" value="">
+</DIV>
+</DIV>
+</DIV>
+<%@ include file="/npage/include/footer.jsp" %>
+</FORM>
+</BODY>
+</HTML>
+<script type="text/javascript">
+
+function nextoper()
+{
+
+	  if($("#p_PORatePolicyEffRule").val()==""){
+	  	rdShowMessageDialog("请选择套餐生效规则!");
+	  	$("#nextoper").attr("disabled","");
+	  	return false;
+	  }
+	  if($("#p_BusinessMode").val()==""){
+	  	rdShowMessageDialog("请选择业务开展模式!");
+	  	$("#nextoper").attr("disabled","");
+	  	return false;
+	  }
+
+	  if($("#p_POOrderNumber").val()==""){
+	  	rdShowMessageDialog("请输入商品订单号编号!");
+	  	$("#nextoper").attr("disabled","");
+	  	return false;
+	  }
+
+	  //判断操作类型 0:新增 2:修改
+	  if($("#p_OperType").val()=="2"){
+	     var checkTmp =""
+       $("input[@name='OperationSubTypeIDChkBox']").each(function()
+       {
+        if($(this).attr("checked")){
+        	 checkTmp=checkTmp+$(this).val()+"|"
+        }
+       });
+       if(checkTmp==""){
+       	rdShowMessageDialog("请选择商品级业务操作!");
+       	$("#nextoper").attr("disabled","");
+       	return;
+       }
+       $("#p_operationSubTypeID").val(checkTmp);
+    }
+
+    if($("#p_OperType").val()=="0"){
+       $("#p_operationSubTypeID").val("1|");
+    }    
+                                                             
+    //var ProdOrdHaveOperFlag = "N";
+    //$.each($(".ProductOrder_contenttr"), function(i){    
+	  //if($(this).attr("a_OperationSubTypeID")){	  	 
+	  //	 ProdOrdHaveOperFlag = "Y";	  	 
+	  //}
+	  //});	  
+    //if(ProdOrdHaveOperFlag=="N"&&$("DIV.ProductOrder","#hiddendate_delete").size()==0)
+    //{
+    //	 rdShowMessageDialog("请至少进行一个产品级操作后再提交!");
+    //	 $("#nextoper").attr("disabled","");
+    //	 return false;
+    //}
+           
+    $("#nextoper").attr("disabled","true");
+	  //商品套餐-----------------------------------------------
+	  if(!checkTmp){
+	  	checkTmp="x|";
+	  }
+	  if(checkTmp.indexOf("5|")>-1||checkTmp.indexOf("1|")>-1||checkTmp.indexOf("x|")>-1){
+	     $.each($(".pospecratepolicy_contenttr"), function(i){
+  	   	  var ii  = $("DIV.PospecratePolicy","#hiddendate_new").size();
+  	       var newdate=
+           "<DIV class='PospecratePolicy'>" +
+           "<input type='hidden' name='tableid_POS"+ii+"'              value='1'>"                                       +
+           "<input type='hidden' name='a_POSpecRatePolicyID_POS"+ii+"' value='"+$(this).attr("a_POSpecRatePolicyID")     +"'>"+
+           "<input type='hidden' name='a_Name_POS"+ii+"'               value='"+$(this).attr("a_Name")                   +"'>"+
+           "<input type='hidden' name='a_POOrderNumber_POS"+ii+"'      value='"+$(this).attr("a_POOrderNumber")          +"'>"+
+           "<input type='hidden' name='a_POSpecNumber_POS"+ii+"'       value='"+$(this).attr("a_POSpecNumber")           +"'>"+
+           "<input type='hidden' name='a_RatePlansListCheck_POS"+ii+"' value='"+$(this).attr("a_RatePlansListCheck")     +"'>"+
+           "<input type='hidden' name='a_AcceptID_POS"+ii+"'           value='"+$(this).attr("a_AcceptID")               +"'>"+
+           "</DIV>";
+           $("#hiddendate_new").append(newdate);
+           //商品资费计划-----------------------------------------------
+           var POSpecRatePolicy_4 = $(this).data("a_RatePlansList");
+           if(POSpecRatePolicy_4){
+         		 $.each(POSpecRatePolicy_4, function(iii)
+         		 {
+         		 	 var i4  = $("DIV.RatePlans","#hiddendate_new").size();
+       	       var newedatei=
+       	       "<DIV class='RatePlans'>"+
+       	       "<input type='hidden' name='tableid_POSRP"+i4+"'              value='2'>"+
+       	       "<input type='hidden' name='a_RatePlanID_POSRP"+i4+"'         value='"+POSpecRatePolicy_4[iii][0]+"'>" + //0
+       	       "<input type='hidden' name='a_Description_POSRP"+i4+"'        value='"+POSpecRatePolicy_4[iii][1]+"'>" + //1
+       	       "<input type='hidden' name='a_POOrderNumber_POSRP"+i4+"'      value='"+POSpecRatePolicy_4[iii][2]+"'>" + //2
+       	       "<input type='hidden' name='a_POSpecNumber_POSRP"+i4+"'       value='"+POSpecRatePolicy_4[iii][3]+"'>" + //3
+       	       "<input type='hidden' name='a_POSpecRatePolicyID_POSRP"+i4+"' value='"+POSpecRatePolicy_4[iii][4]+"'>" + //4
+       	       "<input type='hidden' name='a_OperType_POSRP"+i4+"'           value='"+POSpecRatePolicy_4[iii][5]+"'>" + //5
+       	       "<input type='hidden' name='a_POICBListCheck_POSRP"+i4+"'     value='"+POSpecRatePolicy_4[iii][8]+"'>" + //8
+       	       "<input type='hidden' name='a_ParAcceptID_POSRP"+i4+"'        value='"+POSpecRatePolicy_4[iii][9]+"'>" + //9
+       	       "<input type='hidden' name='a_AcceptID_POSRP"+i4+"'           value='"+POSpecRatePolicy_4[iii][10]+"'>"+ //10
+                "</DIV>";
+                $("#hiddendate_new").append(newedatei);
+                //商品资费POICB--------------------------------------------------------------
+                var RatePlan_6=POSpecRatePolicy_4[iii][6];
+                if(RatePlan_6){
+         		       $.each(RatePlan_6, function(i5)
+         		       {
+  	         	      	 var i6  = $("DIV.POICBs","#hiddendate_new").size();
+       	               var newedateii=
+       	               "<DIV class='POICBs'>"+
+       	               "<input type='hidden' name='tableid_POICB"+i6+"'              value='3'>"+
+       	               "<input type='hidden' name='a_ParameterNumber_POICB"+i6+"'    value='"+RatePlan_6[i5][0]+"'>" + //0
+       	               "<input type='hidden' name='a_ParameterName_POICB"+i6+"'      value='"+RatePlan_6[i5][1]+"'>" + //1
+       	               "<input type='hidden' name='a_ParameterValue_POICB"+i6+"'     value='"+RatePlan_6[i5][2]+"'>" + //2
+       	               "<input type='hidden' name='a_POSpecNumber_POICB"+i6+"'       value='"+RatePlan_6[i5][3]+"'>" + //3
+       	               "<input type='hidden' name='a_POOrderNumber_POICB"+i6+"'      value='"+RatePlan_6[i5][4]+"'>" + //4
+       	               "<input type='hidden' name='a_POSpecRatePolicyID_POICB"+i6+"' value='"+RatePlan_6[i5][5]+"'>" + //5
+       	               "<input type='hidden' name='a_RatePlanID_POICB"+i6+"'         value='"+RatePlan_6[i5][6]+"'>" + //8
+       	               "<input type='hidden' name='a_OperType_POICB"+i6+"'           value='"+RatePlan_6[i5][7]+"'>" + //9
+       	               "<input type='hidden' name='a_ParAcceptID_POICB"+i6+"'        value='"+RatePlan_6[i5][8]+"'>" + //10
+       	               "<input type='hidden' name='a_AcceptID_POICB"+i6+"'           value='"+RatePlan_6[i5][9]+"'>" + //10
+                        "</DIV>";
+                        $("#hiddendate_new").append(newedateii);
+                    });
+                }
+                //商品资费POICB--------------------------------------------------------------
+         		 });
+         	}
+         	//商品资费计划-------------------------------------------------------------------
+  	   });
+    }
+    //商品套餐----------------------------------------------------------------------------
+
+	  //产品订单-----------------------------------------------------------------------------------
+	  //alert($(".ProductOrder_contenttr").size());
+	  $.each($(".ProductOrder_contenttr"), function(i){
+	  	  //alert($(this).attr("a_ProductOrderNumber"));
+	  	  var ii  = $("DIV.ProductOrder","#hiddendate_new").size();
+	  	  var newdate=
+        "<DIV class='ProductOrder'>" +
+        "<input type='hidden' name='tableid_PrdOrd"+ii+"'                          value='0'>"+
+        "<input type='hidden' name='a_ProductOrderNumber_PrdOrd"+ii+"'             value='"+$(this).attr("a_ProductOrderNumber")             +"'>"+
+        "<input type='hidden' name='a_ProductID_PrdOrd"+ii+"'                      value='"+$(this).attr("a_ProductID")                      +"'>"+
+        "<input type='hidden' name='a_ProductSpecNumber_PrdOrd"+ii+"'              value='"+$(this).attr("a_ProductSpecNumber")              +"'>"+
+        "<input type='hidden' name='a_AccessNumber_PrdOrd"+ii+"'                   value='"+$(this).attr("a_AccessNumber")                   +"'>"+
+        "<input type='hidden' name='a_PriAccessNumber_PrdOrd"+ii+"'                value='"+$(this).attr("a_PriAccessNumber")                +"'>"+
+        "<input type='hidden' name='a_Linkman_PrdOrd"+ii+"'                        value='"+$(this).attr("a_Linkman")                        +"'>"+
+        "<input type='hidden' name='a_ContactPhone_PrdOrd"+ii+"'                   value='"+$(this).attr("a_ContactPhone")                   +"'>"+
+        "<input type='hidden' name='a_Description_PrdOrd"+ii+"'                    value='"+$(this).attr("a_Description")                    +"'>"+
+        "<input type='hidden' name='a_ServiceLevelID_PrdOrd"+ii+"'                 value='"+$(this).attr("a_ServiceLevelID")                 +"'>"+
+        "<input type='hidden' name='a_POOrderNumber_PrdOrd"+ii+"'                  value='"+$(this).attr("a_POOrderNumber")                  +"'>"+
+        "<input type='hidden' name='a_POSpecNumber_PrdOrd"+ii+"'                   value='"+$(this).attr("a_POSpecNumber")                   +"'>"+
+        "<input type='hidden' name='a_OperationSubTypeID_PrdOrd"+ii+"'             value='"+$(this).attr("a_OperationSubTypeID")             +"'>"+
+        "<input type='hidden' name='a_OperType_PrdOrd"+ii+"'                       value='"+$(this).attr("a_OperType")                       +"'>"+
+        "<input type='hidden' name='a_ProductOrderRateCheckFlag_PrdOrd"+ii+"'      value='"+$(this).attr("a_ProductOrderRateCheckFlag")      +"'>"+
+        "<input type='hidden' name='a_EnableCompanyCheckFlag_PrdOrd"+ii+"'         value='"+$(this).attr("a_EnableCompanyCheckFlag")         +"'>"+
+        "<input type='hidden' name='a_ProductOrderCharacterCheckFlag_PrdOrd"+ii+"' value='"+$(this).attr("a_ProductOrderCharacterCheckFlag") +"'>"+
+        "<input type='hidden' name='a_AcceptID_PrdOrd"+ii+"'                       value='"+$(this).attr("a_AcceptID")                       +"'>"+
+        "<input type='hidden' name='a_ProductStatus_PrdOrd"+ii+"'                  value='"+$(this).attr("a_ProductStatus")                  +"'>"+
+        "<input type='hidden' name='a_SICode_PrdOrd"+ii+"'                         value='"+$(this).attr("a_SICode")                         +"'>"+
+        "</DIV>";
+        //产品级资费-----------------------------------------------------------------------
+        //var subtypetmpe = $(this).attr("a_OperationSubTypeID");
+        var ProductOrder_13 = $(this).data("a_PORatePlanList");
+        if(ProductOrder_13){
+           $.each(ProductOrder_13, function(iii){
+           var i4  = $("DIV.ProductOrderRatePlan","#hiddendate_new").size();
+           var newdatei=
+              "<DIV class='ProductOrderRatePlan'>" +
+              "<input type='hidden' name='tableid_PrdOrdRatePlan"+i4+"' value='4'>" +
+              "<input type='hidden' name='a_RatePlanID_PrdOrdRatePlan"+i4+"'                 value='"+ ProductOrder_13[iii][0] +"'>"+
+              "<input type='hidden' name='a_Description_PrdOrdRatePlan"+i4+"'                value='"+ ProductOrder_13[iii][1] +"'>"+
+              "<input type='hidden' name='a_POOrderNumber_PrdOrdRatePlan"+i4+"'              value='"+ ProductOrder_13[iii][2] +"'>"+
+              "<input type='hidden' name='a_POSpecNumber_PrdOrdRatePlan"+i4+"'               value='"+ ProductOrder_13[iii][3] +"'>"+
+              "<input type='hidden' name='a_ProductOrderNumber_PrdOrdRatePlan"+i4+"'         value='"+ ProductOrder_13[iii][4] +"'>"+
+              "<input type='hidden' name='a_ProdcutOrderICBsCheckFlag_PrdOrdRatePlan"+i4+"'  value='"+ ProductOrder_13[iii][5] +"'>"+
+              "<input type='hidden' name='a_OperType_PrdOrdRatePlan"+i4+"'                   value='"+ ProductOrder_13[iii][8] +"'>"+
+              "<input type='hidden' name='a_ProductSpecNumber_PrdOrdRatePlan"+i4+"'          value='"+ ProductOrder_13[iii][9] +"'>"+
+              "<input type='hidden' name='a_ParAcceptID_PrdOrdRatePlan"+i4+"'                value='"+ ProductOrder_13[iii][10]+"'>"+
+              "<input type='hidden' name='a_AcceptID_PrdOrdRatePlan"+i4+"'                   value='"+ ProductOrder_13[iii][11]+"'>"+
+              "</DIV>";
+              //产品POICB--------------------------------------------------------------
+              var PrdPatePlan_6 = ProductOrder_13[iii][6];
+              if(PrdPatePlan_6){
+              	$.each(PrdPatePlan_6, function(i5){
+              		var i6 = $("DIV.ProductOrderPOICB","#hiddendate_new").size();
+
+                  var newdateii=
+                  "<DIV class='ProductOrderPOICB'>" +
+                  "<input type='hidden' name='tableid_PrdOrdPOICB"+i4+"' value='5'>" +
+                  "<input type='hidden' name='a_ParameterNumber_PrdOrdPOICB"+i4+"'     value='"+ ProductOrder_13[iii][0] +"'>"+
+                  "<input type='hidden' name='a_ParameterName_PrdOrdPOICB"+i4+"'       value='"+ ProductOrder_13[iii][1] +"'>"+
+                  "<input type='hidden' name='a_ParameterValue_PrdOrdPOICB"+i4+"'      value='"+ ProductOrder_13[iii][2] +"'>"+
+                  "<input type='hidden' name='a_POSpecNumber_PrdOrdPOICB"+i4+"'        value='"+ ProductOrder_13[iii][3] +"'>"+
+                  "<input type='hidden' name='a_POOrderNumber_PrdOrdPOICB"+i4+"'       value='"+ ProductOrder_13[iii][4] +"'>"+
+                  "<input type='hidden' name='a_ProductOrderNumber_PrdOrdPOICB"+i4+"'  value='"+ ProductOrder_13[iii][5] +"'>"+
+                  "<input type='hidden' name='a_RatePlanID_PrdOrdPOICB"+i4+"'          value='"+ ProductOrder_13[iii][6] +"'>"+
+                  "<input type='hidden' name='a_ProductSpecNumber_PrdOrdPOICB"+i4+"'   value='"+ ProductOrder_13[iii][8] +"'>"+
+                  "<input type='hidden' name='a_ParAcceptID_PrdOrdPOICB"+i4+"'         value='"+ ProductOrder_13[iii][9] +"'>"+
+                  "<input type='hidden' name='a_AcceptID_PrdOrdPOICB"+i4+"'            value='"+ ProductOrder_13[iii][10]+"'>"+
+                  "</DIV>";
+                  $("#hiddendate_new").append(newdateii);
+              	});
+              }
+              //产品POICB------------------------------------------------------------------
+              $("#hiddendate_new").append(newdatei);
+           });
+           //产品级资费-----------------------------------------------------------------------
+        }
+        //产品参数---------------------------------------------------------------------------        
+        if($(this).attr("a_OperationSubTypeID")){
+        	  var subtypetmpe = $(this).attr("a_OperationSubTypeID")
+        	  //if(!subtypetmpe){
+        	  //	subtypetmpe="x|";
+        	  //}           
+            if((subtypetmpe.indexOf("9|")>-1&&checkTmp.indexOf("9|")>-1)||subtypetmpe.indexOf("1|")>-1){//选择了修改订购产品属性复选
+                var ProductOrder_15 = $(this).data("a_POProductOrderCharacterList");
+                if(ProductOrder_15){
+                   $.each(ProductOrder_15, function(iii){
+                   var i4  = $("DIV.ProductOrderChara","#hiddendate_new").size();
+                   var newdatei=
+                          "<DIV class='ProductOrderChara'>" +
+                          "<input type='hidden' name='tableid_ProOrdChara"+i4+"' value='7'>"                                                    +
+                          "<input type='hidden' name='a_ProductSpecCharacterNumber_ProOrdChara"+i4+"'    value='"+ ProductOrder_15[iii][0] +"'>"+
+                          "<input type='hidden' name='a_Name_ProOrdChara"+i4+"'                          value='"+ ProductOrder_15[iii][1] +"'>"+
+                          "<input type='hidden' name='a_CharacterValue_ProOrdChara"+i4+"'                value='"+ ProductOrder_15[iii][2] +"'>"+
+                          "<input type='hidden' name='a_POOrderNumber_ProOrdChara"+i4+"'                 value='"+ ProductOrder_15[iii][3] +"'>"+
+                          "<input type='hidden' name='a_POSpecNumber_ProOrdChara"+i4+"'                  value='"+ ProductOrder_15[iii][4] +"'>"+
+                          "<input type='hidden' name='a_ProductOrderNumber_ProOrdChara"+i4+"'            value='"+ ProductOrder_15[iii][5] +"'>"+
+                          "<input type='hidden' name='a_OperType_ProOrdChara"+i4+"'                      value='"+ ProductOrder_15[iii][6] +"'>"+
+                          "<input type='hidden' name='a_ProductSpecNumber_ProOrdChara"+i4+"'             value='"+ ProductOrder_15[iii][7] +"'>"+
+                          "<input type='hidden' name='a_ParAcceptID_ProOrdChara"+i4+"'                   value='"+ ProductOrder_15[iii][8] +"'>"+
+                          "<input type='hidden' name='a_AcceptID_ProOrdChara"+i4+"'                      value='"+ ProductOrder_15[iii][9]+"'>"+
+                          "</DIV>";
+                   $("#hiddendate_new").append(newdatei);
+	  	             });
+	  	          }
+	  	      }
+	  	  }
+	  	  //产品参数---------------------------------------------------------------------------
+        $("#hiddendate_new").append(newdate);
+    });
+    //产品订单-------------------------------------------------------------------------------
+
+    $("#hiddendate_PospecratePolicy_num").val($("DIV.PospecratePolicy","#hiddendate_new").size());
+    $("#hiddendate_RatePlans_num").val($("DIV.RatePlans","#hiddendate_new").size());
+    $("#hiddendate_POICBs_num").val($("DIV.POICBs","#hiddendate_new").size());
+    $("#hiddendate_ProductOrder_num").val($("DIV.ProductOrder","#hiddendate_new").size());
+    $("#hiddendate_ProductOrderRatePlan_num").val($("DIV.ProductOrderRatePlan","#hiddendate_new").size());
+    $("#hiddendate_ProductOrderPOICB_num").val($("DIV.ProductOrderPOICB","#hiddendate_new").size());
+    $("#hiddendate_PayCompany_num").val($("DIV.PayCompany","#hiddendate_new").size());
+    $("#hiddendate_ProductOrderChara_num").val($("DIV.ProductOrderChara","#hiddendate_new").size());
+
+    $("#hiddendate_PospecratePolicy_num_delete").val($("DIV.PospecratePolicy","#hiddendate_delete").size());
+    $("#hiddendate_RatePlans_num_delete").val($("DIV.RatePlans","#hiddendate_delete").size());
+    $("#hiddendate_POICBs_num_delete").val($("DIV.POICBs","#hiddendate_delete").size());
+    $("#hiddendate_ProductOrder_num_delete").val($("DIV.ProductOrder","#hiddendate_delete").size());
+    $("#hiddendate_ProductOrderRatePlan_num_delete").val($("DIV.ProductOrderRatePlan","#hiddendate_delete").size());
+    $("#hiddendate_ProductOrderPOICB_num_delete").val($("DIV.ProductOrderPOICB","#hiddendate_delete").size());
+    $("#hiddendate_PayCompany_num_delete").val($("DIV.PayCompany","#hiddendate_delete").size());
+    $("#hiddendate_ProductOrderChara_num_delete").val($("DIV.ProductOrderChara","#hiddendate_delete").size());
+
+    document.form1.action="f2029_cfm.jsp";
+    document.form1.submit();
+}
+
+var _jspPage =
+{"div1_switch":["mydiv1","f2029_POSpecRatePolicys_list.jsp","f"]
+,"div2_switch":["mydiv2","f2029_ProductOrder_list.jsp","f"]
+};
+$("#divold").hide() ;
+function hiddenSpider()
+{
+	document.getElementById("mydiv1").style.display='none';
+  document.getElementById("mydiv2").style.display='none';
+}
+
+$(document).ready(function () {
+	//隐藏进度条
+	hiddenSpider();
+	$('img.closeEl').bind('click', toggleContent);
+	$('#nextoper').click(function(){
+     nextoper();
+  });
+
+  $("#div1_show").hide();
+  $("#div2_show").hide();
+  $("#divold").hide();
+  $("#nextoper").attr("disabled","true");
+
+  $("#CustomerNumberQueryDiv").hide();
+  $("#CustomerNumberCheckDiv").show();
+  $("#POSpecNumberQueryDiv").show();
+  $("#getMaxAcceptDiv").hide();
+  $("#p_OperType").change( function() {
+  	if($("#p_OperType").val()=="0"){
+  		$("#p_Status").children().remove(); 
+      $("#p_Status").append("<option value=\"\">------不限制------</option>");
+      $("#CustomerNumberQueryDiv").hide();
+      $("#POSpecNumberQueryDiv").show();
+      $("#CustomerNumberCheckDiv").show();
+      $("#getMaxAcceptDiv").show();
+      $("#hidid01").hide();
+      $("#hidid02").hide();
+  	}else if($("#p_OperType").val()=="2"){  		
+  		$("#p_Status").children().remove(); 
+  		$("#p_Status").append("<option value=\"\">------不限制------</option>");
+  		$("#p_Status").append("<option value=\"1\">新增</option>");
+  		$("#p_Status").append("<option value=\"3\">暂停</option>");
+  		$("#p_Status").append("<option value=\"4\">恢复</option>");  		 		
+  		$("#CustomerNumberQueryDiv").show();
+  		$("#POSpecNumberQueryDiv").hide();
+      $("#CustomerNumberCheckDiv").hide();
+      $("#getMaxAcceptDiv").hide();
+      $("#hidid01").hide();
+      $("#hidid02").hide();
+  	}
+  });
+
+  }
+);
+
+var toggleContent = function(e)
+{
+	var targetContent = $( 'DIV.itemContent',this.parentNode.parentNode.parentNode);
+	if (targetContent.css('display') == 'none') {
+		   targetContent.slideDown(300);
+		   $(this).attr({ src: "../../../nresources/default/images/jian.gif"});
+		   //调用服务
+		   try{
+		   	  var tmp = $(this).attr('id');
+		   	  var tmp2 = eval("_jspPage."+tmp);
+		   	  if(tmp2[2]=="f"&&tmp2[1]!=''&&tmp2[1]!=undefined)
+		   	  {
+		   	  	$("#"+tmp2[0]).load(tmp2[1],{sPOOrderNumber:$("#p_ProductOfferingID").val()
+		   	  		                          ,sPOSpecNumber:$("#p_POSpecNumber").val()
+		   	  		                          });
+		   	  	tmp2[2]="t";
+		   	  }
+		   }catch(e)
+		   {
+		   }
+
+	} else {
+		targetContent.slideUp(300);
+		$(this).attr({ src: "../../../nresources/default/images/jia.gif"});
+	}
+	return false;
+};
+
+//进行订购信息选择----------------------------------
+function getOrderInfo()
+{   
+	  if(!$("#p_CustomerProvinceNumber").val()){
+	  	rdShowMessageDialog("请输入集团客户归属省编码!");
+	  	return false;
+	  }
+    var pageTitle = "订购信息";
+    var fieldName = "归属省集团客户编码|EC集团客户编码|商品规格编号|商品规格名称|商品订购关系ID|套餐生效规则|订单状态|开展模式|SI编码|";
+    var sqlStr = "";
+    var selType = "S";    //'S'单选；'M'多选
+    var retQuence = "9|0|1|2|3|4|5|6|7|8|";
+
+    var retToField = "p_CustomerProvinceNumber|p_CustomerNumber|p_POSpecNumber|p_POSpecName|p_ProductOfferingID|p_PORatePolicyEffRule|p_Status|p_BusinessMode|p_SICode|";
+
+    var path = "<%=request.getContextPath()%>/npage/s2002/f2029_getOrderInfo.jsp";
+    path = path + "?sqlStr=" + sqlStr + "&retQuence=" + retQuence;
+    path = path + "&fieldName="+fieldName;
+    path = path + "&selType="+selType;
+    path = path + "&retQuence="+retQuence;
+    path = path + "&retToField="+retToField;
+    path = path + "&sOrderSourceID=" +$("#p_OrderSourceID").val();
+    path = path + "&sCustomerProvinceNumber="+$("#p_CustomerProvinceNumber").val();    
+    path = path + "&sCustomerNumber="+$("#p_CustomerNumber").val();
+    path = path + "&sPOOrderNumber=" +$("#p_POOrderNumber").val();
+    path = path + "&sPOSpecNumber="+$("#p_POSpecNumber").val();
+    path = path + "&sProductOfferingID="+$("#p_ProductOfferingID").val();
+    path = path + "&sHostCompany="+$("#p_HostCompany").val();
+    path = path + "&sPORatePolicyEffRule="+$("#p_PORatePolicyEffRule").val();
+    path = path + "&sOperType="+$("#p_OperType").val();
+    retInfo = window.open(path,
+                          "newwindow",
+                          "height=450, width=1000,top=50,left=80,scrollbars=yes, resizable=no,location=no, status=yes");
+    return true;
+}
+function getOrderInfoRtn(retInfo)
+{
+    var retToField = "p_CustomerProvinceNumber|p_CustomerNumber|p_POSpecNumber|p_POSpecName|p_ProductOfferingID|p_PORatePolicyEffRule|p_Status|p_BusinessMode|p_SICode|";
+    if (retInfo == undefined)
+    {
+        return false;
+    }
+    var chPos_field = retToField.indexOf("|");
+    var chPos_retStr;
+    var valueStr;
+    var obj;
+    while (chPos_field > -1)
+    {
+        obj = retToField.substring(0, chPos_field);
+        chPos_retInfo = retInfo.indexOf("|");
+        valueStr = retInfo.substring(0, chPos_retInfo);
+        document.all(obj).value = valueStr;
+        retToField = retToField.substring(chPos_field + 1);
+        retInfo = retInfo.substring(chPos_retInfo + 1);
+        chPos_field = retToField.indexOf("|");
+    }
+    if($("#p_OperType").val()=="1"){
+      $("#p_OperType").children().remove();
+  		$("#p_OperType").append("<option value=\"1\">查询</option>");
+  		$("#CustomerNumberQueryDiv").hide();
+  		$(".POSOper").val("1");
+  	  $("#div1_show").show();
+      $("#div2_show").show();
+  	}else{
+      $("#p_OperType").children().remove();
+  		$("#p_OperType").append("<option value=\"2\">变更</option>");
+  		
+  		
+  	  $("#CustomerNumberQueryDiv").hide();
+  	  $(".POSOper").val("2");
+  	  //$("#div1_show").show();
+      $("#div2_show").show();
+      $("#divold").show();
+  	}
+    if($("#p_OperType").val()=="0"||$("#p_OperType").val()=="2")
+    {
+    	$("#nextoper").show();
+    }
+}
+//------------------------------------------------------------------------
+
+
+//效验EC集团客户编码------------------------------------------------------
+function checkCustomerNumber()
+{
+	var packet = new AJAXPacket("f2029_checkCustomerNumber_ajax.jsp","请稍候......");
+ 	packet.data.add("sCustomerNumber",$("#p_CustomerProvinceNumber").val());
+  core.ajax.sendPacket(packet);
+	packet =null;
+}
+
+function doProcess(packet)
+{
+   var retFlag = packet.data.findValueByName("retFlag");
+   var retValue1 = packet.data.findValueByName("retValue1");
+   var retValue2 = packet.data.findValueByName("retValue2");
+   if(retFlag=="0")
+   {
+   	 rdShowMessageDialog("EC集团客户编码验证成功!");
+   	 $("#p_CustomerProvinceNumber").val(retValue1);
+   	 $("#p_CustomerNumber").val(retValue2);
+   	 $("#p_CustomerProvinceNumber").attr("readonly","readonly");
+   	 $("#p_CustomerNumber").attr("readonly","readonly");   	    	 
+   }else{
+   	 rdShowMessageDialog("EC集团客户编码效验失败!");
+   }
+}
+//------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------
+function getPOSpecNumber(){
+	  var pageTitle = "";
+    var fieldName = "商品规格编号|";
+    var sqlStr = "";
+    var selType = "S";    //'S'单选；'M'多选
+    var retQuence = "2|0|1|";
+
+    var retToField = "p_POSpecNumber|p_POSpecName|";
+
+    var path = "<%=request.getContextPath()%>/npage/s2002/f2029_getPOSpecNumber_list.jsp";
+    path = path + "?sqlStr=" + sqlStr + "&retQuence=" + retQuence;
+    path = path + "&fieldName="+fieldName;
+    path = path + "&selType="+selType;
+    path = path + "&retQuence="+retQuence;
+    path = path + "&retToField="+retToField;
+    path = path + "&sPOSpecNumber=" +$("#p_POSpecNumber").val();
+
+    retInfo = window.open(path,
+                          "newwindow",
+                          "height=400, width=700,top=300,left=350,scrollbars=yes, resizable=no,location=no, status=yes");
+    return true;
+}
+
+function getPOSpecNumberRtn(retInfo)
+{
+    var retToField = "p_POSpecNumber|p_POSpecName|";
+    if (retInfo == undefined)
+    {
+        return false;
+    }
+    var chPos_field = retToField.indexOf("|");
+    var chPos_retStr;
+    var valueStr;
+    var obj;
+
+    while (chPos_field > -1)
+    {
+        obj = retToField.substring(0, chPos_field);
+        chPos_retInfo = retInfo.indexOf("|");
+        valueStr = retInfo.substring(0, chPos_retInfo);
+        document.all(obj).value = valueStr;
+        retToField = retToField.substring(chPos_field + 1);
+        retInfo = retInfo.substring(chPos_retInfo + 1);
+        chPos_field = retToField.indexOf("|");
+    }
+    $(".POSOper").val("0");
+  	$("#div1_show").show();
+    $("#div2_show").show();
+    $("#nextoper").show();
+    $("#p_OperType").children().remove();
+  	$("#p_OperType").append("<option value=\"0\">新增</option>");
+  	$("#CustomerNumberQueryDiv").hide();
+}
+//------------------------------------------------------------------------
+</script>

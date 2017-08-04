@@ -1,0 +1,581 @@
+package com.sitech.acctmgr.atom.impl.adj;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.busi.adj.inter.IAdjCommon;
+import com.sitech.acctmgr.atom.busi.pay.inter.IPayOpener;
+import com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder;
+import com.sitech.acctmgr.atom.busi.pay.inter.IWriteOffer;
+import com.sitech.acctmgr.atom.domains.account.ContractInfoEntity;
+import com.sitech.acctmgr.atom.domains.adj.AdjBIllEntity;
+import com.sitech.acctmgr.atom.domains.adj.AdjExtendEntity;
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.base.GroupEntity;
+import com.sitech.acctmgr.atom.domains.base.LoginEntity;
+import com.sitech.acctmgr.atom.domains.bill.ItemEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayBookEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayUserBaseEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubCodeDictEntity;
+import com.sitech.acctmgr.atom.domains.record.LoginOprEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.adj.S8010CfmInDTO;
+import com.sitech.acctmgr.atom.dto.adj.S8010CfmOutDTO;
+import com.sitech.acctmgr.atom.dto.adj.S8010GetItemInDTO;
+import com.sitech.acctmgr.atom.dto.adj.S8010InitInDTO;
+import com.sitech.acctmgr.atom.dto.adj.S8010InitOutDTO;
+import com.sitech.acctmgr.atom.dto.adj.S8010GetItemOutDTO;
+import com.sitech.acctmgr.atom.dto.adj.S8010QueryGiveInfoInDTO;
+import com.sitech.acctmgr.atom.dto.adj.S8010QueryGiveInfoOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IAccount;
+import com.sitech.acctmgr.atom.entity.inter.IAdj;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.ILogin;
+import com.sitech.acctmgr.atom.entity.inter.IRecord;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.acctmgr.inter.adj.I8010;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcf.core.exception.BaseException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+*
+* <p>Title:  单个服务/宽带号码补收服务  </p>
+* <p>Description: 单个号码补收服务，定义了单个号码补收的流程模板  </p>
+* <p>Copyright: Copyright (c) 2016</p>
+* <p>Company: SI-TECH </p>
+* @author liuyc_billing
+* @version 1.0
+*/
+@ParamTypes({ @ParamType(m = "init", c = S8010InitInDTO.class, oc = S8010InitOutDTO.class),
+	@ParamType(m = "queryGiveInfo", c = S8010QueryGiveInfoInDTO.class, oc = S8010QueryGiveInfoOutDTO.class),
+	@ParamType(m = "getItem", c = S8010GetItemInDTO.class, oc = S8010GetItemOutDTO.class),
+	  @ParamType(m = "cfm", c = S8010CfmInDTO.class, oc = S8010CfmOutDTO.class)})
+public class S8010 extends AcctMgrBaseService implements I8010 {
+	
+	private IAccount account;
+	private ILogin login;
+	private IGroup group;
+	private IUser user;
+	private IControl control;
+	private IRecord record;
+	private IAdjCommon adjCommon;
+	private IWriteOffer writeOffer;
+	private IPayOpener payOpener;
+	private IAdj adj;
+	protected IPreOrder preOrder;
+	
+
+
+	/* (non-Javadoc)
+	 * @see com.sitech.acctmgr.inter.adj.I8010#init(com.sitech.jcfx.dt.in.InDTO)
+	 */
+	@Override
+	public OutDTO init(InDTO inParam) {			
+
+		//调用S8010sInitInDto (string->MBean + 校验)
+		S8010InitInDTO inParamDto =  (S8010InitInDTO) inParam;
+		log.info("---->8010Init_in"+inParamDto.getMbean());
+		String phoneNo =  inParamDto.getPhoneNo(); 
+		long contractNo=inParamDto.getContractNo();
+		String loginNo= inParamDto.getLoginNo();
+		String loginGroupId = inParamDto.getGroupId();
+		String provinceId = inParamDto.getProvinceId();
+		
+		//查询工号信息
+		LoginEntity loginEnt = login.getLoginInfo(loginNo, provinceId);
+		String	groupId = loginEnt.getGroupId();
+		
+		//工号归属验证
+		if(StringUtils.isEmptyOrNull(inParamDto.getGroupId())){
+			loginGroupId = login.getLoginInfo(loginNo, inParamDto.getProvinceId()).getGroupId();
+		}
+
+		//取帐户信息
+		ContractInfoEntity conEnt = account.getConInfo(contractNo);
+		String contractName= conEnt.getBlurContractName();
+		String conGroupId = conEnt.getGroupId();
+		
+		//跨地区补收验证
+		log.info("------------loginGroupId :"+loginGroupId+",conGroupId:"+conGroupId);
+		
+		GroupEntity groupEnt = group.getGroupInfo(loginGroupId, conGroupId,inParamDto.getProvinceId());
+		String conRegionName = groupEnt.getUserRegionName();
+		
+		log.info("------------regionFlag:"+groupEnt.getRegionFlag());
+		
+		if("N".equals(groupEnt.getRegionFlag())){
+			throw new BaseException(AcctMgrError.getErrorCode("8010", "00005"),"无权跨地区补收!");
+		}
+		
+		//取用户信息
+		UserInfoEntity userEnt = user.getUserInfo(phoneNo);
+		String runName = userEnt.getRunName();	
+		
+		//取用户归属地名称		 
+		ChngroupRelEntity chnGroupEnt = group.getRegionDistinct(conGroupId, "3",inParamDto.getProvinceId());
+		String condistinctName = chnGroupEnt.getRegionName();
+		
+		//取送费类型
+		List<PubCodeDictEntity> giveFeeTypeList = new ArrayList<PubCodeDictEntity>();
+		List<PubCodeDictEntity> giveFeeTypeOutList = new ArrayList<PubCodeDictEntity>();
+		giveFeeTypeList = control.getPubCodeList(2416L, null, null, null);
+		for(PubCodeDictEntity pubCodeDict:giveFeeTypeList){
+			pubCodeDict.setCodeName(pubCodeDict.getCodeId()+"->"+pubCodeDict.getCodeName());
+			giveFeeTypeOutList.add(pubCodeDict);
+		}
+		
+		
+		//出参
+		S8010InitOutDTO outParamDto=new S8010InitOutDTO();
+		outParamDto.setContractName(contractName);
+		outParamDto.setRunName(runName);
+		outParamDto.setCustInfo("归属名称:"+conRegionName+" "+condistinctName);
+	
+		outParamDto.setLenGiveFeeType(giveFeeTypeOutList.size());
+		outParamDto.setListGiveFeeType(giveFeeTypeOutList);
+		
+		log.info("---->8010Init_out"+outParamDto.toJson());
+		
+		return outParamDto;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.sitech.acctmgr.inter.adj.I8010#cfm(com.sitech.jcfx.dt.in.InDTO)
+	 */
+	@Override
+	public OutDTO cfm(InDTO inParam) {	
+		
+		String cycleType="0";
+		String payType="0"; //单个号码补收账本
+		 
+		S8010CfmInDTO  inParamDto=  (S8010CfmInDTO) inParam;
+		log.info("---->8010cfm_in : "+inParamDto.getMbean());
+		
+		//获取入参信息
+		String opCode= inParamDto.getOpCode();
+		String loginNo= inParamDto.getLoginNo();
+		String phoneNo =  inParamDto.getPhoneNo();
+		long contractNo=inParamDto.getContractNo();
+		String billMonth=inParamDto.getBillMonth();
+		long inTotalPay=inParamDto.getInTotalPay();
+		String payDetail=inParamDto.getPayDetail();
+		String remark=inParamDto.getRemark();
+		String groupId =  inParamDto.getGroupId();
+		String provinceId = inParamDto.getProvinceId();
+		String balanceType = inParamDto.getBalanceType();
+		String dealType = inParamDto.getDealType();
+		//前台的送费类型不选择
+		if(dealType.equals("Value")){
+			dealType="";
+		}
+		int yearMonth=Integer.parseInt(billMonth);
+		
+		//取工号group_id
+		if(StringUtils.isEmptyOrNull(inParamDto.getGroupId())){
+			groupId = login.getLoginInfo(loginNo, provinceId).getGroupId();
+		}
+
+		//取当前账务日期
+		String curTime = control.getSysDate().get("CUR_TIME").toString();
+		int curYM = Integer.parseInt(curTime.substring(0, 6));
+		int totalDate = Integer.parseInt(curTime.substring(0, 8));
+		
+		
+		Map inMonthMap=new HashMap<String, Object>();
+		inMonthMap.put("CONTRACT_NO",contractNo);
+		inMonthMap.put("YEAR_MONTH",curYM);
+		long monthFee=adj.getMonthFee(inMonthMap);
+		
+		long monthMinusFee=adj.getMinusMonthFee(inMonthMap);
+		
+		
+		//负补收月累计不能超过3000元，正补收月累计不能超过1000000元
+		if(inTotalPay+monthFee>100000000 && inTotalPay>0){
+			throw new BaseException(AcctMgrError.getErrorCode("8010", "00002"),"月累计正补收金额不能超过1000000元!");
+		}else if(inTotalPay+monthMinusFee<-300000 && inTotalPay<0){
+			throw new BaseException(AcctMgrError.getErrorCode("8010", "00004"),"月累计负补收金额不能超过3000元!");
+		}
+		
+		//取用户信息
+		UserInfoEntity userEnt = user.getUserInfo(phoneNo);
+		
+		//用户基本信息实体设值
+		PayUserBaseEntity userBase = new PayUserBaseEntity();
+		userBase.setBrandId(userEnt.getBrandId());
+		userBase.setContractNo(contractNo);
+		userBase.setIdNo(userEnt.getIdNo());
+		userBase.setPhoneNo(phoneNo);
+		userBase.setUserGroupId(userEnt.getGroupId());
+		String brandId = userBase.getBrandId();
+		
+		
+		/*缴费用户归属地市*/
+        ChngroupRelEntity groupEntity = group.getRegionDistinct(userBase.getUserGroupId(), "2", provinceId);
+        String regionId = groupEntity.getRegionCode();
+		
+		//补收账单实体信息以外补收信息实体设置
+		AdjExtendEntity adjExtendEnt = new AdjExtendEntity();
+		adjExtendEnt.setAdjFlag("0");
+		adjExtendEnt.setLoginNo(loginNo);
+		adjExtendEnt.setOffFlag("");
+		adjExtendEnt.setOpCode(opCode);
+		adjExtendEnt.setRemark(remark);
+		adjExtendEnt.setDealType(dealType);
+		adjExtendEnt.setBalanceType(balanceType);
+		
+		//状态字段初始化
+		String payedStatus = "";
+		if (inTotalPay>0.005) {
+			payedStatus="0";
+		}else {
+			payedStatus="2";
+		}
+		
+		log.info("-------->sPayDetail-"+payDetail);
+		
+		//补收账单实体设值
+		AdjBIllEntity billEnt = new AdjBIllEntity();
+		billEnt.setBillCycle(yearMonth);
+		billEnt.setContractNo(contractNo);
+		billEnt.setCustId(userEnt.getCustId());
+		billEnt.setCycleType(cycleType);
+		billEnt.setGroupId(groupId);
+		billEnt.setIdNo(userEnt.getIdNo());
+		billEnt.setNaturalMonth(yearMonth);
+		billEnt.setStatus(payedStatus);
+		billEnt.setPhoneNo(Long.parseLong(phoneNo));
+		
+		//入账实体设值
+		PayBookEntity inBook =  new PayBookEntity();
+		inBook.setGroupId(groupId);
+		inBook.setLoginNo(loginNo);
+		inBook.setOpCode(opCode);
+		inBook.setOpNote(remark);
+		inBook.setPayFee(inTotalPay);
+		inBook.setPayType(payType);
+		inBook.setBeginTime(curTime);
+		inBook.setTotalDate(totalDate);
+		inBook.setYearMonth(curYM);
+		
+		//解析 sPayDetail,补收核心函数
+		Map<String, Object> inAdjMap = new HashMap<String, Object>();
+		inAdjMap.put("Header", inParamDto.getHeader());
+		inAdjMap.put("PAY_DETAIL", payDetail);
+		inAdjMap.put("PAY_BOOK_ENTITY", inBook);
+		inAdjMap.put("ADJ_BILL_ENTITY", billEnt);
+		inAdjMap.put("PAY_USER_BASE_ENTITY", userBase);
+		inAdjMap.put("ADJ_EXTEND_ENTITY", adjExtendEnt);
+		inAdjMap.put("PROVINCE_ID", provinceId);
+		
+		Map<String, Object> outParamMap=adjCommon.doAdjOweFinal(inAdjMap);
+		
+		long paySn=Long.parseLong(outParamMap.get("PAY_SN").toString());
+		log.info("-------->lPaySn-"+paySn);
+		
+		// 正补收：冲销
+		Map<String, Object> inParamMap = new HashMap<String, Object>();
+		inParamMap.put("Header", inParamDto.getHeader());
+		inParamMap.put("PAY_SN", paySn);
+		inParamMap.put("CONTRACT_NO", contractNo);
+		inParamMap.put("PHONE_NO", userBase.getPhoneNo());
+		inParamMap.put("LOGIN_NO", inBook.getLoginNo());
+		inParamMap.put("GROUP_ID", inBook.getGroupId());
+		inParamMap.put("OP_CODE", inBook.getOpCode());
+		
+		//滞纳金优惠率老系统正补收用的0，负补收用的1，老系统PublicAddFee函数
+		if(inTotalPay>0){
+			inParamMap.put("DELAY_FAVOUR_RATE", "0");
+		}else{
+			inParamMap.put("DELAY_FAVOUR_RATE", "1");
+		}
+		
+		inParamMap.put("PAY_PATH", "11");
+		writeOffer.doWriteOff(inParamMap);
+
+		// 负补收：开机
+		inParamMap = new HashMap<String, Object>();
+		inParamMap.put("CONTRACT_NO", contractNo);
+		inParamMap.put("PAY_SN", paySn);
+		inParamMap.put("OP_CODE", inBook.getOpCode());
+		inParamMap.put("LOGIN_NO", inBook.getLoginNo());
+		inParamMap.put("LOGIN_GROUP", inBook.getGroupId());
+		payOpener.doConUserOpen(inParamDto.getHeader(), userBase, inBook, provinceId);
+		
+		
+		//向其他系统同步数据（目前：统一接触）
+        Map inMapTmp = new HashMap<String, Object>();
+        inMapTmp.put("PAY_SN", paySn);
+        inMapTmp.put("LOGIN_NO", loginNo);
+        inMapTmp.put("GROUP_ID", groupId);
+        inMapTmp.put("OP_CODE", opCode);
+        inMapTmp.put("OP_TIME", curTime);
+        inMapTmp.put("REGION_ID", regionId);
+        inMapTmp.put("CUST_ID_TYPE", "1"); // 0客户ID;1-服务号码;2-用户ID;3-账户ID
+        inMapTmp.put("CUST_ID_VALUE", phoneNo);
+        inMapTmp.put("TOTAL_FEE", String.valueOf(inTotalPay));
+        inMapTmp.put("OP_NOTE", remark);
+        inMapTmp.put("Header", inParamDto.getHeader());
+        
+        preOrder.sendOprCntt(inMapTmp);
+        
+				
+		//记录营业员操作记录表
+		LoginOprEntity loginOprEnt = new LoginOprEntity();
+		loginOprEnt.setBrandId(userBase.getBrandId());
+		loginOprEnt.setIdNo(userBase.getIdNo());
+		loginOprEnt.setLoginGroup(groupId);
+		loginOprEnt.setLoginNo(loginNo);
+		loginOprEnt.setLoginSn(paySn);
+		loginOprEnt.setOpCode(opCode);
+		loginOprEnt.setOpTime(curTime);
+		loginOprEnt.setPayFee(inTotalPay);
+		loginOprEnt.setPhoneNo(phoneNo);
+		loginOprEnt.setRemark(remark);
+		loginOprEnt.setPayType(payType);
+		loginOprEnt.setTotalDate(totalDate);
+		record.saveLoginOpr(loginOprEnt);
+		
+		S8010CfmOutDTO outParamDto=new S8010CfmOutDTO();
+		outParamDto.setPaySn(paySn);
+		outParamDto.setTotalDate(totalDate);
+		
+		log.info("---->8010Cfm_out"+outParamDto.toJson());
+		
+		return outParamDto;
+	}
+	
+	
+	  @Override
+	   public OutDTO getItem(InDTO inParam){
+
+		  S8010GetItemInDTO  inDto=  (S8010GetItemInDTO) inParam;
+		  log.info("---->8010getItem_in : "+inDto.getMbean());
+		  String phoneNo = inDto.getPhoneNo();
+		  String noType = inDto.getNoType();
+		  
+		  
+		  UserInfoEntity userEnt = user.getUserInfo(phoneNo);
+		  String brandId = userEnt.getBrandId();
+		  //brandId目前格式为：省份类型brandId，所以需要拆分
+		  String newBrandId = brandId.substring(4);
+		  if(newBrandId.equals("kh")){
+			  throw new BaseException(AcctMgrError.getErrorCode("8010", "00006"),"该品牌的宽带不能进行补收");
+		  }
+		 
+		  
+		  List<ItemEntity> itemList = new ArrayList<ItemEntity>();
+		  if(noType.equals("02")){
+			  Map<String,Object> inMap =new HashMap<String,Object>();
+			  inMap.put("BRAND_ID",newBrandId);
+			  itemList=adj.getAdjItemByBrandId(inMap);
+		  }else if(noType.equals("16")){
+			  Map<String,Object> inMap =new HashMap<String,Object>();
+			  inMap.put("ACCT_ITEM_CODES",new String[]{"XY200000fs","XY200000gx","XY200000hp","XZ200000ft","XZ200000fu","XZ200000ls"});
+			  itemList =adj.getAdjItemByBrandId(inMap);
+		  }
+		  
+		  
+	      S8010GetItemOutDTO outParam=new S8010GetItemOutDTO();
+	      outParam.setItemList(itemList);
+	      log.info("---->8010getItem_out"+outParam.toJson());
+	      return outParam;
+	    }
+	  
+	  @Override
+	  public OutDTO queryGiveInfo(final InDTO inParam){
+		  S8010QueryGiveInfoInDTO  inDto=  (S8010QueryGiveInfoInDTO) inParam;
+		  log.info("---->8010queryGiveInfo_in : "+inDto.getMbean());
+		  String loginGroupId = inDto.getGroupId();
+		  String provinceId = inDto.getProvinceId();
+		  String codeValue = inDto.getCodeValue();
+		  String loginNo = inDto.getLoginNo();
+
+		  S8010QueryGiveInfoOutDTO outDto = new S8010QueryGiveInfoOutDTO();
+		  
+		  //查询工号信息
+		  LoginEntity loginEnt = login.getLoginInfo(loginNo, provinceId);
+		  String	groupId = loginEnt.getGroupId();
+		
+		  //无退费类型，返回空
+		  if(StringUtils.isEmptyOrNull(codeValue)){
+			  return outDto;
+		  }
+		  
+		 //取送费明细
+		 List<PubCodeDictEntity> giveFeeList = new ArrayList<PubCodeDictEntity>();
+		 List<PubCodeDictEntity> giveFeeTypeOutList = new ArrayList<PubCodeDictEntity>();
+		 
+		 //获取营业厅上级地市组织代码groupId
+		 String parentGroupId = group.getRegionDistinct(loginGroupId, "2", provinceId).getParentGroupId();
+		 giveFeeList = control.getPubCodeList(2417L, null, parentGroupId , null,codeValue);
+		 
+		 PubCodeDictEntity prePubCodeDict = new PubCodeDictEntity();
+		 prePubCodeDict.setCodeId("Value");
+		 prePubCodeDict.setCodeName("请选择");
+		 giveFeeTypeOutList.add(prePubCodeDict);
+		 for(PubCodeDictEntity pubCodeDict:giveFeeList){
+			 pubCodeDict.setCodeName(pubCodeDict.getCodeId()+"->"+pubCodeDict.getCodeName());
+			 giveFeeTypeOutList.add(pubCodeDict);
+		 }		
+	      
+		 outDto.setLenGiveFee(giveFeeTypeOutList.size());
+		 outDto.setListGiveFee(giveFeeTypeOutList);
+	     log.info("---->8010queryGiveInfo_out"+outDto.toJson());
+	     return outDto;
+	  }
+
+	/**
+	 * @return the account
+	 */
+	public IAccount getAccount() {
+		return account;
+	}
+
+	/**
+	 * @param account the account to set
+	 */
+	public void setAccount(IAccount account) {
+		this.account = account;
+	}
+
+	/**
+	 * @return the login
+	 */
+	public ILogin getLogin() {
+		return login;
+	}
+
+	/**
+	 * @param login the login to set
+	 */
+	public void setLogin(ILogin login) {
+		this.login = login;
+	}
+
+	/**
+	 * @return the group
+	 */
+	public IGroup getGroup() {
+		return group;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public IUser getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the control
+	 */
+	public IControl getControl() {
+		return control;
+	}
+
+	/**
+	 * @param control the control to set
+	 */
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+	/**
+	 * @return the record
+	 */
+	public IRecord getRecord() {
+		return record;
+	}
+
+	/**
+	 * @param record the record to set
+	 */
+	public void setRecord(IRecord record) {
+		this.record = record;
+	}
+
+	/**
+	 * @return the adjCommon
+	 */
+	public IAdjCommon getAdjCommon() {
+		return adjCommon;
+	}
+
+	/**
+	 * @param adjCommon the adjCommon to set
+	 */
+	public void setAdjCommon(IAdjCommon adjCommon) {
+		this.adjCommon = adjCommon;
+	}
+
+	/**
+	 * @return the writeOffer
+	 */
+	public IWriteOffer getWriteOffer() {
+		return writeOffer;
+	}
+
+	/**
+	 * @param writeOffer the writeOffer to set
+	 */
+	public void setWriteOffer(IWriteOffer writeOffer) {
+		this.writeOffer = writeOffer;
+	}
+
+	/**
+	 * @return the payOpener
+	 */
+	public IPayOpener getPayOpener() {
+		return payOpener;
+	}
+
+	/**
+	 * @param payOpener the payOpener to set
+	 */
+	public void setPayOpener(IPayOpener payOpener) {
+		this.payOpener = payOpener;
+	}
+	
+
+	public IAdj getAdj() {
+		return adj;
+	}
+
+	public void setAdj(IAdj adj) {
+		this.adj = adj;
+	}
+
+	public IPreOrder getPreOrder() {
+		return preOrder;
+	}
+
+	public void setPreOrder(IPreOrder preOrder) {
+		this.preOrder = preOrder;
+	}
+	
+
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgsend_his">
+  
+  <insert id="iDatabyAccept" parameterClass="Map">
+	INSERT INTO IN_MSGSEND_HIS (TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME,
+	OP_CODE, LOGIN_NO, CREATE_ACCEPT, DATA_SOURCE, BUSIID_TYPE, BUSIID_NO,
+	SEND_TIME)
+	SELECT TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE,
+	LOGIN_NO, CREATE_ACCEPT, DATA_SOURCE, BUSIID_TYPE, BUSIID_NO, SYSDATE 
+	FROM IN_MSGSEND_INFO 
+	WHERE TOPIC_ID=#TOPIC_ID#
+	AND CREATE_ACCEPT=#CREATE_ACCEPT#
+  </insert>
+  
+<!-- BLOB 操作方式处理 -->  
+<typeAlias alias="odrLineHisVO" type="com.sitech.acctmgr.app.odrBlob.OdrLineHisVO"/>
+ <resultMap id="odrLineHisVOMap" class="OdrLineHisVO">
+  <result property="gsTopicId"   column="TOPIC_ID"/>
+  <result property="gbContent"   column="CONTENT" jdbcType="BLOB"/>
+  <result property="gsOpCode"    column="OP_CODE"/>
+  <result property="gsDataSrc"   column="DATA_SOURCE"/>
+  <result property="gsBusiidNo"  column="BUSIID_NO"/>
+  <result property="gsBusiidType" column="BUSIID_TYPE"/>
+  <result property="gsLoginAct"  column="LOGIN_ACCEPT"/>
+  <result property="glCreatAct"  column="CREATE_ACCEPT"/>
+  <result property="gsLoginNo"   column="LOGIN_NO"/>
+ </resultMap>
+  
+  <insert id="insertMsgSend" parameterClass="odrLineHisVO">
+    INSERT INTO IN_MSGSEND_HIS (TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO, 
+		CREATE_ACCEPT, DATA_SOURCE, BUSIID_TYPE, BUSIID_NO, SEND_TIME)
+	VALUES (#gsTopicId#, #gbContent:BLOB#, #gsLoginAct#, SYSDATE, #gsOpCode#, #gsLoginNo#, 
+		#glCreatAct#, #gsDataSrc#, #gsBusiidType#, #gsBusiidNo#, SYSDATE)
+  </insert>
+  
+  <delete id="dDatabyAccept" parameterClass="Map">
+	DELETE FROM IN_MSGSEND_HIS
+	WHERE TOPIC_ID=#TOPIC_ID# 
+	AND CREATE_ACCEPT=#CREATE_ACCEPT# 
+  </delete>
+  
+</sqlMap>

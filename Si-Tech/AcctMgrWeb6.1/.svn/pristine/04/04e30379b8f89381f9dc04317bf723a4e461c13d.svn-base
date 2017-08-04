@@ -1,0 +1,147 @@
+package com.sitech.acctmgr.atom.busi.invoice;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.HConnection;
+import org.apache.hadoop.hbase.client.HConnectionManager;
+import org.apache.hadoop.hbase.client.HTableInterface;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.util.Bytes;
+/**
+ *
+ * <p>Title:   </p>
+ * <p>Description:   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author 
+ * @version 1.0
+ */
+public class HbaseUtils {
+	 public static Configuration configuration;
+	  public final static String family = "c1";
+	  public final static String col = "d1";
+	  public static HConnection connection;
+	  
+	  static
+	  {
+	    try
+	    {
+	      configuration = HBaseConfiguration.create();
+	      ExecutorService pool = Executors.newCachedThreadPool();
+	      connection = HConnectionManager.createConnection(configuration, pool);
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	  }
+
+	  /**
+	   * @deprecated
+	   */
+	  public static HConnection getConnection()
+	    throws Exception
+	  {
+	    return connection;
+	  }
+	  
+	  public static List<String> findByRowKeys(String tableName, List<String> rowkeys, int caching)throws Exception
+	  {
+			    List list = new ArrayList();
+			    HTableInterface table = null;
+			    ResultScanner rs = null;
+			    try {
+			      table = connection.getTable(tableName);
+
+			      Iterator localIterator = rowkeys.iterator(); 
+			      while (localIterator.hasNext()) {
+			    	String rowkey = (String)localIterator.next();
+			        Scan scan = new Scan();
+			        scan.setCaching(caching);
+			        scan.setStartRow(Bytes.toBytes(rowkey));
+			        scan.setStopRow(Bytes.toBytes(rowkey));
+			        rs = table.getScanner(scan);
+			        for (Result r = rs.next(); r != null; r = rs.next()) {
+			          Cell[] cells = r.rawCells();
+			          list.add(Bytes.toString(CellUtil.cloneValue(cells[0])));
+			        }
+			      }
+			    }
+			    catch (Exception e) {
+			      e.printStackTrace();
+
+			      rs.close();
+			      table.close();
+			    }
+			    finally
+			    {
+			      rs.close();
+			      table.close();
+			    }
+
+			    return list;
+	  	}
+	  
+	  
+	  public static String findSingleByRowKey(String tableName, String rowKey)throws Exception
+	  {
+			    HTableInterface table = null;
+			    ResultScanner rs = null;
+			    try {
+			      table = connection.getTable(tableName);
+			      Scan scan = new Scan();
+			      scan.setStartRow(Bytes.toBytes(rowKey));
+			      scan.setStopRow(Bytes.toBytes(rowKey));
+			      rs = table.getScanner(scan);
+			      
+			      if (rs!=null) {
+			        String str;
+			        Result r = rs.next();
+			        Cell[] cells = r.rawCells();
+			        return Bytes.toString(CellUtil.cloneValue(cells[0]));
+			      }
+			      return null;
+			    }
+			    catch (Exception e)
+			    {
+			      e.printStackTrace();
+			    } finally {
+                    if(rs != null) {
+                        rs.close();
+                    }
+                    if(table != null) {
+                        table.close();
+                    }
+			    }
+			    return null;
+	  }
+	  
+	  public static void putRowByMap(String tableName, String rowKey, Map<String, Object> map)throws Exception
+	  {
+		  HTableInterface table = null;
+		  try {
+		        table = connection.getTable(tableName);
+			    Put put = new Put(Bytes.toBytes(rowKey));
+			    for(Iterator localIterator = map.keySet().iterator(); localIterator.hasNext(); ) {
+			    	String key = (String)localIterator.next();
+			    	put.add(Bytes.toBytes(family), Bytes.toBytes(key), Bytes.toBytes(map.get(key).toString()));
+			    }
+			    table.put(put);
+			  } catch (Exception e) {
+			    e.printStackTrace();
+			    table.close(); 
+			  } finally { table.close();
+			  }
+	  }
+}

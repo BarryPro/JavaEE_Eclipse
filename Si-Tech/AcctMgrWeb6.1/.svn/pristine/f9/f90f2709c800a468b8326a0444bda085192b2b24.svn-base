@@ -1,0 +1,36 @@
+package com.sitech.acctmgr.comp.impl.pay;
+
+import com.sitech.acctmgr.inter.pay.IWeChatPay;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ *
+ * <p>Title:   </p>
+ * <p>Description:   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author 
+ * @version 1.0
+ */
+public class SWeChatPay implements IWeChatPay {
+
+	/* (non-Javadoc)
+	 * @see com.sitech.acctmgr.inter.pay.IWxzf#sCreateOrder(com.sitech.jcfx.dt.in.InDTO)
+	 */
+	@Override
+	public OutDTO sCreateOrder(InDTO inParam) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.sitech.acctmgr.inter.pay.IWxzf#sOrderPay(com.sitech.jcfx.dt.in.InDTO)
+	 */
+	@Override
+	public OutDTO sOrderPay(InDTO inParam) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

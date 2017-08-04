@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pub_phoneroute_conf">
+    <typeAlias alias="serverInfo" type="com.sitech.acctmgr.net.impl.SimpleServerInfoImpl"/>
+
+    <resultMap class="serverInfo" id="routeInfo">
+        <result property="ip" column="IP"/>
+        <result property="port" column="PORT"/>
+    </resultMap>
+
+    <select id="getRouteConf" parameterClass="Map" resultMap="routeInfo">
+        SELECT
+        DECODE ( SWITCH_FLAG, '0', ROUTE_IP, '1', EM_ROUTE_IP ) IP,
+        DECODE ( SWITCH_FLAG, '0', ROUTE_PORT, '1', EM_ROUTE_PORT ) PORT
+        FROM
+        PUB_PHONEROUTE_CONF
+        WHERE
+        APP_NAME = #APP_NAME#
+        AND (PHONE_HEAD = #ROUTE_NAME# OR PHONE_HEAD = 'X')
+        AND rownum &lt; 2
+    </select>
+</sqlMap>

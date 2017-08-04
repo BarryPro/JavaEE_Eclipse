@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BAL_INVLOGIN_DICT">
+	
+	<typeAlias type="com.sitech.acctmgr.atom.domains.invoice.LoginNoInfo" alias="LoginNo"/>
+
+	<select id="qTaxLoginNo" parameterClass="Map" resultClass="LoginNo">
+		select B.LOGIN_NO loginNo,B.LOGIN_NO||'->'||B.LOGIN_NAME AS loginName
+		from BAL_INVLOGIN_DICT A,BS_LOGINMSG_DICT B 
+		where A.GROUP_ID=#GROUP_ID# AND A.LOGIN_TYPE=#LOGIN_TYPE#
+		AND A.LOGIN_NO=B.LOGIN_NO AND SYSDATE BETWEEN BEGIN_TIME AND END_TIME
+	</select>
+</sqlMap>

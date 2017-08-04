@@ -1,0 +1,159 @@
+package com.sitech.acctmgr.atom.impl.pay;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.busi.pay.inter.IPayOpener;
+import com.sitech.acctmgr.atom.busi.pay.inter.IWriteOffer;
+import com.sitech.acctmgr.atom.dto.pay.WriteoffOrOpenOrderInDTO;
+import com.sitech.acctmgr.atom.dto.pay.WriteoffOrOpenOrderOutDTO;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.inter.pay.IWriteoffOrOpenOrder;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ * <p>
+ * Title: 冲销和开机工单 00
+ * </p>
+ * <p>
+ * Description: 目前支持冲销、开机、冲销+开机业务的受理
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author qiaolin
+ * @version 1.0
+ */
+@ParamTypes({ 
+ @ParamType(c = WriteoffOrOpenOrderInDTO.class, m = "doWriteoffOrOpenOrder", oc = WriteoffOrOpenOrderOutDTO.class) // 定义
+	})
+public class WriteoffOrOpenOrder extends AcctMgrBaseService implements IWriteoffOrOpenOrder{
+	
+	private IPayOpener	payOpener;
+	private IWriteOffer writeOffer;
+	
+	/**
+	 * 名称：工单调用冲销 功能：后台进程反射调用实现账户冲销或者开机或者账户冲销+开机
+	 * 
+	 * @param PAY_SN
+	 *            : 缴费入账流水
+	 * @param CONTRACT_NO
+	 *            : 账户Id
+	 * @param PHONE_NO
+	 *            : 用户号码，可空
+	 * @param LOGIN_NO
+	 *            : 缴费工号
+	 * @param GROUP_ID
+	 *            : 缴费工号机构归属
+	 * @param DELAY_FAVOUR_RATE
+	 *            : 滞纳金优惠率 ,可空，默认0
+	 * @param OP_CODE
+	 *            : 模块编码
+	 * @param BILL_YM
+	 *            : 冲销账期，可空
+	 * @param OP_TYPE
+	 *            : 操作类型 01[只做开机] 02[只做冲销] 03[冲销开机]
+	 * @return boolean
+	 * @throws BusiException
+	 * @author qiaolin
+	 * */
+	public OutDTO doWriteoffOrOpenOrder(InDTO inParam){
+		
+		Map<String, Object> inMapTmp = null;
+		Map<String, Object> outMapTmp = null;
+		
+		log.info("-异步冲销、开机开始: --inParam=" + inParam.getMbean());
+		
+		WriteoffOrOpenOrderInDTO inDto = (WriteoffOrOpenOrderInDTO) inParam;
+		
+		String opType = inDto.getOpType();
+		
+		long paySn = inDto.getPaySn();
+		long contractNo = inDto.getContractNo();
+		
+		String phoneNo = "";
+		if(inDto.getPhoneNo() != null && !inDto.getPhoneNo().equals("")){
+			phoneNo = inDto.getPhoneNo();
+		}
+		
+		if (opType.equals("01")) { // 只做开机
+			
+			inMapTmp = new HashMap<String, Object>();
+			inMapTmp.put("CONTRACT_NO", contractNo);
+			inMapTmp.put("PAY_SN", paySn);
+			inMapTmp.put("OP_CODE", inDto.getOpCode2());
+			inMapTmp.put("LOGIN_NO", inDto.getLoginNo2());
+			inMapTmp.put("LOGIN_GROUP", inDto.getGroupId2());
+			//outMapTmp = payOpener.doConUserOpen(inMapTmp);
+			
+		} else if (opType.equals("02")) { // 只做冲销
+			
+			inMapTmp = new HashMap<String, Object>();
+			inMapTmp.put("CONTRACT_NO", contractNo);
+			inMapTmp.put("PAY_SN", paySn);
+			if(!phoneNo.equals("")){
+				inMapTmp.put("PHONE_NO", phoneNo);
+			}
+			inMapTmp.put("OP_CODE", inDto.getOpCode2());
+			inMapTmp.put("LOGIN_NO", inDto.getLoginNo2());
+			inMapTmp.put("GROUP_ID", inDto.getGroupId2());
+			if(inDto.getBillYm() != 0){
+				inMapTmp.put("BILL_YM", inDto.getBillYm());
+			}
+			if(inDto.getdDelayRate() != 0){
+				inMapTmp.put("DELAY_FAVOUR_RATE", inDto.getdDelayRate());
+			}
+			long wrtoffSn = writeOffer.doRealWriteOff(inMapTmp, 1);
+			
+		} else if (opType.equals("03")) { // 冲销开机
+			
+			inMapTmp = new HashMap<String, Object>();
+			inMapTmp.put("CONTRACT_NO", contractNo);
+			inMapTmp.put("PAY_SN", paySn);
+			if(!phoneNo.equals("")){
+				inMapTmp.put("PHONE_NO", phoneNo);
+			}
+			inMapTmp.put("OP_CODE", inDto.getOpCode2());
+			inMapTmp.put("LOGIN_NO", inDto.getLoginNo2());
+			inMapTmp.put("LOGIN_GROUP", inDto.getGroupId2());
+			//outMapTmp = writeOffer.doRealWriteOff(inMapTmp, 1);
+			
+			if(!phoneNo.equals("")){
+				inMapTmp.remove("PHONE_NO");
+			}
+			//outMapTmp = payOpener.doConUserOpen(inMapTmp);
+			
+		}else{
+			throw new BusiException(AcctMgrError.getErrorCode("8000", "00005"), "操作类型标识不正确OP_TYPE：" + opType);
+		}
+		
+		WriteoffOrOpenOrderOutDTO outDto = new WriteoffOrOpenOrderOutDTO();
+		return outDto;
+	}
+
+
+	
+	/**
+	 * @param payOpener the payOpener to set
+	 */
+	public void setPayOpener(IPayOpener payOpener) {
+		this.payOpener = payOpener;
+	}
+
+	/**
+	 * @param writeOffer the writeOffer to set
+	 */
+	public void setWriteOffer(IWriteOffer writeOffer) {
+		this.writeOffer = writeOffer;
+	}
+	
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_writeplan_conf">
+
+	<typeAlias alias="writeoffItem" type="com.sitech.acctmgr.atom.domains.bill.ItemEntity"/>
+  <select id="qWriteplanConf"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT  ACCT_ITEM_GROUP  FROM   BAL_WRITEPLAN_CONF  
+    WHERE   PAY_TYPE= #PAY_TYPE#
+  </select>
+
+	<select id="qWriteplan" parameterClass="Map" resultClass="writeoffItem">
+		SELECT A.ACCT_ITEM_CODE itemCode,C.ITEM_NAME itemName
+		FROM ACT_ITEM_GROUP_DETAIL A, BAL_WRITEPLAN_CONF B, ACT_ITEM_CONF C
+		WHERE A.ACCT_ITEM_GROUP = B.ACCT_ITEM_GROUP
+		AND C.ACCT_ITEM_CODE = A.ACCT_ITEM_CODE
+		AND PAY_TYPE = #PAY_TYPE#
+	</select>
+	
+</sqlMap>

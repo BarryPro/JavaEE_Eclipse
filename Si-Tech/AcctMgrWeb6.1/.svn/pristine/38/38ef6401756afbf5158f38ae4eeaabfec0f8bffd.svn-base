@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="act_detailquery_dict">
+	
+	<resultMap class="com.sitech.acctmgr.atom.domains.detail.QueryTypeEntity" id="config_t">
+		<result property="queryClass" column="QUERY_CLASS"/>
+		<result property="queryName" column="QUERY_NAME"/>
+		<result property="queryType" column="QUERY_TYPE"/>
+		<result property="detailType" column="DETAIL_TYPE"/>	
+		<result property="queryFlag" column="QUERY_FLAG"/>
+	</resultMap>
+	
+	<select id="qDetailConfiguration" parameterClass="Map" resultMap="config_t">
+		SELECT
+			QUERY_CLASS，
+			QUERY_TYPE,
+			trim(QUERY_NAME) QUERY_NAME,
+			DETAIL_TYPE,
+			QUERY_FLAG
+		FROM
+			ACT_DETAILQUERY_DICT
+		WHERE 1 = 1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="QUERY_CLASS" >
+				QUERY_CLASS = #QUERY_CLASS#
+			</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="QUERY_FLAG">
+				QUERY_FLAG = #QUERY_FLAG#
+			</isNotEmpty>
+
+			<isNotEmpty prepend=" AND " property="QUERY_TYPE">
+				QUERY_TYPE = #QUERY_TYPE#
+			</isNotEmpty>
+
+			<isNotEmpty prepend=" AND " property="DETAIL_TYPE">
+				DETAIL_TYPE = #DETAIL_TYPE#
+			</isNotEmpty>
+		</dynamic>
+		Order by Priority
+	</select>	
+  
+</sqlMap>

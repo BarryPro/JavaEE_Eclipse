@@ -1,0 +1,110 @@
+<%@ include file="/npage/include/public_title_ajax.jsp" %>
+<%@ page import="com.sitech.boss.pub.util.Encrypt"%>
+<%@ include file="../../npage/bill/getMaxAccept.jsp" %>
+<%@ page contentType="text/html; charset=GBK" %>
+<%
+		/*------查看手机用户是否是实名制用户*/
+		String workNo = (String)session.getAttribute("workNo");
+		String regionCode= (String)session.getAttribute("regCode");
+		String password = (String)session.getAttribute("password");
+		String opCode = request.getParameter("opCode");
+		String smzflag ="";
+	
+		String PhoneNo = request.getParameter("PhoneNo");
+		String sSouceType ="";
+		String deal_accept="";
+		String sysdate="";
+		
+		String s_flag="";
+		String s_phone_no="";
+		String s_souce="";
+		String s_souce_data="";
+		String s_souce_name="";
+		String s_op_flag="";
+		String s_login_no="";
+		String s_op_time="";
+		String s_chg_note="";
+		String s_accept="";
+		String s_sysdate="";
+		String s_note="";
+%>
+	
+
+<%
+	String[] inParamS = new String[2];
+	inParamS[0] = "SELECT phone_no, souce, to_char(souce_data), souce_name, op_flag, note, login_no, "+
+	"       to_char(op_time), "+
+	"       to_char(SYSDATE, 'yyyymmdd') || 'CSVC' || '451' || "+
+	"        to_char(MOD(sMaxSysAccept.Nextval, 10000000)) accept,to_char(sysdate,'yyymmddhh24miss') "+
+	"  FROM (SELECT a.phone_no phone_no, c.note souce, b.sourcedata souce_data, "+
+	"                b.note souce_name, decode(a.busines_type,'01','已加黑','02','已解黑') op_flag, a.servicecontent note, "+
+	"                a.login_no login_no, a.op_time op_time "+
+	"           FROM wBadInformation a, sSourceData b, sSourceType c "+
+	"          WHERE a.sourcedata = b.sourcedata(+) "+
+	"            AND a.sourcetype = c.sourcetype(+) "+
+	"            AND a.phone_no = :phone_no "+
+	"          ORDER BY op_time DESC) "+
+	" WHERE ROWNUM = 1 ";
+	inParamS[1] = "phone_no=" + PhoneNo;
+
+%>
+
+<wtc:service name="TlsPubSelBoss" routerKey="phone" routerValue="<%=PhoneNo%>" retcode="retCodeS" retmsg="retMsgS" outnum="11">
+	<wtc:param value="<%=inParamS[0]%>"/>
+	<wtc:param value="<%=inParamS[1]%>"/>
+</wtc:service>
+<wtc:array id="resultS"  scope="end"/>
+<%
+	if(resultS.length==0)
+	{
+		s_flag="1";
+	}
+	else
+	{
+		s_flag="0";
+		s_phone_no=resultS[0][0];
+		s_souce=resultS[0][1];
+		s_souce_data=resultS[0][2];
+		s_souce_name=resultS[0][3];
+		s_op_flag=resultS[0][4];
+		s_note=resultS[0][5];
+		s_login_no=resultS[0][6];
+		s_op_time=resultS[0][7];
+	 
+		s_accept=resultS[0][8];
+		s_sysdate=resultS[0][9];
+	}
+	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA test resultS.length is "+resultS.length+" and s_flag is"+s_flag+" and s_phone_no is "+s_phone_no+" and s_souce is "+s_souce);
+%>
+ 
+var response = new AJAXPacket();
+var s_flag = "<%=s_flag%>";
+var s_phone_no = "<%=s_phone_no%>";
+var s_souce = "<%=s_souce%>";
+var s_souce_data = "<%=s_souce_data%>";
+var s_souce_name = "<%=s_souce_name%>";
+var s_op_flag = "<%=s_op_flag%>";
+var s_op_time = "<%=s_op_time%>";
+ 
+var s_accept = "<%=s_accept%>";
+var s_sysdate = "<%=s_sysdate%>";
+var s_login_no ="<%=s_login_no%>";
+var s_note = "<%=s_note%>";
+
+response.data.add("s_note",s_note); 
+response.data.add("s_flag",s_flag);
+response.data.add("s_phone_no",s_phone_no);
+response.data.add("s_souce",s_souce);
+response.data.add("s_souce_data",s_souce_data);
+response.data.add("s_souce_name",s_souce_name);
+response.data.add("s_op_flag",s_op_flag);
+response.data.add("s_op_time",s_op_time);
+ 
+response.data.add("s_accept",s_accept);
+response.data.add("s_sysdate",s_sysdate);
+response.data.add("s_login_no",s_login_no);
+core.ajax .receivePacket(response);
+
+
+ 
+ 

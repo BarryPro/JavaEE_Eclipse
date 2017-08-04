@@ -1,0 +1,78 @@
+package com.sitech.acctmgr.atom.impl.invoice;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.busi.invoice.inter.IPreInvHeader;
+import com.sitech.acctmgr.atom.domains.account.AccountListEntity;
+import com.sitech.acctmgr.atom.domains.account.ContractEntity;
+import com.sitech.acctmgr.atom.domains.fee.OutFeeData;
+import com.sitech.acctmgr.atom.dto.invoice.SBroadInvoicePrintInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.SBroadInvoicePrintOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.SBroadInvoiceQryPayInfoInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.SBroadInvoiceQryPayInfoOutDTO;
+import com.sitech.acctmgr.inter.invoice.IInvoiceOfBroad;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+@ParamTypes({ 
+	@ParamType(c = SBroadInvoiceQryPayInfoInDTO.class, m = "qryBroadPayInfo",oc=SBroadInvoiceQryPayInfoOutDTO.class),
+	@ParamType(c = SBroadInvoicePrintInDTO.class, m = "print",oc=SBroadInvoicePrintOutDTO.class)
+})
+@SuppressWarnings("unchecked")
+public class SInvoiceOfBroad implements IInvoiceOfBroad {
+
+	protected IPreInvHeader preInvHeader;
+	
+	
+	
+	public IPreInvHeader getPreInvHeader() {
+		return preInvHeader;
+	}
+
+	public void setPreInvHeader(IPreInvHeader preInvHeader) {
+		this.preInvHeader = preInvHeader;
+	}
+
+	@Override
+	public OutDTO print(InDTO inParam) {
+		// TODO Auto-generated method stub
+		
+		SBroadInvoicePrintInDTO inArg = (SBroadInvoicePrintInDTO)inParam;
+		SBroadInvoicePrintOutDTO outArg = new SBroadInvoicePrintOutDTO();
+		
+		return outArg;
+	}
+
+	
+	@Override
+	public OutDTO qryBroadPayInfo(InDTO inParam) {
+		// TODO Auto-generated method stub
+		
+		SBroadInvoiceQryPayInfoInDTO inArg = (SBroadInvoiceQryPayInfoInDTO)inParam;
+		SBroadInvoiceQryPayInfoOutDTO outArg = new SBroadInvoiceQryPayInfoOutDTO();
+		
+		Map<String,Object> broadHeadMap = preInvHeader.getInvHeadOfBroad(inArg.getPhoneNo());
+		
+		//the list of account 账户列表
+		
+		String runName = broadHeadMap.get("RUN_NAME").toString();
+		String custName = broadHeadMap.get("CUST_NAME").toString();
+		String address = broadHeadMap.get("ADDRESS").toString();
+		
+		List<AccountListEntity> acctList = (List<AccountListEntity>)broadHeadMap.get("ACCT_LIST");
+		
+		outArg.setCnt(acctList.size());
+		outArg.setRunName(runName);
+		outArg.setAcctList(acctList);
+		outArg.setCustName(custName);
+		outArg.setAddress(address);
+		outArg.setPhoneNo(inArg.getPhoneNo());
+		outArg.setBeginMon(inArg.getBeginMon());
+		outArg.setEndMon(inArg.getEndMon());
+		return outArg;
+	}
+
+}

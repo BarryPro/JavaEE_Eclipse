@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dShortMsgOffOn">
+
+	<select id="qryByFlag" parameterClass="Map" resultClass="java.util.HashMap">
+		select OffOn_type from dShortMsgOffOn
+		where phone_no=#PHONE_NO#
+		and
+		op_flag=#OP_FLAG#
+		<dynamic prepend="">
+			<isEqual property="OP_FLAG" compareValue="9">
+				and to_char(sysdate,'yyyymm')=to_char(op_time,'yyyymm')
+			</isEqual>
+		</dynamic>
+	</select>
+
+	<select id="qryByType" parameterClass="Map" resultClass="java.util.HashMap">
+		select
+		OffOn_type from dShortMsgOffOn
+		where phone_no=#PHONE_NO#
+		and op_flag=#OP_FLAG#
+		and offon_type='E'
+	</select>
+
+	<insert id="insert" parameterClass="Map" >
+		insert into dShortMsgOffOn
+		(phone_no,id_no,login_no,op_code,op_flag,OffOn_type,login_accept,op_time)
+		values(#PHONE_NO#,#ID_NO#,#LOGIN_NO#,#OP_CODE#,#OP_FLAG#,#OFFON_TYPE#,#LOGIN_ACCEPT#,sysdate)
+	</insert>
+
+	<delete id="delete" parameterClass="Map">
+		delete from
+		dShortMsgOffOn
+		where phone_no=#PHONE_NO#
+		and login_no= #LOGIN_NO#
+		and op_code=#OP_CODE# 
+		and OffOn_type in ('D','E')
+		and op_flag=#OP_FLAG#
+	</delete>
+
+	<insert id="update" parameterClass="Map">
+		update dShortMsgOffOn
+		set offon_type=#OFFON_TYPE#
+		where phone_no=#PHONE_NO#
+		and login_no=#LOGIN_NO#
+		and op_code=#OP_CODE#  
+		and OffOn_type='D'
+		and op_flag=#OP_FLAG#
+	</insert>
+
+</sqlMap>

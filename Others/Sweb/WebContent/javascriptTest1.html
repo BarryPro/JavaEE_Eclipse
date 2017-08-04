@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>js1 Test</title>
+<style type="text/css">
+	body{
+		background: grey;
+	}
+	img{
+		cursor: crosshair;
+		filter: alpha(opacity=100);
+	}
+}
+</style>
+<script type="text/javascript">
+	var now = new Date();
+	document.write("<b>现在是：</b>"+now.toLocaleDateString());
+	var old = new Date();
+	old.setFullYear(2008, 7, 8);
+	document.write("<b>以前是：</b>"+old.toLocaleDateString());
+	var differ = (now.getTime()-old.getTime())/(1000*60*60*24*365);
+	document.write("<b>已经过了：</b>"+differ);
+	var str = "100";
+	a = parseInt(str);
+	ab = parseInt(str,2);
+	ao = parseInt(str,8);
+	ah = parseInt(str,16);
+	document.write("<br>"+a+"<br>"+ab+"<br>"+ao+"<br>"+ah);
+	var a1 = new Array(4, 6, 4, 73, 7, 46, 46);	
+	for(var i = 0;i<a1.length;i++){
+		//alert(a1[i]);		
+	}
+	for(var s in a1){
+		//alert(a1[s]);		
+	}	
+	function func(a,b){
+		return -(a-b);		
+	}	
+	var num = a1.sort(func);
+	//alert(num);	
+	function ok() {
+		//var a=[3,5,3,5,3,"dkf"];
+		//var a = new Array(5,5,33,5,"fdjs","belong");
+		//数组json式;
+	}
+</script>
+</head>
+<body >
+	<img alt="图片" src="赵丽颖.jpeg" align="right">
+	<form id="form1" onsubmit="alert('submit')">
+		<input type="text" tabindex=1 onchange="alert('change')"
+			onfocus="alert('focus')"> <input type="text" tabindex=10
+			onfocus="alert('small')" /> <input type="text"
+			onmouseover="alert('over')" onmouseout="alert('out')"> <input
+			type="submit">
+	</form>
+	<form id="form2">
+		<input type="button" value="打开一个窗口" onclick="newwin=window.open('basis.html', 'newWindow','toolbar=no,status=yes,width=400,height=100');"/>
+		<input type="button" value="关闭窗口" onclick="newwin.close();"/>
+		<input type="button" value="关闭所有窗口" onclick="window.close();"/>	
+		<input type="button" value="alert" onclick="window.alert('ok');"/>	
+		<input type="button" value="confirm" onclick="alert(window.confirm('are you a girl?'));"/>			
+		<input type="button" value="prompt" onclick="alert(window.prompt('are you a boy','ok'));"/>	
+		<input type="button" value="链接百度" onclick="window.location='http://www.baidu.com';"/>
+		<input type="button" value="history" onclick="window.location='j1.html'">		
+		<input type="button" value="当前日期" onclick="alert(new Date())">	
+	</form>
+</body>
+</html>

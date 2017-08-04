@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="ct_postbank_dict">
+
+    <typeAlias alias="PostBankDict" type="com.sitech.acctmgr.atom.domains.cust.PostBankEntity"/>
+    <resultMap id="PostBankEnt" class="PostBankDict">
+        <result property="bankName" column="BANK_NAME"/>
+        <result property="postAccount" column="POST_ACCOUNT"/>
+        <result property="postName" column="POST_NAME"/>
+        <result property="postCode" column="POST_BANK_CODE"/>
+    </resultMap>
+    <select id="qPostBankInfo" parameterClass="Map" resultMap="PostBankEnt">
+        SELECT BANK_NAME,POST_ACCOUNT,POST_NAME,POST_BANK_CODE
+        FROM CT_POSTBANK_DICT
+        WHERE REGION_CODE= #REGION_CODE#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="POST_BANK_CODE">
+                post_bank_code=#POST_BANK_CODE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="START_LINE">
+                rownum <![CDATA[ >= ]]> #START_LINE# and rownum <![CDATA[ <= ]]> #END_LINE#
+            </isNotEmpty>
+        </dynamic>
+        order by post_bank_code
+    </select>
+
+    <select id="qPostBankList" parameterClass="Map" resultMap="PostBankEnt">
+		SELECT  bank_name,
+        post_account,
+        post_name,
+        post_bank_code
+  		 FROM (SELECT  a.bank_name,
+                       a.post_account,
+                       a.post_name,
+                       a.post_bank_code, ROWNUM rn from(select bank_name,post_account,post_name,post_bank_code from CT_POSTBANK_DICT   where region_code=  #REGION_CODE#
+		order by post_bank_code) a where rownum <![CDATA[ <= ]]> #END_LINE# ) where rn <![CDATA[ >= ]]> #START_LINE# 
+	</select>
+
+    <select id="qCnt" parameterClass="Map" resultClass="java.util.HashMap">
+        select count(1) AMOUNT from CT_POSTBANK_DICT where 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="REGION_CODE">
+                region_code=#REGION_CODE#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+
+</sqlMap>

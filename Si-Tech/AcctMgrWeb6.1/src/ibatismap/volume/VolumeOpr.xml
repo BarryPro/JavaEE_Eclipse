@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="volumeopr">
+    <insert id="saveBuyOpr" parameterClass="java.util.HashMap">
+        INSERT INTO WGRPLLBUYOPR (ORDER_ID, PS_ID, UNIT_ID_NO, GOODS_ID, BUYS_DATE, BUYS_NUMBER,
+        BUYS_SIZE, BUYS_PRICE, SALE_EFF_DATE, SALE_EXP_DATE, OP_TIME)
+        VALUES (#ORDER_ID#, #PS_ID#, #UNIT_ID_NO#, #GOODS_ID#, TO_DATE(#BUYS_DATE#,'YYYYMMDDHH24MISS'), #BUYS_NUMBER#,
+        #BUYS_SIZE#, #BUYS_PRICE#, TO_DATE(#SALE_EFF_DATE#,'YYYYMMDDHH24MISS'), TO_DATE(#SALE_EXP_DATE#,'YYYYMMDDHH24MISS'), SYSDATE)
+    </insert>
+
+    <insert id="saveBuyOprHis" parameterClass="java.lang.String">
+        INSERT INTO WGRPLLBUYOPRHIS (ORDER_ID, PS_ID, UNIT_ID_NO, GOODS_ID, BUYS_DATE, BUYS_NUMBER,
+        BUYS_SIZE, BUYS_PRICE, SALE_EFF_DATE, SALE_EXP_DATE, OP_TIME)
+        select ORDER_ID, PS_ID, UNIT_ID_NO, GOODS_ID, BUYS_DATE, BUYS_NUMBER,
+        BUYS_SIZE, BUYS_PRICE, SALE_EFF_DATE, SALE_EXP_DATE, OP_TIME
+        from WGRPLLBUYOPR
+        where ORDER_ID = #ORDER_ID#
+    </insert>
+
+    <insert id="saveSaleInfo" parameterClass="java.util.HashMap">
+        INSERT INTO DGRPLLPHONEMSGVALUE (ORDER_ID,PS_ID,UNIT_ID_NO,GOODS_ID,SALE_DATE,SALE_NUMBER,
+        SALE_SIZE,SALE_PRICE, BUYER_ID, BUYER_PHONE, USE_EFF_DATE, USE_EXP_DATE)
+        VALUES (#ORDER_ID#, #PS_ID#, #UNIT_ID_NO#, #GOODS_ID#, TO_DATE(#SALE_DATE#, 'YYYYMMDDHH24MISS'), #SALE_NUMBER#, #SALE_SIZE#, #SALE_PRICE#,
+        #BUYER_ID#, #BUYER_PHONE#, TO_DATE(#USE_EFF_DATE#, 'YYYYMMDDHH24MISS'), TO_DATE(#USE_EXP_DATE#, 'YYYYMMDDHH24MISS'))
+    </insert>
+
+    <insert id="saveSaleInfoHis" parameterClass="java.lang.String">
+        INSERT INTO DGRPLLPHONEMSGVALUEHIS (ORDER_ID, PS_ID, UNIT_ID_NO, GOODS_ID, SALE_DATE, SALE_NUMBER,
+        SALE_SIZE, SALE_PRICE, BUYER_ID, BUYER_PHONE, USE_EFF_DATE, USE_EXP_DATE, USER_OUT_TIME)
+        SELECT ORDER_ID, PS_ID, UNIT_ID_NO, GOODS_ID, SALE_DATE, SALE_NUMBER,
+        SALE_SIZE, SALE_PRICE, BUYER_ID, BUYER_PHONE, USE_EFF_DATE, USE_EXP_DATE, USER_OUT_TIME
+        FROM DGRPLLPHONEMSGVALUE
+        WHERE ORDER_ID = #ORDER_ID#
+    </insert>
+
+    <delete id="deleteBuyOpr" parameterClass="java.lang.String">
+        DELETE WGRPLLBUYOPR WHERE ORDER_ID = #ORDER_ID# and rownum &lt; 2
+    </delete>
+
+    <delete id="deleteSaleInfo" parameterClass="java.lang.String">
+        DELETE DGRPLLPHONEMSGVALUE WHERE ORDER_ID = #ORDER_ID# and rownum &lt; 2
+    </delete>
+
+</sqlMap>

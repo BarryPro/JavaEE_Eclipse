@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_checkprepay_info">
+
+	<select id="qry" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(*) CNT FROM BAL_CHECKPREPAY_INFO 
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="BANK_CODE">
+				BANK_CODE=#BANK_CODE# 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CHECK_NO">
+				CHECK_NO=#CHECK_NO# 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="insert" parameterClass="Map">
+		INSERT INTO BAL_CHECKPREPAY_INFO (BANK_CODE,CHECK_NO,CHECK_PREPAY,OP_TIME)
+		VALUES
+		(#BANK_CODE#,#CHECK_NO#,#CHECK_PREPAY#,to_date(#OP_TIME#,'yyyymmddhh24miss'))
+	</insert>
+
+	<update id="update" parameterClass="Map">
+		UPDATE BAL_CHECKPREPAY_INFO SET CHECK_PREPAY = #CHECK_PREPAY#,OP_TIME
+		=SYSDATE
+		WHERE TRIM(BANK_CODE) = #BANK_CODE# AND TRIM(CHECK_NO) = #CHECK_NO#
+	</update>
+
+	<update id="subFee" parameterClass="Map">
+		UPDATE BAL_CHECKPREPAY_INFO SET CHECK_PREPAY = CHECK_PREPAY-#CHECK_PAY# ,OP_TIME =SYSDATE
+		WHERE TRIM(BANK_CODE) = #BANK_CODE# AND TRIM(CHECK_NO) = #CHECK_NO#
+		and CHECK_PREPAY <![CDATA[ >= ]]> #CHECK_PAY# 
+	</update>
+
+	<delete id="del" parameterClass="Map">
+		delete from BAL_CHECKPREPAY_INFO WHERE TRIM(BANK_CODE)= #BANK_CODE# AND
+		TRIM(CHECK_NO) = #CHECK_NO#
+	</delete>
+
+	<select id="qPrepayBank" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR(NVL(CHECK_PREPAY, 0))
+		CHECK_PREPAY,a.BANK_CODE BANK_CODE,BANK_NAME,CHECK_NO,to_char(OP_TIME,'yyyymmddhhmiss')
+		OP_TIME
+		FROM BAL_CHECKPREPAY_INFO a,bs_bank_dict b
+		WHERE TRIM(a.BANK_CODE) =#BANK_CODE# 
+		and a.bank_code=b.bank_code
+		<dynamic prepend="">
+			<isNotEmpty prepend=" AND" property="CHECK_NO">
+				CHECK_NO =
+				#CHECK_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="GROUP_ID">
+				GROUP_ID =#GROUP_ID#
+			</isNotEmpty>
+		</dynamic>
+
+	</select>
+
+<select id="qPrepay" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR(NVL(CHECK_PREPAY, 0)) CHECK_PREPAY 
+		FROM BAL_CHECKPREPAY_INFO a
+		WHERE TRIM(a.BANK_CODE) =#BANK_CODE# AND TRIM(a.CHECK_NO) = #CHECK_NO#
+		AND EXISTS(
+		     SELECT 1 FROM BS_BANK_DICT B  WHERE  A.BANK_CODE=B.BANK_CODE   
+		   )
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="ac_contract_info">
+	<typeAlias alias="AcContractInfo" type="com.sitech.acctmgr.atom.domains.account.ContractInfoEntity"/>
+	<select id="qAcContractInfo" parameterClass="Map" resultClass="AcContractInfo">
+		SELECT CONTRACT_NO contractNo,
+		       CONTRACT_NAME contractName,
+		       CONTRACT_PASSWD contractPasswd,
+		       CUST_ID custId,
+		       PAY_CODE payCode,
+		       GROUP_ID groupId,
+		       ACCOUNT_TYPE accountType,
+		       CONTRACTATT_TYPE contractattType
+		  FROM AC_CONTRACT_INFO
+		 WHERE 1=1
+		 <dynamic prepend="">
+			  <isNotEmpty prepend="AND" property="CONTRACT_NO">
+			   		CONTRACT_NO=#CONTRACT_NO#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="CUST_ID">
+			   		CUST_ID=#CUST_ID#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="CONTRACTATT_TYPE">
+			   		CONTRACTATT_TYPE=#CONTRACTATT_TYPE#
+			  </isNotEmpty>
+		 </dynamic>
+	</select>
+
+
+    <select id="qCntGrpAcct" parameterClass="Map" resultClass="java.lang.Integer">
+        SELECT NVL (COUNT (1), 0) AS COUNT
+        FROM AC_CONTRACT_INFO A
+        WHERE  A.ACCOUNT_TYPE = '1'
+        AND A.CONTRACT_NO = #CONTRACT_NO:LONG#
+    </select>
+
+	<select id="qryGrpAcctInfo" parameterClass="Map" resultClass="AcContractInfo">
+		SELECT A.CONTRACT_NO contractNo, 
+		A.CONTRACT_NAME contractName,
+		A.PAY_CODE payCode,
+		A.CONTRACTATT_TYPE contractattType,
+		a.CUST_ID custId,
+		a.GROUP_ID groupId,
+		b.UNIT_ID unitId
+		FROM ac_contract_info a, ct_grpcust_info b
+		WHERE A.CUST_ID = B.CUST_ID
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CUST_ID">
+				a.CUST_ID=#CUST_ID:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				A.CONTRACT_NO=#CONTRACT_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="UNIT_ID">
+				B.UNIT_ID=#UNIT_ID:LONG#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="qryAgtCon" parameterClass="Map" resultClass="AcContractInfo">
+		SELECT A.CONTRACT_NO contractNo,A.CONTRACT_PASSWD contractPasswd
+		FROM AC_CONTRACT_INFO A,DAGTBASEMSG B
+		WHERE B.AGT_PHONE=#AGT_PHONE_NO# 
+		AND A.CONTRACT_NO=B.CONTRACT_NO
+		AND B.STATUS='Y'
+	</select>
+	
+	<select id="qConByIccid"  parameterClass="Map" resultClass="java.util.HashMap">
+      SELECT   A.CONTRACT_NO CONTRACT_NO ,A.CONTRACT_NAME    CONTRACT_NAME, A.CONTRACTATT_TYPE
+      FROM AC_CONTRACT_INFO A
+	  WHERE A.CUST_ID IN   ( SELECT CUST_ID FROM CT_CUST_INFO WHERE ID_ICCID = #ID_ICCID#  )
+  </select>
+	
+</sqlMap>

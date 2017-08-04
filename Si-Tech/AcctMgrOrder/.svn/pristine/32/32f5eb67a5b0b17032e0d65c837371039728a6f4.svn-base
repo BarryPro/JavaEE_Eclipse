@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						    http://www.springframework.org/schema/beans/spring-beans.xsd">	
+						    
+
+<!-- 实体层基类 抽象类，不能实例化-->
+<bean id="baseBusi" class="com.sitech.acctmgr.common.BaseBusi" abstract="true">
+	<property name="baseDao" ref="baseDao" />
+</bean>
+
+<!-- 前台方法新增Bean
+<bean id="writeoffOrOpenOrderSvc" class="com.sitech.acctmgr.atom.impl.WriteoffOrOpenOrder"/>
+<bean id="feeOrderSvc" class="com.sitech.acctmgr.atom.busi.pay.feeOrder.FeeOrder"/>
+ -->
+ 
+<bean id="odrLineContDAOAppEnt" class="com.sitech.acctmgr.app.odrBlob.OdrLineContDAO" parent="baseBusi"/>
+<!-- <bean id="JdbcConnAppEnt" class="com.sitech.acctmgr.app.common.JdbcConn" parent="baseBusi"/> -->
+<bean id="jsonTransEnt" class="com.sitech.acctmgr.app.busiorder.jsontrans.JsonTrans" parent="baseBusi"/>
+
+<!-- crm2boss bean 加Svc让spring管理事务-->
+<bean id="BusiOrderSynSvc" class="com.sitech.acctmgr.app.busiorder.BusiOrderSyn" parent="baseBusi">
+    <property name="odrLineContDAO" ref="odrLineContDAOAppEnt" />
+    <property name="jsonTrans" ref="jsonTransEnt" />
+</bean>
+
+	<bean id="BusiOrderSynDeal" class="com.sitech.acctmgr.app.busiorder.BusiOrderSynDeal"/>
+	<bean id="BusiOrderErrDeal" class="com.sitech.acctmgr.app.busiorder.BusiOrderErrDeal"/>
+
+    <!-- 定义调用对象和调用对象的方法 -->
+    <bean id="jobtaskBusi" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="BusiOrderSynDeal"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+             <value>run</value>
+        </property>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 --> 
+        <property name="concurrent" value="false"/>
+    </bean>
+    
+    <bean id="jobtaskBusiErr" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="BusiOrderErrDeal"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+             <value>run</value>
+        </property>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 --> 
+        <property name="concurrent" value="false"/>
+    </bean>
+    
+    <!-- 定义触发时间 -->
+    <bean id="doTimeBusi" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="jobtaskBusi"/>
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <value>0/20 * * * * ?</value>
+        </property>
+    </bean>
+    
+    <bean id="doTimeBusiErr" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="jobtaskBusiErr"/>
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <value>0/20 * * * * ?</value>
+        </property>
+    </bean>
+    
+    <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+    <bean id="startQuartz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+               <ref bean="doTimeBusi"/>
+               <ref bean="doTimeBusiErr"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

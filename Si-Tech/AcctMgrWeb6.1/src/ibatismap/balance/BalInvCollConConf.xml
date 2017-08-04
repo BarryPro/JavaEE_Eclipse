@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invcollcon_conf">
+    <typeAlias type="com.sitech.acctmgr.atom.domains.collection.PayeeBankEntity" alias="PayeeBankEnt"/>
+    <resultMap id="PayeeBankEntity" class="PayeeBankEnt">
+        <result property="regionCode" column="REGION_CODE"/>
+        <result property="regionName" column="REGION_NAME"/>
+        <result property="custBank1" column="CUST_BANK1"/>
+        <result property="custBank2" column="CUST_BANK2"/>
+        <result property="accountNo" column="ACCOUNT_NO"/>
+        <result property="bankName" column="BANK_NAME"/>
+    </resultMap>
+    <select id="qInvCollConInfo" parameterClass="Map" resultMap="PayeeBankEntity">
+        SELECT REGION_CODE,REGION_NAME,CUST_BANK1,CUST_BANK2,ACCOUNT_NO,BANK_NAME
+        FROM BAL_INVCOLLCON_CONF
+        WHERE 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="REGION_CODE">
+                REGION_CODE = #REGION_CODE#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+</sqlMap>

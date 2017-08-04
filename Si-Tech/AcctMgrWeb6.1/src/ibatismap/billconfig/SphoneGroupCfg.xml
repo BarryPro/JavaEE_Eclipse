@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="sphonegroupcfg">
+
+    <select id="qHostId" parameterClass="Map" resultClass="java.util.HashMap">    	  	
+		select  distinct region_code, host_group_id HOST_ID
+		from sphonegroupcfg 
+		where group_type = #GROUP_TYPE#
+		and region_code = #REGION_CODE#
+    </select>
+
+</sqlMap>
+

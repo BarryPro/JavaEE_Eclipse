@@ -1,0 +1,293 @@
+package com.sitech.acctmgr.atom.impl.hlj.pay;
+
+import com.sitech.acctmgr.atom.busi.pay.inter.IPayManage;
+import com.sitech.acctmgr.atom.domains.account.ContractEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayBookEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayOutUserData;
+import com.sitech.acctmgr.atom.domains.pay.PayUserBaseEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubWrtoffCtrlEntity;
+import com.sitech.acctmgr.atom.domains.user.UserDetailEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.pay.*;
+import com.sitech.acctmgr.atom.entity.inter.*;
+import com.sitech.acctmgr.atom.impl.pay.S8000;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.constant.PayBusiConst;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.MBean;
+import com.sitech.jcfx.util.DateUtil;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.collections.MapUtils.safeAddToMap;
+
+
+@ParamTypes({ 
+	@ParamType(m="init",c= S8000InitInDTO.class,oc=S8000InitOutDTO.class, 
+			routeKey ="10",routeValue = "phone_no",busiComId = "构件id", 
+			srvCat = "缴费",srvCnName = "缴费校验服务",srvVer = "V10.8.126.0", 
+			srvDesc = "缴费校验服务",srcAttr = "核心",srvLocal = "否",srvGroup = "否"),
+			
+	@ParamType(m="cfm",c= S8000CfmInDTO.class,oc=S8000CfmOutDTO.class, 
+			routeKey ="10",routeValue = "phone_no",busiComId = "构件id", 
+			srvCat = "缴费",srvCnName = "缴费确认服务",srvVer = "V10.8.126.0", 
+			srvDesc = "缴费确认服务",srcAttr = "核心",srvLocal = "否",srvGroup = "否"),
+
+	@ParamType(m="cfmDiscount",c= S8000CfmDiscountInDTO.class,oc=S8000CfmDiscountOutDTO.class, 
+			routeKey ="10",routeValue = "phone_no",busiComId = "构件id", 
+			srvCat = "折扣率缴费",srvCnName = "折扣率缴费确认服务",srvVer = "V10.8.126.0", 
+			srvDesc = "折扣率缴费确认服务",srcAttr = "核心",srvLocal = "否",srvGroup = "否"),
+			
+	@ParamType(m="check",c= S8000CheckInDTO.class,oc=S8000CheckOutDTO.class, 
+			routeKey ="10",routeValue = "phone_no",busiComId = "构件id", 
+			srvCat = "外部缴费成功校验",srvName = "com_sitech_acctmgr_inter_pay_I8000Svc_check", srvCnName = "外部缴费成功校验",srvVer = "V10.8.126.0", 
+			srvDesc = "外部缴费成功校验",srcAttr = "核心",srvLocal = "否",srvGroup = "否")
+			})
+
+public class S8000HLJ extends S8000 {
+	
+	/**
+	 *黑龙江个性化缴费限制 
+	 */
+	protected void querySepBusiInfo(Map<String, Object>inParam) {
+		
+		IUser	user = super.getUser();
+		
+		log.debug("黑龙江缴费业务个性化限制querySepBusiInfo begin: " + inParam.toString());
+		
+		S8000InitInDTO inDto = (S8000InitInDTO)inParam.get("IN_DTO");
+		String phoneNo = inParam.get("PHONE_NO").toString();
+		
+		UserInfoEntity uie = user.getUserEntity(null, phoneNo, null, true);
+		UserDetailEntity userdetailEntity = user.getUserdetailEntity(uie.getIdNo());
+		
+		if(userdetailEntity.getRunCode().equals("P") || userdetailEntity.getRunCode().equals("p")){
+			
+			throw new BusiException(AcctMgrError.getErrorCode("8000","20005"), "该号码未竣工，不允许缴费！");
+		}
+		
+		if(user.isGroupSlaveCard(uie.getIdNo())){
+			
+			throw new BusiException(AcctMgrError.getErrorCode("8000","20006"), "该号码为集团客户合账分享副卡用户,由主卡用户为其付费,不允许缴费！");
+		}
+
+	}
+	
+	protected  void cfmSepBusiInfo(Map<String, Object>inParam){
+		
+		IUser	user = super.getUser();
+		IBill	bill = super.getBill();
+		IControl control = super.getControl();
+		
+		PayUserBaseEntity userBase = (PayUserBaseEntity)inParam.get("PAY_USERBASE");
+		PayBookEntity     bookIn = (PayBookEntity)inParam.get("PAY_BOOKIN");
+		
+		UserDetailEntity userDetail = null;
+		if(userBase.getIdNo() != 0){
+			userDetail = user.getUserdetailEntity(userBase.getIdNo());
+		}
+		
+		if(user.isGroupSlaveCard(userBase.getIdNo())){
+			
+			throw new BusiException(AcctMgrError.getErrorCode("8000","20006"), "该号码为集团客户合账分享副卡用户,由主卡用户为其付费,不允许缴费！");
+		}
+		
+		//划得来平台个性化业务限制
+		if(bookIn.getLoginNo().equals("huadel")){
+			
+			if(userDetail != null && !userDetail.getRunCode().equals("A")){
+				
+				throw new BusiException(AcctMgrError.getErrorCode("8000","20001"), "状态非正常,不允许划得来平台充值,run_code: " + userDetail.getRunCode());
+			}
+			
+			if(bookIn.getPayFee() > 50000){
+				
+				throw new BusiException(AcctMgrError.getErrorCode("8000","20002"), "单笔充值金额不能超过500元");
+			}
+			
+			boolean isOwe = bill.isUnPayOwe(userBase.getContractNo());
+			if (isOwe) {
+				
+				throw new BusiException(AcctMgrError.getErrorCode("8000","20003"), "该号码欠费,不允许缴费");
+			}
+			
+			PubWrtoffCtrlEntity wrtoffCtrlEntity = control.getWriteOffFlagAndMonth();
+			if (wrtoffCtrlEntity.getWrtoffFlag().equals("1")) { // 出账期间
+				
+				throw new BusiException(AcctMgrError.getErrorCode("8000","20004"), "出账期间不允许划得来平台充值");
+			}
+			
+		}
+		
+	}
+	
+	protected void sendPayMsg (PayUserBaseEntity userBase, PayBookEntity bookIn)  {
+		
+		IUser  		user = getUser();
+		IAccount	account = getAccount();
+		IControl	control = getControl();
+		
+		log.info("发送短信sendPayMsg begin");
+		
+		String sCurTime = DateUtil.format(new Date(), "yyyyMMddHHmmss");
+		
+		String sPayPath = bookIn.getPayPath();
+		
+		//获取缴费下发号码(账户缴费时根据配置获取号码)
+		String smsPhone = getSmsPhone(userBase);
+		if(smsPhone == null){
+			log.debug("没有找到下发短信号码");
+			return;
+		}
+		String phoneNo = smsPhone; //真正要下发短信的号码
+		boolean internetOfThingsPhone = user.isInternetOfThingsPhone(smsPhone);
+		if(internetOfThingsPhone){
+			phoneNo = user.getAddServiceNo(user.getUserEntity(null, smsPhone, null, true).getIdNo(), "16");
+			log.debug("转换后的下发短信号码: " + phoneNo);
+		}
+		
+		//一些品牌不发送短信
+		String notBrand = control.getPubCodeValue(2103, "BRAND_ID", null);
+		if(-1 != notBrand.indexOf(userBase.getBrandId())){
+			
+			log.debug("该品牌不发送短信");
+			return;
+		}
+		
+		//某些工号缴费不发送短信
+		{
+		
+		
+		}
+		
+		Map<String, Object> mapTmp = new HashMap<String, Object>();
+		MBean inMessage = new MBean();
+		
+		if(sPayPath.equals(PayBusiConst.CARDPATH)){             //1.充值卡缴费发送短信
+			
+				//非物联网号码，调用是否需要做推荐资费办理 校验通过 短信模板 BOSS_0158
+				/*默认短信
+				*BOSS_0162:尊敬的客户，您于${year}年${month}月${day}日成功充值${pay_money}。友情提示:如果您订购了GPRS业务，停机后缴费复机时需重启手机来恢复GPRS的使用。您可为亲友间的通话慷慨买单了，业务详情及办理请发送“亲情网”至10086。中国移动${sms_release}
+				*/
+				mapTmp.put("year", sCurTime.substring(0, 4));
+				mapTmp.put("month", sCurTime.substring(4, 6));
+				mapTmp.put("day", sCurTime.substring(6, 8));
+				mapTmp.put("pay_money", ValueUtils.transFenToYuan(bookIn.getPayFee()));
+				inMessage.addBody("TEMPLATE_ID", "BOSS_0162");
+			
+		}else if(sPayPath.equals(PayBusiConst.BAKN_PATH)){		//银行短信
+				
+				//非物联网号码，调用CRM接口 判断是否需要推荐资费办理
+				/**默认短信 BOSS_0044，校验通过 短信模板 BOSS_0158
+				 * BOSS_0044:尊敬的${sm_name}品牌客户，您通过银行交纳移动话费成功，交费金额为${pay_money}元。友情提示:如果您订购了GPRS业务，停机后缴费复机时需重启手机来恢复GPRS的使用。您可为亲友间的通话慷慨买单了，业务详情及办理请发送“亲情网”至10086。${sms_release}
+				 */
+				mapTmp.put("sm_name", userBase.getBrandId());
+				mapTmp.put("pay_money", ValueUtils.transFenToYuan(bookIn.getPayFee()));
+				
+				inMessage.addBody("TEMPLATE_ID", "BOSS_0044");
+			
+		}else{				//其它普通短信
+			
+			boolean isDefalltUser = account.isDeflaultUser(userBase.getContractNo());
+			if(isDefalltUser){		//有默认用户
+				
+				if(internetOfThingsPhone){
+					
+					/**
+					 *BOSS_0157:尊敬的${sm_name}品牌客户，交费成功，本次交费金额为${pay_money}元。友情提示:如果您订购了GPRS业务，停机后缴费复机时需重启手机来恢复GPRS的使用。您可为亲友间的通话慷慨买单了，业务详情及办理请发送“亲情网”至10086。${sms_release} 
+					 **/
+					mapTmp.put("sm_name", userBase.getBrandId());
+					mapTmp.put("pay_money", ValueUtils.transFenToYuan(bookIn.getPayFee()));
+					inMessage.addBody("TEMPLATE_ID", "BOSS_0157");
+					
+				}else{		//非物联网号码，调用接口 需要推荐资费 BOSS_0158 ，默认 账户缴费 BOSS_0150，号码缴费BOSS_0157
+					
+					/**
+					 *BOSS_0157:尊敬的${sm_name}品牌客户，交费成功，本次交费金额为${pay_money}元。友情提示:如果您订购了GPRS业务，停机后缴费复机时需重启手机来恢复GPRS的使用。您可为亲友间的通话慷慨买单了，业务详情及办理请发送“亲情网”至10086。${sms_release} 
+					 *BOSS_0150:对帐号为${contract_no}的帐户交费成功，交费金额为${pay_money}元！友情提示:您可为亲友间的通话慷慨买单了，业务详情及办理请发送“亲情网”至10086${sms_release}
+					 **/
+					mapTmp.put("sm_name", userBase.getBrandId());
+					mapTmp.put("contract_no", userBase.getContractNo());
+					mapTmp.put("pay_money", ValueUtils.transFenToYuan(bookIn.getPayFee()));
+					if(userBase.isPhoneFlag()){
+						inMessage.addBody("TEMPLATE_ID", "BOSS_0157");
+					}else{
+						inMessage.addBody("TEMPLATE_ID", "BOSS_0150");
+					}
+				}
+				
+			}else{					//没有默认用户
+				
+				/***
+				 * 对帐号为${contract_no}的帐户交费成功，交费金额为${pay_money}元！友情提示:您可为亲友间的通话慷慨买单了，业务详情及办理请发送“亲情网”至10086${sms_release}
+				 */
+				
+				mapTmp.put("contract_no", userBase.getContractNo());
+				mapTmp.put("pay_money", ValueUtils.transFenToYuan(bookIn.getPayFee()));
+				
+				inMessage.addBody("TEMPLATE_ID", "BOSS_0150");
+			}
+		}
+
+		inMessage.addBody("PHONE_NO", phoneNo);
+		inMessage.addBody("LOGIN_NO", bookIn.getLoginNo());;
+		inMessage.addBody("OP_CODE", bookIn.getOpCode());
+		inMessage.addBody("CHECK_FLAG", true);
+		inMessage.addBody("DATA", mapTmp);
+		
+		String flag = control.getPubCodeValue(2011, "DXFS", null);         // 0:直接发送 1:插入短信接口临时表 2：外系统有问题，直接不发送短信
+		if(flag.equals("0")){
+			inMessage.addBody("SEND_FLAG", 0);
+		}else if(flag.equals("1")){
+			inMessage.addBody("SEND_FLAG", 1);
+		}else if(flag.equals("2")){
+			return;
+		}
+		log.info("发送短信内容：" + inMessage.toString());
+		//shortMessage.sendSmsMsg(inMessage, 1);
+	
+	}
+
+	/*
+	 * 只为配置过账户对应的下发短信号码或者账户只对应一个号码的用户下发缴费提醒短信
+	 * 获取账户配置对应的号码
+	 * 账户只对应一个用户 -- 该号码为下发短信号码，否则不下发短信
+	 * */
+	private String getSmsPhone(PayUserBaseEntity userBase){
+		
+		IAccount	account = getAccount();
+		IUser		user = getUser();
+		IShortMsg	shortMsg = getShortMsg();
+		
+		Map<String, Object> inMapTmp = null;
+		Map<String, Object> outMapTmp = null;
+
+		String shortMsgPhone = shortMsg.getConSmsPhone(userBase.getContractNo());
+		if(shortMsgPhone == null){
+			return shortMsgPhone;
+		}
+
+		int userCnt = account.cntConUserRel(userBase.getContractNo(), null, null);
+		if(userCnt == 1){
+			
+			List<ContractEntity> conList = account.getUserList(userBase.getContractNo());
+			return user.getUserEntityByIdNo(conList.get(0).getId(), true).getPhoneNo();
+			
+		}else{
+			
+			return null;
+		}
+	}
+	
+	protected String getSendPayType(){
+		
+		return "T";
+	}
+	
+}

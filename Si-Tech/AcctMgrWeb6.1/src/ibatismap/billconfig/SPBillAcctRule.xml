@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="spbill_acct_rule">
+
+	<select id="qryByBizType" parameterClass="String" resultClass="com.sitech.acctmgr.atom.domains.bill.SPBillAcctRuleEntity">
+        SELECT SP_CODE as spCode, OPER_CODE as operCode, ACCT_RULE as acctRule
+  		FROM SPBILL_ACCT_RULE
+ 		WHERE BIZ_TYPE = #BIZ_TYPE#
+ 		ORDER BY PRIORITY
+    </select>
+    
+</sqlMap>

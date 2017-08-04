@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_yearcancel_info">
+
+  	<insert id="iYearCalcel"  parameterClass="Map">
+		INSERT INTO BAL_YEARCANCEL_INFO (
+			ID_NO, PHONE_NO, CONTRACT_NO, PAY_TYPE, BILL_FLAG, TOTAL_DATE, 
+			LOGIN_ACCEPT, ORI_FOREIGN_SN, FOREIGN_SN, LOGIN_NO, GROUP_ID, OP_CODE, 
+			OP_TIME, REMARK, BACK_YM, ACCT_FLAG, REMNANT_FEE, BREACH_FEE, ACCT_TIME, 
+			ACCT_NOTE, PAY_MONEY
+		)
+		VALUES(
+			#ID_NO#, #PHONE_NO#, #CONTRACT_NO#, #PAY_TYPE#, #BILL_FLAG#, #TOTAL_DATE#, 
+			#LOGIN_ACCEPT#, #ORI_FOREIGN_SN#, #FOREIGN_SN#, #LOGIN_NO#, #GROUP_ID#, #OP_CODE#, 
+			sysdate, #REMARK#, #BACK_YM#, #ACCT_FLAG#, null, null, null, 
+			null, null
+		)
+	</insert>
+	
+	<select id="qHasDedit" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(*) CNT
+				FROM  BAL_YEARCANCEL_INFO
+				WHERE id_no =#ID_NO#
+				AND   contract_no = #CONTRACT_NO#
+        AND   acct_flag   = 'N'
+        AND   bill_flag   = 'N'
+        ANd   pay_type    =#PAY_TYPE#
+	</select>
+
+</sqlMap>
+

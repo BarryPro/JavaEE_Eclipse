@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_dynaccount_info">
+	<select id="getDateSub" parameterClass="Map" resultClass="java.util.HashMap">
+		select to_date(to_char(EXP_DATE,'YYYYMMDD'),'YYYY/MM/DD') - 
+		to_date(to_char(EFF_DATE,'YYYYMMDD'),'YYYY/MM/DD') DATE_SUB,
+		TO_CHAR(EFF_DATE,'YYYY/MM/DD') EFF_DATE,TO_CHAR(EXP_DATE,'YYYY/MM/DD') EXP_DATE
+		FROM UR_DYNACCOUNT_INFO
+		where id_no = #ID_NO#
+	</select>
+	
+	<select id="qCnt" parameterClass="java.lang.Long" resultClass="java.lang.Integer">
+		SELECT COUNT(*) FROM UR_DYNACCOUNT_INFO
+		WHERE ID_NO=#idNo#
+		AND SYSDATE between EFF_DATE AND EXP_DATE
+	</select>
+	
+	<select id="qAccDay" parameterClass="java.lang.Long" resultClass="java.util.HashMap">
+		SELECT SUBSTR(ACC_DAY,7,2) ACCT_DAY
+		FROM UR_DYNACCOUNT_INFO
+		WHERE ID_NO=#idNo#
+		AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+	</select>
+</sqlMap>
+	

@@ -1,0 +1,318 @@
+package com.sitech.acctmgr.atom.domains.invoice;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+import java.io.Serializable;
+
+
+/**   
+ * @Description: 托收发票打印费用实体
+ * @author:  wangyla
+ * @version:
+ * @createTime:  2015-7-27 下午1:38:45
+ */
+
+public class InvcCollEntity implements Serializable{
+	@JSONField(name="BILL_CYCLE")
+	@ParamDesc(path="BILL_CYCLE",cons= ConsType.CT001,len="6",desc="托收帐期",type="int",memo="略")
+	private int billCycle;
+
+	@JSONField(name="BEGIN_YMD")
+	@ParamDesc(path="BEGIN_YMD",cons= ConsType.CT001,len="6",desc="帐期开始日",type="string",memo="略")
+	private String beginYmd;
+
+	@JSONField(name="END_YMD")
+	@ParamDesc(path="END_YMD",cons= ConsType.CT001,len="6",desc="帐期结束日",type="string",memo="略")
+	private String endYmd;
+
+	@JSONField(name="PHONE_NO")
+	@ParamDesc(path="PHONE_NO",cons= ConsType.QUES,type="string",len="40",desc="手机号码",memo="托收帐户代表号码")
+	private String phoneNo;
+
+	@JSONField(name="CONTRACT_NO")
+	@ParamDesc(path="CONTRACT_NO",cons= ConsType.QUES,type="long",len="20",desc="托收账户号码",memo="略")
+	private long contractNo;
+
+	@JSONField(name="ID_NO")
+	@ParamDesc(path="ID_NO",cons= ConsType.QUES,type="long",len="20",desc="代表用户标识ID",memo="略")
+	private long idNo;
+
+	@JSONField(name="CUST_ID")
+	@ParamDesc(path="CUST_ID",cons= ConsType.QUES,type="long",len="20",desc="帐户客户ID",memo="略")
+	private long custId;
+
+	@JSONField(name="BANK_CODE")
+	@ParamDesc(path="BANK_CODE",cons= ConsType.QUES,type="string",len="10",desc="托收银行代码",memo="略")
+	private String bankCode;
+
+	@JSONField(name="PRINT_NO")
+	@ParamDesc(path="PRINT_NO",cons= ConsType.QUES,type="int",len="5",desc="托收打印批次",memo="略")
+	private int printNo;
+
+	@JSONField(name="CONTRACT_NAME")
+	@ParamDesc(path="CONTRACT_NAME",cons= ConsType.QUES,type="string",len="60",desc="付款人名称",memo="略")
+	private String contractName;
+
+	@JSONField(name="PAYEE_CONTRACT_NAME")
+	@ParamDesc(path="PAYEE_CONTRACT_NAME",cons= ConsType.QUES,type="string",len="60",desc="收款人名称",memo="略")
+	private String payeeContractName;
+
+	@JSONField(name="ACCOUNT_NO")
+	@ParamDesc(path="ACCOUNT_NO",cons= ConsType.QUES,type="string",len="30",desc="付款人银行帐号",memo="略")
+	private String accountNo;
+
+	@JSONField(name="PAYEE_ACCOUNT_NO")
+	@ParamDesc(path="PAYEE_ACCOUNT_NO",cons= ConsType.QUES,type="string",len="30",desc="收款人银行帐号",memo="略")
+	private String payeeAccountNo;
+
+	@JSONField(name="BANK_NAME")
+	@ParamDesc(path="BANK_NAME",cons= ConsType.QUES,type="string",len="60",desc="付款人开户银行名称",memo="略")
+	private String bankName;
+
+	@JSONField(name="BANK_NAME_COLL")
+	@ParamDesc(path="BANK_NAME_COLL",cons= ConsType.QUES,type="string",len="60",desc="收款人开户银行名称",memo="略")
+	private String bankNameColl;
+
+	@JSONField(name="UPPER_PAY_FEE")
+	@ParamDesc(path="UPPER_PAY_FEE",cons= ConsType.QUES,type="string",len="30",desc="托收金额大写",memo="略")
+	private String upperPayFee;
+
+	@JSONField(name="PAY_FEE")
+	@ParamDesc(path="PAY_FEE",cons= ConsType.QUES,type="long",len="10",desc="托收金额",memo="单位：分")
+	private long payFee;
+
+	@JSONField(name="VOICE_FEE")
+	@ParamDesc(path="VOICE_FEE",cons= ConsType.QUES,type="long",len="10",desc="通话费金额",memo="单位：分")
+	private long voiceFee;
+
+	@JSONField(name="LONG_DIS_FEE")
+	@ParamDesc(path="LONG_DIS_FEE",cons= ConsType.QUES,type="long",len="10",desc="长途费",memo="单位：分")
+	private long longDisFee;
+
+	@JSONField(name="OTHER_FEE")
+	@ParamDesc(path="OTHER_FEE",cons= ConsType.QUES,type="long",len="10",desc="其他费",memo="单位：分")
+	private long otherFee;
+
+	@JSONField(name="ROAM_FEE")
+	@ParamDesc(path="ROAM_FEE",cons= ConsType.QUES,type="long",len="10",desc="漫游费",memo="单位：分")
+	private long roamFee;
+
+	@JSONField(name="INV_CODE")
+	@ParamDesc(path="INV_CODE",cons= ConsType.QUES,type="String",len="20",desc="发票代码",memo="略")
+	private String invCode;
+
+	@JSONField(name="INV_NO")
+	@ParamDesc(path="INV_NO",cons= ConsType.QUES,type="String",len="20",desc="发票号码",memo="略")
+	private String invNo;
+	
+	@JSONField(name="CONTRACTNAME_COLL")
+	@ParamDesc(path="CONTRACTNAME_COLL",cons= ConsType.QUES,type="String",len="100",desc="名字",memo="略")
+	private String contractNameColl;
+
+	@JSONField(name="ACCOUNTNO_COLL")
+	@ParamDesc(path="ACCOUNTNO_COLL",cons= ConsType.QUES,type="String",len="100",desc="名字",memo="略")
+	private long accountNoColl ;
+	
+	
+	public long getAccountNoColl() {
+		return accountNoColl;
+	}
+
+	public void setAccountNoColl(long accountNoColl) {
+		this.accountNoColl = accountNoColl;
+	}
+
+	public String getContractNameColl() {
+		return contractNameColl;
+	}
+
+	public void setContractNameColl(String contractNameColl) {
+		this.contractNameColl = contractNameColl;
+	}
+
+	public int getBillCycle() {
+		return billCycle;
+	}
+
+	public void setBillCycle(int billCycle) {
+		this.billCycle = billCycle;
+	}
+
+	public String getBeginYmd() {
+		return beginYmd;
+	}
+
+	public void setBeginYmd(String beginYmd) {
+		this.beginYmd = beginYmd;
+	}
+
+	public String getEndYmd() {
+		return endYmd;
+	}
+
+	public void setEndYmd(String endYmd) {
+		this.endYmd = endYmd;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public long getContractNo() {
+		return contractNo;
+	}
+
+	public void setContractNo(long contractNo) {
+		this.contractNo = contractNo;
+	}
+
+	public long getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(long idNo) {
+		this.idNo = idNo;
+	}
+
+	public long getCustId() {
+		return custId;
+	}
+
+	public void setCustId(long custId) {
+		this.custId = custId;
+	}
+
+	public String getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
+
+	public int getPrintNo() {
+		return printNo;
+	}
+
+	public void setPrintNo(int printNo) {
+		this.printNo = printNo;
+	}
+
+	public String getContractName() {
+		return contractName;
+	}
+
+	public void setContractName(String contractName) {
+		this.contractName = contractName;
+	}
+
+	public String getPayeeContractName() {
+		return payeeContractName;
+	}
+
+	public void setPayeeContractName(String payeeContractName) {
+		this.payeeContractName = payeeContractName;
+	}
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public String getPayeeAccountNo() {
+		return payeeAccountNo;
+	}
+
+	public void setPayeeAccountNo(String payeeAccountNo) {
+		this.payeeAccountNo = payeeAccountNo;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getBankNameColl() {
+		return bankNameColl;
+	}
+
+	public void setBankNameColl(String bankNameColl) {
+		this.bankNameColl = bankNameColl;
+	}
+
+	public String getUpperPayFee() {
+		return upperPayFee;
+	}
+
+	public void setUpperPayFee(String upperPayFee) {
+		this.upperPayFee = upperPayFee;
+	}
+
+	public long getPayFee() {
+		return payFee;
+	}
+
+	public void setPayFee(long payFee) {
+		this.payFee = payFee;
+	}
+
+	public long getVoiceFee() {
+		return voiceFee;
+	}
+
+	public void setVoiceFee(long voiceFee) {
+		this.voiceFee = voiceFee;
+	}
+
+	public long getLongDisFee() {
+		return longDisFee;
+	}
+
+	public void setLongDisFee(long longDisFee) {
+		this.longDisFee = longDisFee;
+	}
+
+	public long getOtherFee() {
+		return otherFee;
+	}
+
+	public void setOtherFee(long otherFee) {
+		this.otherFee = otherFee;
+	}
+
+	public long getRoamFee() {
+		return roamFee;
+	}
+
+	public void setRoamFee(long roamFee) {
+		this.roamFee = roamFee;
+	}
+
+	public String getInvCode() {
+		return invCode;
+	}
+
+	public void setInvCode(String invCode) {
+		this.invCode = invCode;
+	}
+
+	public String getInvNo() {
+		return invNo;
+	}
+
+	public void setInvNo(String invNo) {
+		this.invNo = invNo;
+	}
+}

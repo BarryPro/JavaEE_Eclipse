@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- 组合服务实体层 -->
+<!-- 公共实体 -->
+<bean id="loginCheckCompEnt" class="com.sitech.acctmgr.comp.busi.LoginCheck" >
+</bean>
+
+<bean id="emailSendCompEnt" class="com.sitech.acctmgr.comp.busi.EMailSend">
+</bean>
+
+</beans>

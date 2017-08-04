@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_bspriparm_dict_INT">
+  
+ <cacheModel id="svccfg_cache" type="LRU" readOnly="true">
+  <flushInterval hours="24"/>
+  <!-- 
+  <flushOnExecute statement="in_msgsend_cache.insertCmsFile"/>
+  <flushOnExecute statement="in_msgsend_cache.updateCmsFile"/>
+  <flushOnExecute statement="in_msgsend_cache.deleteCmsFile"/>
+   -->
+  <property name="reference-type" value="WEAK"/>
+ </cacheModel>
+    
+  <select id="qPramInfoByMainSvcAction" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap" cacheModel="svccfg_cache">  
+	SELECT PRAM_TYPE,PRAM_VALUE,PRAM_NAME,EXP_TYPE,PRAM_EXP,RET_NUM 
+	FROM   IN_BSPRIPARM_DICT
+	WHERE  ACTION_ID=#MAIN_ACTION_ID#
+	AND    MAIN_SVC=#MAIN_SVC_ID#
+	AND    EXP_TYPE!='0'
+  </select>
+    
+</sqlMap>

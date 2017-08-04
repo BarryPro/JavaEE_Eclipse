@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_delayrule_conf">
+  
+  <select id="qDelayruleConf"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT DELAY_RATE,DELAY_BEGIN_DAY DELAY_BEGIN,TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS') CURDATE FROM  
+     BAL_DELAYRULE_CONF WHERE REGION_CODE = #REGION_CODE# AND PAY_CODE = #PAY_CODE# AND RUN_FLAG = #RUN_FLAG#
+  </select>
+    
+</sqlMap>

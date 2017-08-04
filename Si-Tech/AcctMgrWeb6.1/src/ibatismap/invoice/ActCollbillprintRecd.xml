@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_collbillprint_recd">
+<typeAlias alias="printRecdEnt" type="com.sitech.acctmgr.atom.domains.invoice.ActCollbillprintRecd"/>
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		select COUNT(*) from
+		ACT_COLLBILLPRINT_RECD
+		WHERE CONTRACT_NO = #CONTRACT_NO#
+		AND BILL_CYCLE = #YEAR_MONTH#
+		AND PRINT_FLAG = #PRINT_FLAG#
+	</select>
+
+	<insert id="insPrintRecd" parameterClass="printRecdEnt">
+		INSERT INTO	ACT_COLLBILLPRINT_RECD
+		(CONTRACT_NO,ACCOUNT_NO,BANK_CODE,BILL_CYCLE,LOGIN_ACCEPT,OP_TIME,
+		OP_CODE,LOGIN_NO,PAY_FEE,PRINT_FLAG)
+		VALUES
+		(#contractNo#,#accountNo#,#bankCode#,#billCycle#,#loginAccept#,sysdate,
+		#opCode#,#loginNo#,#payFee#,#printFlag#)
+	</insert>
+</sqlMap>

@@ -1,0 +1,1639 @@
+GetProdAttr.jsp:<wtc:utype name="sGetAttrPage" id="retVal" scope="end">
+GetProdAttr.jsp:	<wtc:uparam value="<%=quetype %>" type="STRING"/>   
+GetProdAttr.jsp:	<wtc:uparam value="<%=quevalue %>" type="LONG"/>   
+GetProdAttr.jsp:</wtc:utype>
+GetProdAttr2.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+GetProdAttr2.jsp:	<wtc:uparam value="<%=flag%>" type="int" />
+GetProdAttr2.jsp:	<wtc:uparam value="<%=servId%>" type="long" />	
+GetProdAttr2.jsp:</wtc:utype>
+GetProdAttr2.jsp:<wtc:utype name="sGetAttrPage" id="retVal" scope="end">
+GetProdAttr2.jsp:	<wtc:uparam value="1" type="STRING"/>   
+GetProdAttr2.jsp:	<wtc:uparam value="<%=ProdId %>" type="LONG"/>   
+GetProdAttr2.jsp:</wtc:utype>
+PMUserBaseInfo.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1ss" retmsg="retMsg1ss" outnum="1">			
+PMUserBaseInfo.jsp:	<wtc:param value="<%=inParamsss2[0]%>"/>
+PMUserBaseInfo.jsp:	<wtc:param value="<%=inParamsss2[1]%>"/>	
+PMUserBaseInfo.jsp:	</wtc:service>	
+PMUserBaseInfo.jsp:  <wtc:array id="smzvresultarry" scope="end" />
+PMUserBaseInfo.jsp:<wtc:utype name="sPMQryUserInfo" id="retUserInfo" scope="end"  routerKey="region" routerValue="<%=regionCode%>">
+PMUserBaseInfo.jsp:     <wtc:uparam value="0" type="LONG"/>
+PMUserBaseInfo.jsp:     <wtc:uparam value="<%=phoneNo%>" type="STRING"/>
+PMUserBaseInfo.jsp:     <wtc:uparam value="<%=workNo_new%>" type="string"/>
+PMUserBaseInfo.jsp:     <wtc:uparam value="<%=password_new%>" type="string"/>
+PMUserBaseInfo.jsp:     <wtc:uparam value="<%=opCode%>" type="string"/>	
+PMUserBaseInfo.jsp:</wtc:utype>
+PMUserBaseInfo.jsp:	<wtc:service name="sMarkMsgQry" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="16">
+PMUserBaseInfo.jsp:		<wtc:param value="0"/>
+PMUserBaseInfo.jsp:		<wtc:param value="01"/>
+PMUserBaseInfo.jsp:		<wtc:param value="<%=opCode%>"/>
+PMUserBaseInfo.jsp:		<wtc:param value="<%=workNo%>"/>
+PMUserBaseInfo.jsp:		<wtc:param value=""/>
+PMUserBaseInfo.jsp:		<wtc:param value="<%=phoneNo%>"/>
+PMUserBaseInfo.jsp:		<wtc:param value=""/>
+PMUserBaseInfo.jsp:	</wtc:service>
+PMUserBaseInfo.jsp:	<wtc:array id="mainQryArr" scope="end"/>
+PMUserBaseInfo.jsp:    <wtc:service name="TlsPubSelCrm" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">	
+PMUserBaseInfo.jsp:	<wtc:param value="<%=paraIn1[0]%>"/>
+PMUserBaseInfo.jsp: 	<wtc:param value="<%=paraIn1[1]%>"/>
+PMUserBaseInfo.jsp: 	</wtc:service>
+PMUserBaseInfo.jsp:	<wtc:array id="result_t1" scope="end" />	
+PMUserBaseInfo.jsp:	    <wtc:service name="TlsPubSelBoss" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">	
+PMUserBaseInfo.jsp:		<wtc:param value="<%=paraIn[0]%>"/>
+PMUserBaseInfo.jsp:	 	<wtc:param value="<%=paraIn[1]%>"/>
+PMUserBaseInfo.jsp:	 	</wtc:service>
+PMUserBaseInfo.jsp:		<wtc:array id="result_tV1" scope="end" />								 
+PMUserBaseInfo.jsp:				<wtc:service name="sGetUserMsgNew" routerKey="region" 
+PMUserBaseInfo.jsp:				    <wtc:param value="<%=loginAccept%>"/>
+PMUserBaseInfo.jsp:				    <wtc:param value="01"/>
+PMUserBaseInfo.jsp:				    <wtc:param value="<%=opCode%>"/>
+PMUserBaseInfo.jsp:				    <wtc:param value="<%=workNo%>"/>
+PMUserBaseInfo.jsp:				    <wtc:param value="<%=password_new%>"/>
+PMUserBaseInfo.jsp:				    <wtc:param value="<%=phoneNo%>"/>
+PMUserBaseInfo.jsp:				    <wtc:param value=""/>
+PMUserBaseInfo.jsp:				</wtc:service>
+PMUserBaseInfo.jsp:				<wtc:array id="rstUm" scope="end" />		
+addGroupInfo.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+addGroupInfo.jsp:	<wtc:uparam value="0" type="int" />
+addGroupInfo.jsp:	<wtc:uparam value="<%=servId%>" type="long" />	
+addGroupInfo.jsp:</wtc:utype>
+ajaxCk1270PrInfo.jsp:		<wtc:service name="sVpmnQry" routerKey="region" routerValue="<%=regionCode%>"
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[0]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[1]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[2]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[3]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[4]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[5]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[6]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[7]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[8]%>"/>
+ajaxCk1270PrInfo.jsp:				<wtc:param value="<%=paraAray[9]%>"/>
+ajaxCk1270PrInfo.jsp:		</wtc:service>
+ajaxCk1270PrInfo.jsp:		<wtc:array id="ret" scope="end"/>
+ajaxGetEPf.jsp:    <wtc:service name="sGetDetailCode" outnum="9" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+ajaxGetEPf.jsp:			<wtc:param value="<%=offerIdv%>" />
+ajaxGetEPf.jsp:			<wtc:param value="<%=workNo%>" />	
+ajaxGetEPf.jsp:			<wtc:param value="<%=opCodev%>" />	
+ajaxGetEPf.jsp:			<wtc:param value="<%=xqJf%>" />	
+ajaxGetEPf.jsp:		</wtc:service>
+ajaxGetEPf.jsp:		<wtc:array id="result_t33" scope="end"   />
+ajaxQueryPPp.jsp:    <wtc:service name="sDynSqlCfm" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+ajaxQueryPPp.jsp:			<wtc:param value="219" />
+ajaxQueryPPp.jsp:			<wtc:param value="<%=offerIdv%>" />	
+ajaxQueryPPp.jsp:		</wtc:service>
+ajaxQueryPPp.jsp:		<wtc:array id="result_t33" scope="end"   />
+ajaxRetMsg.jsp:		 	<wtc:service name="sPubSelectNew" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn1[0]%>"/>
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn1[1]%>"/>
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn1[2]%>"/>
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn1[3]%>"/>
+ajaxRetMsg.jsp:			</wtc:service>
+ajaxRetMsg.jsp:			<wtc:array id="offnodataArray" scope="end"/>
+ajaxRetMsg.jsp:				 	<wtc:service name="sPubSelectNew" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsg.jsp:					<wtc:param value="<%=paraIn2[0]%>"/>
+ajaxRetMsg.jsp:					<wtc:param value="<%=paraIn2[1]%>"/>
+ajaxRetMsg.jsp:					<wtc:param value="<%=paraIn2[2]%>"/>
+ajaxRetMsg.jsp:					<wtc:param value="<%=paraIn2[3]%>"/>
+ajaxRetMsg.jsp:					</wtc:service>
+ajaxRetMsg.jsp:					<wtc:array id="offnodataArray" scope="end"/>					
+ajaxRetMsg.jsp:		 	<wtc:service name="sPubSelectNew" routerKey="vIdNo" routerValue="<%=servId%>" outnum="1" >
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn2[0]%>"/>
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn2[1]%>"/>
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn2[2]%>"/>
+ajaxRetMsg.jsp:			<wtc:param value="<%=paraIn2[3]%>"/>
+ajaxRetMsg.jsp:			</wtc:service>
+ajaxRetMsg.jsp:			<wtc:array id="offnodataArray" scope="end"/>
+ajaxRetMsg.jsp:		 	<wtc:service name="sVpmnQry" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsg.jsp:			<wtc:param value="" />
+ajaxRetMsg.jsp:			<wtc:param value="<%=iChnSource%>" />	
+ajaxRetMsg.jsp:			<wtc:param value="<%=opCode%>" />		
+ajaxRetMsg.jsp:			<wtc:param value="<%=loginNo%>" />			
+ajaxRetMsg.jsp:			<wtc:param value="<%=loginPwd%>" />				
+ajaxRetMsg.jsp:			<wtc:param value="<%=strPhoneNo%>" />					
+ajaxRetMsg.jsp:			<wtc:param value="" />
+ajaxRetMsg.jsp:			</wtc:service>
+ajaxRetMsg.jsp:			<wtc:array id="offnodataArray1" scope="end"/>
+ajaxRetMsg.jsp:    <wtc:service name="sGetAlertMsg" outnum="5" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+ajaxRetMsg.jsp:			<wtc:param value="<%=servId%>" />
+ajaxRetMsg.jsp:			<wtc:param value="<%=loginNo%>" />
+ajaxRetMsg.jsp:			<wtc:param value="<%=opCode%>" />		
+ajaxRetMsg.jsp:		</wtc:service>
+ajaxRetMsg.jsp:		<wtc:array id="result_t" scope="end"/>
+ajaxRetMsgVpmn.jsp:		 	<wtc:service name="sVpmnQry" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsgVpmn.jsp:			<wtc:param value="" />
+ajaxRetMsgVpmn.jsp:			<wtc:param value="<%=iChnSource%>" />	
+ajaxRetMsgVpmn.jsp:			<wtc:param value="<%=opCode%>" />		
+ajaxRetMsgVpmn.jsp:			<wtc:param value="<%=loginNo%>" />			
+ajaxRetMsgVpmn.jsp:			<wtc:param value="<%=loginPwd%>" />				
+ajaxRetMsgVpmn.jsp:			<wtc:param value="<%=strPhoneNo%>" />					
+ajaxRetMsgVpmn.jsp:			<wtc:param value="" />
+ajaxRetMsgVpmn.jsp:			</wtc:service>
+ajaxRetMsgVpmn.jsp:			<wtc:array id="offnodataArray1" scope="end"/>
+ajax_checkShortNo.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+ajax_checkShortNo.jsp: <wtc:sql><%=sbSql.toString()%></wtc:sql> 
+ajax_checkShortNo.jsp:</wtc:pubselect>
+ajax_checkShortNo.jsp:<wtc:array id="result" scope="end"/>
+ajax_getOfferType.jsp:    	<wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regionCode%>" id="printAccept"/>
+ajax_getOfferType.jsp:    	<wtc:service name="sOfferTypeQry" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="3">			
+ajax_getOfferType.jsp:				<wtc:param value="<%=printAccept%>"/>
+ajax_getOfferType.jsp:				<wtc:param value="01"/>	
+ajax_getOfferType.jsp:				<wtc:param value="<%=opCode%>"/>
+ajax_getOfferType.jsp:				<wtc:param value="<%=workNo%>"/>
+ajax_getOfferType.jsp:				<wtc:param value="<%=password%>"/>
+ajax_getOfferType.jsp:				<wtc:param value="<%=phoneNo%>"/>
+ajax_getOfferType.jsp:				<wtc:param value=""/>
+ajax_getOfferType.jsp:				<wtc:param value="<%=smCode%>"/>
+ajax_getOfferType.jsp:				<wtc:param value="<%=accountType%>"/>
+ajax_getOfferType.jsp:				<wtc:param value="<%=offerId%>"/>
+ajax_getOfferType.jsp:		  </wtc:service>	
+ajax_getOfferType.jsp:			<wtc:array id="resultList"  scope="end"/>
+ajax_getOfferType.jsp:		<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+ajax_getOfferType.jsp:			  <wtc:param value="215"/>
+ajax_getOfferType.jsp:			  <wtc:param value="<%=smCode%>"/>
+ajax_getOfferType.jsp:			  <wtc:param value="<%=offerId%>"/>
+ajax_getOfferType.jsp:			  <wtc:param value="<%=opCode%>"/>
+ajax_getOfferType.jsp:		</wtc:service>
+ajax_getOfferType.jsp:		<wtc:array id="resultList" scope="end"/>
+ajax_getPayType.jsp:<wtc:utype name="sGetServ" id="retVal" scope="end">
+ajax_getPayType.jsp:		<wtc:uparam value="<%=servId%>" type="long"/>   
+ajax_getPayType.jsp:</wtc:utype>
+ajax_isChangeTime.jsp:<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+ajax_isChangeTime.jsp:   <wtc:param value="77"/>
+ajax_isChangeTime.jsp:   <wtc:param value="<%=offerId%>"/>
+ajax_isChangeTime.jsp:   </wtc:service>
+ajax_isChangeTime.jsp:<wtc:array id="rows" scope="end"/>
+ajax_jdugeAreaHidden.jsp:  <wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regCode%>" id="printAccept"/>
+ajax_jdugeAreaHidden.jsp:	<wtc:service name="sOfferAttrCheck" routerKey="regionCode" routerValue="<%=regCode%>" retcode="retCode" retmsg="retMsg" outnum="3">
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=printAccept%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="01"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=opCode%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=workNo%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=password%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=phoneNo%>"/>
+ajax_jdugeAreaHidden.jsp:	  <wtc:param value=""/>
+ajax_jdugeAreaHidden.jsp:	  <wtc:param value="<%=offerId%>"/>
+ajax_jdugeAreaHidden.jsp:	</wtc:service>
+ajax_jdugeAreaHidden.jsp:	<wtc:array id="result1" start="0" length="1"  scope="end"/>
+ajax_jdugeAreaHidden.jsp:	<wtc:array id="result2" start="1" length="2"  scope="end"/>
+ajax_qryModelByMacNo.jsp:<wtc:service name="s1256Init" outnum="80">
+ajax_qryModelByMacNo.jsp:		<wtc:param value=" "/>
+ajax_qryModelByMacNo.jsp:		<wtc:param value="01"/>
+ajax_qryModelByMacNo.jsp:		<wtc:param value="<%=opCode%>"/>
+ajax_qryModelByMacNo.jsp:		<wtc:param value="<%=workNo%>"/>	
+ajax_qryModelByMacNo.jsp:		<wtc:param value="<%=loginPwd%>"/>		
+ajax_qryModelByMacNo.jsp:		<wtc:param value="<%=phoneNo%>"/>	
+ajax_qryModelByMacNo.jsp:		<wtc:param value=" "/>
+ajax_qryModelByMacNo.jsp:</wtc:service>
+ajax_qryModelByMacNo.jsp:<wtc:pubselect  name="sPubSelect"  outnum="1">
+ajax_qryModelByMacNo.jsp:	<wtc:sql>select r.res_name from dChnResMobInfo m ,sChnResCode r where m.imei_no=upper('?') and m.res_code=r.res_code</wtc:sql>
+ajax_qryModelByMacNo.jsp:	<wtc:param value="<%=imeiNo%>"/>
+ajax_qryModelByMacNo.jsp:</wtc:pubselect>
+ajax_qryModelByMacNo.jsp:<wtc:array id="rows1">
+ajax_qryModelByMacNo.jsp:				<wtc:pubselect   name="sPubSelect"  outnum="1">
+ajax_qryModelByMacNo.jsp:					<wtc:sql>SELECT COUNT(1)  FROM DCHNRESMOBINFo WHERE group_id in (select group_id from dchngroupinfo where parent_group_id='?') AND imei_no ='?'</wtc:sql>
+ajax_qryModelByMacNo.jsp:					<wtc:param value="<%=GroupId%>"/>
+ajax_qryModelByMacNo.jsp:					<wtc:param value="<%=imeiNo%>"/>
+ajax_qryModelByMacNo.jsp:				</wtc:pubselect>
+ajax_qryModelByMacNo.jsp:				<wtc:array id="rows2" scope="end"/>
+ajax_qryModelByMacNo.jsp:					<wtc:pubselect   name="sPubSelect"  outnum="1">
+ajax_qryModelByMacNo.jsp:					<wtc:sql>SELECT COUNT(1)  FROM DCHNRESMOBINFo WHERE group_id in (select group_id from dchngroupinfo where parent_group_id='?') AND imei_no ='?'  AND status_code in('10','11','20','21')</wtc:sql>
+ajax_qryModelByMacNo.jsp:					<wtc:param value="<%=GroupId%>"/>
+ajax_qryModelByMacNo.jsp:					<wtc:param value="<%=imeiNo%>"/>
+ajax_qryModelByMacNo.jsp:				</wtc:pubselect>
+ajax_qryModelByMacNo.jsp:				<wtc:array id="rows3" scope="end"/>
+ajax_qryModelByMacNo.jsp:</wtc:array>
+ajax_qryModelByMacNo.jsp:<wtc:sequence name="sPubSelect" key="s_termcontract_id"  id="seq"/>
+ajax_qryModelByMacNo.jsp:		<wtc:qoption  name="sPubSelect"  outnum="2">
+ajax_qryModelByMacNo.jsp:			<wtc:sql>select rent_code,rent_code||'->'||rent_name from smobrentcode  where valid_flag='1' </wtc:sql>
+ajax_qryModelByMacNo.jsp:		</wtc:qoption>
+ajax_qryModelByMacNo.jsp:<wtc:pubselect   name="sPubSelect"  outnum="<%=String.valueOf(WtcUtil.countSqlCol(sqlStr))%>">
+ajax_qryModelByMacNo.jsp:	<wtc:sql><%=sqlStr%></wtc:sql>
+ajax_qryModelByMacNo.jsp:</wtc:pubselect>
+ajax_qryModelByMacNo.jsp:<wtc:array id="rows">
+ajax_qryModelByMacNo.jsp:</wtc:array>	 
+ajax_qryOfferBySecRentInfo.jsp:<wtc:utype name="sGetZjOffer" id="retVal" scope="end">
+ajax_qryOfferBySecRentInfo.jsp:	<wtc:uparams name="TOfferMsg" iMaxOccurs="1">
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=opCode%>" type="STRING"/>  
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=qryFlag%>" type="STRING"/>  
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=servId%>" type="LONG"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=offerId%>" type="LONG"/>  
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=loginNo%>" type="STRING"/> 
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=flag%>" type="STRING"/> 
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=groupId%>" type="LONG"/> 
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=offerCode%>" type="STRING"/> 
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=offerName%>" type="STRING"/> 
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=offerType%>" type="LONG"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=offerAttrSeq%>" type="LONG"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=offerAttrType%>" type="STRING"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=userRange%>" type="STRING"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=custGroupId%>" type="LONG"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=channelSegment%>" type="STRING"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=reginCode%>" type="STRING"/>
+ajax_qryOfferBySecRentInfo.jsp:			<wtc:uparam value="<%=saleMode%>" type="STRING"/>
+ajax_qryOfferBySecRentInfo.jsp:	</wtc:uparams>
+ajax_qryOfferBySecRentInfo.jsp:</wtc:utype>
+ajax_qryOfferInfoByOfferId.jsp:<wtc:utype name="sGetOfferById" id="retVal" scope="end">
+ajax_qryOfferInfoByOfferId.jsp:	 <wtc:uparam value="<%=offerId%>" type="INT"/>  
+ajax_qryOfferInfoByOfferId.jsp:</wtc:utype>
+ajax_queryGroupInfo.jsp:<wtc:pubselect name="sPubSelect" outnum="2">
+ajax_queryGroupInfo.jsp:	<wtc:sql><%=sqlStr.toString()%></wtc:sql> 
+ajax_queryGroupInfo.jsp:</wtc:pubselect>
+ajax_queryGroupInfo.jsp:<wtc:array id="result" scope="end"/>
+applyAddOffer.jsp:<wtc:utype name="sApplyAddOffer" id="retVal" scope="end">
+applyAddOffer.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+applyAddOffer.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+applyAddOffer.jsp:  <wtc:uparam value="<%=offerId%>" type="long"/>	
+applyAddOffer.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>
+applyAddOffer.jsp:  <wtc:uparam name="opCode" type="string"/>
+applyAddOffer.jsp:  <wtc:uparam value="<%=phoneNo%>" type="string"/>				
+applyAddOffer.jsp:</wtc:utype>
+applyMainOffer.jsp:<wtc:utype name="sApplyMainOffer" id="retVal" scope="end">
+applyMainOffer.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+applyMainOffer.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+applyMainOffer.jsp:  <wtc:uparam value="<%=offerId%>" type="long"/>	
+applyMainOffer.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>
+applyMainOffer.jsp:  <wtc:uparam value="<%=opCode%>" type="string"/>
+applyMainOffer.jsp:  <wtc:uparam value="<%=phoneNo%>" type="string"/>	
+applyMainOffer.jsp:  <wtc:uparam value="<%=groupId%>" type="string"/>	
+applyMainOffer.jsp:  <wtc:uparam value="<%=password%>" type="string"/>
+applyMainOffer.jsp:  <wtc:uparam value="<%=intePrice%>" type="string"/>						
+applyMainOffer.jsp:</wtc:utype>
+applyMainOffer.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+applyMainOffer.jsp:	<wtc:sql><%=SqlStr%></wtc:sql>
+applyMainOffer.jsp:</wtc:pubselect>
+applyMainOffer.jsp:<wtc:array id="retArray1" scope="end"/>	
+applyMainOffer.jsp:<wtc:pubselect name="sPubSelect" retcode="retc21" retmsg="retm21" outnum="1">
+applyMainOffer.jsp:			<wtc:sql><%=sqlstrTD%></wtc:sql>
+applyMainOffer.jsp:</wtc:pubselect>
+applyMainOffer.jsp:<wtc:array id="resultTD" scope="end" />
+cancelOffer.jsp:<wtc:utype name="sCutOfferInst" id="retVal" scope="end">
+cancelOffer.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+cancelOffer.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+cancelOffer.jsp:  <wtc:uparam value="<%=offerInstId%>" type="long"/>
+cancelOffer.jsp:  <wtc:uparam value="<%=offerId%>" type="long"/>	
+cancelOffer.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>
+cancelOffer.jsp:  <wtc:uparam name="opCode" type="string"/>	
+cancelOffer.jsp:  <wtc:uparam value="<%=optype%>" type="string"/>				
+cancelOffer.jsp:  <wtc:uparam value="<%=exptime%>" type="string"/>				
+cancelOffer.jsp:</wtc:utype>
+changeProduce.jsp:	<wtc:utype name="sPMQryUserInfo" id="retUserInfo" scope="end">
+changeProduce.jsp:     <wtc:uparam value="0" type="LONG"/>
+changeProduce.jsp:     <wtc:uparam value="<%=phone_no%>" type="STRING"/>
+changeProduce.jsp:     <wtc:uparam value="<%=workNo%>" type="string"/>
+changeProduce.jsp:     <wtc:uparam value="<%=password%>" type="string"/>	
+changeProduce.jsp:     <wtc:uparam value="<%=op_code%>" type="string"/>	
+changeProduce.jsp:    </wtc:utype>
+changeProduce.jsp:		<wtc:pubselect name="sPubSelect" outnum="1">
+changeProduce.jsp:			<wtc:sql>select nvl(b.service_no,a.phone_no) from dcustmsg a,daccountidinfo b where a.id_no='<%=offerSrvId%>' and a.phone_no=b.msisdn(+)</wtc:sql>
+changeProduce.jsp:		</wtc:pubselect>	
+changeProduce.jsp:		<wtc:array id="row" scope="end" />
+changeProduce.jsp:		<wtc:pubselect name="sPubSelect" outnum="1">
+changeProduce.jsp:			<wtc:sql><%=sqlStrTempV1%></wtc:sql>
+changeProduce.jsp:		</wtc:pubselect>	
+changeProduce.jsp:		<wtc:array id="result_y1" scope="end" />	
+changeProduce.jsp:		<wtc:pubselect name="sPubSelect" outnum="1">
+changeProduce.jsp:			<wtc:sql>select  decode(substr(attr_code, 5, 1),'0','0','1','1','2','2','3','3','0')  from  dCustMsg where  phone_no = '<%=phone_no%>' and substr(run_code, 2, 1) < 'a' </wtc:sql>
+changeProduce.jsp:		</wtc:pubselect>	
+changeProduce.jsp:		<wtc:array id="row1" scope="end" />	
+changeProduce.jsp:		<wtc:pubselect name="sPubSelect" outnum="1">
+changeProduce.jsp:			<wtc:sql>select  nvl(grp_name,'NULL')  from  sGrpBigFlag  where  grp_flag='<%=row1[0][0]%>' </wtc:sql>
+changeProduce.jsp:		</wtc:pubselect>	
+changeProduce.jsp:		<wtc:array id="row2" scope="end" />	
+changeProduce.jsp:<wtc:utype name="sInstance" id="mainInst" scope="end">
+changeProduce.jsp:	<wtc:uparam value="<%=servId%>" type="long" />
+changeProduce.jsp:	<wtc:uparam value="<%=offerId%>" type="long" />		
+changeProduce.jsp:</wtc:utype>	
+changeProduce.jsp:<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regionCode%>" retcode="sPubSelectCode" retmsg="sPubSelectMsg"  outnum="1">
+changeProduce.jsp:	<wtc:sql><%=sqll%></wtc:sql>
+changeProduce.jsp:</wtc:pubselect>
+changeProduce.jsp:<wtc:array id="sPubSelectArr" scope="end" />
+changeProduce.jsp:<wtc:utype name="sGetUsrMain" id="mainProd" scope="end">
+changeProduce.jsp:	<wtc:uparam value="<%=offerSrvId%>" type="long"/>   
+changeProduce.jsp:</wtc:utype>
+changeProduce.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+changeProduce.jsp:	<wtc:sql>select band_id from product_offer where offer_id='<%=offerId%>'</wtc:sql>
+changeProduce.jsp:</wtc:pubselect>	
+changeProduce.jsp:<wtc:array id="rows" scope="end" />
+changeProduce.jsp:<wtc:sequence name="sPubSelect"  key="sMaxSysAccept" id="loginAccept"/>
+changeProduce.jsp:<wtc:utype name="sGetCustOrdMsg" id="retCustVal" scope="end">
+changeProduce.jsp:		<wtc:uparam value="<%=cust_id%>" type="long" />
+changeProduce.jsp:		<wtc:uparam value="<%=workNo%>" type="string"/>
+changeProduce.jsp:		<wtc:uparam value="<%=groupId%>" type="string"/>	
+changeProduce.jsp:</wtc:utype>
+changeProduce.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+changeProduce.jsp:	<wtc:uparam value="1" type="int" />
+changeProduce.jsp:	<wtc:uparam value="<%=servId%>" type="long" />	
+changeProduce.jsp:</wtc:utype>
+changeProduce.jsp:	 <wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regionCode%>"  id="sysAcceptl" /> 
+changeProduceConfirm.jsp:	<wtc:service name="sDynSqlCfm" outnum="1">
+changeProduceConfirm.jsp:	<wtc:param value="12"/>
+changeProduceConfirm.jsp:</wtc:service>	
+changeProduceConfirm.jsp:<wtc:array id="rows" scope="end" />
+changeProduceConfirm.jsp:<wtc:utype name="sProdChgCfm" id="retVal" scope="end" >  
+changeProduceConfirm.jsp:<wtc:uparams name="ctrlInfo" iMaxOccurs="1">
+changeProduceConfirm.jsp:		<wtc:uparam value="0" type="string"/>
+changeProduceConfirm.jsp:	</wtc:uparams>	
+changeProduceConfirm.jsp:	<wtc:uparams name="batchDataList" iMaxOccurs="1">
+changeProduceConfirm.jsp:		<wtc:uparams name="batchData" iMaxOccurs="-1">
+changeProduceConfirm.jsp:			<wtc:uparam value="0" type="long"/>
+changeProduceConfirm.jsp:			<wtc:uparam value="0" type="string"/>
+changeProduceConfirm.jsp:			<wtc:uparam value="0" type="string"/>
+changeProduceConfirm.jsp:		</wtc:uparams>	
+changeProduceConfirm.jsp:	</wtc:uparams>	
+changeProduceConfirm.jsp:<wtc:uparams name="msgBodyType" iMaxOccurs="1">	              
+changeProduceConfirm.jsp:<wtc:uparams name="oprInfo" iMaxOccurs="1">                                   
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=sysAcceptl%>" type="long"/>                                         
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=opCode%>" type="string"/>                                    
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=workNo%>" type="string"/>                             
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=password%>" type="string"/>                           
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=ipAddr%>" type="string"/>                             
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=siteId%>" type="string"/>                            
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=currentTime%>" type="string"/>                                       
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=regionCode%>" type="string"/>                         
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=opNote%>" type="string"/>                             
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=siteId%>" type="string"/>                           
+changeProduceConfirm.jsp:	<wtc:uparam value="<%=objectId%>" type="string"/>                           
+changeProduceConfirm.jsp:</wtc:uparams>                                                               
+changeProduceConfirm.jsp:<wtc:uparams name="custOrder" iMaxOccurs="1">                                 
+changeProduceConfirm.jsp:	<wtc:uparams name="custOrderMsg" iMaxOccurs="1">                            
+changeProduceConfirm.jsp:		<wtc:uparam value="<%=custOrderId%>" type="string"/>                      
+changeProduceConfirm.jsp:	</wtc:uparams>                                                              
+changeProduceConfirm.jsp:	<wtc:uparams name="orderArrayList" iMaxOccurs="1">                          
+changeProduceConfirm.jsp:		<wtc:uparams name="orderArrayListContainer" iMaxOccurs="-1">              
+changeProduceConfirm.jsp:			<wtc:uparams name="orderArrayMsg" iMaxOccurs="1">                       
+changeProduceConfirm.jsp:				<wtc:uparam value="<%=orderArrayId%>" type="string"/>                 
+changeProduceConfirm.jsp:			</wtc:uparams>                                                          
+changeProduceConfirm.jsp:			<wtc:uparams name="servOrderList" iMaxOccurs="1">                       
+changeProduceConfirm.jsp:				<wtc:uparams name="servOrderListContainer" iMaxOccurs="-1">           
+changeProduceConfirm.jsp:					<wtc:uparams name="servOrderMsg" iMaxOccurs="1">                    
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=servOrderId%>" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=offerSrvId%>" type="long"/>  <!-- 用户ID-->                               
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=serviceNo%>" type="string"/>                
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="int"/>                                
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="int"/>                                
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="long"/>                               
+changeProduceConfirm.jsp:						<wtc:uparam value="110" type="int"/>                              
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=currentTime%>" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="int"/>                                
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=servBusiId%>" type="string"/>                     
+changeProduceConfirm.jsp:						<wtc:uparam value="N" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="20500101 00:00:0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="1" type="int"/>                                
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="int"/>                                
+changeProduceConfirm.jsp:						<wtc:uparam value="1" type="int"/>                                
+changeProduceConfirm.jsp:						<wtc:uparam value="Y" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="mshow" type="string"/>                
+changeProduceConfirm.jsp:						<wtc:uparam value="111" type="string"/>                   
+changeProduceConfirm.jsp:					</wtc:uparams>  				                                                    
+changeProduceConfirm.jsp:					<wtc:uparams name="servOrderDataList" iMaxOccurs="1">  
+changeProduceConfirm.jsp:						<wtc:uparams name="servOrderData" iMaxOccurs="-1">                
+changeProduceConfirm.jsp:							<wtc:uparam value="999" type="long"/>                           
+changeProduceConfirm.jsp:							<wtc:uparam value="0" type="int"/>                              
+changeProduceConfirm.jsp:							<wtc:uparam value="twx" type="string"/>                         
+changeProduceConfirm.jsp:						</wtc:uparams>   
+changeProduceConfirm.jsp:					</wtc:uparams>                                                      
+changeProduceConfirm.jsp:					<wtc:uparams name="servOrderSlaList" iMaxOccurs="1">  
+changeProduceConfirm.jsp:						<wtc:uparams name="servOrderSlaInfo" iMaxOccurs="-1">             
+changeProduceConfirm.jsp:							<wtc:uparam value="0" type="string"/>                           
+changeProduceConfirm.jsp:							<wtc:uparam value="1" type="int"/>                              
+changeProduceConfirm.jsp:							<wtc:uparam value="2" type="int"/>               
+changeProduceConfirm.jsp:							<wtc:uparam value="100" type="double"/>	        
+changeProduceConfirm.jsp:						</wtc:uparams> 	
+changeProduceConfirm.jsp:					</wtc:uparams>                                                      
+changeProduceConfirm.jsp:					<wtc:uparams name="servOrderBookingMsg" iMaxOccurs="1">             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="20090101 00:00:00" type="string"/>             
+changeProduceConfirm.jsp:						<wtc:uparam value="20090101 00:00:00" type="string"/>             
+changeProduceConfirm.jsp:					</wtc:uparams> 					                                                     
+changeProduceConfirm.jsp:					<wtc:uparams name="servOrderExcpInfo" iMaxOccurs="1">               
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>                             
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="int"/>                                
+changeProduceConfirm.jsp:						<wtc:uparam value="test" type="string"/>                          
+changeProduceConfirm.jsp:						<wtc:uparam value="OK" type="string"/>                            
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=workNo%>" type="string"/>                   
+changeProduceConfirm.jsp:					</wtc:uparams>                                                      
+changeProduceConfirm.jsp:				</wtc:uparams>                                                        
+changeProduceConfirm.jsp:			</wtc:uparams>                                                          
+changeProduceConfirm.jsp:		</wtc:uparams>                                                            
+changeProduceConfirm.jsp:	</wtc:uparams>                                                              
+changeProduceConfirm.jsp:</wtc:uparams>                                                                
+changeProduceConfirm.jsp:<wtc:uparams name="customer" iMaxOccurs="1">                                  
+changeProduceConfirm.jsp:	<wtc:uparams name="custDoc" iMaxOccurs="1">                                 
+changeProduceConfirm.jsp:		<wtc:uparams name="custDocBaseInfo" iMaxOccurs="1">                       
+changeProduceConfirm.jsp:			<wtc:uparam value="<%=custId%>" type="long"/>                           
+changeProduceConfirm.jsp:		</wtc:uparams>                                                            
+changeProduceConfirm.jsp:	</wtc:uparams>                                                              
+changeProduceConfirm.jsp:	<wtc:uparams name="userInfoList" iMaxOccurs="1">                            
+changeProduceConfirm.jsp:		<wtc:uparams name="userInfo" iMaxOccurs="-1">                             
+changeProduceConfirm.jsp:			<wtc:uparams name="userBaseInfo" iMaxOccurs="1">    <!-- 用户基本信息-->     
+changeProduceConfirm.jsp:				<wtc:uparam value="<%=serviceNo%>" type="string"/>               
+changeProduceConfirm.jsp:				<wtc:uparam value="<%=offerSrvId%>" type="long"/>  <!-- 用户ID-->                       
+changeProduceConfirm.jsp:				<wtc:uparam value="<%=Band_Id%>" type="string"/>
+changeProduceConfirm.jsp:        <wtc:uparam value="" type="string"/>        <!-- 用户内部11位编码-->
+changeProduceConfirm.jsp:        <wtc:uparam value="<%=siteId%>" type="string"/> 
+changeProduceConfirm.jsp:        <wtc:uparam value="<%=custId%>" type="long"/>                                                       
+changeProduceConfirm.jsp:			</wtc:uparams>                                                                                                     
+changeProduceConfirm.jsp:			<wtc:uparams name="discountInfoList" iMaxOccurs="1">     			        			                                                
+changeProduceConfirm.jsp:			</wtc:uparams>                                         			          
+changeProduceConfirm.jsp:			<wtc:uparams name="userRelaInfoList" iMaxOccurs="1"> <!-- 用户关系信息列表-->
+changeProduceConfirm.jsp:				<wtc:uparams name="userRelaInfo" iMaxOccurs="-1">
+changeProduceConfirm.jsp:					<wtc:uparam value="1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="11211" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="111222" type="long"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="20081005 00:00:00" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="20081005 00:00:00" type="string"/>
+changeProduceConfirm.jsp:				</wtc:uparams>
+changeProduceConfirm.jsp:			</wtc:uparams>
+changeProduceConfirm.jsp:			<wtc:uparams name="productList" iMaxOccurs="1">
+changeProduceConfirm.jsp:				<wtc:uparams name="product" iMaxOccurs="-1">
+changeProduceConfirm.jsp:					<wtc:uparams name="productBaseInfo" iMaxOccurs="1">
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=proOptFlag[i]%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=offerIntIdArr[i]%>" type="string"/>  <!-- 销售品实例ID-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=proIntIdArr[i]%>" type="string"/>     <!-- 产品实例ID-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodIdArr[i]%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>     <!-- 客户协议标识-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=currentTime%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodEffectDate[i]%>" type="string"/><!--开始时间--> 
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodExpireDate[i]%>" type="string"/><!--结束时间--> 
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=newStatu[i]%>" type="string"/>                      
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodExpireDate[i]%>" type="string"/><!--结束时间--> 
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodEffectDate[i]%>" type="string"/><!--开始时间--> 
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=isMainProduct[i]%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=parentInstId[i]%>" type="string"/>   <!--  上级产品实例ID-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=attrFlag[i]%>" type="string"/>		<!--   复合产品标志-->
+changeProduceConfirm.jsp:					</wtc:uparams>					
+changeProduceConfirm.jsp:					<wtc:uparams name="productAttrList" iMaxOccurs="1">
+changeProduceConfirm.jsp:						<wtc:uparams name="productAttr" iMaxOccurs="-1">  <!-- 产品属性列表-->
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=proAttrOptFlag[i]%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=attrId[k]%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=attrVal[k]%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=prodEffectDate[i]%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=prodExpireDate[i]%>" type="string"/>                                 
+changeProduceConfirm.jsp:						</wtc:uparams>
+changeProduceConfirm.jsp:					</wtc:uparams>
+changeProduceConfirm.jsp:					<wtc:uparams name="productGroupList" iMaxOccurs="1">   <!-- 产品群组列表-->
+changeProduceConfirm.jsp:						<wtc:uparams name="productGroup" iMaxOccurs="-1">
+changeProduceConfirm.jsp:							<wtc:uparam value="0" type="string"/>
+changeProduceConfirm.jsp:						</wtc:uparams>
+changeProduceConfirm.jsp:					</wtc:uparams>
+changeProduceConfirm.jsp:				</wtc:uparams>
+changeProduceConfirm.jsp:				<wtc:uparams name="product" iMaxOccurs="-1">
+changeProduceConfirm.jsp:					<wtc:uparams name="productBaseInfo" iMaxOccurs="1">
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=proOptFlag_t%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=offerIntIdArr_t[iw]%>" type="string"/>  <!-- 销售品实例ID-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=proIntIdArr_t[iw]%>" type="string"/>     <!-- 产品实例ID-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodIdArr_t[iw]%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="0" type="string"/>     <!-- 客户协议标识-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=currentTime%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodEffectDate_t[iw]%>" type="string"/><!--开始时间-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodExpireDate_t[iw]%>" type="string"/><!--结束时间-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=newStatu_t[iw]%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodExpireDate_t[iw]%>" type="string"/><!--结束时间-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=prodEffectDate_t[iw]%>" type="string"/><!--开始时间-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=isMainProduct_t[iw]%>" type="string"/>
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=parentInstId_t[iw]%>" type="string"/>   <!--  上级产品实例ID-->
+changeProduceConfirm.jsp:						<wtc:uparam value="<%=attrFlag_t[iw]%>" type="string"/>		<!--   复合产品标志-->
+changeProduceConfirm.jsp:					</wtc:uparams>					
+changeProduceConfirm.jsp:					<wtc:uparams name="productAttrList" iMaxOccurs="1">
+changeProduceConfirm.jsp:						<wtc:uparams name="productAttr" iMaxOccurs="-1">  <!-- 产品属性列表-->
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=proAttrOptFlag_t%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=attrId[k]%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=attrVal[k]%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=prodEffectDate_t[iw]%>" type="string"/>
+changeProduceConfirm.jsp:	                 <wtc:uparam value="<%=prodExpireDate_t[iw]%>" type="string"/>                                 
+changeProduceConfirm.jsp:						</wtc:uparams>
+changeProduceConfirm.jsp:					</wtc:uparams>
+changeProduceConfirm.jsp:					<wtc:uparams name="productGroupList" iMaxOccurs="1">   <!-- 产品群组列表-->
+changeProduceConfirm.jsp:						<wtc:uparams name="productGroup" iMaxOccurs="-1">
+changeProduceConfirm.jsp:							<wtc:uparam value="0" type="string"/>
+changeProduceConfirm.jsp:						</wtc:uparams>
+changeProduceConfirm.jsp:					</wtc:uparams>
+changeProduceConfirm.jsp:				</wtc:uparams>
+changeProduceConfirm.jsp:			</wtc:uparams>
+changeProduceConfirm.jsp:			<wtc:uparams name="userResList" iMaxOccurs="1">     <!-- 用户资源列表-->
+changeProduceConfirm.jsp:				<wtc:uparams name="userRes" iMaxOccurs="-1">
+changeProduceConfirm.jsp:					<wtc:uparam value="1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="10" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="<%=serviceNo%>" type="string"/>
+changeProduceConfirm.jsp:				</wtc:uparams>	
+changeProduceConfirm.jsp:			</wtc:uparams>			
+changeProduceConfirm.jsp:			<wtc:uparams name="busiFeeFactorList" iMaxOccurs="1">  <!-- 营业费用列表-->
+changeProduceConfirm.jsp:				<wtc:uparams name="busiFeeFactor" iMaxOccurs="-1">
+changeProduceConfirm.jsp:					<wtc:uparam value="C" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="C1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="1" type="string"/>
+changeProduceConfirm.jsp:					<wtc:uparam value="<%=offerIdArr[0]%>" type="string"/>
+changeProduceConfirm.jsp:				</wtc:uparams>
+changeProduceConfirm.jsp:			</wtc:uparams>
+changeProduceConfirm.jsp:		</wtc:uparams>
+changeProduceConfirm.jsp:	</wtc:uparams>
+changeProduceConfirm.jsp:</wtc:uparams>
+changeProduceConfirm.jsp:</wtc:uparams>
+changeProduceConfirm.jsp:</wtc:utype> 
+checkAttrTypeAndWlan.jsp:<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="1">			
+checkAttrTypeAndWlan.jsp:		<wtc:param value="<%=inParamsss1[0]%>"/>
+checkAttrTypeAndWlan.jsp:		<wtc:param value="<%=inParamsss1[1]%>"/>	
+checkAttrTypeAndWlan.jsp:		</wtc:service>
+checkAttrTypeAndWlan.jsp:<wtc:array id="resultAttrType" scope="end" />
+checkAttrTypeAndWlan.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode2" retmsg="retMsg2" outnum="1">			
+checkAttrTypeAndWlan.jsp:		<wtc:param value="<%=inParamsss2[0]%>"/>
+checkAttrTypeAndWlan.jsp:		<wtc:param value="<%=inParamsss2[1]%>"/>	
+checkAttrTypeAndWlan.jsp:		</wtc:service>
+checkAttrTypeAndWlan.jsp:	<wtc:array id="resultWlanCount" scope="end" />
+checkLimit.jsp:	<wtc:utype name="sPMQOfferlimit" id="retVal" scope="end" >
+checkLimit.jsp:		<wtc:uparams>
+checkLimit.jsp:				<wtc:uparam value="<%=workNo%>" type="STRING" />
+checkLimit.jsp:				<wtc:uparam value="<%=opCode%>" type="STRING" />
+checkLimit.jsp:				<wtc:uparam value="<%=prodId%>" type="LONG" />
+checkLimit.jsp:				<wtc:uparam value="<%=iOprType%>" type="INT" />
+checkLimit.jsp:				<wtc:uparam value="<%=vQtype%>" type="STRING" />
+checkLimit.jsp:				<wtc:uparam value="<%=idNo%>" type="STRING" />
+checkLimit.jsp:		</wtc:uparams>			
+checkLimit.jsp:	</wtc:utype>	
+checke177.jsp:<wtc:sequence name="sPubSelect" key="sMaxSysAccept" id="loginAccept" />
+checke177.jsp:			<wtc:service name="sProdNotice" routerKey="region" routerValue="<%=regionCode%>" outnum="11" retmsg="msg2" retcode="code2">
+checke177.jsp:    		  <wtc:param value="<%=loginAccept%>"/>
+checke177.jsp:    		  <wtc:param value="01"/>
+checke177.jsp:    		  <wtc:param value="<%=opCode%>"/>
+checke177.jsp:    		  <wtc:param value="<%=workNo%>"/>
+checke177.jsp:    		  <wtc:param value="<%=password%>"/>
+checke177.jsp:    		  <wtc:param value="<%=phoneNo%>"/>
+checke177.jsp:					<wtc:param value=""/>
+checke177.jsp:					<wtc:param value="<%=groupId%>"/>
+checke177.jsp:					<wtc:param value="<%=offerid%>"/>
+checke177.jsp:					<wtc:param value="<%=optype%>"/>
+checke177.jsp:    	</wtc:service>
+checke177.jsp:    	<wtc:array id="result_t" scope="end"/>
+checkeAddAndQuit.jsp:<wtc:sequence name="sPubSelect" key="sMaxSysAccept" id="loginAccept" />
+checkeAddAndQuit.jsp:			<wtc:service name="sProdNotice" routerKey="region" routerValue="<%=regionCode%>" outnum="11" retmsg="msg2" retcode="code2">
+checkeAddAndQuit.jsp:    		  <wtc:param value="<%=loginAccept%>"/>
+checkeAddAndQuit.jsp:    		  <wtc:param value="01"/>
+checkeAddAndQuit.jsp:    		  <wtc:param value="<%=opCode%>"/>
+checkeAddAndQuit.jsp:    		  <wtc:param value="<%=workNo%>"/>
+checkeAddAndQuit.jsp:    		  <wtc:param value="<%=password%>"/>
+checkeAddAndQuit.jsp:    		  <wtc:param value="<%=phoneNo%>"/>
+checkeAddAndQuit.jsp:					<wtc:param value=""/>
+checkeAddAndQuit.jsp:					<wtc:param value="<%=groupId%>"/>
+checkeAddAndQuit.jsp:					<wtc:param value="<%=offerid%>"/>
+checkeAddAndQuit.jsp:					<wtc:param value="<%=optype%>"/>
+checkeAddAndQuit.jsp:    	</wtc:service>
+checkeAddAndQuit.jsp:    	<wtc:array id="result_t" scope="end"/>
+chgProAttr.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+chgProAttr.jsp:	<wtc:uparam value="0" type="int" />
+chgProAttr.jsp:	<wtc:uparam value="<%=servId%>" type="long" />	
+chgProAttr.jsp:</wtc:utype>
+chkOfferRel.jsp:<wtc:utype name="sChkOfferRel" id="doubleChk" scope="end">
+chkOfferRel.jsp:	<wtc:uparams>		
+chkOfferRel.jsp:		<wtc:uparams name="offerList" iMaxOccurs="-1">
+chkOfferRel.jsp:				<wtc:uparams name="offerInfo" iMaxOccurs="1">
+chkOfferRel.jsp:						<wtc:uparam value="<%=offerIdArr[i]%>" type="long" />
+chkOfferRel.jsp:						<wtc:uparam value="<%=offerNameArr[i]%>" type="string" />
+chkOfferRel.jsp:				</wtc:uparams>
+chkOfferRel.jsp:		</wtc:uparams>
+chkOfferRel.jsp:		<wtc:uparams name="produceList" iMaxOccurs="-1">
+chkOfferRel.jsp:				<wtc:uparams name="produceInfo" iMaxOccurs="1">
+chkOfferRel.jsp:						<wtc:uparam value="<%=pordIdArr[i]%>" type="long" />
+chkOfferRel.jsp:						<wtc:uparam value="<%=prodNameArr[i]%>" type="string" />
+chkOfferRel.jsp:				</wtc:uparams>
+chkOfferRel.jsp:		</wtc:uparams>		
+chkOfferRel.jsp:	</wtc:uparams>	
+chkOfferRel.jsp:</wtc:utype>
+chkWlan.jsp:<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" 
+chkWlan.jsp:	<wtc:param value="<%=inParamsss1[0]%>"/>
+chkWlan.jsp:	<wtc:param value="<%=inParamsss1[1]%>"/>	
+chkWlan.jsp:	</wtc:service>
+chkWlan.jsp:<wtc:array id="resultAttrType" scope="end" />
+chkWlan.jsp:			<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode2" retmsg="retMsg2" outnum="1">			
+chkWlan.jsp:				<wtc:param value="<%=inParamsss2[0]%>"/>
+chkWlan.jsp:				<wtc:param value="<%=inParamsss2[1]%>"/>	
+chkWlan.jsp:				</wtc:service>
+chkWlan.jsp:			<wtc:array id="resultWlanCount" scope="end" />
+complexPro.jsp:<wtc:utype name="sQCompMemInfo" id="retVal" scope="end">
+complexPro.jsp:			<wtc:uparam value="<%=com_pro_intId%>" type="long"/>
+complexPro.jsp:			<wtc:uparam value="<%=com_pro_id%>" type="long"/>
+complexPro.jsp:			<wtc:uparam value="<%=offerId%>" type="long"/>
+complexPro.jsp:			<wtc:uparam value="<%=workNo%>" type="string"/>
+complexPro.jsp:			<wtc:uparam value="<%=opCode%>" type="string"/>			
+complexPro.jsp:</wtc:utype>
+complexPro_ajax.jsp:            <wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg"  outnum="1">
+complexPro_ajax.jsp:                <wtc:sql><%=sqlStr%></wtc:sql>
+complexPro_ajax.jsp:            </wtc:pubselect>
+complexPro_ajax.jsp:            <wtc:array id="retVal" scope="end" />
+consNoSum.jsp:<wtc:utype name="sQryMemCount" id="retVal" scope="end">
+consNoSum.jsp:		<wtc:uparam value="<%=offerId%>" type="int"/>
+consNoSum.jsp:</wtc:utype>
+f1272_sWLWOffCheck.jsp:		<wtc:service name="<%=serverName%>" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[0]%>" />
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[1]%>" />
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[2]%>" />
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[3]%>" />
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[4]%>" />
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[5]%>" />
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[6]%>" />			
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[7]%>" />			
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[8]%>" />			
+f1272_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[9]%>" />			
+f1272_sWLWOffCheck.jsp:		</wtc:service>
+f1272_sWLWOffCheck.jsp:		<wtc:array id="serverResult" scope="end"  />
+famChgCfm.jsp:<wtc:utype name="sSetGrpMem" id="retVal" scope="end" >
+famChgCfm.jsp:			<wtc:uparam value="<%=workNo%>" type="string"/>
+famChgCfm.jsp:			<wtc:uparam value="<%=loginAccept%>" type="long"/>
+famChgCfm.jsp:			<wtc:uparam value="<%=servId%>" type="long"/>
+famChgCfm.jsp:			<wtc:uparam value="<%=opCode%>" type="string"/>
+famChgCfm.jsp:			<wtc:uparam value="<%=offerId%>" type="int"/>	
+famChgCfm.jsp:			<wtc:uparam value="<%=effTime%>" type="string"/>		
+famChgCfm.jsp:			<wtc:uparam value="<%=expTime%>" type="string"/>	
+famChgCfm.jsp:<wtc:uparams name="offerInfoList" iMaxOccurs="1">	
+famChgCfm.jsp:		<wtc:uparam value="<%=prodInfoAry[3]%>" type="string"/>
+famChgCfm.jsp:	</wtc:uparams>
+famChgCfm.jsp:</wtc:utype>
+famChgMain.jsp:<wtc:utype name="sQryGrpMem" id="retVal" scope="end">
+famChgMain.jsp:  	<wtc:uparam value="<%=offerId%>" type="int"/>
+famChgMain.jsp:  	<wtc:uparam value="<%=servId%>" type="long"/>
+famChgMain.jsp:  	<wtc:uparam value="<%=loginAccept%>" type="long"/>			
+famChgMain.jsp:</wtc:utype>
+famChgMain_ajax.jsp:	<wtc:utype name="sDelMemSrv" id="retVals" scope="end" >	
+famChgMain_ajax.jsp:		<wtc:uparam value="<%=phoneNo%>" type="string"/>
+famChgMain_ajax.jsp:		<wtc:uparam value="<%=offerId%>" type="int"/>
+famChgMain_ajax.jsp:	  <wtc:uparam value="<%=servId%>" type="long"/>
+famChgMain_ajax.jsp:	  <wtc:uparam value="<%=loginAccept%>" type="long"/>		
+famChgMain_ajax.jsp:  </wtc:utype>
+fe092_sWLWOffCheck.jsp:		<wtc:service name="<%=serverName%>" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[0]%>" />
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[1]%>" />
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[2]%>" />
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[3]%>" />
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[4]%>" />
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[5]%>" />
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[6]%>" />			
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[7]%>" />			
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[8]%>" />			
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=paraAray[9]%>" />			
+fe092_sWLWOffCheck.jsp:			<wtc:param value="<%=newofferidss%>" />
+fe092_sWLWOffCheck.jsp:		</wtc:service>
+fe092_sWLWOffCheck.jsp:		<wtc:array id="serverResult" scope="end"  />
+getCurrentOpeInfo.jsp:<wtc:utype name="sGetChgBuffMsg" id="retVal" scope="end">
+getCurrentOpeInfo.jsp:	<wtc:uparam value="<%=workNo%>" type="string"/>	
+getCurrentOpeInfo.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+getCurrentOpeInfo.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>	
+getCurrentOpeInfo.jsp:</wtc:utype>
+getCutOffer.jsp:<wtc:utype name="sPMGetRedoOffer" id="retVal2" scope="end">
+getCutOffer.jsp:	<wtc:uparam value="<%=offerSrvId%>" type="LONG" />
+getCutOffer.jsp:	<wtc:uparam value="<%=workNo%>" type="STRING" />
+getCutOffer.jsp:	<wtc:uparam value="<%=opCOde%>" type="STRING" />
+getCutOffer.jsp:	<wtc:uparam value="<%=offId%>" type="LONG" />	
+getCutOffer.jsp:</wtc:utype>	
+getIdNo.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+getIdNo.jsp:	<wtc:sql><%=sqlStr%></wtc:sql> 
+getIdNo.jsp:</wtc:pubselect>
+getIdNo.jsp:<wtc:array id="result1" scope="end"/>
+getMemberId.jsp:<wtc:service name="sDynSqlCfm" outnum="3">
+getMemberId.jsp:  <wtc:param value="12"/>
+getMemberId.jsp:</wtc:service>
+getMemberId.jsp:<wtc:array id="result1" scope="end"/>
+getOfferRel2.jsp:<wtc:utype name="sQryOfferRel" id="retVal" scope="end">
+getOfferRel2.jsp:	<wtc:uparam value="<%=sendInfo%>" type="UTYPE"/>   
+getOfferRel2.jsp:</wtc:utype>
+getPrintInfo_Ajax.jsp:		<wtc:service name="s1270NoteNew" routerKey="region" routerValue="<%=regionCode%>" outnum="7" >
+getPrintInfo_Ajax.jsp:			<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:			<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:			<wtc:param value="<%=iop_code%>"/>
+getPrintInfo_Ajax.jsp:			<wtc:param value="<%=workNo%>"/>
+getPrintInfo_Ajax.jsp:			<wtc:param value="<%=op_strong_pwd%>"/>
+getPrintInfo_Ajax.jsp:			<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:			<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:			<wtc:param value="<%=inParas[0]%>"/>
+getPrintInfo_Ajax.jsp:			<wtc:param value="<%=inParas[1]%>"/>
+getPrintInfo_Ajax.jsp:			<wtc:param value="<%=inParas[2]%>"/>
+getPrintInfo_Ajax.jsp:			<wtc:param value="<%=groupId%>"/>
+getPrintInfo_Ajax.jsp:		</wtc:service>
+getPrintInfo_Ajax.jsp:		<wtc:array id="result3" scope="end"/>
+getPrintInfo_Ajax.jsp:		<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regionCode%>"  outnum="1">
+getPrintInfo_Ajax.jsp:		<wtc:sql><%=sqlStr4%></wtc:sql>
+getPrintInfo_Ajax.jsp:		</wtc:pubselect>
+getPrintInfo_Ajax.jsp:		<wtc:array id="result4" scope="end" />
+getPrintInfo_Ajax.jsp:	<wtc:service name="s1270Must" routerKey="region" routerValue="<%=regionCode%>" outnum="18" >
+getPrintInfo_Ajax.jsp:		<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="01"/>		
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=iop_code%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=workNo%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=op_strong_pwd%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:		<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=ipower_right%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=icust_id%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=iold_m_code%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=inew_m_code%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=ibelong_code%>"/>						
+getPrintInfo_Ajax.jsp:	</wtc:service>
+getPrintInfo_Ajax.jsp:	<wtc:array id="result_must" start="0" length="4" scope="end"/>
+getPrintInfo_Ajax.jsp:	<wtc:array id="result_must_2" start="4" length="12" scope="end"/>
+getPrintInfo_Ajax.jsp:	<wtc:sequence name="sPubSelect" key="sMaxSysAccept" id="sLoginAccept"/>
+getPrintInfo_Ajax.jsp:	<wtc:pubselect name="sPubSelect"  outnum="1">
+getPrintInfo_Ajax.jsp:	<wtc:sql><%=dateSqlStr%></wtc:sql>
+getPrintInfo_Ajax.jsp:	</wtc:pubselect>
+getPrintInfo_Ajax.jsp:	<wtc:array id="time_result_0" scope="end" />
+getPrintInfo_Ajax.jsp:	<wtc:pubselect name="sPubSelect"  routerKey="region" routerValue="<%=regionCode%>" outnum="1">
+getPrintInfo_Ajax.jsp:		<wtc:sql><%=sqlStrgood%></wtc:sql>
+getPrintInfo_Ajax.jsp:	</wtc:pubselect>
+getPrintInfo_Ajax.jsp:	<wtc:array id="resultx" scope="end" />
+getPrintInfo_Ajax.jsp:	<wtc:service name="sModeBindDet" routerKey="region" routerValue="<%=regionCode%>" outnum="6" >
+getPrintInfo_Ajax.jsp:		<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="01"/>		
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=iop_code%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=workNo%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value=""/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=inParas1[3]%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value=""/>				
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=inParas1[0]%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=inParas1[1]%>"/>
+getPrintInfo_Ajax.jsp:		<wtc:param value="<%=inParas1[2]%>"/>
+getPrintInfo_Ajax.jsp:	</wtc:service>
+getPrintInfo_Ajax.jsp:	<wtc:array id="result4" scope="end"/>
+getPrintInfo_Ajax.jsp:			<wtc:pubselect name="sPubSelect"  routerKey="region" routerValue="<%=regionCode%>" outnum="2">
+getPrintInfo_Ajax.jsp:				<wtc:sql><%=sql11%></wtc:sql>
+getPrintInfo_Ajax.jsp:			</wtc:pubselect>
+getPrintInfo_Ajax.jsp:			<wtc:array id="result1" scope="end" />
+getProdCompRel.jsp: <wtc:utype name="sGetCompRel" id="retVal" scope="end"> 
+getProdCompRel.jsp:	<wtc:uparam value="<%=majorProductId%>" type="LONG"/>   
+getProdCompRel.jsp:</wtc:utype>
+getProductInfo.jsp:  <wtc:utype name="sGetChgServProd" id="retVal4" scope="end" >
+getProductInfo.jsp:				<wtc:uparam value="<%=userId%>" type="long" />
+getProductInfo.jsp:				<wtc:uparam value="<%=beforSellId%>" type="long"/>
+getProductInfo.jsp:				<wtc:uparam value="<%=laterSellId%>" type="long"/>	
+getProductInfo.jsp:				<wtc:uparam value="<%=laterEffTime%>" type="string"/>	
+getProductInfo.jsp:				<wtc:uparam value="<%=laterDeadTime%>" type="string"/>
+getProductInfo.jsp:	</wtc:utype>	
+groupDetInfo.jsp:<wtc:utype name="sPMGroupDetail" id="retVal" scope="end">
+groupDetInfo.jsp:	<wtc:uparam value="<%=groupId%>" type="LONG"/>   
+groupDetInfo.jsp:</wtc:utype>
+groupDetInfo.jsp:<wtc:utype name="sPMMebList" id="retMebVal" scope="end">
+groupDetInfo.jsp:	<wtc:uparam value="<%=groupId%>" type="LONG"/>   
+groupDetInfo.jsp:</wtc:utype>
+hot_product_show_ajax.jsp:<wtc:utype name="sGetHotBOffer" id="retVal2" scope="end">
+hot_product_show_ajax.jsp:				<wtc:uparam value="<%=siteId%>" type="string" />
+hot_product_show_ajax.jsp:				<wtc:uparam value="<%=workNo%>" type="string" />
+hot_product_show_ajax.jsp:</wtc:utype>
+ignoreIn.jsp:<wtc:pubselect name="sPubSelect" outnum="1" retval="retVal00" retCode="retCode00" retMsg="retMsg00">
+ignoreIn.jsp:	<wtc:sql>
+ignoreIn.jsp:	</wtc:sql>
+ignoreIn.jsp:</wtc:pubselect>
+ignoreIn.jsp:<wtc:array id="paramResult" property="retVal00" scope="end"/>
+ignoreThis.jsp:<wtc:utype name="sOrdArryCncl" id="retVal"  routerKey="region" routerValue="<%=regionCode_sOrdArryCncl%>">
+ignoreThis.jsp:	<wtc:uparam value="<%=sOrderArrayId%>" type="STRING"/> 
+ignoreThis.jsp:	<wtc:uparam value="<%=loginNo%>" type="STRING"/>
+ignoreThis.jsp:</wtc:utype>
+limitChk.jsp:	<wtc:utype name="sPMQProdlimit" id="retVal" scope="end" >
+limitChk.jsp:		<wtc:uparams>
+limitChk.jsp:				<wtc:uparam value="<%=workNo%>" type="STRING" />
+limitChk.jsp:				<wtc:uparam value="<%=opCode%>" type="STRING" />
+limitChk.jsp:				<wtc:uparam value="<%=prodId%>" type="LONG" />
+limitChk.jsp:				<wtc:uparam value="<%=iOprType%>" type="INT" />
+limitChk.jsp:				<wtc:uparam value="<%=vQtype%>" type="STRING" />
+limitChk.jsp:				<wtc:uparam value="<%=idNo%>" type="STRING" />
+limitChk.jsp:		</wtc:uparams>			
+limitChk.jsp:	</wtc:utype>	
+limitChk1.jsp:	<wtc:utype name="sPMQOfferlimit" id="retVal" scope="end" >
+limitChk1.jsp:		<wtc:uparams>
+limitChk1.jsp:				<wtc:uparam value="<%=workNo%>" type="STRING" />
+limitChk1.jsp:				<wtc:uparam value="<%=opCode%>" type="STRING" />
+limitChk1.jsp:				<wtc:uparam value="<%=prodId%>" type="LONG" />
+limitChk1.jsp:				<wtc:uparam value="<%=iOprType%>" type="INT" />
+limitChk1.jsp:				<wtc:uparam value="<%=vQtype%>" type="STRING" />
+limitChk1.jsp:				<wtc:uparam value="<%=idNo%>" type="STRING" />
+limitChk1.jsp:		</wtc:uparams>			
+limitChk1.jsp:	</wtc:utype>	
+modifyDate.jsp:<wtc:utype name="sCutQuitOffer" id="retVal" scope="end">
+modifyDate.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+modifyDate.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+modifyDate.jsp:  <wtc:uparam value="<%=offerInstId%>" type="long"/>
+modifyDate.jsp:  <wtc:uparam value="<%=offerId%>" type="long"/>	
+modifyDate.jsp:  <wtc:uparam value="<%=newEffTime%>" type="string"/>	
+modifyDate.jsp:  <wtc:uparam value="<%=newExpTime%>" type="string"/>			
+modifyDate.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>
+modifyDate.jsp:  <wtc:uparam value="qp01" type="string"/>
+modifyDate.jsp:  <wtc:uparam value="<%=phoneNo%>" type="string"/>				
+modifyDate.jsp:</wtc:utype>
+offerMigu139.jsp:<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="1">			
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss1[0]%>"/>
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss1[1]%>"/>	
+offerMigu139.jsp:		</wtc:service>
+offerMigu139.jsp:<wtc:array id="amailzero" scope="end" />
+offerMigu139.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode2" retmsg="retMsg2" outnum="1">			
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss2[0]%>"/>
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss2[1]%>"/>	
+offerMigu139.jsp:		</wtc:service>
+offerMigu139.jsp:<wtc:array id="amailfive" scope="end" />
+offerMigu139.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode3" retmsg="retMsg3" outnum="1">			
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss3[0]%>"/>
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss3[1]%>"/>	
+offerMigu139.jsp:		</wtc:service>
+offerMigu139.jsp:<wtc:array id="amiguzero" scope="end" />
+offerMigu139.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode4" retmsg="retMsg4" outnum="1">			
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss4[0]%>"/>
+offerMigu139.jsp:		<wtc:param value="<%=inParamsss4[1]%>"/>	
+offerMigu139.jsp:		</wtc:service>
+offerMigu139.jsp:<wtc:array id="amigufive" scope="end" />
+offerReplace3.jsp:<wtc:utype name="sSetAttrVal" id="retVal" scope="end">
+offerReplace3.jsp:<wtc:uparams name="attrValArr" iMaxOccurs="1">
+offerReplace3.jsp:	<wtc:uparam value="<%=queryTypeId%>" type="string"/>	
+offerReplace3.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+offerReplace3.jsp:  <wtc:uparam name="workNo" type="string"/>	
+offerReplace3.jsp:  <wtc:uparam value="<%=queryId%>" type="int"/>
+offerReplace3.jsp:  <wtc:uparam value="<%=offerInstId%>" type="long"/>	
+offerReplace3.jsp:				<wtc:uparam value="<%=attrId%>" type="int"/>
+offerReplace3.jsp:				<wtc:uparam value="<%=attrValue%>" type="string"/>	
+offerReplace3.jsp:  <wtc:uparam value="1" type="string"/>	
+offerReplace3.jsp:  <wtc:uparam value="qp01" type="string"/>	
+offerReplace3.jsp:  <wtc:uparam value="<%=sysCurrTime%>" type="string"/>
+offerReplace3.jsp:  <wtc:uparam value="20500101000001" type="string"/>	
+offerReplace3.jsp: </wtc:uparams>					
+offerReplace3.jsp:</wtc:utype>
+offerReplace6.jsp:<wtc:utype name="sIProdMidMac" id="retVal" scope="end">
+offerReplace6.jsp:	<wtc:uparam value="<%=offerSrvId1%>" type="LONG"/> 
+offerReplace6.jsp:	<wtc:uparam value="<%=phoneNo1%>" type="STRING"/> 
+offerReplace6.jsp:	<wtc:uparam value="<%=sale_mode%>" type="STRING"/> 
+offerReplace6.jsp:	<wtc:uparam value="<%=imeiNo%>" type="STRING"/> 
+offerReplace6.jsp:	<wtc:uparam value="<%=workNo%>" type="STRING"/> 
+offerReplace6.jsp:	<wtc:uparam value="0" type="STRING"/> 
+offerReplace6.jsp:</wtc:utype>	
+offerReplace6.jsp:<wtc:service name="sDynSqlCfm" outnum="1">
+offerReplace6.jsp:	<wtc:param value="13"/>
+offerReplace6.jsp:</wtc:service>	
+offerReplace6.jsp:<wtc:array id="rows" scope="end" />
+offerReplace6.jsp:	<wtc:sequence name="sPubSelect" key="sMaxSysAccept" id="seq" />
+offerReplace6.jsp:<wtc:utype name="sProdChgCfm" id="retVal" scope="end" >
+offerReplace6.jsp:<wtc:uparams name="ctrlInfo" iMaxOccurs="1">
+offerReplace6.jsp:		<wtc:uparam value="0" type="string"/>
+offerReplace6.jsp:</wtc:uparams>	
+offerReplace6.jsp:<wtc:uparams name="batchDataList" iMaxOccurs="1">
+offerReplace6.jsp:		<wtc:uparams name="batchData" iMaxOccurs="-1">
+offerReplace6.jsp:			<wtc:uparam value="0" type="long"/>
+offerReplace6.jsp:			<wtc:uparam value="0" type="string"/>
+offerReplace6.jsp:			<wtc:uparam value="0" type="string"/>
+offerReplace6.jsp:		</wtc:uparams>	
+offerReplace6.jsp:</wtc:uparams>	
+offerReplace6.jsp:<wtc:uparams name="msgBodyType" iMaxOccurs="1">
+offerReplace6.jsp:<wtc:uparams name="oprInfo" iMaxOccurs="1">
+offerReplace6.jsp:        <wtc:uparam value="<%=loginAccept %>" type="long"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=opCode %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=workNo %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=loginPwd %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=ipAddress %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=oprGroupId %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=opTime %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=regionCode %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=opNote %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=bureauId %>" type="string"/>
+offerReplace6.jsp:        <wtc:uparam value="<%=objectId %>" type="string"/>
+offerReplace6.jsp:</wtc:uparams>
+offerReplace6.jsp:<wtc:uparams name="custOrder" iMaxOccurs="1">
+offerReplace6.jsp:        <wtc:uparams name="custOrderMsg" iMaxOccurs="1">
+offerReplace6.jsp:                <wtc:uparam value="<%=custOrderId %>" type="string"/>
+offerReplace6.jsp:        </wtc:uparams>
+offerReplace6.jsp:        <wtc:uparams name="orderArrayList" iMaxOccurs="1">		
+offerReplace6.jsp:                <wtc:uparams name="orderArrayListContainer" iMaxOccurs="1">				
+offerReplace6.jsp:                        <wtc:uparams name="orderArrayMsg" iMaxOccurs="1">						
+offerReplace6.jsp:                                <wtc:uparam value="<%=orderArrayId %>" type="string"/>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                        <wtc:uparams name="servOrderList" iMaxOccurs="1">	
+offerReplace6.jsp:                                <wtc:uparams name="servOrderListContainer" iMaxOccurs="1">														
+offerReplace6.jsp:                                        <wtc:uparams name="servOrderMsg" iMaxOccurs="1">										
+offerReplace6.jsp:                                                <wtc:uparam value="<%=servOrderId %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=servOrderNo %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=servOrderChangeId %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=idNo %>" type="long"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=serviceNo %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=dispathRule %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=decomposeRule %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=addressId %>" type="long"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=orderStatus %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=stateDate %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=stateReasonId %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=servBusiId %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=finishFlag %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=finishTime %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=finishLimitTime %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=warningTime %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=dealLevel %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=payStatus %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=backFlag %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=exceptionTimes %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=servOrderSeq %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=isPreCreateStatus %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=contactPerson %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=contactPhone %>" type="string"/>
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="servOrderDataList" iMaxOccurs="1">										
+offerReplace6.jsp:                                                <wtc:uparams name="servOrderData" iMaxOccurs="1">								
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=classCode %>" type="long"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=arraySeq %>" type="int"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=classValue %>" type="string"/>
+offerReplace6.jsp:                                                </wtc:uparams>
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="servOrderSlaList" iMaxOccurs="1">										
+offerReplace6.jsp:                                                <wtc:uparams name="servOrderSlaInfo" iMaxOccurs="1">
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=srvOrderSlaId %>" type="string"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=slaIndexId %>" type="int"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=salValueSeq %>" type="int"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=slaValue %>" type="double"/>
+offerReplace6.jsp:                                                </wtc:uparams>
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="servOrderBookingMsg" iMaxOccurs="1">												<% for(int i=0;i<0;i++){ %>		
+offerReplace6.jsp:                                                <wtc:uparam value="<%=bookSrvId %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=modifyTime %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=bookingTime %>" type="string"/>
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="servOrderExcpInfo" iMaxOccurs="1">											
+offerReplace6.jsp:                                                <wtc:uparam value="<%=srvOrderExcpId %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=excpType %>" type="int"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=excpReason %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=handleResult %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=handleLogin %>" type="string"/>
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                </wtc:uparams>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                </wtc:uparams>
+offerReplace6.jsp:        </wtc:uparams>
+offerReplace6.jsp:</wtc:uparams>
+offerReplace6.jsp:<wtc:uparams name="customer" iMaxOccurs="1">								
+offerReplace6.jsp:        <wtc:uparams name="custDoc" iMaxOccurs="1">								
+offerReplace6.jsp:                <wtc:uparams name="custDocBaseInfo" iMaxOccurs="1">				
+offerReplace6.jsp:                        <wtc:uparam value="<%=gCustId %>" type="long"/>
+offerReplace6.jsp:                </wtc:uparams>
+offerReplace6.jsp:        </wtc:uparams>
+offerReplace6.jsp:        <wtc:uparams name="userInfoList" iMaxOccurs="1">
+offerReplace6.jsp:				<wtc:uparams name="userInfo" iMaxOccurs="1">
+offerReplace6.jsp:						<wtc:uparams name="userBaseInfo" iMaxOccurs="1">									
+offerReplace6.jsp:                                <wtc:uparam value="<%=serviceNo %>" type="string"/>
+offerReplace6.jsp:                                <wtc:uparam value="<%=userId %>" type="long"/>
+offerReplace6.jsp:                                <wtc:uparam value="<%=brand %>" type="string"/>
+offerReplace6.jsp:                                <wtc:uparam value="<%=userNo %>" type="string"/>
+offerReplace6.jsp:                                <wtc:uparam value="<%=groupId %>" type="string"/>
+offerReplace6.jsp:								<wtc:uparam value="<%=UseCustId %>" type="long"/>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                        <wtc:uparams name="discountInfoList" iMaxOccurs="1">
+offerReplace6.jsp:                                <wtc:uparams name="discountInfoListContainer" iMaxOccurs="1">													
+offerReplace6.jsp:                                        <wtc:uparams name="discountInfo" iMaxOccurs="1">										
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][0] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][1] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=order %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=custAgreementId %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][7]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=developLoginNo %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=channelId %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][2] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][3] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][4] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][5] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=DiscountInfos[j][6] %>" type="string"/>												
+offerReplace6.jsp:                                        </wtc:uparams>																
+offerReplace6.jsp:                                        <wtc:uparams name="discountAttrList" iMaxOccurs="1">											
+offerReplace6.jsp:                                               <wtc:uparams name="discountAttr" iMaxOccurs="-1">
+offerReplace6.jsp:																										<wtc:uparam value="1" type="string"/>
+offerReplace6.jsp:																										<wtc:uparam value="" type="string"/>
+offerReplace6.jsp:																										<wtc:uparam value="<%=offerAttrTemp[0]%>" type="string"/>
+offerReplace6.jsp:																										<wtc:uparam value="<%=offerAttrTemp[1].trim()%>" type="string"/>
+offerReplace6.jsp:																										<wtc:uparam value="" type="string"/>
+offerReplace6.jsp:																										<wtc:uparam value="10A" type="string"/>
+offerReplace6.jsp:																										<wtc:uparam value="<%=opTime%>" type="string"/>
+offerReplace6.jsp:																										<wtc:uparam value="20500101 00:00:00" type="string"/>
+offerReplace6.jsp:																								</wtc:uparams>
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="groupInstInfo" iMaxOccurs="1">
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="discountParamList" iMaxOccurs="1">
+offerReplace6.jsp:                                                <wtc:uparams name="discountParamInfo" iMaxOccurs="1">												
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=operatorFlag0 %>" type="string"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=paramInstanceId %>" type="string"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=lifeCycleId %>" type="string"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=paramId %>" type="string"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=paramValue %>" type="string"/>
+offerReplace6.jsp:                                                        <wtc:uparam value="<%=paramAttrId %>" type="string"/>
+offerReplace6.jsp:                                                </wtc:uparams>
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                </wtc:uparams>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                        <wtc:uparams name="userRelaInfoList" iMaxOccurs="1">
+offerReplace6.jsp:                                <wtc:uparams name="userRelaInfo" iMaxOccurs="1">									
+offerReplace6.jsp:                                        <wtc:uparam value="<%=operatorFlag0 %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=agreementId %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=subUserId %>" type="long"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=relationType %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=effectDate %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=expireDate %>" type="string"/>
+offerReplace6.jsp:                                </wtc:uparams>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                        <wtc:uparams name="productList" iMaxOccurs="1">
+offerReplace6.jsp:                                <wtc:uparams name="product" iMaxOccurs="1">
+offerReplace6.jsp:                                        <wtc:uparams name="productBaseInfo" iMaxOccurs="1">													
+offerReplace6.jsp:                                                <wtc:uparam value="0" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=offeredIns%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=offerSrvId%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=majorProductArr[0] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="0" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=systemTime%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=majorProductArr[1] %>" type="string"/> 
+offerReplace6.jsp:                                                <wtc:uparam value="<%=majorProductArr[2] %>" type="string"/> 
+offerReplace6.jsp:                                                <wtc:uparam value="A" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=majorProductArr[2] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=majorProductArr[1] %>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="1" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="0" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=majorProductArr[3] %>" type="string"/>
+offerReplace6.jsp:                                        </wtc:uparams>										
+offerReplace6.jsp:                                        <wtc:uparams name="productAttrList" iMaxOccurs="1">
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="productGroupList" iMaxOccurs="1">
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                </wtc:uparams>
+offerReplace6.jsp:															<wtc:uparams name="product" iMaxOccurs="1">
+offerReplace6.jsp:                                        <wtc:uparams name="productBaseInfo" iMaxOccurs="1">													
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[0]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[1]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[2]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[3]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[6]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[7]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[8]%>" type="string"/> 
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[9]%>" type="string"/> 
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[10]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[9]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[8]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[12]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[13]%>" type="string"/>
+offerReplace6.jsp:                                                <wtc:uparam value="<%=rowtype[14]%>" type="string"/>
+offerReplace6.jsp:                                        </wtc:uparams>										
+offerReplace6.jsp:                                        <wtc:uparams name="productAttrList" iMaxOccurs="1">
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                        <wtc:uparams name="productGroupList" iMaxOccurs="1">
+offerReplace6.jsp:                                        </wtc:uparams>
+offerReplace6.jsp:                                </wtc:uparams>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                        <wtc:uparams name="userResList" iMaxOccurs="1">	
+offerReplace6.jsp:                                <wtc:uparams name="userRes" iMaxOccurs="1">																
+offerReplace6.jsp:                                        <wtc:uparam value="<%=operatorFlag0 %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=resType %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=resSeq %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=resNo %>" type="string"/>
+offerReplace6.jsp:                                </wtc:uparams>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                        <wtc:uparams name="busiFeeFactorList" iMaxOccurs="1">					
+offerReplace6.jsp:                                <wtc:uparams name="busiFeeFactor" iMaxOccurs="1">							
+offerReplace6.jsp:                                        <wtc:uparam value="<%=paramType %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=paramCode %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=paramValueBegin %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=paramValueEnd %>" type="string"/>
+offerReplace6.jsp:                                        <wtc:uparam value="<%=paramObj %>" type="string"/>
+offerReplace6.jsp:										                    <wtc:uparam value="<%=offered %>" type="string"/>										
+offerReplace6.jsp:                                </wtc:uparams>
+offerReplace6.jsp:                        </wtc:uparams>
+offerReplace6.jsp:                </wtc:uparams>
+offerReplace6.jsp:        </wtc:uparams>
+offerReplace6.jsp:</wtc:uparams>
+offerReplace6.jsp:</wtc:uparams>
+offerReplace6.jsp:</wtc:utype>
+phoneCheck.jsp:<wtc:utype name="sChkMemSrv" id="retVal" scope="end">
+phoneCheck.jsp:		<wtc:uparam value="<%=phoneNo%>" type="string"/>
+phoneCheck.jsp:		<wtc:uparam value="<%=offerId%>" type="int"/>
+phoneCheck.jsp:	  <wtc:uparam value="<%=servId%>" type="long"/>
+phoneCheck.jsp:	  <wtc:uparam value="<%=loginAccept%>" type="long"/>			
+phoneCheck.jsp:</wtc:utype>
+produceChgShow.jsp:	   <wtc:pubselect name="sPubSelect" outnum="1" > 
+produceChgShow.jsp:	   	 <wtc:sql><%=sqlStr%></wtc:sql>
+produceChgShow.jsp:	   </wtc:pubselect>
+produceChgShow.jsp:	   <wtc:array id="rows" scope="end"/>
+produceChgShow.jsp:		<wtc:pubselect name="sPubSelect" outnum="1">
+produceChgShow.jsp:			<wtc:sql>select  decode(substr(attr_code, 5, 1),'0','0','1','1','2','2','3','3','0')  from  dCustMsg where  phone_no = '<%=phoneNo%>' and substr(run_code, 2, 1) < 'a' </wtc:sql>
+produceChgShow.jsp:		</wtc:pubselect>	
+produceChgShow.jsp:		<wtc:array id="row1" scope="end" />	
+produceChgShow.jsp:		<wtc:pubselect name="sPubSelect" outnum="1">
+produceChgShow.jsp:			<wtc:sql>select  nvl(grp_name,'NULL')  from  sGrpBigFlag  where  grp_flag='<%=row1[0][0]%>' </wtc:sql>
+produceChgShow.jsp:		</wtc:pubselect>	
+produceChgShow.jsp:		<wtc:array id="row2" scope="end" />	
+produceChgShow.jsp:<wtc:utype name="sGetCustOrdMsg" id="retVal" scope="end">
+produceChgShow.jsp:		<wtc:uparam value="<%=cust_id%>" type="long" />
+produceChgShow.jsp:		<wtc:uparam value="<%=workNo%>" type="string"/>
+produceChgShow.jsp:		<wtc:uparam value="<%=groupId%>" type="string"/>	
+produceChgShow.jsp:</wtc:utype>	
+produceChgShow.jsp:  <wtc:utype name="sQryUserOffers" id="retVal3" scope="end" >
+produceChgShow.jsp:				<wtc:uparam value="<%=servId%>" type="string" />
+produceChgShow.jsp:				<wtc:uparam value="0" type="string"/>
+produceChgShow.jsp:				<wtc:uparam value="0" type="string"/>	
+produceChgShow.jsp:				<wtc:uparam value="0" type="string"/>	
+produceChgShow.jsp:				<wtc:uparam value="0" type="string"/>
+produceChgShow.jsp:				<wtc:uparam value="0" type="string"/>	
+produceChgShow.jsp:	</wtc:utype>	
+produceChgShow.jsp:			<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+produceChgShow.jsp:    		  <wtc:param value="214"/>
+produceChgShow.jsp:    	</wtc:service>
+produceChgShow.jsp:    	<wtc:array id="result_t1" scope="end"/>
+produceChgShow.jsp:    	<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+produceChgShow.jsp:			   <wtc:param value="25"/>
+produceChgShow.jsp:			   <wtc:param value="<%=workNo%>"/>
+produceChgShow.jsp:    	</wtc:service>
+produceChgShow.jsp:    	<wtc:array id="rowsRegion" scope="end"/>
+product_show_ajax.jsp:			<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="1">
+product_show_ajax.jsp:    		  <wtc:param value="218"/>
+product_show_ajax.jsp:    		  <wtc:param value="<%=offerCode%>"/>
+product_show_ajax.jsp:    	</wtc:service>
+product_show_ajax.jsp:    	<wtc:array id="result_t" scope="end"/>
+product_show_ajax.jsp:	<wtc:pubselect name="sPubSelect" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+product_show_ajax.jsp:  	 <wtc:sql><%=lSql%></wtc:sql>
+product_show_ajax.jsp: 	  </wtc:pubselect>
+product_show_ajax.jsp:	 <wtc:array id="result_t" scope="end"/>
+product_show_ajax.jsp:<wtc:utype name="sGetChgBOffer" id="retVal2" scope="end">
+product_show_ajax.jsp:	<wtc:uparams>
+product_show_ajax.jsp:				<wtc:uparam value="<%=opCode%>" type="string " />
+product_show_ajax.jsp:				<wtc:uparam value="<%=QRYFLAG%>" type="string"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=servId%>" type="long"/>	<!-- 由custID转为servId-->
+product_show_ajax.jsp:				<wtc:uparam value="<%=OFFER_ID%>" type="long"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=workNo%>" type="string"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=flag%>" type="string"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=groupId%>" type="long"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=offerCode1%>" type="string" />
+product_show_ajax.jsp:				<wtc:uparam value="<%=offerName%>" type="string"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=offerType%>" type="long" />
+product_show_ajax.jsp:				<wtc:uparam value="<%=OFFER_ATTR_SEQ%>" type="long"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=offer_att_type%>" type="string"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=USER_RANGE%>" type="string"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=CUST_GROUP_ID%>" type="long"/>
+product_show_ajax.jsp:				<wtc:uparam value="<%=receiveRegion%>" type="string"/>	
+product_show_ajax.jsp:				<wtc:uparam value="<%=smCode%>" type="long"/>		
+product_show_ajax.jsp:	</wtc:uparams>							
+product_show_ajax.jsp:</wtc:utype>
+pubSelect.jsp:<wtc:pubselect name="sPubSelect" outnum="2">
+pubSelect.jsp:	<wtc:sql><%=sqlStr%></wtc:sql> 
+pubSelect.jsp:</wtc:pubselect>
+pubSelect.jsp:<wtc:array id="result" scope="end"/>
+qp01Cfm.jsp:<wtc:utype name="sCrtOrderMsg" id="retVal1" scope="end" routerKey="region" routerValue="<%=regionCode_sCrtOrderMsg%>">
+qp01Cfm.jsp:	<wtc:uparam value="<%=loginNo%>" type="string"/>
+qp01Cfm.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+qp01Cfm.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+qp01Cfm.jsp:  <wtc:uparam value="<%=chkFlag%>" type="STRING"/>
+qp01Cfm.jsp:</wtc:utype>	
+qp01Cfm.jsp:  	<wtc:service name="se301Cfm" outnum="100" retmsg="e301Msg" retcode="e301Code" routerKey="region" routerValue="<%=regionCode%>">
+qp01Cfm.jsp:		<wtc:param value="<%=loginAccept%>" />
+qp01Cfm.jsp:		<wtc:param value="01" />	
+qp01Cfm.jsp:		<wtc:param value="<%=opCode%>" />	
+qp01Cfm.jsp:		<wtc:param value="<%=loginNo%>" />
+qp01Cfm.jsp:		<wtc:param value="<%=loginPwd%>" />
+qp01Cfm.jsp:		<wtc:param value="<%=phoneNo%>" />
+qp01Cfm.jsp:		<wtc:param value="" />
+qp01Cfm.jsp:		<wtc:param value="" />
+qp01Cfm.jsp:		<wtc:param value="<%=isWeiyuejin%>"/>
+qp01Cfm.jsp:		<wtc:param value="<%=weiyuejinNote%>" />
+qp01Cfm.jsp:	</wtc:service>
+qp01Cfm.jsp:	<wtc:array id="result_custInfo" scope="end"/>
+qp01Cfm.jsp:<wtc:utype name="<%=serverNameSub%>" id="retVal" scope="end"  routerKey="region" routerValue="<%=regionCode_sProdChgCfm%>">
+qp01Cfm.jsp:	<wtc:uparams name="ctrlInfo" iMaxOccurs="1">
+qp01Cfm.jsp:			<wtc:uparam value="0" type="string"/>
+qp01Cfm.jsp:	</wtc:uparams>	
+qp01Cfm.jsp:	<wtc:uparams name="batchDataList" iMaxOccurs="1">
+qp01Cfm.jsp:			<wtc:uparams name="batchData" iMaxOccurs="1">
+qp01Cfm.jsp:				<wtc:uparam value="0" type="long"/>
+qp01Cfm.jsp:				<wtc:uparam value="0" type="string"/>
+qp01Cfm.jsp:				<wtc:uparam value="0" type="string"/>
+qp01Cfm.jsp:			</wtc:uparams>	
+qp01Cfm.jsp:	</wtc:uparams>	
+qp01Cfm.jsp:	<wtc:uparams name="msgBodyType" iMaxOccurs="1">
+qp01Cfm.jsp:		<wtc:uparams name="oprInfo" iMaxOccurs="1">
+qp01Cfm.jsp:		        <wtc:uparam value="<%=loginAccept %>" type="long"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=opCode %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=loginNo %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=loginPwd %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=ipAddress %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=oprGroupId %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=opTime %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=regionCode %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=opNote %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=bureauId %>" type="string"/>
+qp01Cfm.jsp:		        <wtc:uparam value="<%=objectId %>" type="string"/>
+qp01Cfm.jsp:		</wtc:uparams>
+qp01Cfm.jsp:		<wtc:uparams name="custOrder" iMaxOccurs="1">
+qp01Cfm.jsp:		  <wtc:uparams name="custOrderMsg" iMaxOccurs="1">
+qp01Cfm.jsp:		     <wtc:uparam value="<%=custOrderId %>" type="string"/>
+qp01Cfm.jsp:		  </wtc:uparams>
+qp01Cfm.jsp:		  <wtc:uparams name="orderArrayList" iMaxOccurs="1">		
+qp01Cfm.jsp:		    <wtc:uparams name="orderArrayListContainer" iMaxOccurs="1">				
+qp01Cfm.jsp:		      <wtc:uparams name="orderArrayMsg" iMaxOccurs="1">						
+qp01Cfm.jsp:		          <wtc:uparam value="<%=orderArrayId %>" type="string"/>
+qp01Cfm.jsp:		      </wtc:uparams>
+qp01Cfm.jsp:		      <wtc:uparams name="servOrderList" iMaxOccurs="1">	
+qp01Cfm.jsp:		        <wtc:uparams name="servOrderListContainer" iMaxOccurs="1">														
+qp01Cfm.jsp:		          <wtc:uparams name="servOrderMsg" iMaxOccurs="1">										
+qp01Cfm.jsp:		            <wtc:uparam value="<%=servOrderId %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=servOrderNo %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=servOrderChangeId %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=idNo %>" type="long"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=serviceNo %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=dispathRule %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=decomposeRule %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=addressId %>" type="long"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=orderStatus %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=stateDate %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=stateReasonId %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=servBusiId %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=finishFlag %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=finishTime %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=finishLimitTime %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=warningTime %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=dealLevel %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=payStatus %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=backFlag %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=exceptionTimes %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=servOrderSeq %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=isPreCreateStatus %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=contactPerson %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=contactPhone %>" type="string"/>
+qp01Cfm.jsp:		          </wtc:uparams>
+qp01Cfm.jsp:		          <wtc:uparams name="servOrderDataList" iMaxOccurs="1">										
+qp01Cfm.jsp:		              <wtc:uparams name="servOrderData" iMaxOccurs="1">								
+qp01Cfm.jsp:		                <wtc:uparam value="<%=classCode %>" type="long"/>
+qp01Cfm.jsp:		                <wtc:uparam value="<%=arraySeq %>" type="int"/>
+qp01Cfm.jsp:		                <wtc:uparam value="<%=classValue %>" type="string"/>
+qp01Cfm.jsp:		              </wtc:uparams>
+qp01Cfm.jsp:				              <wtc:uparams name="servOrderData" iMaxOccurs="1">								
+qp01Cfm.jsp:				                <wtc:uparam value="125800" type="long"/>
+qp01Cfm.jsp:				                <wtc:uparam value="0" type="int"/>
+qp01Cfm.jsp:				                <wtc:uparam value="<%=weiyuejin %>" type="string"/>
+qp01Cfm.jsp:				              </wtc:uparams>
+qp01Cfm.jsp:		          </wtc:uparams>
+qp01Cfm.jsp:		          <wtc:uparams name="servOrderSlaList" iMaxOccurs="1">										
+qp01Cfm.jsp:		            <wtc:uparams name="servOrderSlaInfo" iMaxOccurs="1">
+qp01Cfm.jsp:		              <wtc:uparam value="<%=srvOrderSlaId %>" type="string"/>
+qp01Cfm.jsp:		              <wtc:uparam value="<%=slaIndexId %>" type="int"/>
+qp01Cfm.jsp:		              <wtc:uparam value="<%=salValueSeq %>" type="int"/>
+qp01Cfm.jsp:		              <wtc:uparam value="<%=slaValue %>" type="double"/>
+qp01Cfm.jsp:		            </wtc:uparams>
+qp01Cfm.jsp:		          </wtc:uparams>
+qp01Cfm.jsp:		          <wtc:uparams name="servOrderBookingMsg" iMaxOccurs="1">											
+qp01Cfm.jsp:		            <wtc:uparam value="<%=bookSrvId %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=modifyTime %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=bookingTime %>" type="string"/>
+qp01Cfm.jsp:		          </wtc:uparams>
+qp01Cfm.jsp:		          <wtc:uparams name="servOrderExcpInfo" iMaxOccurs="1">											
+qp01Cfm.jsp:		            <wtc:uparam value="<%=srvOrderExcpId %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=excpType %>" type="int"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=excpReason %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=handleResult %>" type="string"/>
+qp01Cfm.jsp:		            <wtc:uparam value="<%=handleLogin %>" type="string"/>
+qp01Cfm.jsp:		          </wtc:uparams>
+qp01Cfm.jsp:		        </wtc:uparams>
+qp01Cfm.jsp:		      </wtc:uparams>
+qp01Cfm.jsp:		    </wtc:uparams>
+qp01Cfm.jsp:		  </wtc:uparams>
+qp01Cfm.jsp:		</wtc:uparams>
+qp01Cfm.jsp:		<wtc:uparams name="customer" iMaxOccurs="1">								
+qp01Cfm.jsp:	    <wtc:uparams name="custDoc" iMaxOccurs="1">								
+qp01Cfm.jsp:	      <wtc:uparams name="custDocBaseInfo" iMaxOccurs="1">				
+qp01Cfm.jsp:	    	  <wtc:uparam value="<%=gCustId %>" type="long"/>
+qp01Cfm.jsp:	      </wtc:uparams>
+qp01Cfm.jsp:	     </wtc:uparams>
+qp01Cfm.jsp:	     <wtc:uparam value="<%=cfmParamUtype%>" type="UTYPE"/>
+qp01Cfm.jsp:		</wtc:uparams>
+qp01Cfm.jsp:	 </wtc:uparams>
+qp01Cfm.jsp:</wtc:utype>
+qp01Main.jsp:    <wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="1"> 
+qp01Main.jsp:      <wtc:param value="<%=inParams[0]%>"/>
+qp01Main.jsp:      <wtc:param value="<%=inParams[1]%>"/>
+qp01Main.jsp:    </wtc:service>  
+qp01Main.jsp:    <wtc:array id="ret_checkRealUser"  scope="end"/>
+qp01Main.jsp:    <wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCodeW" retmsg="retMsgW" outnum="1"> 
+qp01Main.jsp:      <wtc:param value="<%=weiyuejin[0]%>"/>
+qp01Main.jsp:      <wtc:param value="<%=weiyuejin[1]%>"/>
+qp01Main.jsp:    </wtc:service>  
+qp01Main.jsp:    <wtc:array id="result_t"  scope="end"/>
+qp01Main.jsp:<wtc:pubselect name="sPubSelect"  retcode="retCodeNo" retmsg="retMsgNo" outnum="1">
+qp01Main.jsp: <wtc:sql><%=getSmCodeSql%>
+qp01Main.jsp: </wtc:sql>
+qp01Main.jsp: </wtc:pubselect>
+qp01Main.jsp:<wtc:array id="retarr" scope="end"/>  
+qp01Main.jsp:<wtc:pubselect name="sPubSelect"  retcode="retCodeNo" retmsg="retMsgNo" outnum="1">
+qp01Main.jsp: <wtc:sql><%=getCardCodeSql%>
+qp01Main.jsp: </wtc:sql>
+qp01Main.jsp: </wtc:pubselect>
+qp01Main.jsp:<wtc:array id="retarr" scope="end"/>    
+qp01Main.jsp:<wtc:sequence name="sPubSelect" key="sMaxSysAccept" id="loginAccept" />
+qp01Main.jsp:<wtc:service name="sPubSelect" routerKey="phone" routerValue="<%=phoneNo%>" retCode="retC1"  retMsg="retM1" outnum="4" >
+qp01Main.jsp:  <wtc:param value="<%=sqlstr%>"/>
+qp01Main.jsp:</wtc:service>
+qp01Main.jsp:<wtc:array id="resPosc" scope="end"/>
+qp01Main.jsp:<wtc:service name="sPubSelect" routerKey="phone" routerValue="<%=phoneNo%>" retCode="retC2"  retMsg="retM2" outnum="1" >
+qp01Main.jsp:  <wtc:param value="<%=sqlstr2%>"/>
+qp01Main.jsp:</wtc:service>
+qp01Main.jsp:<wtc:array id="resquery" scope="end"/>
+qp01Main.jsp:<wtc:utype name="sQBasicInfo" id="retBd0002" scope="end"  routerKey="region" routerValue="<%=bd0002_regionCode%>">
+qp01Main.jsp:     <wtc:uparam value="<%=gCustId%>" type="LONG"/>
+qp01Main.jsp:</wtc:utype>
+qp01Main.jsp:	<wtc:service name="se301Check" outnum="1" retmsg="checkMsg" retcode="checkCode" routerKey="region" routerValue="<%=regionCode%>">
+qp01Main.jsp:		<wtc:param value="<%=paraAray[0]%>" />
+qp01Main.jsp:		<wtc:param value="<%=paraAray[1]%>" />
+qp01Main.jsp:		<wtc:param value="<%=paraAray[2]%>" />
+qp01Main.jsp:		<wtc:param value="<%=paraAray[3]%>" />
+qp01Main.jsp:		<wtc:param value="<%=paraAray[4]%>" />
+qp01Main.jsp:		<wtc:param value="<%=paraAray[5]%>" />
+qp01Main.jsp:		<wtc:param value="<%=paraAray[6]%>" />						
+qp01Main.jsp:		<wtc:param value="<%=paraAray[7]%>" />						
+qp01Main.jsp:	</wtc:service>
+qp01Main.jsp:	<wtc:array id="checkResult" scope="end"  />
+qp01Main.jsp:    <wtc:pubselect name="sPubSelect" outnum="1" retmsg="msgtd" retcode="codetd" 
+qp01Main.jsp:     <wtc:sql><%=tdSql%></wtc:sql>
+qp01Main.jsp:    </wtc:pubselect>
+qp01Main.jsp:   <wtc:array id="tdresult" scope="end"/>
+qp01Main.jsp:  <wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+qp01Main.jsp:    <wtc:param value="<%=inputParam%>"/>
+qp01Main.jsp:  </wtc:service>
+qp01Main.jsp:  <wtc:array id="result_t1" scope="end"/>
+qp01MainQryXsp.jsp:	<wtc:pubselect name="sPubSelect" retcode="retCodeXsp" retmsg="retMsgXsp" outnum="2">
+qp01MainQryXsp.jsp:		<wtc:sql><%=queryXspStr%>
+qp01MainQryXsp.jsp:		</wtc:sql>
+qp01MainQryXsp.jsp:	</wtc:pubselect>
+qp01MainQryXsp.jsp:	<wtc:array id="retarrXsp" scope="end" />
+qryAddOffer.jsp:<wtc:utype name="sQryChgAddOffer" id="retVal" scope="end">
+qryAddOffer.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+qryAddOffer.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>	
+qryAddOffer.jsp:  <wtc:uparam name="opCode" type="string"/>
+qryAddOffer.jsp:  <wtc:uparam value="<%=relMainOfferId%>" type="long"/>	
+qryAddOffer.jsp:  <wtc:uparams name="conditioinList" iMaxOccurs="1">	
+qryAddOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer.jsp:  		<wtc:uparam value="OFFERID" type="string"/>
+qryAddOffer.jsp:  		<wtc:uparam value="<%=offerId%>" type="string"/>
+qryAddOffer.jsp:  	</wtc:uparams>
+qryAddOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer.jsp:  		<wtc:uparam value="OFFERTYPE" type="string"/>
+qryAddOffer.jsp:  		<wtc:uparam value="<%=offerType%>" type="string"/>
+qryAddOffer.jsp:  	</wtc:uparams>	
+qryAddOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer.jsp:  		<wtc:uparam value="OFFERNAME" type="string"/>
+qryAddOffer.jsp:  		<wtc:uparam value="<%=offerName%>" type="string"/>
+qryAddOffer.jsp:  	</wtc:uparams>	
+qryAddOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer.jsp:  		<wtc:uparam value="LOGINCOLLECT" type="STRING"/>
+qryAddOffer.jsp:  		<wtc:uparam value="<%=loginCollect%>" type="STRING"/>
+qryAddOffer.jsp:  	</wtc:uparams>	
+qryAddOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer.jsp:  		<wtc:uparam value="HOTOFFER" type="STRING"/>
+qryAddOffer.jsp:  		<wtc:uparam value="<%=hotOffer%>" type="STRING"/>
+qryAddOffer.jsp:  	</wtc:uparams>	
+qryAddOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer.jsp:  		<wtc:uparam value="OFFERATTRTYPE" type="STRING"/>
+qryAddOffer.jsp:  		<wtc:uparam value="<%=offerdetRolecd%>" type="STRING"/>
+qryAddOffer.jsp:  	</wtc:uparams>	
+qryAddOffer.jsp:  </wtc:uparams>	
+qryAddOffer.jsp:  <wtc:uparam value="<%=password%>" type="string"/>								
+qryAddOffer.jsp:</wtc:utype>
+qryAddOffer_m.jsp: 		<wtc:pubselect name="sPubSelect" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+qryAddOffer_m.jsp:  	 <wtc:sql><%=qryBandAttrSql%></wtc:sql>
+qryAddOffer_m.jsp: 	  </wtc:pubselect>
+qryAddOffer_m.jsp:	 <wtc:array id="result_t" scope="end"/>
+qryAddOffer_m.jsp:<wtc:utype name="sQryChgAddOffer" id="retVal" scope="end">
+qryAddOffer_m.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+qryAddOffer_m.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>	
+qryAddOffer_m.jsp:  <wtc:uparam name="opCode" type="string"/>
+qryAddOffer_m.jsp:  <wtc:uparam value="<%=relMainOfferId%>" type="long"/>	
+qryAddOffer_m.jsp:  <wtc:uparams name="conditioinList" iMaxOccurs="1">	
+qryAddOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer_m.jsp:  		<wtc:uparam value="OFFERID" type="string"/>
+qryAddOffer_m.jsp:  		<wtc:uparam value="<%=offerId%>" type="string"/>
+qryAddOffer_m.jsp:  	</wtc:uparams>
+qryAddOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer_m.jsp:  		<wtc:uparam value="OFFERTYPE" type="string"/>
+qryAddOffer_m.jsp:  		<wtc:uparam value="<%=offerType%>" type="string"/>
+qryAddOffer_m.jsp:  	</wtc:uparams>	
+qryAddOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer_m.jsp:  		<wtc:uparam value="OFFERNAME" type="string"/>
+qryAddOffer_m.jsp:  		<wtc:uparam value="<%=offerName%>" type="string"/>
+qryAddOffer_m.jsp:  	</wtc:uparams>	
+qryAddOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer_m.jsp:  		<wtc:uparam value="LOGINCOLLECT" type="STRING"/>
+qryAddOffer_m.jsp:  		<wtc:uparam value="<%=loginCollect%>" type="STRING"/>
+qryAddOffer_m.jsp:  	</wtc:uparams>	
+qryAddOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer_m.jsp:  		<wtc:uparam value="HOTOFFER" type="STRING"/>
+qryAddOffer_m.jsp:  		<wtc:uparam value="<%=hotOffer%>" type="STRING"/>
+qryAddOffer_m.jsp:  	</wtc:uparams>	
+qryAddOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryAddOffer_m.jsp:  		<wtc:uparam value="OFFERATTRTYPE" type="STRING"/>
+qryAddOffer_m.jsp:  		<wtc:uparam value="<%=offerdetRolecd%>" type="STRING"/>
+qryAddOffer_m.jsp:  	</wtc:uparams>	
+qryAddOffer_m.jsp:  </wtc:uparams>	
+qryAddOffer_m.jsp:  <wtc:uparam value="<%=password%>" type="string"/>											
+qryAddOffer_m.jsp:</wtc:utype>
+qryAttrFlagHvMsg.jsp:<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+qryAttrFlagHvMsg.jsp:   <wtc:param value="221"/>
+qryAttrFlagHvMsg.jsp:   <wtc:param value="<%=offerId%>"/>
+qryAttrFlagHvMsg.jsp:   </wtc:service>
+qryAttrFlagHvMsg.jsp:<wtc:array id="rows" scope="end"/>
+qryMainOffer.jsp:<wtc:utype name="sQryChgMOffer" id="retVal" scope="end">
+qryMainOffer.jsp:  <wtc:uparam value="<%=servId%>" type="LONG"/>
+qryMainOffer.jsp:  <wtc:uparam value="<%=workNo%>" type="STRING"/>	
+qryMainOffer.jsp:  <wtc:uparam name="opCode" type="STRING"/>
+qryMainOffer.jsp:  <wtc:uparam value="<%=relMainOfferId%>" type="LONG"/>	
+qryMainOffer.jsp:  <wtc:uparams name="conditioinList" iMaxOccurs="1">
+qryMainOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer.jsp:  		<wtc:uparam value="OFFERID" type="STRING"/>
+qryMainOffer.jsp:  		<wtc:uparam value="<%=offerId%>" type="STRING"/>
+qryMainOffer.jsp:  	</wtc:uparams>
+qryMainOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer.jsp:  		<wtc:uparam value="OFFERATTRTYPE" type="STRING"/>
+qryMainOffer.jsp:  		<wtc:uparam value="<%=offerType%>" type="STRING"/>
+qryMainOffer.jsp:  	</wtc:uparams>	
+qryMainOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer.jsp:  		<wtc:uparam value="OFFERNAME" type="STRING"/>
+qryMainOffer.jsp:  		<wtc:uparam value="<%=offerName%>" type="STRING"/>
+qryMainOffer.jsp:  	</wtc:uparams>	
+qryMainOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer.jsp:  		<wtc:uparam value="LOGINCOLLECT" type="STRING"/>
+qryMainOffer.jsp:  		<wtc:uparam value="<%=loginCollect%>" type="STRING"/>
+qryMainOffer.jsp:  	</wtc:uparams>	
+qryMainOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer.jsp:  		<wtc:uparam value="HOTOFFER" type="STRING"/>
+qryMainOffer.jsp:  		<wtc:uparam value="<%=hotOffer%>" type="STRING"/>
+qryMainOffer.jsp:  	</wtc:uparams>	
+qryMainOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer.jsp:  		<wtc:uparam value="BANDID" type="STRING"/>
+qryMainOffer.jsp:  		<wtc:uparam value="<%=bandId%>" type="STRING"/>
+qryMainOffer.jsp:  	</wtc:uparams>	
+qryMainOffer.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer.jsp:  		<wtc:uparam value="CUSTTYPE" type="STRING"/>
+qryMainOffer.jsp:  		<wtc:uparam value="<%=custType%>" type="STRING"/>
+qryMainOffer.jsp:  	</wtc:uparams>	
+qryMainOffer.jsp:  </wtc:uparams>									
+qryMainOffer.jsp:</wtc:utype>
+qryMainOfferRoleInfo.jsp:			<wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regionCode%>" id="printAccept"/>
+qryMainOfferRoleInfo.jsp:			<wtc:service name="sOfferTypeQry" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="2">			
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=printAccept%>"/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value="01"/>	
+qryMainOfferRoleInfo.jsp:				<wtc:param value="1272"/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=workNo%>"/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=password%>"/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=phoneNo%>"/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value=""/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=smCode%>"/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=accountType%>"/>
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=offer_id%>"/>
+qryMainOfferRoleInfo.jsp:			</wtc:service>	
+qryMainOfferRoleInfo.jsp:			<wtc:array id="resultList"  scope="end"/>
+qryMainOfferRoleInfo.jsp:			<wtc:service name="sPubSelect"  retCode="retCode1"  retMsg="retMsg1" outnum="2" >
+qryMainOfferRoleInfo.jsp:				<wtc:param value="<%=sqlStr%>"/>
+qryMainOfferRoleInfo.jsp:			</wtc:service>
+qryMainOfferRoleInfo.jsp:			<wtc:array id="resultList" scope="end"/>
+qryMainOffer_m.jsp: 		<wtc:pubselect name="sPubSelect" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+qryMainOffer_m.jsp:  	 <wtc:sql><%=qryBandAttrSql%></wtc:sql>
+qryMainOffer_m.jsp: 	  </wtc:pubselect>
+qryMainOffer_m.jsp:	 <wtc:array id="result_t" scope="end"/>
+qryMainOffer_m.jsp:<wtc:utype name="sQryChgMOffer" id="retVal" scope="end">
+qryMainOffer_m.jsp:  <wtc:uparam value="<%=servId%>" type="LONG"/>
+qryMainOffer_m.jsp:  <wtc:uparam value="<%=workNo%>" type="STRING"/>	
+qryMainOffer_m.jsp:  <wtc:uparam name="opCode" type="STRING"/>
+qryMainOffer_m.jsp:  <wtc:uparam value="<%=relMainOfferId%>" type="LONG"/>	
+qryMainOffer_m.jsp:  <wtc:uparams name="conditioinList" iMaxOccurs="1">
+qryMainOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer_m.jsp:  		<wtc:uparam value="OFFERID" type="STRING"/>
+qryMainOffer_m.jsp:  		<wtc:uparam value="<%=offerId%>" type="STRING"/>
+qryMainOffer_m.jsp:  	</wtc:uparams>
+qryMainOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer_m.jsp:  		<wtc:uparam value="OFFERATTRTYPE" type="STRING"/>
+qryMainOffer_m.jsp:  		<wtc:uparam value="<%=offerType%>" type="STRING"/>
+qryMainOffer_m.jsp:  	</wtc:uparams>	
+qryMainOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer_m.jsp:  		<wtc:uparam value="OFFERNAME" type="STRING"/>
+qryMainOffer_m.jsp:  		<wtc:uparam value="<%=offerName%>" type="STRING"/>
+qryMainOffer_m.jsp:  	</wtc:uparams>	
+qryMainOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer_m.jsp:  		<wtc:uparam value="LOGINCOLLECT" type="STRING"/>
+qryMainOffer_m.jsp:  		<wtc:uparam value="<%=loginCollect%>" type="STRING"/>
+qryMainOffer_m.jsp:  	</wtc:uparams>	
+qryMainOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer_m.jsp:  		<wtc:uparam value="HOTOFFER" type="STRING"/>
+qryMainOffer_m.jsp:  		<wtc:uparam value="<%=hotOffer%>" type="STRING"/>
+qryMainOffer_m.jsp:  	</wtc:uparams>	
+qryMainOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer_m.jsp:  		<wtc:uparam value="BANDID" type="STRING"/>
+qryMainOffer_m.jsp:  		<wtc:uparam value="<%=bandId%>" type="STRING"/>
+qryMainOffer_m.jsp:  	</wtc:uparams>	
+qryMainOffer_m.jsp:  	<wtc:uparams name="conditions" iMaxOccurs="-1">	
+qryMainOffer_m.jsp:  		<wtc:uparam value="CUSTTYPE" type="STRING"/>
+qryMainOffer_m.jsp:  		<wtc:uparam value="<%=custType%>" type="STRING"/>
+qryMainOffer_m.jsp:  	</wtc:uparams>	
+qryMainOffer_m.jsp:  </wtc:uparams>									
+qryMainOffer_m.jsp:</wtc:utype>
+qryOfferInst.jsp:<wtc:utype name="sQryOfferInst" id="retVal" scope="end">
+qryOfferInst.jsp:     <wtc:uparam value="<%=servId%>" type="LONG"/>
+qryOfferInst.jsp:     <wtc:uparam value="<%=workNo%>" type="string"/>
+qryOfferInst.jsp:     <wtc:uparam name="opCode" type="string"/>	
+qryOfferInst.jsp:     <wtc:uparam value="0" type="LONG"/>
+qryOfferInst.jsp:     <wtc:uparam value="0" type="LONG"/>			
+qryOfferInst.jsp:</wtc:utype>
+qryProduct.jsp:			<wtc:pubselect name="sPubSelect"  outnum="1">
+qryProduct.jsp:			<wtc:sql><%=sqlStr%>
+qryProduct.jsp:			</wtc:sql>
+qryProduct.jsp:			</wtc:pubselect>
+qryProduct.jsp:			<wtc:array id="retarr" scope="end"/>  	
+qryRealOfferId.jsp:<wtc:service name="sPubSelect"  retCode="retCode"  retMsg="retMsg" outnum="2" >
+qryRealOfferId.jsp:	<wtc:param value="<%=sqlStr%>"/>
+qryRealOfferId.jsp:</wtc:service>
+qryRealOfferId.jsp:<wtc:array id="resPosc" scope="end"/>
+queryEXTStatus.jsp:		<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regCode%>" retcode="retCode1ss" retmsg="retMsg1ss" outnum="1">			
+queryEXTStatus.jsp:		<wtc:param value="<%=inParamsss1[0]%>"/>
+queryEXTStatus.jsp:		<wtc:param value="<%=inParamsss1[1]%>"/>	
+queryEXTStatus.jsp:		</wtc:service>	
+queryEXTStatus.jsp:	  <wtc:array id="dcustarry" scope="end" />   
+s9113Cfm_Wlan.jsp:	<wtc:service name="sWLANOrderCfm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="2">			
+s9113Cfm_Wlan.jsp:		<wtc:param value="<%=paraAray[0]%>"/>
+s9113Cfm_Wlan.jsp:		<wtc:param value="<%=paraAray[1]%>"/>
+s9113Cfm_Wlan.jsp:		<wtc:param value="<%=paraAray[2]%>"/>
+s9113Cfm_Wlan.jsp:		<wtc:param value="<%=paraAray[3]%>"/>
+s9113Cfm_Wlan.jsp:		<wtc:param value="<%=paraAray[4]%>"/>
+s9113Cfm_Wlan.jsp:		<wtc:param value="<%=paraAray[5]%>"/>
+s9113Cfm_Wlan.jsp:		<wtc:param value="<%=paraAray[6]%>"/>
+s9113Cfm_Wlan.jsp:	</wtc:service>
+s9113Cfm_Wlan.jsp:<wtc:array id="result" scope="end" />
+select_mulit_rpc.jsp:	<wtc:service name="sCrmDefSqlSel" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="<%=recv_number%>">
+select_mulit_rpc.jsp:		  <wtc:param value="<%=sqlStr%>"/>
+select_mulit_rpc.jsp:		  <wtc:param value="<%=param%>"/>
+select_mulit_rpc.jsp:	</wtc:service>
+select_mulit_rpc.jsp:	<wtc:array id="rows" scope="end" />
+setAttr.jsp:<wtc:utype name="sSetAttrVal" id="retVal" scope="end">
+setAttr.jsp:		<wtc:uparams name="attrValArr" iMaxOccurs="1">
+setAttr.jsp:			<wtc:uparam value="<%=queryTypeId%>" type="string"/>	
+setAttr.jsp:		  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+setAttr.jsp:		  <wtc:uparam value="<%=workNo%>" type="string"/>	
+setAttr.jsp:		  <wtc:uparam value="<%=queryId%>" type="int"/>
+setAttr.jsp:		  <wtc:uparam value="<%=offerInstId%>" type="long"/>	
+setAttr.jsp:			<wtc:uparam value="<%=attrId%>" type="int"/>
+setAttr.jsp:			<wtc:uparam value="<%=attrValue%>" type="string"/>	
+setAttr.jsp:		  <wtc:uparam value="1" type="string"/>	
+setAttr.jsp:		  <wtc:uparam value="<%=opCode%>" type="string"/>	
+setAttr.jsp:		  <wtc:uparam value="<%=effT%>" type="string"/>
+setAttr.jsp:		  <wtc:uparam value="20500101000001" type="string"/>	
+setAttr.jsp:		 </wtc:uparams>		
+setAttr.jsp:</wtc:utype>
+showAttr.jsp:<wtc:utype name="sQryAttrVal" id="retVal" scope="end">
+showAttr.jsp:	<wtc:uparam value="<%=queryTypeId%>" type="STRING"/>   
+showAttr.jsp:	<wtc:uparam value="<%=queryId%>" type="int"/>   
+showAttr.jsp:	<wtc:uparam value="<%=servId%>" type="long"/>   
+showAttr.jsp:	<wtc:uparam value="<%=loginAccept%>" type="long"/>   		
+showAttr.jsp:</wtc:utype>
+showDesc.jsp:<wtc:utype name="sQryChgOfferMS" id="retVal" scope="end">
+showDesc.jsp:    <wtc:uparam value="<%=msType%>" type="INT" />	
+showDesc.jsp:    <wtc:uparam value="<%=offerId%>" type="STRING" />	
+showDesc.jsp:    <wtc:uparam value="<%=id_no%>" type="LONG" />	
+showDesc.jsp:    <wtc:uparam value="<%=opCode%>" type="STRING" />	
+showDesc.jsp:    <wtc:uparam value="<%=offidInt%>" type="LONG" />	
+showDesc.jsp:</wtc:utype>
+showDesc.jsp:<wtc:pubselect name="sPubSelect" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+showDesc.jsp: <wtc:sql><%=inputSql%></wtc:sql>
+showDesc.jsp:</wtc:pubselect>
+showDesc.jsp:<wtc:array id="result_t" scope="end"/>
+showGlbQryMem.jsp:<wtc:service name="s3257QryMem" outnum="4" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+showGlbQryMem.jsp:	<wtc:param value="<%=id_no%>" />
+showGlbQryMem.jsp:</wtc:service>
+showGlbQryMem.jsp:<wtc:array id="result" scope="end"   />
+showGroup.jsp:	<wtc:service name="sDynSqlCfm" outnum="3">
+showGroup.jsp:	  <wtc:param value="27"/>
+showGroup.jsp:	</wtc:service>
+showGroup.jsp:	<wtc:array id="result" scope="end"/>
+showGroup.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+showGroup.jsp:  <wtc:sql><%=sqlStr%></wtc:sql>
+showGroup.jsp:</wtc:pubselect>
+showGroup.jsp:<wtc:array id="rows" scope="end"/>
+showGroup.jsp:<wtc:utype name="sQGrpAttrDet" id="retVal" scope="end">
+showGroup.jsp:	<wtc:uparam value="<%=groupTypeId%>" type="LONG"/>   
+showGroup.jsp:</wtc:utype>
+showGroup.jsp:<wtc:utype name="sPMQGrpMebType" id="retTypeVal" scope="end">  
+showGroup.jsp:</wtc:utype>
+showGroup.jsp:<wtc:utype name="sPMQGrpInsRole" id="retInsVal" scope="end">
+showGroup.jsp:	<wtc:uparam value="<%=groupTypeId%>" type="LONG"/>
+showGroup.jsp:</wtc:utype>
+showPrice.jsp:<wtc:utype name="sPMQPriPln" id="retVal" scope="end">
+showPrice.jsp:				<wtc:uparam value="<%=offerId%>" type="long" />							
+showPrice.jsp:</wtc:utype>
+undoCancel.jsp:<wtc:utype name="sCutQuitOffer" id="retVal" scope="end">
+undoCancel.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+undoCancel.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+undoCancel.jsp:  <wtc:uparam value="<%=offerInstId%>" type="long"/>
+undoCancel.jsp:  <wtc:uparam value="<%=offerId%>" type="long"/>	
+undoCancel.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>
+undoCancel.jsp:  <wtc:uparam name="opCode" type="string"/>
+undoCancel.jsp:  <wtc:uparam value="<%=phoneNo%>" type="string"/>				
+undoCancel.jsp:</wtc:utype>
+undoOrder.jsp:<wtc:utype name="sCutQuitOffer" id="retVal" scope="end">
+undoOrder.jsp:  <wtc:uparam value="<%=loginAccept%>" type="long"/>
+undoOrder.jsp:  <wtc:uparam value="<%=servId%>" type="long"/>
+undoOrder.jsp:  <wtc:uparam value="<%=offerInstId%>" type="long"/>
+undoOrder.jsp:  <wtc:uparam value="<%=offerId%>" type="long"/>	
+undoOrder.jsp:  <wtc:uparam value="<%=workNo%>" type="string"/>
+undoOrder.jsp:  <wtc:uparam name="opCode" type="string"/>
+undoOrder.jsp:  <wtc:uparam value="<%=phoneNo%>" type="string"/>	
+undoOrder.jsp:</wtc:utype>

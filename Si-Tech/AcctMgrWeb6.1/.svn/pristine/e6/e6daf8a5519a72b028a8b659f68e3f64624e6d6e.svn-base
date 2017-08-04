@@ -1,0 +1,79 @@
+package com.sitech.acctmgr.atom.domains.prod;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+import java.io.Serializable;
+
+public class UserPrcDetailEntity implements Serializable {
+
+	@JSONField(name = "LOGIN_NAME")
+	@ParamDesc(path = "LOGIN_NAME", cons = ConsType.CT001, type = "String", len = "64", desc = "操作员工名字", memo = "略")
+	private String loginName;
+	
+	@JSONField(name = "GPRS_MIN_ORDER")
+	@ParamDesc(path = "GPRS_MIN_ORDER", cons = ConsType.CT001, type = "int", len = "4", desc = "流量最低优先级", memo = "略")
+	private String gprsMinOrder;
+	
+	@JSONField(name = "VOICE_DIS_ORDER")
+	@ParamDesc(path = "VOICE_DIS_ORDER", cons = ConsType.CT001, type = "int", len = "4", desc = "语音展示优先级", memo = "略")
+	private String voiceDisOrder;
+	
+	@JSONField(name = "CARRY_GPRS_FLAG")
+	@ParamDesc(path = "CARRY_GPRS_FLAG", cons = ConsType.CT001, type = "int", len = "1", desc = "流量结转标识", memo = "取值0：非结转；1：结转")
+	private int carryGprsFlag;
+	
+	@JSONField(name = "CLEAR_NAME")
+	@ParamDesc(path = "CLEAR_NAME", cons = ConsType.CT001, type = "String", len = "60", desc = "流量清零展示", memo = "略")
+	private String clearName;
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getGprsMinOrder() {
+		return gprsMinOrder;
+	}
+
+	public void setGprsMinOrder(String gprsMinOrder) {
+		this.gprsMinOrder = gprsMinOrder;
+	}
+
+	public String getVoiceDisOrder() {
+		return voiceDisOrder;
+	}
+
+	public void setVoiceDisOrder(String voiceDisOrder) {
+		this.voiceDisOrder = voiceDisOrder;
+	}
+
+	public int getCarryGprsFlag() {
+		return carryGprsFlag;
+	}
+
+	public void setCarryGprsFlag(int carryGprsFlag) {
+		this.carryGprsFlag = carryGprsFlag;
+	}
+
+	public String getClearName() {
+		return clearName;
+	}
+
+	public void setClearName(String clearName) {
+		this.clearName = clearName;
+	}
+
+	@Override
+	public String toString() {
+		return "UserPrcDetailEntity [loginName=" + loginName + ", gprsMinOrder=" + gprsMinOrder + ", voiceDisOrder="
+				+ voiceDisOrder + ", carryGprsFlag=" + carryGprsFlag + ", clearName=" + clearName + "]";
+	}
+
+	
+	
+}

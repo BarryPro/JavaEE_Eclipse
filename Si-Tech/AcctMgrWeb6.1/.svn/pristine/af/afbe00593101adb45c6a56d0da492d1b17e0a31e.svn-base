@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_detaillimit_conf">
+
+    <resultMap id="DetailLimitEntity" class="com.sitech.acctmgr.atom.domains.detail.DetailLimitEntity">
+        <result property="loginNo" column="LOGIN_NO"/>
+        <result property="opCode" column="OP_CODE"/>
+        <result property="powerType" column="POWER_TYPE"/>
+        <result property="opTime" column="OP_TIME"/>
+        <result property="lastTime" column="LAST_TIME"/>
+        <result property="maxQuerySum" column="MAX_QUERY_SUM"/>
+        <result property="usedSum" column="USED_SUM"/>
+    </resultMap>
+
+    <select id="qryDetailLimitConf" parameterClass="Map" resultMap="DetailLimitEntity">
+        SELECT LOGIN_NO, OP_CODE, POWER_TYPE, TO_CHAR(OP_TIME, 'YYYYMM') AS OP_TIME,
+        TO_CHAR(LAST_TIME, 'YYYYMM') AS LAST_TIME, MAX_QUERY_SUM, USED_SUM
+        FROM ACT_DETAILLIMIT_CONF
+        WHERE LOGIN_NO = #LOGIN_NO#
+        AND OP_CODE = #OP_CODE#
+        AND POWER_TYPE = #POWER_TYPE#
+    </select>
+
+    <insert id="instDetailLimitConf" parameterClass="Map">
+        INSERT INTO ACT_DETAILLIMIT_CONF (LOGIN_NO, OP_CODE, POWER_TYPE, OP_TIME, LAST_TIME, MAX_QUERY_SUM, USED_SUM, OP_NOTE)
+        VALUES (#LOGIN_NO#, #OP_CODE#, #POWER_TYPE#, SYSDATE, SYSDATE, #MAX_QUERY_SUM#, #USED_SUM#, #OP_NOTE#)
+    </insert>
+
+    <update id="updDetailLimit" parameterClass="Map">
+        UPDATE ACT_DETAILLIMIT_CONF
+        SET LAST_TIME = OP_TIME, OP_TIME = SYSDATE
+        <dynamic prepend="">
+            <isEmpty prepend="" property="IS_FIRST">
+                , USED_SUM = USED_SUM + 1
+            </isEmpty>
+            <isNotEmpty prepend="" property="IS_FIRST">
+                , USED_SUM = 1
+            </isNotEmpty>
+        </dynamic>
+        WHERE LOGIN_NO = #LOGIN_NO#
+        AND OP_CODE = #OP_CODE#
+        AND POWER_TYPE = #POWER_TYPE#
+    </update>
+</sqlMap>

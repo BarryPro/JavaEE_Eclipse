@@ -1,0 +1,101 @@
+@charset "utf-8";
+/*
+*Copyright (c) 2011, si-tech! Inc. All rights reserved.
+*description: 全球通账单CSS
+*version: 1.0.0
+*author: kevin.uid.sc.si-tech
+*creat: 2011-11-1
+*update: 2011-11-1&kevin
+*/
+body {height:100%;overflow-x:hidden;font-size:12px;background:#FFF url(../images/bg.gif) center top repeat-y;font-family:Microsoft YaHei, Segoe UI Light, Segoe UI, Tahoma, Arial, Verdana, sans-serif;}
+.container{width:1007px;overflow:hidden;margin:0 auto;background:#f7f6f1;}
+.columtitle {height:50px;padding:0px 0 0 270px;margin-top:-47px;overflow:hidden;}
+.columtitle i {font-size:30px;line-height:50px;color:#FFF;}
+.columtitle em {padding-left:20px;color:#FFF; font-style:italic;}
+h2 {color:#0066cc;font-size:18px;line-height:2em; padding-left:15px;}
+table {line-height:2em;border-collapse:collapse;border-spacing:0;}
+table thead td {text-align:left;color:#333;}
+table th {color:#FFF;}
+table td {padding:0 5px}
+.trbg1 {background:#4797e7;}
+.trbg2 {background:#ebe7de;}
+table .space {width:10px;padding:0;background:#f7f6f1;}
+.font1 {color:#0066cc;font-size:12px;line-height:1.5em;}
+.fontcolor2 {color:#75726D;}
+.dot1 {padding-left:40px!important;}
+.borderB {border-bottom:2px solid #f7f6f1}
+.tralink a {color:#FFF;font-size:12px;}
+/*----email style---*/
+body.email {font-size:12px;}
+body.email .columtitle {font-family:Microsoft YaHei;}
+body.email .columtitle em {font-size:14px;}
+span.icon {width:10px;height:10px;margin-top:10px;float:left;font-size:1px;border:1px solid #CCC;}
+body.email span.icon{margin-top:6px;_overflow:hidden;}
+
+.noprint {display : none } 
+.table-01 {
+	border-left: 1px solid #4797e7;
+	border-top: 1px solid #4797e7;
+	color: #333;
+	margin:10px 8px;
+	_margin:10px 5px;
+	_float:left;
+}
+.table-01 th, .table-01 td {
+	border-right: 1px solid #4797e7;
+	border-bottom: 1px solid #4797e7;
+	padding: 3px;
+	font-weight: normal;
+}
+.table-01 th {
+	background: #99ccff;
+	text-align: left;
+	white-space: nowrap;
+	color: #00478d;
+}
+.table-01 td {
+	background: #fff;
+	text-align: left;
+}
+.table-01 .tC th, .table-01 .tC td, .table-01 th.tC, .table-01 td.tC{text-align:center;}
+.table-01 th.tL, .table-01 td.tL{text-align:left;}
+.table-01 .tR th, .table-01 .tR td, .table-01 th.tR, .table-01 td.tR{text-align:right;}
+.table-01 td.allbg{background:#ecf7ff; font-weight:bold}
+.table-01 td.noborder-left{ border-left:0}
+.table-01 td.noborder-right{border-right:0}
+.table-01 td.PL25 {padding-left:25px;}
+.table-01 .noPM {padding:0;margin:0;border:none;}
+.table-01 .space {background:#FFF;border:0;border-right:1px solid #4797e7;}
+.table-02 {
+	border: 1px solid #4797e7; 
+	margin:10px;
+	_margin-right:5px;
+	background:#efefef;
+}
+.table-02 th, .table-02 td {
+	padding: 3px;
+	font-weight: normal;
+}
+.table-03 {
+	border: 1px solid #4797e7; 
+	margin:10px;
+	_margin-right:5px;
+}
+.table-04 {
+	border: 1px solid #4797e7; 
+	margin:10px;
+	_margin-right:5px;
+}
+.table-05 {
+	border: 1px solid #4797e7; 
+	margin:0px;
+	_margin-right:5px;
+}
+.table-01 tr.allbg td{background:#78c5ff !important}
+
+.footer{width:1007px;height:80px;background:#f7f6f1;}
+.footer p.slogans {text-align:right;font-size:20px;font-weight:bold;font-style:italic;color:#4797e7;line-height:3em; padding-right:15px;}
+
+.toolbar {height:30px;margin-top:30px;padding:15px 10px;background:#EEE;border-top:1px solid #CCC;text-align:center;}
+.toolbar input {width:100px;height:29px;margin:0px 10px;background:url(../images/btn.jpg) no-repeat;border:none;text-align:center;font-size:14px;font-weight:bold; letter-spacing:5px;cursor:pointer;}
+.toolbar input:hover {color:#C30;}

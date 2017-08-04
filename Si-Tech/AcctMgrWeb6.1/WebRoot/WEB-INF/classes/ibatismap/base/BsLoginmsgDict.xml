@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bs_loginmsg_dict">
+  <typeAlias alias="BsLoginmsgDict" type="com.sitech.acctmgr.atom.domains.base.LoginEntity"/>
+	<select id="qByLoginNo" parameterClass="Map" resultClass="BsLoginmsgDict">
+		select group_id groupId,
+		login_name loginName,
+		login_type loginType,
+		decode(substr(login_no, -5), 'a1860', 1, 0) as lgn,
+		power_right powerRight,
+		login_password loginPassword,
+		org_group orgGroup,
+		CONTACT_PHONE contactPhone
+		from bs_loginmsg_dict
+		where login_no=#LOGIN_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PROVINCE_ID">
+				AND PROVINCE_ID = #PROVINCE_ID#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

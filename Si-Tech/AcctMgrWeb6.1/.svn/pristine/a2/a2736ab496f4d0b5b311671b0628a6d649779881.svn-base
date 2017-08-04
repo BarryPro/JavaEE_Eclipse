@@ -1,0 +1,7 @@
+package com.sitech.acctmgr.atom.dto.volume;
+
+import com.sitech.acctmgr.common.dto.CommonOutDTO;
+@SuppressWarnings("serial")
+public class VolumeBookShareOutDTO extends CommonOutDTO {
+
+}

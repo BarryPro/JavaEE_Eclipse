@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="bal_paybacklimit_dist_conf">
+	<typeAlias alias="districtLimitEnt" type="com.sitech.acctmgr.atom.domains.pay.DistrictLimitEntity"/>
+  	<select id="qDistrictLimitConf"  parameterClass="Map" resultClass = "districtLimitEnt">
+    select REGION_GROUP regionGroup,LIMIT_TYPE limitType,LIMIT_CYCLE limitCycle,LIMIT_DAY_FEE limitDayFee,BACKED_DAY_FEE backedDayFee,LIMIT_MONTH_FEE limitMonthFee,BACKED_MONTH_FEE backedMonthFee,MSG_MONTH_FLAG msgMonthFlag,MSG_DAY_FLAG msgDayFlag,MSG_PHONE msgPhone 
+    from BAL_PAYBACKLIMIT_DIST_CONF 
+	where REGION_GROUP=#REGION_GROUP# and DISTRICT_GROUP=#DISTRICT_GROUP# and LIMIT_TYPE=#LIMIT_TYPE#
+  	</select>
+  	<update id="upCMonthFee" parameterClass="Map">
+  	update bal_paybacklimit_dist_conf SET backed_month_fee = #BACKED_MONTH_FEE#
+  	where region_group = #REGION_GROUP# and limit_type=#LIMIT_TYPE# and district_group = #DISTRICT_GROUP#
+  	</update>
+  	
+  	<update id="upCDayFee" parameterClass="Map">
+  	update bal_paybacklimit_dist_conf SET backed_day_fee = #BACKED_DAY_FEE# 
+    where region_group = #REGION_GROUP# and limit_type=#LIMIT_TYPE#  and district_group = #DISTRICT_GROUP#
+  	</update>
+  	
+  	<update id="upCMonthF" parameterClass="Map">
+  	update bal_paybacklimit_dist_conf SET msg_month_flag = '1' where region_group = #REGION_GROUP# and limit_type=#LIMIT_TYPE# and district_group = #DISTRICT_GROUP# 
+    </update>
+    
+    <update id="upCDayF" parameterClass="Map">
+  	update bal_paybacklimit_dist_conf SET msg_day_flag = '1' where region_group = #REGION_GROUP# and limit_type=#LIMIT_TYPE# and district_group = #DISTRICT_GROUP# 
+    </update>
+    
+    <update id="upDistrictLimit" parameterClass="Map">
+  	UPDATE BAL_PAYBACKLIMIT_DIST_CONF SET LIMIT_MONTH_FEE = #DISTRICT_MONTH_LIMIT#,LIMIT_DAY_FEE = #DISTRICT_DAY_LIMIT#,MSG_PHONE = #MSG_PHONE#
+   	 WHERE REGION_GROUP = #REGION_GROUP# AND DISTRICT_GROUP = #DISTRICT_GROUP# AND LIMIT_TYPE = #LIMIT_TYPE#
+    </update>
+</sqlMap>

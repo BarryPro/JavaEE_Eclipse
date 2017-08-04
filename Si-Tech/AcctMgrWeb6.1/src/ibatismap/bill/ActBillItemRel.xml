@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_billitem_rel">
+    <typeAlias alias="BillItemEnt" type="com.sitech.acctmgr.atom.domains.bill.BillItemEntity"/>
+    <select id="qItemRelByItemId" parameterClass="Map" resultClass="BillItemEnt">
+        SELECT
+        ITEM_ID AS acctItemCode,
+        PARENT_ITEM_ID AS parentItemId,
+        CURRENT_LEVEL as currentLevel
+        FROM ACT_BILLITEM_REL
+        WHERE 1= 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="PARENT_LEVEL">
+                AND PARENT_LEVEL= #PARENT_LEVEL#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CURRENT_LEVEL">
+                AND CURRENT_LEVEL = #CURRENT_LEVEL#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="PARENT_ITEM_ID">
+                AND PARENT_ITEM_ID= #PARENT_ITEM_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="ITEM_ID">
+                AND ITEM_ID= #ITEM_ID#
+            </isNotEmpty>
+        </dynamic>
+
+    </select>
+
+    <select id="qParentIdByItemId" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT B.ITEM_ID ITEM_ID, B.ITEM_NAME ITEM_NAME,A.PARENT_ITEM_ID PARENT_ITEM_ID,A.PARENT_LEVEL PARENT_LEVEL
+        FROM ACT_BILLITEM_REL A, ACT_BILLITEM_CONF B
+        WHERE A.PARENT_ITEM_ID = B.ITEM_ID
+        AND A.ITEM_ID = #ACCT_ITEM_CODE#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="PARENT_LEVEL">
+                AND PARENT_LEVEL=#PARENT_LEVEL#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="qChildIdByItemId" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT ITEM_ID,CURRENT_LEVEL
+        FROM ACT_BILLITEM_REL
+        WHERE PARENT_ITEM_ID = #ITEM_CODE#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="CURRENT_LEVEL">
+                AND CURRENT_LEVEL=#CURRENT_LEVEL#
+            </isNotEmpty>
+        </dynamic>
+
+    </select>
+
+</sqlMap>

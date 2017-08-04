@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_credit_info">
+
+	<typeAlias alias="CctCreditInfo"
+		type="com.sitech.acctmgr.atom.domains.cct.CreditInfoEntity" />
+	<select id="qCreditInfoById" parameterClass="Map" resultClass="CctCreditInfo">
+		SELECT CREDIT_CLASS creditClass,
+		REGION_ID regionId,
+		CREDIT_FEE creditFee,
+		STOP_FLAG stopFlag,
+		OWE_FLAG oweFlag,
+		VALID_FLAG validFlag,
+		TO_CHAR (BEGIN_TIME, 'YYYYMMDDHH24MISS') beginTime,
+		TO_CHAR(END_TIME,'YYYYMMDDHH24MISS') endTime,
+		NVL(SUBSTR(TO_CHAR(BEGIN_TIME,'YYYYMMDDHH24MISS'),1,4),' ') beginYear,
+		NVL(SUBSTR(TO_CHAR(BEGIN_TIME, 'YYYYMMDDHH24MISS'),5,2),' ') beginMonth,
+		NVL(SUBSTR(TO_CHAR(END_TIME, 'YYYYMMDDHH24MISS'),1,4),' ') endYear,
+		NVL(SUBSTR(TO_CHAR(END_TIME, 'YYYYMMDDHH24MISS'),5,2),' ') endMonth
+		FROM CCT_CREDIT_INFO
+		WHERE ID_NO= #ID_NO#
+		AND SYSDATE BETWEEN
+		BEGIN_TIME AND END_TIME
+		and VALID_FLAG='1'
+
+	</select>
+
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT
+		COUNT(*) CNT FROM CCT_CREDIT_INFO WHERE ID_NO=#ID_NO#
+	</select>
+	
+	<!-- <update id="uDnyCredit" parameterClass="CctCreditInfo">
+		update cct_credit_info
+		set limit_owe=#limitOwe#,
+		end_time=to_date(#endTime#,'YYYYMMDD')
+		where
+		ID_NO = #idNo#
+	</update> -->
+
+	<insert id="iCreditInfo" parameterClass="CctCreditInfo">
+		INSERT INTO
+		CCT_CREDIT_INFO (ID_NO, REGION_ID, CREDIT_CLASS, CREDIT_FEE,
+		STOP_FLAG, OWE_FLAG, VALID_FLAG, BEGIN_TIME, END_TIME, SEND_FLAG,
+		PHONE_NO,LIMIT_OWE)
+		VALUES (#idNo#, #regionId#, 'S', '0', '1', '1',
+		'1', sysdate,
+		to_date(#endTime#,'YYYYMMDD'), '1', #phoneNo#,
+		#limitOwe#)
+	</insert>
+
+	<insert id="iCreditInfo1" parameterClass="Map">
+		insert into
+		CCT_CREDIT_INFO
+		select
+		#ID_NO#,#REGION_ID#,#CREDIT_CLASS#,'0','0','0','1',SYSDATE,SYSDATE+365,2,#PHONE_NO#
+		FROM DUAL
+	</insert>
+	
+	<select id="qNoDateCreditInfoById" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT CREDIT_CLASS, CREDIT_FEE, STOP_FLAG, OWE_FLAG, VALID_FLAG,decode(VALID_FLAG,1,'生效',0,'取消') as VALID_NAME
+		FROM CCT_CREDIT_INFO
+		WHERE ID_NO= #ID_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend=" AND" property="VALID_FLAG">
+				valid_flag=#VALID_FLAG#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="uCreditInfo" parameterClass="Map">
+		UPDATE CCT_CREDIT_INFO
+		SET id_no=id_no
+		<dynamic prepend=" ">
+			<isNotEmpty prepend="" property="CREDIT_CLASS">
+				,CREDIT_CLASS=#CREDIT_CLASS#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STOP_FLAG_NEW">
+				,stop_flag=#STOP_FLAG_NEW#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="OWE_FLAG_NEW">
+				,owe_flag=#OWE_FLAG_NEW#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="VALID_FLAG">
+				,valid_flag=#VALID_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="VALIDATE_TIME">
+				,begin_time=sysdate,end_time=ADD_MONTHS(SYSDATE,TO_NUMBER(#VALIDATE_TIME#))
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CREDIT_FEE">
+				,credit_fee=#CREDIT_FEE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CREDIT_GRADE_NEW">
+				,credit_class=#CREDIT_GRADE_NEW#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="SEND_FLAG">
+				,send_flag=#SEND_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="START_DAY_STR">
+				,begin_time=to_date(#START_DAY_STR#,'yyyy-MM-dd')
+				,end_time=to_date(#END_DAY_STR#,'yyyy-MM-dd')
+			</isNotEmpty>
+
+		</dynamic>
+		WHERE ID_NO=#ID_NO#
+	</update>
+	
+	
+</sqlMap>
+  
+   

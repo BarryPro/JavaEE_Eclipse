@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="cct_business_ctrl">
+	
+  <typeAlias alias="CctBusinessEntity" type="com.sitech.acctmgr.atom.domains.cct.CctBusinessEntity"/>
+  <select id="qCctBusiCtrlForQuery"  parameterClass="Map" resultClass="CctBusinessEntity">
+	SELECT CTRL_FLAG ctrlFlag FROM CCT_BUSINESS_CTRL WHERE (REGION_ID = #PROVINCE_ID# OR REGION_ID=#REGION_ID#) 
+      AND CTRL_NO = #CTRL_NO# AND SYSDATE BETWEEN EFF_TIME AND EXP_TIME AND ROWNUM <![CDATA[ < ]]> 2
+  </select>
+  
+  <select id="qCtrlFlag"  parameterClass="Map" resultClass="CctBusinessEntity">
+	SELECT CTRL_FLAG ctrlFlag FROM CCT_BUSINESS_CTRL 
+	WHERE CTRL_NO= #CTRL_NO# AND OP_CODE=#OP_CODE#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="" property="REGION_ID">
+    		and REGION_ID= #REGION_ID#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+	  
+</sqlMap>
+  
+   

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dcustfavmsg">
+
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(*) FROM DCUSTFAVMSG$SUFFIX$
+		WHERE ID_NO = #ID_NO#
+		AND SYSDATE BETWEEN TO_DATE(FAV_BEGIN,'YYYYMMDDHH24MISS') AND TO_DATE(FAV_END,'YYYYMMDDHH24MISS')
+		<dynamic>
+			<isNotEmpty prepend="" property="FAVOUR_TYPE">
+				AND FAVOUR_TYPE IN 
+				<iterate prepend="" close=")" conjunction="," open="(" property="FAVOUR_TYPE">
+					#FAVOUR_TYPE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="FAVOUR_CODE">
+				AND FAVOUR_CODE <![CDATA[<>]]> #FAVOUR_CODE#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY FAV_END DESC
+	</select>
+
+</sqlMap>

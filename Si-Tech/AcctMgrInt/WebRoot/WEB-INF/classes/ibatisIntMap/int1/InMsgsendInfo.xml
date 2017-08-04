@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgsend_info_INT">
+   
+<!-- BLOB 操作方式处理 --> 
+<typeAlias alias="odrLineContVO" type="com.sitech.acctmgrint.atom.busi.intface.odrblob.OdrLineContVO"/>
+ <resultMap id="odrLineContVOMap" class="OdrLineContVO">
+  <result property="gsTopicId"   column="TOPIC_ID"/>
+  <result property="gbContent"   column="CONTENT" jdbcType="BLOB" javaType="java.lang.Byte"/>
+  <result property="gsOpCode"    column="OP_CODE"/>
+  <result property="gsDataSrc"   column="DATA_SOURCE"/>
+  <result property="gsBusiidNo"  column="BUSIID_NO"/>
+  <result property="gsBusiidType" column="BUSIID_TYPE"/>
+  <result property="gsLoginAct"  column="LOGIN_ACCEPT"/>
+  <result property="glCreatAct"  column="CREATE_ACCEPT"/>
+  <result property="gsLoginNo"   column="LOGIN_NO"/>
+  <result property="gsTimeDelay"   column="TIME_DELAY"/>
+ </resultMap>
+
+	<insert id="insertOdrCont" parameterClass="odrLineContVO">
+	  INSERT INTO IN_MSGSEND_INFO (CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, 
+	  		CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO)
+	  VALUES (#glCreatAct#, #gsDataSrc#, #gsBusiidNo#, #gsBusiidType#, #gsTopicId#, 
+	  		#gbContent:BLOB#, #gsLoginAct#, SYSDATE+#gsTimeDelay#, #gsOpCode#, #gsLoginNo#)
+	</insert>
+	
+</sqlMap>

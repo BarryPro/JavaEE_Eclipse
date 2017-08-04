@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_userexpire_info">
+
+    <typeAlias alias="BalUserexpireInfo" type="com.sitech.acctmgr.atom.domains.user.UserExpireEntity"/>
+    <select id="qUserexpireInfoByIdNo" parameterClass="Map" resultClass="BalUserexpireInfo">
+        SELECT TO_CHAR(EXPIRE_TIME,'YYYY-MM-DD HH24:MI:SS') expireTime, EXPIRE_TIME_TYPE expireTimeType,
+        TO_CHAR(BEGIN_TIME,'YYYY-MM-DD HH24:MI:SS') beginTime,TO_CHAR(OLD_EXPIRE,'YYYY-MM-DD HH24:MI:SS') oldExpire,BAK_FIELD bakField,
+        FLOOR(EXPIRE_TIME-SYSDATE) expireDays,TO_CHAR(EXPIRE_TIME,'YYYYMMDDHH24MISS') expireTime1,
+        TO_CHAR(BEGIN_TIME,'YYYYMMDDHH24MISS') beginTime1,TO_CHAR(OP_TIME,'YYYY-MM-DD HH24:MI:SS') opTime,
+        TO_CHAR(EXPIRE_TIME+95,'YYYYMMDD') keepTime, BEGIN_FLAG beginFlag
+        FROM BAL_USEREXPIRE_INFO WHERE  ID_NO = #ID_NO# AND FINISH_FLAG='Y'
+    </select>
+
+    <select id="qIsExpireByIdNo" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT COUNT(1) COUNT
+        FROM BAL_USEREXPIRE_INFO
+        WHERE ID_NO = #ID_NO#
+        AND FINISH_FLAG = 'Y'
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="TIME_FLAG">
+                AND SYSDATE BETWEEN BEGIN_TIME AND EXPIRE_TIME
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <update id="uUserexpireForExpire" parameterClass="Map">
+        UPDATE BAL_USEREXPIRE_INFO
+        SET OLD_EXPIRE = TO_DATE(#OLD_EXPIRE#, 'YYYY-MM-DD HH24:MI:SS'),
+        EXPIRE_TIME = TO_DATE(#EXPIRE_TIME#, 'YYYY-MM-DD HH24:MI:SS'),
+        FINISH_FLAG = #FINISH_FLAG#,
+        OP_TIME = TO_DATE(#OP_TIME#, 'YYYY-MM-DD HH24:MI:SS')
+        WHERE ID_NO = #ID_NO#
+        AND FINISH_FLAG = 'Y'
+    </update>
+
+    <update id="uExpire" parameterClass="Map">
+        UPDATE BAL_USEREXPIRE_INFO
+        SET OLD_EXPIRE = TO_DATE(#OLD_EXPIRE#, 'YYYYMMDDHH24MISS'),
+        EXPIRE_TIME = TO_DATE(#EXPIRE_TIME#, 'YYYYMMDDHH24MISS'),
+        OP_TIME = SYSDATE
+        WHERE ID_NO = #ID_NO#
+        AND FINISH_FLAG = 'Y'
+    </update>
+    
+    <update id="uCEasyOwnExpire" parameterClass="Map">
+        UPDATE BAL_USEREXPIRE_INFO 
+        SET FINISH_FLAG='C' 
+        WHERE ID_NO=#ID_NO#
+        AND FINISH_FLAG='Y'
+    </update>
+
+</sqlMap>

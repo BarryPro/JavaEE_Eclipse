@@ -1,0 +1,158 @@
+package com.sitech.acctmgr.atom.impl.acctmng;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sitech.acctmgr.atom.busi.invoice.inter.IPrintDataXML;
+import com.sitech.acctmgr.atom.domains.collection.CollectionDispEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvNoOccupyEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvcCollEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvcCollPrintEntity;
+import com.sitech.acctmgr.atom.domains.invoice.PrtXmlEntity;
+import com.sitech.acctmgr.atom.dto.acctmng.SCollectionOrderPrintInDTO;
+import com.sitech.acctmgr.atom.dto.acctmng.SCollectionOrderPrintOutDTO;
+import com.sitech.acctmgr.atom.dto.acctmng.SCollectionOrderQueryInDTO;
+import com.sitech.acctmgr.atom.dto.acctmng.SCollectionOrderQueryOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.ICollection;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.constant.CommonConst;
+import com.sitech.acctmgr.inter.acctmng.ICollectionOrder;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ * Created by wangyla on 2016/7/5.
+ */
+@ParamTypes({
+        @ParamType(c = SCollectionOrderQueryInDTO.class, m = "query", oc = SCollectionOrderQueryOutDTO.class),
+        @ParamType(c = SCollectionOrderPrintInDTO.class, m = "print", oc = SCollectionOrderPrintOutDTO.class)
+})
+public class SCollectionOrder extends AcctMgrBaseService implements ICollectionOrder {
+    private ICollection collection;
+    private IPrintDataXML printDataXML;
+
+    @Override
+    public OutDTO query(InDTO inParam) {
+
+        SCollectionOrderQueryInDTO inDTO = (SCollectionOrderQueryInDTO) inParam;
+        log.info("inDTO=" + inDTO.getMbean());
+
+        List<CollectionDispEntity> outList = collection.getCollectionOrderList(inDTO.getDisGroupId(), inDTO.getBillCycle(), inDTO.getBeginBankCode(),
+                inDTO.getEndBankCode(), inDTO.getBeginPrintNo(), inDTO.getEndPrintNo(), inDTO.getProvinceId(), false);
+
+        SCollectionOrderQueryOutDTO outDTO = new SCollectionOrderQueryOutDTO();
+        outDTO.setOutList(outList);
+        outDTO.setCount(outList.size());
+
+        log.debug("outDto=" + outDTO.toJson());
+
+        return outDTO;
+    }
+
+    @Override
+    public OutDTO print(InDTO inParam) {
+        SCollectionOrderPrintInDTO inDTO = (SCollectionOrderPrintInDTO) inParam;
+        log.info("inDTO=" + inDTO.getMbean());
+
+        String printDate = inDTO.getPrintDate();
+        int iBillCycle = inDTO.getBillCycle();
+        boolean saveFlag /*托收发票数据入库标识*/ = inDTO.getSaveFlag().equals("1") ? true : false;
+
+        List<InvNoOccupyEntity> invNoList = inDTO.getInvNoList();
+
+        if (invNoList == null || invNoList.size() == 0) {
+            throw new BusiException(AcctMgrError.getErrorCode("8226", "80005"), "未占用成功发票资源，不可打印发票");
+        }
+
+        //获取银行托收单信息
+        List<CollectionDispEntity> outList =
+                collection.getCollectionOrderList(inDTO.getDisGroupId(), inDTO.getBillCycle(), inDTO.getBeginBankCode(),
+                        inDTO.getEndBankCode(), inDTO.getBeginPrintNo(), inDTO.getEndPrintNo(), inDTO.getProvinceId(), true);
+
+        if (outList.size() == 0) {
+            throw new BusiException(AcctMgrError.getErrorCode("8226", "80006"), "无可打印的托收单");
+        }
+
+        for (CollectionDispEntity collEnt : outList) {
+            collEnt.setPrintDate(printDate);
+        }
+
+        int invcNum = invNoList.size() > 100 ? 100 : invNoList.size();
+        log.debug("总共可打印[" + outList.size() + "]个托收帐户,占用[" + invNoList.size() + "]张发票,实际打印张数[" + invcNum + "],outList=" + outList.toString());
+
+        InvcCollPrintEntity invcPrintEnt = new InvcCollPrintEntity();
+        List<InvcCollEntity> invcCollList = new ArrayList<InvcCollEntity>();
+
+        invcPrintEnt.setInvcNum(invcNum);
+        invcPrintEnt.setPrintDate(printDate);
+        invcPrintEnt.setLoginNo(inDTO.getLoginNo());
+        invcPrintEnt.setOpCode(inDTO.getOpCode());
+        invcPrintEnt.setInvNoList(invNoList);
+        invcPrintEnt.setInvcType(CommonConst.TSFP_TYPE);
+        invcPrintEnt.setGroupId(inDTO.getGroupId());
+        int printLimitNum = 0;
+        for (CollectionDispEntity collOrderEnt : outList) {
+            printLimitNum++;
+            if (printLimitNum > 100) {
+                log.info("一次只可打印100张托收发票");
+                break;
+            }
+            if (printLimitNum > invcNum) {
+                log.info("成功占用发票[" + invNoList.size() + "]张，只可打印[" + invcNum + "]张发票");
+                break;
+            }
+
+            InvcCollEntity invcEnt = new InvcCollEntity();
+            invcEnt.setBillCycle(collOrderEnt.getBillCycle());
+            invcEnt.setBeginYmd(collOrderEnt.getBeginYmd());
+            invcEnt.setEndYmd(collOrderEnt.getEndYmd());
+            invcEnt.setPhoneNo(collOrderEnt.getPhoneNo());
+            invcEnt.setContractNo(collOrderEnt.getContractNo());
+            invcEnt.setBankCode(collOrderEnt.getBankCode());
+            invcEnt.setPrintNo(collOrderEnt.getPrintNo());
+            invcEnt.setContractName(collOrderEnt.getContractName());
+            invcEnt.setPayeeContractName(collOrderEnt.getPayeeContractName());//需要读取配置
+            invcEnt.setAccountNo(collOrderEnt.getAccountNo());
+            //invcEnt.setAccountNoColl("42200220209000030711"); //需要读取配置
+            invcEnt.setPayeeAccountNo(collOrderEnt.getPayeeAccountNo()); //需要读取配置
+            invcEnt.setBankName(collOrderEnt.getBankName());
+            invcEnt.setBankNameColl(collOrderEnt.getPayeeBankName());
+            invcEnt.setPayFee(collOrderEnt.getPayFee());
+            invcEnt.setLongDisFee(collOrderEnt.getLongDisFee());
+            invcEnt.setOtherFee(collOrderEnt.getOtherFee());
+            invcEnt.setRoamFee(collOrderEnt.getRoamFee());
+            invcCollList.add(invcEnt);
+        }
+        invcPrintEnt.setInvFeeList(invcCollList);
+
+        List<PrtXmlEntity> pxeList = printDataXML.getCollPrintDataXML(invcPrintEnt, saveFlag);
+        log.debug("pxeList=" + pxeList.toString());
+
+        SCollectionOrderPrintOutDTO outDTO = new SCollectionOrderPrintOutDTO();
+        outDTO.setPrtInfo(pxeList);
+
+        log.info("outDto=" + outDTO.toJson());
+        return outDTO;
+    }
+
+    public ICollection getCollection() {
+        return collection;
+    }
+
+    public void setCollection(ICollection collection) {
+        this.collection = collection;
+    }
+
+    public IPrintDataXML getPrintDataXML() {
+        return printDataXML;
+    }
+
+    public void setPrintDataXML(IPrintDataXML printDataXML) {
+        this.printDataXML = printDataXML;
+    }
+
+}

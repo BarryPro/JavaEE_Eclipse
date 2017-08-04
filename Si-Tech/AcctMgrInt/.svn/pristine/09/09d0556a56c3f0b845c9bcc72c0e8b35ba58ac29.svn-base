@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 实体层基类 抽象类，不能实例化-->
+    <bean id="baseBusi" class="com.sitech.acctmgr.common.BaseBusi" abstract="true">
+        <property name="baseDao" ref="baseDao"/>
+    </bean>
+
+
+    <!-- 实体层 -->
+    <!-- 公共实体 -->
+	
+	
+</beans>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	
+	function  Tune(song,artist){
+		this.title1=song;
+		this.artist1=artist;
+		this.summary='Perfect';
+		this.concat1=function(x){
+			
+			return this.title1+"-"+this.artist1+'-'+this.summary+'-'+x;
+		}
+		
+	}
+	window.onload=function(){
+		var happySong=new Array();
+		happySong[0]=new Tune("wei","kun");
+		alert(happySong[0].concat1('Hello')+happySong[0].title1);
+		
+	}
+
+</script>
+</head>
+<body>
+	
+</body>
+</html>

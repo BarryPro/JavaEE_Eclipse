@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_bookpayout_info">
+
+
+<typeAlias alias="BalBookpayoutInfo" type="com.sitech.acctmgr.atom.domains.balance.BookPayoutEntity"/>
+  <select id="qBookPayOutFeeByPaySn"  parameterClass="Map" resultClass="BalBookpayoutInfo">
+    SELECT NVL(SUM(OUT_BALANCE),0) outBalance, NVL(SUM(DELAY_FEE),0) delayFee,
+	NVL(SUM(DELAY_FAVOUR),0) delayFavour
+	FROM BAL_BOOKPAYOUT_INFO
+	WHERE PAY_SN = #PAY_SN#
+	AND YEAR_MONTH = #SUFFIX#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    		ID_NO = #ID_NO# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="BALANCE_ID">
+    		BALANCE_ID = #BALANCE_ID# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		CONTRACT_NO = #CONTRACT_NO# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_TYPE">
+    		PAY_TYPE = #PAY_TYPE# 
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+
+  
+  <insert id="iBookPayOutInfo"  parameterClass="Map" >
+  	INSERT INTO BAL_BOOKPAYOUT_INFO (PAYOUT_SN,PAY_SN,WRTOFF_SN,CONTRACT_NO,ID_NO,BALANCE_ID,PAY_TYPE,OPER_TYPE
+		,OUT_BALANCE,DELAY_FEE, DELAY_FAVOUR,STATUS,GROUP_ID,LOGIN_NO,OP_TIME, YEAR_MONTH) 
+	VALUES(SEQ_PAYOUT_SN.NEXTVAL,#PAY_SN#,#WRTOFF_SN#,#CONTRACT_NO#,#ID_NO#,#BALANCE_ID#,#PAY_TYPE#, #OPER_TYPE#
+		,#OUT_BALANCE#,#DELAY_FEE#,#DELAY_FAVOUR#, #STATUS#,#GROUP_ID#,#LOGIN_NO#,SYSDATE, #YEAR_MONTH#)
+  </insert>
+  
+  <select id="qBookPayoutByPaySn"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT PAYOUT_SN , PAY_SN , WRTOFF_SN , CONTRACT_NO , ID_NO , BALANCE_ID , PAY_TYPE ,
+    	OPER_TYPE , OUT_BALANCE , DELAY_FEE , DELAY_FAVOUR , STATUS , GROUP_ID , LOGIN_NO
+	FROM BAL_BOOKPAYOUT_INFO
+	WHERE YEAR_MONTH = #SUFFIX#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    		ID_NO = #ID_NO:LONG# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="BALANCE_ID">
+    		BALANCE_ID = #BALANCE_ID:LONG# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		CONTRACT_NO = #CONTRACT_NO:LONG# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_TYPE">
+    		PAY_TYPE = #PAY_TYPE# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    		PAY_SN = #PAY_SN:LONG#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <select id="qWrtoffsn"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT WRTOFF_SN, CONTRACT_NO, NVL(SUM(OUT_BALANCE),0) PAYED_OWE ,NVL(SUM(DELAY_FEE),0) PAYED_DELAY
+    FROM   BAL_BOOKPAYOUT_INFO WHERE BALANCE_ID= #BALANCE_ID#
+    	AND YEAR_MONTH = #SUFFIX#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="" property="PAY_SN">
+    		AND PAY_SN= #PAY_SN#
+    	</isNotEmpty>
+    </dynamic>
+    AND STATUS='0' GROUP BY WRTOFF_SN, CONTRACT_NO
+  </select>
+  
+  <update id="uByBalIdPaySn"  parameterClass="Map" >
+    UPDATE BAL_BOOKPAYOUT_INFO  SET STATUS= #STATUS# 
+    WHERE BALANCE_ID = #BALANCE_ID# AND   STATUS='0'
+      AND YEAR_MONTH = #SUFFIX#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="" property="PAY_SN">
+    		AND PAY_SN= #PAY_SN#
+    	</isNotEmpty>
+    </dynamic>
+  </update>
+  
+  <insert id="iForRoback"  parameterClass="Map" >
+    INSERT INTO BAL_BOOKPAYOUT_INFO (PAYOUT_SN,PAY_SN,WRTOFF_SN,CONTRACT_NO,ID_NO,BALANCE_ID,PAY_TYPE,OPER_TYPE,
+    		OUT_BALANCE ,DELAY_FEE, DELAY_FAVOUR,STATUS,GROUP_ID,LOGIN_NO,OP_TIME, YEAR_MONTH) 
+     SELECT SEQ_PAYOUT_SN.NEXTVAL, #PAY_BACK_SN# , #BACK_WRTOFF_SN# ,CONTRACT_NO,ID_NO,BALANCE_ID,PAY_TYPE, #OPER_TYPE#,
+           (-1)*OUT_BALANCE ,(-1)*DELAY_FEE, (-1)*DELAY_FAVOUR,#STATUS#, #GROUP_ID# , #LOGIN_NO#,SYSDATE, #YEAR_MONTH#
+       FROM BAL_BOOKPAYOUT_INFO WHERE BALANCE_ID= #BALANCE_ID#
+         AND YEAR_MONTH = #SUFFIX#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="" property="PAY_SN">
+    		AND PAY_SN= #PAY_SN#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="NOT_OP_TYPE">
+    		and OPER_TYPE != '5'
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="WRTOFF_SN">
+    		and WRTOFF_SN =#WRTOFF_SN#
+    	</isNotEmpty>
+    </dynamic>
+  </insert>
+
+  <select id="qBookPayOutByBalanceId" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT WRTOFF_SN, BALANCE_ID, PAY_TYPE, OUT_BALANCE, DELAY_FEE, YEAR_MONTH
+		FROM BAL_BOOKPAYOUT_INFO
+		WHERE BALANCE_ID = #BALANCE_ID#
+		AND YEAR_MONTH = #YEAR_MONTH#
+		AND CONTRACT_NO = #CONTRACT_NO#
+	</select>
+	
+	<select id="qSumPayOutByBalanceId" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT SUM(OUT_BALANCE) OUT_BALANCE,SUM(DELAY_FEE) DELAY_FEE,YEAR_MONTH
+		FROM BAL_BOOKPAYOUT_INFO
+		WHERE YEAR_MONTH=#YEAR_MONTH#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="BALANCE_ID_LIST">
+				AND BALANCE_ID IN 
+				<iterate conjunction="," open="(" close=")" prepend="" property="BALANCE_ID_LIST">
+					#BALANCE_ID_LIST[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+		GROUP BY YEAR_MONTH
+	</select>
+	
+  <select id="qPayoutByThisPay"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT NVL(SUM(B.OUT_BALANCE),0) PAY_OWE,NVL(SUM(b.DELAY_FEE),0) DELAY_FEE
+     FROM BAL_BOOKSOURCE_INFO A,  BAL_BOOKPAYOUT_INFO B  
+     WHERE  B.BALANCE_ID=A.BALANCE_ID(+)  AND B.PAY_SN=A.PAY_SN(+)  
+       AND A.PAY_SN = #PAY_SN#
+   	   AND A.YEAR_MONTH = #SUFFIX:LONG#
+   	   AND B.YEAR_MONTH = #SUFFIX:LONG#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="" property="ID_NO">
+    		AND B.ID_NO= #ID_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="CONTRACT_NO">
+    		AND B.CONTRACT_NO= #CONTRACT_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="STATUS">
+    		 AND B.STATUS= #STATUS#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="PAY_TYPE">
+    		 AND B.PAY_TYPE = #PAY_TYPE#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+
+</sqlMap>

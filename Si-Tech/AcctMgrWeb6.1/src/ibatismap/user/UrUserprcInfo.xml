@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="ur_userprc_info">
+	<typeAlias alias="UrUserprcInfo" type="com.sitech.acctmgr.atom.domains.user.UserPrcEntity"/>
+	<typeAlias alias="UserPdPrc" type="com.sitech.acctmgr.atom.domains.prod.UserPdPrcEntity"/>
+	<typeAlias alias="UserPdPrcInfo" type="com.sitech.acctmgr.atom.domains.prod.UserPdPrcInfoEntity"/>
+	<typeAlias alias="UserPdPrcDetailInfo" type="com.sitech.acctmgr.atom.domains.prod.UserPdPrcDetailInfoEntity"/>
+
+<select id="qUserprcInfo" parameterClass="Map" resultClass="UrUserprcInfo">
+SELECT a.PROD_PRCID prodPrcid,b.PROD_PRC_NAME prodPrcName
+  FROM UR_USERPRC_INFO a,PD_PRC_DICT b
+ WHERE ID_NO = #ID_NO#
+   AND a.PROD_PRCID = b.PROD_PRCID
+   AND PROD_MAIN_FLAG = '0'
+   AND SYSDATE BETWEEN a.EFF_DATE AND a.EXP_DATE
+</select>
+
+    <select id="qGroupGoodsInfo" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT A.GOODS_ID GOODS_ID,NVL(GOODS_NAME,'未知') GOODS_NAME
+        FROM   UR_USERGOODS_INFO A,PD_GOODS_DICT B
+        WHERE  A.ID_NO=#ID_NO#
+        AND    A.GOODS_MAIN_FLAG='0'
+        AND    SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+        AND    A.GOODS_ID=B.GOODS_ID(+)
+    </select>
+
+	<select id="qUserPrcId" parameterClass="Map" resultClass="UserPdPrc">
+		SELECT A.PROD_PRCID prodPrcId,B.GOODS_PRC_DESC prodPrcName,A.EFF_DATE
+		effDate,A.EXP_DATE expDate,A.STATE_DATE stateDate
+		FROM UR_USERPRC_INFO A, PD_GOODSPRC_DICT B
+		WHERE A.PROD_PRCID = B.PRC_ID
+		AND PRC_TYPE = #PROD_PRC_TYPE#
+		AND ID_NO = #ID_NO#
+		AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+	</select>
+
+	<!-- add by liuhl_bj 20161010-->
+	<select id="getUserPrcInfo" parameterClass="Map" resultClass="UserPdPrcInfo">
+		SELECT B.PRC_ID prodPrcId,
+		B.PRC_NAME prodPrcName,
+		TO_CHAR(A.EFF_DATE, 'YYYYMMDD HH24:MI:SS') effDate,
+		TO_CHAR(A.EXP_DATE, 'YYYYMMDD HH24:MI:SS') expDate,
+		A.DEVELOP_LOGIN loginNo,
+		B.GOODS_PRC_DESC prcDesc,
+		C.BRAND_ID brandId,
+		A.LOGIN_ACCEPT loginAccept
+		FROM UR_USERPRC_INFO A, PD_GOODSPRC_DICT B,
+		PD_BRAND_DICT C
+		WHERE A.PRC_ID=B.PRC_ID
+		AND B.BRAND_ID=C.BRAND_ID
+		AND B.PRC_TYPE=0
+		AND ID_NO = #ID_NO#
+		<dynamic prepend="">
+			<isNotEmpty property="ON_FLAG">
+				AND SYSDATE	<![CDATA[<]]>EXP_DATE
+			</isNotEmpty>
+		</dynamic>
+		
+		ORDER BY A.EFF_DATE DESC
+	</select>
+	
+</sqlMap>

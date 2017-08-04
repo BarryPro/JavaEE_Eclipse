@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page contentType="text/html; charset=GBK" %>
+<%@ include file="/npage/include/public_title_ajax.jsp" %>
+<%@ include file="../../npage/bill/getMaxAccept.jsp" %>
+<%
+		/*------查看手机用户是否是实名制用户*/
+		String workNo = (String)session.getAttribute("workNo");
+		String regionCode= (String)session.getAttribute("regCode");
+		String password = (String)session.getAttribute("password");
+		String opCode = request.getParameter("opCode");
+		String smzflag ="";
+	
+		String PhoneNo = request.getParameter("PhoneNo");
+		String sSouceType ="";
+		String deal_accept="";
+		String sysdate="";
+		
+%>
+	
+
+<%
+	String[] inParamS = new String[2];
+	inParamS[0] = "SELECT phone_no, souce, to_char(souce_data), souce_name, op_flag, note, login_no, "+
+	"       to_char(op_time), "+
+	"       to_char(SYSDATE, 'yyyymmdd') || 'CSVC' || '451' || "+
+	"        to_char(MOD(sMaxSysAccept.Nextval, 10000000)) accept,to_char(sysdate,'yyymmddhh24miss') "+
+	"  FROM (SELECT a.phone_no phone_no, c.note souce, b.sourcedata souce_data, "+
+	"                b.note souce_name, decode(a.busines_type,'01','已加黑','02','已解黑') op_flag, a.servicecontent note, "+
+	"                a.login_no login_no, a.op_time op_time "+
+	"           FROM wBadInformation a, sSourceData b, sSourceType c "+
+	"          WHERE a.sourcedata = b.sourcedata(+) "+
+	"            AND a.sourcetype = c.sourcetype(+) "+
+	"            AND a.phone_no = :phone_no "+
+	"          ORDER BY op_time DESC) "+
+	" WHERE ROWNUM = 1 ";
+	inParamS[1] = "phone_no=" + PhoneNo;
+
+%>
+
+<wtc:service name="TlsPubSelBoss" routerKey="phone" routerValue="<%=PhoneNo%>" retcode="retCodeS" retmsg="retMsgS" outnum="10">
+	<wtc:param value="<%=inParamS[0]%>"/>
+	<wtc:param value="<%=inParamS[1]%>"/>
+</wtc:service>
+<wtc:array id="resultS"  scope="end"/>
+
+<script language="javascript">
+function do_busiess()
+{
+	window.location.href="sg237_cfm.jsp?phone_no="+<%=PhoneNo%>+"&souceType="+"<%=sSouceType%>"+"&deal_accept="+"<%=deal_accept%>"+"&sysdate="+<%=sysdate%>;
+
+
+}
+</script>
+
+<body>
+	  <div id="Main">
+		<div id="Operation_Table">
+			<div class="title">
+				<div id="title_zi">查询信息</div>
+			</div>
+
+						<table >
+							<tr >
+							<th>手机号码</th>						
+							<th>数据来源</th>
+							<th>不良信息类型</th>
+							<th>黑名单状态</th>
+							<th>加解黑名单原因描述</th>
+							<th>操作工号</th>
+							<th>操作时间</th>
+							<th>操作</th>
+							</tr>
+							<%
+							if (resultS.length != 0)
+							{
+								sSouceType = resultS[0][2];
+								deal_accept = resultS[0][8];
+								sysdate = resultS[0][9];
+							%>
+							   <tr> 
+							   <td width="6%"><%=resultS[0][0]%></td>
+							   <td width="7%"><%=resultS[0][1]%></td>
+							   <td width="6%"><%=resultS[0][3]%></td>
+							   <td width="6%"><%=resultS[0][4]%></td>
+							   <td width="20%"><%=resultS[0][5]%></td>
+							   <td width="6%"><%=resultS[0][6]%></td>
+							   <td width="10%"><%=resultS[0][7]%></td>
+							<%
+								if( "已加黑".equals(resultS[0][4]) )
+							%>
+							   <td width="6%"><input type="button"  name="quchoose" class="b_text" value="解黑" onclick="do_busiess()" /></td>
+							<%
+								else
+							%>
+								<td width="6%">已解黑不能重复操作</td>
+							   <tr> 
+							<%
+							}
+							else 
+							{
+							  	
+							%>
+
+							<script language="JavaScript">
+					    	rdShowMessageDialog("没有查询到该用户的加黑记录！！请核实。",0);	
+							</script>
+							
+					    <%
+							}
+					    %>
+					    
+					    <form name="frm" method="POST" action="sg237_cfm.jsp">
+					  	</form>
+					    
+						</table>
+					</div>
+				</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cs_account_rel">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.account.CsAccountRelEntity" alias="csAccountRelEntity"/>
+
+    <resultMap id="csAccountRelEntity" class="csAccountRelEntity">
+        <result property="relContractNo" column="REL_CONTRACT_NO"/>
+        <result property="acctRelType"   column="ACCT_REL_TYPE"/>
+        <result property="contractNo"    column="CONTRACT_NO"/>
+        <result property="payPri"    	 column="PAY_PRI"/>
+        <result property="payValue"    	 column="PAY_VALUE"/>
+    </resultMap>
+    
+   <select id="qrRelConBy8020" parameterClass="Map" resultMap="csAccountRelEntity">
+		SELECT DISTINCT 
+			REL_CONTRACT_NO ,
+			ACCT_REL_TYPE,
+			CONTRACT_NO,
+			PAY_PRI,
+			NVL(PAY_VALUE,0) PAY_VALUE
+		FROM 
+			CS_ACCOUNT_REL a
+		WHERE 
+			CONTRACT_NO = #CONTRACT_NO#
+     		 
+     	<dynamic prepend="">
+
+			<isNotEmpty prepend="" property="CONTRACTATT_TYPES">
+				AND EXISTS(
+					SELECT 1 FROM AC_CONTRACT_INFO B WHERE B.CONTRACTATT_TYPE IN
+				<iterate close=")" open="(" conjunction="," prepend="" property="CONTRACTATT_TYPES">
+						#CONTRACTATT_TYPES[]#
+				</iterate>
+				AND A.CONTRACT_NO =B.CONTRACT_NO
+				)
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="ACCT_REL_TYPE">
+				AND ACCT_REL_TYPE= #ACCT_REL_TYPE#
+			</isNotEmpty>
+		</dynamic>
+		AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+		ORDER BY PAY_PRI
+	</select>
+	
+	<select id="qAccountRelForInv" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT DISTINCT 
+			A.REL_CONTRACT_NO ,
+			A.ACCT_REL_TYPE,
+			A.CONTRACT_NO,
+			A.PAY_PRI,
+			NVL(A.PAY_VALUE,0) PAY_VALUE
+		FROM 
+			CS_ACCOUNT_REL A
+		WHERE 
+			A.CONTRACT_NO = #CONTRACT_NO#
+			and  EXISTS(
+      			SELECT 1 FROM AC_CONTRACT_INFO B  WHERE A.REL_CONTRACT_NO =B.CONTRACT_NO 
+     		 )
+		<dynamic prepend=" ">
+			<isNotEmpty prepend=" " property="ACCT_REL_TYPE">
+				and A.ACCT_REL_TYPE= #ACCT_REL_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="COLL_MONTH">
+				<![CDATA[ and TO_NUMBER(TO_CHAR(A.EFF_DATE,'YYYYMM')) <= #COLL_MONTH# ]]>
+			</isNotEmpty>
+			<isEmpty prepend=" " property="COLL_MONTH">
+				AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+			</isEmpty>
+		</dynamic>
+		ORDER BY A.PAY_PRI
+	</select>
+	
+	<select id="qCntAccountRelByCon" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(1) NUM
+		FROM CS_ACCOUNT_REL
+		WHERE 1= 1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO =
+				#CONTRACT_NO#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="REL_CONTRACT_NO">
+				REL_CONTRACT_NO =
+				#REL_CONTRACT_NO#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="ACCT_REL_TYPE">
+				ACCT_REL_TYPE
+				=#ACCT_REL_TYPE#
+			</isNotEmpty>
+
+			<!-- 托收月份 -->
+			<isNotEmpty prepend="AND" property="COLL_MONTH">
+				TO_NUMBER(TO_CHAR(EFF_DATE,'YYYYMM')) <![CDATA[ <= ]]>
+				#COLL_MONTH#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="qDeSumPayValue" parameterClass="Map" resultClass="java.util.HashMap">
+		select sum(pay_value) SUM_PAY_VALUE
+		from cs_account_rel
+		where acct_rel_type = #ACCT_REL_TYPE#
+		and pay_value != 0
+		and sysdate between eff_date and exp_date
+	</select>
+  
+</sqlMap>

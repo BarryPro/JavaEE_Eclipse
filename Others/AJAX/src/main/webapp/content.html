@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>content</title>
+<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+<script type="text/javascript">
+	function ok(){
+		alert("ok");
+	}
+	
+	$(function(){//可以动态添加
+		$("#B").append("<span>我爱你</span>");
+		$("#a").append("<input type='button' value='点击' onclick='ok()'/>");
+		$("<input type='button' value='ok' onclick='ok()'/>").appendTo(document.body);
+		//把修饰的可以直接写到后面
+		$("#B").css("background-color", "red").css("color","white");
+	});
+</script>
+</head>
+<body>
+	内容：<div id="B">Belong</div><br>
+	<div id="a">tom</div>
+
+</body>
+</html>

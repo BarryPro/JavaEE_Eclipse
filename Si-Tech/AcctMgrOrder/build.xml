@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--name配置为工程名称-->
+<project name="AcctMgrOrder" default="compile">
+	<description>
+	        author:
+	        date: 
+	        descript:
+	</description>
+
+	<property file="build.properties" />
+	<property name="ant.lib.dir" location="ant_lib" />
+
+	<path id="classpath">
+		<fileset dir="${3rdLib.dir}" includes="**/*.jar" />
+		<fileset dir="${src.dir}" includes="**/*.jar" />
+	</path>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: init            
+         - - - - - - - - - - - - - - - - - -->
+	<target name="init">
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="report"/>
+		<mkdir dir="htmlreport"/>
+	</target>
+
+	<target name="compile" description="编译源代码">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" encoding="UTF-8" includeantruntime="on" debug="true" >
+			<compilerarg value="-Xlint:unchecked" />
+			<classpath refid="classpath" />
+		</javac>
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/.svn" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy todir="${build.classes.dir}/ibatismap">
+			<fileset dir="${src.dir}/ibatismap"/>
+		</copy>
+	</target>
+	
+	<target name="war" depends="compile">
+		<tstamp>
+			<format property="now" pattern="yyyy-MM-dd" unit="day" />
+		</tstamp>
+		<war destfile="${build.dir}/AcctMgrWeb.war" webxml="${webroot.dir}/WEB-INF/web.xml">
+			<classes dir="${build.classes.dir}" />
+			<fileset dir="${webroot.dir}" />
+			<manifest>
+				<attribute name="Build-By" value="si-tech.com.cn" />
+				<attribute name="Version" value="${version}" />
+				<attribute name="Create-Time" value="${now}" />
+			</manifest>
+		</war>
+	</target>
+	
+	<target name="run" depends="compile">
+		<echo message="start run junit test" />
+		<junit>
+			<classpath>
+			 <pathelement location="src"/>
+			 <pathelement location="${junitJar}"/>
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest haltonfailure="no"  todir="report">
+				<fileset dir="src">
+					<include name="**/*Test.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="./htmlreport">
+			<fileset dir="./report">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="noframes" todir="./htmlreport"/>
+		</junitreport>
+		<echo message="end running junit test" />
+	</target>
+	
+	<target name="all" depends="clean,init,compile" description="编译整个工程代码"></target>
+	<target name="inc" depends="init,compile" description="编译增量上线代码"></target>
+
+	<target name="clean">
+		<delete dir="${build.classes.dir}" />
+	</target>
+</project>

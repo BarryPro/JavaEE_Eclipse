@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_dealdata_info">
+
+	<insert id="iDealData" parameterClass="Map">
+		insert into cct_dealdata_info
+		(seq_deal, id_no, data_info, deal_flag, op_date, op_code, mach_code)
+		values
+		(SEQ_COMMON_ID.nextval, #ID_NO#, #DATA_INFO#, '0', sysdate, #OP_CODE#, #MACH_CODE#)
+	</insert>
+  
+</sqlMap>

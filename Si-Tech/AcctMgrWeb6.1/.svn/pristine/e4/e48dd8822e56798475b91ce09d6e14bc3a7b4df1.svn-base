@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="sbillhalffav">
+
+	<select id="getHalfRate" parameterClass="Map" resultClass="java.lang.Double">
+		SELECT HALF_RATE
+		FROM SBILLHALFFAV
+		WHERE REGION_CODE = #REGION_CODE#
+		AND MODE_CODE = #MODE_CODE#
+	</select>
+
+</sqlMap>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="push_template">
+  
+  <select id="qTemplateSmsById" maxRows="1"  parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT CONTENT, SERV_NAME, PRIORITY_LEVEL, SEND_TYPE, BASESRC, SRC_NO, SMS_TYPE, 
+	       SEQ_SMS_PUSH.NEXTVAL NEXTVAL,TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS') SYSTIME
+	FROM   PUSH_TEMPLATE 
+	WHERE  TEMPLATE_ID=#TEMPLATE_ID#
+  </select>
+  
+</sqlMap>

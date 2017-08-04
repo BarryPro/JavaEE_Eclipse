@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_usergoods_zfyqchg">
+
+	<insert id="insert" parameterClass="map">
+		INSERT INTO UR_USERGOODS_ZFYQCHG (GOODSINS_ID, ID_NO, PRC_ID, EFF_DATE, EXP_DATE, OP_TIME)
+		VALUES
+  		(#GOODSINS_ID#, #ID_NO#, #PRC_ID#, TO_DATE(#EFF_DATE#,'YYYYMMDDHH24MISS'), 
+  		TO_DATE(#EXP_DATE#,'YYYYMMDDHH24MISS'), TO_DATE(#OP_TIME#,'YYYYMMDDHH24MISS'))
+	</insert>
+    
+</sqlMap>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_tdgprsdata_info">
+    <!--<typeAlias alias="TdDataEntity" type="com.sitech.acctmgr.atom.domains.bill.TDDataEntity"/>-->
+    <resultMap id="TdDataEntity" class="com.sitech.acctmgr.atom.domains.bill.TDDataEntity">
+        <result property="idNo" column="ID_NO"/>
+        <result property="phoneNo" column="PHONE_NO"/>
+        <result property="dataMonth" column="DATA_MONTH"/>
+        <result property="totalDate" column="TOTAL_DATE"/>
+        <result property="gprsData" column="GPRS_DATA"/>
+    </resultMap>
+    <select id="queryTdDataInfo" parameterClass="Map" resultMap="TdDataEntity">
+        SELECT ID_NO, PHONE_NO ,GPRS_DATA, DATA_MONTH, TOTAL_DATE
+        FROM ACT_TDGPRSDATA_INFO
+        WHERE PHONE_NO = #PHONE_NO#
+    </select>
+</sqlMap>

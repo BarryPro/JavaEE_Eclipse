@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            $("#bankAccount").keyup(function () {
+                var tmptxt = $(this).val();
+                $(this).val(tmptxt.replace(/\D|^0/g, ''));
+            }).bind("paste", function () {
+                var tmptxt = $(this).val();
+                $(this).val(tmptxt.replace(/\D|^0/g, ''));
+            }).css("ime-mode", "disabled");
+        })
+    </script>
+</head>
+<body>
+<input type="text" id="bankAccount"/>
+</body>
+</html>

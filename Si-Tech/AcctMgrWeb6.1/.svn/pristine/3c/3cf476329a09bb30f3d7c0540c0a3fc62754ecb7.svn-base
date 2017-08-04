@@ -1,0 +1,14 @@
+package com.sitech.acctmgr.common.utils;
+
+import com.thoughtworks.xstream.XStream;
+
+public class BeanToXmlUtils {
+	public static String trans(Object bean) {
+		XStream xstream = new XStream();
+		xstream.processAnnotations(bean.getClass());// 应用Person类的注解
+		xstream.autodetectAnnotations(true);// 自动检测注解
+		String xml = xstream.toXML(bean);
+		xml = xml.replaceAll("^<\\?.*", "").replaceAll("\n", "").replaceAll("__", "_");
+		return xml.toString();
+	}
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dstop_check">
+
+  <select id="qryOwe"  parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT nvl(bill_owe,0) bill_owe,nvl(owe_fee,0) owe_fee FROM dstop_check 
+	WHERE contract_no = #CONTRACT_NO#
+	and op_time=(select max(op_time) from dstop_check where contract_no = #CONTRACT_NO#)
+	and to_char(op_time,'yyyymm')=#YEAR_MONTH#
+  </select>
+   
+</sqlMap>

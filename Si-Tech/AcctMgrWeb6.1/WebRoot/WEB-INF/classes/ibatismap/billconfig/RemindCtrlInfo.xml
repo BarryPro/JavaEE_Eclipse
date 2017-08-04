@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="remind_ctrl_info">
+
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT
+		COUNT(*) COUNT
+		FROM remind_ctrl_info
+		WHERE msisdn=#PHONE_NO#
+		and system_type='ss'
+		and flag='2'
+		and id_no=#ID_NO#
+	</select>
+	
+	<insert id="ins" parameterClass="Map" >
+		insert into remind_ctrl_info(ID_NO,MSISDN,SYSTEM_TYPE,DEALTIME,FLAG)
+		VALUES(#ID_NO#, #PHONE_NO#, 'ss',to_char(sysdate,'YYYYMMDDHH24MISS'),'2')
+	</insert>
+
+	<delete id="del" parameterClass="Map">
+		delete remind_ctrl_info
+		WHERE msisdn=#PHONE_NO#
+		and system_type='ss'
+		and flag='2'
+		and id_no=#ID_NO#
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_credit_info_chg">
+
+	<insert id="ins" parameterClass="Map">
+		INSERT INTO cct_credit_info_chg
+		(SEQ_NO,OP_FLAG,ID_NO,REGION_ID,CREDIT_CLASS,CREDIT_FEE,STOP_FLAG,OWE_FLAG,VALID_FLAG,BEGIN_TIME,END_TIME,SEND_FLAG,PHONE_NO )
+		values 
+		(#SEQ_NO#,#OP_FLAG#,#ID_NO#,#REGION_ID#,#CREDIT_CLASS#,#CREDIT_FEE#,#STOP_FLAG#,#OWE_FLAG#,#VALID_FLAG#,to_date(#START_DAY_STR#,'yyyy-MM-dd'),to_date(#END_DAY_STR#,'yyyy-MM-dd'),#SEND_FLAG#,#PHONE_NO#)
+	</insert>
+	
+</sqlMap>

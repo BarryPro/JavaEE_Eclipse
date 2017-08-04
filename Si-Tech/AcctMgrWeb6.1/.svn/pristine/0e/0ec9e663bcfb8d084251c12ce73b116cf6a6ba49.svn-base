@@ -1,0 +1,506 @@
+package com.sitech.acctmgr.atom.impl.adj;
+
+import static org.apache.commons.collections.MapUtils.safeAddToMap;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.account.ContractInfoEntity;
+import com.sitech.acctmgr.atom.domains.adj.BatchAdjInfoEntity;
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.base.GroupEntity;
+import com.sitech.acctmgr.atom.domains.bill.ItemEntity;
+import com.sitech.acctmgr.atom.domains.record.LoginOprEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.adj.*;
+import com.sitech.acctmgr.atom.entity.inter.*;
+import com.sitech.acctmgr.common.dto.CommonInDTO;
+import com.sitech.acctmgr.inter.adj.I8011;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.sitech.acctmgr.atom.busi.adj.inter.IAdjCommon;
+import com.sitech.acctmgr.atom.busi.pay.inter.IPayOpener;
+import com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder;
+import com.sitech.acctmgr.atom.busi.pay.inter.IWriteOffer;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.utils.FtpUtils;
+import com.sitech.jcf.core.exception.BaseException;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ *
+ * <p>Title:   批量费用补收</p>
+ * <p>Description:  批量费用补收类 </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ *
+ * @author LIJXD
+ * @version 1.0
+ */
+@ParamTypes({
+        @ParamType(m = "getItem", c = CommonInDTO.class, oc = S8011GetItemOutDTO.class),
+        @ParamType(m = "cfm", c = S8011CfmInDTO.class, oc = S8011CfmOutDTO.class)})
+public class S8011 extends AcctMgrBaseService implements I8011 {
+
+    protected IAdjCommon adjCommon;
+    protected IRecord record;
+    protected IControl control;
+    protected IUser user;
+    protected IGroup group;
+    protected IAdj adj;
+    protected IWriteOffer writeOffer;
+    protected IPayOpener payOpener;
+    protected IPreOrder  preOrder;
+    protected IAccount account;
+
+    /**
+     * 名称：获取补收账目项
+     */
+    @Override
+    public OutDTO getItem(InDTO inParam){
+
+        List<ItemEntity> itemList=adj.getAdjItemList();
+        
+        List<ItemEntity> outItemList=new ArrayList<ItemEntity>();
+	      for(ItemEntity item:itemList){
+	    	  if(item.getItemCode().equals("*1000000*")){
+	    		  continue;
+	    	  }else{
+	    		  outItemList.add(item);
+	    	  }
+	      }
+
+        S8011GetItemOutDTO outParam=new S8011GetItemOutDTO();
+        outParam.setItemList(outItemList);
+
+        return outParam;
+    }
+
+    /**
+     * 名称：批量费用补收确认函数
+     * @param LOGIN_NO:：工号 非空
+     * @param GROUP_ID:：归属 非空
+     * @param OP_CODE:：模块 非空
+     * @param BILL_MONTH：补收年月 非空
+     * @param ACCT_ITEM_CODE：补收账目项 非空
+     * @param REMAEK：备注
+     * @param PHONE_LIST：用户列表
+     *
+     * @return RETURN_CODE：返回代码
+     * @return RETURN_MSG：返回信息
+     * @return TOTAL_FEE：成功补收费用
+     * @return TOTAL_NO：成功补收号码数
+     * @throws Exception
+     */
+    @Override
+    public OutDTO cfm(InDTO inParam) {
+        // TODO Auto-generated method stub
+
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        Map<String, Object> outParamMap = new HashMap<String, Object>();
+        UserInfoEntity  userEntity = null;
+
+        int iCount=0;
+        int billMonth=0;
+        long batchSn=0;
+        long totalFee=0;
+        long loginAccept=0;
+        String curTime = "";
+        String curYm = "";
+        String totalDate = "";
+        String remark="";
+        String payType="0";
+        String opCode="";
+        String loginNo="";
+        String groupId="";
+        String acctItemCode="";
+        String errMsg="";
+        String regionFlag="";
+        String inRelPath="";//文件相对路径
+        String phoneTmp="";
+        String errType="IMPORT";
+
+
+        //调用S8011CfmInDTO 获取入参
+        S8011CfmInDTO inParamDto= (S8011CfmInDTO) inParam;
+        opCode= inParamDto.getOpCode();
+        loginNo= inParamDto.getLoginNo();
+        groupId= inParamDto.getGroupId();
+        acctItemCode= inParamDto.getAcctItem();
+        billMonth= inParamDto.getBillMonth();
+        remark=inParamDto.getRemark();
+        inRelPath = inParamDto.getRelPath();
+
+        log.debug("S8011CfmInDTO->"+inParamDto.getMbean());
+
+        //获取时间
+        curTime =  control.getSysDate().get("CUR_TIME").toString();
+        curYm = curTime.substring(0, 6);
+        totalDate = curTime.substring(0, 8);
+
+        //获取批次流水lBatchSn
+        batchSn =  control.getSequence("SEQ_SYSTEM_SN");
+        
+        //获取操作流水
+        loginAccept = control.getSequence("SEQ_SYSTEM_SN");
+
+        //获取工号归属地市
+        ChngroupRelEntity  groupEntity = group.getRegionDistinct(groupId,"2",inParamDto.getProvinceId());
+        String loginReginId =  groupEntity.getRegionCode();
+        String loginRegionGroup=groupEntity.getParentGroupId();
+
+        //读取&下载 动态表单上传的文件
+        String fileName = "";
+        String enCode =  "";
+        try {
+            outParamMap=FtpUtils.download(inRelPath);
+            fileName=outParamMap.get("FILENAME").toString();
+            enCode=outParamMap.get("ENCODE").toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(AcctMgrError.getErrorCode("8011", "00005"),"读取上传文件失败，请检查批量补收文件上传主机是否正常！");
+        }
+        log.info("------>fileName="+fileName+",enCode="+enCode);
+
+        //创建批量补收实体
+        BatchAdjInfoEntity batchAdjInfoEntity=new BatchAdjInfoEntity();
+        batchAdjInfoEntity.setBatchSn(batchSn);
+        batchAdjInfoEntity.setLoginAccept(loginAccept);
+        batchAdjInfoEntity.setBillCycle(billMonth);
+        batchAdjInfoEntity.setLoginNo(loginNo);
+        batchAdjInfoEntity.setPayType(payType);
+        batchAdjInfoEntity.setRemark(remark);
+
+        //上传文件不能为空
+        InputStreamReader isr_pre1 =null;
+        BufferedReader br_re1 = null;
+        try{
+            isr_pre1 = new InputStreamReader(new FileInputStream(fileName), enCode);
+            br_re1  =new BufferedReader(isr_pre1);
+            if (br_re1.readLine() == null) {
+                throw new BaseException(AcctMgrError.getErrorCode("8011", "00002"),"上传文件不能为空！");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new BaseException(AcctMgrError.getErrorCode("8011", "00002"),"上传文件不能为空！");
+        }finally {
+            try {
+                if (br_re1 != null) {
+                    br_re1.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int checkFlag = 0;
+        int num_readLine = 1;
+        long month_fee=0;
+        InputStreamReader isr =null;
+        BufferedReader br = null ;
+        try {
+            String lineStr = null;
+            isr = new InputStreamReader(new FileInputStream(fileName), enCode);
+            br  	=new BufferedReader(isr);
+            while ( (lineStr=br.readLine()) != null ) {
+                //打印每行
+                log.info("--->readLine ="+num_readLine+", lineStr="+lineStr);
+                lineStr.trim();
+
+                //循环处理文件每一行数据
+                int dealTypeNums=0;
+                int balanceTypeNUms=0;
+                long bsFee = 0;
+                long contractNo=0;
+                long contractNoFile=0;
+                long idNo=0;
+                long paySn=0;
+                String phoneNo="";
+                String conGroupId="";
+                String dealType="";
+                String balanceType="";
+                clear(batchAdjInfoEntity);
+                
+                if(lineStr.matches("\\s*")){
+                	log.info("内层空行catch");
+                	checkFlag =2;
+                	log.error("文件中出现了空行");
+                	throw new BaseException(AcctMgrError.getErrorCode("8011", "00008"),"文件中不能有空行!");
+                }
+
+                try {
+                    phoneNo =  StringUtils.split(lineStr, "|")[0].trim();
+                    contractNoFile= Long.parseLong(StringUtils.split(lineStr, "|")[1].trim());
+                    bsFee= Math.round(Double.parseDouble(StringUtils.split(lineStr, "|")[2].trim())*100);
+                    dealType =  StringUtils.split(lineStr, "|")[3].trim();
+                    balanceType =  StringUtils.split(lineStr, "|")[4].trim();
+
+                } catch (Exception e) {
+                	log.info("内层竖线catch");
+                    checkFlag =1;
+                    throw new BaseException(AcctMgrError.getErrorCode("8011", "00003"),"文件格式不正确!");
+                }
+
+                batchAdjInfoEntity.setPhoneNo(phoneNo);
+                batchAdjInfoEntity.setAcctItemCode(acctItemCode);
+                batchAdjInfoEntity.setShouldPay(bsFee);
+                batchAdjInfoEntity.setDealType(dealType);
+                batchAdjInfoEntity.setBalanceType(balanceType);
+
+                try {
+                    userEntity =user.getUserInfo(phoneNo);
+                }catch (Exception e) {
+                    //插入err表
+                    errMsg="查询用户表出错,phone_no:"+phoneNo;
+                    adj.saveBatchadjErr(batchAdjInfoEntity,errType,"00001",errMsg);
+                    continue;
+                }
+
+                idNo=userEntity.getIdNo();
+
+                if(contractNoFile==0) {
+                    contractNo = userEntity.getContractNo();
+                }else{
+                    contractNo=contractNoFile;
+                }
+
+                //设置batchAdjInfoEntity实体的CONTRACT_NO和ID_NO
+                batchAdjInfoEntity.setContractNo(contractNo);
+                batchAdjInfoEntity.setIdNo(idNo);
+
+                if(contractNoFile!=0){
+                    //校验用户和账户是否有付费关系
+                    int iConUserFlag = account.cntConUserRel(contractNo,idNo,null);
+                    if(iConUserFlag==0){
+                        errMsg="用户"+phoneNo+"和账户"+contractNo+"没有付费关系";
+                        adj.saveBatchadjErr(batchAdjInfoEntity,errType,"00002",errMsg);
+                        continue;
+                    }
+                }
+
+                //校验送费类型是否存在
+                inParamMap=new HashMap<String, Object>();
+                inParamMap.put("CODE_CLASS","2416");
+                inParamMap.put("CODE_ID",dealType);
+                dealTypeNums=control.getCntPubCodeDict(inParamMap);
+                if(dealTypeNums==0){
+                    errMsg="用户:"+phoneNo+",送费类型:"+dealType+"不存在";
+                    adj.saveBatchadjErr(batchAdjInfoEntity,errType,"00003",errMsg);
+                    continue;
+                }
+
+                //校验送费明细是否存在
+                inParamMap=new HashMap<String, Object>();
+                inParamMap.put("CODE_CLASS","2417");
+                inParamMap.put("CODE_ID",balanceType);
+                inParamMap.put("CODE_VALUE",dealType);
+                inParamMap.put("GROUP_ID",loginRegionGroup);
+                inParamMap.put("TIME","");
+                balanceTypeNUms=control.getCntPubCodeDict(inParamMap);
+                if(balanceTypeNUms==0){
+                    errMsg="用户:"+phoneNo+",送费明细:"+balanceType+"不存在";
+                    adj.saveBatchadjErr(batchAdjInfoEntity,errType,"00004",errMsg);
+                    continue;
+                }
+
+                //单笔正补收金额的不能大于500000,负补收金额不能小于-500000
+                if(bsFee>50000000 || bsFee<-50000000){
+                    errMsg=phoneNo+"补收金额为"+(-1.00)*bsFee/100+",超过500000";
+                    adj.saveBatchadjErr(batchAdjInfoEntity,errType,"00005",errMsg);
+                    continue;
+                }
+
+                //单用户当月负补收金额不能超过3000
+                if(bsFee<0){
+                    //取当月补收金额
+                    inParamMap=new HashMap<String, Object>();
+                    inParamMap.put("CONTRACT_NO",contractNo);
+                    inParamMap.put("YEAR_MONTH",curYm);
+                    inParamMap.put("F","");
+                    month_fee=adj.getMinusMonthFee(inParamMap);
+                    if( (month_fee+bsFee)*(-1)>300000){
+                        errMsg=phoneNo+"当月负补收金额:"+(-1.00)*month_fee/100+",本次补收金额:"+(-1.00)*bsFee/100+",超过限额30000,号码:"+phoneNo;
+                        adj.saveBatchadjErr(batchAdjInfoEntity,errType,"00006",errMsg);
+                        continue;
+                    }
+                }
+
+                //取账户归属GROUP_ID
+                ContractInfoEntity conEnt = account.getConInfo(contractNo);
+                conGroupId= conEnt.getGroupId();
+
+                //判断是否跨地市
+                GroupEntity groupEnt = group.getGroupInfo(groupId, conGroupId,inParamDto.getProvinceId());
+                regionFlag=groupEnt.getRegionFlag();
+                if(!"Y".equals(regionFlag)){
+                    errMsg="不能跨地市补收["+phoneNo+"]["+loginNo+"]";
+                    adj.saveBatchadjErr(batchAdjInfoEntity,errType,"00007",errMsg);
+                    continue;
+                }
+
+                //插入批量补收记录表
+                adj.saveBatchadjInfo(batchAdjInfoEntity);
+
+                totalFee=totalFee+bsFee;
+                iCount=iCount+1;
+                phoneTmp=phoneNo;
+                log.info("------------> lPaySn= "+paySn +",iCount="+iCount);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("外层if前catch");
+            if(checkFlag==1){
+            	log.info("外层竖线catch");
+                throw new BaseException(AcctMgrError.getErrorCode("8011", "00004"),"读取上传文件失败，没有以“|”分割!");
+            }else{
+            	log.info("外层空行catch");
+            	throw new BaseException(AcctMgrError.getErrorCode("8011", "00008"),"文件中不能有空行!");
+            }
+        }finally{
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        LoginOprEntity loginOprEnt = new LoginOprEntity();
+        loginOprEnt.setBrandId("");
+        loginOprEnt.setIdNo(0);
+        loginOprEnt.setLoginGroup(groupId);
+        loginOprEnt.setLoginNo(loginNo);
+        loginOprEnt.setLoginSn(batchSn);
+        loginOprEnt.setOpCode(opCode);
+        loginOprEnt.setOpTime(curTime);
+        loginOprEnt.setPayFee(totalFee);
+        loginOprEnt.setPhoneNo("");
+        loginOprEnt.setRemark(remark);
+        loginOprEnt.setPayType(payType);
+        loginOprEnt.setTotalDate(Long.parseLong(totalDate));
+        record.saveLoginOpr(loginOprEnt);
+
+        //发送统一接触消息
+        inParamMap = new HashMap<String , Object>();
+        safeAddToMap(inParamMap,"Header",inParamDto.getHeader());
+        safeAddToMap(inParamMap,"PAY_SN", batchSn);
+        safeAddToMap(inParamMap,"LOGIN_NO",loginNo);
+        safeAddToMap(inParamMap,"GROUP_ID",groupId);
+        safeAddToMap(inParamMap,"OP_CODE",opCode);
+        safeAddToMap(inParamMap,"REGION_ID",loginReginId);
+        safeAddToMap(inParamMap,"OP_NOTE",remark);
+        safeAddToMap(inParamMap,"TOTAL_FEE",0);
+        safeAddToMap(inParamMap,"CUST_ID_TYPE","1");
+        safeAddToMap(inParamMap,"CUST_ID_VALUE","99999999999");
+        safeAddToMap(inParamMap,"OP_TIME",curTime);
+        preOrder.sendOprCntt(inParamMap);
+
+        S8011CfmOutDTO outParamDto=new S8011CfmOutDTO();
+        outParamDto.setlTotalFee(totalFee);
+        outParamDto.setiCount(iCount);
+        outParamDto.setlBatchSn(batchSn);
+
+        log.debug("S8011CfmOutDTO->"+outParamDto.toJson());
+        return outParamDto;
+    }
+
+    public void clear(BatchAdjInfoEntity batchAdjInfoEntity){
+        batchAdjInfoEntity.setPhoneNo("");
+        batchAdjInfoEntity.setAcctItemCode("");
+        batchAdjInfoEntity.setShouldPay(0);
+        batchAdjInfoEntity.setDealType("");
+        batchAdjInfoEntity.setBalanceType("");
+        batchAdjInfoEntity.setContractNo(0);
+        batchAdjInfoEntity.setIdNo(0);
+    }
+
+    public IAdjCommon getAdjCommon() {
+        return adjCommon;
+    }
+
+    public void setAdjCommon(IAdjCommon adjCommon) {
+        this.adjCommon = adjCommon;
+    }
+
+    public IRecord getRecord() {
+        return record;
+    }
+
+    public void setRecord(IRecord record) {
+        this.record = record;
+    }
+
+    public IControl getControl() {
+        return control;
+    }
+
+    public void setControl(IControl control) {
+        this.control = control;
+    }
+
+    public IUser getUser() {
+        return user;
+    }
+
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public IGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(IGroup group) {
+        this.group = group;
+    }
+
+    public IAdj getAdj() {
+        return adj;
+    }
+
+    public void setAdj(IAdj adj) {
+        this.adj = adj;
+    }
+
+    public IWriteOffer getWriteOffer() {
+        return writeOffer;
+    }
+
+    public void setWriteOffer(IWriteOffer writeOffer) {
+        this.writeOffer = writeOffer;
+    }
+
+    public IPayOpener getPayOpener() {
+        return payOpener;
+    }
+
+    public void setPayOpener(IPayOpener payOpener) {
+        this.payOpener = payOpener;
+    }
+
+    public IPreOrder getPreOrder() {
+        return preOrder;
+    }
+
+    public void setPreOrder(IPreOrder preOrder) {
+        this.preOrder = preOrder;
+    }
+
+    public IAccount getAccount() {
+        return account;
+    }
+
+    public void setAccount(IAccount account) {
+        this.account = account;
+    }
+}

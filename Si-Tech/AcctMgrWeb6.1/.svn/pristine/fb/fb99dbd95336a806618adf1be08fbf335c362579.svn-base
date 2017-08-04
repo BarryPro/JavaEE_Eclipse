@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="cs_userdetaildead_info">
+	
+	<typeAlias alias="CsUserdetaildeadInfo" type="com.sitech.acctmgr.atom.domains.user.UserdetaildeadEntity"/>
+<select id="quserdetaildead" parameterClass="Map" resultClass="CsUserdetaildeadInfo">
+SELECT A.OLD_RUN oldRun,
+       A.RUN_CODE runCode,
+       NVL(B.RUN_NAME, '未知') runName,
+       TO_CHAR(A.RUN_TIME, 'YYYYMMDDHH24MISS') runTime,
+       A.USER_PASSWD userPasswd,
+       A.USER_GRADE_CODE userGradeCode,
+       A.CARD_TYPE cardType,
+       A.STOP_FLAG stopFlag
+  FROM CS_USERDETAILDEAD_INFO A, CS_RUNCODE_DICT B
+ WHERE A.ID_NO = #ID_NO#
+   AND A.RUN_CODE = B.RUN_CODE(+)
+</select>
+
+</sqlMap>

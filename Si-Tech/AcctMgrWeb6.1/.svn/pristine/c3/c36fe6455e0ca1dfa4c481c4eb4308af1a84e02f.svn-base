@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cs_userpass_info">
+	<select id="selectUserPassDate" parameterClass="Map" resultClass="java.util.Date">
+		SELECT
+		OP_TIME
+		FROM (
+		SELECT OP_TIME FROM CS_USERPASS_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY OP_TIME DESC
+		)
+		WHERE
+		ROWNUM <![CDATA[ < ]]>
+		2
+	</select>
+</sqlMap>

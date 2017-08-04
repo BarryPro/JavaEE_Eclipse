@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="conUserRelSvc" class="com.sitech.acctmgr.atom.impl.acctmng.SConUserRel">
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="cust" ref="custEnt" />
+        <property name="control" ref="controlEnt" />
+    </bean>
+    
+    <bean id="collectionOrderSvc" class ="com.sitech.acctmgr.atom.impl.acctmng.SCollectionOrder">
+    	<property name="collection" ref = "collectionEnt"/>
+    	<property name="printDataXML" ref="printDataXMLEnt" />
+    </bean>
+
+	<bean id="8293Svc" class="com.sitech.acctmgr.atom.impl.acctmng.S8293">
+		<property name="user" ref="userEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="preInvHeader" ref="PreInvHeaderEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+	</bean>
+
+    <bean id="collectionConfSvc" class ="com.sitech.acctmgr.atom.impl.acctmng.SCollectionConf">
+        <property name="group" ref = "groupEnt"/>
+        <property name="collection" ref = "collectionEnt"/>
+    </bean>
+
+    <bean id="collectionFileSvc" class ="com.sitech.acctmgr.atom.impl.acctmng.SCollectionFile">
+        <property name="group" ref = "groupEnt"/>
+        <property name="collection" ref = "collectionEnt"/>
+        <property name="bill" ref = "billEnt"/>
+        <property name="account" ref = "accountEnt"/>
+        <property name="record" ref = "recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+    </bean>
+    
+    <bean id="8509Svc" class="com.sitech.acctmgr.atom.impl.billAccount.S8509">
+		<property name="billAccount" ref="billAccountEnt"/>
+		<property name="user" ref="userEnt" />
+	</bean>
+
+    <bean id="8225Svc" class="com.sitech.acctmgr.atom.impl.acctmng.S8225">
+        <property name="account" ref="accountEnt" />
+        <property name="group" ref="groupEnt" />
+        <property name="collOrder" ref="collOrderEnt" />
+        <property name="control" ref="controlEnt" />
+        <property name="bill" ref="billEnt" />
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="billDisplayer" ref="billDisplayerEnt"/>
+        <property name="collCode" ref="collCodeEnt"/>
+        <property name="record" ref="recordEnt"/>
+    </bean>
+    
+    <bean id="8283Svc" class="com.sitech.acctmgr.atom.impl.acctmng.S8283">
+		<property name="login" ref="loginEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="shortMsg" ref="shortMsgEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="user" ref="userEnt"/>
+	</bean>
+	
+    <bean id="8510Svc" class="com.sitech.acctmgr.atom.impl.billAccount.S8510">
+        <property name="control" ref="controlEnt" />
+        <property name="billAccount" ref="billAccountEnt" />
+        <property name="user" ref="userEnt"/>
+        <property name="goods" ref="goodsEnt"/>
+        <property name="record" ref="recordEnt"/>
+    </bean>
+    
+    <bean id="chargeFeeSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SChargeFee">
+        <property name="control" ref="controlEnt" />
+        <property name="billAccount" ref="billAccountEnt" />
+        <property name="user" ref="userEnt"/>
+    </bean>
+    
+    <bean id="3104Svc" class="com.sitech.acctmgr.atom.impl.billAccount.S3104">
+		<property name="billAccount" ref="billAccountEnt" />
+	</bean>
+	
+    <bean id="wlanOpenSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SWlanOpen">
+		<property name="billAccount" ref="billAccountEnt" />
+	</bean>
+	
+    <bean id="8511Svc" class="com.sitech.acctmgr.atom.impl.billAccount.S8511">
+        <property name="control" ref="controlEnt" />
+        <property name="user" ref="userEnt"/>
+        <property name="goods" ref="goodsEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="preOrder" ref="preOrderEnt"/>
+    </bean>
+    
+    <bean id="8426Svc" class="com.sitech.acctmgr.atom.impl.detail.S8426">
+		<property name="record" ref="recordEnt"></property>
+	</bean>
+
+    <bean id="volumeBookSvc" class="com.sitech.acctmgr.atom.impl.volume.SVolumeBook">
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="grpVolumeSvc" class="com.sitech.acctmgr.atom.impl.volume.SGrpVolume">
+        <property name="volume" ref="volumeEnt"/>
+    </bean>
+    
+    <bean id="8556Svc" class="com.sitech.acctmgr.atom.impl.billAccount.S8556">
+        <property name="billAccount" ref="billAccountEnt" />
+        <property name="user" ref="userEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+    
+    <bean id="onlineLogCheckSvc" class="com.sitech.acctmgr.atom.impl.acctmng.SOnlineLogCheck">
+    	<property name="group" ref="groupEnt"/>
+    	<property name="record" ref="recordEnt"/>
+    	<property name="user" ref="userEnt"/>
+    </bean>
+    
+</beans>

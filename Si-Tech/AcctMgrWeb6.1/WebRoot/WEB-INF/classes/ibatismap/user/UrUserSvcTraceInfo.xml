@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_usersvctrace_info">
+  
+  <select id="qMainSvcIdByIdNo" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT SVC_ID MAIN_SVC_ID
+	  FROM UR_USERSVCTRACE_INFO
+	 WHERE SVC_TYPE='M'
+	   AND ID_NO=#ID_NO#
+	   AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+  </select>
+
+  <select id="qFywSvcIdByIdNo" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT DISTINCT A.SVC_ID SVC_ID 
+	  FROM UR_USERSVCTRACE_INFO A, IN_BSSVC_DICT B
+	 WHERE A.SVC_ID=B.SVC_ID 
+	   AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE 
+	   AND A.ID_NO=#ID_NO#
+	   AND B.SUBSVC_ACTION=#SUB_ACTION_ID#
+	   AND A.SVC_ID IN(#SVC_STR#)
+	   AND B.SPMS_FLAG='Y' 
+	   AND B.SVC_TYPE='O' 
+	   AND A.state = 'A'
+  </select>
+  
+  <select id="qDTSvcIdByIdNo" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT DISTINCT a.SVC_ID SVC_ID
+	  FROM UR_USERSVCTRACE_INFO a,IN_BSSVC_DICT b 
+	 WHERE a.ID_NO=#ID_NO#
+	   AND a.SVC_TYPE='O' 
+	   AND a.SVC_ID=b.SVC_ID 
+	   AND b.SPMS_FLAG='Y' 
+	   AND a.SVC_ID IN (SELECT SVC_ID 
+	                      FROM ACT_PRCSVCBUSI_CONF 
+	                     WHERE OP_TYPE = #FYW_FLAG#) 
+	   AND b.SUBSVC_ACTION=#SUBSVC_ACTION#
+	   AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+  </select>
+  
+  <select id="qSvcIdByIdNo" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">  
+	 SELECT DISTINCT a.SVC_ID SVC_ID
+	   FROM UR_USERSVCTRACE_INFO a, IN_BSSVC_DICT b
+	  WHERE a.ID_NO = #ID_NO#
+	    AND a.SVC_TYPE = 'O'
+	    AND a.SVC_ID = b.SVC_ID
+	    AND b.SPMS_FLAG = 'Y'
+	    AND a.SVC_ID NOT IN
+	        (SELECT SVC_ID FROM ACT_PRCSVCBUSI_CONF WHERE OP_TYPE = '0'  
+	          AND BUSI_TYPE =#SUB_ACTION_ID# AND BUSI_CODE != #OLD_NEW_RUN#)
+	    AND a.SVC_ID NOT IN
+	        (SELECT SVC_ID FROM ACT_PRCSVCBUSI_CONF WHERE OP_TYPE = '1'  
+	          AND BUSI_TYPE =#SUB_ACTION_ID# AND BUSI_CODE = #MAIN_SVC_ID#)
+	    AND b.SUBSVC_ACTION = #SUB_ACTION_ID#
+	   AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+	    AND (a.state = 'A' or #SUB_ACTION_ID# = 'R')
+  </select>
+  
+    <select id="qTopQYInfo" parameterClass="Map" resultClass="java.util.HashMap">  
+     SELECT ATTR_VALUE FROM UR_USERSVCATTRTRACE_INFO 
+     WHERE ID_NO = #ID_NO#
+     AND SVC_ID = 'BSO0000074' 
+     AND ATTR_ID = #ATTR_ID#
+     AND EFF_DATE <![CDATA[ <]]> SYSDATE AND EXP_DATE <![CDATA[ >]]> SYSDATE
+  </select>
+  
+</sqlMap>

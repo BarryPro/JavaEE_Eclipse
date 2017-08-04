@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="prov_city_list">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.query.ProvCityListEntity" alias="ProvCityListEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="ProvCityListEntity">
+		SELECT prov_code provCode, 
+		prov_name provName, 
+		long_code longCode, 
+		city_name cityName
+		FROM prov_city_list
+		where long_code = ( SELECT long_code_new FROM h1h2h3_code_allocate WHERE h1h2h3h4 = #PHONE_NO#)
+
+	</select>
+
+</sqlMap>

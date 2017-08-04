@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>其他</title>
+<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="js/jquery-1.6.2.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#btn").toggle(
+			function(event){
+				alert("点击一次"+event);
+			},	
+			function(event){
+				alert("点击二次"+event);
+			},	
+			function(event){
+				alert("点击三次"+event);
+			},	
+			function(event){
+				alert("点击四次"+event);
+			}
+		);
+		$("#txt").hover(function(){
+			alert("ok");
+		});
+	});
+</script>
+</head>
+<body>
+	<input type="button" value="点击" id="btn">
+	<input type="text" value="" id="txt">
+</body>
+</html>

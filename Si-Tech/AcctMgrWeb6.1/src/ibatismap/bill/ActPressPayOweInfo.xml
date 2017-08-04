@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="act_presspayowe_info">
+
+<typeAlias alias="AcUserOweInfo" type="com.sitech.acctmgr.atom.domains.user.UserOweEntity"/>
+
+	<select id="qContractList" parameterClass="Map" resultClass="AcUserOweInfo">
+		SELECT ID_NO idNo,REGION_NAME regionName,OWNER_NAME ownerName FROM  ACT_PRESSPAYOWE_INFO
+		WHERE PHONE_NO=#PHONE_NO# 
+		<dynamic prepend="">
+			  <isNotEmpty prepend="AND" property="PAYED_STATUS">
+			   		PAYED_STATUS=#PAYED_STATUS# 
+			  </isNotEmpty>
+		</dynamic>
+		GROUP BY ID_NO,REGION_NAME,OWNER_NAME
+	</select>
+	
+	<select id="qOweUserInfo" parameterClass="Map" resultClass="AcUserOweInfo">
+		SELECT REGION_NAME regionName, DISTRICT_NAME distractName, OWNER_NAME ownerName, 
+		TO_CHAR(USE_TIME,'YYYY-MM-DD HH24:MI:SS') useTime, 
+		TO_CHAR(DELETE_TIME,'YYYY-MM-DD') deleteTime, 
+	    OWNER_IDNO ownerIdNo, OWNER_PHONE ownerPhone, OWNER_UNIT ownerUnit,
+	    OWNER_ADDRESS ownerAddress, OWNER_ZIP ownerZip, 
+		CONTACT_PERSON contactPerson, CONTACT_PHONE contactPhone, CONTACT_IDNO contactIdNo
+		FROM  ACT_PRESSPAYOWE_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			  <isNotEmpty prepend="AND" property="ID_NO">
+			   		ID_NO=#ID_NO#
+			  </isNotEmpty>
+			   <isNotEmpty prepend="AND" property="PHONE_NO">
+			   		 PHONE_NO=#PHONE_NO#
+			  </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="qOweInfo" parameterClass="Map" resultClass="AcUserOweInfo">
+		SELECT TO_CHAR(BILL_YEAR) billYear,TO_CHAR(BILL_MONTH) billMonth, OWE_MONEY oweMoney,
+	    CASE PAYED_STATUS WHEN '0' THEN '欠费' ELSE '不欠费' END  payedStatus
+		FROM  ACT_PRESSPAYOWE_INFO
+		WHERE 
+		PHONE_NO=#PHONE_NO#
+		<dynamic prepend="">
+			  <isNotEmpty prepend="AND" property="ID_NO">
+			   		ID_NO=#ID_NO#
+			  </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<update id="uPressPayOwe" parameterClass="Map">
+		UPDATE ACT_PRESSPAYOWE_INFO SET PAYED_STATUS=#PAYED_STATUS#,UPDATE_TIME=SYSDATE,
+		LOGIN_NO=#LOGIN_NO#,LOGIN_ACCEPT=#PAY_SN# 
+		WHERE 1=1
+		<!--AND PAYED_STATUS='0' -->
+		<dynamic prepend="">
+			  <isNotEmpty prepend="AND" property="BILL_MONTH">
+			   		BILL_MONTH=#BILL_MONTH#
+			  </isNotEmpty>
+			   <isNotEmpty prepend="AND" property="BILL_YEAR">
+			   		BILL_YEAR=#BILL_YEAR#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="PHONE_NO">
+			   		PHONE_NO=#PHONE_NO# 
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="ID_NO">
+			   		ID_NO=#ID_NO# 
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="OLD_STATUS">
+			   		PAYED_STATUS=#OLD_STATUS# 
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="LOGIN_ACCEPT">
+			   		 LOGIN_ACCEPT=#LOGIN_ACCEPT#
+			  </isNotEmpty>
+		</dynamic>
+	</update>
+	
+</sqlMap>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_einvoicetax_dict">
+	<typeAlias type="com.sitech.acctmgr.atom.domains.invoice.elecInvoice.EInvoiceForCrm" alias="EInvInvo" />
+	<resultMap id="EInvInvoEntry" class="EInvInvo">
+		<result property="phoneNo" column="PHONE_NO" />
+		<result property="requestSn" column="REQUEST_SN"/>
+		<result property="orderSn" column="ORDER_ID" />
+		<result property="custName" column="CUST_NAME" />
+		<result property="brandId" column="BRAND_ID" />
+		<result property="invNo" column="INV_NO" />
+		<result property="invCode" column="INV_CODE" />
+		<result property="rInvNo" column="R_INV_NO" />
+		<result property="rInvCode" column="R_INV_CODE" />
+		<result property="invDate" column="INV_DATE" />
+		<result property="invType" column="INV_TYPE" />
+		<result property="invFee" column="INV_FEE" />
+		<result property="state" column="STATE" />
+		<result property="errMsg" column="ERR_MSG" />
+		<result property="opTime" column="OP_TIME" />
+		<result property="billCycle" column="BILL_CYCLE" />
+		<result property="loginNo" column="LOGIN_NO" />
+	</resultMap>
+	
+	
+	<insert id="iElecInvPrintInfo" parameterClass="Map">
+		INSERT INTO
+		IN_EINVOICEPRINT_INFO(PHONE_NO,REQUEST_SN,ORDER_ID,CUST_NAME,BRAND_ID,INV_NO,INV_CODE,R_INV_NO,R_INV_CODE,
+		                      INV_DATE,INV_TYPE,INV_FEE,STATE,ERR_MSG,OP_TIME,CONTRACT_NO,PAY_SN,LOGIN_NO,BILL_CYCLE) 
+		VALUES(#PHONE_NO#,#REQUEST_SN#,#PRINT_SN#,#CUST_NAME#,#BRAND_ID#,#INV_NO#,#INV_CODE#,#R_INV_NO#,#R_INV_CODE#,
+		       #INV_DATE#,#INV_TYPE#,#INV_FEE#,#STATE#,#ERR_MSG#,sysdate,#CONTRACT_NO#,#PAY_SN#,#LOGIN_NO#,#BILL_CYCLE#)
+         
+	</insert>
+		
+	<select id="qCrmElecInv"  parameterClass="Map" resultMap="EInvInvoEntry">
+			SELECT PHONE_NO,
+				REQUEST_SN,
+				ORDER_ID,
+				CUST_NAME,
+				BRAND_ID,
+				INV_NO,
+				INV_CODE,
+				R_INV_NO,
+				R_INV_CODE,
+				INV_DATE,
+				INV_TYPE,
+				INV_FEE,
+				STATE,
+				ERR_MSG,
+				to_char(OP_TIME,'yyyyMMdd HH24:MI:SS') AS OP_TIME,
+				BILL_CYCLE,
+		        LOGIN_NO
+			FROM in_einvoiceprint_info
+			WHERE PHONE_NO = #PHONE_NO#
+			<dynamic prepend="">
+				<isNotEmpty prepend="AND" property="YEAR_MONTH">
+					to_char(op_time,'yyyymm')= #YEAR_MONTH#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="INV_NO">
+					INV_NO = #INV_NO#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="INV_CODE">
+					INV_CODE = #INV_CODE#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="R_INV_NO">
+					R_INV_NO = #R_INV_NO#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="R_INV_CODE">
+					R_INV_CODE = #R_INV_CODE#
+				</isNotEmpty>
+			</dynamic>
+			ORDER BY OP_TIME DESC
+		 
+		</select>
+		
+		
+	<update id="upEinvCrmInfo" parameterClass="Map">
+	   UPDATE In_einvoiceprint_info
+		SET STATE=#STATE#
+		WHERE REQUEST_SN = #REQUEST_SN#
+	</update>
+	
+	<update id="upEinvCrmInfoInvc" parameterClass="Map">
+	    UPDATE In_einvoiceprint_info
+		   SET INV_CODE = #INV_CODE# ,INV_NO = #INV_NO# ,STATE=#STATE#
+		 WHERE REQUEST_SN=#INVREQ_SN# 
+		   AND PHONE_NO=#PHONE_NO#
+	</update>
+	
+	
+	<select id="qCrmElecInvByLoginNo"  parameterClass="Map" resultMap="EInvInvoEntry">
+			SELECT PHONE_NO,
+				a.REQUEST_SN,
+				a.ORDER_ID,
+				a.CUST_NAME,
+				a.BRAND_ID,
+				a.INV_NO,
+				a.INV_CODE,
+				a.R_INV_NO,
+				a.R_INV_CODE,
+				a.INV_DATE,
+				a.INV_TYPE,
+				a.INV_FEE,
+				a.STATE,
+				a.ERR_MSG,
+				to_char(a.OP_TIME,'yyyyMMdd HH24:MI:SS') AS OP_TIME,
+				a.BILL_CYCLE,
+		        a.LOGIN_NO
+			FROM in_einvoiceprint_info a ,(select login_no from bs_loginmsg_dict where group_id=#GROUP_ID#) b 
+			WHERE to_char(op_time,'yyyymm')= #YEAR_MONTH#
+			<dynamic prepend="">
+				<isNotEmpty prepend="AND" property="PHONE_NO">
+					a.PHONE_NO = #PHONE_NO#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="LOGIN_NO">
+					a.LOGIN_NO = #LOGIN_NO#
+				</isNotEmpty>
+			</dynamic>
+				AND a.login_no = b.login_no
+			 AND to_char(op_time, 'YYYYMMDD') BETWEEN (#BEGIN_DATE#) and (#END_DATE#)
+			ORDER BY OP_TIME DESC
+		</select>
+	
+		<select id="qCrmElecInvByPhoneNo"  parameterClass="Map" resultMap="EInvInvoEntry">
+			SELECT PHONE_NO,
+				REQUEST_SN,
+				ORDER_ID,
+				CUST_NAME,
+				BRAND_ID,
+				INV_NO,
+				INV_CODE,
+				R_INV_NO,
+				R_INV_CODE,
+				INV_DATE,
+				INV_TYPE,
+				INV_FEE,
+				STATE,
+				ERR_MSG,
+				to_char(OP_TIME,'yyyyMMdd HH24:MI:SS') AS OP_TIME,
+				BILL_CYCLE,
+		    LOGIN_NO
+			FROM in_einvoiceprint_info 
+			WHERE to_char(op_time,'yyyymm')= #YEAR_MONTH#
+			AND PHONE_NO = #PHONE_NO#
+			 AND to_char(op_time, 'YYYYMMDD') BETWEEN (#BEGIN_DATE#) and (#END_DATE#)
+			ORDER BY OP_TIME DESC
+		</select>
+	
+</sqlMap>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="ct_personalcust_info">
+
+	<typeAlias alias="PersonalCustEntity"
+		type="com.sitech.acctmgr.atom.domains.cust.PersonalCustEntity" />
+	<select id="qry" resultClass="PersonalCustEntity" parameterClass="Map">
+		SELECT SEX_CODE sexCode,
+		PROFESSION_ID professionId,
+		CUST_LOVE custLove,
+		CUST_HABIT custHabit,
+		WORK_CODE workCode
+		FROM ct_personalcust_info
+		WHERE CUST_ID=#CUST_ID#
+	</select>
+</sqlMap>

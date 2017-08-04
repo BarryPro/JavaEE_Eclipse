@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_spinfo_info">
+
+	<resultMap id="SpDetailBill" class="com.sitech.acctmgr.atom.domains.bill.SpDetailBill">
+		<result property="servCode" column="SERV_CODE"/>
+		<result property="operCode" column="OPER_CODE"/>
+		<result property="spCode" column="SP_CODE"/>
+		<result property="systemType" column="SYSTEM_TYPE"/>
+		<result property="useType" column="USE_TYPE"/>
+		<result property="billingType" column="BILLING_TYPE"/>
+		<result property="operFee" column="OPER_FEE"/>
+	</resultMap>
+
+	<select id="qDetailSpInfo" parameterClass="Map" resultMap="SpDetailBill">
+		SELECT
+		SERV_CODE,
+		OPER_CODE,
+		SP_CODE,
+		SYSTEM_TYPE,
+		BILLING_TYPE,
+		USE_TYPE,
+		nvl(sum(OPER_FEE),0)  as OPER_FEE
+		FROM
+		ACT_SPINFO_INFO
+		WHERE
+		ID_NO = #ID_NO#
+		AND NATURAL_MONTH = #NATURAL_MONTH#
+		<dynamic prepend="" >
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONE_NO = #PHONE_NO#
+			</isNotEmpty>
+		</dynamic>
+		group by SERV_CODE, OPER_CODE, SP_CODE, SYSTEM_TYPE, BILLING_TYPE, USE_TYPE
+	</select>
+
+</sqlMap>
+

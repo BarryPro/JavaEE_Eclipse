@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_micropay_info">
+	<typeAlias alias="MicroPay" type="com.sitech.acctmgr.atom.domains.adj.MicroPayEntity"/>
+
+	<insert id="iMicroPayRecd"  parameterClass="Map">
+		INSERT INTO  BAL_MICROPAY_INFO
+		(  PHONE_NO,ID_NO, CONTRACT_NO,UNIT_CODE, BUSI_CODE, INNET_CODE, OP_TYPE, AMOUNT, UNIT_PRICE, PAY_TYPE, PAY_FEE, FOREIGN_SN
+		, PAY_SN, ORI_PAY_SN, ORI_FOREIGN_SN , USE_FLAG, OP_TIME, REMARK
+		, FACTOR_ONE, FACTOR_TWO, FACTOR_THREE, FACTOR_FOUR, FACTOR_FIVE,LOGIN_NO ,FOREIGN_TIME)
+		VALUES
+		(
+		#PHONE_NO#,#ID_NO#,#CONTRACT_NO#,#UNIT_CODE#, #BUSI_CODE#,#INNET_CODE#,#OP_TYPE#,#AMOUNT#,#UNIT_PRICE#,
+		#PAY_TYPE#,#PAY_FEE#,#FOREIGN_SN#,#PAY_SN#,#ORI_PAY_SN#,#ORI_FOREIGN_SN#,#USE_FLAG#,SYSDATE,#REMARK#
+		,#FACTOR_ONE#,#FACTOR_TWO#,#FACTOR_THREE#,#FACTOR_FOUR#,#FACTOR_FIVE#,#LOGIN_NO#,TO_DATE(#FOREIGN_TIME#,'YYYYMMDDHH24MiSS')
+		)
+	</insert>
+
+	<select id="qMicroPayRecd"  parameterClass="Map" resultClass="MicroPay">
+		SELECT
+		PHONE_NO phoneNo,ID_NO idNo,
+		CONTRACT_NO contractNo,UNIT_CODE unitCode,
+		BUSI_CODE busiCode, INNET_CODE innetCode,
+		OP_TYPE opType, AMOUNT amount,
+		UNIT_PRICE unitPrice, PAY_TYPE payType,
+		PAY_FEE payFee, FOREIGN_SN foreignSn,
+		PAY_SN paySn, ORI_PAY_SN oriPaySn,
+		ORI_FOREIGN_SN oriForeignSn, USE_FLAG useFlag,
+		OP_TIME opTime, FACTOR_FOUR factorFour,
+		FACTOR_FIVE factorFive,TO_CHAR(FOREIGN_TIME,'YYYYMMDD') foreignTime
+		FROM  BAL_MICROPAY_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PHONE_NO">
+				PHONE_NO = #PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FOREIGN_SN">
+				FOREIGN_SN = #FOREIGN_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PAY_SN">
+				PAY_SN = #PAY_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="UNIT_CODE">
+				UNIT_CODE = #UNIT_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="USE_FLAG">
+				USE_FLAG = #USE_FLAG#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<update id="uMicroPayRecd"  parameterClass="Map">
+		UPDATE BAL_MICROPAY_INFO
+		SET USE_FLAG = #USE_FLAG#
+		WHERE 1 = 1 AND  PHONE_NO = #PHONE_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BUSI_CODE">
+				BUSI_CODE = #BUSI_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FOREIGN_SN">
+				FOREIGN_SN = #FOREIGN_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PAY_SN">
+				PAY_SN = #PAY_SN#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+
+</sqlMap>
+

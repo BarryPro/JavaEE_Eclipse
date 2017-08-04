@@ -1,0 +1,413 @@
+package com.sitech.acctmgr.atom.busi.intface;
+
+import com.sitech.acctmgr.atom.busi.intface.cfgcache.DataBaseConst;
+import com.sitech.acctmgr.atom.busi.intface.comm.*;
+import com.sitech.acctmgr.atom.busi.intface.dao.DataSynDAO;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.BaseBusi;
+import com.sitech.acctmgr.common.constant.InterBusiConst;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.dt.MBean;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class DataSyn extends BaseBusi implements IDataSyn {
+
+	private DataSynDAO   dao;
+	private DataSynComm  comm;
+	private DataSynParse parse;
+	private MsgMiddle    middle;
+	
+	@Override
+	public boolean sendBusiDataInter(MBean inBusiBean) {
+
+		//注意，此接口强制检查待同步表的索引参数列
+		inBusiBean.addBody("CHECK_KEY", false);
+
+		//1.检查参数
+		if (inBusiBean.getBodyObject("ACTION_ID") == null 
+			|| inBusiBean.getBodyObject("KEYS_LIST") == null) {
+			log.error("参数ACTION_ID, KEYS_LIST必传，请检查！inBean="+inBusiBean.toString());
+			throw new BusiException(AcctMgrError.getErrorCode(
+					InterBusiConst.ErrInfo.OP_CODE,
+					InterBusiConst.ErrInfo.DATASYN+"006"), 
+					"参数ACTION_ID, KEYS_LIST必传，请检查！inBean="+inBusiBean.toString());
+		}
+		
+		//2.获取入参
+		long lActionId = Long.valueOf(inBusiBean.getBodyStr("ACTION_ID"));
+		String sLoginSn = inBusiBean.getBodyStr("LOGIN_SN");
+		List<Map<String, Object>> listKeysData = (List<Map<String, Object>>) inBusiBean.getBodyObject("KEYS_LIST");
+		String sDbId = inBusiBean.getHeaderStr("DB_ID");
+
+		//3.生成待发送源数据
+		ProducerMsg producer = getBusiData(lActionId, false, listKeysData, sLoginSn, sDbId);
+		
+		//4.发送至接口表
+		if (producer == null) {
+			log.info("数据库没有数据需要同步，请知晓<listKeyData="+listKeysData.toString());
+			return true;
+		} else {
+			middle.inputMsgSend(producer, inBusiBean);
+		}
+		
+		return true;
+	}
+
+	@Override
+	public boolean sendSynInter(MBean inBean) {
+		
+		//1.检查参数
+		if (inBean.getBodyObject("ACTION_ID") == null 
+				|| inBean.getBodyObject("CHECK_KEY") == null
+				|| inBean.getBodyObject("KEY_DATA") == null ) {
+			log.error("参数ACTION_ID,CHECK_KEY,KEY_DATA 必传，请检查！inBean="+inBean.toString());
+			throw new BusiException(AcctMgrError.getErrorCode(
+					InterBusiConst.ErrInfo.OP_CODE,
+					InterBusiConst.ErrInfo.DATASYN+"005"), 
+					"参数ACTION_ID,CHECK_KEY,KEY_DATA 必传，请检查！inBean="+inBean.toString());
+		}
+		
+		//2.获取入参
+		long lActionId = Long.valueOf(inBean.getBodyStr("ACTION_ID"));
+		boolean bCheckKey = inBean.getBodyBool("CHECK_KEY");
+		String sLoginSn = inBean.getBodyStr("LOGIN_SN");
+		Map<String, Object> mapKeyData = (Map<String, Object>) inBean.getBodyObject("KEY_DATA");
+		
+		//3.生成待发送源数据
+		ProducerMsg producer = sendDataInter(lActionId, bCheckKey, mapKeyData, sLoginSn);
+		
+		//4.发送至接口表
+		if (producer == null) {
+			log.info("数据库没有数据需要同步，请知晓~~~"
+					+ "CHECK_KEY=["+bCheckKey+"] mapKeyData="+mapKeyData.toString());
+			return true;
+		} else {
+			middle.inputMsgSend(producer, inBean);
+		}
+		//4.直接发送至消息中间件
+		//middle.sendMiddleInter(producer);//异常抛出 
+
+		//5.记录历史
+		//暂定正常发送不入历史
+		
+		return true;
+	}
+
+	private ProducerMsg getBusiData(long inActionId, boolean bCheck,
+			List<Map<String, Object>> listKeysData, String inLoginSn, String inDbid) {
+
+		List<Map<String, Object>> qryResult = new ArrayList<Map<String,Object>>();//所有的待同步数据
+		Map<String, String> cfgMap = new HashMap<String, String>(); 
+		String sGroupId = "0";
+		String sBusiidType = "0";
+		
+		//1.根据actionId查询所同步表的相关配置信息，包括所有索引名称等
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		inMap.put("ACTION_ID", inActionId);
+		inMap.put("SYN_FLAG", "Y");
+		log.debug("qryTables--inMap="+inMap.toString());
+
+		//改造成Map(key:TABLE_NAME+OP_TYPE)
+		Map<String, Map<String, String>> tabOpsMap = dao.qryTableOptypesMap(inMap);
+		if (tabOpsMap == null || tabOpsMap.isEmpty()) {
+			throw new BusiException(AcctMgrError.getErrorCode(
+					InterBusiConst.ErrInfo.OP_CODE,
+					InterBusiConst.ErrInfo.DATASYN+"004"), 
+					"没有相关配置，请检查！ACTION_ID="+inActionId);
+		}
+		Map<String, Map<String, String>> tabColsMap = dao.qryColsMap(inMap);
+		
+		//取JDBC数据库连接
+		//Connection conn = baseDao.getConnection();
+		JdbcConn jdbcConn = new JdbcConn(baseDao.getConnection());//inDbid
+		
+		//3.根据actionId查询的所有待同步表配置信息,构建每张表配置的查询列
+		for (Map<String, Object> tableDataMap:listKeysData) {
+			log.debug("---for ciecle---tableDataMap="+tableDataMap.toString());
+			if (tableDataMap.get("TABLE_NAME") == null || null == tableDataMap.get("UPDATE_TYPE")) {
+				throw new BusiException(AcctMgrError.getErrorCode(
+						InterBusiConst.ErrInfo.OP_CODE,
+						InterBusiConst.ErrInfo.DATASYN+"007"), 
+						"TABLE_NAME/UPDATE_TYPE必传，请检查入参！dataMap="+tableDataMap.toString());
+			}
+			
+			String tableName = tableDataMap.get("TABLE_NAME").toString().toUpperCase();//正表表名
+			String sUpType = tableDataMap.get("UPDATE_TYPE").toString().toUpperCase();
+			
+			//取得当前配置表+操作配置
+			cfgMap = tabOpsMap.get(tableName+sUpType);
+			
+			//3.3 主键、索引      如果配置的全表同步，也需要获取主键 
+			List<String> keys = getUniKeys(cfgMap);
+			
+			List<Map<String, Object>> records = getSynData(tableDataMap, keys,
+					 cfgMap, tabColsMap.get(tableName), jdbcConn);
+			
+			Map<String, Object> result = null;
+			if(records != null && !records.isEmpty()){//配置的表无数据，则不做同步
+				result = new HashMap<String, Object>();//存储单表查询返回结果
+				result.put("keys", keys);//主键
+				result.put("records", records);//数据集
+				result.put("update_type", sUpType);
+				result.put("table_name", tableName);
+				
+				//存储待同步数据
+				qryResult.add(result);
+			}
+			
+			//5.取得生产者信息，并发送同步数据
+			if ("0".equals(sGroupId))
+				if (tableDataMap.get("ID_NO") != null) {
+					sGroupId = tableDataMap.get("ID_NO").toString();
+					sBusiidType = "1";
+				} else if (tableDataMap.get("PHONE_NO") != null) {
+					sGroupId = tableDataMap.get("PHONE_NO").toString();
+					sBusiidType = "2";
+				} else if (tableDataMap.get("CONTRACT_NO") != null) {
+					sGroupId = tableDataMap.get("CONTRACT_NO").toString();
+					sBusiidType = "3";
+				}
+		}//for END
+		
+		//4.拼接Json格式报文
+		//MBean mbJsonOdr = parse.parseJsonOdr(qryResult, bCheck);
+		MBean mbJsonOdr = parse.parseJsonOdrByList(qryResult, bCheck);
+		
+		//关闭连接
+		jdbcConn.close();
+		
+		//设置发送源数据		
+		return getProducerMsg(mbJsonOdr, sGroupId, sBusiidType);
+	}
+	
+	protected ProducerMsg sendDataInter(long inActionId, boolean inCheckKeyFlag, Map<String, Object> inMapKeyVals,
+			String inLoginAccept) {
+		
+		List<Map<String, Object>> qryResult = new ArrayList<Map<String,Object>>();//所有的待同步数据
+		Map<String, Object> outTabSynFlag = new HashMap<String, Object>();//根据是否有索引判断该表是否同步
+
+		//1.根据actionId查询所同步表的相关配置信息，包括所有索引名称等
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		inMap.put("ACTION_ID", inActionId);
+		inMap.put("SYN_FLAG", "Y");
+		log.debug("qryTables--inMap="+inMap.toString());
+
+		List<Map<String, String>> lstActTabs = dao.qryTables(inMap);
+		if (lstActTabs == null || lstActTabs.isEmpty()) {
+			throw new BusiException(AcctMgrError.getErrorCode(
+					InterBusiConst.ErrInfo.OP_CODE,
+					InterBusiConst.ErrInfo.DATASYN+"004"), 
+					"没有相关配置，请检查！ACTION_ID="+inActionId);
+		}
+		//List<Map<String, String>> lstTabCols = dao.qryCols(inMap);
+		Map<String, Map<String, String>> tabColsMap = dao.qryColsMap(inMap);
+
+		//2.检查inMap是否包含所有参数，设置待同步表是否需要同步(即：outTabSynFlag)
+		boolean checkSucc = comm.checkInParams(inMapKeyVals, lstActTabs, outTabSynFlag);
+		if (false == checkSucc && inCheckKeyFlag == true) {
+			throw new BusiException(AcctMgrError.getErrorCode(
+					InterBusiConst.ErrInfo.OP_CODE,
+					InterBusiConst.ErrInfo.DATASYN+"001"), 
+					"Boss数据同步接口入参有误，请检查！incheck="+inCheckKeyFlag+",inParams="+inMapKeyVals.toString());
+		}
+		
+		//取JDBC数据库连接
+		JdbcConn jdbcConn = new JdbcConn(baseDao.getConnection());
+		
+		//3.根据actionId查询的所有待同步表配置信息,构建每张表配置的查询列
+		for (Map<String, String> tableMap:lstActTabs) {
+			String tableName = tableMap.get("TABLE_NAME");//正表表名
+			String sUpType = tableMap.get("UPDATE_TYPE");
+			
+			//3.1 根据索引判断当前配置的同步表是否需要同步
+			boolean synFlag = (Boolean) outTabSynFlag.get(tableName);
+			if (synFlag == false) {
+				log.debug("由于表"+tableName+"相关索引没有，判断该表为不同步。");
+				continue;
+			}
+			
+			//3.3 主键、索引      如果配置的全表同步，也需要获取主键 
+			List<String> keys = getUniKeys(tableMap);
+			
+			List<Map<String, Object>> records = getSynData(inMapKeyVals, keys,
+					 tableMap, tabColsMap.get(tableName), jdbcConn);
+			
+			Map<String, Object> result = null;
+			if(records != null && !records.isEmpty()){//配置的表无数据，则不做同步
+				result = new HashMap<String, Object>();//存储单表查询返回结果
+				result.put("keys", keys);//主键
+				result.put("records", records);//数据集
+				result.put("update_type", sUpType);
+				result.put("table_name", tableName);
+				//存储待同步数据
+				qryResult.add(result);
+			}
+		}//for END
+		log.debug("qryResult="+qryResult.toString());
+		
+		//4.拼接Json格式报文
+		MBean mbJsonOdr = parse.parseJsonOdrByList(qryResult, inCheckKeyFlag);
+		
+		//5.取得生产者信息，并发送同步数据
+		String sGroupId = "";
+		String sBusiidType = "";
+		if (inMapKeyVals.get("ID_NO") != null) {
+			sGroupId = inMapKeyVals.get("ID_NO").toString();
+			sBusiidType = "1";
+		} else if (inMapKeyVals.get("PHONE_NO") != null) {
+			sGroupId = inMapKeyVals.get("PHONE_NO").toString();
+			sBusiidType = "2";
+		} else if (inMapKeyVals.get("CONTRACT_NO") != null) {
+			sGroupId = inMapKeyVals.get("CONTRACT_NO").toString();
+			sBusiidType = "3";
+		} else {
+			sGroupId = "0";
+			sBusiidType = "0";
+		}
+		
+		//关闭连接
+		jdbcConn.close();
+		
+		//设置发送源数据		
+		return getProducerMsg(mbJsonOdr, sGroupId, sBusiidType);
+	}
+
+	private ProducerMsg getProducerMsg(MBean inJsonBean, String inGroupId, String inGrpType) {
+		
+		if (inJsonBean == null || inJsonBean.isEmpty())
+			return null;
+		
+		ProducerMsg producer = new ProducerMsg();
+		producer.setAddr(DataBaseConst.addr);
+		producer.setCompress(DataBaseConst.compress);
+		producer.setClient(DataBaseConst.pub_client);
+		producer.setTopic(DataBaseConst.data_topic);
+		producer.setTimeout(DataBaseConst.time_out);
+		producer.setGroupId(inGroupId);
+		producer.setGrpType(inGrpType);
+		producer.setPriori(100);
+		producer.setMsg(inJsonBean.toString());
+		
+		return producer;
+	}
+	
+	private List<String> getUniKeys(Map<String, String> cfgMap) {
+		//3.3 主键、索引      如果配置的全表同步，也需要获取主键 
+		List<String> keys = new ArrayList<String>();
+		String partition = cfgMap.get("PARTITION_COL");//正表表分区
+		String uniqueIndex = cfgMap.get("UNIQUE_INDEX");//主键
+		if(ValueUtils.isEmpty(uniqueIndex)){//校验主键配置是否有效
+			throw new BusiException(AcctMgrError.getErrorCode(
+			InterBusiConst.ErrInfo.OP_CODE,
+			InterBusiConst.ErrInfo.DATASYN+"003"), 
+					"配置表IN_TABLES_DICT中表【"+cfgMap.get("TABLE_NAME")+"】主键字段不能为空值!");
+		}
+		//3.3.1 主键列表
+		for(String key : uniqueIndex.split(",")){//联合主键用逗号隔开
+			if(!ValueUtils.isEmpty(key)){
+				keys.add(key.trim());
+			}
+		}
+		//3.3.2  把分区字段加入到主键中
+		if(ValueUtils.isNotEmpty(partition) && !partition.trim().equals("NULL")
+				&& -1 == keys.indexOf(partition)){
+			keys.add(partition);//表分区未配置同步字段的，默认添加查询字段
+		}
+		return keys;
+	}
+	
+	private List<Map<String, Object>> getSynData(Map<String, Object> dataMap, List<String> keys,
+			Map<String, String> cfgMap, Map<String, String> mapCols, JdbcConn jdbcConn) {
+		
+		List<Map<String, Object>> records = new ArrayList<Map<String,Object>>();
+		String tableName = cfgMap.get("TABLE_NAME");//正表表名
+		String hisTableName = cfgMap.get("HIS_TABLE_NAME");//历史表表名
+		//3.2 校验是否有历史表配置
+		/*if(ValueUtils.isEmpty(hisTableName)){
+			throw new BusiException(AcctMgrError.getErrorCode(
+					InterBusiConst.ErrInfo.OP_CODE,
+					InterBusiConst.ErrInfo.DATASYN+"002"), 
+					"配置表IN_TABLES_DICT中缺少表【"+tableName+"】的配置，请增加配置!");
+		}*/
+		
+		//3.5 查询 待同步的数据信息
+		Map<String, Object> result = null;
+		String sUpType = cfgMap.get("UPDATE_TYPE");
+		if (sUpType.equals("D")) { //若是删除操作则使用历史表作为查询表
+			
+			result = new HashMap<String, Object>();
+			for (String key : keys ) {
+				log.debug("----key="+key);
+				result.put(key, dataMap.get(key));
+			}
+			records.add(result);
+			
+		} else {
+			//查询Insert/Update时，待同步的数据信息
+			Map<String, Object> tableInfo = new HashMap<String, Object>();
+			tableInfo.put("FIELDS", comm.getColumns(cfgMap, mapCols, keys));//查询列清单
+			tableInfo.put("TABLE_OWNER", cfgMap.get("TABLE_OWNER"));//历史表属主
+			tableInfo.put("QRY_TABLE_NAME", tableName);//源表正表表名
+
+			String conType = cfgMap.get("CONDITION_TYPE");
+			log.debug("contype="+conType);
+			if (conType.equals("1")) {
+				tableInfo.put("CONDITION", comm.getConditions(cfgMap, dataMap, keys));//唯一查询条件
+			} else if (conType.equals("2")) {
+				// 若CONDITION_TYPE=2，则按照SQL_CONDITION取数据源的索引值
+				String sqlCont = cfgMap.get("SQL_CONDITION");
+				if (sqlCont != null && !sqlCont.equals("")) {
+					List<Map<String, Object>> recordIndxes = comm.getDataIndexes(sqlCont, dataMap, jdbcConn);
+					tableInfo.put("CONDITION", comm.getIndexConditions(cfgMap, recordIndxes, keys));//List查询条件
+				}
+			}
+			log.debug("--tableInfo="+tableInfo.toString());
+
+			records = dao.qryByList(tableInfo);//记录数
+			log.debug("records="+records.size());
+		}
+		
+		return records;
+	}
+	
+	/********************************get set Function*************************/
+	
+	public DataSynDAO getDao() {
+		return dao;
+	}
+
+	public void setDao(DataSynDAO dao) {
+		this.dao = dao;
+	}
+
+	public DataSynComm getComm() {
+		return comm;
+	}
+
+	public void setComm(DataSynComm comm) {
+		this.comm = comm;
+	}
+
+	public DataSynParse getParse() {
+		return parse;
+	}
+
+	public void setParse(DataSynParse parse) {
+		this.parse = parse;
+	}
+
+	public MsgMiddle getMiddle() {
+		return middle;
+	}
+
+	public void setMiddle(MsgMiddle middle) {
+		this.middle = middle;
+	}
+
+	
+}

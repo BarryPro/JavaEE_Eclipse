@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_acctbook_his">
+    <typeAlias alias="spFeeRecycle" type="com.sitech.acctmgr.atom.domains.query.SpFeeRecycleEntity"/>
+    
+  <insert id="iAcctbookHis"  parameterClass="Map">
+	INSERT INTO BAL_ACCTBOOK_HIS (BALANCE_ID,CONTRACT_NO,PAY_TYPE,INIT_BALANCE,CUR_BALANCE,PRE_BALANCE
+		,WRTOFF_MONTH,BALANCE_TYPE,BEGIN_TIME,END_TIME,PAY_TIME,LOGIN_NO,OP_TIME,PAY_SN,PRINT_FLAG,FOREIGN_SN)
+	SELECT BALANCE_ID,CONTRACT_NO
+		,PAY_TYPE,INIT_BALANCE,CUR_BALANCE,PRE_BALANCE,WRTOFF_MONTH,BALANCE_TYPE,BEGIN_TIME,END_TIME,PAY_TIME
+		,#LOGIN_NO#,SYSDATE,PAY_SN,PRINT_FLAG,FOREIGN_SN FROM   BAL_ACCTBOOK_INFO
+	WHERE  CONTRACT_NO=#CONTRACT_NO# AND    CUR_BALANCE=0 
+  </insert>
+  
+  <insert id="iAcctbookHisFromDead"  parameterClass="Map">
+	INSERT INTO BAL_ACCTBOOK_HIS (BALANCE_ID,CONTRACT_NO,PAY_TYPE,INIT_BALANCE,CUR_BALANCE,PRE_BALANCE
+		,WRTOFF_MONTH,BALANCE_TYPE,BEGIN_TIME,END_TIME,PAY_TIME,LOGIN_NO,OP_TIME,PAY_SN,PRINT_FLAG,FOREIGN_SN)
+	SELECT BALANCE_ID,CONTRACT_NO
+		,PAY_TYPE,INIT_BALANCE,CUR_BALANCE,PRE_BALANCE,WRTOFF_MONTH,BALANCE_TYPE,BEGIN_TIME,END_TIME,PAY_TIME
+		,#LOGIN_NO#,SYSDATE,PAY_SN,PRINT_FLAG,FOREIGN_SN FROM   BAL_ACCTBOOK_DEAD
+	WHERE  CONTRACT_NO=#CONTRACT_NO# AND  CUR_BALANCE=0 
+  </insert>
+  
+   <delete id= "delAcctbookHis"  parameterClass="Map" >
+	 	DELETE FROM BAL_ACCTBOOK_HIS WHERE  CONTRACT_NO=#CONTRACT_NO# AND BALANCE_ID = #BALANCE_ID#
+  </delete>
+  
+  <update id="upPrintFlag"  parameterClass="Map" >
+   UPDATE BAL_ACCTBOOK_HIS SET PRINT_FLAG = #PRINT_FLAG# WHERE 1=1
+   <dynamic prepend="">
+   		<isNotEmpty prepend="AND" property="SUFFIX">
+   			TO_CHAR(OP_TIME,'yyyymm') = #SUFFIX#
+   		</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		 CONTRACT_NO = #CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="BALANCE_ID">
+    		BALANCE_ID=#BALANCE_ID#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    		PAY_SN=#PAY_SN#
+    	</isNotEmpty>
+    </dynamic>
+  </update>
+
+
+	<select id="qAcctBookHis" parameterClass="Map" resultClass="spFeeRecycle">
+		SELECT A.PAY_TYPE spType,
+		B.PAY_TYPE_NAME spName,
+		TO_CHAR(PAY_TIME, 'YYYYMMDDHH24MISS') opTime,
+		LOGIN_NO loginNo,
+		PAY_SN paySn,
+		TO_CHAR(BEGIN_TIME, 'YYYYMMDDHH24MISS') beginTime,
+		TO_CHAR(END_TIME, 'YYYYMMDDHH24MISS') endTime
+		FROM BAL_ACCTBOOK_HIS A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE = B.PAY_TYPE
+		AND SUBSTR(PAY_ATTR, 1, 1) = '1'
+		AND SUBSTR(B.PAY_ATTR, 4, 1) = '1'
+		AND END_TIME BETWEEN ADD_MONTHS(SYSDATE, -3) AND SYSDATE
+		AND CONTRACT_NO = #CONTRACT_NO#
+	</select>
+    
+    <select id="qryPrintFlag" parameterClass="Map" resultClass="java.util.HashMap">
+    	SELECT PRINT_FLAG FROM BAL_ACCTBOOK_HIS 
+    	WHERE TO_CHAR(OP_TIME,'YYYYMM')=#SUFFIX# 
+    	<dynamic prepend="">
+    		<isNotEmpty prepend="" property="CONTRACT_NO">
+    			AND CONTRACT_NO=#CONTRACT_NO#
+    		</isNotEmpty>
+    		<isNotEmpty prepend="" property="BALANCE_ID">
+    			AND BALANCE_ID=#BALANCE_ID#
+    		</isNotEmpty>
+    	</dynamic>
+    	
+    </select>
+    
+</sqlMap>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+</head>
+<body>
+    <script type="text/javascript">
+        window.onload = function (){
+            function Animal(){
+                //共有成员
+                this.name = "belong";
+                this.getName= function (){
+                    return this.name;
+                }
+                //私有成员
+                var author = "belong";
+            }
+//            利用JSON的形式是动态的添加不能用于继承
+            Animal.prototype = {
+                sex:"dog",
+                age:20,
+                setSex:function(sex){
+                    this.name = sex;
+                },
+                getSex:function(){
+                    return this.sex;
+                },
+                getAge:function(){
+                    return this.age;
+                },
+                setAge:function(age){
+                    this.age = age;
+                }
+            }
+            function Dog(){
+                this.color = "red";
+                Animal.apply(this,arguments);
+                this.setColor = function(color){
+                    this.color = color;
+                }
+                this.getColor = function(){
+                    return this.color;
+                }
+                this.print = function(){
+                    alert(this.getName());
+                }
+            }
+            var dog = new Dog();
+
+            alert(dog.color);
+
+            dog.print();
+            var a = new Animal();
+            alert(a.getAge());
+            alert(a.sex);
+
+            //字符串转换成json
+            var str = "bjelong";
+            alert(str);
+
+        }
+    </script>
+
+</body>
+</html>

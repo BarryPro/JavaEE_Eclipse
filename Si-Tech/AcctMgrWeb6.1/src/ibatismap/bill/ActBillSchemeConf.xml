@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_billscheme_conf">
+
+	<select id="qSchemeInfo" parameterClass="Map" resultClass="java.util.HashMap">
+
+		SELECT
+		PROD_PRCID,
+		PROD_PRC_DESC
+		FROM
+		ACT_BILLSCHEME_CONF
+		WHERE
+		BRAND_ID = #BRAND_ID#
+		AND #TOTAL_FEE# >= MIN_FEE
+		AND #TOTAL_FEE# <![CDATA[ < ]]> MAX_FEE
+		AND REGION_CODE = #REGION_CODE#
+		AND TO_DATE(#YEAR_MONTH#, 'YYYYMM') BETWEEN EFF_DATE AND EXP_DATE
+		and rownum <![CDATA[ < ]]> 2
+
+	</select>
+
+</sqlMap>
+

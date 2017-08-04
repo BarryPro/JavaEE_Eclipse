@@ -1,0 +1,270 @@
+package com.sitech.acctmgr.atom.domains.invoice;
+
+import java.io.Serializable;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+/**
+ * 名称：发票上展示的基本内容信息
+ * 
+ * @author liuhl_bj
+ *
+ */
+public class BaseInvoiceDispEntity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@JSONField(name = "PHONE_NO")
+	@ParamDesc(path = "PHONE_NO", cons = ConsType.CT001, type = "string", len = "10", desc = "服务号码", memo = "略")
+	private String phoneNo;
+
+	@JSONField(name = "CONTRACT_NO")
+	@ParamDesc(path = "CONTRACT_NO", cons = ConsType.CT001, type = "long", len = "10", desc = "账户号码", memo = "略")
+	private long contractNo;
+
+	@JSONField(name = "PRINT_DATE")
+	@ParamDesc(path = "PRINT_DATE", cons = ConsType.CT001, type = "string", len = "10", desc = "打印日期", memo = "略")
+	private String printDate;
+
+	@JSONField(name = "INV_NO")
+	@ParamDesc(path = "INV_NO", cons = ConsType.CT001, type = "string", len = "10", desc = "发票号码", memo = "略")
+	private String invNo;
+
+	@JSONField(name = "OP_NAME")
+	@ParamDesc(path = "OP_NAME", cons = ConsType.CT001, type = "string", len = "10", desc = "业务类型", memo = "略")
+	private String opName;
+
+	@JSONField(name = "OP_CODE")
+	@ParamDesc(path = "OP_CODE", cons = ConsType.CT001, type = "string", len = "10", desc = "操作代码", memo = "略")
+	private String opCode;
+
+	@JSONField(name = "CUST_NAME")
+	@ParamDesc(path = "CUST_NAME", cons = ConsType.CT001, type = "string", len = "10", desc = "客户名称", memo = "略")
+	private String custName;
+
+	@JSONField(name = "BRAND_NAME")
+	@ParamDesc(path = "BRAND_NAME", cons = ConsType.CT001, type = "string", len = "10", desc = "客户品牌", memo = "略")
+	private String brandName;
+
+	@JSONField(name = "BRAND_ID")
+	@ParamDesc(path = "BRAND_ID", cons = ConsType.CT001, type = "string", len = "10", desc = "客户品牌", memo = "略")
+	private String brandId;
+
+	@JSONField(name = "LOGIN_ACCEPT")
+	@ParamDesc(path = "LOGIN_ACCEPT", cons = ConsType.CT001, type = "long", len = "10", desc = "流水号", memo = "略")
+	private long loginAccept;
+
+	@JSONField(name = "LOGIN_NAME")
+	@ParamDesc(path = "LOGIN_NAME", cons = ConsType.CT001, type = "string", len = "10", desc = "开票人", memo = "略")
+	private String loginName;
+
+	@JSONField(name = "LOGIN_NO")
+	@ParamDesc(path = "LOGIN_NO", cons = ConsType.CT001, type = "string", len = "10", desc = "工号", memo = "略")
+	private String loginNo;
+
+	@JSONField(name = "GROUP_NAME")
+	@ParamDesc(path = "GROUP_NAME", cons = ConsType.CT001, type = "string", len = "10", desc = "营业厅", memo = "略")
+	private String groupName;
+
+	@JSONField(name = "CUST_ID")
+	@ParamDesc(path = "CUST_ID", cons = ConsType.CT001, type = "long", len = "10", desc = "客户ID", memo = "略")
+	private long custId;
+
+	@JSONField(name = "ID_NO")
+	@ParamDesc(path = "ID_NO", cons = ConsType.CT001, type = "long", len = "10", desc = "服务号码", memo = "略")
+	private long idNo;
+
+	@JSONField(name = "REMARK")
+	@ParamDesc(path = "REMARK", cons = ConsType.CT001, type = "long", len = "10", desc = "备注", memo = "略")
+	private String remark;
+
+	@JSONField(name = "UNIT_NO")
+	@ParamDesc(path = "UNIT_NO", cons = ConsType.CT001, type = "int", len = "10", desc = "集团统付号码", memo = "略")
+	private String unitNo;
+
+	@JSONField(name = "PRINT_ITEM")
+	@ParamDesc(path = "PRINT_ITEM", cons = ConsType.CT001, type = "string", len = "10", desc = "开票项目", memo = "略")
+	private String printItem;
+
+	@JSONField(name = "INV_NO_NAME")
+	@ParamDesc(path = "INV_NO_NAME", cons = ConsType.CT001, type = "string", len = "10", desc = "本次发票号码：", memo = "打印收据时不展示")
+	private String invNoName;
+	
+	@JSONField(name = "KD_PHONE")
+	@ParamDesc(path = "KD_PHONE", cons = ConsType.CT001, type = "string", len = "10", desc = "宽带号码", memo = "品牌为宽带时使用")
+	private String kdPhone;
+
+	public String getKdPhone() {
+		return kdPhone;
+	}
+
+	public void setKdPhone(String kdPhone) {
+		this.kdPhone = kdPhone;
+	}
+
+	public String getInvNoName() {
+		return invNoName;
+	}
+
+	public void setInvNoName(String invNoName) {
+		this.invNoName = invNoName;
+	}
+
+	public String getPrintItem() {
+		return printItem;
+	}
+
+	public void setPrintItem(String printItem) {
+		this.printItem = printItem;
+	}
+
+	public String getUnitNo() {
+		return unitNo;
+	}
+
+	public void setUnitNo(String unitNo) {
+		this.unitNo = unitNo;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public long getIdNo() {
+		return idNo;
+	}
+
+	public String getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
+
+	public void setIdNo(long idNo) {
+		this.idNo = idNo;
+	}
+
+	public long getCustId() {
+		return custId;
+	}
+
+	public void setCustId(long custId) {
+		this.custId = custId;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public long getContractNo() {
+		return contractNo;
+	}
+
+	public void setContractNo(long contractNo) {
+		this.contractNo = contractNo;
+	}
+
+	public String getPrintDate() {
+		return printDate;
+	}
+
+	public void setPrintDate(String printDate) {
+		this.printDate = printDate;
+	}
+
+	public String getInvNo() {
+		return invNo;
+	}
+
+	public void setInvNo(String invNo) {
+		this.invNo = invNo;
+	}
+
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public String getOpName() {
+		return opName;
+	}
+
+	public void setOpName(String opName) {
+		this.opName = opName;
+	}
+
+	public long getLoginAccept() {
+		return loginAccept;
+	}
+
+	public void setLoginAccept(long loginAccept) {
+		this.loginAccept = loginAccept;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getLoginNo() {
+		return loginNo;
+	}
+
+	public void setLoginNo(String loginNo) {
+		this.loginNo = loginNo;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getOpCode() {
+		return opCode;
+	}
+
+	public void setOpCode(String opCode) {
+		this.opCode = opCode;
+	}
+
+	@Override
+	public String toString() {
+		return "BaseInvoiceDispEntity [phoneNo=" + phoneNo + ", contractNo=" + contractNo + ", printDate=" + printDate + ", invNo=" + invNo
+				+ ", opName=" + opName + ", opCode=" + opCode + ", custName=" + custName + ", brandName=" + brandName + ", loginAccept="
+				+ loginAccept + ", loginName=" + loginName + ", loginNo=" + loginNo + ", groupName=" + groupName + ", custId=" + custId + ", idNo="
+				+ idNo + "]";
+	}
+
+}

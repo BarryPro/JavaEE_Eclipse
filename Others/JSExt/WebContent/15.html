@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function Book(title,author){
+		var title=title;
+		var author=author;
+		this.getTitle=function(){			
+			return "Title:"+title;
+		}
+		this.getAuthor=function(){			
+			return "Author:"+author;			
+		}		
+	}
+	function TechBook(title,author,category){		
+		var catrgory=catrgory;
+		this.getCategory=function(){
+			return "Technical Category:"+category;			
+		}
+		Book.apply(this,arguments);
+		this.getBook=function(){			
+			return this.getTitle()+" "+author+" "+this.getCategory();			
+		}
+	}
+	window.onload=function(){		
+		//链化该对象的构造函数
+		TechBook.prototype=new Book();//TechBook继承Book
+		//获取所有值
+		var newBook=new TechBook("The JavaScript CookBook","Shelley Powers","Programming");
+		
+		alert(newBook.getBook());
+		//逐个显示
+		alert(newBook.getTitle());
+		alert(newBook.getAuthor());
+		alert(newBook.getCategory());
+		
+		
+		
+	}
+
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

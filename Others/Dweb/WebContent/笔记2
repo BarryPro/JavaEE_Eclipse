@@ -1,0 +1,11 @@
+推荐使用Attribute(由服务器管理用完直接服务器释放 在内存中存储)
+1.page:用于自己本身可以用
+2.request：有请求时只可以重定向一次（跳转），没有请求时地址栏不能改变include forward
+3.session：不需要请求地址栏可以改变，但是有时间限制 内容保存在服务器端
+4.application：没有时间限制 可以保存一直（真正的全局）可以取出初始化在web.xml中的初始化内容放到内存中
+5.pageContext：可以代替以上四种并且可以在参数中改变他们的内置对象
+6.response：可以修改cookie浏览器的缓存记录
+7.out
+8.exception：可以自定义错误页errorpage
+iserrorpage
+9.config 配置

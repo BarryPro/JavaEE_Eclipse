@@ -1,0 +1,254 @@
+package com.sitech.acctmgr.atom.impl.free;
+
+import com.sitech.acctmgr.atom.domains.free.FreeGprsDetailEntity;
+import com.sitech.acctmgr.atom.domains.query.FreeMinBill;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.free.SFreeOpenGprsQueryInDTO;
+import com.sitech.acctmgr.atom.dto.free.SFreeOpenGprsQueryOutDTO;
+import com.sitech.acctmgr.atom.dto.free.SFreeOpenQueryInDTO;
+import com.sitech.acctmgr.atom.dto.free.SFreeOpenQueryOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IBillAccount;
+import com.sitech.acctmgr.atom.entity.inter.IFreeDisplayer;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.inter.free.IFreeOpen;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by wangyla on 2017/6/6.
+ */
+@ParamTypes({
+        @ParamType(c = SFreeOpenQueryInDTO.class, m = "query", oc = SFreeOpenQueryOutDTO.class),
+        @ParamType(c = SFreeOpenGprsQueryInDTO.class, m = "query", oc = SFreeOpenGprsQueryOutDTO.class)
+})
+public class SFreeOpen extends AcctMgrBaseService implements IFreeOpen {
+    private IUser user;
+    private IFreeDisplayer freeDisplayer;
+    private IBillAccount billAccount;
+    private IGroup group;
+
+    @Override
+    public OutDTO query(InDTO inParam) {
+        SFreeOpenQueryInDTO inDto = (SFreeOpenQueryInDTO) inParam;
+        log.debug("inDto=" + inDto.getMbean());
+
+        SFreeOpenQueryOutDTO outDto = new SFreeOpenQueryOutDTO();
+
+        String retCode = "0000";
+        String retMsg = "成功";
+
+        /*============开始处理业务==============*/
+
+        String phoneNo = inDto.getPhoneNo();
+        int curYm = DateUtils.getCurYm();
+
+        UserInfoEntity userInfo = user.getUserEntityByPhoneNo(phoneNo, false);
+        if (userInfo == null) {
+            retCode = "4005";
+            retMsg = "使用用户手机号码非法（不存在）";
+
+            outDto.setRetCode(retCode);
+            outDto.setRetMsg(retMsg);
+
+            return outDto;
+        }
+
+
+        //拼接出参
+        outDto.setRetCode(retCode);
+        outDto.setRetMsg(retMsg);
+        outDto.setQueryTime(DateUtils.getCurDate(DateUtils.DATE_FORMAT_YYYYMMDDHHMISS));
+
+        log.debug("outDto=" + outDto.toJson());
+        return outDto;
+    }
+
+    @Override
+    public OutDTO gprsQuery(InDTO inParam) {
+        SFreeOpenGprsQueryInDTO inDto = (SFreeOpenGprsQueryInDTO) inParam;
+        log.debug("inDto=" + inDto.getMbean());
+
+        SFreeOpenGprsQueryOutDTO outDto = new SFreeOpenGprsQueryOutDTO();
+
+        String retCode = "0000";
+        String retMsg = "成功";
+
+        /*============开始处理业务==============*/
+
+        String phoneNo = inDto.getPhoneNo();
+        int curYm = DateUtils.getCurYm();
+
+        UserInfoEntity userInfo = user.getUserEntityByPhoneNo(phoneNo, false);
+        if (userInfo == null) {
+            retCode = "4005";
+            retMsg = "使用用户手机号码非法（不存在）";
+
+            outDto.setRetCode(retCode);
+            outDto.setRetMsg(retMsg);
+
+            return outDto;
+        }
+
+        String groupId = userInfo.getGroupId();
+
+        String regionCode = group.getRegionDistinct(groupId, "2", inDto.getProvinceId()).getRegionCode();
+
+
+        long gprsShouldTotal = 0; //套餐内流量总量
+        long gprsUsedTotal = 0; //流量使用总量（含套餐外流量）
+
+        List<FreeMinBill> freeDetailList = null;
+
+        try {
+            freeDetailList = freeDisplayer.getFreeDetailList(phoneNo, curYm, "3", "0" /*普通流量*/);
+        } catch (BusiException e) {
+            retCode = "5999";
+            retMsg = "Socket服务端异常";
+
+            outDto.setRetCode(retCode);
+            outDto.setRetMsg(retMsg);
+            return outDto;
+        }
+
+        Map<String, FreeGprsDetailEntity> indexMap = new HashMap<>(); /*资费明细Map容器*/
+        Map<String, Integer> numMap = new HashMap<>(); /*资费产品个数Map容器*/
+
+        if (freeDetailList != null && freeDetailList.size() > 0) {
+
+            for (FreeMinBill freeEnt : freeDetailList) {
+                String busiCode = freeEnt.getBusiCode();
+                String favType = freeEnt.getFavType();
+                String prcId = freeEnt.getProdPrcId();
+                String unitCode = freeEnt.getUnitCode();
+                if (!busiCode.equals("3")) { //非GPRS流量，不处理
+                    continue;
+                }
+
+                if (favType.equals("0002")) { //套餐外的流量使用量
+                    gprsUsedTotal += freeEnt.getLongUsed();
+                    continue; //套餐外使用量不计入订购套餐的列表中
+                }
+
+                gprsShouldTotal += freeEnt.getLongTotal() + freeEnt.getLongLastTotal();
+                gprsUsedTotal += freeEnt.getLongUsed() + freeEnt.getLongLastUsed();
+
+                /*boolean addFlag = false; *//*是否叠加包资费， true: 是；fasle：不是*//*
+                if (freeDisplayer.isAddedGprs(prcId)) { //流量叠加包
+                    addFlag = true;
+                } else { //套餐内流量
+                    addFlag = false;
+                }*/
+
+                String prcType = freeEnt.getPrcType();
+
+                if (indexMap.containsKey(prcId)) {
+                    FreeGprsDetailEntity prcDetailEnt = indexMap.get(prcId);
+                    prcDetailEnt.setLongGprsTotal(prcDetailEnt.getLongGprsTotal() + freeEnt.getLongTotal() + freeEnt.getLongLastTotal());
+                    prcDetailEnt.setLongGprsUsed(prcDetailEnt.getLongGprsUsed() + freeEnt.getLongUsed() + freeEnt.getLongLastUsed());
+
+                    /*if (addFlag == true) {
+                        int newnum = numMap.get(prcId) + 1;
+                        numMap.put(prcId, newnum);
+                    }*/
+
+                    if (prcType.equals("1")) { //附加资费累计个数 //TODO
+                        int newnum = numMap.get(prcId) + 1;
+                        numMap.put(prcId, newnum);
+                    }
+                } else {
+
+                    int carryFlag = billAccount.getGprsState(prcId, regionCode); //获取资费是否为可结转资费
+
+                    FreeGprsDetailEntity prcDetailEnt = new FreeGprsDetailEntity();
+                    prcDetailEnt.setPrcNum(1);
+                    prcDetailEnt.setPrcId(prcId);
+                    prcDetailEnt.setPrcName(freeEnt.getProdPrcName());
+                    prcDetailEnt.setLongGprsTotal(freeEnt.getLongTotal() + freeEnt.getLongLastTotal());
+                    prcDetailEnt.setLongGprsUsed(freeEnt.getLongUsed() + freeEnt.getLongLastUsed());
+                    prcDetailEnt.setProductType("NA"); //
+                    prcDetailEnt.setRateType(unitCode.equals("3") ? "2" : (unitCode.equals("4") ? "1" : "-")); //1: 按流量；2：按时长
+                    String limitType = freeEnt.getLimitType();
+                    prcDetailEnt.setUseType(limitType.equals("02") ? "1" : (limitType.equals("01") ? "2" : "0"));
+                    prcDetailEnt.setNetType(""); //TODO
+                    prcDetailEnt.setSendType(""); //TODO
+                    prcDetailEnt.setCarryType((carryFlag == 1) ? "0" : "1"); //0:结转；1：非结转
+                    prcDetailEnt.setCumulateType("0"); //0：按月累计
+                    prcDetailEnt.setBeginDate(""); //按月累计时，返回空
+                    prcDetailEnt.setEndDate("");  //按月累计时，返回空
+
+                    indexMap.put(prcId, prcDetailEnt);
+                    numMap.put(prcId, 1);
+                }
+
+
+            } //:: end for
+        } //::end if
+
+        List<FreeGprsDetailEntity> detailList = new ArrayList<>();
+        for (String key : indexMap.keySet()) {
+            FreeGprsDetailEntity detailEnt = indexMap.get(key);
+            detailEnt.setPrcNum(numMap.get(key));
+            detailEnt.setGprsTotal(String.format("%d", detailEnt.getLongGprsTotal()));
+            detailEnt.setGprsUsed(String.format("%d", detailEnt.getLongGprsUsed()));
+
+            detailList.add(detailEnt);
+        }
+
+
+        //拼接出参
+        outDto.setRetCode(retCode);
+        outDto.setRetMsg(retMsg);
+        outDto.setPhoneNo(phoneNo);
+
+        outDto.setGprsTotal(String.format("%d", gprsShouldTotal));
+        outDto.setGprsUsed(String.format("%d", gprsUsedTotal));
+
+        outDto.setDetailList(detailList);
+
+        log.debug("outDto=" + outDto.toJson());
+        return outDto;
+    }
+
+    public IUser getUser() {
+        return user;
+    }
+
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public IFreeDisplayer getFreeDisplayer() {
+        return freeDisplayer;
+    }
+
+    public void setFreeDisplayer(IFreeDisplayer freeDisplayer) {
+        this.freeDisplayer = freeDisplayer;
+    }
+
+    public IBillAccount getBillAccount() {
+        return billAccount;
+    }
+
+    public void setBillAccount(IBillAccount billAccount) {
+        this.billAccount = billAccount;
+    }
+
+    public IGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(IGroup group) {
+        this.group = group;
+    }
+}

@@ -1,0 +1,29 @@
+1. form表单：get方式，需要在tomcat服务器里面的config/server.xml文件中的
+  <Connector节中添加： URIEncoding="utf-8"
+    如果改成全局的get编码方式，将在超链接，
+    response.sendRedirect()跳转都不需要解码,
+    直接用getParameter("username")取值
+2. form表单：post方式 需要使用
+
+   request.setCharacterEncoding("utf-8");   
+   String s1=request.getParameter("user");
+   或
+   String s1=new String(request.getParameter("user").getBytes("iso-8859-1"),"utf-8");  
+   或
+   过滤器
+3.<a href></a>：加码java.net.URLEncoder.encode("中文","utf-8")发，
+用new String(request.getParameter().getBytes("iso-8859-1"),"utf-8")取;
+4.<jsp:forward>:传值在发送端和接收端必须加解码。
+
+5.<%response.sendRedirect()%>: 加码：发送使用java.net.URLEncoder.encode("你好","utf-8");加码，
+  接收使用new String(request.getparameter("user").getbytes(),"utf-8")解码
+  
+6.<jsp:include>:传值在发送端和接收端必须加:
+<jsp:param value='<%=java.net.URLEncoder.encode("中文","utf-8")%>' name="a1"/>
+解码：java.net.URLDecoder.decode(request.getParameter("j1"),"utf-8")
+7.Cookie的乱码问题：
+    加码：	Cookie c=new Cookie("yst",java.net.URLEncoder.encode("易圣通"));
+    解码：out.println(java.net.URLDecoder.decode(c.getValue().toString()));
+
+
+

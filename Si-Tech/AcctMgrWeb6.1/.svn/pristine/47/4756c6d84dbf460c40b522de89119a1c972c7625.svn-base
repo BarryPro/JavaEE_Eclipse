@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_deadowe_info">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.bill.BillEntity"
+               alias="billEntity"/>
+
+    <select id="qDeadOweInfo" parameterClass="Map" resultClass="billEntity">
+        SELECT BILL_CYCLE billCycle,
+        NATURAL_MONTH naturalMonth,
+        BILL_BEGIN billBegin,
+        NVL(SUM(SHOULD_PAY -FAVOUR_FEE - PAYED_PREPAY - PAYED_LATER), 0) oweFee,
+        NVL(SUM(SHOULD_PAY),0) shouldPay,
+        NVL(SUM(FAVOUR_FEE),0) favourFee,
+        NVL(SUM(PAYED_PREPAY),0) payedPrepay,
+        NVL(SUM(PAYED_LATER),0) payedLater
+        FROM ACT_DEADOWE_INFO
+        WHERE ID_NO =
+        #ID_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO:LONG#
+            </isNotEmpty>
+        </dynamic>
+        AND STATUS in
+        <iterate property="SUFFIX" conjunction="," open="(" close=")" prepend="">
+            #SUFFIX[]#
+        </iterate>
+        GROUP BY BILL_CYCLE,NATURAL_MONTH,BILL_BEGIN
+        ORDER BY BILL_CYCLE DESC
+    </select>
+
+    <select id="qryBillCycle" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT BILL_CYCLE FROM ACT_DEADOWE_INFO
+        WHERE ID_NO=#ID_NO#
+        AND STATUS=#STATUS#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO =
+                #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY BILL_CYCLE
+        ORDER BY BILL_CYCLE
+    </select>
+
+    <select id="qDeadOweConByIdNo" parameterClass="Map"
+            resultClass="java.util.HashMap">
+		SELECT DISTINCT CONTRACT_NO FROM ACT_DEADOWE_INFO
+		WHERE ID_NO=#ID_NO#
+		AND STATUS=#STATUS#
+	</select>
+
+    <select id="qDeadWriteoff" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT A.ACCT_ITEM_CODE ACCT_ITEM_CODE , CYCLE_TYPE ,
+        NVL(SHOULD_PAY-FAVOUR_FEE-PAYED_PREPAY-PAYED_LATER,0) OWE_FEE,
+        NVL(SHOULD_PAY,0) SHOULD_PAY , NVL(FAVOUR_FEE,0) FAVOUR_FEE,
+        NVL(PAYED_PREPAY,0) PAYED_PREPAY, NVL(PAYED_LATER,0) PAYED_LATER ,
+        BILL_ID,BILL_CYCLE , BILL_BEGIN , BILL_END , nvl(TAX_RATE,0.00)
+        TAX_RATE,
+        NVL(TAX_FEE,0) TAX_FEE , nvl(PAYED_TAX,0) PAYED_TAX , ID_NO , NATURAL_MONTH
+        FROM ACT_DEADOWE_INFO A, ACT_ITEM_GROUP_DETAIL B
+        WHERE A.ACCT_ITEM_CODE=B.ACCT_ITEM_CODE
+        AND ID_NO = #ID_NO#
+        AND STATUS = #STATUS#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="CONTRACT_NO">
+                AND CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BILL_CYCLE">
+                AND BILL_CYCLE =
+                #BILL_CYCLE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="ACCT_ITEM_GROUP">
+                AND B.ACCT_ITEM_GROUP =
+                #ACCT_ITEM_GROUP#
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY BILL_CYCLE,PRIORITY
+    </select>
+
+    <delete id="delDeadOweById" parameterClass="Map">
+		DELETE
+		ACT_DEADOWE_INFO WHERE BILL_ID=#BILL_ID#
+	</delete>
+
+    <update id="uDeadpayowe" parameterClass="Map">
+        UPDATE ACT_DEADOWE_INFO SET PAYED_LATER= PAYED_LATER + #PAYED_LATER#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="PAYED_PREPAY">
+                , PAYED_PREPAY=
+                PAYED_PREPAY+#PAYED_PREPAY#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="PAYED_TAX">
+                , PAYED_TAX=#PAYED_TAX#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="STATUS">
+                , STATUS=#STATUS#
+            </isNotEmpty>
+        </dynamic>
+        WHERE BILL_ID=#BILL_ID#
+    </update>
+
+    <select id="qActDeadOweSum" parameterClass="Map" resultClass="billEntity">
+        SELECT NVL(SUM(SHOULD_PAY-FAVOUR_FEE-PAYED_PREPAY-PAYED_LATER),0) AS
+        oweFee,
+        NVL(SUM(PAYED_PREPAY), 0) payedPrepay,
+        NVL(SUM(PAYED_LATER), 0) payedLater,
+        NVL(SUM(SHOULD_PAY), 0) shouldPay,
+        NVL(SUM(FAVOUR_FEE), 0) favourFee
+        FROM ACT_DEADOWE_INFO
+        WHERE 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="STATUS">
+                STATUS in
+                <iterate property="STATUS" conjunction="," open="(" close=")" prepend="">
+                    #STATUS[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO=#CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO=#ID_NO#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+
+    <select id="qrySumFeeByCon" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT NVL(SUM(SHOULD_PAY - FAVOUR_FEE),0) AS FEE FROM
+        ACT_DEADOWE_INFO
+        WHERE CONTRACT_NO = #CONTRACT_NO:LONG# AND
+        NATURAL_MONTH =
+        #NATURAL_MONTH:INT#
+        AND STATUS IN('1','4')
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO:LONG#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="qDeadOweByIdNoGroupCon" parameterClass="Map"
+            resultClass="java.util.HashMap">
+        SELECT NATURAL_MONTH,
+        BILL_CYCLE,
+        NVL(SUM(SHOULD_PAY - FAVOUR_FEE -
+        PAYED_PREPAY - PAYED_LATER), 0) OWE_FEE,
+        NVL(SUM(SHOULD_PAY), 0)
+        SHOULD_PAY,
+        NVL(SUM(FAVOUR_FEE), 0) FAVOUR_FEE,
+        NVL(SUM(PAYED_PREPAY),
+        0) PAYED_PREPAY,
+        NVL(SUM(PAYED_LATER), 0) PAYED_LATER,
+        BILL_BEGIN,
+        BILL_END,
+        CONTRACT_NO,
+        STATUS
+        FROM ACT_DEADOWE_INFO
+        WHERE 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY NATURAL_MONTH, BILL_CYCLE, BILL_BEGIN, BILL_END, CONTRACT_NO,
+        STATUS
+        ORDER BY NATURAL_MONTH, BILL_CYCLE, BILL_BEGIN
+    </select>
+
+    <select id="queryActDeadOwe" parameterClass="Map" resultClass="java.util.HashMap">
+        select ACCT_ITEM_CODE,
+        BILL_ID,
+        NVL(SHOULD_PAY, 0) SHOULD_PAY,
+        NVL(FAVOUR_FEE, 0) FAVOUR_FEE,
+        NVL(PAYED_PREPAY, 0) PAYED_PREPAY,
+        NVL(PAYED_LATER, 0) PAYED_LATER,
+        NVL(SHOULD_PAY-FAVOUR_FEE-PAYED_PREPAY-PAYED_LATER,0) OWE_FEE,
+        NVL(TAX_RATE,0.00) TAX_RATE,
+        NVL(TAX_FEE,0) TAX_FEE ,
+        NVL(PAYED_TAX,0) PAYED_TAX,
+        BILL_DAY,
+        STATUS,
+        BILL_BEGIN,
+        bill_cycle
+        from ACT_DEADOWE_INFO
+        where 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="BILL_ID">
+                BILL_ID = #BILL_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BILL_CYCLE">
+                BILL_CYCLE = #BILL_CYCLE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BEGIN_CYCLE">
+                BILL_CYCLE >= #BEGIN_CYCLE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="END_CYCLE">
+                BILL_CYCLE <![CDATA[ <= ]]>
+                #END_CYCLE#
+            </isNotEmpty>
+        </dynamic>
+        order by bill_cycle
+    </select>
+
+    <insert id="iByPayedoweDead" parameterClass="Map">
+		INSERT INTO
+		ACT_DEADOWE_INFO (BILL_ID,CONTRACT_NO,ID_NO,CUST_ID
+		,BRAND_ID,PROD_PRCID,GROUP_ID,NATURAL_MONTH
+		,CYCLE_TYPE
+		,BILL_CYCLE,BILL_BEGIN, BILL_TYPE
+		,BILL_DAY,ACCT_ITEM_CODE,STATUS,SHOULD_PAY,FAVOUR_FEE
+		,PAYED_PREPAY
+		,PAYED_LATER ,TIMES,DURATION,BILL_END,TAX_RATE,TAX_FEE,PAYED_TAX,
+		DETAIL_CODE)
+		SELECT BILL_ID,CONTRACT_NO,ID_NO,CUST_ID
+		,BRAND_ID,PROD_PRCID
+		,GROUP_ID ,NATURAL_MONTH,CYCLE_TYPE
+		,BILL_CYCLE,BILL_BEGIN, BILL_TYPE
+		,BILL_DAY,ACCT_ITEM_CODE,#STATUS#
+		,SHOULD_PAY,FAVOUR_FEE ,PAYED_PREPAY
+		,PAYED_LATER-#PAYED_LATER#,TIMES,DURATION
+		,BILL_END,TAX_RATE,TAX_FEE,nvl(PAYED_TAX,0)-#PAYED_TAX#, DETAIL_CODE
+		FROM $TABLE_PAYEDOWE$
+		WHERE BILL_CYCLE = #BILL_CYCLE:LONG#
+		AND CONTRACT_NO = #CONTRACT_NO:LONG#
+		AND BILL_ID= #BILL_ID:LONG#
+	</insert>
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.bill.BadSevenBillEntity"
+               alias="badBillSevenEntity"/>
+    <select id="qryBadBillBySeven" parameterClass="Map" resultClass="badBillSevenEntity">
+		SELECT NVL(SUM(A.SHOULD_PAY), 0) shouldPay,
+		NVL(SUM(A.FAVOUR_FEE), 0) favourFee,
+		NVL(SUM(SHOULD_PAY-FAVOUR_FEE),0) realFee,
+		NVL(SUM(A.PAYED_PREPAY), 0) payedPrepay,
+		NVL(SUM(A.PAYED_LATER), 0) payedLater,
+		NVL(SUM(A.SHOULD_PAY - A.FAVOUR_FEE - A.PAYED_PREPAY - A.PAYED_LATER), 0) oweFee,
+		B.PARENT_ITEM_ID parentItemId,
+		DECODE(B.PARENT_ITEM_ID,
+		'0000000001', '套餐及固定费',
+		'0000000002', '语音通信费',
+		'0000000003', '上网费',
+		'0000000004', '短彩信费',
+		'0000000005', '增值业务费',
+		'0000000006', '代收费业务费',
+		'0000000007', '其他费') showName,
+		A.BILL_CYCLE billCycle,
+		A.STATUS status
+		FROM
+		ACT_DEADOWE_INFO A,ACT_BILLITEM_REL B
+		WHERE
+		A.ACCT_ITEM_CODE = B.ITEM_ID
+		AND B.PARENT_LEVEL = '0'
+		AND A.ID_NO = #ID_NO#
+		AND A.BILL_CYCLE = #BILL_CYCLE#
+		AND A.CONTRACT_NO=#CONTRACT_NO#
+		GROUP BY B.PARENT_ITEM_ID,A.STATUS,BILL_CYCLE
+		ORDER BY B.PARENT_ITEM_ID
+	</select>
+    <!-- add by liuhl_bj -->
+    <select id="qryDeadoweByCon" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT NVL (B.FEE, 0) BILL_FEE,NVL (B.FAV_FEE, 0) FAV_FEE,A.ITEM_ID
+		ITEM_ID,A.ITEM_NAME ITEM_NAME,A.ITEM_ORDER ITEM_ORDER
+		FROM
+		ACT_BILLITEM_CONF A,(SELECT PARENT_ITEM_ID ITEM_ID,NVL (SUM
+		(SHOULD_PAY), 0) AS FEE,NVL (SUM (FAVOUR_FEE), 0) AS FAV_FEE
+		FROM
+		ACT_DEADOWE_INFO C, ACT_BILLITEM_REL B
+		WHERE C.CONTRACT_NO =
+		#CONTRACT_NO:LONG# AND C.ID_NO = #ID_NO:LONG# AND
+		C.STATUS
+		IN('2','3','6') AND B.ITEM_ID = C.ACCT_ITEM_CODE AND
+		NATURAL_MONTH =
+		#NATURAL_MONTH:LONG#
+		GROUP BY PARENT_ITEM_ID) B WHERE A.ITEM_ID =
+		B.ITEM_ID(+) AND A.ITEM_LEVEL
+		= '1' ORDER BY ITEM_ORDER
+	</select>
+
+
+</sqlMap>
+

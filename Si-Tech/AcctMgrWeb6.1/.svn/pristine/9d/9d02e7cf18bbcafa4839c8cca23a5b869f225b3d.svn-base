@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_transfee_info">
+
+    <typeAlias alias="BalTransfeeInfo" type="com.sitech.acctmgr.atom.domains.balance.TransFeeEntity"/>
+  	<insert id="iTransfee"  parameterClass="Map">
+   		INSERT INTO BAL_TRANSFEE_INFO (TRANS_SN, PHONENO_OUT, CONTRACTNO_OUT, IDNO_OUT,
+   			PHONENO_IN, CONTRACTNO_IN, IDNO_IN, PAY_TYPE, TRANS_FEE, LOGIN_NO, TOTAL_DATE,
+   			OP_CODE, OP_TYPE, FOREIGN_SN, FOREIGN_DATE, OP_TIME, STATUS, REMARK, FACTOR_ONE,
+   			FACTOR_TWO, FACTOR_THREE, FACTOR_FOUR)
+		VALUES( #TRANS_SN#, #PHONENO_OUT#, #CONTRACTNO_OUT#, #IDNO_OUT#,
+   			#PHONENO_IN#, #CONTRACTNO_IN#, #IDNO_IN#, #PAY_TYPE#, #TRANS_FEE#, #LOGIN_NO#, #TOTAL_DATE#,
+   			#OP_CODE#, #OP_TYPE#, #FOREIGN_SN#, TO_DATE(#FOREIGN_DATE#, 'YYYYMMDD HH24:MI:SS'), SYSDATE, #STATUS#, #REMARK#, #FACTOR_ONE#,
+   			#FACTOR_TWO#, #FACTOR_THREE#, #FACTOR_FOUR# )
+  	</insert>
+  	<select id="qTransNum" parameterClass="Map" resultClass="Long">
+		select  count(*) TRANS_NUM
+		from bal_transfee_info
+		where to_char(op_time, 'YYYYMM') = #YEAR_MONTH#
+		and contractno_out = #CONTRACTNO_OUT#
+		and op_type = #OP_TYPE#
+	</select>
+	<select id="qTransByPaySn" parameterClass="Map" resultClass="Long">
+		select count(*) from bal_transfee_info
+		where trans_sn = #PAY_SN#
+		<dynamic prepend ="">
+			<isNotEmpty prepend="AND" property="YEAR_MONTH">
+				to_char(op_time,'YYYYMM') = #YEAR_MONTH#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="updateRBTransInfo" parameterClass="Map">
+		update bal_transfee_info 
+		set status = '1'
+		where trans_sn = #PAY_SN#
+	</update>
+	
+	<insert id="insertRBTransInfo" parameterClass="Map">
+		insert into bal_transfee_info
+		(trans_sn,phoneno_out,contractno_out,idno_out,phoneno_in,contractno_in,
+		idno_in,pay_type,trans_fee,login_no,total_date,op_code,op_type,foreign_sn,foreign_date,
+		op_time,status) 
+		select #BACK_SN#,phoneno_out,contractno_out,idno_out,phoneno_in,contractno_in,
+		idno_in,pay_type,0 - trans_fee,#LOGIN_NO#,total_date,#OP_CODE#,op_type,#PAY_SN#,sysdate,
+		sysdate,status
+		from bal_transfee_info 
+		where trans_sn = #PAY_SN#
+	</insert>
+	
+	<select id="qSumMonthTransFee" parameterClass="Map" resultClass="java.lang.Long">
+		select nvl(sum(trans_fee),0)
+		from bal_transfee_info 
+		where  to_char(op_time,'yyyymm') = to_char(sysdate,'yyyymm')
+		and contractno_out = #CONTRACT_NO#
+	</select>
+	
+  	<select id="qJtTrans" parameterClass="Map" resultClass="BalTransfeeInfo">
+		select  factor_three factorThree,
+		factor_one factorOne,
+		factor_four factorFour,
+		idno_out idnoOut,
+		PHONENO_OUT phonenoOut,
+		factor_two factorTwo,
+		op_time opTime
+		from bal_transfee_info
+		where TO_CHAR(OP_TIME,'YYYYMM')=#QUERY_MONTH#
+		and phoneno_in =#PHONE_NO# 
+		and op_type='TransAccountGrp' order by op_time
+	</select>
+
+	<select id="qAgtTransInfo" parameterClass="Map" resultClass="BalTransfeeInfo">
+		select trans_sn transSn,
+		to_char(op_time,'HH24:MI') opTime,
+		to_char(op_time,'YYYY-MM-DD HH24:MI') opTime1,
+		phoneno_in phonenoIn,
+		trans_fee transFee,
+		status
+		from
+		bal_transfee_info
+		where to_char(op_time, 'YYYYMM') = #YEAR_MONTH#
+		and
+		phoneno_out = #AGT_PHONE_NO#
+		and op_code = '8016'
+		<dynamic prepend="">
+			<isEqual property="FLAG" compareValue="1">
+			    and status = '0'
+				and total_date=to_number(to_char(sysdate,'yyyymmdd'))
+			</isEqual>
+			<isEqual property="FLAG" compareValue="2" >
+			    and status = '0'
+				and total_date= #TOTAL_DATE#
+			</isEqual>
+			<isEqual property="FLAG" compareValue="3" >
+			    and status = '0'
+				and phoneno_in= #PHONE_NO#
+				and (sysdate-op_time)<![CDATA[ <= ]]>1
+				and rownum<![CDATA[ < ]]>7
+			</isEqual>
+			<isNotEmpty prepend="AND" property="BEGIN_DATE">
+				total_date >= #BEGIN_DATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="END_DATE">
+				total_date <![CDATA[ <= ]]> #END_DATE#
+			</isNotEmpty>
+		</dynamic>
+		order by op_time desc
+	</select>
+
+	<select id="qSumAgtTrans" parameterClass="Map" resultClass="BalTransfeeInfo">
+		select count(contractno_in) contractnoIn,nvl(abs(sum(trans_fee)),0)
+		transFee
+		from
+		bal_transfee_info
+		where to_char(op_time, 'YYYYMM') =
+		#YEAR_MONTH#
+		and
+		phoneno_out = #AGT_PHONE_NO#
+		and op_code = '8016'
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="STATUS">
+				status = #STATUS#
+			</isNotEmpty>
+			<isEqual property="FLAG" compareValue="1">
+				and
+				total_date=to_number(to_char(sysdate,'yyyymmdd'))
+			</isEqual>
+		</dynamic>
+	</select>
+	
+	<typeAlias alias="TdUnifyPayEntity" type="com.sitech.acctmgr.atom.domains.query.TdUnifyPayEntity"/>
+	<select id="qTdTrans" parameterClass="Map" resultClass="TdUnifyPayEntity">
+		select FACTOR_ONE unitName,
+		FACTOR_TWO contractName,
+		PHONENO_IN phoneNo,
+		TOTAL_DATE totalDate,
+		b.pay_type_name payName,
+		TRANS_FEE payMoney,
+		LOGIN_NO loginNo,
+		to_char(a.op_time, 'YYYY-MM-DD HH24:MI:SS') opTime,
+		nvl(c.function_name,'未知') functionName
+		from
+		bal_transfee_info a,bal_booktype_dict b,bs_function_dict c
+		where to_char(op_time, 'YYYYMM') =
+		#YEAR_MONTH#
+		and
+		CONTRACTNO_OUT = #CONTRACT_NO#
+		and op_code = '8074'
+		and a.op_code=c.function_code(+)
+		and trim(a.pay_type)=b.pay_type
+	</select>
+	
+    <select id="getPayedCon" parameterClass="Map" resultClass="java.lang.Long">
+    	SELECT COUNT(*)
+    	FROM BAL_TRANSFEE_INFO
+    	WHERE CONTRACTNO_OUT = #CONTRACTNO_OUT#
+    	AND CONTRACTNO_IN = #CONTRACTNO_IN#
+    	AND TO_CHAR(OP_TIME,'YYYYMM') = TO_CHAR(SYSDATE,'YYYYMM')
+    </select>
+	
+	<select id="getTransInfo" parameterClass="Map" resultClass="BalTransfeeInfo">
+		SELECT TRANS_SN transSn,
+		PHONENO_OUT phonenoOut,
+		CONTRACTNO_OUT contractnoOut,
+		PHONENO_IN phonenoIn,
+		CONTRACTNO_IN contractnoIn,
+		TRANS_FEE transFee,
+		TOTAL_DATE totalDate,
+		LOGIN_NO loginNo,
+		TO_CHAR(OP_TIME,'YYYY-MM-DD HH24:MI:SS') opTime
+		FROM BAL_TRANSFEE_INFO
+		WHERE TO_CHAR(OP_TIME,'YYYYMM')=#SUFFIX#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="TRANS_SN">
+				AND TRANS_SN=#TRANS_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PHONENO_OUT">
+				AND PHONENO_OUT=#PHONENO_OUT#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATUS">
+				AND STATUS=#STATUS#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BEGIN_DATE">
+				AND TOTAL_DATE <![CDATA[>=]]> #BEGIN_DATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="END_DATE">
+				AND TOTAL_DATE <![CDATA[<=]]> #END_DATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="OP_TYPE">
+				AND OP_TYPE=#OP_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="FACTOR_ONE" >
+				AND FACTOR_ONE=#FACTOR_ONE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACTNO_OUT">
+				AND CONTRACTNO_OUT=#CONTRACTNO_OUT#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="OP_CODE">
+				AND OP_CODE=#OP_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<typeAlias alias="GrpRedInfo" type="com.sitech.acctmgr.atom.domains.query.GrpRedEntity"/>
+	<select id="qJtRedNet" parameterClass="Map" resultClass="GrpRedInfo">
+		SELECT jtContractNo,phoneNo,totalDate,transMoney,transCount,contactPhone,opTime
+		FROM 
+		( select a.* ,rownum id from
+	    (select
+		CONTRACTNO_OUT jtContractNo,
+		PHONENO_IN phoneNo,
+		TOTAL_DATE totalDate,
+		TRANS_FEE transMoney,
+		FACTOR_ONE transCount,
+		FACTOR_TWO contactPhone,
+		to_char(op_time,'yyyymmdd hh24:mi:ss') opTime
+		from bal_transfee_info
+		where factor_four =#UNIT_ID#
+		and op_type='TransAccountGrp' 
+		and op_time >=to_date(#BEGIN_TIME#,'YYYY-MM-DD HH24:MI:SS')
+		and op_time <![CDATA[<=]]>to_date(#END_TIME#,'YYYY-MM-DD HH24:MI:SS')
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONENO_IN=#PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTACT_PHONE">
+				AND FACTOR_TWO=#CONTACT_PHONE#
+			</isNotEmpty>
+		</dynamic>
+		order by op_time
+		) a
+		where rownum <![CDATA[<=]]> #POS_END#)
+		where id>#POS_BEGIN#
+	</select>
+	
+	<select id="qJtRedErrNet" parameterClass="Map" resultClass="GrpRedInfo">
+		SELECT jtContractNo,phoneNo,totalDate,transMoney,transCount,contactPhone,opTime
+		FROM 
+		( select a.* ,rownum id from
+	    (select
+		CONTRACTNO_OUT jtContractNo,
+		PHONENO_IN phoneNo,
+		TOTAL_DATE totalDate,
+		TRANS_FEE transMoney,
+		FACTOR_ONE transCount,
+		FACTOR_TWO contactPhone,
+		to_char(op_time,'yyyymmdd hh24:mi:ss') opTime
+		from bal_transfee_err
+		where factor_four =#UNIT_ID#
+		and op_type='TransAccountGrp' 
+		and op_time >=to_date(#BEGIN_TIME#,'YYYY-MM-DD HH24:MI:SS')
+		and op_time <![CDATA[<=]]>to_date(#END_TIME#,'YYYY-MM-DD HH24:MI:SS')
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONENO_IN=#PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTACT_PHONE">
+				AND FACTOR_TWO=#CONTACT_PHONE#
+			</isNotEmpty>
+		</dynamic>
+		order by op_time
+		) a
+		where rownum <![CDATA[<=]]> #POS_END#)
+		where id>#POS_BEGIN#
+	</select>
+
+	<select id="qAllJtRedNet" parameterClass="Map" resultClass="GrpRedInfo">
+	    select jtContractNo,phoneNo,totalDate,transMoney,transCount,contactPhone,opTime
+	    from
+	    (
+	    select
+		CONTRACTNO_OUT jtContractNo,
+		PHONENO_IN phoneNo,
+		TOTAL_DATE totalDate,
+		TRANS_FEE transMoney,
+		FACTOR_ONE transCount,
+		FACTOR_TWO contactPhone,
+		to_char(op_time,'yyyymmdd hh24:mi:ss') opTime
+		from bal_transfee_info
+		where factor_four =#UNIT_ID#
+		and op_type='TransAccountGrp'
+		and op_time >=to_date(#BEGIN_TIME#,'YYYY-MM-DD HH24:MI:SS')
+		and op_time <![CDATA[<=]]>to_date(#END_TIME#,'YYYY-MM-DD
+		HH24:MI:SS')
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONENO_IN=#PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTACT_PHONE">
+				AND FACTOR_TWO=#CONTACT_PHONE#
+			</isNotEmpty>
+		</dynamic>
+		union all
+		select
+		CONTRACTNO_OUT jtContractNo,
+		PHONENO_IN phoneNo,
+		TOTAL_DATE
+		totalDate,
+		TRANS_FEE transMoney,
+		FACTOR_ONE transCount,
+		FACTOR_TWO contactPhone,
+		to_char(op_time,'yyyymmdd hh24:mi:ss') opTime
+		from bal_transfee_err
+		where factor_four =#UNIT_ID#
+		and op_type='TransAccountGrp'
+		and op_time >=to_date(#BEGIN_TIME#,'YYYY-MM-DD HH24:MI:SS')
+		and op_time <![CDATA[<=]]>to_date(#END_TIME#,'YYYY-MM-DDHH24:MI:SS')
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONENO_IN=#PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTACT_PHONE">
+				AND FACTOR_TWO=#CONTACT_PHONE#
+			</isNotEmpty>
+		</dynamic>
+		)
+		order by opTime
+	</select>
+	
+	<select id="qTransInfoBySn" parameterClass="Map" resultClass="BalTransfeeInfo">
+		SELECT TRANS_SN transSn,
+		PHONENO_OUT phonenoOut,
+		CONTRACTNO_OUT contractnoOut,
+		PHONENO_IN phonenoIn,
+		CONTRACTNO_IN contractnoIn,
+		TRANS_FEE transFee,
+		TOTAL_DATE totalDate,
+		LOGIN_NO loginNo,
+		TO_CHAR(OP_TIME,'YYYYMMDDHH24MISS') opTime
+		FROM BAL_TRANSFEE_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="TRANS_SN">
+				AND TRANS_SN=#TRANS_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PHONENO_OUT">
+				AND PHONENO_OUT=#PHONENO_OUT#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACTNO_OUT">
+				AND CONTRACTNO_OUT=#CONTRACTNO_OUT#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BEGIN_DATE">
+				AND TOTAL_DATE <![CDATA[>=]]> #BEGIN_DATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="END_DATE">
+				AND TOTAL_DATE <![CDATA[<=]]> #END_DATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="OP_TYPE">
+				AND OP_TYPE=#OP_TYPE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="qSumTransFeeByUnitId" parameterClass="Map" resultClass="java.lang.Long">
+		select nvl(sum(trans_fee),0)
+		from bal_transfee_info 
+		where  factor_four =#UNIT_ID#
+		and op_type='TransAccountGrp'
+		and factor_two = #OPER_PHONE#
+	</select>
+
+</sqlMap>

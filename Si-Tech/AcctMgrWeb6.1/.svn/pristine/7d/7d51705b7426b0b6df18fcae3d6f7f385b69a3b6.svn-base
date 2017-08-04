@@ -1,0 +1,65 @@
+package com.sitech.acctmgr.atom.dto.invoice.eleInvoice;
+ 
+import com.sitech.acctmgr.common.dto.CommonInDTO;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+/**
+ * 
+ * @author liuhl_bj
+ *
+ */
+public class SEleInvoiceDownLoadInDTO extends CommonInDTO {
+
+    
+	private static final long serialVersionUID = 1L;
+
+	@ParamDesc(path = "BUSI_INFO.PHONE_NO", cons = ConsType.CT001, type = "string", len = "", desc = "服务号码", memo = "略")
+	private String phoneNo;
+
+	@ParamDesc(path = "BUSI_INFO.INVREQ_SN", cons = ConsType.CT001, type = "string", len = "", desc = "发票请求唯一流水", memo = "略")
+	private String invReqSn;
+    
+	@ParamDesc(path = "BUSI_INFO.FILE_TYPE", cons = ConsType.CT001, type = "string", len = "", desc = "文件类型，默认为0", memo = "略")
+	private String fileType = "0";
+
+    @Override
+    public void decode(MBean arg0) {
+        super.decode(arg0);
+        setPhoneNo(arg0.getStr(getPathByProperName("phoneNo")));
+        setInvReqSn(arg0.getStr(getPathByProperName("invReqSn")));
+        
+        if(StringUtils.isNotEmptyOrNull(arg0.getStr(getPathByProperName("fileType")))){	
+        	setFileType(arg0.getStr(getPathByProperName("fileType")));
+		}
+
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getInvReqSn() {
+        return invReqSn;
+    }
+
+    public void setInvReqSn(String invReqSn) {
+        this.invReqSn = invReqSn;
+    }
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+    
+    
+}

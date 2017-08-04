@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+	<head>
+		<requestTime>2011-01-25 11:12:13</requestTime>
+		<method>RemoteAuthorization</method>
+		<appId></appId>
+		<clientIp>10.32.3.120</clientIp>
+	</head>
+	<body>
+		<resType></resType>
+		<account></account>
+		<subAccount></subAccount>
+		<approverAccount></approverAccount>
+		<beginTime></beginTime>
+		<endTime></endTime>
+		<cerReason></cerReason>
+		<appSessionId></appSessionId>
+		<sceneId></sceneId>
+	</body>
+</request>

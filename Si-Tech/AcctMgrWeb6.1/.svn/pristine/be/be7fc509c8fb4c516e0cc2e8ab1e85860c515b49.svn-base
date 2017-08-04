@@ -1,0 +1,271 @@
+package com.sitech.acctmgr.atom.impl.billAccount;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.prod.UserPdPrcDetailInfoEntity;
+import com.sitech.acctmgr.atom.domains.prod.UserPdPrcInfoEntity;
+import com.sitech.acctmgr.atom.domains.record.LoginOprEntity;
+import com.sitech.acctmgr.atom.domains.user.GroupchgInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserDeadEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserPrcEntity;
+import com.sitech.acctmgr.atom.dto.query.SMonthShareQryInDTO;
+import com.sitech.acctmgr.atom.dto.query.SMonthShareQryOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IBillAccount;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.IProd;
+import com.sitech.acctmgr.atom.entity.inter.IRecord;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.constant.CommonConst;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.inter.billAccount.IMonthShareQry;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+@ParamTypes({ @ParamType(m = "queryMonthShare", c = SMonthShareQryInDTO.class, oc = SMonthShareQryOutDTO.class) })
+public class SMonthShareQry extends AcctMgrBaseService implements IMonthShareQry {
+
+	private IBillAccount billAccount;
+	private IUser user;
+	private IProd prod;
+	private IGroup group;
+	private IRecord record;
+
+	@Override
+	public OutDTO queryMonthShare(InDTO inParam) {
+		SMonthShareQryInDTO inDto = (SMonthShareQryInDTO) inParam;
+
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		String phoneNo = "";
+		String staticType = "0";// 属性 0:日租用户 1：月租用户
+		int deadFlag = CommonConst.IN_NET;// 离网标志，0：在网 1：离网
+		long idNo = 0l;
+		if (StringUtils.isNotEmpty(inDto.getPhoneNo())) {
+			phoneNo = inDto.getPhoneNo();
+			// 根据服务号码获取ID_NO
+			UserInfoEntity userInfo = user.getUserEntityByPhoneNo(phoneNo, true);
+			idNo = userInfo.getIdNo();
+		}
+		if (inDto.getIdNo() == 0) {
+			idNo = inDto.getIdNo();
+		}
+		// 根据id_no查询是否在网
+		UserInfoEntity userInfo = user.getUserEntity(idNo, "", 0l, false);
+		if (userInfo == null) {
+			List<UserDeadEntity> userDeadInfoList = user.getUserdeadEntity(phoneNo, idNo, 0l);
+			if (userDeadInfoList == null) {
+				// TODO:错误代码
+				throw new BusiException(AcctMgrError.getErrorCode("0000", "00200"), "获取用户信息错误");
+			} else {
+				deadFlag = CommonConst.NO_NET;
+			}
+		}
+
+		/* 查询用户资费，月收取属性 begin */
+
+		// 根据IDNO查询资费名称
+		List<UserPrcEntity> basePrcList = prod.getPdPrcId(idNo, CommonConst.BASE_PRC_FLAG);
+		if (basePrcList.size() == 0) {
+			staticType = "1";
+		}
+
+		String detailCode = "";
+		// 循环资费，从表pricing_combine 中查询detail_code
+		for (UserPrcEntity userPdPrc : basePrcList) {
+			if (billAccount.getRateCode(userPdPrc.getProdPrcid(), "1") != null) {
+				detailCode = billAccount.getRateCode(userPdPrc.getProdPrcid(), "1");
+			}
+
+		}
+
+		log.debug("detailCode:" + detailCode);
+		if (StringUtils.isEmptyOrNull(detailCode)) {
+			staticType = "1";
+		}
+
+		/* 查询用户月租属性 end */
+
+		// 查询用户的region_code
+		GroupchgInfoEntity groupchgInfo = group.getChgGroup(phoneNo, idNo, 0l);
+		String groupId = groupchgInfo.getGroupId();
+		ChngroupRelEntity chnGroupRel = group.getRegionDistinct(groupId, "2", inDto.getProvinceId());
+		String regionCode = chnGroupRel.getRegionCode();
+
+		// 从表sBillMonthCode查询用户月租代码
+		inMap.put("REGION_CODE", regionCode);
+		inMap.put("MONTH_CODE", detailCode);
+		Map<String, Object> monthCodeMap = billAccount.getMonthCodeInfo(inMap);
+		if (monthCodeMap != null && monthCodeMap.get("DAY_FLAG").toString() != "1") {
+			staticType = "1";
+		} else {
+			// 查询月租配置
+			inMap = new HashMap<String, Object>();
+			inMap.put("REGION_CODE", regionCode);
+			log.debug("basePrcList:" + basePrcList);
+			if (basePrcList.size() > 0) {
+				inMap.put("MODE_CODE", basePrcList.get(0).getProdPrcid());
+			}
+			int cnt = billAccount.getMonthCfg(inMap);
+			if (cnt > 0) {
+				staticType = "1";
+			}
+		}
+
+		// 查询用户主资费信息
+		inMap = new HashMap<String, Object>();
+		inMap.put("ID_NO", idNo);
+		if (deadFlag == CommonConst.IN_NET) {
+			inMap.put("ON_FLAG", CommonConst.IN_NET);
+		}
+
+		List<UserPdPrcInfoEntity> prcInfoListTmp = prod.getPdPrcInfo(inMap);
+		List<UserPdPrcInfoEntity> prcInfoList = new ArrayList<UserPdPrcInfoEntity>();
+		for (UserPdPrcInfoEntity prcInfo : prcInfoListTmp) {
+			// 根据begin_time和end_time查询资费明细
+			inMap = new HashMap<String, Object>();
+			inMap.put("BEGIN_TIME", prcInfo.getEffDate());
+			inMap.put("END_TIME", prcInfo.getExpDate());
+			inMap.put("ID_NO", idNo);
+			log.debug(">>>>>>>>>>>>>>inmap:" + inMap);
+			List<UserPdPrcDetailInfoEntity> pdPrcDetailListTmp = prod.getPdPrcDetailInfo(inMap);
+			List<UserPdPrcDetailInfoEntity> pdPrcDetailList = new ArrayList<UserPdPrcDetailInfoEntity>();
+			for (UserPdPrcDetailInfoEntity detailList : pdPrcDetailListTmp) {
+				if (detailList.getDetailType().equals("1") || detailList.getDetailType().equals("9")) {
+					// 查询日租费和月租费
+					inMap = new HashMap<String, Object>();
+					inMap.put("REGION_CODE", regionCode);
+					inMap.put("MONTH_CODE", detailList.getDetailCode());
+					Map<String, Object> monthFeeInfo = billAccount.getMonthCodeInfo(inMap);
+					detailList.setDayFee(monthFeeInfo.get("DAY_FEE").toString());
+					detailList.setMonFee(monthFeeInfo.get("MONTH_FEE").toString());
+					// 判断是否为月租类，0：月租类 不按日分摊 1：月租类，按日分摊 2：非月租类
+					if (staticType.equals("0") && detailList.getDetailCode().equals("1")) {
+						detailList.setDetailStaticType("0");
+					}
+					if (staticType.equals("1") && detailList.getDetailCode().equals("9") && monthFeeInfo.get("MONTH_FLAG").toString().equals("1")) {
+						detailList.setDetailStaticType("1");
+					}
+					if (staticType.equals("1") && detailList.getDetailCode().equals("9") && !monthFeeInfo.get("MONTH_FLAG").toString().equals("1")) {
+						detailList.setDetailStaticType("0");
+					}
+				} else {
+					detailList.setDayFee("0");
+					detailList.setMonFee("0");
+					detailList.setDetailType("2");
+				}
+				if (detailList.getDetailType().equals("0")) {
+					detailList.setDetailTypeName("否");
+				} else if (detailList.getDetailType().equals("1")) {
+					// 判断是否为流量加油包资费
+					// offer_attr_type='YnGA'，对应新系统prc_class='YnGA40'
+					String prcId = detailList.getProdPrcid();
+					String prcClass = "YnGA40";
+					inMap = new HashMap<String, Object>();
+					inMap.put("PRC_ID", prcId);
+					inMap.put("PRC_CLASS", prcClass);
+					int flag = prod.getIsPointPrc(inMap);
+					if (flag > 0) {
+						detailList.setDetailTypeName("否");
+					} else {
+						detailList.setDetailTypeName("是");
+					}
+				} else {
+					detailList.setDetailTypeName("NULL");
+				}
+				String prcId = detailList.getProdPrcid();
+				// offer_id :42362 42363 42364对应新系统的
+				// 23MCZ07559，23MCZ07558，23MCZ07557
+				if (prcId.equals("23MCZ07559") || prcId.equals("23MCZ07558") || prcId.equals("23MCZ07557")) {
+					detailList.setDetailTypeName("否");
+				}
+				// 获取小区代码
+				inMap = new HashMap<String, Object>();
+				// 老系统为60001对应新系统23M003
+				inMap.put("ATTR_ID", "23M003");
+				inMap.put("ID_NO", idNo);
+				inMap.put("PRC_ID", detailList.getProdPrcid());
+				Map<String, Object> flagMap = billAccount.getFlag(inMap);
+
+				if (flagMap != null) {
+					detailList.setFlagCode(flagMap.get("ATTR_VAL").toString());
+					detailList.setFlagName(flagMap.get("FLAG_CODE_NAME").toString());
+				} else {
+					detailList.setFlagCode("无");
+					detailList.setFlagName("无");
+				}
+
+				pdPrcDetailList.add(detailList);
+
+			}
+			prcInfo.setDetailList(pdPrcDetailList);
+			prcInfoList.add(prcInfo);
+		}
+		// 获取系统时间
+		int totalDate = DateUtils.getCurDay();
+		// 入营业员操作记录表
+		LoginOprEntity in = new LoginOprEntity();
+		in.setIdNo(idNo);
+		in.setBrandId(userInfo.getBrandId());
+		in.setPhoneNo(phoneNo);
+		in.setLoginNo(inDto.getLoginNo());
+		in.setLoginGroup(inDto.getGroupId());
+		in.setOpCode(inDto.getOpCode());
+		in.setTotalDate(totalDate);
+		in.setRemark(inDto.getOpCode());
+		record.saveLoginOpr(in);
+		SMonthShareQryOutDTO outDto = new SMonthShareQryOutDTO();
+		outDto.setUserPrcList(prcInfoList);
+		return outDto;
+	}
+
+	public IBillAccount getBillAccount() {
+		return billAccount;
+	}
+
+	public void setBillAccount(IBillAccount billAccount) {
+		this.billAccount = billAccount;
+	}
+
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public IProd getProd() {
+		return prod;
+	}
+
+	public void setProd(IProd prod) {
+		this.prod = prod;
+	}
+
+	public IGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	public IRecord getRecord() {
+		return record;
+	}
+
+	public void setRecord(IRecord record) {
+		this.record = record;
+	}
+
+}

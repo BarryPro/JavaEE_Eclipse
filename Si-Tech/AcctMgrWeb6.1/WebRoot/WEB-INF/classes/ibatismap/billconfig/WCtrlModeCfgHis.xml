@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="wctrlmodecfghis">
+	
+	<select id="qCntX" parameterClass="Map" resultClass="java.lang.Integer">
+		select
+		count(*) CNT
+		FROM wctrlmodecfghis
+		WHERE phone_no = #PHONE_NO#
+		and op_flag='X'
+		and	to_char(sysdate,'yyyymm')=substr(deal_date,1,6)
+	</select>
+	
+	<select id="qCntW" parameterClass="Map" resultClass="java.lang.Integer">
+		select
+		count(*) CNT
+		FROM wctrlmodecfghis
+		WHERE phone_no = #PHONE_NO#
+		and op_flag='W'
+		and	to_char(sysdate,'yyyymm')=substr(deal_date,1,6)
+	</select>
+	
+</sqlMap>

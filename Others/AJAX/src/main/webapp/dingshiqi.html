@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#label1").attr("style","display:none");
+            })
+            $("#btn2").click(function(){
+                $("#label1").attr("style","display:block");
+            })
+            $("#submit").click(function(){
+                setTimeout('$("#label1").attr("style","display:none")',3000);
+            })
+            $("#btn4").click(function(){
+                setTimeout('$("#label1").attr("style","display:none")',3000);
+            })
+            information.sticky();
+        })
+        $(function(){
+            information.sticky();
+        })
+
+
+        information = {
+            sticky:function(){
+                $("#sticky_a").click(function(){
+                    $.sticky("用户名不能为空",{autoclose : 5000, position: "top-right", type: "st-error" });
+                })
+            }
+        }
+        function submit(){
+//            document.all.aaa.submit();
+            $("#sticky_a").trigger("click");
+            document.getElementById("aaa").submit();
+        }
+    </script>
+</head>
+<body>
+<a href="javascript:void(0)" id="sticky_a"></a> <a
+        href="javascript:void(0)" id="sticky_a1"></a> <a
+        href="javascript:void(0)" id="sticky_a2"></a> <a
+        href="javascript:void(0)" id="sticky_a3"></a> <a
+        href="javascript:void(0)" id="sticky_a4"></a> <a
+        href="javascript:void(0)" id="sticky_a5"></a>
+<form action="#" id="aaa">
+    <input type="button" value="消失" id="btn1"/><br/>
+    <input type="button" value="出现" id="btn2"/><br/>
+    <input type="button" value="submit" id="btn3" onclick="submit()"/><br/>
+    <a href="#" onclick="submit()" id="btn4">登录</a>
+    <label id="label1">belong</label><br/>
+</form>
+</body>
+</body>
+</html>

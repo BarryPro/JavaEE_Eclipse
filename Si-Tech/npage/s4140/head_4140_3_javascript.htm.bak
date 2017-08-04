@@ -1,0 +1,186 @@
+<%
+/********************
+ * version v2.0
+ * 开发商: si-tech
+ * update by zhangshuaia @ 2009-08-05
+ ********************/
+%>
+<script language=javascript>
+<!--
+  //core.loadUnit("debug");
+  //core.loadUnit("rpccore");
+
+var change_flag = "";
+
+function tochange(par) 
+{
+	 
+	if(par == "secondclass")//查询二级原因
+	{
+		change_flag = "flag_secondclass";
+		var FirstClass = document.all.FirstClass[document.all.FirstClass.selectedIndex].value;
+		var myPacket = new AJAXPacket("select_rpc.jsp","正在获得二级原因信息，请稍候......");
+		var sqlStr = "select second_code,second_name from SrefundSecond where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and valid_flag='1'";
+	}
+	else if(par == "thirdclass")//查询三级原因
+	{
+		change_flag = "flag_thirdclass";
+		var FirstClass = document.all.FirstClass[document.all.FirstClass.selectedIndex].value;
+		var SecondClass = document.all.SecondClass[document.all.SecondClass.selectedIndex].value;
+		var myPacket = new AJAXPacket("select_rpc.jsp","正在获得三级原因信息，请稍候......");
+		var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag='1'"; 
+	 
+	}
+
+	myPacket.data.add("sqlStr",sqlStr);
+	myPacket.data.add("retType","reason");
+	core.ajax.sendPacket(myPacket);
+	myPacket=null;
+}
+
+function tochange2(par)
+{
+	//alert("test");
+	if(par == "secondclass2")//查询二级原因
+	{
+		change_flag = "flag_secondclass2";
+		var FirstClass = document.all.FirstClass2[document.all.FirstClass2.selectedIndex].value;
+		var myPacket2 = new AJAXPacket("select_rpc.jsp","正在获得二级原因信息，请稍候......");
+		var sqlStr = "select second_code,second_name from SrefundSecond where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and valid_flag='1'";
+	}
+	else if(par == "thirdclass2")//查询三级原因
+	{
+		change_flag = "flag_thirdclass2";
+		var FirstClass = document.all.FirstClass2[document.all.FirstClass2.selectedIndex].value;
+		var SecondClass = document.all.SecondClass2[document.all.SecondClass2.selectedIndex].value;
+		var myPacket2 = new AJAXPacket("select_rpc.jsp","正在获得三级原因信息，请稍候......");
+		//alert("FirstClass is "+FirstClass+" and SecondClass is "+SecondClass);
+		if((FirstClass=="1003" && SecondClass=="1006")||(FirstClass=="1006" && SecondClass=="1012")||(FirstClass=="1009" && SecondClass=="1018")||(FirstClass=="1012" && SecondClass=="1024")||(FirstClass=="1015" && SecondClass=="1030")||(FirstClass=="1018" && SecondClass=="1036")||(FirstClass=="1021" && SecondClass=="1042")||(FirstClass=="1024" && SecondClass=="1048")||(FirstClass=="1027" && SecondClass=="1054")||(FirstClass=="1030" && SecondClass=="1060")||(FirstClass=="1033" && SecondClass=="1066")||(FirstClass=="1036" && SecondClass=="1072")||(FirstClass=="1039" && SecondClass=="1078"))
+		{
+			var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag in ('2','3')";
+		}
+		else
+		{
+			var sqlStr = "select third_code,third_name from SrefundThird where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and second_code in (select second_code from SrefundSecond where second_code='"+SecondClass+"') and valid_flag='1'";
+		}
+		
+	}
+
+	myPacket2.data.add("sqlStr",sqlStr);
+	myPacket2.data.add("retType","reason");
+	core.ajax.sendPacket(myPacket2);
+	myPacket2=null;
+}
+
+function tochange3(par)
+{
+	if(par == "secondclass3")//查询二级原因
+	{
+		change_flag = "flag_secondclass3";
+		var FirstClass = document.all.FirstClass3[document.all.FirstClass3.selectedIndex].value;
+		var myPacket3 = new AJAXPacket("select_rpc.jsp","正在获得二级原因信息，请稍候......");
+		var sqlStr = "select second_code,second_name from SrefundSecond where  first_code in (select first_code from SrefundFirst where first_code='"+FirstClass+"') and valid_flag='1'";
+	}
+
+	myPacket3.data.add("sqlStr",sqlStr);
+	myPacket3.data.add("retType","reason");
+	core.ajax.sendPacket(myPacket3);
+	myPacket3=null;
+}
+
+ //-----------------doProcess函数----------------
+function doProcess(packet)
+{
+	var vRetPage=packet.data.findValueByName("rpc_page");
+	var retCode = packet.data.findValueByName("retCode");
+	var retMsg = packet.data.findValueByName("retMsg");
+	var retType = packet.data.findValueByName("retType");
+	var triListData = packet.data.findValueByName("tri_list");
+
+	var cust_name = packet.data.findValueByName("cust_name");
+	var sp_sum = packet.data.findValueByName("sp_sum");
+
+	var first_order_date = packet.data.findValueByName("first_order_date");
+	var opr_time = packet.data.findValueByName("opr_time");
+	var end_time = packet.data.findValueByName("end_time");
+	var option0 = new Option("--请选择--","");
+	if(retType == "reason")
+	{
+		var triList=new Array(triListData.length);
+		if(change_flag == "flag_secondclass")
+		{
+			triList[0]="SecondClass";
+			document.all("SecondClass").length=0;
+			document.all("SecondClass").add(option0);
+			document.all("SecondClass").options.length=triListData.length+1;//triListData[i].length;
+			for(j=0;j<triListData.length;j++)
+			{
+			document.all("SecondClass").options[j+1].text=triListData[j][1];
+			document.all("SecondClass").options[j+1].value=triListData[j][0];
+			}
+
+			document.all("SecondClass").options[0].selected=true;
+			tochange("thirdclass");
+		}
+		else if(change_flag == "flag_thirdclass")
+		{
+			triList[0]="ThirdClass";
+			document.all("ThirdClass").length=0;
+			document.all("ThirdClass").add(option0);
+			document.all("ThirdClass").options.length=triListData.length+1;//triListData[i].length;
+			for(j=0;j<triListData.length;j++)
+			{
+			document.all("ThirdClass").options[j+1].text=triListData[j][1];
+			document.all("ThirdClass").options[j+1].value=triListData[j][0];
+			}
+
+			document.all("ThirdClass").options[0].selected=true;
+		}
+		
+		else if(change_flag == "flag_secondclass2")
+		{
+			triList[0]="SecondClass2";
+			document.all("SecondClass2").length=0;
+			document.all("SecondClass2").add(option0);
+			document.all("SecondClass2").options.length=triListData.length+1;//triListData[i].length;
+			for(j=0;j<triListData.length;j++)
+			{
+			document.all("SecondClass2").options[j+1].text=triListData[j][1];
+			document.all("SecondClass2").options[j+1].value=triListData[j][0];
+			}
+
+			document.all("SecondClass2").options[0].selected=true;
+			tochange2("thirdclass2");
+		}
+		else if(change_flag == "flag_thirdclass2")
+		{
+			triList[0]="ThirdClass2";
+			document.all("ThirdClass2").length=0;
+			document.all("ThirdClass2").add(option0);
+			document.all("ThirdClass2").options.length=triListData.length+1;//triListData[i].length;
+			for(j=0;j<triListData.length;j++)
+			{
+			document.all("ThirdClass2").options[j+1].text=triListData[j][1];
+			document.all("ThirdClass2").options[j+1].value=triListData[j][0];
+			}
+
+			document.all("ThirdClass2").options[0].selected=true;
+		}
+		else if(change_flag == "flag_secondclass3")
+		{
+			triList[0]="SecondClass3";
+			document.all("SecondClass3").length=0;
+			document.all("SecondClass3").add(option0);
+			document.all("SecondClass3").options.length=triListData.length+1;//triListData[i].length;
+			for(j=0;j<triListData.length;j++)
+			{
+			document.all("SecondClass3").options[j+1].text=triListData[j][1];
+			document.all("SecondClass3").options[j+1].value=triListData[j][0];
+			}
+
+			document.all("SecondClass3").options[0].selected=true;
+		}
+	}
+}
+ //-->
+</script>

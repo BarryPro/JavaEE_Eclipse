@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pd_goodsprc_dict">
+
+
+    <select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+        SELECT COUNT(*) CNT
+        FROM PD_GOODSPRC_DICT
+        WHERE PRC_CLASS = #PRC_CLASS#
+        AND PRC_ID = #PRC_ID#
+    </select>
+
+    <resultMap id="PdPrcInfoEnt" class="com.sitech.acctmgr.atom.domains.prod.PdPrcInfoEntity">
+        <result property="prodPrcId" column="PRC_ID"/>
+        <result property="prodPrcName" column="PRC_NAME"/>
+        <result property="prodPrcDesc" column="GOODS_PRC_DESC"/>
+        <result property="useRange" column="USE_RANGE"/>
+        <result property="prcType" column="PRC_TYPE"/>
+    </resultMap>
+    <select id="qPrcDictInfo" parameterClass="Map" resultMap="PdPrcInfoEnt">
+        SELECT PRC_ID, PRC_NAME, GOODS_PRC_DESC, USE_RANGE, PRC_TYPE
+        FROM pd_goodsprc_dict
+        WHERE PRC_ID = #PRC_ID#
+    </select>
+
+</sqlMap>

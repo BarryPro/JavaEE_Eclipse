@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/applicationContext.xml,
+            /WEB-INF/classes/springconfig/*.xml,
+            /WEB-INF/classes/springconfig/adjsvc/*.xml,
+            /WEB-INF/classes/springconfig/billsvc/*.xml,
+            /WEB-INF/classes/springconfig/invoicesvc/*.xml,
+            /WEB-INF/classes/springconfig/paysvc/*.xml,
+            /WEB-INF/classes/springconfig/querysvc/*.xml,
+            /WEB-INF/classes/springconfig/acctmngsvc/*.xml
+            /WEB-INF/classes/springconfig/cctsvc/*.xml
+        </param-value>
+    </context-param>
+    <context-param>
+        <param-name>resteasy.servlet.mapping.prefix</param-name>
+        <param-value>/rs</param-value>
+    </context-param>
+    <context-param>
+        <param-name>resteasy.resources</param-name>
+        <param-value>com.sitech.jcfx.rest.RestService,com.sitech.jcfx.rest.EmergRestService</param-value>
+    </context-param>
+    <listener>
+        <listener-class>com.sitech.jcfx.context.JCFContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+    </listener>
+    <!--
+    <servlet>
+      <servlet-name>Resteasy</servlet-name>
+      <servlet-class>com.sitech.jcf.ws.core.JCFResteasyServlet</servlet-class>
+    </servlet>
+     -->
+
+    <servlet>
+        <servlet-name>Resteasy</servlet-name>
+        <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Resteasy</servlet-name>
+        <url-pattern>/rs/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>initServlet</servlet-name>
+        <servlet-class>
+            com.sitech.ac.rdc.re.api.common.service.InitService
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+</web-app>

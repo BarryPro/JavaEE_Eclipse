@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dShortMsgTimeOffOn">
+
+	<select id="qry" parameterClass="Map" resultClass="java.util.HashMap">
+		select count(1) COUNT from dShortMsgTimeOffOn
+		where phone_no=#PHONE_NO#
+		and
+		op_flag=#OP_FLAG#
+	</select>
+
+	<insert id="insert" parameterClass="Map" >
+		insert into dShortMsgTimeOffOn
+		(phone_no,id_no,login_no,op_code,op_flag,OffOn_type,login_accept,call_cycle,op_time)
+		values(#PHONE_NO#,#ID_NO#,#LOGIN_NO#,#OP_CODE#,#OP_FLAG#,#OFFON_TYPE#,#LOGIN_ACCEPT#,#CALL_CYCLE#,sysdate)
+	</insert>
+
+	<delete id="delete" parameterClass="Map">
+		delete from
+		dShortMsgTimeOffOn
+		where phone_no=#PHONE_NO#
+		and login_no= #LOGIN_NO#
+		and op_code=#OP_CODE# 
+		and OffOn_type ='A'
+		and op_flag=#OP_FLAG#
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgrcv_his">
+    
+    
+<!-- BLOB 操作方式处理 -->  
+<typeAlias alias="OdrLineHISClass" type="com.sitech.acctmgr.app.odrBlob.OdrLineContVO"/>
+ <resultMap id="OdrLineHISEnt" class="OdrLineHISClass">
+  <result property="gsTopicId"   column="TOPIC_ID"/>
+  <result property="gbContent"   column="CONTENT" jdbcType="BLOB"/>
+  <result property="gsOpCode"    column="OP_CODE"/>
+  <result property="gsDataSrc"   column="DATA_SOURCE"/>
+  <result property="gsBusiidNo"  column="BUSIID_NO"/>
+  <result property="gsBusiidType" column="BUSIID_TYPE"/>
+  <result property="gsLoginAct"  column="LOGIN_ACCEPT"/>
+  <result property="glCreatAct"  column="CREATE_ACCEPT"/>
+  <result property="gsLoginNo"   column="LOGIN_NO"/>
+ </resultMap>
+
+  <insert id="insertOdrCont" parameterClass="OdrLineHISClass">
+    INSERT INTO IN_MSGRCV_HIS (CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, 
+        CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO, OP_TIME)
+    VALUES (#glCreatAct#, #gsDataSrc#, #gsBusiidNo#, #gsBusiidType#, #gsTopicId#, 
+        #gbContent:BLOB#, #gsLoginAct#, #gsOpCode#, #gsLoginNo#, SYSDATE)
+  </insert>
+
+  <insert id="iDatabyAccept" parameterClass="Map">
+	INSERT INTO IN_MSGRCV_HIS (DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO, RCV_TIME)
+	SELECT DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, CONTENT, LOGIN_ACCEPT, SYSDATE, OP_CODE, LOGIN_NO, OP_TIME 
+	  FROM IN_MSGRCV_ERR 
+	 WHERE TOPIC_ID=#TOPIC_ID#
+	   AND LOGIN_ACCEPT=#LOGIN_ACCEPT#
+  </insert>
+  
+  <delete id="dDatabyAccept" parameterClass="Map">
+	DELETE FROM IN_MSGRCV_HIS
+	WHERE TOPIC_ID=#TOPIC_ID# 
+	AND LOGIN_ACCEPT=#LOGIN_ACCEPT# 
+  </delete>
+  
+  <insert id="insertMsgRcvId" parameterClass="Map">
+    INSERT INTO IN_MSGRCVID_INFO (YEAR_MONTH, MSG_ID, BUSI_CODE, OP_TIME)
+    VALUES (to_char(SYSDATE,'YYYYMM'), #MSG_ID#, #BUSI_CODE#, SYSDATE)
+  </insert>
+  
+</sqlMap>

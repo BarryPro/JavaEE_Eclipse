@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+	<student>
+		<name id="beid">
+		belong
+		</name>
+		<id>
+		1404010127
+		</id>
+	</student>
+	<student>
+		<name>
+		tom
+		</name>
+		<id>
+		1346461894
+		</id>
+	</student>
+
+</students>

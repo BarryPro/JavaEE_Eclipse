@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_groupcharge_his">
+	<typeAlias alias="GroupChargeEntity" type="com.sitech.acctmgr.atom.domains.pay.GroupChargeEntity"/>
+
+	<insert id="iGrpErrByRecd"  parameterClass="Map">
+       	INSERT INTO BAL_GROUPCHARGE_HIS (TOTAL_DATE,OP_CODE,PHONE_NO,CONTRACT_NO
+        	,LOGIN_NO,IMPORT_TIME,GROUP_CONTRACT_NO,GROUP_PRODUCT_NAME,FILE_NAME,IMPORT_BATCH_SN,PAY_MONEY
+        	,TRANS_CODE,TRANS_LOGIN,TRANS_TIME,TRANS_SN )
+         SELECT TOTAL_DATE,OP_CODE,PHONE_NO,CONTRACT_NO
+        	,LOGIN_NO,IMPORT_TIME,GROUP_CONTRACT_NO,GROUP_PRODUCT_NAME,FILE_NAME,IMPORT_BATCH_SN,PAY_MONEY
+        	,#TRANS_CODE#,#TRANS_LOGIN#,SYSDATE,#TRANS_SN#
+        FROM BAL_GROUPCHARGE_RECD 
+        WHERE PHONE_NO = #PHONE_NO#
+        AND IMPORT_BATCH_SN = #IMPORT_BATCH_SN#
+  </insert>
+
+    <select id="qryHisList" parameterClass="Map" resultClass="GroupChargeEntity">
+       SELECT  GROUP_CONTRACT_NO groupContractNo,GROUP_PRODUCT_NAME groupProductName,PHONE_NO phoneNo,TO_CHAR(TRANS_TIME  ,'YYYYMMDD HH24:MI:SS') payTime,PAY_MONEY payMoney
+		FROM BAL_GROUPCHARGE_HIS
+		WHERE GROUP_CONTRACT_NO =#GROUP_CONTRACT_NO#
+		AND TO_CHAR(TRANS_TIME ,'YYYYMMDD') <![CDATA[ >= ]]> #BEGIN_TIME#
+		AND TO_CHAR(TRANS_TIME,'YYYYMMDD') <![CDATA[ <=]]>  #END_TIME# 
+		ORDER BY IMPORT_TIME DESC
+    </select>  
+ 
+</sqlMap>

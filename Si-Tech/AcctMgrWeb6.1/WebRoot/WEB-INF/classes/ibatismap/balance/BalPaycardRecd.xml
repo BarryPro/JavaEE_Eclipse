@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_paycard_recd">
+
+  <insert id="ipaycard"  parameterClass="Map">
+   INSERT INTO BAL_PAYCARD_RECD (CARD_SN, PAY_TYPE, PAY_SN, TOTAL_DATE, LOGIN_NO) 
+   VALUES ( #CARD_SN# , #PAY_TYPE# , #PAY_SN# , #TOTAL_DATE# , #LOGIN_NO# )
+  </insert>
+  
+      <insert id="inPayCard"  parameterClass="Map">
+  		INSERT INTO BAL_PAYCARD_RECD     
+  		 (CARD_SN, PAY_TYPE, PAY_SN, TOTAL_DATE, LOGIN_NO) 
+  		 VALUES (#CARD_SN#, #PAY_TYPE#,#PAY_SN#, #TOTAL_DATE#, #LOGIN_NO#)   
+  	</insert>
+  
+  <typeAlias alias="payCardInfo" type="com.sitech.acctmgr.atom.domains.query.PayCardEntity"/>
+  <select id="qPaycard"  parameterClass="Map" resultClass="payCardInfo">
+    SELECT CARD_SN cardSn, PAY_TYPE payType, PAY_SN paySn, TOTAL_DATE totalDate, LOGIN_NO loginNo, DEAL_MONTH dealMonth  FROM BAL_PAYCARD_RECD WHERE 1 = 1
+     <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CARD_SN">
+    		CARD_SN = #CARD_SN#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    		PAY_SN = #PAY_SN#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="LOGIN_NO">
+    		LOGIN_NO = #LOGIN_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="DEAL_MONTH">
+    		DEAL_MONTH = #DEAL_MONTH#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    		ID_NO = #ID_NO#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <delete id= "del"  parameterClass="Map" >
+	 	DELETE FROM BAL_PAYCARD_RECD WHERE PAY_SN= #PAY_SN#
+  </delete>
+
+	<select id="qryByPayType" parameterClass="Map" resultClass="payCardInfo">
+		SELECT CARD_SN cardSn, PAY_TYPE payType, PAY_SN paySn, TOTAL_DATE
+		totalDate, LOGIN_NO loginNo, DEAL_MONTH dealMonth FROM
+		BAL_PAYCARD_RECD WHERE DEAL_MONTH = #DEAL_MONTH#
+		and ID_NO = #ID_NO#
+		and pay_type='d'
+		and total_date>=#BEGIN_DAY#
+		and total_date<![CDATA[<=]]>#END_DAY#
+	</select>
+  
+</sqlMap>

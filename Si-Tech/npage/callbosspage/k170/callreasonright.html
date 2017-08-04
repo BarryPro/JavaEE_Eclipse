@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.ws3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=GBK" />	
+		<link href="/nresources/default/css/FormText.css" rel="stylesheet" type="text/css"></link>
+    <link href="/nresources/default/css/font_color.css" rel="stylesheet" type="text/css"></link>
+    <link href="/nresources/default/css/ValidatorStyle.css" rel="stylesheet" type="text/css"></link>
+		<script src="/njs/extend/jquery/jquery123_pack.js" type="text/javascript"></script>  
+		<script src="/njs/si/core_sitech_pack.js" type="text/javascript"></script>
+		<script type="text/javascript" src="/njs/redialog/redialog.js"></script>
+		<script language="JavaScript" src="/njs/si/validate_pack.js"></script>
+<style>
+body
+{
+	margin:0;
+	padding:0;
+	font:12px Verdana, Arial, Helvetica, sans-serif,"宋体"，"黑体";
+	line-height:1.8em;
+	text-align:left;
+	color:#003399;
+}
+html {
+	scrollbar-face-color:#d5e1f7;
+	scrollbar-highlight-color:#FFFFFF;
+	scrollbar-shadow-color:#DEEBF7;
+	scrollbar-3dlight-color:#89b3e3;
+	scrollbar-arrow-color: #121f54;
+	scrollbar-track-color:#F4F0EB;
+	scrollbar-darkshadow-color:#89b3e3;
+	overflow:hidden;
+}
+</style>
+	</head>
+	<body>
+		<div id='footer' style='height:25px;width:100%;'>
+			<input style='height:20px; width: 150px;' id='input1' type='text' onkeyDown='if(event.keyCode==13) seach()'>
+			<input class="b_foot" type='button' onclick='seach()' value='搜索'/>
+			<input class="b_foot" type='button' onclick='clean()' value='清空'/>
+			</div>
+		<div>
+      		<iframe  name="myFrame4" frameborder="0" width="100%" height="360px" marginwidth="0" marginheight="0" 
+      		scrolling="auto" src="callreasonlist.jsp"></iframe>
+		</div>
+		<div id='seldiv' style='float:left;width:100%;'>
+			<select id='selectcontent' size='6' style='width:99%;height:100px' ondblclick='processsel()'>
+			</select>
+		</div>
+		<div id='remdiv' style='float:right;width:30%;display:none;'>
+			<textarea id='remark'  style='width:99%;height:84px'></textarea>
+		</div>
+		<div id='footer' style='float:left;height:25px;width:99%;'>
+			<input class="b_foot" type='button' onclick='toK198()' value='填单'/>
+			<input class="b_foot" type='button' onclick='cleanselect()' value='全部清除'/>
+			<!--comment by hucw,20100601-->
+			<!--<input class="b_foot" type='button' onclick='inputremark()' value='备注'/>-->
+			<input class="b_foot" type='button' onclick='doSave();' value='保存'/>
+			<input class="b_foot" type='button' id='relationButton' disabled='disabled' onclick='viewRelation()' value='三位一体' />
+		</div>
+		<script>
+			var remarshowflag=0;
+			var flag=window.parent.opener.flag;
+			var contactId = window.parent.opener.document.getElementById("contactId").value;
+			var hassave = 0;
+			
+			//addedy by tangsong 20101015 关闭来电原因窗口标志
+			var winCloseFlag = false;
+
+			function processsel()
+			{
+				var sel = document.getElementById('selectcontent');
+				if(sel.selectedIndex >= 0 ){
+					if(myFrame4.document.getElementById('chk'+sel.options[sel.selectedIndex].value) != null 
+					   && myFrame4.document.getElementById('chk'+sel.options[sel.selectedIndex].value) != undefined)
+					{
+						myFrame4.document.getElementById('chk'+sel.options[sel.selectedIndex].value).checked=false;
+					}
+					sel.options.remove(sel.selectedIndex);
+				}
+				//added by tangsong 20100922 设置"三位一体"按钮可用/不可用
+				var relationButton = document.getElementById("relationButton");
+				if (sel.options.length > 0) {
+					relationButton.disabled = false;
+				} else {
+					relationButton.disabled = true;
+				}
+				sel=null;
+			}
+			function seach()
+			{
+				if(document.getElementById('input1').value == null || document.getElementById('input1').value.trim() == '')
+				{
+					rdShowMessageDialog('请填写搜索描述',1);
+					return;
+				}
+				window.open('callreasonserchlist.jsp?content='+document.getElementById('input1').value,'myFrame4');
+			}
+			function clean()
+			{
+				document.getElementById('input1').value="";
+			}
+			function inputremark()
+			{
+				if(remarshowflag==0)
+				{
+					document.getElementById('seldiv').style.width="68%";
+					document.getElementById('remdiv').style.display="";
+					remarshowflag=1;
+				}else
+				{
+					document.getElementById('seldiv').style.width="100%";
+					document.getElementById('remdiv').style.display="none";
+					remarshowflag=0;
+				}
+			}
+			
+			//added by tangsong 20100507 转向工单受理
+			function toK198() {
+				var pWindow = window.top.opener;
+				//取投诉号码。先取为受理号码，如果为空，就取为主叫号码
+				var phone_no = pWindow.document.getElementById('acceptPhoneNo').value;
+				if (phone_no == '') {
+					phone_no = pWindow.cCcommonTool.getCaller();
+				}
+				//取主叫号码
+				var caller_no = pWindow.cCcommonTool.getCaller();
+				//取被叫号码
+				var called_no = pWindow.cCcommonTool.getCalled();
+				//取录音文件流水
+				var audio_seq = pWindow.document.getElementById('recordFileName').value;
+				
+				var url = "callbosspage/K198/k198_main.jsp"
+				          + "?phone_no=" + phone_no
+				          + "&caller_no=" + caller_no
+				          + "&called_no=" + called_no
+				          + "&audio_seq=" + audio_seq;
+				
+				pWindow.L("1","K198","工单受理",url,"000");
+				window.parent.close();
+			}
+			
+			//add wangyong 20090918 增加全部清除按钮
+			function cleanselect()
+			{
+				var sel = document.getElementById('selectcontent').options;
+				for(var i=0;i<sel.length;i++){
+					if(myFrame4.document.getElementById('chk'+sel[i].value) != null 
+					   && myFrame4.document.getElementById('chk'+sel[i].value) != undefined)
+					{
+						myFrame4.document.getElementById('chk'+sel[i].value).checked=false;
+					}
+				}
+				sel.length=0;
+				sel=null;
+			}
+			
+			//updated by tangsong 20101015 //保存来电原因，并关闭窗口
+			function doSave() {
+				winCloseFlag = true;
+				save();
+			}
+			
+			function save()
+			{
+				hassave = 1;
+				var contactId='';
+				var contactMonth='';
+				var strNodeId='';
+				var strNodeName='';
+				var remarkInfo='';
+				contactId = window.parent.document.getElementById('contactId').value;
+				contactMonth = window.parent.document.getElementById('contactMonth').value;
+				remarkInfo = document.getElementById('remark').value;
+				
+				var myselect=document.getElementById('selectcontent').options;
+				//yanghy 20090916.add 
+				if(myselect.length <= 0 ){
+					rdShowMessageDialog('请至少选择一个来原因。',1);
+					return;
+				}
+				if(myselect.length > 10)
+				{
+					rdShowMessageDialog('填写来电原因数量超过10个内容，不允许保存!',1);
+					return;
+				}
+				for(var i=0;i<myselect.length;i++){
+					strNodeId+=','+myselect[i].value;
+					
+					strNodeName+="<span id="+myselect[i].value+" ><"+myselect[i].text+"><br></span>";
+	   			}
+				if(contactId != null && contactId != '')
+				{
+					var mypacket = new AJAXPacket("/npage/callbosspage/k170/k170_insertCause.jsp","aa");
+					mypacket.data.add("strNodeId",strNodeId);
+					mypacket.data.add("strNodeName",strNodeName);
+					mypacket.data.add("remarkInfo",remarkInfo);
+	  			mypacket.data.add("strContactId",contactId);
+	  			mypacket.data.add("contactMonth",contactMonth);
+  				core.ajax.sendPacket(mypacket,doProcessGetFlag,true);
+					mypacket=null;
+				}else{
+					//updated by tangsong 20101015 根据窗口关闭标志决定是否关闭窗口
+					if (winCloseFlag) {
+						window.parent.close();
+					}
+				}
+			}
+			
+			//added by tangsong 20100922 三位一体
+			function viewRelation() {
+				var causeId = "";
+				var myselect=document.getElementById('selectcontent').options;
+				//added by hucw,传入呼叫流水号，记录操作日志使用
+				var contactId = window.parent.document.getElementById("contactId").value;
+				for(var i=0;i<myselect.length;i++) {
+					causeId += "'" + myselect[i].value + "',";
+	   		}
+	   		if (causeId != "") {
+	   			causeId = causeId.substring(0,causeId.length-1);
+	   		}
+	   		//取得userClass和cityCode
+	   		var mainWin = window.parent.opener;
+	   		var userClass = mainWin.document.getElementById("huaWeiUserClass").value;
+				var callData = mainWin.cCcommonTool.QueryCallDataEx(5);
+				var callDataArr = callData.split(",");
+				var cityCode = callDataArr[1];
+	   		var path = "../k171/k171_showRelation.jsp?causeId=" + causeId
+	   						 + "&userClass=" + userClass + "&cityCode=" + cityCode
+	   						 + "&contactId=" + contactId;
+				var features = "resizable:no;dialogWidth:820px;dialogHeight:650px;";
+				window.showModalDialog(path,window,features);
+				
+				//保存来电原因，但不关闭窗口
+				winCloseFlag = false;
+				save();
+			}
+			
+			function autoSave()
+			{
+				hassave = 1;
+				var contactId='';
+				var contactMonth='';
+				var strNodeId='';
+				var strNodeName='';
+				var remarkInfo='';
+				contactId = window.parent.document.getElementById('contactId').value;
+				contactMonth = window.parent.document.getElementById('contactMonth').value;
+				remarkInfo = document.getElementById('remark').value;
+				
+				var myselect=document.getElementById('selectcontent').options;
+				//yanghy 20090916.add 
+				if(myselect.length <= 0 ){
+					return;
+				}
+				if(myselect.length > 10)
+				{
+					return;
+				}
+				for(var i=0;i<myselect.length;i++){
+					strNodeId+=','+myselect[i].value;
+					
+					strNodeName+="<span id="+myselect[i].value+" ><"+myselect[i].text+"><br></span>";
+	   			}
+				if(contactId != null && contactId != '')
+				{ 
+					returnFlag("000000");
+					var mypacket = new AJAXPacket("/npage/callbosspage/k170/k170_insertCause.jsp","aa");
+					mypacket.data.add("strNodeId",strNodeId);
+					mypacket.data.add("strNodeName",strNodeName);
+					mypacket.data.add("remarkInfo",remarkInfo);
+	  			mypacket.data.add("strContactId",contactId);
+	  			mypacket.data.add("contactMonth",contactMonth);
+  				core.ajax.sendPacket(mypacket,doProcessGetFlag,true);
+					mypacket=null;
+				}
+			}
+				function doProcessGetFlag(packet){
+				   var str = packet.data.findValueByName("retCode");
+				   returnFlag(str);
+				}
+				
+				function returnFlag(str){
+					if(str=="000000"){
+							var nowId=window.parent.opener.document.getElementById("contactId").value;
+		 					if(nowId==contactId)
+		 					{
+		 					  flag=1;	
+							}
+							else
+							{
+								flag=0;
+							}	  
+		 					window.parent.opener.flag=flag;
+				     /*add by fangyuan 090318 如果还在整理态中，保存成功后退出整理态--开始*/		
+						 exitWorkState();
+						 /*add by fangyuan 090318 如果还在整理态中，保存成功后退出整理态--结束*/
+						 }else{
+						 	rdShowMessageDialog('填写来电原因失败',0);
+						 }
+						 //window.parent.opener.cCcommonTool.DebugLog("javascript *** insertCause end");
+						//initTag=2;
+						//updated by tangsong 20101015 根据窗口关闭标志决定是否关闭窗口
+						if (winCloseFlag) {
+							window.parent.close();
+						}
+					}
+				
+				//by fangyuan 20090318 在整理态中，保存来电原因后，直接退出整理态
+				
+				function exitWorkState(){
+				  var workNo=window.parent.opener.cCcommonTool.getWorkNo();
+				  var current_CurState;
+				  if(window.parent.opener.parPhone.QueryAgentStatusEx(workNo)==0){
+				    current_CurState=window.parent.opener.parPhone.AgentInfoEx_CurState;
+				  }
+				if(current_CurState==6)
+				  {
+				  	 var el = window.parent.opener.document.getElementById("bn_status_first");
+				      el.src="/nresources/default/images/ico_16/status_01.gif";
+					 var ret = window.parent.opener.cCcommonTool.ExtenseAdjustment();
+					 if(ret == 0){
+					 		//恢复到空闲时的状态
+					 		
+							window.parent.opener.buttonType("K003");
+							//lijin 090407 写整理态结束时间	
+								var arr=new Array("'27'");
+				 				var oprTypeAll=arr.join(",");
+				 				var oprType="";
+				 				var sign=0;
+				 				window.parent.opener.recodeTime(oprTypeAll,oprType,sign,"");
+						     //恢复状态栏中的座席状态,ref footpanel	
+						    window.parent.opener.resetStatusTimer();	  	
+							  window.parent.opener.clearAllAdjustTimer();
+							  window.parent.opener.document.getElementById("extendTime").value="";
+					    	window.parent.opener.document.getElementById("beforeTime").value="";
+					 }
+				  }
+				}
+				window.onbeforeunload = function(){
+					if(hassave==0){
+						autoSave();
+				  }
+				}
+			</script>
+</body>
+</html>

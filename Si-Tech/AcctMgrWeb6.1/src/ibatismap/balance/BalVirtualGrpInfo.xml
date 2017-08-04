@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_virtualgrp_info">
+<typeAlias alias="VirtualGrpEntity" type="com.sitech.acctmgr.atom.domains.user.VirtualGrpEntity"/>
+	<select id="qryCount" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT COUNT(1) COUNT
+		FROM BAL_VIRTUALGRP_INFO
+		WHERE UNIT_ID = #UNIT_ID#
+	</select>
+
+	<select id="qryName" parameterClass="Map" resultClass="VirtualGrpEntity">
+		SELECT unit_name unitName
+		FROM BAL_VIRTUALGRP_INFO
+		WHERE UNIT_ID = #UNIT_ID#
+	</select>
+	
+	<insert id="insert" parameterClass="VirtualGrpEntity">
+        INSERT INTO BAL_VIRTUALGRP_INFO (UNIT_ID , UNIT_NAME , LOGIN_ACCPET , OP_TIME , LOGIN_NO ,GROUP_ID)
+        VALUES(#unitId# , #unitName# , #loginAccpet# ,sysdate, #loginNo# , #groupId#)
+    </insert>
+    
+	<delete id="delete" parameterClass="Map">
+        DELETE FROM BAL_VIRTUALGRP_INFO
+		WHERE UNIT_ID = #UNIT_ID#
+    </delete>
+    
+</sqlMap>

@@ -1,0 +1,339 @@
+<html>
+<head>
+
+
+    <script type="text/javascript">
+
+        function loadPrintCtrlCss() {
+            var cssVars = [];
+
+            for (var i = 0; i < 5; i++) {
+                var temp = [];
+                cssVars.push(temp);
+            }
+
+            //大字体。
+            cssVars[0][0] = 'bigLabel';
+            cssVars[0][1] = 'FontName="黑体" FontSize="12" FontWeight="500" Left="10"  Width="700" Top="5"';
+
+            //打印内容
+            cssVars[1][0] = 'normalText';
+            cssVars[1][1] = 'FontName="宋体" FontSize="10" Height="30" Left="10" Width="1590" Top="5"';
+
+            //tr。
+            cssVars[2][0] = 'trStyle';
+            cssVars[2][1] = 'Height="30" Width="1600" BorderStyle="5"';
+
+            //td。
+            cssVars[3][0] = 'tdStyle';
+            cssVars[3][1] = 'Height="30" Width="1600" BorderStyle="5"';
+
+            //model。
+            cssVars[4][0] = 'modelStyle';
+            cssVars[4][1] = ' BorderStyle="0" BusiInfoSpace="300" Height="1660" IsModifier="N" Left="0" PageHeight="1799"  PageWidth="2420" PrintDirection="horizontal" Top="0" Width="2000"';
+            printctrl.InitCss(cssVars);
+        }
+
+        function PrintTest() {
+            var xslDoc = new ActiveXObject("MSXML.DOMDocument");
+
+            xslDoc.load(xXmlData.XMLDocument);
+
+            var sXmlBuff = xslDoc.xml;
+
+            delete xslDoc;
+
+            var PrintVars = [];
+            for (var i = 0; i < 100; i++) {
+                var temp = [];
+                PrintVars.push(temp);
+            }
+            PrintVars[0][0] = 'IsPrintScale';       //主要是为了调试打印的位置。
+            PrintVars[0][1] = 'N';                  //打印刻度。
+            PrintVars[1][0] = 'IsPrintModifier';    //是否打印修饰信息。
+            PrintVars[1][1] = 'Y';                  //是打印。
+            PrintVars[2][0] = 'IsPrintSpecialEl';   //是否打印具有特殊属性的元素。
+            PrintVars[2][1] = 'N';                  //默认不打印。
+            PrintVars[3][0] = 'PrintAccept';
+            PrintVars[3][1] = '666777888';
+            PrintVars[4][0] = 'PrintTime';
+            PrintVars[4][1] = '2011  12  12';
+            PrintVars[5][0] = 'ProtocolHostPort';
+            PrintVars[5][1] = 'http://10.95.242.154:11001';
+            printctrl.PrintXmlBuff(sXmlBuff, PrintVars);
+        }
+
+        function GetVersion() {
+            alert(printctrl.Author);
+            alert(printctrl.Version);
+        }
+
+    </script>
+
+    <style type="text/css">
+        .style1 {
+            width: 75px;
+        }
+
+        .style5 {
+        }
+
+        .style6 {
+            width: 7px;
+        }
+
+        .style11 {
+            height: 5px;
+        }
+
+        .style12 {
+            width: 75px;
+            height: 13px;
+        }
+    </style>
+
+</head>
+<body onload="loadPrintCtrlCss()">
+
+<xml id="xXmlData">
+    <?xml version="1.0" encoding="GB2312"?>
+    <PrintModel IsModifier="N" BorderStyle="5" BusiInfoSpace="300" PageWidth="2090" PageHeight="1380" Left="0" Top="0"
+                Width="1700" Height="1200" FontSize="10" FontStyle="normal" FontWeight="normal"
+                PrintDirection="horizontal" PrintModelDes="吉林新版月结发票">
+        <ContentTable IsModifier="N" BorderStyle="5" ContentType="1" ElType="area" Left="0" Top="0" Width="1700"
+                      Height="320" TableLayout="fixed">
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="320" IsCycle="N" VarSrc="xml"
+                VarName="">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1700" Height="320">
+                    <Text IsModifier="Y" ElType="text" FontSize="15" Left="620" Top="80" Width="1700" Height="70"
+                          PrintCondition="1" FontWeight="bold" PrintContent="黑龙江省国家税务局通用机打发票" PrintContentDesc=""
+                          VarName="" VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="Y" ElType="text" FontSize="15" Left="850" Top="180" Width="1700" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="发   票   联" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="Y" ElType="text" FontSize="10" Left="200" Top="280" Width="1700" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="开票日期：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="370" Top="280" Width="1700" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="PRINT_DATE" VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="Y" ElType="text" FontSize="10" Left="760" Top="280" Width="1700" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="行业分类：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1120" Top="280" Width="1700" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="本次发票号码：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1420" Top="280" Width="1700" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc="" VarName="INV_NUM"
+                          VarSrc="xml" FontName="宋体"/>
+                </Td>
+            </Tr>
+        </ContentTable>
+        <ContentTable IsModifier="Y" BorderStyle="0" ContentType="3" ElType="area" Left="0" Top="320" Width="1700"
+                      Height="880" TableLayout="fixed">
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="55" IsCycle="N" VarSrc="xsd">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1700" Height="55">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="220" Top="30" Width="200" Height="55"
+                          PrintCondition="1" FontWeight="bold" PrintContent="客户姓名：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="420" Top="30" Width="1700" Height="55"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="CUST_NAME" VarSrc="xml" FontName="宋体"/>
+                </Td>
+            </Tr>
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="55" IsCycle="N" VarSrc="xsd" VarName="">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="" Height="55">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="220" Top="30" Width="200" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="业务类别：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="420" Top="30" Width="300" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="集团发票开具" PrintContentDesc=""
+                          VarName="OP_NAME" VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="950" Top="30" Width="300" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="客户品牌：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1180" Top="30" Width="600" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="BRAND_NAME" VarSrc="xml" FontName="宋体"/>
+                </Td>
+            </Tr>
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="60" IsCycle="N" VarSrc="xsd" VarName="">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="" Height="">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="220" Top="70" Width="170" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="用户号码：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="390" Top="70" Width="170" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc="" VarName="PHONE_NO"
+                          VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="560" Top="70" Width="170" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="协议号码：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="730" Top="70" Width="270" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="CONTRACT_NO" VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1000" Top="70" Width="170" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="话费账期：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1170" Top="70" Width="130" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="BILL_CYCLE" VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1300" Top="70" Width="150" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="合同号：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1450" Top="70" Width="700" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="COMPACT_NO" VarSrc="xml" FontName="宋体"/>
+                </Td>
+            </Tr>
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="40" IsCycle="N" VarSrc="xsd" VarName="">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="" Height="">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1300" Top="50" Width="170" Height="50"
+                          PrintCondition="1" FontWeight="bold" PrintContent="支票号：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1450" Top="50" Width="700" Height="50"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc="" VarName="CHECK_NO"
+                          VarSrc="xml" FontName="宋体"/>
+                </Td>
+            </Tr>
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="60" IsCycle="N" VarSrc="xsd" VarName=""
+                Modulus="1">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1700" Height="40">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1300" Top="50" Width="220" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="集团统付号码：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1520" Top="50" Width="700" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="201610110" PrintContentDesc=""
+                          VarName="UNIT_CONTRACT_NO" VarSrc="xml" FontName="宋体"/>
+                </Td>
+            </Tr>
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="40" IsCycle="N" VarSrc="xsd" VarName=""
+                Modulus="1">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1700" Height="40">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="220" Top="60" Width="1700" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="开票项目：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                </Td>
+            </Tr>
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="40" IsCycle="N" VarSrc="xsd" VarName=""
+                Modulus="1">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1700" Height="40">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="220" Top="60" Width="430" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="本次发票金额：（小写）￥" PrintContentDesc=""
+                          VarName="" VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="650" Top="60" Width="380" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="FEE_INFO.PRINT_FEE" VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1030" Top="60" Width="230" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="大写金额合计：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1260" Top="60" Width="700" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="FEE_INFO.BIG_MONEY" VarSrc="xml" FontName="宋体"/>
+                </Td>
+            </Tr>
+
+
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="40" IsCycle="N" VarSrc="xsd" VarName=""
+                Modulus="1">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1700" Height="40">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="220" Top="340" Width="150" Height="40"
+                          PrintCondition="1" FontWeight="bold" PrintContent="注意：本次已开具的发票金额，我公司不再提供月结发票。"
+                          PrintContentDesc="" VarName="" VarSrc="xsd" FontName="宋体"/>
+                </Td>
+            </Tr>
+
+        </ContentTable>
+        <ContentTable IsModifier="N" BorderStyle="5" ContentType="5" ElType="area" Left="0" Top="1200" Width="1700"
+                      Height="180" TableLayout="fixed">
+            <Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1700" Height="180" IsCycle="N" VarSrc="xml"
+                VarName="/PRINT_MSG">
+                <Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1700" Height="180">
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="150" Top="0" Width="130" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="流水号：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="280" Top="0" Width="320" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc="" VarName="PRINT_SN"
+                          VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="600" Top="0" Width="120" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="开票人：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="720" Top="0" Width="130" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="LOGIN_NAME" VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="850" Top="0" Width="100" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="工号：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="950" Top="0" Width="150" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc="" VarName="LOGIN_NO"
+                          VarSrc="xml" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1100" Top="0" Width="120" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="营业厅：" PrintContentDesc="" VarName=""
+                          VarSrc="xsd" FontName="宋体"/>
+                    <Text IsModifier="N" ElType="text" FontSize="10" Left="1220" Top="0" Width="800" Height="60"
+                          PrintCondition="1" FontWeight="bold" PrintContent="$()" PrintContentDesc=""
+                          VarName="GROUP_NAME" VarSrc="xml" FontName="宋体"/>
+
+                </Td>
+            </Tr>
+        </ContentTable>
+    </PrintModel>
+</xml>
+
+<table border="1" datatotal="22" id="xmlTable">
+    <tr>
+        <td rowspan=3 class="style5" colspan="2">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 X 2 0000
+        </td>
+        <td class="style11" colspan="2">
+            1122
+            1199333333333333333
+        </td>
+    </tr>
+    <tr>
+        <td class="style12">
+        </td>
+        <td rowspan=3>
+            227933
+        </td>
+    </tr>
+    <tr>
+        <td class="style1">
+            222552
+        </td>
+    </tr>
+    <tr>
+        <td class="style6">
+            331991
+        </td>
+        <td>
+            33333
+        </td>
+        <td class="style1">
+            3322
+        </td>
+    </tr>
+</table>
+<table border="1">
+    <tr>
+        <td>
+            打印：
+        </td>
+        <td>
+            <input type="button" name="print5" value="打印" onclick="PrintTest()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            属性测试：
+        </td>
+        <td>
+            <input type="button" name="TVersion" value="得到版本" onclick="GetVersion()">
+        </td>
+    </tr>
+</table>
+<!-------引入打印控件---------->
+<object classid="clsid:2A5F2678-FE4C-4793-8A6B-28CE833FA134" codebase="PrintXml.dll#version=1,0,0,22"
+        id="printctrl" viewastext>
+</object>
+</body>
+</html>

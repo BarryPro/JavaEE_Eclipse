@@ -1,0 +1,31 @@
+log4j.rootLogger=DEBUG,CON
+
+log4j.appender.CON=org.apache.log4j.ConsoleAppender
+log4j.appender.CON.layout=com.sitech.jcf.log.JCFPatternLayout
+#log4j.appender.CON.layout.ConversionPattern=[%t]%d{MM-dd HH:mm:ss:SSS} %5p %c{5}:%L %m%n
+log4j.appender.CON.layout.ConversionPattern=%k %s [%t]%d{MM-dd HH:mm:ss:SSS} %5p %c{5}:%L %m%n
+
+
+#---Add By sunqiang, printf sql---
+log4j.logger.com.ibatis = DEBUG
+log4j.logger.com.ibatis.common.jdbc.SimpleDataSource = DEBUG
+log4j.logger.com.ibatis.common.jdbc.ScriptRunner = DEBUG  
+log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate = DEBUG  
+log4j.logger.java.sql.Connection = DEBUG  
+log4j.logger.java.sql.Statement = DEBUG  
+log4j.logger.java.sql.PreparedStatement = DEBUG  
+log4j.logger.java.sql.ResultSet = DEBUG 
+
+
+##flume##
+#log4j.logger.flume=info,myflume
+#log4j.additivity.flume = false
+#log4j.appender.myflume.blocking=false
+#log4j.appender.myflume.bufferSize=200000
+#log4j.appender.myflume.maxBackoff =100
+#log4j.appender.myflume.batchSize =200
+#log4j.appender.myflume =org.apache.flume.clients.log4jappender.LoadBalancingUDPAsyncAppender
+#log4j.appender.myflume.Hosts=10.149.85.61:44443 10.149.85.62:44443 10.149.85.63:44443
+#log4j.appender.myflume.Selector =RANDOM
+#log4j.appender.myflume.layout =org.apache.log4j.PatternLayout
+#log4j.appender.myflume.layout.ConversionPattern =%d{mm}\t%d{ss}\t%p\t%c{1}\t%m

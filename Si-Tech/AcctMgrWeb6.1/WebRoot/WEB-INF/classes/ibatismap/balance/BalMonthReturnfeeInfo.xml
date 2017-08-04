@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_monthreturnfee_info">
+
+    <insert id="iMonthReturnFee" parameterClass="Map">
+        INSERT INTO BAL_MONTHRETURNFEE_INFO(BATCH_SN, RETURNFEE_SN, ID_NO, CONTRACT_NO, PHONE_NO, RETURNFEE_SUM, 
+        		RETURN_COUNT, PAY_TYPE, EFF_DATE, EXP_DATE, PAYED_COUNT, PAYED_MONEY, RETURN_RULE, 
+        		DEAL_FLAG, OP_CODE, OP_TIME, REMARK, LOGIN_NO, LOGIN_ACCEPT, RETURN_TIME, RETURN_FLAG)
+        VALUES(#BATCH_SN#, SEQ_SYSTEM_SN.NEXTVAL, #ID_NO#, #CONTRACT_NO#, #PHONE_NO#, #RETURNFEE_SUM#, 
+        		#RETURN_COUNT#, #PAY_TYPE#, TO_DATE(#EFF_DATE#,'YYYYMMDD'), TO_DATE(#EXP_DATE#,'YYYYMMDD'), #PAYED_COUNT#, #PAYED_MONEY#, #RETURN_RULE#, 
+        		#DEAL_FLAG#, #OP_CODE#, sysdate, #REMARK#, #LOGIN_NO#, #LOGIN_ACCEPT#, '', '0')
+    </insert>
+
+	<select id="qMonthReturnFee" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR(MIN(EFF_DATE),'YYYYMMDD') MIN_EFF_DATE,TO_CHAR(MAX(EXP_DATE),'YYYYMMDD') MAX_EXP_DATE ,
+		MAX(RETURN_COUNT) MAX_RETURN_COUNT , MIN(RETURN_COUNT) MIN_RETURN_COUNT,
+		MAX(RETURNFEE_SUM) MAX_FEE
+		FROM BAL_MONTHRETURNFEE_INFO 
+		WHERE BATCH_SN = #BATCH_SN#
+		AND	 TO_CHAR(OP_TIME, 'YYYYMMDD')=#OP_DATE#
+	</select>
+  
+  	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT COUNT(1)
+		FROM BAL_MONTHRETURNFEE_INFO
+		WHERE BATCH_SN = #BATCH_SN#
+		AND	 TO_CHAR(OP_TIME, 'YYYYMMDD')=#OP_DATE#
+		AND  RETURNFEE_SUM = #MAX_FEE#
+	</select>
+  
+  
+</sqlMap>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+<head>
+	<appId></appId>
+	<requestTime></requestTime>
+	<method>authent_type_rsa</method>
+	<clientIp>10.32.3.120</clientIp>
+</head>
+<body>
+	<account></account>
+	<subAccount></subAccount>
+	<approverAccount></approverAccount>
+	<beginTime></beginTime>
+	<endTime></endTime>
+	<authCode></authCode>
+	<moreMsg></moreMsg>
+	<appSessionId></appSessionId>
+	<sceneId></sceneId> 
+</body>
+</request>

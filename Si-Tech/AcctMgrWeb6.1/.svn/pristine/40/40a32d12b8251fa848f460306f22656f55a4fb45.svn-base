@@ -1,0 +1,136 @@
+package com.sitech.acctmgr.atom.domains.invoice;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+import java.io.Serializable;
+import java.util.Arrays;
+
+/**
+ *
+ * <p>Title:   </p>
+ * <p>Description:   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author 
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
+public class PrintDataBlob implements Serializable{
+	@JSONField(name="PRINT_DATA")
+	@ParamDesc(path="PRINT_DATA",cons=ConsType.QUES,type="byte[]",len="1",desc="发票报文二进制数组",memo="略")
+	byte[] printContent;
+	@JSONField(name="PRINTED_NUM")
+	@ParamDesc(path="PRINTED_NUM",cons=ConsType.QUES,type="int",len="2",desc="打印次数",memo="略")
+	int printNum;
+	@JSONField(name="PRINT_SN")
+	@ParamDesc(path="PRINT_SN",cons=ConsType.QUES,type="long",len="20",desc="打印流水",memo="略")
+	long printSn;
+	@JSONField(name="ORDER_SN")
+	@ParamDesc(path="ORDER_SN",cons=ConsType.QUES,type="long",len="20",desc="发票项订单号",memo="略")
+	long orderSn;
+	@JSONField(name="YEAR_MONTH")
+	@ParamDesc(path="YEAR_MONTH",cons=ConsType.QUES,type="int",len="10",desc="打印自然月",memo="略")
+	int yearMonth;
+	@JSONField(name="SHOW_ORDER")
+	@ParamDesc(path="SHOW_ORDER",cons=ConsType.QUES,type="int",len="2",desc="发票项序号",memo="略")
+	int showOrder;
+
+	/**
+	 * @return the showOrder
+	 */
+	public int getShowOrder() {
+		return showOrder;
+	}
+
+	/**
+	 * @param showOrder the showOrder to set
+	 */
+	public void setShowOrder(int showOrder) {
+		this.showOrder = showOrder;
+	}
+
+	/**
+	 * @return the printNum
+	 */
+	public int getPrintNum() {
+		return printNum;
+	}
+
+	/**
+	 * @param printNum the printNum to set
+	 */
+	public void setPrintNum(int printNum) {
+		this.printNum = printNum;
+	}
+
+	/**
+	 * @return the printSn
+	 */
+	public long getPrintSn() {
+		return printSn;
+	}
+
+	/**
+	 * @param printSn the printSn to set
+	 */
+	public void setPrintSn(long printSn) {
+		this.printSn = printSn;
+	}
+
+	/**
+	 * @return the orderSn
+	 */
+	public long getOrderSn() {
+		return orderSn;
+	}
+
+	/**
+	 * @param orderSn the orderSn to set
+	 */
+	public void setOrderSn(long orderSn) {
+		this.orderSn = orderSn;
+	}
+
+	/**
+	 * @return the yearMonth
+	 */
+	public int getYearMonth() {
+		return yearMonth;
+	}
+
+	/**
+	 * @param yearMonth the yearMonth to set
+	 */
+	public void setYearMonth(int yearMonth) {
+		this.yearMonth = yearMonth;
+	}
+
+	/**
+	 * @return the printContent
+	 */
+	public byte[] getPrintContent() {
+		return printContent;
+	}
+
+	/**
+	 * @param printContent the printContent to set
+	 */
+	public void setPrintContent(byte[] printContent) {
+		this.printContent = printContent;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "PrintDataBlob [printContent=" + Arrays.toString(printContent)
+				+ ", printNum=" + printNum + ", printSn=" + printSn
+				+ ", orderSn=" + orderSn + ", yearMonth=" + yearMonth + "]";
+	}
+	
+	
+	
+}

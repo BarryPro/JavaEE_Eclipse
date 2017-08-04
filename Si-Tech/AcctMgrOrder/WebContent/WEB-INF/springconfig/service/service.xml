@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans                 
+                    http://www.springframework.org/schema/beans/spring-beans.xsd
+                    http://code.alibabatech.com/schema/dubbo
+            http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+<!--  
+ <dubbo:application name="hello-world-app"/>
+ <dubbo:registry  protocol="zookeeper" address="10.162.200.94:2180" />
+ <dubbo:protocol name="dubbo" port="20880" />
+ <dubbo:service interface="com.sitech.acctmgr.app.job.ISchedulerMonitor" ref="ISchedulerMonitor" retries="0" timeout="60000" />
+
+<bean id="ISchedulerMonitor" class="com.sitech.acctmgr.app.job.SchedulerMonitor">
+	<property name="scheduler" ref="startQuartz" />
+</bean>
+-->
+
+	<bean id="writeoffOrOpenOrderTne" class="com.sitech.acctmgr.atom.impl.pay.WriteoffOrOpenOrder">
+		<property name="payOpener" ref="payOpenerEnt" />
+		<property name="writeOffer" ref="writeOfferEnt" />
+	</bean>
+
+	<!-- 费用工单 -->
+	<bean id="feeOrderTne" class="com.sitech.acctmgr.atom.impl.pay.SFeeOrder">
+		<property name="group" ref="groupEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="payManage" ref="payManageEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+	</bean>
+
+    <!-- 缴费类服务实现层 -->
+    <bean id="8008Tne" class="com.sitech.acctmgr.atom.impl.pay.S8008">
+          <property name="prod" ref="prodEnt" />
+          <property name="user" ref="userEnt" />
+          <property name="account" ref="accountEnt" />
+          <property name="balance" ref="balanceEnt" />
+          <property name="control" ref="controlEnt" />
+          <property name="invoice" ref="invoiceEnt" />
+          <property name="writeOffer" ref="writeOfferEnt" />
+          <property name="bill" ref="billEnt" />
+          <property name="login" ref="loginEnt" />
+          <property name="group" ref="groupEnt" />
+          <property name="record" ref="recordEnt" />
+          <property name="payManage" ref="payManageEnt" />
+          <property name="remainFee" ref="remainFeeEnt" />
+          <property name="preOrder" ref="preOrderEnt"/>
+     </bean>
+
+</beans>

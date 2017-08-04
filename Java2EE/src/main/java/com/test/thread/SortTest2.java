@@ -1,0 +1,66 @@
+package com.test.thread;
+
+/**
+ * @Description: <p></p>
+ * @Author: belong.
+ * @Date: 2017/7/16.
+ */
+public class SortTest2 {
+    public static void main(String[] args) {
+        Integer [] a = {3,5,35,456,4,6,4,53,46,34,634,7,3456,43};
+        QuickSort sortTask = new QuickSort(a);
+        sortTask.start();
+        for(Integer i:a){
+            System.out.print(i+" ");
+        }
+    }
+}
+
+class QuickSort extends Thread{
+
+    final Integer[] a;
+    final Integer start;
+    final Integer end;
+
+    public QuickSort(Integer[] a) {
+        this.a = a;
+        this.start = 0;
+        this.end = a.length - 1;
+    }
+
+    // 过程中传参
+    public QuickSort(Integer[] a,Integer start,Integer end) {
+        this.a = a;
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    public void run() {
+        synchronized (this){
+            boolean flag = false;
+            int i = start;
+            int j = end;
+            if(i>j){
+                return ;
+            }
+            while(i!=j){
+                if(a[i]>a[j]){
+                    int tmp = a[i];
+                    a[i] = a[j];
+                    a[j] = tmp;
+                    flag = !flag;
+                }
+                if(flag){
+                    j--;
+                } else {
+                    i++;
+                }
+            }
+            i--;
+            j++;
+            new QuickSort(a,start,i).start();
+            new QuickSort(a,j,end).start();
+        }
+    }
+}

@@ -1,0 +1,1450 @@
+package com.sitech.acctmgr.atom.domains.invoice;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ *
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
+public class ChiefElecInov implements Serializable {
+
+	// 终端类型标识(0:B/S请求来源;1:C/S请求来源)
+	private String terminalCode;
+
+	// DZFP
+	private String dzfp;
+
+	// 接口版本
+	private String version;
+
+	// 接口编码
+	private String interfaceCode;
+
+	// 平台编码
+	private String userName;
+
+	// 10位随机数+Base64({（10位随机数+注册码）MD5})
+	private String password;
+
+	// 纳税人识别号
+	private String taxpayerId;
+
+	// 接入系统平台授权码（由平台提供）
+	private String authorizationCode;
+
+	// 数据交换请求发出方代码
+	private String requestCode;
+
+	// 数据交换请求发出时间
+	private String requestTime;
+
+	// 数据交换请求接受方代码
+	private String responseCode;
+
+	// 数据交换流水号
+	private String dataExchangeId;
+
+	// 返回代码
+	private String returnCode;
+
+	// base64 返回描述
+	private String returnMessage;
+
+	// (0,1根据数据包大小判断是否进行压缩)
+	private String zipCode;
+
+	// (加密方式代码，0表示不用任何加密)
+	private String encryptCode;
+
+	// (三种加密方式代码)
+	private String codeType;
+
+	// base64请求数据内容或返回数据内容
+	private String content;
+
+	// 发票请求唯一流水号
+	private String fpqqlsh;
+
+	// 平台编码
+	private String dptbm;
+
+	// 开票方识别号
+	private String nsrsbh;
+
+	// 开票方名称
+	private String nsrmc;
+
+	// 开票方电子档案号
+	private String nsrdzdah;
+
+	// 税务机构代码
+	private String swjg_dm;
+
+	// 代开标志
+	private String dkbz;
+
+	// 票样代码
+	private String pydm;
+
+	// 主要开票项目
+	private String kpxm;
+
+	// 编码表版本号
+	private String bmb_bbh;
+
+	// 销货方识别号
+	private String xhf_nsrsbh;
+
+	// 销货方名称
+	private String xhfmc;
+
+	// 销货方地址
+	private String xhf_dz;
+
+	// 销货方电话
+	private String xhf_dh;
+
+	// 销货方银行账号
+	private String xhf_yhzh;
+
+	// 购货方名称
+	private String ghfmc;
+
+	// 购货方识别号
+	private String ghf_nsrsbh;
+
+	// 购货方省份
+	private String ghf_sf;
+
+	// 购货方地址
+	private String ghf_dz;
+
+	// 购货方固定电话
+	private String ghf_gddh;
+
+	// 购货方手机
+	private String ghf_sj;
+
+	// 购货方邮箱
+	private String ghf_email;
+
+	// 购货方企业类型
+	private String ghfqylx;
+
+	// 购货方银行账号
+	private String ghf_yhzh;
+
+	// 行业代码
+	private String hy_dm;
+
+	// 行业名称
+	private String hy_mc;
+
+	// 开票员
+	private String kpy;
+
+	// 收款员
+	private String sky;
+
+	// 复核人
+	private String fhr;
+
+	// 开票日期
+	private String kprq;
+
+	// 开票类型
+	private String kplx;
+
+	// 原发票代码
+	private String yfp_dm;
+
+	// 原发票号码
+	private String yfp_hm;
+
+	// 操作代码
+	private String czdm;
+
+	// 清单标志
+	private String qd_bz;
+
+	// 清单发票项目名称
+	private String qdxmmc;
+
+	// 冲红原因
+	private String chyy;
+
+	// 特殊冲红标志
+	private String tschbz;
+
+	// 价税合计金额
+	private String kphjje;
+
+	// 合计不含税金额
+	private String hjbhsje;
+
+	// 合计税额
+	private String hjse;
+
+	// 备注
+	private String bz;
+
+	// 备用字段
+	private String byzd1;
+
+	// 订单号
+	private String ddh;
+
+	// 退货单号
+	private String thdh;
+
+	// 订单时间
+	private String dddate;
+
+	// 订单名称
+	private String ddmc;
+
+	// 单位
+	private String dw;
+
+	// 规格型号
+	private String fggxh;
+
+	// 数量
+	private String fsl;
+
+	// 单价
+	private String dj;
+
+	// 金额
+	private String je;
+
+	// 支付方式
+	private String zffs;
+
+	// 支付流水号
+	private String zflsh;
+
+	// 支付平台
+	private String zfpt;
+
+	// 乘运公司
+	private String cygs;
+
+	// 送货时间
+	private String shsj;
+
+	// 物流单号
+	private String wldh;
+
+	// 送货地址
+	private String shdz;
+
+	// 发票项目列表
+	private List<MinorElecInvo> minorList;
+
+	/**
+	 * @return the bz
+	 */
+	public String getBz() {
+		return bz;
+	}
+
+	/**
+	 * @param bz
+	 *            the bz to set
+	 */
+	public void setBz(String bz) {
+		this.bz = bz;
+	}
+
+	/**
+	 * @return the minorList
+	 */
+	public List<MinorElecInvo> getMinorList() {
+		return minorList;
+	}
+
+	/**
+	 * @param minorList
+	 *            the minorList to set
+	 */
+	public void setMinorList(List<MinorElecInvo> minorList) {
+		this.minorList = minorList;
+	}
+
+	/**
+	 * @return the terminalCode
+	 */
+	public String getTerminalCode() {
+		return terminalCode;
+	}
+
+	/**
+	 * @param terminalCode
+	 *            the terminalCode to set
+	 */
+	public void setTerminalCode(String terminalCode) {
+		this.terminalCode = terminalCode;
+	}
+
+	/**
+	 * @return the dzfp
+	 */
+	public String getDzfp() {
+		return dzfp;
+	}
+
+	/**
+	 * @param dzfp
+	 *            the dzfp to set
+	 */
+	public void setDzfp(String dzfp) {
+		this.dzfp = dzfp;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version
+	 *            the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	/**
+	 * @return the interfaceCode
+	 */
+	public String getInterfaceCode() {
+		return interfaceCode;
+	}
+
+	/**
+	 * @param interfaceCode
+	 *            the interfaceCode to set
+	 */
+	public void setInterfaceCode(String interfaceCode) {
+		this.interfaceCode = interfaceCode;
+	}
+
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName
+	 *            the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @return the taxpayerId
+	 */
+	public String getTaxpayerId() {
+		return taxpayerId;
+	}
+
+	/**
+	 * @param taxpayerId
+	 *            the taxpayerId to set
+	 */
+	public void setTaxpayerId(String taxpayerId) {
+		this.taxpayerId = taxpayerId;
+	}
+
+	/**
+	 * @return the authorizationCode
+	 */
+	public String getAuthorizationCode() {
+		return authorizationCode;
+	}
+
+	/**
+	 * @param authorizationCode
+	 *            the authorizationCode to set
+	 */
+	public void setAuthorizationCode(String authorizationCode) {
+		this.authorizationCode = authorizationCode;
+	}
+
+	/**
+	 * @return the requestCode
+	 */
+	public String getRequestCode() {
+		return requestCode;
+	}
+
+	/**
+	 * @param requestCode
+	 *            the requestCode to set
+	 */
+	public void setRequestCode(String requestCode) {
+		this.requestCode = requestCode;
+	}
+
+	/**
+	 * @return the requestTime
+	 */
+	public String getRequestTime() {
+		return requestTime;
+	}
+
+	/**
+	 * @param requestTime
+	 *            the requestTime to set
+	 */
+	public void setRequestTime(String requestTime) {
+		this.requestTime = requestTime;
+	}
+
+	/**
+	 * @return the responseCode
+	 */
+	public String getResponseCode() {
+		return responseCode;
+	}
+
+	/**
+	 * @param responseCode
+	 *            the responseCode to set
+	 */
+	public void setResponseCode(String responseCode) {
+		this.responseCode = responseCode;
+	}
+
+	/**
+	 * @return the dataExchangeId
+	 */
+	public String getDataExchangeId() {
+		return dataExchangeId;
+	}
+
+	/**
+	 * @param dataExchangeId
+	 *            the dataExchangeId to set
+	 */
+	public void setDataExchangeId(String dataExchangeId) {
+		this.dataExchangeId = dataExchangeId;
+	}
+
+	/**
+	 * @return the returnCode
+	 */
+	public String getReturnCode() {
+		return returnCode;
+	}
+
+	/**
+	 * @param returnCode
+	 *            the returnCode to set
+	 */
+	public void setReturnCode(String returnCode) {
+		this.returnCode = returnCode;
+	}
+
+	/**
+	 * @return the returnMessage
+	 */
+	public String getReturnMessage() {
+		return returnMessage;
+	}
+
+	/**
+	 * @param returnMessage
+	 *            the returnMessage to set
+	 */
+	public void setReturnMessage(String returnMessage) {
+		this.returnMessage = returnMessage;
+	}
+
+	/**
+	 * @return the zipCode
+	 */
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	/**
+	 * @param zipCode
+	 *            the zipCode to set
+	 */
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	/**
+	 * @return the encryptCode
+	 */
+	public String getEncryptCode() {
+		return encryptCode;
+	}
+
+	/**
+	 * @param encryptCode
+	 *            the encryptCode to set
+	 */
+	public void setEncryptCode(String encryptCode) {
+		this.encryptCode = encryptCode;
+	}
+
+	/**
+	 * @return the codeType
+	 */
+	public String getCodeType() {
+		return codeType;
+	}
+
+	/**
+	 * @param codeType
+	 *            the codeType to set
+	 */
+	public void setCodeType(String codeType) {
+		this.codeType = codeType;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content
+	 *            the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	/**
+	 * @return the fpqqlsh
+	 */
+	public String getFpqqlsh() {
+		return fpqqlsh;
+	}
+
+	/**
+	 * @param fpqqlsh
+	 *            the fpqqlsh to set
+	 */
+	public void setFpqqlsh(String fpqqlsh) {
+		this.fpqqlsh = fpqqlsh;
+	}
+
+	/**
+	 * @return the dptbm
+	 */
+	public String getDptbm() {
+		return dptbm;
+	}
+
+	/**
+	 * @param dptbm
+	 *            the dptbm to set
+	 */
+	public void setDptbm(String dptbm) {
+		this.dptbm = dptbm;
+	}
+
+	/**
+	 * @return the nsrsbh
+	 */
+	public String getNsrsbh() {
+		return nsrsbh;
+	}
+
+	/**
+	 * @param nsrsbh
+	 *            the nsrsbh to set
+	 */
+	public void setNsrsbh(String nsrsbh) {
+		this.nsrsbh = nsrsbh;
+	}
+
+	/**
+	 * @return the nsrmc
+	 */
+	public String getNsrmc() {
+		return nsrmc;
+	}
+
+	/**
+	 * @param nsrmc
+	 *            the nsrmc to set
+	 */
+	public void setNsrmc(String nsrmc) {
+		this.nsrmc = nsrmc;
+	}
+
+	/**
+	 * @return the nsrdzdah
+	 */
+	public String getNsrdzdah() {
+		return nsrdzdah;
+	}
+
+	/**
+	 * @param nsrdzdah
+	 *            the nsrdzdah to set
+	 */
+	public void setNsrdzdah(String nsrdzdah) {
+		this.nsrdzdah = nsrdzdah;
+	}
+
+	/**
+	 * @return the swjg_dm
+	 */
+	public String getSwjg_dm() {
+		return swjg_dm;
+	}
+
+	/**
+	 * @param swjg_dm
+	 *            the swjg_dm to set
+	 */
+	public void setSwjg_dm(String swjg_dm) {
+		this.swjg_dm = swjg_dm;
+	}
+
+	/**
+	 * @return the dkbz
+	 */
+	public String getDkbz() {
+		return dkbz;
+	}
+
+	/**
+	 * @param dkbz
+	 *            the dkbz to set
+	 */
+	public void setDkbz(String dkbz) {
+		this.dkbz = dkbz;
+	}
+
+	/**
+	 * @return the pydm
+	 */
+	public String getPydm() {
+		return pydm;
+	}
+
+	/**
+	 * @param pydm
+	 *            the pydm to set
+	 */
+	public void setPydm(String pydm) {
+		this.pydm = pydm;
+	}
+
+	/**
+	 * @return the kpxm
+	 */
+	public String getKpxm() {
+		return kpxm;
+	}
+
+	/**
+	 * @param kpxm
+	 *            the kpxm to set
+	 */
+	public void setKpxm(String kpxm) {
+		this.kpxm = kpxm;
+	}
+
+	/**
+	 * @return the bmb_bbh
+	 */
+	public String getBmb_bbh() {
+		return bmb_bbh;
+	}
+
+	/**
+	 * @param bmb_bbh
+	 *            the bmb_bbh to set
+	 */
+	public void setBmb_bbh(String bmb_bbh) {
+		this.bmb_bbh = bmb_bbh;
+	}
+
+	/**
+	 * @return the xhf_nsrsbh
+	 */
+	public String getXhf_nsrsbh() {
+		return xhf_nsrsbh;
+	}
+
+	/**
+	 * @param xhf_nsrsbh
+	 *            the xhf_nsrsbh to set
+	 */
+	public void setXhf_nsrsbh(String xhf_nsrsbh) {
+		this.xhf_nsrsbh = xhf_nsrsbh;
+	}
+
+	/**
+	 * @return the xhfmc
+	 */
+	public String getXhfmc() {
+		return xhfmc;
+	}
+
+	/**
+	 * @param xhfmc
+	 *            the xhfmc to set
+	 */
+	public void setXhfmc(String xhfmc) {
+		this.xhfmc = xhfmc;
+	}
+
+	/**
+	 * @return the xhf_dz
+	 */
+	public String getXhf_dz() {
+		return xhf_dz;
+	}
+
+	/**
+	 * @param xhf_dz
+	 *            the xhf_dz to set
+	 */
+	public void setXhf_dz(String xhf_dz) {
+		this.xhf_dz = xhf_dz;
+	}
+
+	/**
+	 * @return the xhf_dh
+	 */
+	public String getXhf_dh() {
+		return xhf_dh;
+	}
+
+	/**
+	 * @param xhf_dh
+	 *            the xhf_dh to set
+	 */
+	public void setXhf_dh(String xhf_dh) {
+		this.xhf_dh = xhf_dh;
+	}
+
+	/**
+	 * @return the xhf_yhzh
+	 */
+	public String getXhf_yhzh() {
+		return xhf_yhzh;
+	}
+
+	/**
+	 * @param xhf_yhzh
+	 *            the xhf_yhzh to set
+	 */
+	public void setXhf_yhzh(String xhf_yhzh) {
+		this.xhf_yhzh = xhf_yhzh;
+	}
+
+	/**
+	 * @return the ghfmc
+	 */
+	public String getGhfmc() {
+		return ghfmc;
+	}
+
+	/**
+	 * @param ghfmc
+	 *            the ghfmc to set
+	 */
+	public void setGhfmc(String ghfmc) {
+		this.ghfmc = ghfmc;
+	}
+
+	/**
+	 * @return the ghf_nsrsbh
+	 */
+	public String getGhf_nsrsbh() {
+		return ghf_nsrsbh;
+	}
+
+	/**
+	 * @param ghf_nsrsbh
+	 *            the ghf_nsrsbh to set
+	 */
+	public void setGhf_nsrsbh(String ghf_nsrsbh) {
+		this.ghf_nsrsbh = ghf_nsrsbh;
+	}
+
+	/**
+	 * @return the ghf_sf
+	 */
+	public String getGhf_sf() {
+		return ghf_sf;
+	}
+
+	/**
+	 * @param ghf_sf
+	 *            the ghf_sf to set
+	 */
+	public void setGhf_sf(String ghf_sf) {
+		this.ghf_sf = ghf_sf;
+	}
+
+	/**
+	 * @return the ghf_dz
+	 */
+	public String getGhf_dz() {
+		return ghf_dz;
+	}
+
+	/**
+	 * @param ghf_dz
+	 *            the ghf_dz to set
+	 */
+	public void setGhf_dz(String ghf_dz) {
+		this.ghf_dz = ghf_dz;
+	}
+
+	/**
+	 * @return the ghf_gddh
+	 */
+	public String getGhf_gddh() {
+		return ghf_gddh;
+	}
+
+	/**
+	 * @param ghf_gddh
+	 *            the ghf_gddh to set
+	 */
+	public void setGhf_gddh(String ghf_gddh) {
+		this.ghf_gddh = ghf_gddh;
+	}
+
+	/**
+	 * @return the ghf_sj
+	 */
+	public String getGhf_sj() {
+		return ghf_sj;
+	}
+
+	/**
+	 * @param ghf_sj
+	 *            the ghf_sj to set
+	 */
+	public void setGhf_sj(String ghf_sj) {
+		this.ghf_sj = ghf_sj;
+	}
+
+	/**
+	 * @return the ghf_email
+	 */
+	public String getGhf_email() {
+		return ghf_email;
+	}
+
+	/**
+	 * @param ghf_email
+	 *            the ghf_email to set
+	 */
+	public void setGhf_email(String ghf_email) {
+		this.ghf_email = ghf_email;
+	}
+
+	/**
+	 * @return the ghfqylx
+	 */
+	public String getGhfqylx() {
+		return ghfqylx;
+	}
+
+	/**
+	 * @param ghfqylx
+	 *            the ghfqylx to set
+	 */
+	public void setGhfqylx(String ghfqylx) {
+		this.ghfqylx = ghfqylx;
+	}
+
+	/**
+	 * @return the ghf_yhzh
+	 */
+	public String getGhf_yhzh() {
+		return ghf_yhzh;
+	}
+
+	/**
+	 * @param ghf_yhzh
+	 *            the ghf_yhzh to set
+	 */
+	public void setGhf_yhzh(String ghf_yhzh) {
+		this.ghf_yhzh = ghf_yhzh;
+	}
+
+	/**
+	 * @return the hy_dm
+	 */
+	public String getHy_dm() {
+		return hy_dm;
+	}
+
+	/**
+	 * @param hy_dm
+	 *            the hy_dm to set
+	 */
+	public void setHy_dm(String hy_dm) {
+		this.hy_dm = hy_dm;
+	}
+
+	/**
+	 * @return the hy_mc
+	 */
+	public String getHy_mc() {
+		return hy_mc;
+	}
+
+	/**
+	 * @param hy_mc
+	 *            the hy_mc to set
+	 */
+	public void setHy_mc(String hy_mc) {
+		this.hy_mc = hy_mc;
+	}
+
+	/**
+	 * @return the kpy
+	 */
+	public String getKpy() {
+		return kpy;
+	}
+
+	/**
+	 * @param kpy
+	 *            the kpy to set
+	 */
+	public void setKpy(String kpy) {
+		this.kpy = kpy;
+	}
+
+	/**
+	 * @return the sky
+	 */
+	public String getSky() {
+		return sky;
+	}
+
+	/**
+	 * @param sky
+	 *            the sky to set
+	 */
+	public void setSky(String sky) {
+		this.sky = sky;
+	}
+
+	/**
+	 * @return the fhr
+	 */
+	public String getFhr() {
+		return fhr;
+	}
+
+	/**
+	 * @param fhr
+	 *            the fhr to set
+	 */
+	public void setFhr(String fhr) {
+		this.fhr = fhr;
+	}
+
+	/**
+	 * @return the kprq
+	 */
+	public String getKprq() {
+		return kprq;
+	}
+
+	/**
+	 * @param kprq
+	 *            the kprq to set
+	 */
+	public void setKprq(String kprq) {
+		this.kprq = kprq;
+	}
+
+	/**
+	 * @return the kplx
+	 */
+	public String getKplx() {
+		return kplx;
+	}
+
+	/**
+	 * @param kplx
+	 *            the kplx to set
+	 */
+	public void setKplx(String kplx) {
+		this.kplx = kplx;
+	}
+
+	/**
+	 * @return the yfp_dm
+	 */
+	public String getYfp_dm() {
+		return yfp_dm;
+	}
+
+	/**
+	 * @param yfp_dm
+	 *            the yfp_dm to set
+	 */
+	public void setYfp_dm(String yfp_dm) {
+		this.yfp_dm = yfp_dm;
+	}
+
+	/**
+	 * @return the yfp_hm
+	 */
+	public String getYfp_hm() {
+		return yfp_hm;
+	}
+
+	/**
+	 * @param yfp_hm
+	 *            the yfp_hm to set
+	 */
+	public void setYfp_hm(String yfp_hm) {
+		this.yfp_hm = yfp_hm;
+	}
+
+	/**
+	 * @return the czdm
+	 */
+	public String getCzdm() {
+		return czdm;
+	}
+
+	/**
+	 * @param czdm
+	 *            the czdm to set
+	 */
+	public void setCzdm(String czdm) {
+		this.czdm = czdm;
+	}
+
+	/**
+	 * @return the qd_bz
+	 */
+	public String getQd_bz() {
+		return qd_bz;
+	}
+
+	/**
+	 * @param qd_bz
+	 *            the qd_bz to set
+	 */
+	public void setQd_bz(String qd_bz) {
+		this.qd_bz = qd_bz;
+	}
+
+	/**
+	 * @return the qdxmmc
+	 */
+	public String getQdxmmc() {
+		return qdxmmc;
+	}
+
+	/**
+	 * @param qdxmmc
+	 *            the qdxmmc to set
+	 */
+	public void setQdxmmc(String qdxmmc) {
+		this.qdxmmc = qdxmmc;
+	}
+
+	/**
+	 * @return the chyy
+	 */
+	public String getChyy() {
+		return chyy;
+	}
+
+	/**
+	 * @param chyy
+	 *            the chyy to set
+	 */
+	public void setChyy(String chyy) {
+		this.chyy = chyy;
+	}
+
+	/**
+	 * @return the tschbz
+	 */
+	public String getTschbz() {
+		return tschbz;
+	}
+
+	/**
+	 * @param tschbz
+	 *            the tschbz to set
+	 */
+	public void setTschbz(String tschbz) {
+		this.tschbz = tschbz;
+	}
+
+	/**
+	 * @return the kphjje
+	 */
+	public String getKphjje() {
+		return kphjje;
+	}
+
+	/**
+	 * @param kphjje
+	 *            the kphjje to set
+	 */
+	public void setKphjje(String kphjje) {
+		this.kphjje = kphjje;
+	}
+
+	/**
+	 * @return the hjbhsje
+	 */
+	public String getHjbhsje() {
+		return hjbhsje;
+	}
+
+	/**
+	 * @param hjbhsje
+	 *            the hjbhsje to set
+	 */
+	public void setHjbhsje(String hjbhsje) {
+		this.hjbhsje = hjbhsje;
+	}
+
+	/**
+	 * @return the hjse
+	 */
+	public String getHjse() {
+		return hjse;
+	}
+
+	/**
+	 * @param hjse
+	 *            the hjse to set
+	 */
+	public void setHjse(String hjse) {
+		this.hjse = hjse;
+	}
+
+	/**
+	 * @return the byzd1
+	 */
+	public String getByzd1() {
+		return byzd1;
+	}
+
+	/**
+	 * @param byzd1
+	 *            the byzd1 to set
+	 */
+	public void setByzd1(String byzd1) {
+		this.byzd1 = byzd1;
+	}
+
+	/**
+	 * @return the ddh
+	 */
+	public String getDdh() {
+		return ddh;
+	}
+
+	/**
+	 * @param ddh
+	 *            the ddh to set
+	 */
+	public void setDdh(String ddh) {
+		this.ddh = ddh;
+	}
+
+	/**
+	 * @return the thdh
+	 */
+	public String getThdh() {
+		return thdh;
+	}
+
+	/**
+	 * @param thdh
+	 *            the thdh to set
+	 */
+	public void setThdh(String thdh) {
+		this.thdh = thdh;
+	}
+
+	/**
+	 * @return the dddate
+	 */
+	public String getDddate() {
+		return dddate;
+	}
+
+	/**
+	 * @param dddate
+	 *            the dddate to set
+	 */
+	public void setDddate(String dddate) {
+		this.dddate = dddate;
+	}
+
+	/**
+	 * @return the ddmc
+	 */
+	public String getDdmc() {
+		return ddmc;
+	}
+
+	/**
+	 * @param ddmc
+	 *            the ddmc to set
+	 */
+	public void setDdmc(String ddmc) {
+		this.ddmc = ddmc;
+	}
+
+	/**
+	 * @return the dw
+	 */
+	public String getDw() {
+		return dw;
+	}
+
+	/**
+	 * @param dw
+	 *            the dw to set
+	 */
+	public void setDw(String dw) {
+		this.dw = dw;
+	}
+
+	/**
+	 * @return the fggxh
+	 */
+	public String getFggxh() {
+		return fggxh;
+	}
+
+	/**
+	 * @param fggxh
+	 *            the fggxh to set
+	 */
+	public void setFggxh(String fggxh) {
+		this.fggxh = fggxh;
+	}
+
+	/**
+	 * @return the fsl
+	 */
+	public String getFsl() {
+		return fsl;
+	}
+
+	/**
+	 * @param fsl
+	 *            the fsl to set
+	 */
+	public void setFsl(String fsl) {
+		this.fsl = fsl;
+	}
+
+	/**
+	 * @return the dj
+	 */
+	public String getDj() {
+		return dj;
+	}
+
+	/**
+	 * @param dj
+	 *            the dj to set
+	 */
+	public void setDj(String dj) {
+		this.dj = dj;
+	}
+
+	/**
+	 * @return the je
+	 */
+	public String getJe() {
+		return je;
+	}
+
+	/**
+	 * @param je
+	 *            the je to set
+	 */
+	public void setJe(String je) {
+		this.je = je;
+	}
+
+	/**
+	 * @return the zffs
+	 */
+	public String getZffs() {
+		return zffs;
+	}
+
+	/**
+	 * @param zffs
+	 *            the zffs to set
+	 */
+	public void setZffs(String zffs) {
+		this.zffs = zffs;
+	}
+
+	/**
+	 * @return the zflsh
+	 */
+	public String getZflsh() {
+		return zflsh;
+	}
+
+	/**
+	 * @param zflsh
+	 *            the zflsh to set
+	 */
+	public void setZflsh(String zflsh) {
+		this.zflsh = zflsh;
+	}
+
+	/**
+	 * @return the zfpt
+	 */
+	public String getZfpt() {
+		return zfpt;
+	}
+
+	/**
+	 * @param zfpt
+	 *            the zfpt to set
+	 */
+	public void setZfpt(String zfpt) {
+		this.zfpt = zfpt;
+	}
+
+	/**
+	 * @return the cygs
+	 */
+	public String getCygs() {
+		return cygs;
+	}
+
+	/**
+	 * @param cygs
+	 *            the cygs to set
+	 */
+	public void setCygs(String cygs) {
+		this.cygs = cygs;
+	}
+
+	/**
+	 * @return the shsj
+	 */
+	public String getShsj() {
+		return shsj;
+	}
+
+	/**
+	 * @param shsj
+	 *            the shsj to set
+	 */
+	public void setShsj(String shsj) {
+		this.shsj = shsj;
+	}
+
+	/**
+	 * @return the wldh
+	 */
+	public String getWldh() {
+		return wldh;
+	}
+
+	/**
+	 * @param wldh
+	 *            the wldh to set
+	 */
+	public void setWldh(String wldh) {
+		this.wldh = wldh;
+	}
+
+	/**
+	 * @return the shdz
+	 */
+	public String getShdz() {
+		return shdz;
+	}
+
+	/**
+	 * @param shdz
+	 *            the shdz to set
+	 */
+	public void setShdz(String shdz) {
+		this.shdz = shdz;
+	}
+
+	@Override
+	public String toString() {
+		return "ChiefElecInov [terminalCode=" + terminalCode + ", dzfp=" + dzfp + ", version=" + version + ", interfaceCode=" + interfaceCode
+				+ ", userName=" + userName + ", password=" + password + ", taxpayerId=" + taxpayerId + ", authorizationCode=" + authorizationCode
+				+ ", requestCode=" + requestCode + ", requestTime=" + requestTime + ", responseCode=" + responseCode + ", dataExchangeId="
+				+ dataExchangeId + ", returnCode=" + returnCode + ", returnMessage=" + returnMessage + ", zipCode=" + zipCode + ", encryptCode="
+				+ encryptCode + ", codeType=" + codeType + ", content=" + content + ", fpqqlsh=" + fpqqlsh + ", dptbm=" + dptbm + ", nsrsbh="
+				+ nsrsbh + ", nsrmc=" + nsrmc + ", nsrdzdah=" + nsrdzdah + ", swjg_dm=" + swjg_dm + ", dkbz=" + dkbz + ", pydm=" + pydm + ", kpxm="
+				+ kpxm + ", bmb_bbh=" + bmb_bbh + ", xhf_nsrsbh=" + xhf_nsrsbh + ", xhfmc=" + xhfmc + ", xhf_dz=" + xhf_dz + ", xhf_dh=" + xhf_dh
+				+ ", xhf_yhzh=" + xhf_yhzh + ", ghfmc=" + ghfmc + ", ghf_nsrsbh=" + ghf_nsrsbh + ", ghf_sf=" + ghf_sf + ", ghf_dz=" + ghf_dz
+				+ ", ghf_gddh=" + ghf_gddh + ", ghf_sj=" + ghf_sj + ", ghf_email=" + ghf_email + ", ghfqylx=" + ghfqylx + ", ghf_yhzh=" + ghf_yhzh
+				+ ", hy_dm=" + hy_dm + ", hy_mc=" + hy_mc + ", kpy=" + kpy + ", sky=" + sky + ", fhr=" + fhr + ", kprq=" + kprq + ", kplx=" + kplx
+				+ ", yfp_dm=" + yfp_dm + ", yfp_hm=" + yfp_hm + ", czdm=" + czdm + ", qd_bz=" + qd_bz + ", qdxmmc=" + qdxmmc + ", chyy=" + chyy
+				+ ", tschbz=" + tschbz + ", kphjje=" + kphjje + ", hjbhsje=" + hjbhsje + ", hjse=" + hjse + ", bz=" + bz + ", byzd1=" + byzd1
+				+ ", ddh=" + ddh + ", thdh=" + thdh + ", dddate=" + dddate + ", ddmc=" + ddmc + ", dw=" + dw + ", fggxh=" + fggxh + ", fsl=" + fsl
+				+ ", dj=" + dj + ", je=" + je + ", zffs=" + zffs + ", zflsh=" + zflsh + ", zfpt=" + zfpt + ", cygs=" + cygs + ", shsj=" + shsj
+				+ ", wldh=" + wldh + ", shdz=" + shdz + ", minorList=" + minorList + "]";
+	}
+
+}

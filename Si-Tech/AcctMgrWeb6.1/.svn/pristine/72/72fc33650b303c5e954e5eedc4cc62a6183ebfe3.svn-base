@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_acctbook_info">
+
+    <select id="qGetAcctbookByCon" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT A.BALANCE_ID BALANCE_ID,A.PAY_TYPE PAY_TYPE,A.CUR_BALANCE CUR_BALANCE,A.PRE_BALANCE PRE_BALANCE,
+        PRINT_FLAG,PAY_ATTR,'0' ON_FLAG
+        FROM BAL_ACCTBOOK_INFO A , BAL_BOOKTYPE_DICT B
+        WHERE A.PAY_TYPE=B.PAY_TYPE AND A.CONTRACT_NO= #CONTRACT_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PAY_TYPE">
+                A.PAY_TYPE = #PAY_TYPE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="SPECIAL_FLAG">
+                SUBSTR(B.PAY_ATTR,1,1)= #SPECIAL_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BACK_FLAG">
+                SUBSTR(B.PAY_ATTR,2,1)= #BACK_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="TRANS_FLAG">
+                SUBSTR(B.PAY_ATTR,4,1)= #TRANS_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="FOREIGN_SN">
+                FOREIGN_SN = #FOREIGN_SN#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PAY_TYPE_STR">
+                A.PAY_TYPE IN
+                <iterate prepend="" property="PAY_TYPE_STR" open="(" conjunction="," close=")">
+                    #PAY_TYPE_STR[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BEGIN_DATE">
+                to_char(BEGIN_TIME, 'YYYYMMDD') = #BEGIN_DATE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="QUERY_TIME">
+                A.END_TIME <![CDATA[>]]> TO_DATE(#QUERY_TIME#,'YYYYMMDD')
+            </isNotEmpty>
+            <isEmpty prepend="AND" property="QUERY_TIME">
+                SYSDATE BETWEEN A.BEGIN_TIME AND A.END_TIME
+            </isEmpty>
+            <isEmpty prepend="" property="ORDER_DESC">
+                ORDER BY A.END_TIME, B.PRIORITY, A.BALANCE_ID
+            </isEmpty>
+             <isNotEmpty prepend="" property="ORDER_DESC">
+                ORDER BY A.BALANCE_ID DESC
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    
+
+    <select id="qSumBalanceByWrtoffTime" parameterClass="Map" resultClass="java.lang.Long">
+        SELECT NVL(SUM(PREPAY_FEE),0) CUR_BALANCE FROM (
+        SELECT
+        CASE WHEN PRE_BALANCE!=0 AND WRTOFF_MONTH=#WRTOFF_MONTH# THEN PRE_BALANCE
+        ELSE CUR_BALANCE
+        END PREPAY_FEE
+        FROM BAL_ACCTBOOK_INFO
+        WHERE CONTRACT_NO=#CONTRACT_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PAY_TYPE">
+                PAY_TYPE = #PAY_TYPE#
+            </isNotEmpty>
+            <isEmpty property="ALL">
+                <isEmpty property="EXP">
+                    AND SYSDATE BETWEEN BEGIN_TIME AND END_TIME
+                </isEmpty>
+            </isEmpty>
+            <isNotEmpty property="ALL">
+                AND END_TIME >= SYSDATE
+            </isNotEmpty>
+            <isNotEmpty property="EXP">
+                AND BEGIN_TIME > SYSDATE
+            </isNotEmpty>
+            <isNotEmpty property="NOGIVE_TYPE">
+                AND PAY_TYPE IN(
+                SELECT PAY_TYPE FROM BAL_BOOKTYPE_DICT WHERE SUBSTR(PAY_ATTR,6,1)='0'
+                )
+            </isNotEmpty>
+            <isNotEmpty property="PAY_ATTR4">
+                AND PAY_TYPE IN(
+                SELECT PAY_TYPE FROM BAL_BOOKTYPE_DICT WHERE SUBSTR(PAY_ATTR,4,1)=#PAY_ATTR4#
+                )
+            </isNotEmpty>
+            <isNotEmpty property="SPECIAL_FLAG">
+                AND PAY_TYPE IN(
+                SELECT PAY_TYPE FROM BAL_BOOKTYPE_DICT WHERE SUBSTR(PAY_ATTR,1,1)=#SPECIAL_FLAG#
+                )
+            </isNotEmpty>
+            <isNotEmpty property="PAY_TYPE_STR">
+                AND PAY_TYPE IN
+                <iterate prepend="" property="PAY_TYPE_STR" open="(" conjunction="," close=")">
+                    #PAY_TYPE_STR[]#
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+        )
+    </select>
+
+    <select id="qSumBalanceByCol" parameterClass="Map" resultClass="java.lang.Long">
+        SELECT NVL(SUM(CUR_BALANCE),0) CUR_BALANCE FROM BAL_ACCTBOOK_INFO WHERE CONTRACT_NO = #CONTRACT_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PAY_TYPE">
+                PAY_TYPE = #PAY_TYPE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BALANCE_ID_STR">    
+                BALANCE_ID IN
+                <iterate prepend="" property="BALANCE_ID_STR" open="(" conjunction="," close=")">
+                    #BALANCE_ID_STR[]#
+                </iterate>
+            </isNotEmpty>
+            <isEmpty property="ALL">
+                <isEmpty property="EXP">
+                    AND SYSDATE BETWEEN BEGIN_TIME AND END_TIME
+                </isEmpty>
+            </isEmpty>
+            <isNotEmpty property="ALL">
+                AND END_TIME >= SYSDATE
+            </isNotEmpty>
+            <isNotEmpty property="EXP">
+                AND BEGIN_TIME > SYSDATE
+            </isNotEmpty>
+            <isNotEmpty property="NOGIVE_TYPE">
+                AND PAY_TYPE IN(
+                SELECT PAY_TYPE FROM BAL_BOOKTYPE_DICT WHERE SUBSTR(PAY_ATTR,6,1)='0'
+                )
+            </isNotEmpty>
+            <isNotEmpty property="PAY_ATTR4">
+                AND PAY_TYPE IN(
+                SELECT PAY_TYPE FROM BAL_BOOKTYPE_DICT WHERE SUBSTR(PAY_ATTR,4,1)=#PAY_ATTR4#
+                )
+            </isNotEmpty>
+            <isNotEmpty property="SPECIAL_FLAG">
+                AND PAY_TYPE IN(
+                SELECT PAY_TYPE FROM BAL_BOOKTYPE_DICT WHERE SUBSTR(PAY_ATTR,1,1)=#SPECIAL_FLAG#
+                )
+            </isNotEmpty>
+            <isNotEmpty property="PAY_TYPE_STR">
+                AND PAY_TYPE IN
+                <iterate prepend="" property="PAY_TYPE_STR" open="(" conjunction="," close=")">
+                    #PAY_TYPE_STR[]#
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <update id="uAcctbookByBalance" parameterClass="Map">
+        UPDATE BAL_ACCTBOOK_INFO
+        SET CUR_BALANCE=CUR_BALANCE - #PAYED_OWE#
+        WHERE BALANCE_ID=#BALANCE_ID#
+    </update>
+
+    <select id="qCnt0Curbalance" parameterClass="Map" resultClass="java.lang.Integer">
+ 		select count(1) CNT FROM BAL_ACCTBOOK_INFO
+        WHERE  CONTRACT_NO=#CONTRACT_NO# AND CUR_BALANCE=0
+    </select>
+    
+    <delete id="delAcctbook" parameterClass="Map">
+        DELETE FROM BAL_ACCTBOOK_INFO
+        WHERE  CONTRACT_NO=#CONTRACT_NO# AND    CUR_BALANCE=0
+    </delete>
+
+    <insert id="iAcctbook" parameterClass="Map">
+        INSERT INTO BAL_ACCTBOOK_INFO ( BALANCE_ID , CONTRACT_NO , PAY_TYPE , INIT_BALANCE
+        , CUR_BALANCE,BALANCE_TYPE,BEGIN_TIME , END_TIME , PAY_TIME , PAY_SN , PRINT_FLAG , FOREIGN_SN )
+        VALUES(#BALANCE_ID# , #CONTRACT_NO# , #PAY_TYPE# , #INIT_BALANCE#
+        , #CUR_BALANCE# , #BALANCE_TYPE# , TO_DATE(#BEGIN_TIME# , 'YYYYMMDDHH24MISS') ,
+        TO_DATE( #END_TIME# ,'YYYYMMDDHH24MISS') , SYSDATE , #PAY_SN# , #PRINT_FLAG# ,#FOREIGN_SN# )
+    </insert>
+
+    <select id="qryBalacneByBalanceId" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT NVL(CUR_BALANCE,0) CUR_BALANCE
+        FROM BAL_ACCTBOOK_INFO WHERE BALANCE_ID= #BALANCE_ID#
+    </select>
+
+    <select id="qGetAcctbookTypeByColWrtoffTime" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT NVL(SUM(PREPAY_FEE),0) CUR_BALANCE,
+        NVL(SUM(INIT_BALANCE),0) INIT_BALANCE,
+        A.PAY_TYPE PAY_TYPE,SUBSTR(B.PAY_ATTR,1,1) SPECIAL_FLAG,
+        SUBSTR(B.PAY_ATTR,2,1) BACK_FLAG
+        FROM
+        (SELECT PAY_TYPE,INIT_BALANCE,
+        CASE WHEN PRE_BALANCE!=0 AND WRTOFF_MONTH=#WRTOFF_MONTH# THEN PRE_BALANCE
+        ELSE CUR_BALANCE
+        END PREPAY_FEE
+        FROM BAL_ACCTBOOK_INFO
+        WHERE CONTRACT_NO = #CONTRACT_NO# AND SYSDATE >= BEGIN_TIME AND
+        TO_CHAR(END_TIME,'YYYYMMDD')>=TO_CHAR(SYSDATE,'YYYYMMDD')
+        ) A,BAL_BOOKTYPE_DICT B WHERE A.PAY_TYPE=B.PAY_TYPE
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="SPECIAL_FLAG">
+                SUBSTR(B.PAY_ATTR,1,1)=#SPECIAL_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PAY_ATTR">
+                SUBSTR(B.PAY_ATTR,2,1)= #PAY_ATTR#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PAY_TYPE">
+                A.PAY_TYPE= #PAY_TYPE#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY A.PAY_TYPE, B.PRIORITY,B.PAY_ATTR
+        ORDER BY SPECIAL_FLAG,B.PRIORITY
+    </select>
+
+    <select id="qGetAcctbookTypeByCol" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT
+        NVL(SUM(CUR_BALANCE),0) CUR_BALANCE,
+        NVL(SUM(INIT_BALANCE),0) INIT_BALANCE,
+        A.PAY_TYPE PAY_TYPE,
+        SUBSTR(B.PAY_ATTR,1,1) SPECIAL_FLAG,
+        SUBSTR(B.PAY_ATTR,2,1) BACK_FLAG
+        FROM BAL_ACCTBOOK_INFO A,BAL_BOOKTYPE_DICT B
+        WHERE A.PAY_TYPE=B.PAY_TYPE
+        AND A.CONTRACT_NO= #CONTRACT_NO#
+        AND (SYSDATE BETWEEN A.BEGIN_TIME AND A.END_TIME)
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="SPECIAL_FLAG">
+                SUBSTR(B.PAY_ATTR,1,1)=#SPECIAL_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PAY_ATTR">
+                SUBSTR(B.PAY_ATTR,2,1)= #PAY_ATTR#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PAY_TYPE">
+                A.PAY_TYPE= #PAY_TYPE#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY A.PAY_TYPE, B.PRIORITY,B.PAY_ATTR
+        ORDER BY SPECIAL_FLAG,B.PRIORITY
+    </select>
+
+    <update id="upPrintFlag"  parameterClass="Map" >
+        UPDATE BAL_ACCTBOOK_INFO SET PRINT_FLAG = #PRINT_FLAG#
+        WHERE BALANCE_ID=#BALANCE_ID#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO:LONG#
+            </isNotEmpty>
+        </dynamic>
+    </update>
+
+    <select id="qByBalanceId"  parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT CUR_BALANCE,PAY_SN,INIT_BALANCE FROM BAL_ACCTBOOK_INFO WHERE BALANCE_ID= #BALANCE_ID#
+    </select>
+
+
+    <select id="qryPrintFlag"  parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT PRINT_FLAG FROM BAL_ACCTBOOK_INFO
+        WHERE 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PAY_SN">
+                PAY_SN = #PAY_SN#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BALANCE_ID">
+                BALANCE_ID = #BALANCE_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO:LONG#
+            </isNotEmpty>
+        </dynamic>
+        and rownum <![CDATA[ < ]]> 2
+    </select>
+
+    <insert id="iAcctbookByHis"  parameterClass="Map">
+        INSERT INTO BAL_ACCTBOOK_INFO ( BALANCE_ID, CONTRACT_NO, PAY_TYPE, INIT_BALANCE,
+        CUR_BALANCE, BALANCE_TYPE, BEGIN_TIME , END_TIME , PAY_TIME , PAY_SN , PRINT_FLAG , FOREIGN_SN )
+        select   BALANCE_ID,   CONTRACT_NO,   PAY_TYPE,   INIT_BALANCE,
+        CUR_BALANCE,  BALANCE_TYPE,   BEGIN_TIME, END_TIME, PAY_TIME, PAY_SN, PRINT_FLAG, FOREIGN_SN
+        from bal_acctbook_his
+        where CONTRACT_NO=#CONTRACT_NO#
+        AND BALANCE_ID = #BALANCE_ID#
+    </insert>
+
+    <typeAlias alias="ClassifyPreEntity"
+               type="com.sitech.acctmgr.atom.domains.query.ClassifyPreEntity" />
+    <select id="qClassifyPre" parameterClass="Map" resultClass="ClassifyPreEntity">
+        select payType,payName,prepayFee,transFee,beginDate,endDate,transFlag,orderCode,saleFlag
+        from (
+        SElECT B.PAY_TYPE payType,
+        B.PAY_TYPE_NAME payName,
+        A.CUR_BALANCE prepayFee,
+        A.CUR_BALANCE transFee,
+        TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD') beginDate,
+        TO_CHAR(A.END_TIME, 'YYYYMMDD') endDate,
+        DECODE(SUBSTR(B.PAY_ATTR, 4, 1), 0, '可转', '不可转') transFlag,
+        B.PRIORITY orderCode,
+        '6' saleFlag
+        FROM BAL_ACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B
+        WHERE A.CONTRACT_NO = #CONTRACT_NO#
+        AND A.PAY_TYPE = B.PAY_TYPE
+		AND A.PAY_TYPE = #PAY_TYPE#
+        and begin_time > sysdate
+        union all
+        SElECT B.PAY_TYPE payType,
+        B.PAY_TYPE_NAME
+        payName,
+        A.CUR_BALANCE prepayFee,
+        A.CUR_BALANCE transFee,
+        TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD') beginDate,
+        TO_CHAR(A.END_TIME, 'YYYYMMDD') endDate,
+        DECODE(SUBSTR(B.PAY_ATTR, 4, 1), 0, '可转', '不可转') transFlag,
+        B.PRIORITY
+        orderCode,
+        status saleFlag
+        FROM bal_returnacctbook_info A, BAL_BOOKTYPE_DICT B
+        WHERE
+        A.CONTRACT_NO = #CONTRACT_NO#
+        AND A.PAY_TYPE = B.PAY_TYPE
+        AND A.PAY_TYPE = #PAY_TYPE#
+        and begin_time > sysdate
+        )
+        order by beginDate asc
+    </select>
+
+    <select id="qAcctbookSumFee" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT
+        NVL(SUM(CUR_BALANCE),0) CUR_BALANCE,
+        NVL(SUM(INIT_BALANCE),0) INIT_BALANCE,
+        PAY_TYPE PAY_TYPE,
+        TO_CHAR(BEGIN_TIME,'YYYYMMDD') BEGIN_TIME
+        FROM BAL_ACCTBOOK_INFO
+        WHERE  CONTRACT_NO= #CONTRACT_NO#
+        AND (SYSDATE BETWEEN BEGIN_TIME AND END_TIME)
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PAY_TYPE_LIST">
+                PAY_TYPE IN 
+                <iterate conjunction="," close=")" open="(" prepend="" property="PAY_TYPE_LIST">
+                	#PAY_TYPE_LIST[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO= #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY PAY_TYPE,BEGIN_TIME
+    </select>
+
+	<select id="qAcctbookType" parameterClass="Map" resultClass="java.util.HashMap">
+		SElECT B.PAY_TYPE ACCTBOOK_ITEM,
+		B.PAY_TYPE_NAME ACCTBOOK_ITEM_NAME,
+		A.CUR_BALANCE BALANCE,
+		SUBSTR(B.PAY_ATTR, 2, 1) BACK_FLAG,
+		DECODE(SUBSTR(B.PAY_ATTR, 2, 1), 0, '可退', '不可退') BACK_FLAG_NAME,
+		SUBSTR(PAY_ATTR, 1, 1) ACCTBOOK_ITEM_TYPE,
+		DECODE(SUBSTR(PAY_ATTR, 1, 1), 0, '专项预存款', '普通预存款') ACCTBOOK_ITEM_TYPE_NAME,
+		TO_CHAR(A.BEGIN_TIME, 'YYYY-MM-DD HH24:MI:SS') ACCTBOOK_EFF_DATE,
+		TO_CHAR(A.END_TIME, 'YYYY-MM-DD HH24:MI:SS') ACCTBOOK_EXP_DATE,
+		TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD') BEGIN_DATE,
+		TO_CHAR(A.END_TIME, 'YYYYMMDD') END_DATE,
+		SUBSTR(B.PAY_ATTR, 4, 1) TRANS_FLAG,
+		DECODE(SUBSTR(B.PAY_ATTR, 4, 1), 0, '可转', '不可转') TRANS_FLAG_NAME,
+		B.PRIORITY PRIORITY,
+		A.BALANCE_ID BALANCE_ID,
+		A.INIT_BALANCE INIT_BALANCE,
+		nvl(A.PAY_SN, 0) PAY_SN,
+		SUBSTR(B.PAY_ATTR, 6, 1) PAY_FLAG,
+		DECODE(SUBSTR(B.PAY_ATTR, 6, 1), 0, '缴入', '赠送') PAY_FLAG_NAME,
+		TO_CHAR(PAY_TIME, 'yyyymmdd') PAY_TIME,
+		A.FOREIGN_SN
+		FROM BAL_ACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.CONTRACT_NO = #CONTRACT_NO#
+		AND A.PAY_TYPE = B.PAY_TYPE
+		<dynamic prepend="">
+			<isEqual property="PAY_TYPE" compareValue="x">
+				and SUBSTR(B.PAY_ATTR,1,1) = '1'
+			</isEqual>
+			<isEqual property="PAY_TYPE" compareValue="inA0000000">
+				and a.pay_type in (select C.PAY_TYPE from BAL_WRITEPLAN_CONF c where
+				c.ACCT_ITEM_GROUP='A0000000')
+			</isEqual>
+			<isEqual property="PAY_TYPE" compareValue="notA0000000">
+				and a.pay_type not in (select C.PAY_TYPE from BAL_WRITEPLAN_CONF c
+				where c.ACCT_ITEM_GROUP='A0000000')
+			</isEqual>
+			<isNotEmpty prepend="" property="VALID_DATE">
+				and sysdate >=begin_time and sysdate <![CDATA[ <= ]]>
+				end_time
+			</isNotEmpty>
+			order by A.PAY_TIME,B.PRIORITY
+		</dynamic>
+
+	</select>
+
+	<select id="qAcctBookForRestPay" parameterClass="Map"
+		resultClass="java.util.HashMap">
+		SELECT A.PAY_TYPE PAY_TYPE,
+		NVL(A.CUR_BALANCE,0) CUR_BALANCE,
+		B.PAY_TYPE_NAME PAY_TYPE_NAME,
+		TO_CHAR(A.BEGIN_TIME,'YYYYMMDD HH24:MI:SS') BEGIN_TIME,
+		TO_CHAR(A.END_TIME,'YYYYMMDD HH24:MI:SS') END_TIME,
+		TO_CHAR(A.PAY_TIME,'YYYYMMDD HH24:MI:SS') PAY_TIME,
+		B.PAY_ATTR PAY_ATTR
+		FROM BAL_ACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE=B.PAY_TYPE
+		AND CONTRACT_NO=#CONTRACT_NO#
+		AND SYSDATE <![CDATA[ < ]]>
+		BEGIN_TIME
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PAY_SN">
+				A.PAY_SN = #PAY_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FOREIGN_SN">
+				A.FOREIGN_SN = #FOREIGN_SN#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qAcctBookForPayType" parameterClass="Map" resultClass="Integer">
+		SELECT COUNT(1) cnt
+		FROM BAL_ACCTBOOK_INFO
+		WHERE
+		CONTRACT_NO = #CONTRACT_NO#
+		AND to_char(BEGIN_TIME,'YYYYMMDD') <![CDATA[ < ]]> = TO_CHAR(SYSDATE,'YYYYMMDD')
+    	AND to_char(END_TIME,'YYYYMMDD') <![CDATA[ > ]]> = TO_CHAR(LAST_DAY(SYSDATE), 'YYYYMMDD')
+   		AND PAY_TYPE = 'JQ'
+    	AND ROWNUM = 1
+	</select>
+
+	<update id="uAcctbookByPayType" parameterClass="Map">
+		UPDATE BAL_ACCTBOOK_INFO SET END_TIME = LAST_DAY(ADD_MONTHS(SYSDATE, -1))
+		WHERE CONTRACT_NO = #CONTRACT_NO#
+		AND pay_type = 'JQ'
+		AND to_char(BEGIN_TIME,'YYYYMMDD') <![CDATA[ < ]]> = TO_CHAR(SYSDATE,'YYYYMMDD')
+		AND to_char(END_TIME,'YYYYMMDD')<![CDATA[ > ]]> = TO_CHAR(SYSDATE,'YYYYMMDD')
+	</update>
+	
+	<update id="uEndTime" parameterClass="Map">
+		UPDATE BAL_ACCTBOOK_INFO SET END_TIME = TO_DATE(#END_TIME# ,'YYYYMMDDHH24MISS')
+		WHERE CONTRACT_NO = #CONTRACT_NO# 
+		AND BALANCE_ID=#BALANCE_ID#
+	</update>
+	
+	<select id="qryPayType" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT distinct pay_type
+        FROM BAL_ACCTBOOK_INFO WHERE CONTRACT_NO= #CONTRACT_NO#
+        union
+        SELECT distinct pay_type
+        FROM bal_returnacctbook_info WHERE CONTRACT_NO= #CONTRACT_NO#
+    </select>
+
+	<select id="qryCommonTypeInfo" parameterClass="Map" resultClass="ClassifyPreEntity">
+		SElECT B.PAY_TYPE payType,
+		B.PAY_TYPE_NAME payName,
+		TO_CHAR(A.BEGIN_TIME, 'YYYYMMDD') beginDate,
+		TO_CHAR(A.END_TIME, 'YYYYMMDD') endDate,
+		DECODE(SUBSTR(B.PAY_ATTR, 4, 1), 0, '可转', '不可转') transFlag,
+		B.PRIORITY orderCode
+		FROM BAL_ACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.CONTRACT_NO = #CONTRACT_NO#
+		AND A.PAY_TYPE = B.PAY_TYPE
+		AND A.PAY_TYPE=#PAY_TYPE#
+		and sysdate between begin_time
+		and end_time
+	</select>
+	
+	<select id="qSumByTime" parameterClass="Map" resultClass="java.lang.Long">
+        SELECT NVL(SUM(CUR_BALANCE),0) CUR_BALANCE FROM BAL_ACCTBOOK_INFO WHERE CONTRACT_NO = #CONTRACT_NO#
+        <dynamic prepend="">
+            <isNotEmpty property="EXP">
+                AND END_TIME <![CDATA[ < ]]> SYSDATE
+            </isNotEmpty>
+            <isNotEmpty property="WILL">
+                AND BEGIN_TIME > SYSDATE
+            </isNotEmpty>
+            <isNotEmpty property="EFF">
+                 AND SYSDATE BETWEEN BEGIN_TIME AND END_TIME
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    
+	<select id="qCntByPayType" parameterClass="Map" resultClass="Integer">
+		SELECT COUNT(1) cnt
+		FROM BAL_ACCTBOOK_INFO
+		WHERE
+		CONTRACT_NO = #CONTRACT_NO#
+		AND PAY_TYPE = #PAY_TYPE#
+    	AND to_char(END_TIME,'YYYYMMDD') > to_char(sysdate,'yyyymmdd')   		
+	</select>
+	
+</sqlMap>

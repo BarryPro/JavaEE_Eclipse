@@ -1,0 +1,46 @@
+package com.sitech.acctmgr.atom.entity.inter;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.prod.UserPdPrcDetailInfoEntity;
+
+/**
+ *
+ * <p>Title:   </p>
+ * <p>Description:   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author 
+ * @version 1.0
+ */
+public interface IGoods {
+	
+	/**
+	 * 名称：用户是否订购该产品，定价级
+	 * 
+	 * @param 定价ID
+	 *            prcId
+	 */
+	public boolean isOrderGoods(long idNo, String prcId);
+	
+	/**
+	 * 名称：用户是否订购该产品，定价级
+	 * 
+	 * @param 定价ID
+	 *            prcId
+	 */
+	public UserPdPrcDetailInfoEntity getPacketPrcInfo(long idNo);
+
+	/**
+	 * 名称：查询月租费
+	 * 
+	 * @author liuhl_bj
+	 * @param idNo
+	 * @param attrId
+	 * @param prcClass
+	 * @return
+	 */
+	List<Map<String, Object>> getMonthFee(long idNo, String[] attrId, String[] prcClass);
+
+}

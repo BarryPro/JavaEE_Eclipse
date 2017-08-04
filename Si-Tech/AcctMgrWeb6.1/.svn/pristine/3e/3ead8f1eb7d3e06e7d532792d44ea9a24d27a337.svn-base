@@ -1,0 +1,233 @@
+package com.sitech.acctmgr.test.atom.entity;
+
+import static org.junit.Assert.fail;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.common.constant.CommonConst;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.sitech.acctmgr.atom.domains.bill.BillEntity;
+import com.sitech.acctmgr.atom.entity.inter.IBill;
+import com.sitech.acctmgr.test.common.constant.BillConst;
+import com.sitech.acctmgr.test.junit.BaseTestCase;
+
+/**
+ *
+ * <p>Title:   </p>
+ * <p>Description:   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author 
+ * @version 1.0
+ */
+public class BillTest extends BaseTestCase {
+
+	private IBill bill;
+	
+	@Before
+	public void before(){
+		bill = (IBill) getBean("billEnt");
+	}
+	
+	/**
+	 * 名称：
+	 * @param 
+	 * @return 
+	 * @throws 
+	 */
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	/**
+	 * 名称：
+	 * @param 
+	 * @return 
+	 * @throws 
+	 */
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#getCycleDeadOwe(long, long, java.lang.String)}.
+	 */
+	@Test
+	public void testGetCycleDeadOwe() {
+		Long idNo = 230870003002785700L;
+		System.out.println(bill.getCycleDeadOwe(idNo, 0, "1"));
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#getUnPayOwe(java.util.Map)}.
+	 */
+	@Test
+	public void testGetUnPayOwe() {
+
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		inMap.put("CONTRACT_NO", 220470200034905702L);
+		List<BillEntity> outList = null;
+		try {
+			outList = bill.getUnPayOwe(inMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("result = " + outList.toString());
+		
+	}
+
+	@Test
+	public void testGetActUnpayOweSum() {
+		fail("Not yet implemented");
+		
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#getUnbillFee(long)}.
+	 */
+	@Test
+	public void testGetUnbillFeeLong() {
+		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#getUnbillFee(long, boolean)}.
+	 */
+	@Test
+	public void testGetUnbillFeeLongBoolean() {
+		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#getUnbillFee(long, long, java.lang.String)}.
+	 */
+	@Test
+	public void testGetUnbillFeeLongLongString() {
+		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#getUnbillFee(long, long, java.lang.String, boolean)}.
+	 */
+	@Test
+	public void testGetUnbillFeeLongLongStringBoolean() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#isUnPayOwe(long, long, int)}.
+	 */
+	@Test
+	public void testIsUnPayOweLongLongInt() {
+		
+		IBill bill = (IBill) getBean("billEnt");
+		
+		long contractNo = BillConst.contractNo;
+		long idNo = BillConst.idNo;
+		
+		boolean result = false;
+		try{
+			result = bill.isUnPayOwe(idNo, contractNo, 201512);
+		}catch (Exception e){
+			
+			e.printStackTrace();
+		}
+		
+		System.out.println("result = " + result);
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#isUnPayOwe(long, int)}.
+	 */
+	@Test
+	public void testIsUnPayOweLongInt() {
+		
+		IBill bill = (IBill) getBean("billEnt");
+		
+		long contractNo = BillConst.contractNo;
+		long idNo = BillConst.idNo;
+		
+		boolean result = false;
+		try{
+			result = bill.isUnPayOwe(contractNo, 201601);
+		}catch (Exception e){
+			
+			e.printStackTrace();
+		}
+		
+		System.out.println("result = " + result);
+	}
+
+	/**
+	 * Test method for {@link com.sitech.acctmgr.atom.entity.Bill#isUnPayOwe(long)}.
+	 */
+	@Test
+	public void testIsUnPayOweLong() {
+		
+		
+		IBill bill = (IBill) getBean("billEnt");
+		
+		long contractNo = BillConst.contractNo;
+		
+		boolean result = false;
+		try{
+			result = bill.isUnPayOwe(contractNo);
+		}catch (Exception e){
+			
+			e.printStackTrace();
+		}
+		
+		System.out.println("result = " + result);
+	}
+	
+	    @Test
+    public void testGetRealFee() throws Exception {
+        long idNo = 220101000000008024L;
+        long conNo = 220101100000030018L;
+        int yearMonth = 201605;
+        System.out.println(bill.getBillFee(idNo, conNo, yearMonth));
+    }
+
+	@Test
+	public void testGetSumDeadFee() throws Exception {
+
+		Long idNo = 230870003002785700L;
+//		System.out.println(bill.getSumDeadFee(idNo, 0, "1,4"));
+		System.out.println(bill.getSumDeadFee(idNo, 0, "1"));
+	}
+
+	@Test
+	public void testGetGrpAllBillList() throws Exception {
+
+		Long con = 230860003008202629L;
+		int queryYm = 201609;
+		System.out.println(bill.getGrpAllBillList(con, queryYm));
+	}
+
+	@Test
+	public void testGetUnbillBillTotList() throws Exception {
+
+		Long con = 230860003008202629L;
+		System.out.println(bill.getUnbillBillTotList(con, 0L));
+	}
+
+	@Test
+	public void testGetUnbillFee() throws Exception {
+
+		Long con = 230860003008202629L;
+		System.out.println(bill.getUnbillFee(con, CommonConst.UNBILL_TYPE_PRE, false));
+	}
+
+	@Test
+	public void testGetUnbillDxInfo() throws Exception {
+		long idNo = 230300003002776000L;
+		System.out.println(bill.getUnbillDxInfo(idNo));
+	}
+}

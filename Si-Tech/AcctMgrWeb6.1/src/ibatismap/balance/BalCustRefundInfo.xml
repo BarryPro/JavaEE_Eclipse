@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_custrefund_info">
+
+	<typeAlias alias="balCustRefundEnt"	type="com.sitech.acctmgr.atom.domains.adj.BalCustRefundEntity" />
+
+  	<insert id="iBalCustRefundInfo"  parameterClass="Map">
+		INSERT INTO BAL_CUSTREFUND_INFO (
+			 PHONE_NO,QUERY_TYPE,USE_TIME,USE_TYPE,OPER_NAME,OPER_CODE,
+			 SP_NAME,SP_CODE,FEE_TYPE,FEE_VALUE,BACK_FLAG,YEAR_MONTH)
+		VALUES(
+			#PHONE_NO#,#QUERY_TYPE#,TO_DATE(#USE_TIME#,'YYYYMMDDHH24MISS'),#USE_TYPE#,#OPER_NAME#,#OPER_CODE#,
+			 #SP_NAME#,#SP_CODE#,#FEE_TYPE#,#FEE_VALUE#,#BACK_FLAG#,#YEAR_MONTH#
+		)
+	</insert>
+
+	<update id="uBalCustRefundInfo"  parameterClass="Map">
+		UPDATE BAL_CUSTREFUND_INFO SET AUDIT_FLAG = #AUDIT_FLAG# 
+		WHERE ACT_SN = #ACT_SN# and AUDIT_FLAG = #OLD_AUDIT_FLAG#
+	</update>
+
+  <select id="qBalCustRefundInfo"  parameterClass="Map" resultClass="balCustRefundEnt">
+    SELECT  ROWNUM indexNo,PHONE_NO phoneNo,QUERY_TYPE queryType,USE_TIME userTime,USE_TYPE useType,OPER_NAME operName,OPER_CODE operCode,
+			 SP_NAME spName,SP_CODE spCode,FEE_TYPE feeType,FEE_VALUE feeValue,BACK_FLAG backFlag,YEAR_MONTH yearMonth
+	FROM BAL_CUSTREFUND_INFO
+	WHERE 1=1
+     <dynamic prepend="">
+     	<isNotEmpty prepend="AND" property="PHONE_NO">
+		   PHONE_NO=#PHONE_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="QUERY_TYPE">
+    		QUERY_TYPE = #QUERY_TYPE#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+
+</sqlMap>
+

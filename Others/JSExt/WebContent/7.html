@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript">
+		function otherFunction(x,y,z){
+			x(y,z);
+			
+		}	
+		var param=function(arg1,arg2){
+			alert(arg1+"----"+arg2)
+			
+		};
+		
+		otherFunction(param,"Hello2","World");
+		
+		
+		otherFunction(
+				function(arg1,arg2){
+					alert(arg1+">>>"+arg2);
+				},"Why","You!");
+	
+	</script>
+</head>
+<body>
+
+</body>
+</html>

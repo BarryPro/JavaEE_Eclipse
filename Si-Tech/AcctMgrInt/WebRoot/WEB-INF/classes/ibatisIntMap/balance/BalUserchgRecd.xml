@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_userchg_recd_INT">
+  <insert id="iUserchgYm"  parameterClass="Map">
+    INSERT INTO BAL_USERCHG_RECD ( COMMAND_ID , TOTAL_DATE , PAY_SN , ID_NO , CONTRACT_NO , GROUP_ID , BRAND_ID , PHONE_NO ,
+    		 OLD_RUN , RUN_CODE , OP_TIME , OP_CODE , LOGIN_NO , LOGIN_GROUP , REMARK ) 
+    VALUES( SEQ_COMMON_ID.nextval, #TOTAL_DATE# , #PAY_SN# , #ID_NO# , #CONTRACT_NO# , #GROUP_ID# , #BRAND_ID# , #PHONE_NO# ,
+    		#OLD_RUN# , #RUN_CODE# , sysdate , #OP_CODE# , #LOGIN_NO# , #LOGIN_GROUP# , #REMARK# )
+  </insert>
+  
+  <select id="qByPaysnId"  parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT OLD_RUN,RUN_CODE,TO_CHAR(OP_TIME,'YYYYMMDD HH24:MI:SS') OP_TIME 
+	FROM BAL_USERCHG_RECD WHERE PAY_SN =#PAY_SN# 
+	AND TO_CHAR(OP_TIME,'YYYYMM') = #SUFFIX#
+	AND ID_NO = #ID_NO#
+  </select>
+
+  <select id="qUserChgTime"  parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT TO_CHAR(max(OP_TIME), 'YYYY/MM/DD HH24:MI:SS') OP_TIME FROM bal_userchg_recd WHERE ID_NO = #ID_NO#
+  </select>
+
+</sqlMap>

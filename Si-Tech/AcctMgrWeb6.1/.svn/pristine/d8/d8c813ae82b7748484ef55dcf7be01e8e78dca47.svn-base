@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="sFav1860Cfg">
+
+	<typeAlias alias="fav1860Cfg"
+		type="com.sitech.acctmgr.atom.domains.bill.Fav1860CfgEntity" />
+	<select id="qFavInfo" parameterClass="Map" resultClass="fav1860Cfg">
+		SELECT
+		REGION_CODE regionCode,
+		MODE_CODE modeCode,
+		FAV_TYPE favType,
+		FAV_CHAR favChar,
+		to_number(NVL(TRIM(FAV_CALL),'0.00'),'99999999999.99') * 100 favCall,
+		to_number(NVL(TRIM(decode (fav_save1, 'null', 0, fav_save1)),'0.00'),'99999999999.99') * 100
+		favSave ,
+		OP_LOGIN opLogin ,
+		OP_TYPE opType
+		FROM SFAV1860CFG
+		WHERE REGION_CODE = #REGION_CODE#
+		AND MODE_CODE = #MODE_CODE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="FAV_TYPE">
+				AND FAV_TYPE = #FAV_TYPE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dgrpredlist_inter">
+
+    <typeAlias alias="GrpRedEntity" type="com.sitech.acctmgr.atom.domains.cct.GrpRedEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="GrpRedEntity">
+		select
+		UNIT_ID unitId,
+		ID_NO idNo,
+		CONTRACT_NO contractNo,
+		RED_TYPE redType,
+		RED_LENGTH monthLength,
+		OP_CODE opCode,
+		LOGIN_NO loginNo,
+		to_char(OP_TIME,'YYYY-MM-DD HH24:MI:SS') opTime
+		from dgrpredlist_inter
+		where unit_id= #UNIT_ID#
+		and id_no = #ID_NO#
+	</select>
+	
+	<select id="qryCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		select count(*) from dgrpredlist_inter 
+		where unit_id= #UNIT_ID# 
+		and id_no = #ID_NO#
+	</select>
+	
+	<insert id="insert" parameterClass="Map">
+		INSERT INTO
+		dgrpredlist_inter (UNIT_ID, ID_NO, CONTRACT_NO, RED_TYPE,
+		RED_LENGTH, OP_CODE, LOGIN_NO, OP_TIME)
+		VALUES (#UNIT_ID#,#ID_NO#,#CONTRACT_NO#,#CREDIT_CODE#,
+		#RED_LENGTH#,#OP_CODE#,#LOGIN_NO#,sysdate)
+	</insert>
+	
+	<update id="update" parameterClass="Map">
+		UPDATE dgrpredlist_inter
+		SET RED_TYPE=#CREDIT_CODE#,
+		red_length=#RED_LENGTH#,
+		LOGIN_NO=#LOGIN_NO#,
+		op_time=sysdate
+		WHERE UNIT_ID=#UNIT_ID#
+		and id_no=#ID_NO#
+		and contract_no=#CONTRACT_NO#
+	</update>
+	
+	<delete id="delete" parameterClass="Map">
+		delete from dgrpredlist_inter
+		WHERE id_no=#ID_NO#
+	</delete>
+
+	<select id="qryGrpCreditInfo" parameterClass="Map" resultClass="GrpRedEntity">
+		select d.unit_id unitId,
+		d.id_no idNo,
+		d.contract_no contractNo,
+		d.begin_time beginTime,
+		d.end_time endTime,
+		d.OP_code opCode,
+		d.LOGIN_NO loginNo,
+		to_char(d.OP_TIME, 'YYYYMMDD hh24:mi:ss') opTime,
+		nvl(d.red_type, '0') redType
+		from (select to_char(a.unit_id) unit_id,
+		b.id_no id_no,
+		b.contract_no,
+		c.red_type,
+		c.begin_time,
+		c.end_time,
+		c.OP_code,
+		c.LOGIN_NO,
+		c.OP_TIME
+		from ct_grpcust_info a, ur_user_info b, dgrpredlist c,cs_userdetail_info d
+		where a.cust_id = b.cust_id
+		and a.unit_id = #UNIT_ID#
+		and d.run_code <![CDATA[<]]> 'a'
+		and b.id_no = d.id_no
+		and b.id_no = c.id_no(+)
+		and b.OWNER_TYPE='3') d,
+		cct_grpCredit_info e
+		where d.unit_id=e.unit_id
+		and to_char(sysdate, 'YYYYMM') >=
+		e.begin_time
+		and to_char(sysdate, 'YYYYMM') <![CDATA[<=]]>
+		e.end_time
+	</select>
+
+	<typeAlias alias="NonStopEntity"
+		type="com.sitech.acctmgr.atom.domains.cct.NonStopEntity" />
+	<select id="qryNonStopInfo" parameterClass="Map" resultClass="NonStopEntity">
+		select to_char(a.id_no) idNo,
+		decode(to_char(cc_ym), '000000', '无', to_char(cc_ym)) ccYm,
+		decode(to_char(cc_cycle), '0', '无', to_char(cc_cycle)) ccCycle,
+		to_char(product_cycle) productCycle,
+		to_char(min_ym) minYm,
+		to_char(end_ym) endYm
+		from dgrpcreditmsg a, ct_grpcust_info b, ur_user_info c
+		where a.id_no = c.id_no
+		and b.cust_id = c.cust_id
+		and b.unit_id = #UNIT_ID#
+	</select>
+
+   
+</sqlMap>

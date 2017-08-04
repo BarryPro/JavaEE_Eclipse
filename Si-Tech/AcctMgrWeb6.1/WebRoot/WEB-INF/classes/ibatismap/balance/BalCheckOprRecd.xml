@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_checkopr_recd">
+
+
+  <insert id="ins"  parameterClass="Map" >
+	insert into BAL_CHECKOPR_RECD
+		(TOTAL_DATE, PAY_SN, BANK_CODE, CHECK_NO,  CHECK_PAY, LOGIN_GROUP, LOGIN_NO, OP_CODE, OP_TIME, REMARK)
+	VALUES 		
+		(#TOTAL_DATE#, #PAY_SN#,#BANK_CODE#, #CHECK_NO#, #CHECK_PAY#, #LOGIN_GROUP#, #LOGIN_NO#, #OP_CODE#
+		, SYSDATE, #REMARK#)
+
+  </insert>
+  
+  <select id="qryCheckNo" parameterClass="Map" resultClass="java.util.HashMap">
+  	SELECT CHECK_NO FROM BAL_CHECKOPR_RECD WHERE PAY_SN=#PAY_SN#
+  </select>
+  
+  <select id="qryCheckOpr" parameterClass="Map" resultClass="java.util.HashMap">
+  	SELECT CHECK_NO,CHECK_PAY,BANK_CODE FROM BAL_CHECKOPR_RECD WHERE PAY_SN=#PAY_SN#
+  </select>
+ 
+  
+</sqlMap>

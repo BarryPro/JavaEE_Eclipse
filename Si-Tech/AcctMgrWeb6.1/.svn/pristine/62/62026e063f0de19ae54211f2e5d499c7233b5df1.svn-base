@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+        
+<sqlMap namespace="bal_userimeiuse_info">
+	<select id="qryFlag" parameterClass="Map" resultClass="java.lang.String">
+		select decode(flag, '1', '1', '0') FLAG
+		from bal_userimeiuse_info a, ur_user_info b
+		where a.year_month = #YEAR_MONTH#
+		and b.id_no = #ID_NO#
+		and a.id_no = b.id_no
+		and rownum <![CDATA[ < ]]> 2
+	</select>
+</sqlMap>

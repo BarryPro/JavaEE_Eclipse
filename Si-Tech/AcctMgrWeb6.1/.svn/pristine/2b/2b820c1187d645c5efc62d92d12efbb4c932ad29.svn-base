@@ -1,0 +1,34 @@
+package com.sitech.acctmgr.atom.domains.bill;
+
+/**
+ * Created by wangyla on 2016/12/27.
+ */
+public class ItemGroupBillEntity {
+
+    private String acctItemGroup; /*帐目项组代码*/
+    private long realFee; /*对应的实际帐单费用*/
+
+    public String getAcctItemGroup() {
+        return acctItemGroup;
+    }
+
+    public void setAcctItemGroup(String acctItemGroup) {
+        this.acctItemGroup = acctItemGroup;
+    }
+
+    public long getRealFee() {
+        return realFee;
+    }
+
+    public void setRealFee(long realFee) {
+        this.realFee = realFee;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemGroupBillEntity{" +
+                "acctItemGroup='" + acctItemGroup + '\'' +
+                ", realFee=" + realFee +
+                '}';
+    }
+}

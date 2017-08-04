@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+//去掉左右两边空格
+
+	String.prototype.weikun=function(){
+		
+		return (this.replace(/(^s+)/, "fox").replace(/(s+$)/,"fox"));
+		
+	}
+	
+	var s="ssts  yellow ssts";
+	
+	alert(s.weikun());
+	
+	
+
+
+</script>
+</head>
+<body>
+	
+</body>
+</html>

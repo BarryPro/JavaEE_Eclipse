@@ -1,0 +1,47 @@
+package busirule.rule.hlj.s8164
+
+import com.sitech.ac.rdc.re.api.bean.ResultBean
+import com.sitech.ac.rdc.re.api.common.util.MBean
+
+/**
+ * Created by wangyla on 2016/6/30.
+ */
+class s8164 {
+    /**
+     * 功能：物联网帐单查询与宽带帐单查询规则限制
+     * <p>注意：物联网判断这里只对组成判断，还需要服务对品牌进行判断</p>
+     * @param obj
+     * 需要参数：PHONE_NO,QUERY_TYPE,YEAR_MONTH
+     */
+    def entryMethod(Object obj) {
+        MBean arg0 = obj.get("contextData");
+        String phoneNo = arg0.getBodyStr("PHONE_NO");
+        String queryType = arg0.getBodyStr("QUERY_TYPE");
+        int yearMonth = Integer.parseInt(arg0.getBodyStr("YEAR_MONTH"));
+
+
+        /*物联网用户，限制服务号码的开头*/
+        if (queryType.equals("wlw")) {
+            if (!phoneNo.startsWith("10648")) {
+
+                ResultBean resultBean = new ResultBean();
+                resultBean.setResult(false);
+                resultBean.setReturnCode("10111109816400001");
+                resultBean.setReturnMsg("非物联网用户不能查询帐单");
+                return resultBean;
+
+            }
+
+            if (yearMonth < 190001) {
+                ResultBean resultBean = new ResultBean();
+                resultBean.setResult(false);
+                resultBean.setReturnCode("10111109816400002");
+                resultBean.setReturnMsg("物联网用户不能查询190001前的帐单");
+                return resultBean;
+            }
+        }
+
+        return true;
+
+    }
+}

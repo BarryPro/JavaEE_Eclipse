@@ -1,0 +1,50 @@
+APP_NAME=AcctMgrBackApp
+
+PUB_TIMEOUT=60
+PUB_SLEEP=3
+PUB_CLIENT=Pub109
+######################DATASYN CFG STT########################
+##is personal province deal
+DATA_ISPERV=true
+##DataSyn order config KAIFA###
+DATAORDER_TOPIC=T101DataSynDest
+DATAORDER_CLIENT=Sub109DataSyn
+##BaseOrderTask
+BASELOGIN_TOPIC=TSynLoginNoDest
+BASELOGIN_CLIENT=Sub109SynLoginNo
+
+BASEGROUP_TOPIC=TSynGroupMsgDest
+BASEGROUP_CLIENT=Sub109SynGroupMsg
+
+BASEFUNC_TOPIC=TSynFuncDictDest
+BASEFUNC_CLIENT=Sub109SynFuncDict
+
+BASEGRPRE_TOPIC=TSynGroupRelDest
+BASEGRPRE_CLIENT=Sub109SynGroupRel
+
+PRODPRC_TOPIC=T104DataSynDest
+PRODPRC_CLIENT=Sub109PdDataSyn
+
+MARKET_TOPIC=T109MarkDealDest
+MARKET_CLIENT=Sub109Mark
+
+######################DATASYN CFG END########################
+
+######################BUSIORDER CFG STT######################
+
+###BusiOdr PROCESS NUMBER CFG##
+###NOTE:Source Type=Proc Num###
+BUSI_ORDER_CLIENT=Sub109BusiOdr
+BUSI_ORDER_TOPIC=T101BusiOrderDest
+
+### SYNC
+SYNC_ORDER_CLIENT=Sub109SynAction
+SYNC_ORDER_TOPIC=TSynActionDest
+
+### BOSS 
+BOSS_ORDER_CLIENT=Sub109Busi
+BOSS_ORDER_TOPIC=T109OrderDest
+
+######################BUSIORDER CFG END######################
+
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_usersvcattrtrace_info">
+
+    <typeAlias alias="UrUsersvcattrtraceInfo" type="com.sitech.acctmgr.atom.domains.user.UsersvcAttrEntity"/>
+    <select id="qAttrValue" parameterClass="Map" resultClass="UrUsersvcattrtraceInfo">
+        SELECT ID_NO as idNo, ATTR_ID as attrId, ATTR_VALUE attrValue
+        FROM UR_USERSVCATTRTRACE_INFO
+        WHERE ID_NO=#ID_NO#
+        AND ATTR_ID = ANY
+        <iterate open="(" close=")" conjunction="," property="ATTR_IDS">
+            #ATTR_IDS[]#
+        </iterate>
+        and sysdate between eff_date and exp_date
+    </select>
+
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(*) FROM UR_USERSVCATTRTRACE_INFO
+		WHERE ID_NO=#ID_NO#
+		<dynamic>
+			<isNotEmpty prepend="" property="ATTR_ID">
+				AND ATTR_ID=#ATTR_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="ATTR_VALUE">
+				AND ATTR_VALUE=#ATTR_VALUE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

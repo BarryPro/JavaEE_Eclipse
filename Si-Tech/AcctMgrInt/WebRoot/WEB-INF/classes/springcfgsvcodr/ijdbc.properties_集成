@@ -1,0 +1,135 @@
+##set datasource
+#if true, use dbcp datasource
+DBCP.DataSource=true
+
+#if true, use appserver's datasource
+AppServer.DataSource=false
+
+#the defalt datasource name
+DefaultDataSourceName=ijdbc
+
+AppServer.DataSource.ijdbc.jndi=esop
+
+#the default database class
+DEFAULT_DB_CLASS=oracle
+DEFAULT_DB_CLASS_IMPL=com.sitech.jcf.ijdbc.support.OracleSqlBuilder
+
+
+ALL_DB_ID=A1,B1
+####datasource provide by DBCP1.1
+DBCP.DataSource.ijdbc.driver=oracle.jdbc.OracleDriver
+DBCP.DataSource.ijdbc.username=dbaccopr
+DBCP.DataSource.ijdbc.password=ABcd.12#43
+DBCP.DataSource.ijdbc.url=jdbc:oracle:thin:@10.163.106.15:1521:taccadb
+DBCP.DataSourceA1.ijdbc.username=dbaccopr
+DBCP.DataSourceA1.ijdbc.password=ABcd.12#43
+DBCP.DataSourceA1.ijdbc.url=jdbc:oracle:thin:@10.163.106.15:1521:taccadb
+DBCP.DataSourceA2.ijdbc.username=dbaccopr
+DBCP.DataSourceA2.ijdbc.password=ABcd.12#43
+DBCP.DataSourceA2.ijdbc.url=jdbc:oracle:thin:@10.163.106.15:1521:taccbdb
+DBCP.DataSourceB1.ijdbc.username=dbaccopr
+DBCP.DataSourceB1.ijdbc.password=ABcd.12#43
+DBCP.DataSourceB1.ijdbc.url=jdbc:oracle:thin:@10.163.106.15:1521:taccbdb
+DBCP.DataSourceB2.ijdbc.username=dbaccopr
+DBCP.DataSourceB2.ijdbc.password=ABcd.12#43
+DBCP.DataSourceB2.ijdbc.url=jdbc:oracle:thin:@10.163.106.15:1521:taccbdb
+
+DBCP.DataSource.ijdbc.defaultAutoCommit=false
+DBCP.DataSource.ijdbc.initialSize=3
+DBCP.DataSource.ijdbc.maxactive=30
+DBCP.DataSource.ijdbc.maxwait=5000
+DBCP.DataSource.ijdbc.maxIdle=50
+DBCP.DataSource.ijdbc.minIdle=20
+DBCP.DataSource.ijdbc.testWhileIdle=true
+DBCP.DataSource.ijdbc.testOnBorrow=false
+DBCP.DataSource.ijdbc.testOnReturn=false
+DBCP.DataSource.ijdbc.validationQuery=select '1' from dual
+DBCP.DataSource.ijdbc.timeBetweenEvictionRunsMillis=-1
+DBCP.DataSource.ijdbc.poolPreparedStatements=false
+DBCP.DataSource.ijdbc.maxOpenPreparedStatements=10
+
+##datasource provide by application server
+
+##cache key's num in mem every time
+#CACHE_KEYS=1
+
+##set JDBC tuning boolean value,true=opened,false=closed
+JDBC_TUNING=false
+
+##set MAX rows return from db when used jdbc
+JDBC_MAX_ROW=100000
+
+##url for ejb to lookup from jndi tree
+INITIAL_CONTEXT_FACTORY=weblogic.jndi.WLInitialContextFactory
+DEFAULT_PROVIDER_URL=t3://172.21.0.129:10303
+#INITIAL_CONTEXT_FACTORY=com.ibm.websphere.naming.WsnInitialContextFactory
+#DEFAULT_PROVIDER_URL=iiop://172.16.28.11:7001
+
+##page size
+PAGE_SIZE=10
+
+##set FtpConfig
+##if true, use ftpUpload
+USE_FTP=false
+
+#USE_FTP_USERNAME=webtec
+#USE_FTP_PASSWORD=webtec
+#USE_FTP_HOST=172.16.9.113
+#USE_FTP_PORT=21
+#USE_FTP_PATH=/webtec/download
+
+USE_FTP_USERNAME=oracle
+USE_FTP_PASSWORD=oracle
+USE_FTP_HOST=172.16.24.105
+USE_FTP_PORT=21
+
+USE_FTP_PATH=/download
+
+##crm6.0
+PRODUCTION_NAME=sitech.acctmgr
+#BP_PATH=crmpd.sample.bp
+
+#Default serrvice mode
+DEFAULT_SERVICE_MODE=HSF
+
+##JC:restful service url
+DEFAULT_RESTFULURL=http\://10.163.106.148:51000/esbWS/
+##SC:restful service url
+##DEFAULT_RESTFULURL=http\://10.162.200.251:52000/esbWS/
+
+#rest,hsf 
+#service.type=rest
+
+##JC:HSF service config
+hsf.consumerAppName=AcctmgrWeb
+hsf.zookeeper=10.163.106.152:2180,10.163.106.152:2181,10.163.106.152:2182
+hsf.provider.port=31002
+##SC:HSF service config
+##hsf.consumerAppName=AcctmgrWeb
+##hsf.zookeeper=10.162.200.215:2182,10.162.200.216:2182,10.162.200.217:2182,10.162.200.218:2182,10.162.200.219:2182
+##hsf.provider.port=30150
+
+debug=true
+
+## busi-rule flag?
+BUSI_RULE_ENABLED=true
+
+SERVICE_ECHO_ENABLED=true
+
+## in/output param check flag
+check.param.json=true
+
+
+#################MSGMIDWARE CFG STT####################
+#1:YES 0:NO
+LOAD_DATA=1
+MAX_PER_KEY=100
+PROCESS_TIME=60000
+TIME_OUT=6
+COMPRESS=true
+PUB_CLIENT=Pub109
+DATA_TOPIC=T109DataRpt
+ADDR=10.163.106.160:1234,10.163.106.161:1234,10.163.106.162:1234
+DATASOURCE=dataSourceB1
+##################MSGMIDWARE CFG END###################
+

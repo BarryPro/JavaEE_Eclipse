@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript">
+		function makeHello(name){
+			name[name.length]="ABCDEF"+name[0]+" "+name[1];
+			alert(name.length);
+		}
+		var name=new Array('Hello','World');// 0 1 2
+		makeHello(name);
+		alert(name[2]);//传递是副本，进去并没有影响本身。
+	
+	</script>
+</head>
+<body>
+
+</body>
+</html>

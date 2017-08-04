@@ -1,0 +1,25 @@
+.g tr{
+	font-weight:bold;
+	background-color: #D7EDFA;
+}
+.detailtitle{
+	font-weight:bold;
+	background-color: #D7EDFA;
+}
+.detailfoot{
+	font-weight:bold;
+}
+
+span.detail_href { 
+	font-weight:bold;
+	color: black; 
+} 
+span.detail_href:hover { 
+	text-decoration:underline; 
+	color: blue; 
+	cursor:pointer;
+}
+
+span.detail_nohref{ 
+	color: grey; 
+}

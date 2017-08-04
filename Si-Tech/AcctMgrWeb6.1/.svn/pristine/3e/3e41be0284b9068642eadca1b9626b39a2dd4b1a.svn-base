@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_grpfdbusi_recd">
+
+  <select id="qGrpfdbusiByBusiSn"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT BUSI_SN,OPT_SEQ,SESSION_ID,SYSPLAT_ID,PAY_TYPE,SERV_ID,PAY_ACCID,
+    PHONE_NO,PROVINCE,CHARGE_SUM,UNIT,REQ_DATE,STATUS,OP_TIME
+    FROM BAL_GRPFDBUSI_RECD
+    WHERE PHONE_NO = #PHONE_NO#
+    <dynamic prepend="">
+      <isNotEmpty prepend="AND" property="BUSI_SN">
+        BUSI_SN = #BUSI_SN#
+      </isNotEmpty>
+      <isNotEmpty prepend="AND" property="OPT_SEQ">
+      substr(OPT_SEQ,-6,6) = #OPT_SEQ#
+      </isNotEmpty>
+       <isNotEmpty prepend="" property="BEGIN_TIME">
+		<isNotEmpty prepend="AND" property="END_TIME">
+         	TO_CHAR(OP_TIME, 'YYYYMM') BETWEEN #BEGIN_TIME# AND #END_TIME#
+      	</isNotEmpty>
+      </isNotEmpty>
+      <isNotEmpty prepend="AND" property="STATUS">
+        STATUS = #STATUS#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+  
+  
+  
+  <insert id="iGrpfdbusi"  parameterClass="Map">
+    INSERT INTO BAL_GRPFDBUSI_RECD(BUSI_SN,OPT_SEQ,SESSION_ID,SYSPLAT_ID,PAY_TYPE,SERV_ID,PAY_ACCID,PHONE_NO,PROVINCE,CHARGE_SUM,UNIT,REQ_DATE,OP_TIME,STATUS,BAK_2)
+    VALUES(#BUSI_SN#,#OPT_SEQ#,#SESSION_ID#,#SYSPLAT_ID#,#PAY_TYPE#,#SERV_ID#,#PAY_ACCID#,#PHONE_NO#,#PROVINCE#,#CHARGE_SUM#,#UNIT#,#REQ_DATE#,SYSDATE,#STATUS#,#BAK_2#)
+  </insert>
+	    
+
+  <update id="uGrpfdbusi"  parameterClass="Map">
+    UPDATE BAL_GRPFDBUSI_RECD 
+       SET STATUS = #STATUS#
+     WHERE 1 = 1 AND PHONE_NO = #PHONE_NO#
+    <dynamic prepend="">
+      <isNotEmpty prepend="AND" property="BUSI_SN">
+        BUSI_SN = #BUSI_SN#
+      </isNotEmpty>
+      
+      <isNotEmpty prepend="AND" property="BUSI_SN">
+        SESSION_ID = #SESSION_ID#
+      </isNotEmpty>
+
+      <isNotEmpty prepend="AND" property="SESSION_ID">
+        SERV_ID = #SERV_ID#
+      </isNotEmpty>
+
+      <isNotEmpty prepend="AND" property="BUSI_SN">
+        PAY_ACCID = #PAY_ACCID#
+      </isNotEmpty>
+
+      <isNotEmpty prepend="AND" property="SERV_ID">
+        SYSPLAT_ID = #SYSPLAT_ID#
+      </isNotEmpty>
+
+      <isNotEmpty prepend="AND" property="SERV_ID">
+        REQ_DATE = #REQ_DATE#
+      </isNotEmpty>
+    </dynamic>
+  </update>
+
+</sqlMap>

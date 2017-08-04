@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_acctbook_dead">
+
+ 	
+ 	
+ 	<select id="qByBalanceId"  parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT CUR_BALANCE,PAY_SN,INIT_BALANCE FROM BAL_ACCTBOOK_DEAD WHERE BALANCE_ID= #BALANCE_ID#
+    </select>
+
+	<select id="qGetAcctbookDeadByCon" parameterClass="Map"
+		resultClass="java.util.HashMap">
+		SELECT A.BALANCE_ID BALANCE_ID,A.PAY_TYPE PAY_TYPE,A.CUR_BALANCE CUR_BALANCE,'1' ON_FLAG,PRINT_FLAG,B.PAY_ATTR PAY_ATTR
+		FROM BAL_ACCTBOOK_DEAD A, BAL_BOOKTYPE_DICT B
+		WHERE
+		A.PAY_TYPE=B.PAY_TYPE AND A.CONTRACT_NO=#CONTRACT_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PAY_TYPE">
+				A.PAY_TYPE = #PAY_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="NOT_PAY_TYPE">
+				A.PAY_TYPE !=
+				#NOT_PAY_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="SPECIAL_FLAG">
+				SUBSTR(B.PAY_ATTR,1,1)= #SPECIAL_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BACK_FLAG">
+				SUBSTR(B.PAY_ATTR,2,1)= #BACK_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="TRANS_FLAG">
+	    		SUBSTR(B.PAY_ATTR,4,1)= #TRANS_FLAG#
+	    	</isNotEmpty>
+		</dynamic>
+		AND SYSDATE BETWEEN A.BEGIN_TIME AND A.END_TIME
+		ORDER BY
+		B.PRIORITY,A.BALANCE_ID,A.CUR_BALANCE
+	</select>
+
+	<select id="qAcctBookDeadByCon" parameterClass="Map" resultClass="java.lang.Long">
+			SELECT NVL(SUM(CUR_BALANCE),0) CUR_BALANCE
+			  FROM BAL_ACCTBOOK_DEAD
+			 WHERE CONTRACT_NO=#CONTRACT_NO# 
+			 <dynamic prepend="">
+				<isNotEmpty prepend="AND" property="BALANCE_ID">
+					BALANCE_ID=#BALANCE_ID# 
+				</isNotEmpty>
+				<isNotEmpty property="TRANS_FLAG">
+		  			AND PAY_TYPE IN(
+						SELECT  PAY_TYPE FROM BAL_BOOKTYPE_DICT WHERE SUBSTR(PAY_ATTR,4,1)=#TRANS_FLAG#
+		  			)
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="PAY_TYPE_STR">
+				PAY_TYPE IN 
+				<iterate property="PAY_TYPE_STR" close=")" open="(" conjunction="," prepend="">
+				#PAY_TYPE_STR[]#
+				</iterate>
+			</isNotEmpty>
+			 </dynamic>
+			 AND SYSDATE BETWEEN BEGIN_TIME AND END_TIME 
+		</select>
+		
+		
+	<update id="uAcctbookDeadByBalance" parameterClass="Map">
+		UPDATE BAL_ACCTBOOK_DEAD 
+		SET CUR_BALANCE=CUR_BALANCE -	#PAYED_OWE# , OP_TIME=SYSDATE
+		WHERE BALANCE_ID=#BALANCE_ID#
+	</update>
+	
+		
+	<delete id="delAcctBookDead" parameterClass="Map">
+		DELETE FROM BAL_ACCTBOOK_DEAD 
+		WHERE CONTRACT_NO=#CONTRACT_NO# AND CUR_BALANCE=0 
+	</delete>
+	
+	<insert id="iAcctbookDead" parameterClass="Map">
+		INSERT INTO
+		BAL_ACCTBOOK_DEAD
+		(BALANCE_ID,CONTRACT_NO,PAY_TYPE,INIT_BALANCE,CUR_BALANCE,BALANCE_TYPE,BEGIN_TIME,END_TIME
+		,PAY_TIME,LOGIN_NO,OP_TIME,PAY_SN)
+		VALUES(#BALANCE_ID#,#CONTRACT_NO#,#PAY_TYPE#,#INIT_BALANCE#,#CUR_BALANCE#
+		,#BALANCE_TYPE#,TO_DATE(#BEGIN_TIME#,'YYYYMMDD HH24:MI:SS'),
+		TO_DATE(#END_TIME#,'YYYYMMDD HH24:MI:SS'),SYSDATE
+		,#LOGIN_NO#,SYSDATE,#PAY_SN#)
+	</insert>
+	
+	<update id="upPrintFlag" parameterClass="Map">
+		UPDATE BAL_ACCTBOOK_DEAD SET PRINT_FLAG=#PRINT_FLAG#
+		WHERE  BALANCE_ID=#BALANCE_ID#
+	</update>
+	
+	<select id="qryPrintFlag" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT PRINT_FLAG FROM  BAL_ACCTBOOK_DEAD 
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="BALANCE_ID">
+				AND BALANCE_ID=#BALANCE_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="iAcctbookDeadByHis" parameterClass="Map">
+		INSERT INTO BAL_ACCTBOOK_DEAD ( BALANCE_ID, CONTRACT_NO, PAY_TYPE, INIT_BALANCE,
+        CUR_BALANCE, BALANCE_TYPE, BEGIN_TIME , END_TIME , PAY_TIME , PAY_SN , PRINT_FLAG , FOREIGN_SN ,LOGIN_NO,OP_TIME)
+        select   BALANCE_ID,   CONTRACT_NO,   PAY_TYPE,   INIT_BALANCE,
+        CUR_BALANCE,  BALANCE_TYPE,   BEGIN_TIME, END_TIME, PAY_TIME, PAY_SN, PRINT_FLAG, FOREIGN_SN,#LOGIN_NO#,SYSDATE
+        from bal_acctbook_his
+        where CONTRACT_NO=#CONTRACT_NO#
+        AND BALANCE_ID = #BALANCE_ID#
+	</insert>
+</sqlMap>

@@ -1,0 +1,184 @@
+<%
+/********************
+ * version v2.0
+ * 开发商: si-tech
+ * update by qidp @ 2009-01-10
+ ********************/
+%>
+<script language=javascript>
+<!--
+  //core.loadUnit("debug");
+  //core.loadUnit("rpccore");
+ 
+  onload=function()
+  {
+  	document.all.phoneno.focus();
+   	//core.rpc.onreceive = doProcess;
+    	self.status="";
+  }
+ 
+function simChk()
+{
+	if(((document.all.phoneno.value).trim()).length<1){
+  	rdShowMessageDialog("手机号码不能为空！");
+ 	  return;
+	} 
+
+	if(((document.all.spEnterCode.value).trim()).length<1){
+  	rdShowMessageDialog("Sp企业代码不能为空！");
+ 	  return;
+	} 
+
+	if(((document.all.spTranCode.value).trim()).length<1){
+  	rdShowMessageDialog("业务代码不能为空！");
+ 	  return;
+	} 
+
+	var myPacket = new AJAXPacket("post1469Qry.jsp","正在查询客户，请稍候......");
+	myPacket.data.add("phoneNo",(document.all.phoneno.value).trim());
+	myPacket.data.add("opCode",(document.all.op_code.value).trim());
+	myPacket.data.add("EnterCode",(document.all.spEnterCode.value).trim());
+	myPacket.data.add("TranCode",(document.all.spTranCode.value).trim());	
+	core.ajax.sendPacket(myPacket);
+	myPacket = null;
+}
+  
+ //--------4---------doProcess函数----------------
+function doProcess(packet)
+{
+	var vRetPage=packet.data.findValueByName("rpc_page");  
+  var retCode = packet.data.findValueByName("retCode");
+  var retMsg = packet.data.findValueByName("retMsg");
+	var cust_name = packet.data.findValueByName("cust_name");
+	var sp_sum = packet.data.findValueByName("sp_sum");
+	if(retCode == 0){
+		document.all.cust_name.value = cust_name;
+		if(0 == sp_sum){
+			document.all.spEnterCode.value = "";
+			document.all.spTranCode.value = "";
+			document.all.buttonclick.disabled = true;
+			rdShowMessageDialog("您输入的SP企业代码或业务代码不正确,其代码在系统中不存在");
+		}else{
+			document.all.buttonclick.disabled = false;
+		}
+
+	}else
+	{
+		rdShowMessageDialog("错误:"+ retCode + "->" + retMsg,0);
+		return;
+	}    
+    
+}
+
+//-------2---------验证及提交函数-----------------
+
+function printCommit(){
+    getAfterPrompt();
+	//校验
+  if(!checkElement(document.s1469.phoneno)) return false;	
+
+	//if(!check(s1469)) return false;
+   //打印工单并提交表单
+   document.all.op_mark.value="用户"  + document.all.phoneno.value + "sp全网业务退费 ";
+    var ret = showPrtDlg("Detail","确实要进行电子免填单打印吗？","Yes");
+
+     if((ret=="confirm"))
+      {
+        if(rdShowConfirmDialog('确认电子免填单吗？')==1)
+        {  
+	      　s1469.submit();
+        }
+
+
+	    if(ret=="remark")
+	    {
+         if(rdShowConfirmDialog('确认要提交信息吗？')==1)
+         {
+	       s1469.submit();
+         }
+	   }
+	}
+    else
+    {
+       if(rdShowConfirmDialog('确认要提交信息吗？')==1)
+       {
+	     s1469.submit();
+       }
+    }	
+    return true;
+  }
+  function showPrtDlg(printType,DlgMessage,submitCfm)
+  {  //显示打印对话框 
+     //var h=150;
+     //var w=350;
+     //var t=screen.availHeight/2-h/2;
+     //var l=screen.availWidth/2-w/2;
+     //
+     //var printStr = printInfo(printType);
+     //
+     //var prop="dialogHeight:"+h+"px; dialogWidth:"+w+"px; dialogLeft:"+l+"px; dialogTop:"+t+"px;toolbar:no; menubar:no; scrollbars:yes; resizable:no;location:no;status:no;help:no"; 
+     //var path = "<%=request.getContextPath()%>/page/innet/hljPrint.jsp?DlgMsg=" + DlgMessage;
+     //var path = path + "&printInfo=" + printStr + "&submitCfm=" + submitCfm;
+     //var ret=window.showModalDialog(path,"",prop);
+     //return ret;    
+     
+    var h=198;
+    var w=400;
+    var t=screen.availHeight/2-h/2;
+    var l=screen.availWidth/2-w/2;
+    
+    var pType="subprint";
+    var billType="1";
+    var sysAccept = "<%=sysAccept%>";
+    var mode_code = null;
+    var fav_code = null;
+    var area_code = null;
+    var printStr = printInfo(printType);
+    var phoneno = document.s1469.phoneno.value;
+    
+    var prop="dialogHeight:"+h+"px; dialogWidth:"+w+"px; dialogLeft:"+l+"px; dialogTop:"+t+"px;toolbar:no; menubar:no; scrollbars:yes; resizable:no;location:no;status:no;help:no"; 
+    var path = "<%=request.getContextPath()%>/npage/innet/hljBillPrint_jc.jsp?DlgMsg=" + DlgMessage;
+    var path=path+"&mode_code="+mode_code+"&fav_code="+fav_code+"&area_code="+area_code+"&opCode=<%=opCode%>&sysAccept="+sysAccept+"&phoneNo="+phoneno+"&submitCfm="+submitCfm+"&pType="+pType+"&billType="+billType+ "&printInfo=" + printStr;
+    var ret=window.showModalDialog(path,printStr,prop);
+    return ret;
+
+  }
+
+  function printInfo(printType)
+  {
+ 
+    var cust_info="";
+    var opr_info="";
+    var note_info1="";
+    var note_info2="";
+    var note_info3="";
+    var note_info4="";
+
+    var retInfo = "";
+        //retInfo+='<%=loginName%>'+"|";
+        //retInfo+='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new java.util.Date())%>'+"|"; 
+    cust_info+="客户姓名："+document.all.cust_name.value+"|";
+    cust_info+="手机号码："+document.all.phoneno.value+"|";  
+        //retInfo+="用户地址："+document.all.phoneno.value+"|";
+        //retInfo+="身份证号码："+document.all.phoneno.value+"|";
+    
+    
+        // retInfo+="用户品牌："+document.all.phoneno.value+"|";
+    opr_info+="办理业务："+"全网sp业务退费"+"|";
+    opr_info+="SP企业代码："+document.all.spEnterCode.value+"|";
+    opr_info+="业务代码："+document.all.spTranCode.value+"|";
+    opr_info+="错收金额："+document.all.feeMoney.value+"|";
+    opr_info+="补收金额："+document.all.backMoney.value+"|";
+        //retInfo+="现金预存金额："+document.all.backPreMoney.value+"|";
+        
+        //retInfo+=document.all.phoneno.value+"|";
+        //retInfo+=document.all.phoneno.value+" "+document.all.phoneno.value+"|";
+    
+    note_info1+="备注："+document.all.op_mark.value+"|";
+    retInfo = strcat(cust_info,opr_info,note_info1,note_info2,note_info3,note_info4);
+    retInfo=retInfo.replace(new RegExp("#","gm"),"%23");
+    return retInfo;	
+  }
+
+ //-->
+</script>

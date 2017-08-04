@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pd_goods_dict">
+
+	<select id="qPdGoods" parameterClass="Map" resultClass="java.util.HashMap">
+	 SELECT GOODS_ID GOODS_ID,NVL(GOODS_NAME,'未知') GOODS_NAME,
+        FROM   PD_GOODS_DICT
+        WHERE 1=1 
+        <dynamic prepend="">
+			<isNotEmpty prepend="AND" property="GOODS_ID">
+				GOODS_ID=#GOODS_ID#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

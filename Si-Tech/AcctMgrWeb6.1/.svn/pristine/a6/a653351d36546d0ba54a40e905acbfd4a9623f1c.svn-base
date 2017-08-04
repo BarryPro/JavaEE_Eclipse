@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invtaxprint_info">
+
+	<typeAlias alias="taxInvoiceFee"
+		type="com.sitech.acctmgr.atom.domains.invoice.TaxInvoiceFeeEntity" />
+	<!-- liuhl_bj add 入表 -->
+	<insert id="insTaxPrint" parameterClass="taxInvoiceFee">
+		insert into
+		bal_invtaxprint_info
+		(PRINT_SN,
+		PRINT_ARRAY,
+		GOODS_NAME,
+		GOODS_NUM,
+		GOODS_PRICE,
+		INVOICE_FEE,
+		TAX_RATE,
+		TAX_FEE,
+		GOODS_UNIT,
+		GGXH,
+		FPQQLSH,
+		FEE_ACCEPT,
+		FEE_TYPE,
+		FEE_CODE,
+		FEE_CODE_SEQ,
+		ORDER_ID)
+		values
+		(#printSn#,
+		#printArray#,
+		#goodsName#,
+		#goodsNum#,
+		#goodsPrice#,
+		#invoiceFee#,
+		#taxRate#,
+		#taxFee#,
+		#goodsUnit#,
+		#ggxh#,
+		#requestSn#,
+		#feeAccept#,
+		#feeType#,
+		#feeCode#,
+		#feeCodeSeq#,
+		#orderId#)
+	</insert>
+
+	<select id="qryTaxFee" parameterClass="java.lang.Long"
+		resultClass="taxInvoiceFee">
+		SELECT PRINT_SN printSn,PRINT_ARRAY printArray,GOODS_NAME
+		goodsName,GOODS_NUM goodsNum,
+		GOODS_PRICE goodsPrice,INVOICE_FEE
+		invoiceFee,TAX_RATE taxRate,TAX_FEE taxFee,
+		FEE_ACCEPT feeAccept,
+		FEE_TYPE feeType,
+		FEE_CODE feeCode,
+		FEE_CODE_SEQ feeCodeSeq,
+		ORDER_ID
+		orderId
+		FROM BAL_INVTAXPRINT_INFO
+		WHERE PRINT_SN = #printSn#
+		ORDER BY
+		TAX_RATE,PRINT_ARRAY
+	</select>
+
+
+	<select id="qryTaxFeeForRed" parameterClass="java.lang.Long"
+		resultClass="taxInvoiceFee">
+		SELECT TAX_RATE taxRate,SUM(GOODS_PRICE)
+		goodsPrice,SUM(INVOICE_FEE) invoiceFee,
+		SUM(TAX_FEE) taxFee
+		FROM
+		BAL_INVTAXPRINT_INFO
+		WHERE PRINT_SN = #printSn#
+		GROUP BY TAX_RATE
+	</select>
+</sqlMap>

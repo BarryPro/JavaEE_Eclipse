@@ -1,0 +1,20 @@
+
+
+***********************************************************************
+Fatal NI connect error 12545, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=beq)(PROGRAM=/oracle/app/oracle/product/9.2.0/bin/oracle)(ARGV0=oraclecustdb)(ARGS='(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')(DETACH=NO))(CONNECT_DATA=(CID=(PROGRAM=sqlplus@tsas2)(HOST=tsas2)(USER=bossweb))))
+
+  VERSION INFORMATION:
+	TNS for HPUX: Version 9.2.0.6.0 - Production
+	Oracle Bequeath NT Protocol Adapter for HPUX: Version 9.2.0.6.0 - Production
+  Time: 24-NOV-2009 10:36:33
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12545
+    TNS-12545: Connect failed because target host or object does not exist
+    ns secondary err code: 12560
+    nt main err code: 515
+    TNS-00515: Connect failed because target host or object does not exist
+    nt secondary err code: 2
+    nt OS err code: 0

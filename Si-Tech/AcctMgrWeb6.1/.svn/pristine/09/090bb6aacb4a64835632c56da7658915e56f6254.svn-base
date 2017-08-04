@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TellCode">
+
+	<select id="qry" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT zy_flag,sp_name,serv_name,fee
+		FROM TellCode
+		WHERE trim(MSISDN) = #PHONE_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="SEGNUM">
+				trim(SEGNUM)=#LOGIN_ACCEPT#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		select
+		count(*) CNT
+		FROM TellCode
+		WHERE trim(MSISDN) = #PHONE_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="SEGNUM">
+				trim(SEGNUM)=#LOGIN_ACCEPT#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+</sqlMap>

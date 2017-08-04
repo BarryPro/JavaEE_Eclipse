@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_childrule_conf">
+
+  <select id="qByChildRule"  parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT CHILD_RULE, CHID_NAME, RULE_TYPE, RULE_VALUE
+	FROM BAL_CHILDRULE_CONF
+	WHERE CHILD_RULE = #CHILD_RULE#
+  </select>
+
+</sqlMap>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function oldObject(param1){
+		this.param1=param1;
+		this.getParam1=function(){			
+			return this.param1;
+		};
+	}
+	function newObject(param1,param2){//将要继承oldObject
+		this.param2=param2;
+		this.getParam2=function(){
+			return this.param2;
+			
+		}
+		//传入对新的对象引用和参数数组，将对象环境和数据传入到了继承的对象，实现了继承行为。
+		oldObject.apply(this,arguments);
+		this.getAllParameters=function(){			
+			return this.getParam1()+this.getParam2();
+		}
+		
+	}
+	window.onload=function(){		
+		newObject.prototype=new oldObject();//继承，是构造函数链的集合，把新的对象的构造函数连接起来
+		var obj=new newObject("value1","value2");
+		//打印出两个参数
+		alert(obj.getAllParameters());//新对象不仅访问了自己的属性param2和getParam2方法，而且访问了旧对象的param1属性和getParam方法
+	}
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

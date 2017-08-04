@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="ur_userdead_info">
+<typeAlias alias="UrUserdeadInfo" type="com.sitech.acctmgr.atom.domains.user.UserDeadEntity"/>
+
+<select id="qUserdeadInfo" parameterClass="Map" resultClass="UrUserdeadInfo">
+	SELECT PHONE_NO as phoneNo,
+	ID_NO as idNo,
+	CONTRACT_NO as contractNo,
+	CUST_ID as custId,
+	GROUP_ID as groupId,
+	GROUP_FLAG as groupFlag,
+	CUST_ID as custId,
+	OWNER_TYPE as ownerType,
+	MASTER_SERV_ID as masterServId,
+	TO_CHAR(OPEN_TIME, 'YYYYMMDDHH24MISS') as openTime,
+	TO_CHAR(BILL_START_TIME, 'YYYYMMDDHH24MISS') as billStartTime
+	FROM UR_USERDEAD_INFO WHERE 1=1
+	<dynamic prepend="">
+		<isNotEmpty prepend="AND" property="PHONE_NO">
+			PHONE_NO = #PHONE_NO#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ID_NO">
+			ID_NO = #ID_NO#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="CONTRACT_NO">
+			CONTRACT_NO = #CONTRACT_NO#
+		</isNotEmpty>
+	</dynamic>
+</select>
+
+	<select id="qryGrpUserDeadInfo" parameterClass="Map" resultClass="UrUserdeadInfo">
+		SELECT A.CONTRACT_NO contractNo,
+		A.ID_NO idNo,
+		A.PHONE_NO phoneNo,
+		a.CUST_ID custId,
+		a.GROUP_ID groupId
+		FROM UR_USERDEAD_INFO a,
+		ct_grpcust_info b
+		WHERE A.CUST_ID = B.CUST_ID
+		AND A.OWNER_TYPE='3'
+		AND
+		B.UNIT_ID=#UNIT_ID#
+	</select>
+
+</sqlMap>

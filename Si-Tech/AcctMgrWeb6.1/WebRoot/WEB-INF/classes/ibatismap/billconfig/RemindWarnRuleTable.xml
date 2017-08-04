@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="remind_warn_rule_table">
+
+	<typeAlias type="com.sitech.acctmgr.atom.domains.query.RemindOpenEntity"
+		alias="remindOpenEntity" />
+	<select id="getOpenRule" parameterClass="Map" resultClass="remindOpenEntity">
+		SELECT NOTE ruleNote,WARN_RULE_ID ruleId,IS_REMIND isRemind FROM
+		dbaccadm.REMIND_WARN_RULE_TABLE
+	</select>
+
+</sqlMap>

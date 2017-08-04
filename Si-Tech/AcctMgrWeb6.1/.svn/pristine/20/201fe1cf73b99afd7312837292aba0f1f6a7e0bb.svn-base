@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="product_offer_up">
+
+    <resultMap id="ProductOfferUpEnt" class="com.sitech.acctmgr.atom.domains.query.ProductOfferUpEntity">
+        <result property="upId" column="UP_ID"/>
+        <result property="phoneNo" column="PHONE_NO"/>
+        <result property="offerCancel" column="OFFER_CANCEL"/>
+        <result property="offerOrder" column="OFFER_ORDER"/>
+        <result property="opTime" column="OP_TIME"/>
+        <result property="totalDate" column="TOTAL_DATE"/>
+        <result property="returnFlag" column="RETURN_FLAG"/>
+        <result property="returnFee" column="RETURN_FEE"/>
+        <result property="dateLimit" column="DATE_LIMIT"/>
+    </resultMap>
+
+    <select id="qProductUpInfo" parameterClass="Map" resultMap="ProductOfferUpEnt">
+        SELECT UP_ID, PHONE_NO, NVL(OFFER_CANCEL, ' ') OFFER_CANCEL, NVL(OFFER_ORDER, ' ') OFFER_ORDER, OP_TIME, 
+        			TOTAL_DATE, RETURN_FLAG, RETURN_FEE, DATE_LIMIT
+        FROM PRODUCT_OFFER_UP
+        WHERE UP_ID = #UP_ID#
+		AND PHONE_NO = #PHONE_NO#
+		AND TOTAL_DATE = #TOTAL_DATE#
+    </select>
+    
+    <insert id="insertHis" parameterClass="Map">
+    	INSERT INTO PRODUCT_OFFER_UP_HIS 
+    	(UP_ID, PHONE_NO, OFFER_CANCEL, OFFER_ORDER, OP_TIME, 
+        TOTAL_DATE, RETURN_FLAG, RETURN_FEE, DATE_LIMIT, UPDATE_TIME)
+        SELECT UP_ID, PHONE_NO, OFFER_CANCEL, OFFER_ORDER, OP_TIME, TOTAL_DATE, 
+        			RETURN_FLAG, RETURN_FEE, DATE_LIMIT, SYSDATE UPDATE_TIME
+        FROM PRODUCT_OFFER_UP
+        WHERE UP_ID = #UP_ID#
+		AND PHONE_NO = #PHONE_NO#
+		AND TOTAL_DATE = #TOTAL_DATE#
+    </insert>
+    
+	<delete id="dProductInfo" parameterClass="Map">
+		DELETE FROM PRODUCT_OFFER_UP
+		WHERE UP_ID = #UP_ID#
+		AND PHONE_NO = #PHONE_NO#
+		AND TOTAL_DATE = #TOTAL_DATE#
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_payparameter_conf">
+  
+   <select id="qPayInfo"  parameterClass="Map" resultClass="java.util.HashMap">
+  		SELECT 
+  			LOGIN_NO,PAY_PATH,PAY_METHOD,PAY_TYPE,OP_CODE,OP_NOTE,SMS_FLAG
+  			,REPAY_FLAG,DELAY_RATE,REMONTH_RATE,BACK_UP1,BACK_UP2 From BAL_PAYPARAMETER_CONF
+        WHERE SERV_NAME=#SERV_NAME# 
+     <dynamic prepend="">
+     	<isNotEmpty prepend="" property="BUSI_CODE">
+				AND BUSI_CODE=#BUSI_CODE#
+		</isNotEmpty>
+    	<isNotEmpty prepend="" property="ORGAN_ID">
+				AND (ORGAN_ID = #ORGAN_ID#  OR TRIM(ORGAN_ID) = '*') 
+		</isNotEmpty>
+    </dynamic>
+  </select>
+  
+  
+</sqlMap>

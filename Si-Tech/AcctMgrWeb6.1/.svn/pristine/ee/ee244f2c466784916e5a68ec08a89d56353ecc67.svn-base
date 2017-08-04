@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_payment_info">
+
+	<typeAlias type="com.sitech.acctmgr.atom.domains.pay.PaysnBaseEntity" alias="PaysnBase" />
+	<typeAlias type="com.sitech.acctmgr.atom.domains.pay.CRMIntellPrtEntity" alias="IntellInfo" />
+	<typeAlias alias="BalPaymentInfo" type="com.sitech.acctmgr.atom.domains.pay.PayMentEntity"/>
+	<resultMap id="BalPaymentInfoResult" class="BalPaymentInfo">
+		<result property="paySn" column="PAY_SN"/>
+		<result property="contractNo" column="CONTRACT_NO"/>
+		<result property="idNo" column="ID_NO"/>
+		<result property="userGroupId" column="USER_GROUP_ID"/>
+		<result property="phoneNo" column="PHONE_NO"/>
+		<result property="brandId" column="BRAND_ID"/>
+		<result property="totalDate" column="TOTAL_DATE"/>
+		<result property="payPath" column="PAY_PATH"/>
+		<result property="payMethod" column="PAY_METHOD"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="payFee" column="PAY_FEE"/>
+		<result property="currentPrepay" column="CURRENT_PREPAY"/>
+		<result property="payTime" column="PAY_TIME"/>
+		<result property="status" column="STATUS"/>
+		<result property="bankCode" column="BANK_CODE"/>
+		<result property="originalSn" column="ORIGINAL_SN"/>
+		<result property="foreignSn" column="FOREIGN_SN"/>
+		<result property="foreignTime" column="FOREIGN_TIME"/>
+		<result property="groupId" column="GROUP_ID"/>
+		<result property="loginNo" column="LOGIN_NO"/>
+		<result property="opCode" column="OP_CODE"/>
+		<result property="opTime" column="OP_TIME"/>
+		<result property="yearMonth" column="YEAR_MONTH"/>
+		<result property="remark" column="REMARK"/>
+	</resultMap>
+
+  <insert id="iPayment"  parameterClass="Map">
+   INSERT INTO BAL_PAYMENT_INFO (PAY_SN,CONTRACT_NO,ID_NO,BRAND_ID,TOTAL_DATE,PAY_PATH,PAY_METHOD ,
+		PAY_TYPE , PAY_FEE , CURRENT_PREPAY , PAY_TIME , STATUS , BANK_CODE , ORIGINAL_SN , FOREIGN_SN ,
+		FOREIGN_TIME , GROUP_ID , LOGIN_NO , OP_CODE , OP_TIME , YEAR_MONTH, REMARK, PHONE_NO , USER_GROUP_ID)
+	VALUES( #PAY_SN# , #CONTRACT_NO# , #ID_NO# , #BRAND_ID# , #TOTAL_DATE#, #PAY_PATH# , #PAY_METHOD# ,
+		#PAY_TYPE# , #PAY_FEE# , #CURRENT_PREPAY# , SYSDATE , #STATUS# , #BANK_CODE# , #ORIGINAL_SN# , #FOREIGN_SN# ,
+		#FOREIGN_TIME#, #GROUP_ID# , #LOGIN_NO# , #OP_CODE# , SYSDATE, #YEAR_MONTH#, #REMARK# , #PHONE_NO# , #USER_GROUP_ID# )
+  </insert>
+
+   <select id="qCntOfPaymentByColPS"  parameterClass="Map" resultClass="Integer">
+    SELECT COUNT(1) CNT FROM BAL_PAYMENT_INFO
+    WHERE CONTRACT_NO= #CONTRACT_NO# 
+    AND YEAR_MONTH = #SUFFIX:LONG#
+    AND STATUS='0'
+    AND PAY_SN NOT IN
+        	<iterate close=")" open="(" conjunction="," property="PAYSN_STR">
+    			#PAYSN_STR[]#
+    		</iterate>
+     <dynamic prepend="">
+
+    	<isNotEmpty prepend="AND" property="LOGIN_NO">
+    		LOGIN_NO = #LOGIN_NO#
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="NO_OP_CODE">
+    		OP_CODE!= #NO_OP_CODE#
+    	</isNotEmpty>
+
+    </dynamic>
+    AND (SYSDATE-OP_TIME) <![CDATA[ < ]]> #INTERVAL#<![CDATA[ / ]]>(3600*24)
+  </select>
+  
+  <select id="qBalPayMent"  parameterClass="Map" resultClass="BalPaymentInfo">
+    SELECT nvl((select FUNCTION_NAME from bs_function_dict where a.op_code = FUNCTION_CODE),'未知') functionName,
+    nvl((select PAY_TYPE_NAME from bal_booktype_dict where a.pay_type = pay_type),'未知') payTypeName, 
+    PAY_SN paySn, 
+    CONTRACT_NO contractNo, 
+    ID_NO idNo, 
+    BRAND_ID brandId, 
+    TOTAL_DATE totalDate, 
+    PAY_PATH payPath, 
+    PAY_METHOD payMethod, 
+    PAY_TYPE payType, 
+    NVL(PAY_FEE,0) payFee, 
+	NVL(CURRENT_PREPAY,0) currentPrepay, 
+	TO_CHAR(PAY_TIME,'YYYYMMDD HH24:MI:SS') payTime, 
+	STATUS status, 
+	BANK_CODE bankCode, 
+	ORIGINAL_SN originalSn, 
+	FOREIGN_SN foreignSn, 
+	FOREIGN_TIME foreignTime, 
+	GROUP_ID groupId, 
+	LOGIN_NO loginNo, 
+	OP_CODE opCode, 
+	TO_CHAR(OP_TIME,'YYYYMMDDHH24MISS') opTime, 
+	REMARK remark, 
+	PHONE_NO phoneNo, 
+	USER_GROUP_ID userGroupId,
+	YEAR_MONTH yearMonth
+  	FROM BAL_PAYMENT_INFO a WHERE 1 = 1
+  	  AND YEAR_MONTH = #SUFFIX#
+     <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    		ID_NO = #ID_NO# 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ACCPERT_PAYTYPE">
+    		EXISTS (select pay_type from bal_booktype_dict  where a.pay_type=pay_type and substr(pay_attr,6,1) != '1')
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		CONTRACT_NO = #CONTRACT_NO# 
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="PAY_TYPE">
+    		PAY_TYPE = #PAY_TYPE#
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="PAY_TYPE_IN">
+    		PAY_TYPE IN 
+    		<iterate close=")" open="(" conjunction="," prepend="" property="PAY_TYPE_IN">
+    			#PAY_TYPE_IN[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    		PAY_SN = #PAY_SN# 
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="NOT_PAY_SN">
+    		PAY_SN != #NOT_PAY_SN# 
+    	</isNotEmpty>
+ 
+    	<isNotEmpty prepend="AND" property="FOREIGN_SN">
+    		FOREIGN_SN = #FOREIGN_SN# 
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="NOT_FOREIGN_SN">
+    		FOREIGN_SN != #FOREIGN_SN# 
+    	</isNotEmpty>
+    		
+    	<isNotEmpty prepend="AND" property="STATUS">
+    		STATUS = #STATUS# 
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="BEGIN_DATE">
+    		<isNotEmpty prepend="AND" property="END_DATE">
+    			TOTAL_DATE BETWEEN #BEGIN_DATE# AND #END_DATE#
+    		</isNotEmpty>
+    	</isNotEmpty>
+    	
+        <isNotEmpty prepend="AND" property="OP_CODE">
+                OP_CODE = #OP_CODE#
+        </isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="OP_CODE_LIST">
+    		AND OP_CODE IN 
+    		<iterate close=")" open="(" conjunction="," prepend="" property="OP_CODE_LIST">
+    			#OP_CODE_LIST[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	  <isNotEmpty prepend="AND" property="NOT_OP_CODES">
+    		OP_CODE NOT IN 
+    		 <iterate close=")" open="(" conjunction="," prepend="" property="NOT_OP_CODES">
+    			#NOT_OP_CODES[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	<!-- add by liuhl_bj  2016/11/7 -->
+    	<isNotEmpty prepend="" property="CONTRACT_NO_LIST">
+    		AND CONTRACT_NO IN 
+    		<iterate close=")" open="(" conjunction="," prepend="" property="CONTRACT_NO_LIST">
+    			#CONTRACT_NO_LIST[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="PAY_SN_LIST">
+    		AND PAY_SN IN 
+    		<iterate close=")" open="(" conjunction="," prepend="" property="PAY_SN_LIST">
+    			#PAY_SN_LIST[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="REMARK">
+    		AND REMARK NOT LIKE #REMARK#
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="PAY_TYPE_NOT">
+    		AND PAY_TYPE NOT IN #PAY_TYPE_NOT#
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="NOT_PAY_TYPES">
+    		AND PAY_TYPE NOT IN
+    		<iterate close=")" open="(" conjunction="," prepend="" property="NOT_PAY_TYPES">
+    			#NOT_PAY_TYPES[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="OP_TIME">
+    		OP_TIME <![CDATA[ >= ]]> TO_DATE(#OP_TIME#,'YYYYMMDDHH24MISS')
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="BEGIN_TIME">
+    		TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[ >= ]]> #BEGIN_TIME#
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="AND" property="END_TIME">
+    		TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[ <= ]]>#END_TIME#
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="DESC">
+			ORDER BY PAY_TIME DESC, PAY_SN DESC
+    	</isNotEmpty>
+    	
+    	<isEmpty prepend="" property="DESC">                 
+			ORDER BY PAY_TIME, PAY_SN 
+    	</isEmpty>
+    </dynamic>
+  </select>
+
+  <update id="uStatus"  parameterClass="Map" >
+    UPDATE BAL_PAYMENT_INFO SET STATUS=decode(STATUS,'0','1','2','3','1') 
+    WHERE PAY_SN= #PAY_SN#
+      AND YEAR_MONTH = #SUFFIX:LONG#
+   <dynamic prepend="">
+    	<isNotEmpty prepend="" property="CONTRACT_NO">
+    		AND CONTRACT_NO = #CONTRACT_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="PAY_TYPE">
+    		AND PAY_TYPE = #PAY_TYPE#
+    	</isNotEmpty>
+    </dynamic>
+  </update>
+  
+  <insert id="iForRoback"  parameterClass="Map" >
+    INSERT INTO BAL_PAYMENT_INFO (PAY_SN,CONTRACT_NO,ID_NO,BRAND_ID,TOTAL_DATE,
+    	PAY_PATH,PAY_METHOD,PAY_TYPE,PAY_FEE,PAY_TIME, STATUS,BANK_CODE,ORIGINAL_SN,
+    	FOREIGN_SN,FOREIGN_TIME,GROUP_ID,LOGIN_NO,OP_CODE,OP_TIME, YEAR_MONTH, REMARK,PHONE_NO,USER_GROUP_ID ) 
+    SELECT #PAY_BACK_SN#,CONTRACT_NO,ID_NO,BRAND_ID,#TOTAL_DATE#,
+    <dynamic prepend="">
+    	<isNotEmpty prepend="" property="PAY_PATH">
+    		#PAY_PATH#,
+    	</isNotEmpty>
+    	<isEmpty prepend="" property="PAY_PATH">
+    		 PAY_PATH,
+    	</isEmpty>
+    	<isNotEmpty prepend="" property="PAY_METHOD">
+    		#PAY_METHOD#, 
+    	</isNotEmpty>
+    	<isEmpty prepend="" property="PAY_METHOD">
+    		 PAY_METHOD,
+    	</isEmpty>
+    </dynamic>
+    	 PAY_TYPE ,(-1)*PAY_FEE,SYSDATE,STATUS,BANK_CODE,#ORIGINAL_SN#,
+    	#FOREIGN_SN#,FOREIGN_TIME, #GROUP_ID#, #LOGIN_NO#, #OP_CODE#,SYSDATE, TO_CHAR(SYSDATE,'yyyymm'), #REMARK#,PHONE_NO,USER_GROUP_ID   
+      FROM BAL_PAYMENT_INFO
+      WHERE PAY_SN= #PAY_SN#
+         AND YEAR_MONTH = #SUFFIX:LONG#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="" property="CONTRACT_NO">
+    		AND CONTRACT_NO= #CONTRACT_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="PAY_TYPE">
+    		and PAY_TYPE = #PAY_TYPE#
+    	</isNotEmpty>
+    </dynamic>
+  </insert>
+  
+  	<resultMap id="PaysnBaseEntity" class="PaysnBase">
+  		<result property="payFee" column="PAY_FEE" />
+		<result property="paySn" column="PAY_SN" />
+		<result property="phone" column="PHONE_NO" />
+		<result property="totalDate" column="TOTAL_DATE" />
+		<result property="payTime" column="PAY_TIME" />
+		<result property="loginNo" column="LOGIN_NO" />
+		<result property="remark" column="REMARK" />
+		<result property="opCode" column="OP_CODE" />
+		<result property="functionName" column="FUNCTION_NAME" />
+	</resultMap>
+	
+  <select id="qPaysnInfo"  parameterClass="Map" resultMap="PaysnBaseEntity">
+    SELECT SUM(NVL(A.PAY_FEE, 0)) PAY_FEE , A.PAY_SN , A.PHONE_NO, A.TOTAL_DATE , 
+      TO_CHAR(A.OP_TIME, 'YYYY-MM-DD HH24:MI:SS') PAY_TIME , A.LOGIN_NO , 
+      A.OP_CODE , NVL(B.FUNCTION_NAME,'未知') FUNCTION_NAME , A.REMARK
+    FROM BAL_PAYMENT_INFO A, BS_FUNCTION_DICT B
+     WHERE A.OP_CODE = B.FUNCTION_CODE(+)
+        AND YEAR_MONTH = #SUFFIX:LONG#
+   <dynamic prepend="">
+    	<isNotEmpty prepend="" property="LOGIN_NO">
+    		and login_no = #LOGIN_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="ID_NO">
+    		and id_no = #ID_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="CONTRACT_NO">
+    		and contract_no = #CONTRACT_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="NOT_CON">
+    		and contract_no <![CDATA[ <> ]]> #NOT_CON#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="OP_CODE">
+    		and op_code = #OP_CODE#
+    	</isNotEmpty>
+
+    	<isNotEmpty prepend="" property="OP_CODES">
+    		and op_code in
+    		<iterate close=")" open="(" conjunction="," property="OP_CODES">
+    			#OP_CODES[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="PAY_PATH">
+    		and pay_path in
+    		<iterate close=")" open="(" conjunction="," property="PAY_PATH">
+    			#PAY_PATH[]#
+    		</iterate>
+    	</isNotEmpty>
+    	
+    	<isNotEmpty prepend="" property="PAY_SN">
+    		and PAY_SN = #PAY_SN#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="BEGIN_TIME">
+    		and to_char(a.op_time, 'yyyymmdd') <![CDATA[ >= ]]> #BEGIN_TIME#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="" property="END_TIME">
+    		and to_char(a.op_time, 'yyyymmdd') <![CDATA[ <= ]]> #END_TIME#
+    	</isNotEmpty>
+    </dynamic>
+    and status in ('0','2')  
+    group by a.pay_sn, A.PHONE_NO, a.total_date, a.op_time, a.login_no, a.op_code, b.function_name, a.REMARK
+    order by a.op_time desc
+  </select>
+  
+  <select id="qBalConByPaysn"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT DISTINCT CONTRACT_NO, OP_CODE, ID_NO, PAY_TYPE, PAY_SN, PAY_FEE, REMARK
+    FROM BAL_PAYMENT_INFO
+    WHERE PAY_SN = #PAY_SN#
+      AND YEAR_MONTH = #SUFFIX:LONG#
+     <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		CONTRACT_NO = #CONTRACT_NO# 
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+  
+ <select id="qPaysnByForeign"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT DISTINCT PAY_SN, OP_CODE, STATUS
+  	FROM BAL_PAYMENT_INFO WHERE 1 = 1
+  	  AND YEAR_MONTH = #YEAR_MONTH:LONG#
+	AND	FOREIGN_SN = #FOREIGN_SN# 
+	<dynamic prepend="">
+    	<isNotEmpty prepend="" property="PAY_TYPE">
+    		and PAY_TYPE = #PAY_TYPE#
+    	</isNotEmpty>
+    </dynamic>
+ </select>
+ 
+   <select id="qBalConByPaysnKc"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT PHONE_NO, sum(PAY_FEE) TOTAL_FEE
+    FROM BAL_PAYMENT_INFO
+    WHERE PAY_SN = #PAY_SN#
+      AND YEAR_MONTH = #SUFFIX:LONG#
+    GROUP BY PHONE_NO
+  </select>
+  
+  <select id="qSumPayfee"  parameterClass="Map" resultClass="Long">
+    	SELECT NVL(SUM(PAY_FEE),0) PAY_FEE
+		FROM BAL_PAYMENT_INFO  
+		WHERE CONTRACT_NO = #CONTRACT_NO#
+		AND YEAR_MONTH = #YEAR_MONTH:LONG#
+	<dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="NOT_OP_CODE">
+    		OP_CODE <![CDATA[ <> ]]> #NOT_OP_CODE#  
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="NOT_FOREIGN_SN">
+    		(FOREIGN_SN <![CDATA[ <> ]]> #NOT_FOREIGN_SN# OR FOREIGN_SN IS NULL)
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <select id="qrySumPayFeeByPaySnInvc"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT	NVL(SUM(A.PAY_FEE),0) PAY_FEE,
+    to_char(min(A.pay_time),'yyyy-mm-dd HH24:MI:SS') AS PAY_TIME,
+    (select B.PAY_METHOD_NAME from bal_paymethod_conf B where B.PAY_METHOD=A.PAY_METHOD ) AS PAY_METHOD_NAME
+    FROM BAL_PAYMENT_INFO A WHERE A.YEAR_MONTH = #SUFFIX:LONG# 
+    <dynamic prepend="">
+        <isNotEmpty prepend="AND" property="PAY_SN">
+            A.PAY_SN = #PAY_SN:LONG#
+        </isNotEmpty>
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		A.CONTRACT_NO=#CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ACCPERT_PAYTYPE">
+    		A.PAY_TYPE NOT IN (select pay_type from bal_booktype_dict where substr(pay_attr,6,1)='1')
+    	</isNotEmpty>
+    </dynamic>
+    group by A.PAY_METHOD
+  </select>
+
+	<select id="qryCountFlag" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT count(1) COUNT
+		FROM BAL_PAYMENT_INFO
+		WHERE
+		CONTRACT_NO=#CONTRACT_NO#
+		AND ID_NO=#ID_NO#
+		AND YEAR_MONTH = #SUFFIX:LONG#
+		<dynamic prepend="">
+			<isEqual property="FLAG" compareValue="30">
+				and pay_fee in (3000,3000*0.998)
+			</isEqual>
+			<isEqual property="FLAG" compareValue="50">
+				and pay_fee in
+				(5000,5000*0.998)
+			</isEqual>
+			<isEqual property="FLAG" compareValue="80">
+				and pay_fee in
+				(8000,8000*0.998)
+			</isEqual>
+		</dynamic>
+		and login_no in ('newweb','ssssss',#LOGIN_NO#)
+		and op_code='8000'
+	</select>
+
+	<select id="qLastPay" resultClass="java.util.HashMap" parameterClass="Map">
+		SELECT MAX(PAY_SN) PAY_SN,TOTAL_DATE FROM BAL_PAYMENT_INFO 
+		WHERE YEAR_MONTH=#YEAR_MONTH#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="OP_CODE">
+				AND OP_CODE=#OP_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+		</dynamic>
+		GROUP BY TOTAL_DATE,CONTRACT_NO
+	</select>
+	
+	<select id="qCRMIntellInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT	#LOGIN_ACCEPT# LOGIN_ACCEPT,id_no ID_NO,brand_id BRAND_ID,op_code OP_CODE,pay_type PAY_TYPE,pay_fee PAY_FEE
+		FROM BAL_PAYMENT_INFO
+		WHERE LOGIN_NO = #LOGIN_NO#
+		<isNotEmpty prepend="AND" property="PAY_TYPE_STR">
+                PAY_TYPE NOT IN
+                <iterate prepend="" property="PAY_TYPE_STR" open="(" conjunction="," close=")">
+                    #PAY_TYPE_STR[]#
+                </iterate>
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="NOT_OP_CODE">
+                OP_CODE NOT IN
+                <iterate prepend="" property="NOT_OP_CODE" open="(" conjunction="," close=")">
+                    #NOT_OP_CODE[]#
+                </iterate>
+         </isNotEmpty>
+         AND PAY_TYPE <![CDATA[ <> ]]> '3'
+		 AND YEAR_MONTH = #CHANGE_YM#
+		 AND TOTAL_DATE = #CHANGE_DATE#
+	</select>
+	
+	<insert id="insertIntellInfo" parameterClass="Map">
+		INSERT INTO CALCULATE_TMP(ORD_SEQ,STR_COL3,STR_COL0,STR_COL1,STR_COL2,FLO_COL0)
+		VALUES(#LOGIN_ACCEPT#,#ID_NO#,#BRAND_ID#,#OP_CODE#,#PAY_TYPE#,#PAY_FEE#)
+	</insert>
+	
+	<insert id="insertTotalIntellInfo" parameterClass="Map">
+		INSERT INTO CALCULATE_TMP(ORD_SEQ,INT_COL0,STR_COL0,STR_COL1,STR_COL2,FLO_COL0)
+		SELECT #LOGIN_ACCEPT#,SUM(INT_COL0),'合计','','',SUM(FLO_COL0)
+		FROM CALCULATE_TMP WHERE ORD_SEQ = #LOGIN_ACCEPT#
+	</insert>
+	
+	<select id="qTotalIntellInfo" parameterClass="Map" resultClass="IntellInfo">
+		SELECT ORD_SEQ as loginAccept,INT_COL0 as payNum,STR_COL0 as brandName,STR_COL1 as opName,
+		STR_COL2 as payName,FLO_COL0 as payMoney
+		FROM CALCULATE_TMP WHERE ORD_SEQ = #LOGIN_ACCEPT#
+	</select>
+	
+	<insert id="inCRMCollectInfo" parameterClass="Map">
+		INSERT INTO CALCULATE_TMP(ORD_SEQ,INT_COL0,STR_COL0,STR_COL1,STR_COL2,FLO_COL0)
+		SELECT #LOGIN_ACCEPT2#,count(a.STR_COL3),d.BRAND_NAME,b.FUNCTION_NAME,c.PAY_TYPE_NAME,sum(a.FLO_COL0)
+		FROM CALCULATE_TMP a,BS_FUNCTION_DICT b,BAL_BOOKTYPE_DICT c,PD_BRAND_DICT d
+		WHERE a.ORD_SEQ = #LOGIN_ACCEPT#
+		AND a.STR_COL0 = d.BRAND_ID
+		AND a.STR_COL1 = b.FUNCTION_CODE
+		AND a.STR_COL2 = c.PAY_TYPE
+		GROUP BY d.BRAND_NAME,b.FUNCTION_NAME,c.PAY_TYPE_NAME
+	</insert>
+
+</sqlMap>

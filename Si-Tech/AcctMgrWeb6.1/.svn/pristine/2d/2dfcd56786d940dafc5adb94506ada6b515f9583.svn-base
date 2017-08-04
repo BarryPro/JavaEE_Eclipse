@@ -1,0 +1,64 @@
+package com.sitech.acctmgr.atom.busi.invoice.inter;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.invoice.InvcCollPrintEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvoiceDispEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvoiceEntity;
+import com.sitech.acctmgr.atom.domains.invoice.PrtXmlEntity;
+
+/**
+ *
+ * <p>
+ * Title: 对发票报文处理
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author fanck
+ * @version 1.0
+ */
+public interface IPrintDataXML {
+
+	/**
+	 * 名称：获取发票打印xml
+	 * 
+	 * @param invoice
+	 * @return
+	 */
+	String getPrintXml(InvoiceDispEntity invoice, int userFlag, String userType);
+
+
+	/**
+	 * 名称：得到红字发票模板报文<br/>
+	 * 
+	 * @param InvoiceEntity
+	 *            : 最后发票数据实体类型
+	 * @return INVXML_String : 发票报文字符串
+	 * @throws
+	 * @author fanck
+	 */
+
+	public String getRedPrtDataXML(InvoiceEntity invEntry);
+
+	/**
+	 * 获取打印免填单的xml
+	 * 
+	 * @param inMap
+	 * @return
+	 */
+	String getPrintXml(Map<String, Object> inMap);
+
+	List<PrtXmlEntity> getCollPrintDataXML(InvcCollPrintEntity invcPrintEnt, boolean saveFlag);
+
+	List<PrtXmlEntity> getCollPrtInfo(Map<String, Object> inParam, boolean seXMLFlag);
+
+}

@@ -1,0 +1,80 @@
+package com.sitech.acctmgr.inter.detail;
+
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ * Created by wangyla on 2016/7/12.
+ */
+public interface IDetail {
+
+    /**
+     * 功能：外围渠道详单查询 <br>
+     * 调用渠道：网厅、短厅、IVR、wap、集团客户门户 <br>
+     * 对应旧服务：s1526QryNew2WS、s1526QryNewWS、s1526QryWS、s1511_printnewWS
+     *
+     * @param inParam
+     * @return
+     */
+    OutDTO channelQuery(InDTO inParam);
+
+    /**
+     * 功能：未合并详单明细查询 <br>
+     * 调用渠道：网厅、手机客户端、IVR、自助终端、集团客户门户 <br>
+     * 对应旧服务：s1511_detailWS、s1511QryDetail
+     *
+     * @param inParam
+     * @return
+     */
+    OutDTO detailQuery(InDTO inParam);
+
+    /**
+     * 功能：原始详单查询（第三方调用） <br>
+     * 调用渠道：IVR <br>
+     * 对应旧服务：s4947_printWS
+     *
+     * @param inParam
+     * @return
+     */
+    OutDTO rawQuery(InDTO inParam);
+
+    /**
+     * 功能：营业前台详单查询 <br>
+     * 注：返回内容为动态表格拼凑的参数
+     * @param inParam
+     * @return
+     */
+    OutDTO query(InDTO inParam);
+
+    /**
+     * 功能：营业前台原始详单查询 <br>
+     * 注：返回内容为动态表格拼凑的参数
+     * @param inParam
+     * @return
+     */
+    OutDTO dynamicRawQuery(InDTO inParam);
+
+    /**
+     * 功能：营业前台地市详单查询 <Br>
+     * 注：返回内容为动态表格拼凑的参数
+     * @param inParam
+     * @return
+     */
+    OutDTO cityQuery(InDTO inParam);
+
+    /**
+     * 功能：前台退费时，调用的SP详单查询
+     * 注：返回内容为动态表格拼凑的参数，页面直接展示
+     * @param inParam
+     * @return
+     */
+    OutDTO spQuery(InDTO inParam);
+
+    /**
+     * 功能：统计用户当月短信使用情况
+     * 调用渠道：短厅、IVR
+     * @param inParam
+     * @return
+     */
+    OutDTO smsStats(InDTO inParam);
+}

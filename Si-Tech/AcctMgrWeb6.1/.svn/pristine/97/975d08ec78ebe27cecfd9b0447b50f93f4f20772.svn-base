@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_einvoiceprint_info">
+
+<typeAlias type="com.sitech.acctmgr.atom.domains.EInvoiceForCrm" alias="InvInvo" />
+  
+	<resultMap id="InvInvoEntry" class="InvInvo">
+		<result property="phoneNo" column="PHONE_NO" />
+		<result property="requestSn" column="REQUEST_SN"/>
+		<result property="orderSn" column="ORDER_ID" />
+		<result property="custName" column="CUST_NAME" />
+		<result property="brandId" column="BRAND_ID" />
+		<result property="invNo" column="INV_NO" />
+		<result property="invCode" column="INV_CODE" />
+		<result property="rInvNo" column="R_INV_NO" />
+		<result property="rInvCode" column="R_INV_CODE" />
+		<result property="invDate" column="INV_DATE" />
+		<result property="invType" column="INV_TYPE" />
+		<result property="invFee" column="INV_FEE" />
+		<result property="state" column="STATE" />
+		<result property="errMsg" column="ERR_MSG" />
+		<result property="opTime" column="OP_TIME" />
+	</resultMap>
+	<select id="qryInfoByPhone"  parameterClass="Map" resultMap="InvInvoEntry">
+   		SELECT PHONE_NO,
+       REQUEST_SN,
+       ORDER_ID,
+       CUST_NAME,
+       BRAND_ID,
+       INV_NO,
+       INV_CODE,
+       R_INV_NO,
+       R_INV_CODE,
+       INV_DATE,
+       INV_TYPE,
+       INV_FEE,
+       STATE,
+       ERR_MSG,
+       to_char(OP_TIME,'yyyyMMdd HH24MISS') AS OP_TIME
+  FROM in_einvoiceprint_info
+   WHERE op_time BETWEEN TO_DATE (#YEAR_MONTH# || '01', 'yyyymmdd') AND LAST_DAY (TO_DATE (#YEAR_MONTH#, 'yyyymm'))
+       	 AND PHONE_NO = #PHONE_NO#
+  	</select>
+	
+</sqlMap>

@@ -1,0 +1,658 @@
+ajaxContractNo.jsp: <wtc:utype name="sCreateContract" id="retVal" scope="end">
+ajaxContractNo.jsp:	 <wtc:uparam value="0" type="LONG" />
+ajaxContractNo.jsp:	 <wtc:uparam name="accountId" type="LONG" />
+ajaxContractNo.jsp:	 <wtc:uparam name="gCustId" type="LONG" />
+ajaxContractNo.jsp:	 <wtc:uparam value="<%=new_custPwd%>" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="accountName" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="belongCode" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="beginDate" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="beginDate" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam value="0" type="INT" />
+ajaxContractNo.jsp:	 <wtc:uparam value="A" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="payCode" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="bankCode" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="postCode" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam value="<%=accountNo%>" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="accountType" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="unitCode" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam value="0" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="beginDate" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="endDate" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="opCode" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam value="0" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam value="0" type="DOUBLE" />
+ajaxContractNo.jsp:	 <wtc:uparam value="ZZ" type="STRING" /> 	
+ajaxContractNo.jsp:	 <wtc:uparam value="0" type="LONG" /> 	
+ajaxContractNo.jsp:	 <wtc:uparam value="" type="STRING" />
+ajaxContractNo.jsp:	 <wtc:uparam name="unitCode" type="STRING" />	
+ajaxContractNo.jsp:	 <wtc:uparam value="<%=workNo%>" type="STRING" />			 	
+ajaxContractNo.jsp:   <wtc:uparam value="帐户开户操作" type="STRING" />	
+ajaxContractNo.jsp:   <wtc:uparam value="<%=ipAddr%>" type="STRING" />	 	
+ajaxContractNo.jsp:   <wtc:uparam value="<%=orgId%>" type="STRING" />	 	
+ajaxContractNo.jsp:   <wtc:uparam value=" " type="STRING"/>	
+ajaxContractNo.jsp:   <wtc:uparam value="<%=groupId%>" type="STRING" />	
+ajaxContractNo.jsp:   <wtc:uparam value="<%=yearMon%>" type="STRING" />		
+ajaxContractNo.jsp:</wtc:utype>
+ajaxGetEPf.jsp:    <wtc:service name="sGetDetailCode" outnum="8" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+ajaxGetEPf.jsp:			<wtc:param value="<%=offerId%>" />
+ajaxGetEPf.jsp:			<wtc:param value="<%=workNo%>" />	
+ajaxGetEPf.jsp:			<wtc:param value="<%=opCodeIn%>" />	
+ajaxGetEPf.jsp:			<wtc:param value=" " />	
+ajaxGetEPf.jsp:		</wtc:service>
+ajaxGetEPf.jsp:		<wtc:array id="result_t33" scope="end"   />
+ajaxOrderCmtChk.jsp: <wtc:utype name="sOrderCmtChk" id="retVal" scope="end">
+ajaxOrderCmtChk.jsp:	 <wtc:uparam value="<%=loginAccept%>" type="LONG" />
+ajaxOrderCmtChk.jsp:	 <wtc:uparam value="<%=offerId%>" type="LONG" />
+ajaxOrderCmtChk.jsp:	 <wtc:uparam value="<%=loginNo%>" type="STRING" />
+ajaxOrderCmtChk.jsp:	 <wtc:uparam value="<%=opCode%>" type="STRING" />
+ajaxOrderCmtChk.jsp:	 <wtc:uparam value="<%=phoneNo%>" type="STRING" />
+ajaxOrderCmtChk.jsp:</wtc:utype>
+ajaxWebOpen.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1ss" retmsg="retMsg1ss" outnum="1">			
+ajaxWebOpen.jsp:	<wtc:param value="<%=inParamsdd[0]%>"/>
+ajaxWebOpen.jsp:	<wtc:param value="<%=inParamsdd[1]%>"/>	
+ajaxWebOpen.jsp:	</wtc:service>	
+ajaxWebOpen.jsp:  <wtc:array id="phoncount" scope="end" />
+ajax_jdugeAreaHidden.jsp:  <wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regCode%>" id="printAccept"/>
+ajax_jdugeAreaHidden.jsp:	<wtc:service name="sOfferAttrCheck" routerKey="regionCode" routerValue="<%=regCode%>" retcode="retCode" retmsg="retMsg" outnum="3">
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=printAccept%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="01"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=opCode%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=workNo%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=password%>"/>
+ajax_jdugeAreaHidden.jsp:		<wtc:param value="<%=phoneNo%>"/>
+ajax_jdugeAreaHidden.jsp:	  <wtc:param value=""/>
+ajax_jdugeAreaHidden.jsp:	  <wtc:param value="<%=offerId%>"/>
+ajax_jdugeAreaHidden.jsp:	</wtc:service>
+ajax_jdugeAreaHidden.jsp:	<wtc:array id="result1" start="0" length="1"  scope="end"/>
+ajax_jdugeAreaHidden.jsp:	<wtc:array id="result2" start="1" length="2"  scope="end"/>
+checkBatchSIM.jsp:<wtc:service name="sQryMulPhSimEx" outnum="8">
+checkBatchSIM.jsp:			<wtc:param value="" />
+checkBatchSIM.jsp:			<wtc:param value="" />	
+checkBatchSIM.jsp:			<wtc:param value="" />
+checkBatchSIM.jsp:			<wtc:param value="" />	
+checkBatchSIM.jsp:			<wtc:param value="<%=brandId%>" />			
+checkBatchSIM.jsp:			<wtc:param value="<%=opCode%>" />
+checkBatchSIM.jsp:			<wtc:param value="<%=groupId%>" />
+checkBatchSIM.jsp:			<wtc:param value="" />
+checkBatchSIM.jsp:			<wtc:param value="<%=simFlag%>" />
+checkBatchSIM.jsp:			<wtc:param value="0" />
+checkBatchSIM.jsp:			<wtc:param value="10" />	
+checkBatchSIM.jsp:			<wtc:param value="<%=fileName%>"/>
+checkBatchSIM.jsp:			<wtc:param value="" />
+checkBatchSIM.jsp:			<wtc:param value="" />
+checkBatchSIM.jsp:			<wtc:param value="" />
+checkBatchSIM.jsp:			<wtc:param value="<%=belongCode%>" />				
+checkBatchSIM.jsp:</wtc:service>
+checkBatchSIM.jsp:<wtc:array id="rows" scope="end" />
+checkBatchSIM.jsp:<wtc:array id="rows2" start="2" length="1" scope="end"/> 
+checkBatchSIM.jsp:<wtc:array id="rows3" start="3" length="1" scope="end"/> 
+checkLastIDNO.jsp:		<wtc:service name="sCheckXHKHState" routerKey="region" routerValue="<%=regionCode%>"
+checkLastIDNO.jsp:				<wtc:param value="0"/>
+checkLastIDNO.jsp:				<wtc:param value="01"/>
+checkLastIDNO.jsp:				<wtc:param value="1104"/>
+checkLastIDNO.jsp:				<wtc:param value="<%=workNo%>"/>
+checkLastIDNO.jsp:				<wtc:param value="<%=password%>"/>
+checkLastIDNO.jsp:				<wtc:param value="<%=newphone1%>"/>
+checkLastIDNO.jsp:				<wtc:param value=""/>
+checkLastIDNO.jsp:				<wtc:param value="对号码进行身份证类型和号码是否是最后一次使用的进行校验"/>
+checkLastIDNO.jsp:				<wtc:param value="<%=idnos%>"/>
+checkLastIDNO.jsp:			</wtc:service>
+checkLastIDNO.jsp:		<wtc:array id="ret" scope="end"/>
+checkLimit.jsp:	<wtc:utype name="sPMQProdlimit" id="retVal" scope="end" >
+checkLimit.jsp:		<wtc:uparams>
+checkLimit.jsp:				<wtc:uparam value="<%=workNo%>" type="STRING" />
+checkLimit.jsp:				<wtc:uparam value="<%=opCode%>" type="STRING" />
+checkLimit.jsp:				<wtc:uparam value="<%=prodId%>" type="LONG" />
+checkLimit.jsp:				<wtc:uparam value="<%=iOprType%>" type="INT" />
+checkLimit.jsp:				<wtc:uparam value="<%=vQtype%>" type="STRING" />
+checkLimit.jsp:				<wtc:uparam value="<%=idNo%>" type="STRING" />
+checkLimit.jsp:		</wtc:uparams>			
+checkLimit.jsp:	</wtc:utype>	
+checkRealUserNum.jsp:	<wtc:service name="sActualUserChk" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="1">
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[0]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[1]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[2]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[3]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[4]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[5]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[6]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[7]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[8]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[9]%>"/>
+checkRealUserNum.jsp:			<wtc:param value="<%=inputParsm[10]%>"/>
+checkRealUserNum.jsp:	</wtc:service>
+checkRealUserNum.jsp:	<wtc:array id="ret" scope="end"/>
+checkSIM.jsp:		<wtc:pubselect name="sPubSelect" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+checkSIM.jsp:  	 <wtc:sql><%=smCodeSql%></wtc:sql>
+checkSIM.jsp: 	  </wtc:pubselect>
+checkSIM.jsp:	 <wtc:array id="result_t1" scope="end"/>
+checkSIM.jsp:		<wtc:pubselect name="sPubSelect" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+checkSIM.jsp:  	 <wtc:sql><%=simTypeSql%></wtc:sql>
+checkSIM.jsp: 	  </wtc:pubselect>
+checkSIM.jsp:	 <wtc:array id="result_t2" scope="end"/>	 	
+checkSIM.jsp:    <wtc:service name="sChekPhoneSimNo" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+checkSIM.jsp:			<wtc:param value="<%=phoneNo%>" />
+checkSIM.jsp:			<wtc:param value="<%=orgCode%>" />
+checkSIM.jsp:			<wtc:param value="<%=resultSmcode%>" />					
+checkSIM.jsp:			<wtc:param value="<%=simCode%>" />
+checkSIM.jsp:			<wtc:param value="<%=resultSimtype%>" />		
+checkSIM.jsp:		</wtc:service>
+checkSIM.jsp:		<wtc:array id="result_t3" scope="end"/>
+chkPrintNew.jsp:       <wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regioncode%>"  retcode="retCode" retmsg="retMessage" outnum="2">
+chkPrintNew.jsp:		<wtc:sql><%=sqlStr%></wtc:sql>
+chkPrintNew.jsp:		</wtc:pubselect>
+chkPrintNew.jsp:		<wtc:array id="result" scope="end" />
+complexPro.jsp:<wtc:utype name="sQCompMemInfo" id="retVal" scope="end">
+complexPro.jsp:			<wtc:uparam value="<%=com_pro_intId%>" type="long"/>
+complexPro.jsp:			<wtc:uparam value="<%=com_pro_id%>" type="long"/>
+complexPro.jsp:</wtc:utype>
+complexPro_ajax.jsp:            <wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode2" retmsg="retMsg2"  outnum="2">
+complexPro_ajax.jsp:                <wtc:sql><%=sqlStr2%></wtc:sql>
+complexPro_ajax.jsp:            </wtc:pubselect>
+complexPro_ajax.jsp:            <wtc:array id="retVal2" scope="end" />
+complexPro_ajax.jsp:            <wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg"  outnum="1">
+complexPro_ajax.jsp:                <wtc:sql><%=sqlStr%></wtc:sql>
+complexPro_ajax.jsp:            </wtc:pubselect>
+complexPro_ajax.jsp:            <wtc:array id="retVal" scope="end" />
+confm_new.jsp:		<wtc:service name="sm317Cfm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode_sTSInfoBack" retmsg="retMessage_sTSInfoBack" outnum="1"> 
+confm_new.jsp:		    <wtc:param value=""/>
+confm_new.jsp:				<wtc:param value="01"/>
+confm_new.jsp:				<wtc:param value="<%=opCode%>"/>
+confm_new.jsp:				<wtc:param value="<%=workNo%>"/>
+confm_new.jsp:				<wtc:param value="<%=password%>"/>
+confm_new.jsp:				<wtc:param value="<%=serviceNo%>"/>
+confm_new.jsp:			  <wtc:param value=""/>
+confm_new.jsp:		  </wtc:service>  
+confm_new.jsp:		  <wtc:array id="result_sTSInfoBack"  scope="end"/>
+confm_new.jsp:	<wtc:utype name="sGetSeqNo" id="retSeqNo" scope="end"  routerKey="region" routerValue="<%=regionCode_sGetSeqNo%>">
+confm_new.jsp:		<wtc:uparam value="<%=innerNoSeq%>" type="int"/>
+confm_new.jsp:		<wtc:uparam value="<%=regionCode%>" type="string"/>
+confm_new.jsp:		<wtc:uparam value="xx" type="string"/>
+confm_new.jsp:	</wtc:utype>		
+confm_new.jsp:<wtc:service name="sDynSqlCfm" outnum="1">
+confm_new.jsp:	<wtc:param value="13"/>
+confm_new.jsp:</wtc:service>	
+confm_new.jsp:<wtc:array id="rows" scope="end" />
+confm_new.jsp:<wtc:service name="sDynSqlCfm" outnum="1">
+confm_new.jsp:	<wtc:param value="28"/>
+confm_new.jsp:</wtc:service>	
+confm_new.jsp:<wtc:array id="result" scope="end" />
+confm_new.jsp:				<wtc:pubselect name="sPubSelect" outnum="1" retcode="retCode2" retmsg="retMsg2">
+confm_new.jsp:					<wtc:sql><%=searchSql%></wtc:sql>
+confm_new.jsp:				</wtc:pubselect>
+confm_new.jsp:				<wtc:array id="result2" scope="end"/>
+confm_new.jsp:<wtc:utype name="sCBatMultiUser" id="retVal"  routerKey="region" routerValue="<%=regionCode_sCBatMultiUser%>">
+confm_new.jsp:	<wtc:uparam value="<%=ctrlInfoUtype%>" type="UTYPE"/> 
+confm_new.jsp:	<wtc:uparam value="<%=batchDataListUtype%>" type="UTYPE"/>
+confm_new.jsp:	<wtc:uparam value="<%=msgBodyTypeUtype%>" type="UTYPE"/>
+confm_new.jsp:</wtc:utype>
+confm_new.jsp:    <wtc:service name="s4603Cfm" outnum="1" retmsg="msgs4603Cfm" retcode="codes4603Cfm" routerKey="region" routerValue="<%=regionCode%>">
+confm_new.jsp:      <wtc:param value="<%=paraAray[0]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[1]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[2]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[3]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[4]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[5]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[6]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[7]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray[8]%>" />
+confm_new.jsp:		</wtc:service>
+confm_new.jsp:		<wtc:service name="s2417Cfm" outnum="1" retmsg="msgs2417Cfm" retcode="codes2417Cfm" routerKey="region" routerValue="<%=regionCode%>">
+confm_new.jsp:      <wtc:param value="<%=paraAray1[0]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[1]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[2]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[3]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[4]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[5]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[6]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[7]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[8]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[9]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[10]%>" />
+confm_new.jsp:			<wtc:param value="<%=paraAray1[11]%>" />
+confm_new.jsp:		</wtc:service>
+f1100_getId.jsp:	<wtc:service name="spubGetId" routerKey="region" routerValue="<%=region_code%>" retCode="retCode1" retMsg="retMsg1" outnum="3" >
+f1100_getId.jsp:	<wtc:param value="<%=region_code%>"/>
+f1100_getId.jsp:	<wtc:param value="<%=idType%>"/>
+f1100_getId.jsp:	<wtc:param value="<%=oldId%>"/>
+f1100_getId.jsp:	</wtc:service>
+f1100_getId.jsp:	<wtc:array id="result" scope="end"/>
+f1104Ajax.jsp:		<wtc:service name="sWLWOffCheck" routerKey="regionCode" routerValue="<%=regionCode%>" retcode="errCode1" retmsg="errMsg1"  outnum="2">
+f1104Ajax.jsp:			<wtc:param value="<%=iLoginAccept%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iChnSource%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iOpCode%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iLoginNo%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iLoginPwd%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iPhoneNo%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iUserPwd%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iOfferIdStr%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iFlagStr%>"/>
+f1104Ajax.jsp:			<wtc:param value="<%=iOfferStateStr%>"/>	
+f1104Ajax.jsp:		</wtc:service>
+f1104Ajax.jsp:		<wtc:array id="result1" scope="end"/>
+f1104_5.jsp:	    <wtc:service name="sChekPhoneSimNo" routerKey="region" routerValue="<%=region_code%>"  retcode="ret_code" retmsg="ret_message"  outnum="4" >
+f1104_5.jsp:        <wtc:params value="<%=paraStrIn%>"/>
+f1104_5.jsp:		</wtc:service>
+f1104_5.jsp:		<wtc:array id="retStr" scope="end" />
+f1104_5.jsp:			<wtc:service name="sGoodNoCheck" routerKey="region" routerValue="<%=region_code%>" retcode="retCode12" retmsg="retMsg12" outnum="10" >
+f1104_5.jsp:        	<wtc:param value="<%=sIn_Phone_no%>"/>
+f1104_5.jsp:        	<wtc:param value="<%=sIn_workno%>"/> 
+f1104_5.jsp:        </wtc:service>
+f1104_5.jsp:      <wtc:array id="retArr12" scope="end"/>
+f1104_5.jsp:				<wtc:pubselect name="sPubSelect"  routerKey="region" routerValue="<%=region_code%>" outnum="1">
+f1104_5.jsp:					<wtc:sql><%=judgeDxpay%></wtc:sql>
+f1104_5.jsp:				</wtc:pubselect>
+f1104_5.jsp:				<wtc:array id="resultx" scope="end" />
+f1104_5.jsp:	<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=region_code%>"  retcode="retCode" retmsg="retMsg" outnum="1">
+f1104_5.jsp:	<wtc:sql><%=sql%></wtc:sql>
+f1104_5.jsp:	</wtc:pubselect>
+f1104_5.jsp:	<wtc:array id="result9" scope="end" />		
+fgetsimno_1104.jsp:	<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regioncode%>"  retcode="return_code" retmsg="return_message" outnum="5">
+fgetsimno_1104.jsp:	<wtc:sql><%=sqlStr%></wtc:sql>
+fgetsimno_1104.jsp:	</wtc:pubselect>
+fgetsimno_1104.jsp:	<wtc:array id="result" scope="end" />
+fgetsimran_1104.jsp:		<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=region_code%>"  retcode="retCode" retmsg="retMessage" outnum="1">
+fgetsimran_1104.jsp:		<wtc:sql><%=sqln%></wtc:sql>
+fgetsimran_1104.jsp:		</wtc:pubselect>
+fgetsimran_1104.jsp:		<wtc:array id="result" scope="end" />
+fgetsimran_1104.jsp:		<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=region_code%>"  retcode="retCode1" retmsg="retMessage1" outnum="1">
+fgetsimran_1104.jsp:		<wtc:sql><%=sqlnod%></wtc:sql>
+fgetsimran_1104.jsp:		</wtc:pubselect>
+fgetsimran_1104.jsp:		<wtc:array id="resultn" scope="end" />
+fgetsimran_1104.jsp:   				<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=region_code%>"  retcode="retCode" retmsg="retMessage" outnum="4">
+fgetsimran_1104.jsp:				<wtc:sql><%=sq1%></wtc:sql>
+fgetsimran_1104.jsp:				</wtc:pubselect>
+fgetsimran_1104.jsp:				<wtc:array id="result" scope="end" />
+fgetwritename_1104.jsp:			<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=region_code%>"  retcode="retCode1" retmsg="retMsg1" outnum="1">
+fgetwritename_1104.jsp:			<wtc:sql><%=sqcard%></wtc:sql>
+fgetwritename_1104.jsp:			</wtc:pubselect>
+fgetwritename_1104.jsp:			<wtc:array id="result1" scope="end" />
+fjysimtyp_1104.jsp:<wtc:service name="scardver" routerKey="regionCode" routerValue="<%=region_code%>"  retcode="retCode" retmsg="retMessage"  outnum="2" >
+fjysimtyp_1104.jsp:			        <wtc:params value="<%=inputParam%>"/>
+fjysimtyp_1104.jsp:			        <wtc:param value="<%=outputNumber%>"/>
+fjysimtyp_1104.jsp:			         <wtc:param value="phone"/>
+fjysimtyp_1104.jsp:			        <wtc:param value="<%=inputParam[0]%>"/>
+fjysimtyp_1104.jsp:			</wtc:service>
+fjysimtyp_1104.jsp:			<wtc:array id="result" scope="end" />
+fsavecard_1104.jsp:          <wtc:service name="supdatecard" routerKey="regioncode" routerValue="<%=region_code%>"  retcode="errCode" retmsg="errMsg"  outnum="<%=outputNumber%>" >
+fsavecard_1104.jsp:			    <wtc:params value="<%=inputParam%>"/>
+fsavecard_1104.jsp:			</wtc:service>
+fsavecard_1104.jsp:			<wtc:array id="result" scope="end" />
+fwritecard.jsp:       <wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regioncode%>"  retcode="retCode" retmsg="retMessage" outnum="2">
+fwritecard.jsp:		<wtc:sql><%=sqlStr%></wtc:sql>
+fwritecard.jsp:		</wtc:pubselect>
+fwritecard.jsp:		<wtc:array id="result" scope="end" />
+getAgentInfo.jsp:<wtc:pubselect name="sPubSelect" outnum="4">
+getAgentInfo.jsp:	<wtc:sql><%=sqlStr%></wtc:sql>
+getAgentInfo.jsp:</wtc:pubselect>
+getAgentInfo.jsp:<wtc:array id="result" scope="end"/>
+getContractNo.jsp:<wtc:utype name="sQryCustCons" id="retVal" scope="end">
+getContractNo.jsp:     <wtc:uparam value="<%=gCustId%>" type="LONG"/>
+getContractNo.jsp:</wtc:utype>
+getGdNumBindOfferIds.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+getGdNumBindOfferIds.jsp:	<wtc:sql><%=sqlStr%></wtc:sql> 
+getGdNumBindOfferIds.jsp:</wtc:pubselect>
+getGdNumBindOfferIds.jsp:<wtc:array id="result1" scope="end"/>
+getHlrCode.jsp:<wtc:service name="TlsPubSelCrm" outnum="1">
+getHlrCode.jsp:	<wtc:param value="<%=sql_select1%>"/>
+getHlrCode.jsp:	<wtc:param value="<%=srv_params1%>"/>
+getHlrCode.jsp:</wtc:service>
+getHlrCode.jsp:<wtc:array id="result" scope="end"/>
+getIdNo.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+getIdNo.jsp:	<wtc:sql><%=sqlStr%></wtc:sql> 
+getIdNo.jsp:</wtc:pubselect>
+getIdNo.jsp:<wtc:array id="result1" scope="end"/>
+getInnetScheme.jsp:<wtc:pubselect name="sPubSelect" outnum="2">
+getInnetScheme.jsp:   <wtc:sql><%=sqlStr%></wtc:sql>
+getInnetScheme.jsp:</wtc:pubselect>
+getInnetScheme.jsp:<wtc:array id="rows" scope="end" />
+getMajorProd.jsp:<wtc:utype name="sMainProd" id="retVal" scope="end">
+getMajorProd.jsp:	<wtc:uparam value="<%=offerId%>" type="long"/>   
+getMajorProd.jsp:</wtc:utype>
+getMasterServType.jsp:<wtc:utype name="sGetMastServer" id="retVal" scope="end">
+getMasterServType.jsp:	<wtc:uparam value="<%=majorProductId%>" type="LONG"/> 
+getMasterServType.jsp:</wtc:utype>
+getMasterServType.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+getMasterServType.jsp:  <wtc:sql><%=sqlStr%></wtc:sql>
+getMasterServType.jsp:</wtc:pubselect>
+getMasterServType.jsp:<wtc:array id="rows" scope="end"/>
+getMemberId.jsp:<wtc:service name="sDynSqlCfm" outnum="3">
+getMemberId.jsp:  <wtc:param value="12"/>
+getMemberId.jsp:</wtc:service>
+getMemberId.jsp:<wtc:array id="result1" scope="end"/>
+getNewMebAttr.jsp:<wtc:utype name="sQMebAttrShow" id="retVal" scope="end">  
+getNewMebAttr.jsp:	<wtc:uparam value="<%=mebRoleId%>" type="LONG"/>   
+getNewMebAttr.jsp:</wtc:utype>
+getOfferAttr.jsp:<wtc:utype name="sGetAttrPage" id="retVal" scope="end">
+getOfferAttr.jsp:	<wtc:uparam value="0" type="STRING"/>   
+getOfferAttr.jsp:	<wtc:uparam value="<%=OfferId%>" type="LONG"/> 
+getOfferAttr.jsp:</wtc:utype>
+getOfferRel.jsp:<wtc:utype name="sQryOfferRel" id="retVal" scope="end">
+getOfferRel.jsp:	<wtc:uparam value="<%=sendInfo%>" type="UTYPE"/>  	 
+getOfferRel.jsp:</wtc:utype>
+getProdAttr.jsp:<wtc:utype name="sGetAttrPage" id="retVal" scope="end">
+getProdAttr.jsp:	<wtc:uparam value="1" type="STRING"/>   
+getProdAttr.jsp:	<wtc:uparam value="<%=majorProductId%>" type="LONG"/>   
+getProdAttr.jsp:</wtc:utype>
+getProdCompDet.jsp:<wtc:utype name="sProdCompDet" id="retVal" scope="end">
+getProdCompDet.jsp:	<wtc:uparam value="<%=majorProductId%>" type="long"/> 
+getProdCompDet.jsp:	<wtc:uparam value="<%=offerId%>" type="long"/>   	  
+getProdCompDet.jsp:	<wtc:uparam value="<%=workNo%>" type="string"/>   	  
+getProdCompDet.jsp:	<wtc:uparam value="<%=opCode%>" type="string"/> 
+getProdCompDet.jsp:	<wtc:uparam value="<%=selOfferType%>" type="string"/>
+getProdCompDet.jsp:	<wtc:uparam value="<%=sopcodes%>" type="string"/>
+getProdCompDet.jsp:</wtc:utype>
+getProdCompRel.jsp: <wtc:utype name="sGetCompRel" id="retVal" scope="end"> 
+getProdCompRel.jsp:	<wtc:uparam value="<%=majorProductId%>" type="LONG"/>   
+getProdCompRel.jsp:</wtc:utype>
+getServiceGroupId.jsp:<wtc:pubselect name="sPubSelect"  outnum="4">
+getServiceGroupId.jsp:	<wtc:sql><%=sql%></wtc:sql>
+getServiceGroupId.jsp:</wtc:pubselect>
+getServiceGroupId.jsp:<wtc:array id="result" scope="end"/>	
+getServiceGroupId.jsp:<wtc:pubselect name="sPubSelect"  outnum="4">
+getServiceGroupId.jsp:	<wtc:sql><%=sqlStr.toString()%></wtc:sql>
+getServiceGroupId.jsp:</wtc:pubselect>
+getServiceGroupId.jsp:<wtc:array id="adds" scope="end"/>
+getServiceManagerId.jsp:<wtc:pubselect name="sPubSelect" outnum="2">
+getServiceManagerId.jsp:	<wtc:sql><%=sqlStr%></wtc:sql>
+getServiceManagerId.jsp:</wtc:pubselect>
+getServiceManagerId.jsp:<wtc:array id="result" scope="end" />
+getUserGroupId.jsp:<wtc:pubselect name="sPubSelect"  outnum="4">
+getUserGroupId.jsp:	<wtc:sql><%=sql%></wtc:sql>
+getUserGroupId.jsp:</wtc:pubselect>
+getUserGroupId.jsp:<wtc:array id="result" scope="end"/>	
+getUserGroupId.jsp:<wtc:pubselect name="sPubSelect"  outnum="4">
+getUserGroupId.jsp:	<wtc:sql><%=sqlStr.toString()%></wtc:sql>
+getUserGroupId.jsp:</wtc:pubselect>
+getUserGroupId.jsp:<wtc:array id="adds" scope="end"/>
+go_sPhoneIDCheck.jsp:		<wtc:service name="<%=serverName%>" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+go_sPhoneIDCheck.jsp:				<wtc:param value="<%=paraAray[i]%>" />
+go_sPhoneIDCheck.jsp:		</wtc:service>
+go_sPhoneIDCheck.jsp:		<wtc:array id="serverResult" scope="end"  />
+ignoreIn.jsp:<wtc:pubselect name="sPubSelect" outnum="1" retval="retVal00" retCode="retCode00" retMsg="retMsg00">
+ignoreIn.jsp:	<wtc:sql>
+ignoreIn.jsp:	</wtc:sql>
+ignoreIn.jsp:</wtc:pubselect>
+ignoreIn.jsp:<wtc:array id="paramResult" property="retVal00" scope="end"/>
+ignoreThis.jsp:<wtc:utype name="sOrdArryCncl" id="retVal"  routerKey="region" routerValue="<%=regionCode_sOrdArryCncl%>">
+ignoreThis.jsp:	<wtc:uparam value="<%=sOrderArrayId%>" type="STRING"/> 
+ignoreThis.jsp:	<wtc:uparam value="<%=loginNo%>" type="STRING"/>
+ignoreThis.jsp:</wtc:utype>
+isGoodPhoneres.jsp:	 <wtc:pubselect name="sPubSelect" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+isGoodPhoneres.jsp:  	 <wtc:sql><%=countGoodSql%></wtc:sql>
+isGoodPhoneres.jsp: 	  </wtc:pubselect>
+isGoodPhoneres.jsp:	 <wtc:array id="retAtr" scope="end"/>
+limitChk.jsp:	<wtc:utype name="sPMQOfferlimit" id="retVal" scope="end" >
+limitChk.jsp:		<wtc:uparams>
+limitChk.jsp:				<wtc:uparam value="<%=workNo%>" type="STRING" />
+limitChk.jsp:				<wtc:uparam value="<%=opCode%>" type="STRING" />
+limitChk.jsp:				<wtc:uparam value="<%=prodId%>" type="LONG" />
+limitChk.jsp:				<wtc:uparam value="<%=iOprType%>" type="INT" />
+limitChk.jsp:				<wtc:uparam value="<%=vQtype%>" type="STRING" />
+limitChk.jsp:				<wtc:uparam value="<%=idNo%>" type="STRING" />
+limitChk.jsp:		</wtc:uparams>			
+limitChk.jsp:	</wtc:utype>	
+limitChk1.jsp:	<wtc:utype name="sPMQProdlimit" id="retVal" scope="end" >
+limitChk1.jsp:		<wtc:uparams>
+limitChk1.jsp:				<wtc:uparam value="<%=workNo%>" type="STRING" />
+limitChk1.jsp:				<wtc:uparam value="<%=opCode%>" type="STRING" />
+limitChk1.jsp:				<wtc:uparam value="<%=prodId%>" type="LONG" />
+limitChk1.jsp:				<wtc:uparam value="<%=iOprType%>" type="INT" />
+limitChk1.jsp:				<wtc:uparam value="<%=vQtype%>" type="STRING" />
+limitChk1.jsp:				<wtc:uparam value="<%=idNo%>" type="STRING" />
+limitChk1.jsp:		</wtc:uparams>			
+limitChk1.jsp:	</wtc:utype>	
+newContractNo.jsp:<wtc:utype name="sQryCustCons" id="retVal" scope="end">
+newContractNo.jsp:     <wtc:uparam value="<%=gCustId%>" type="LONG"/>
+newContractNo.jsp:</wtc:utype>
+newContractNo.jsp:											<wtc:qoption  name="sPubSelect" outnum="2">
+newContractNo.jsp:												<wtc:sql>select trim(ACCOUNT_TYPE), TYPE_NAME from sAccountType order by ACCOUNT_TYPE</wtc:sql>
+newContractNo.jsp:											</wtc:qoption>
+newContractNo.jsp:												<wtc:qoption  name="sPubSelect"  outnum="2">
+newContractNo.jsp:													<wtc:sql>select trim(PAY_CODE),trim(PAY_CODE)||'-->'||trim(PAY_NAME) from sPayCode where REGION_CODE= '?' order by PAY_CODE</wtc:sql>
+newContractNo.jsp:													<wtc:param value="<%=regionCode.substring(0,2)%>"/> 
+newContractNo.jsp:												</wtc:qoption>
+newContractNo.jsp:											<wtc:qoption   name="sPubSelect" outnum="2">
+newContractNo.jsp:											<wtc:sql>select parent_bank,parent_bank||'->'||bank_name from sparentbank where region_code='?'</wtc:sql>
+newContractNo.jsp:												<wtc:param value="<%=regionCode.substring(0,2)%>"/> 
+newContractNo.jsp:											</wtc:qoption>  
+newContractNoCfm.jsp:<wtc:utype name="sCreateContract" id="retVal" scope="end">
+newContractNoCfm.jsp:	 <wtc:uparam value="0" type="LONG" />
+newContractNoCfm.jsp:	 <wtc:uparam name="accountId" type="LONG" />
+newContractNoCfm.jsp:	 <wtc:uparam name="gCustId" type="LONG" />
+newContractNoCfm.jsp:	 <wtc:uparam value="<%=new_custPwd%>" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="accountName" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="belongCode" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="beginDate" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="beginDate" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam value="0" type="INT" />
+newContractNoCfm.jsp:	 <wtc:uparam value="A" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="payCode" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="bankCode" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="postCode" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam value="<%=accountNo%>" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="accountType" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="unitCode" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam value="0" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="beginDate" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="endDate" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="opCode" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam value="0" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam value="0" type="DOUBLE" />
+newContractNoCfm.jsp:	 <wtc:uparam value="ZZ" type="STRING" /> 	
+newContractNoCfm.jsp:	 <wtc:uparam value="0" type="LONG" /> 	
+newContractNoCfm.jsp:	 <wtc:uparam value="" type="STRING" />
+newContractNoCfm.jsp:	 <wtc:uparam name="unitCode" type="STRING" />	
+newContractNoCfm.jsp:	 <wtc:uparam value="<%=workNo%>" type="STRING" />			 	
+newContractNoCfm.jsp:   <wtc:uparam value="帐户开户操作" type="STRING" />	
+newContractNoCfm.jsp:   <wtc:uparam value="<%=ipAddr%>" type="STRING" />	 	
+newContractNoCfm.jsp:   <wtc:uparam value="<%=orgId%>" type="STRING" />	 	
+newContractNoCfm.jsp:   <wtc:uparam value=" " type="STRING"/>	
+newContractNoCfm.jsp:   <wtc:uparam value="<%=groupId%>" type="STRING" />	
+newContractNoCfm.jsp:   <wtc:uparam value="<%=yearMon%>" type="STRING" />		
+newContractNoCfm.jsp:</wtc:utype>
+offerDetailQry_new.jsp:	  <wtc:service name="sGoodNoCheck" outnum="16" retmsg="retMsg" retcode="retCode" routerKey="region" routerValue="<%=regionCode%>">
+offerDetailQry_new.jsp:			<wtc:param value="<%=goodNo%>" />
+offerDetailQry_new.jsp:			<wtc:param value="<%=workNo%>" />
+offerDetailQry_new.jsp:		</wtc:service>
+offerDetailQry_new.jsp:		<wtc:array id="rows" scope="end" />
+offerDetailQry_new.jsp:<wtc:utype name="sPMGOfferDet" id="retVal" scope="end" routerKey="region" routerValue="<%=regionCode_sPMGOfferDet%>">
+offerDetailQry_new.jsp:	<wtc:uparam value="<%=sendInfo%>" type="UTYPE"/>   
+offerDetailQry_new.jsp:</wtc:utype>
+pubGetSimType.jsp:<wtc:pubselect name="spubqry32" routerKey="region" routerValue="<%=region_code%>"  retcode="retCode" retmsg="retMessage" outnum="4">
+pubGetSimType.jsp:<wtc:sql><%=sq1%></wtc:sql>
+pubGetSimType.jsp:</wtc:pubselect>
+pubGetSimType.jsp:<wtc:array id="result" scope="end" />
+q1104.jsp:		<wtc:service name="sM2mChk" outnum="3"
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = "01"/>
+q1104.jsp:			<wtc:param value = "<%=opCode%>"/>
+q1104.jsp:			<wtc:param value = "<%=workNo%>"/>
+q1104.jsp:			<wtc:param value = "<%=password%>"/>
+q1104.jsp:			<wtc:param value = ""/>	
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = "<%=offerId%>"/>
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:		</wtc:service>
+q1104.jsp:		<wtc:array id="outM2mFlag" scope="end" />
+q1104.jsp:		<wtc:service name="sXYYXInnetChk" outnum="1"
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = "01"/>
+q1104.jsp:			<wtc:param value = "<%=opCode%>"/>
+q1104.jsp:			<wtc:param value = "<%=workNo%>"/>
+q1104.jsp:			<wtc:param value = "<%=password%>"/>			
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = "0"/>	
+q1104.jsp:			<wtc:param value = "<%=gCustId%>"/>	
+q1104.jsp:			<wtc:param value = "<%=offerId%>"/>	
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:		</wtc:service>
+q1104.jsp:		<wtc:array id="rstche11111" scope="end" />
+q1104.jsp:  <wtc:service name="sTSInfoBack" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode_sTSInfoBack" retmsg="retMessage_sTSInfoBack" outnum="1"> 
+q1104.jsp:    <wtc:param value=""/>
+q1104.jsp:		<wtc:param value="01"/>
+q1104.jsp:		<wtc:param value="<%=opCode%>"/>
+q1104.jsp:		<wtc:param value="<%=workNo%>"/>
+q1104.jsp:		<wtc:param value="<%=password%>"/>
+q1104.jsp:		<wtc:param value="<%=myActivePhone%>"/>
+q1104.jsp:	  <wtc:param value=""/>
+q1104.jsp:	  <wtc:param value="<%=offerId%>"/>
+q1104.jsp:  </wtc:service>  
+q1104.jsp:  <wtc:array id="result_sTSInfoBack"  scope="end"/>
+q1104.jsp:  <wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode_mail" retmsg="retMessage_mail" outnum="1"> 
+q1104.jsp:    <wtc:param value="<%=inParamsMail[0]%>"/>
+q1104.jsp:    <wtc:param value="<%=inParamsMail[1]%>"/> 
+q1104.jsp:  </wtc:service>  
+q1104.jsp:  <wtc:array id="result_mail"  scope="end"/>
+q1104.jsp:  	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode_migu" retmsg="retMessage_migu" outnum="1"> 
+q1104.jsp:    <wtc:param value="<%=inParamsMigu[0]%>"/>
+q1104.jsp:    <wtc:param value="<%=inParamsMigu[1]%>"/> 
+q1104.jsp:  </wtc:service>  
+q1104.jsp:  <wtc:array id="result_migu"  scope="end"/>
+q1104.jsp:  	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode_carsave" retmsg="retMessage_carsave" outnum="1"> 
+q1104.jsp:    <wtc:param value="<%=inParamsCarSave[0]%>"/>
+q1104.jsp:    <wtc:param value="<%=inParamsCarSave[1]%>"/> 
+q1104.jsp:  </wtc:service>  
+q1104.jsp:  <wtc:array id="result_carsave"  scope="end"/>
+q1104.jsp:  <wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode_mail22" retmsg="retMessage_mail22" outnum="1"> 
+q1104.jsp:    <wtc:param value="<%=inParamsMail22[0]%>"/>
+q1104.jsp:    <wtc:param value="<%=inParamsMail22[1]%>"/> 
+q1104.jsp:  </wtc:service>
+q1104.jsp:<wtc:array id="result_kxbxs"  scope="end"/>
+q1104.jsp:		<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regionCode%>"  retcode="retCode2312" retmsg="retMsg2312" outnum="1">
+q1104.jsp:			<wtc:sql><%=fszqSqlStr%></wtc:sql>
+q1104.jsp:			</wtc:pubselect>
+q1104.jsp:		<wtc:array id="resultFszq" scope="end" />
+q1104.jsp:    <wtc:service name="sGetDetailCode" outnum="8" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+q1104.jsp:			<wtc:param value="<%=offerId%>" />
+q1104.jsp:			<wtc:param value="<%=workNo%>" />	
+q1104.jsp:			<wtc:param value="<%=opCode%>" />	
+q1104.jsp:		</wtc:service>
+q1104.jsp:		<wtc:array id="result_t33" scope="end"   />
+q1104.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+q1104.jsp:		<wtc:sql><%=offerNameById%></wtc:sql>
+q1104.jsp:</wtc:pubselect>
+q1104.jsp:<wtc:array id="result22" scope="end"/>
+q1104.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+q1104.jsp:		<wtc:sql>select province_code from sProvinceCode where run_flag='Y'</wtc:sql>
+q1104.jsp:</wtc:pubselect>
+q1104.jsp:<wtc:array id="_region_flag">
+q1104.jsp:</wtc:array>
+q1104.jsp:<wtc:pubselect name="sPubSelect" outnum="2">
+q1104.jsp:	<wtc:sql><%=sqlStr%></wtc:sql>
+q1104.jsp:</wtc:pubselect>	
+q1104.jsp:<wtc:array id="result1" scope="end"/>
+q1104.jsp:<wtc:utype name="sPMQPrdOffer" id="retVal" scope="end"  routerKey="region" routerValue="<%=regionCode_sPMQPrdOffer%>">	
+q1104.jsp:	<wtc:uparam value="<%=offerId%>" type="LONG"/>
+q1104.jsp:</wtc:utype>	
+q1104.jsp:<wtc:utype name="sQOrderGrp" id="retGrpVal" scope="end"  routerKey="region" routerValue="<%=regionCode_sQOrderGrp%>">	
+q1104.jsp:	<wtc:uparam value="<%=custOrderId%>" type="STRING"/>
+q1104.jsp:	<wtc:uparam value="<%=orderArrayId%>" type="STRING"/>
+q1104.jsp:</wtc:utype>	
+q1104.jsp:		<wtc:pubselect name="sPubSelect" outnum="3">
+q1104.jsp:			<wtc:sql><%=sqlStr1%></wtc:sql>
+q1104.jsp:		</wtc:pubselect>	
+q1104.jsp:		<wtc:array id="result2" scope="end"/>
+q1104.jsp:<wtc:utype name="sGetOrdAryData" id="retOrdAryVal" scope="end"  routerKey="region" routerValue="<%=regionCode_sGetOrdAryData%>">	
+q1104.jsp:	<wtc:uparam value="<%=orderArrayId%>" type="STRING"/>
+q1104.jsp:</wtc:utype>	
+q1104.jsp:	<wtc:pubselect name="sPubSelect" routerKey="region" routerValue="<%=regionCode%>"  retcode="retCode2" retmsg="retMsg2" outnum="1">
+q1104.jsp:	<wtc:sql><%=strSql%></wtc:sql>
+q1104.jsp:	</wtc:pubselect>
+q1104.jsp:	<wtc:array id="resultCard" scope="end" />
+q1104.jsp:<wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regionCode%>"  id="sysAcceptl" /> 
+q1104.jsp:		<wtc:service name="sCustIdIccIdChk" outnum="30"
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = "01"/>
+q1104.jsp:			<wtc:param value = "<%=opCode%>"/>
+q1104.jsp:			<wtc:param value = "<%=workNo%>"/>
+q1104.jsp:			<wtc:param value = "<%=password%>"/>			
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = ""/>
+q1104.jsp:			<wtc:param value = "<%=notessss%>"/>	
+q1104.jsp:			<wtc:param value = "<%=gCustId%>"/>	
+q1104.jsp:		</wtc:service>
+q1104.jsp:		<wtc:array id="rstcheckssss" scope="end" />
+q1104.jsp:		<wtc:pubselect name="sPubSelect" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+q1104.jsp:  	 <wtc:sql><%=smCodeSql%></wtc:sql>
+q1104.jsp: 	  </wtc:pubselect>
+q1104.jsp:	 <wtc:array id="result_t1" scope="end"/>
+q1104.jsp:	<wtc:service name="sUserCustInfo" outnum="100" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+q1104.jsp:			<wtc:param value="0" />
+q1104.jsp:			<wtc:param value="01" />	
+q1104.jsp:			<wtc:param value="1104" />	
+q1104.jsp:			<wtc:param value="<%=workNo%>" />
+q1104.jsp:			<wtc:param value="<%=password%>" />
+q1104.jsp:			<wtc:param value="" />
+q1104.jsp:			<wtc:param value="" />
+q1104.jsp:			<wtc:param value="<%=ipAddrss1%>" />
+q1104.jsp:			<wtc:param value="<%=beizhussdese1%>" />
+q1104.jsp:			<wtc:param value="<%=gCustId%>" />
+q1104.jsp:</wtc:service>
+q1104.jsp:<wtc:array id="result_custInfo" scope="end"/>	
+q1104.jsp:	 	<wtc:pubselect name="sPubSelect" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+q1104.jsp:  	 <wtc:sql><%=sqlOfferExpDate%></wtc:sql>
+q1104.jsp: 	  </wtc:pubselect>
+q1104.jsp:	 <wtc:array id="result_ExpDateSet" scope="end"/>
+q1104.jsp:	 	<wtc:sequence name="sPubSelect" key="sMaxSysAccept" routerKey="region" routerValue="<%=regionCode%>" id="printAccept"/>
+q1104.jsp:  <wtc:service name="sBLKOfferCheck" outnum="2" retmsg="blkMsg" retcode="blkCode" routerKey="region" routerValue="<%=regionCode%>">
+q1104.jsp:		<wtc:param value=""/>
+q1104.jsp:		<wtc:param value="01"/>
+q1104.jsp:		<wtc:param value="<%=opCode%>"/>
+q1104.jsp:		<wtc:param value="<%=workNo%>"/>
+q1104.jsp:		<wtc:param value="<%=password%>"/>
+q1104.jsp:		<wtc:param value="<%=myActivePhone%>"/>
+q1104.jsp:	  	<wtc:param value=""/>
+q1104.jsp:	  	<wtc:param value="<%=offerId%>"/>
+q1104.jsp:	</wtc:service>
+q1104.jsp:	<wtc:array id="result_mainK" scope="end"/>
+queryOfferTraffic.jsp:		<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1ss" retmsg="retMsg1ss" outnum="1">			
+queryOfferTraffic.jsp:		<wtc:param value="<%=inParamsss1[0]%>"/>
+queryOfferTraffic.jsp:		<wtc:param value="<%=inParamsss1[1]%>"/>	
+queryOfferTraffic.jsp:		</wtc:service>	
+queryOfferTraffic.jsp:	  <wtc:array id="dcustarry" scope="end" />
+savePrintInfos.jsp:<wtc:service name="sPrintInfoOpr" outnum="1"  routerKey="region" routerValue="<%=regCode%>" retcode="retCode" retmsg="retMsg">
+savePrintInfos.jsp:			<wtc:param value="0" />
+savePrintInfos.jsp:			<wtc:param value="01" />	
+savePrintInfos.jsp:			<wtc:param value="<%=opcode%>" />	
+savePrintInfos.jsp:			<wtc:param value="<%=loginNo%>" />
+savePrintInfos.jsp:			<wtc:param value="<%=loginNoPass%>" />
+savePrintInfos.jsp:			<wtc:param value="" />
+savePrintInfos.jsp:			<wtc:param value="" />
+savePrintInfos.jsp:			<wtc:param value="<%=path%>" />
+savePrintInfos.jsp:			<wtc:param value="<%=sOrderArrayId%>" />
+savePrintInfos.jsp:			<wtc:param value="<%=optype%>" />
+savePrintInfos.jsp:</wtc:service>
+savePrintInfos.jsp:<wtc:array id="baseArr" scope="end"/>
+showAttr.jsp:<wtc:utype name="sGetAttrPage" id="retVal" scope="end">
+showAttr.jsp:	<wtc:uparam value="<%=queryTypeId%>" type="STRING"/>   
+showAttr.jsp:	<wtc:uparam value="<%=queryIdTemp%>" type="LONG"/>   
+showAttr.jsp:</wtc:utype>
+showGroup.jsp:	<wtc:service name="sDynSqlCfm" outnum="3">
+showGroup.jsp:	  <wtc:param value="27"/>
+showGroup.jsp:	</wtc:service>
+showGroup.jsp:	<wtc:array id="result" scope="end"/>
+showGroup.jsp:<wtc:pubselect name="sPubSelect" outnum="1">
+showGroup.jsp:  <wtc:sql><%=sqlStr%></wtc:sql>
+showGroup.jsp:</wtc:pubselect>
+showGroup.jsp:<wtc:array id="rows" scope="end"/>
+showGroup.jsp:<wtc:utype name="sQGrpAttrDet" id="retVal" scope="end">
+showGroup.jsp:	<wtc:uparam value="<%=groupTypeId%>" type="LONG"/>   
+showGroup.jsp:</wtc:utype>
+showGroup.jsp:<wtc:utype name="sPMQGrpMebType" id="retTypeVal" scope="end">  
+showGroup.jsp:</wtc:utype>
+showGroup.jsp:<wtc:utype name="sPMQGrpInsRole" id="retInsVal" scope="end">
+showGroup.jsp:	<wtc:uparam value="<%=groupTypeId%>" type="LONG"/>
+showGroup.jsp:</wtc:utype>
+upLoadFile.jsp:						   	<wtc:service name="s2204Write"  outnum="2">
+upLoadFile.jsp:								<wtc:param value="<%=fileName%>"/>
+upLoadFile.jsp:								<wtc:param value="<%=phoneText%>"/>
+upLoadFile.jsp:							</wtc:service>	
+upLoadFile.jsp:			    <wtc:service name="s2204Write"  outnum="2">
+upLoadFile.jsp:						<wtc:param value="<%=fileName%>"/>
+upLoadFile.jsp:						<wtc:param value="<%=phoneText%>"/>
+upLoadFile.jsp:					</wtc:service>	

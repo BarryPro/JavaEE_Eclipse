@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig 
+    PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="256"
+		maxSessions="64" maxTransactions="32" useStatementNamespaces="true" />
+
+	<sqlMap resource="classpath:ibatismap/account/AcContractInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/account/AcContractDeadInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/account/AcContrustInfo.xml" />
+
+	<sqlMap resource="classpath:ibatismap/balance/BalUserExpireInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalDelayRuleConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPaypathConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalAcctBookInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalAcctBookDead.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalAcctBookHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalBookTypeDict.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalLoginoprInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPaymentInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalBookSourceInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalCardinvPrintInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalBookPayoutInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalCycleBegFee.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPaylimitConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalTransfeeInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalTransFeeErr.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalDepositFeeInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalWriteOffYYYYMM.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalWriteplanConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalGrpUserRel.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalGrpUserRelHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalVirtualGrpHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalVirtualGrpInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPayextendInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalGrpfdbusiRecd.xml" /> 
+	<sqlMap resource="classpath:ibatismap/balance/BalBatchPayRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalBatchPayMid.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalInvCollConConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalExpirepaytimeConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPaycardRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPayparameterConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalTotalPayRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalCheckOprRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalCheckMsgInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalCheckMsgInfoHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalCheckPrepayInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalDistrictLimitConf.xml"/>
+	<sqlMap resource="classpath:ibatismap/balance/BalRegionLimitConf.xml"/>
+	<sqlMap resource="classpath:ibatismap/balance/BalUserchgRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalExpirelistRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPaymethodConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalExtFeeRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalGroupchargeRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalGroupchargeErr.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalGroupchargeHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalReturnFeeRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalRecoveryplanConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalUserSignInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalUserSignInfoHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalUserSignAddInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalUserSignAddInfoHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalExtFeeErr.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalUserimeiUseInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalSignAutopayInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalSignAutopayHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalBatchPayInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalReturnacctbookInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalPressPaymentInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalAgentcheckInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalShortMsgInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalShortMsgInfoHis.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalCardpayrequestInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalMkYxzfact.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalSignPayInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalChildruleConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalReturnrelConf.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalImeiFileMsgInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalTransFeeLimit.xml" />
+	<sqlMap resource="classpath:ibatismap/balance/BalTransLimitHis.xml" />
+	
+	<sqlMap resource="classpath:ibatismap/base/BsBankDict.xml" />
+	<sqlMap resource="classpath:ibatismap/base/BsChnGroupDict.xml" />
+	<sqlMap resource="classpath:ibatismap/base/BsChnGroupRel.xml" />
+	<sqlMap resource="classpath:ibatismap/base/BsLoginmsgDict.xml" />
+	<sqlMap resource="classpath:ibatismap/base/BsFunctionDict.xml" />
+
+	<sqlMap resource="classpath:ibatismap/bill/ActUnpayoweInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActDeadOweInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActPayedoweInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActBillMid.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActBillItemMid.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActQueryOprInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActAdjOweInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActBillSchemeInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActBillSchemeConf.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActItemConf.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActBillItemConf.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActBillItemRel.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollbillInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollbillRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActDetailQueryEnterInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActDetailQueryDict.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActObbizbackInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollBillDetInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollConf.xml" /> 
+	<sqlMap resource="classpath:ibatismap/bill/ActCollFileInfo.xml" /> 
+	<sqlMap resource="classpath:ibatismap/bill/ActCollDealInfo.xml" /> 
+	<sqlMap resource="classpath:ibatismap/bill/ActTdGprsDataInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/BalBatchAdj.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActSpInfoInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActDetailLimitConf.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActItemGroupDetail.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActPressPayOweInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollBillAddRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollConDealRecd.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollFileDetInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/bill/ActCollConDealMid.xml" />
+	
+
+	<sqlMap resource="classpath:ibatismap/cust/CtCustInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cust/CtGrpcustInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cust/CtParaTypeValue.xml" />
+	<sqlMap resource="classpath:ibatismap/cust/CtCustManagerRel.xml" />
+	<sqlMap resource="classpath:ibatismap/cust/CtPostBankDict.xml" />
+	<sqlMap resource="classpath:ibatismap/cust/CtAdcGrpCustInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cust/CtTaxpayerInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cust/CtCustContactInfo.xml" />
+	
+
+	<sqlMap resource="classpath:ibatismap/custsvc/CsConuserrelInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsUserdetailInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsUserdetaildeadInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsAccountRel.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsUserPassInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsBusiChgRd.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsCustBillQryInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsUserrelInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsUserAddInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/custsvc/CsFeeawokeaddInfo.xml" />
+
+	<sqlMap resource="classpath:ibatismap/prod/PdPrcDict.xml" />
+	<!-- add by liuhl_bj  -->
+	<sqlMap resource="classpath:ibatismap/prod/PdGoodsPrcDict.xml" />
+	<sqlMap resource="classpath:ibatismap/prod/PdGoodsPrcAttrDict.xml" />
+
+
+	<sqlMap resource="classpath:ibatismap/pub/DUAL.xml" />
+	<sqlMap resource="classpath:ibatismap/pub/PubWrtoffCtrl.xml" />
+	<sqlMap resource="classpath:ibatismap/pub/PubBillCtrl.xml" />
+	<sqlMap resource="classpath:ibatismap/pub/PubIdrouteConf.xml" />
+	<sqlMap resource="classpath:ibatismap/pub/PubCodedefDict.xml" />
+	<sqlMap resource="classpath:ibatismap/pub/PubPhoneRouteConf.xml" />
+	<sqlMap resource="classpath:ibatismap/pub/PushTemplate.xml" />
+
+	<sqlMap resource="classpath:ibatismap/user/UrUserInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUserdeadInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUserbrandRel.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUserprcInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUserprcSPInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrGroupchgInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrBilldayInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUsergroupmbrInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUserSvcAttrTraceInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUserAddInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUsergoodsInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrServaddNumInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrBossToCrmState.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrBosstocrmstateHis.xml" />
+	<sqlMap resource="classpath:ibatismap/user/UrUserSvcTraceInfo.xml" />
+
+ 	<sqlMap resource="classpath:ibatismap/cct/CctCreditchgDetail.xml" />
+ 	<sqlMap resource="classpath:ibatismap/cct/CctCreditInfoChg.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctCreditInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctStopAwakeConf.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctBusinessCtrl.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctGrpCreditInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctDealdataInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctCreditchgHis.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctCreditadjInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctCreditadjHis.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctDynamicCreditInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctAvoidStopInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CctUnStopHolidayRel.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/DGrpRedListInter.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/DStopCheck.xml" />
+	<sqlMap resource="classpath:ibatismap/cct/CholidayUnstop.xml" />
+
+	<sqlMap resource="classpath:ibatismap/billconfig/SphoneGroupCfg.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/CfgSpOperInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/RemindWarnRuleTable.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/RemindWarnUserInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/Warmssuniquectr.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGprsInterMsgOffOn.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGprsInterMsgOffOnHis.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGprsShortMsgOffOn.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGprsShortMsgOffOnHis.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGprsShortMsgOffOnHisNew.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGprsShortMsgOffOnNew.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/RemindCtrlFav.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/RemindCtrlInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DShortMsgOffOn.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DShortMsgOffOnHis.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DShortMsgTimeOffOn.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DShortMsgTimeOffOnHis.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/ChatTypeInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/H1h2h3CodeAllocate.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/ProvCityList.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/Ddsmpspbizinfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/Ddsmpspinfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/LocationCodeInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGprsOffOnChg.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DTellShortMsgOffOn.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/WTellCode.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/SProvCritical.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/OrderInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/TellCode.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/TellCodeIncBak.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/WCtrlModeCfgHis.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/WlanOpenChg.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/SBillTotCode.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/DGroupLowestCloud.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/RemindMonthFreeFeeUser.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/TtkdAccountMsg.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/Dcustfavmsg.xml" />
+	
+
+	<!-- add by liuhl_bj  20161011-->
+	<sqlMap resource="classpath:ibatismap/billconfig/CBillStatCfg.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/SBillFamilyMonthCode.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/SBillMonthCode.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/Sofferflagcode.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/PricingCombine.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/FavClassInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/SPriceCode.xml" />
+	<sqlMap resource="classpath:ibatismap/billconfig/SBillHalfFav.xml" />
+
+	<sqlMap resource="classpath*:ibatismap/invoice/BalInvPrintInfo.xml" />
+	<sqlMap resource="classpath*:ibatismap/invoice/BalGrppreinvHis.xml" />
+	<sqlMap resource="classpath:ibatismap/invoice/BalInvprintdetInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/invoice/BalOrderprintmodelConf.xml" />
+	<sqlMap resource="classpath:ibatismap/invoice/BalPrintmodelcfgDict.xml" />
+	<sqlMap resource="classpath:ibatismap/invoice/BalInvuserdefineInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/invoice/BalPayprintinvConf.xml"/>
+	<sqlMap resource="classpath:ibatismap/invoice/BalGrppreinvInfo.xml"/>
+	<sqlMap resource="classpath:ibatismap/invoice/BalInvloginDict.xml"/>
+	<sqlMap resource="classpath:ibatismap/invoice/BalInvauditInfo.xml"/>
+	<sqlMap resource="classpath:ibatismap/invoice/BalInvtaxprintInfo.xml"/>
+	<sqlMap resource="classpath:ibatismap/invoice/ActCollbillprintRecd.xml"/>
+	
+	<sqlMap resource="classpath:ibatismap/bill/BalMicroPayInfo.xml" />
+	
+	<sqlMap resource="classpath:ibatismap/int1/CsUserdetailInfoCHG.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBcbusiorderDict.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InMsgsendInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InSmssendHis.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InSmssendErr.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/IntRtwrtoffChg.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InDataSynDict.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBsdatasourceDict.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBsModTableRel.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBspriparmDict.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBsstatusToActionRel.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBssvcAttrGroupRel.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBssvcDict.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/InBtoamsgsendInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/IntBossToCrmStateCHG.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/IntOutsideFeeInfo.xml" />
+	<sqlMap resource="classpath:ibatismap/int1/PushTmp.xml" />
+	
+	<sqlMap resource="classpath:ibatismap/agent/DagtBaseMsg.xml" />
+	
+</sqlMapConfig>

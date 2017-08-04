@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function Tune(song,artist){
+		var title=song;
+		var artist=artist;
+		
+		this.concat=function(){
+			this.temp=1;
+			return title+"--"+artist;
+		}
+		
+	}
+	window.onload=function(){
+		var happySongs=new Array();
+		happySongs[0]=new Tune("Hello","World");
+		try{			
+			alert(happySongs[0].title);//错误，未定义
+		}catch(e){
+			alert(e);	
+		}
+		alert(happySongs[0].concat());	//直接看源代码，加上括号，执行该方法	
+	}
+</script>
+</head>
+<body>
+	
+</body>
+</html>

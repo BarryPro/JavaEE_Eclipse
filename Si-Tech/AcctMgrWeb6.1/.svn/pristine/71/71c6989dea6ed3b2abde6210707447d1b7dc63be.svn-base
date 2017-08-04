@@ -1,0 +1,313 @@
+package com.sitech.acctmgr.atom.impl.pay;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.busi.query.inter.IOweBill;
+import com.sitech.acctmgr.atom.domains.record.LoginOprEntity;
+import com.sitech.acctmgr.atom.domains.user.UserDeadEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserOweEntity;
+import com.sitech.acctmgr.atom.dto.pay.S8076CfmInDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8076CfmOutDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8076InitInDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8076InitOutDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8076QueryUsersInDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8076QueryUsersOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IBalance;
+import com.sitech.acctmgr.atom.entity.inter.IBill;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IDelay;
+import com.sitech.acctmgr.atom.entity.inter.IRecord;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.inter.pay.I8076;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+@ParamTypes({ 
+	@ParamType(m = "cfm", c = S8076CfmInDTO.class, oc = S8076CfmOutDTO.class),
+	@ParamType(m = "queryUsers", c = S8076QueryUsersInDTO.class, oc = S8076QueryUsersOutDTO.class),
+	@ParamType(m = "init", c = S8076InitInDTO.class, oc = S8076InitOutDTO.class)})
+public class S8076 extends AcctMgrBaseService implements I8076{
+
+	private IUser user;
+	private IBill bill;
+	private IRecord record;
+	private IBalance balance;
+	private IControl control;
+	private IDelay delay;
+	
+	@Override
+	public OutDTO queryUsers(InDTO inParam) {
+		// TODO Auto-generated method stub
+		S8076QueryUsersInDTO inDto = (S8076QueryUsersInDTO)inParam;
+		String phoneNo = inDto.getPhoneNo();
+		String opCode = inDto.getOpCode();
+		String queryFlag = inDto.getQueryFlag();
+		log.info("---->8076queryUsers_in"+inDto.getMbean());
+		
+		List<UserOweEntity> userList = new ArrayList<UserOweEntity>();
+		
+		//欠费和已缴费分别查询
+		if(queryFlag.equals("0")){
+			userList = bill.qOweUser(phoneNo,"0");
+		}else if(queryFlag.equals("1")){
+			userList = bill.qOweUser(phoneNo,"2");
+		}
+		
+		S8076QueryUsersOutDTO outDto = new S8076QueryUsersOutDTO();
+		outDto.setListUserOweInfo(userList);
+		outDto.setLenUserOweInfo(userList.size());
+		log.info("---->S8076queryUsers_out->"+outDto.toJson());
+		return outDto;
+	}
+	
+	@Override
+	public OutDTO init(InDTO inParam) {
+		S8076InitInDTO inDto = (S8076InitInDTO)inParam;
+		log.info("---->8076init_in"+inDto.getMbean());
+		String phoneNo = inDto.getPhoneNo();
+		Long idNo = inDto.getIdNo();
+		String provinceId = inDto.getProvinceId();
+		
+		//获取日期
+		String opTime = control.getSysDate().get("CUR_TIME").toString();
+		int curYM = Integer.parseInt(opTime.substring(0, 6));
+		int totalDate = Integer.parseInt(opTime.substring(0, 8));
+		
+		//取死账欠费用户基本信息
+		List<UserOweEntity> userList = bill.qOweUserInfo(phoneNo, idNo);
+		S8076InitOutDTO outDto = new S8076InitOutDTO();
+		for(UserOweEntity userOwe:userList){
+			outDto.setRegionName(userOwe.getRegionName());
+			outDto.setDistrictName(userOwe.getDistrictName());
+			outDto.setContactPerson(userOwe.getContactPerson());
+			outDto.setContactPhone(userOwe.getContactPhone());
+			outDto.setContactIdNo(userOwe.getContactIdNo());
+			outDto.setIdNo(idNo);
+			outDto.setOwnerIdNo(userOwe.getOwnerIdNo());
+			outDto.setOwnerUnit(userOwe.getOwnerUnit());
+			outDto.setPhoneNo(phoneNo);
+			outDto.setOwnerName(userOwe.getOwnerName());
+			outDto.setUseTime(userOwe.getUseTime());
+			outDto.setOwnerAddress(userOwe.getOwnerAddress());
+			outDto.setOwnerPhone(userOwe.getOwnerPhone());
+			outDto.setOwnerZip(userOwe.getOwnerZip());
+			outDto.setDeleteTime(userOwe.getDeleteTime());
+
+		}
+		
+		//欠费总金额
+		long oweFeeSum = 0L;
+		//滞纳金总金额
+		long oweDelayFeeSum = 0L;
+		
+		//获取离网用户信息
+		List<UserDeadEntity> userDeadEntList = user.getUserdeadEntity(phoneNo, idNo, null);
+		long contractNo  = userDeadEntList.get(0).getContractNo();
+		
+		//取死账欠费用户欠费信息,组装出参
+		List<UserOweEntity> oweList = bill.qOweFeeInfo(phoneNo, idNo);
+		List<UserOweEntity> outList = new ArrayList<UserOweEntity>();
+		if(oweList.size()>0){
+			for(UserOweEntity oweInfo:oweList){
+				String billYear = oweInfo.getBillYear();
+				String billMonth = oweInfo.getBillMonth();
+				//数据库中的数据为number类型，所以需要进行处理
+				if(Integer.parseInt(billMonth)<10){
+					billMonth="0"+billMonth;
+				}
+				String payedStatus = oweInfo.getPayedStatus();
+				Map inMap = new HashMap();
+				inMap.put("BILL_MONTH",billMonth);
+				inMap.put("BILL_YEAR", billYear);
+				inMap.put("ID_NO", idNo);
+				inMap.put("PHONE_NO", phoneNo);
+				
+				Map<String,Object> outMap= new HashMap<String,Object>();
+				outMap = record.getPayedFee(inMap);
+				Long cashPay=0L;
+				if(outMap.size()>0){
+					cashPay =Long.parseLong((String) outMap.get("CASH_PAY"));
+				}
+				
+				/* 读取滞纳金标志和比率 */
+				Map inMapTmp = new HashMap<String, Object>();
+				inMapTmp.put("CONTRACT_NO", contractNo);
+				inMapTmp.put("PROVINCE_ID", provinceId);
+				//离网标志
+				inMapTmp.put("NET_FLAG", "1");
+				Map outMapTmp = delay.getDelayRate(inMapTmp);
+				double dDelayRate = (Double) outMapTmp.get("DELAY_RATE");
+				int iDelayBeginDate = (Integer) outMapTmp.get("DELAY_BEGIN");
+				
+				
+				
+				//计算滞纳金
+				inMapTmp = new HashMap<String, Object>();
+				inMapTmp.put("BILL_BEGIN", billYear+billMonth+"01");
+				inMapTmp.put("OWE_FEE", oweInfo.getOweMoney());
+				inMapTmp.put("DELAY_BEGIN", iDelayBeginDate);
+				inMapTmp.put("DELAY_RATE", dDelayRate);
+				inMapTmp.put("BILL_CYCLE", billYear+billMonth);
+				inMapTmp.put("TOTAL_DATE", totalDate);
+				long lDelayFee = delay.getDelayFee(inMapTmp);
+				
+				
+				//计算欠费总金额
+				oweFeeSum = oweFeeSum +	oweInfo.getOweMoney();
+				//计算滞纳金总金额
+				oweDelayFeeSum = oweDelayFeeSum+lDelayFee;
+				
+				
+				UserOweEntity outEntity = new UserOweEntity();
+				outEntity.setBillMonth(billMonth);
+				outEntity.setBillYear(billYear);
+				outEntity.setCashPay(cashPay);
+				outEntity.setOweMoney(oweInfo.getOweMoney());
+				outEntity.setOweAll(oweInfo.getOweMoney()+lDelayFee);
+				outEntity.setPayedStatus(payedStatus);
+				outEntity.setDelayFee(lDelayFee);
+				outList.add(outEntity);
+			}
+		}
+		
+		//出参
+		outDto.setOweSum(oweFeeSum);
+		outDto.setDelaySum(oweDelayFeeSum);
+		outDto.setLenOweInfo(outList.size());
+		outDto.setListOweInfo(outList);
+	
+		log.info("---->S8076init_out->"+outDto.toJson());
+		return outDto;
+	}
+
+	
+	@Override
+	public OutDTO cfm(InDTO inParam) {
+		// TODO Auto-generated method stub
+		
+		S8076CfmInDTO inDto = (S8076CfmInDTO)inParam;
+		log.info("---->8076cfm_in"+inDto.getMbean());
+		String phoneNo = inDto.getPhoneNo();
+		long idNo =inDto.getIdNo();
+		String oweYear = inDto.getOweYear();
+		String oweMonth = inDto.getOweMonth();
+		String opNote = inDto.getOpNote();
+		long payFee = inDto.getOweFeePay();
+		long delayFee = inDto.getDelayFee();
+		String loginNo = inDto.getLoginNo();
+		String opCode = inDto.getOpCode();
+		String groupId = inDto.getGroupId();
+		
+		//获取流水
+		long paySn = control.getSequence("SEQ_PAY_SN");
+		log.info("--------paySn->"+paySn);
+		
+		//获取离网用户信息
+		List<UserDeadEntity> userDeadEntList = user.getUserdeadEntity(phoneNo, idNo, null);
+		long contractNo  = userDeadEntList.get(0).getContractNo();
+		
+		//更新欠费记录
+		bill.updateOweUserInfo(phoneNo, idNo, oweYear, oweMonth,loginNo,paySn,"2","0",null);
+		
+		UserOweEntity oweInfo = new UserOweEntity();
+		oweInfo.setPhoneNo(phoneNo);
+		oweInfo.setBillMonth(oweMonth);
+		oweInfo.setBillYear(oweYear);
+		oweInfo.setLoginNo(loginNo);
+		oweInfo.setLoginAccept(Long.valueOf(paySn).toString());
+		oweInfo.setIdNo(idNo);
+		oweInfo.setBakChar(opNote);
+		oweInfo.setDelayFee(delayFee);
+		oweInfo.setCashPay(delayFee+payFee);
+		
+		//获取日期
+		String opTime = control.getSysDate().get("CUR_TIME").toString();
+		int curYM = Integer.parseInt(opTime.substring(0, 6));
+		int totalDate = Integer.parseInt(opTime.substring(0, 8));
+		
+		//记录死账缴费记录表
+		record.savePressPayMent(oweInfo,opCode,payFee);
+		
+		
+		//记录营业员操作记录表
+		LoginOprEntity loginOprEnt = new LoginOprEntity();
+		//loginOprEnt.setBrandId(userDeadEntList.get(0).getBrandId());
+		loginOprEnt.setIdNo(idNo);
+		loginOprEnt.setLoginGroup(groupId);
+		loginOprEnt.setLoginNo(loginNo);
+		loginOprEnt.setLoginSn(paySn);
+		loginOprEnt.setOpCode(opCode);
+		loginOprEnt.setOpTime(opTime);
+		loginOprEnt.setPhoneNo(phoneNo);
+		loginOprEnt.setRemark(opNote);
+		loginOprEnt.setPayType("0");
+		loginOprEnt.setTotalDate(totalDate);
+		loginOprEnt.setPayFee(payFee);
+		record.saveLoginOpr(loginOprEnt);
+		
+		S8076CfmOutDTO outDto = new S8076CfmOutDTO();
+		outDto.setPaySn(paySn);
+		outDto.setContractNo(contractNo);
+		
+		log.info("---->S8076cfm_out->"+outDto.toJson());
+		return outDto;
+	}
+	
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+
+	public IBill getBill() {
+		return bill;
+	}
+
+	public void setBill(IBill bill) {
+		this.bill = bill;
+	}
+
+	public IBalance getBalance() {
+		return balance;
+	}
+
+	public void setBalance(IBalance balance) {
+		this.balance = balance;
+	}
+
+	public IRecord getRecord() {
+		return record;
+	}
+
+	public void setRecord(IRecord record) {
+		this.record = record;
+	}
+
+	public IControl getControl() {
+		return control;
+	}
+
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+	public IDelay getDelay() {
+		return delay;
+	}
+
+	public void setDelay(IDelay delay) {
+		this.delay = delay;
+	}
+
+
+}

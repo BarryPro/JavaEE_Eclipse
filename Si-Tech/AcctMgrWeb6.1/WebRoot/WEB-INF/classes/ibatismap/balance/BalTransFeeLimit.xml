@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_transfee_limit">
+<typeAlias alias="TransLimitEntity" type="com.sitech.acctmgr.atom.domains.query.TransLimitEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="TransLimitEntity">
+		SELECT oper_phone operPhone,
+		limit_pay limitPay,
+		total_payed totalPayed,
+		begin_ymd beginTime,
+		end_ymd endTime
+		FROM BAL_TRANSFEE_LIMIT
+		where unit_id = #UNIT_ID#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ADMIN_PHONE">
+				trim(admin_phone) = #ADMIN_PHONE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="OPER_PHONE">
+				trim(oper_phone) = #OPER_PHONE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="JT_CONTRACT_NO">
+				jt_contract_no = #JT_CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YMD">
+				BEGIN_YMD <![CDATA[ <= ]]> #YMD#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YMD">
+				END_YMD <![CDATA[ >= ]]> #YMD#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qryCnt" parameterClass="Map" resultClass="java.lang.Long">
+		select count(*) COUNT from BAL_TRANSFEE_LIMIT 
+		where unit_id = #UNIT_ID#
+		and jt_contract_no = #JT_CONTRACT_NO#
+		and oper_phone = #OPER_PHONE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ADMIN_PHONE">
+				trim(admin_phone) = #ADMIN_PHONE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YMD">
+				BEGIN_YMD <![CDATA[ <= ]]> #YMD#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YMD">
+				END_YMD <![CDATA[ >= ]]> #YMD#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="insert" parameterClass="Map" >
+   		INSERT INTO BAL_TRANSFEE_LIMIT 
+   		(UNIT_ID,JT_CONTRACT_NO,ADMIN_PHONE,OPER_PHONE,BEGIN_YMD,
+   		END_YMD,LIMIT_PAY,TOTAL_PAYED,OP_TIME)
+		VALUES( #UNIT_ID#,#JT_CONTRACT_NO#,#ADMIN_PHONE#,#OPER_PHONE#,#BEGIN_YMD#,
+   		#END_YMD#,#LIMIT_PAY#,#TOTAL_PAYED#,sysdate )
+	</insert>
+	
+	<update id="update" parameterClass="Map" >
+   		update BAL_TRANSFEE_LIMIT
+   		set begin_ymd = #BEGIN_YMD#,
+   		end_ymd = #END_YMD#,
+   		limit_pay = #LIMIT_PAY#,
+   		op_time = sysdate
+   		where unit_id = #UNIT_ID#
+   		and jt_contract_no = #JT_CONTRACT_NO# 
+   		and oper_phone = #OPER_PHONE# 
+   		and admin_phone = #ADMIN_PHONE#
+	</update>
+	
+	<update id="updateLimitFee" parameterClass="Map">
+		UPDATE BAL_TRANSFEE_LIMIT
+		SET TOTAL_PAYED = #LIMIT_PAY#
+		WHERE unit_id = #UNIT_ID#
+		and jt_contract_no = #JT_CONTRACT_NO#
+		and oper_phone = #OPER_PHONE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="YMD">
+				BEGIN_YMD <![CDATA[ <= ]]> #YMD#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YMD">
+				END_YMD <![CDATA[ >= ]]> #YMD#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<delete id="delete" parameterClass="Map" >
+   		delete from BAL_TRANSFEE_LIMIT
+   		where unit_id = #UNIT_ID#
+   		and jt_contract_no = #JT_CONTRACT_NO# 
+   		and oper_phone = #OPER_PHONE# 
+   		and admin_phone = #ADMIN_PHONE#
+	</delete>
+
+</sqlMap>

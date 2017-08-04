@@ -1,0 +1,219 @@
+
+<script language=javascript>
+<!--
+
+ function showPrtDlg1(printType,DlgMessage,submitCfm,varPrintInfo)
+ {  //显示打印对话框 
+		var h=210;
+		var w=400;
+ 		var t=screen.availHeight/2-h/2;
+ 		var l=screen.availWidth/2-w/2;
+ 		var pType="subprint";
+		var billType="1";  
+ 		var printStr = printInfo1(varPrintInfo);
+		var mode_code=null;
+		var fav_code=null;
+		var area_code=null; 		
+		var firstIdStr = $("#firstId").val(); 
+		var secondIdStr = $("#secondId").val();
+		var accInfoStr = $("#accInfoHid1").val() + "|" 
+			+$("#accInfoHid2").val()+ "|" 
+			+$("#accInfoHid3").val()+ "|" 
+			+$("#accInfoHid4").val(); 	
+			
+				var i = 0;
+	var varPhoneNo = "";	  //手机号码
+	var varLoginName = "";  //操作名称
+	var varUserName = "";   //用户名称
+	var varUserId = "";		  //用户ID
+	var varUserAddress = "";//用户地址
+	var varOpCode = "";			//操作类型
+	var varLoginAccept = "";//操作流水
+	var varAwardName = "";  //奖品名称
+	var varOpNote = "";     //操作备注
+	var	vResCodeSum = "";	  //领奖数量
+	var vPrintCont = "";    //动态打印内容
+	var vPrintName = "";    //动态打印项名称
+	var vPrintSum = "";     //动态打印项数量
+			for(;varPrintInfo.indexOf("|") > 0;)
+	{
+		varString = varPrintInfo.substring(0,varPrintInfo.indexOf("|"));
+		i++;
+		switch(i)
+		{
+			case 1:
+				varLoginName = varString;
+				break;
+			case 2:
+				varPhoneNo = varString;
+				break;
+			case 3:
+				varUserName = varString;
+				break;
+			case 4:
+				varUserId = varString;
+				break;
+			case 5:
+				varUserAddress = varString;
+				break;
+			case 6:
+				varOpCode = varString;
+				break;
+			case 7:
+				varLoginAccept = varString;
+				break;	
+			case 8:
+				varAwardName = varString;
+				break;					
+			case 9:
+				varOpNote = varString;
+				break;
+			case 10:
+				vResCodeSum = varString;
+				break;		
+			case 11:
+				vPrintCont = varString;
+				break;					
+		}
+		
+		varPrintInfo= varPrintInfo.substring(varPrintInfo.indexOf("|")+1,varPrintInfo.length);
+	}
+		
+		var sysAccept = "<%=strLoginAccept%>";	
+		var prop="dialogHeight:"+h+"px; dialogWidth:"+w+"px; dialogLeft:"+l+"px; dialogTop:"+t+"px;toolbar:no; menubar:no; scrollbars:yes; resizable:no;location:no;status:no;help:no"; 
+		var path = "<%=request.getContextPath()%>/npage/innet/hljBillPrint_jc_hw.jsp?DlgMsg=" 
+			+ DlgMessage 
+			+ "&iccidInfo=" +firstIdStr +"|"+secondIdStr
+			+ "&accInfoStr="+accInfoStr;
+
+		var path = path  + "&mode_code="+mode_code+"&fav_code="+fav_code+"&area_code="+area_code+"&opCode="+varOpCode+"&sysAccept="+sysAccept+"&phoneNo=<%=phoneNo%>&submitCfm=" + submitCfm+"&pType="+pType+"&billType="+billType+ "&printInfo=" + printStr;
+		var ret=window.showModalDialog(path,printStr,prop);
+		return ret;     
+ }
+
+function printInfo1(varPrintInfo)
+{
+	var i = 0;
+	var varPhoneNo = "";	  //手机号码
+	var varLoginName = "";  //操作名称
+	var varUserName = "";   //用户名称
+	var varUserId = "";		  //用户ID
+	var varUserAddress = "";//用户地址
+	var varOpCode = "";			//操作类型
+	var varLoginAccept = "";//操作流水
+	var varAwardName = "";  //奖品名称
+	var varOpNote = "";     //操作备注
+	var	vResCodeSum = "";	  //领奖数量
+	var vPrintCont = "";    //动态打印内容
+	var vPrintName = "";    //动态打印项名称
+	var vPrintSum = "";     //动态打印项数量
+	
+	for(;varPrintInfo.indexOf("|") > 0;)
+	{
+		varString = varPrintInfo.substring(0,varPrintInfo.indexOf("|"));
+		i++;
+		switch(i)
+		{
+			case 1:
+				varLoginName = varString;
+				break;
+			case 2:
+				varPhoneNo = varString;
+				break;
+			case 3:
+				varUserName = varString;
+				break;
+			case 4:
+				varUserId = varString;
+				break;
+			case 5:
+				varUserAddress = varString;
+				break;
+			case 6:
+				varOpCode = varString;
+				break;
+			case 7:
+				varLoginAccept = varString;
+				break;	
+			case 8:
+				varAwardName = varString;
+				break;					
+			case 9:
+				varOpNote = varString;
+				break;
+			case 10:
+				vResCodeSum = varString;
+				break;		
+			case 11:
+				vPrintCont = varString;
+				break;					
+		}
+		
+		varPrintInfo= varPrintInfo.substring(varPrintInfo.indexOf("|")+1,varPrintInfo.length);
+	}
+	
+	var retInfo = "";
+	var cust_info="";
+	var opr_info="";
+	var note_info1="";
+	var note_info2="";
+	var note_info3="";
+	var note_info4="";
+	var exeDate = "<%=new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new java.util.Date())%>";//得到执行时间
+	//retInfo+=varLoginName+"|";
+ 
+	//retInfo+='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:MM:ss", Locale.getDefault()).format(new java.util.Date())%>'+"|";
+	cust_info+="手机号码："+varPhoneNo+"|";
+	cust_info+="客户姓名：" +varUserName+"|";
+	cust_info+="证件号码：" +varUserId+"|";
+	cust_info+="客户地址：" +varUserAddress+"|";
+	
+	opr_info+="业务受理时间："+'<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:MM:ss", Locale.getDefault()).format(new java.util.Date())%>'+"  "+"用户品牌: "+document.all.smName.value+ "|";
+
+	if(varOpCode == "2266"){
+		opr_info+="办理业务: "+"促销品统一付奖"+"  操作流水: "+varLoginAccept+" 奖品已经领取"+"|";
+	}else if(varOpCode == "2249"){ 		
+		opr_info+="办理业务: "+"促销品统一付奖预约登记"+"  操作流水: "+varLoginAccept+" 奖品已经登记"+"|";
+	}else if(varOpCode == "2279"){		
+		opr_info+="办理业务: "+"促销品统一付奖冲正"+"  操作流水: "+varLoginAccept+" 奖品已经冲正"+"|";
+	}	
+	if (0 == vPrintCont.length){
+		opr_info+="奖品名称: "+varAwardName+"+ 奖品数量: " + vResCodeSum + "|";
+	}else{
+		i = 0;
+		for(;vPrintCont.indexOf("~") > 0;)
+		{
+			varString = vPrintCont.substring(0,vPrintCont.indexOf("~"));
+			i++;
+			switch(i)
+			{
+				case 1:
+					vPrintName = varString;
+					break;
+				case 2:
+					vPrintSum = varString;
+					opr_info+=vPrintName+"~"+vPrintSum + "个;";
+					i=0;
+					break;
+			}
+	
+			vPrintCont= vPrintCont.substring(vPrintCont.indexOf("~")+1,vPrintCont.length);
+		}
+		opr_info+="|";
+	}
+	note_info1+="备注: "+varOpNote+"|";
+	document.all.cust_info.value=cust_info+"#";
+	document.all.opr_info.value=opr_info+"#";
+	document.all.note_info1.value=note_info1+"#";
+	document.all.note_info2.value=note_info2+"#";
+	document.all.note_info3.value=note_info3+"#";
+	document.all.note_info4.value=note_info4+"#";
+	//retInfo = cust_info+"#"+opr_info+"#"+note_info1+"#"+note_info2+"#"+note_info3+"#"+note_info4+"#";
+	retInfo = strcat(cust_info,opr_info,note_info1,note_info2,note_info3,note_info4);
+	retInfo=retInfo.replace(new RegExp("#","gm"),"%23");
+
+	return retInfo;	
+}
+
+ //-->
+</script>

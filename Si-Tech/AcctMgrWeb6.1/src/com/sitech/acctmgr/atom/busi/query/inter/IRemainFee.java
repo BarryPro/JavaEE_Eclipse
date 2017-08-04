@@ -1,0 +1,125 @@
+package com.sitech.acctmgr.atom.busi.query.inter;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.balance.BalanceEntity;
+import com.sitech.acctmgr.atom.domains.balance.BookSourceEntity;
+import com.sitech.acctmgr.atom.domains.fee.OutFeeData;
+import com.sitech.acctmgr.atom.domains.pay.PaysnBaseEntity;
+import com.sitech.acctmgr.atom.domains.pay.TransFeeEntity;
+import com.sitech.acctmgr.atom.domains.query.ClassifyPreEntity;
+import com.sitech.jcf.core.exception.BusiException;
+
+/**
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ *
+ * @author
+ * @version 1.0
+ */
+public interface IRemainFee {
+
+	/**
+	 * 名称：查询用户余额和欠费明细，主要是为8000缴费查询使用
+	 *
+	 * @param lContractNo
+	 * @return REMAIN_FEE : 余额 <br/>
+	 *         PREPAY_FEE : 普通预存 <br/>
+	 *         SEPC_PERPAY : 专款余额 <br/>
+	 *         OWE_FEE : 欠费 <br/>
+	 *         DELAY_FEE : 滞纳金 <br/>
+	 *         BILL_INFO_LIST : 欠费节点 List<OweFee2Entity> 存放OweFee2Entity对象 <br/>
+	 */
+	Map<String, Object> getPayInitInfo(long lContractNo);
+
+	/**
+	 * 名称：查询账户余额
+	 *
+	 * @param lContractNo 账户号码
+	 * @return prepayFee 账户预存（普通预存款预存+专款预存款预存） <br/>
+	 *         remainFee 余额 普通预存款余额+专款预存款余额 <br/>
+	 *         oweFee 帐户下的往月欠费 <br/>
+	 *         lOweFeeAll:总欠费(库内欠费+内存库欠费)<br/>
+	 *         lUnbillFeeAll：内存库欠费<br>
+	 *         lDelayFee 滞纳金 <br/>
+	 *         UNBILL_FEE 帐户下的未出帐话费总和<br>
+	 *         commonRemainFee 普通预存款余额 <br>
+	 *         specialRemainFee 专款预存款余额 <br>
+	 * 
+	 */
+	OutFeeData getConRemainFee(long lContractNo);
+
+	OutFeeData getConRemainFee(long lContractNo, double dDelayFavourRate);
+
+	/**
+	 * 名称：查询在网账户预存、账本等信息
+	 *
+	 * @param contractNo账户号码
+	 * @return CUR_BALANCE 账户预存 <br/>
+	 *         PAY_TYPE 账本 <br/>
+	 *         PAY_TYPE_NAME 账本名称 <br/>
+	 *         PAY_ATTR 账本属性 <br/>
+	 *         PRIORITY 优先级
+	 */
+	List<TransFeeEntity> getBookList(Map<String, Object> inParam);
+
+	/**
+	 * 名称：查询离网账户预存、账本等信息
+	 *
+	 * @param contractNo 账户号码
+	 * @return CUR_BALANCE 账户预存 <br/>
+	 *         PAY_TYPE 账本 <br/>
+	 *         PAY_TYPE_NAME 账本名称 <br/>
+	 *         PAY_ATTR 账本属性 <br/>
+	 *         PRIORITY 优先级
+	 */
+	List<TransFeeEntity> getBookListDead(Map<String, Object> inParam);
+
+	/**
+	 * 名称：根据账户查询账户在当月缴费流水记录
+	 *
+	 * @param CONTRACT_NO
+	 * @param SUFFIX: 年月
+	 * @param BEGIN_TIME: 开始日期yyyymmdd，可空
+	 * @param END_TIME： 结束日期yyyymmdd，可空
+	 * @param OP_TYPE: 查询类型，例如 KZCZCZ
+	 * @param OP_CODES: 查询缴费记录OP_CODE,例如： new String[]{"8017", "8000", "8002", "8030","8020"};
+	 * @return
+	 * @throws BusiException
+	 * @author qiaolin
+	 */
+	List<PaysnBaseEntity> getPayMentForBack(Map<String, Object> inParam);
+
+	OutFeeData getDeadConRemainFee(long idNo, long lContractNo, double dDelayFavourRate);
+
+	/**
+	 * 名称：查询账本分类信息
+	 * 
+	 * @param contractNo
+	 * @param payType
+	 * @return
+	 * @author xiongjy
+	 */
+	List<ClassifyPreEntity> getClassifyPreInfo(Long contractNo);
+
+	/**
+	 * 名称：有条件返还列表--待返还
+	 * @param contractNo
+	 * @return 
+	 * @author suzj
+	 * 
+	 */
+	List<BalanceEntity> getEffList(long contractNo);
+	
+}

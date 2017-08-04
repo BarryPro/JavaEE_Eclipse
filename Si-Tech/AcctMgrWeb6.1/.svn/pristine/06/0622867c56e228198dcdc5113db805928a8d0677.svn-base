@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="qryDataSyn">
+
+    <select id="qryByList" parameterClass="Map" resultClass="java.util.HashMap" remapResults="true">
+        SELECT 
+        <iterate open="" close="" property="FIELDS" conjunction=",">
+            $FIELDS[]$
+        </iterate>
+        FROM $TABLE_OWNER$.$QRY_TABLE_NAME$
+        <dynamic prepend="WHERE">
+            <isNotNull property="CONDITION">
+                <iterate property="CONDITION" open="" close="">
+                    <isEqual prepend="AND" property="CONDITION[].type" compareValue="LONG">
+                         $CONDITION[].key$ $CONDITION[].compareValue$ #CONDITION[].value:LONG#
+                    </isEqual>
+                    <isEqual prepend="AND" property="CONDITION[].type" compareValue="NOLONG">
+                         $CONDITION[].key$ $CONDITION[].compareValue$ #CONDITION[].value#
+                    </isEqual>
+                    <isEqual prepend="OR" property="CONDITION[].type" compareValue="ORTYPE">
+                          ( $CONDITION[].compareValue$ )
+                    </isEqual>
+                </iterate>
+            </isNotNull>
+        </dynamic>
+    </select>
+    
+    <select id="qryTabsByActionId" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT 
+            T1.ACTION_ID AS ACTION_ID,UPPER(T1.TABLE_NAME) AS TABLE_NAME,
+            UPPER(T1.SYN_ALL_FLAG) AS SYN_ALL_FLAG, T1.CONDITION_TYPE CONDITION_TYPE,
+            T1.UPDATE_TYPE UPDATE_TYPE, T2.SQL_CONDITION SQL_CONDITION, 
+            T2.TABLE_OWNER AS TABLE_OWNER, UPPER(T2.PARTITION_COL) AS PARTITION_COL,
+            UPPER(T2.HIS_TABLE_NAME) AS HIS_TABLE_NAME, UPPER(T2.HIS_PARTITION_COL) AS HIS_PARTITION_COL,
+            T2.UNIQUE_INDEX AS UNIQUE_INDEX,
+            ROWNUM KEYS_LIST_SEQ
+        FROM
+              IN_ACTTABREL_DICT T1  LEFT JOIN IN_TABLES_DICT T2
+        ON    T1.TABLE_NAME = T2.TABLE_NAME
+        WHERE T1.ACTION_ID = #ACTION_ID:LONG#
+              AND T1.SYN_FLAG = #SYN_FLAG#
+              ORDER BY T1.SYN_SEQ
+    </select>
+    
+    <select id="qryIndexsByActId" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT 
+              T2.UNIQUE_INDEX AS UNIQUE_INDEX 
+        FROM
+              IN_ACTTABLEREL_DICT T1  LEFT JOIN IN_TABLES_DICT T2
+        ON    T1.TABLE_NAME = T2.TABLE_NAME
+        WHERE T1.ACTION_ID = #ACTION_ID:LONG#
+              AND UPPER(T1.SYN_FLAG) = #SYN_FLAG#
+    </select>
+    
+    <select id="qryColsByActionId" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT
+            ACTION_ID AS ACTION_ID, UPPER(TABLE_NAME) AS TABLE_NAME, COLS_NAME AS COLS_NAME
+        FROM
+            IN_TABLECOLS_DICT
+        WHERE
+            ACTION_ID = #ACTION_ID:LONG#
+    </select>
+
+</sqlMap>

@@ -1,0 +1,8 @@
+/**
+ * Description:BOSS数据查询包
+ */
+/**
+ * @author K
+ *
+ */
+package com.sitech.acctmgr.atom.busi.intface.dao;

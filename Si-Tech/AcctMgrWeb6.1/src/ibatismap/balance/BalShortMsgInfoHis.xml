@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_shortmsg_info_his">
+
+  <insert id="iShortmsgHis" parameterClass="Map">
+	  INSERT INTO bal_shortmsg_info_his (CONTRACT_NO, PHONE_NO, ID_NO, 
+	  		  LOGIN_NO, OP_CODE, OP_TIME, REMARK, update_accept, update_type, 
+        				update_time, update_date, update_login, update_code)
+        select 	CONTRACT_NO, PHONE_NO, ID_NO, 
+	  		  LOGIN_NO, OP_CODE, OP_TIME, REMARK, #UPDATE_ACCEPT#, #UPDATE_TYPE#, 
+						sysdate, #UPDATE_DATE#, #UPDATE_LOGIN#, #UPDATE_CODE#
+	   from bal_shortmsg_info
+		where contract_no = #CONTRACT_NO#
+  </insert>
+
+</sqlMap>

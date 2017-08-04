@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_monthreturnfee_info">
+
+    <insert id="iMonthReturnFee" parameterClass="Map">
+        INSERT INTO BAL_MONTHRETURNFEE_INFO(BATCH_SN, RETURNFEE_SN, ID_NO, CONTRACT_NO, PHONE_NO, RETURNFEE_SUM, 
+        		RETURN_COUNT, PAY_TYPE, EFF_DATE, EXP_DATE, PAYED_COUNT, PAYED_MONEY, RETURN_RULE, 
+        		DEAL_FLAG, OP_CODE, OP_TIME, REMARK, LOGIN_NO, LOGIN_ACCEPT, RETURN_TIME, RETURN_FLAG)
+        VALUES(#BATCH_SN#, SEQ_SYSTEM_SN.NEXTVAL, #ID_NO#, #CONTRACT_NO#, #PHONE_NO#, #RETURNFEE_SUM#, 
+        		#RETURN_COUNT#, #PAY_TYPE#, TO_DATE(#EFF_DATE#,'YYYYMMDD'), TO_DATE(#EXP_DATE#,'YYYYMMDD'), #PAYED_COUNT#, #PAYED_MONEY#, #RETURN_RULE#, 
+        		#DEAL_FLAG#, #OP_CODE#, sysdate, #REMARK#, #LOGIN_NO#, #LOGIN_ACCEPT#, '', '0')
+    </insert>
+
+    <delete id="delSignaddInfo" parameterClass="Map">
+	 	delete from bal_usersignadd_info
+	 	where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+		and finish_flag = '0'
+    </delete>
+
+	<select id="qry" parameterClass="Map" resultClass="java.lang.String">
+		select FIELD_VALUE
+		from bal_usersignadd_info
+		where id_no = #ID_NO#
+		and	busi_type = #BUSI_TYPE#
+		and field_code = #FIELD_CODE#
+	</select>
+
+	<select id="qSignaddInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		select field_code, field_value, other_value
+		from bal_usersignadd_info
+		where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="LOGIN_ACCEPT">
+				LOGIN_ACCEPT = #LOGIN_ACCEPT#
+			</isNotEmpty>
+
+		</dynamic>
+	</select>
+  
+</sqlMap>

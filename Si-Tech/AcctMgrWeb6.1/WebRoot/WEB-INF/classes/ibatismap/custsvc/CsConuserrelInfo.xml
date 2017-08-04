@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cs_conuserrel_info">
+    <typeAlias alias="CsConuserrelInfo" type="com.sitech.acctmgr.atom.domains.account.ConUserRelEntity"/>
+    <select id="qConuserrelInfo" parameterClass="Map" resultClass="CsConuserrelInfo">
+        SELECT CONTRACT_NO contractNo,
+        ID_NO idNo,
+        PAY_TYPE payType,
+        PAY_VALUE payValue,
+        CHKOUT_PRI chkoutPri,
+        BILL_ORDER billOrder,
+        RATE_FLAG rateFlag,
+        CYCLE_TYPE cycleType,
+        FINISH_FLAG finishFlag,
+        TO_CHAR(EFF_DATE, 'YYYYMMDD') effDate,
+        TO_CHAR(EXP_DATE, 'YYYYMMDD') expDate,
+        TO_CHAR(EFF_DATE, 'YYYY-MM-DD HH24:MI:SS') effYmdhms,
+        TO_CHAR(EXP_DATE, 'YYYY-MM-DD HH24:MI:SS') expYmdhms
+        FROM CS_CONUSERREL_INFO
+        WHERE 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO=#ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO=#CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+        AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE ORDER BY BILL_ORDER DESC
+    </select>
+
+    <select id="qDefId" parameterClass="Map" resultClass="java.lang.Long">
+        SELECT ID_NO FROM
+        (
+        SELECT ID_NO FROM CS_CONUSERREL_INFO
+        WHERE CONTRACT_NO = #CONTRACT_NO:LONG#
+        AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+        ORDER BY CHKOUT_PRI
+        )
+        WHERE ROWNUM <![CDATA[ < ]]> 2
+    </select>
+
+    <select id="qCntOfConsrlInfoByFlag" parameterClass="Map" resultClass="java.lang.Integer">
+        SELECT COUNT(1) COUNT FROM CS_CONUSERREL_INFO WHERE 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_NO">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="BILL_ORDER">
+                BILL_ORDER = #BILL_ORDER#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="YEAR_MONTH">
+                #YEAR_MONTH# BETWEEN TO_NUMBER(TO_CHAR(EFF_DATE,'yyyymm')) AND TO_NUMBER(TO_CHAR(EXP_DATE,'yyyymm'))
+            </isNotEmpty>
+            <isEmpty prepend="AND" property="YEAR_MONTH">
+                SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+            </isEmpty>
+        </dynamic>
+    </select>
+
+    <select id="qConUserByIdOrCon" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT DISTINCT A.CONTRACT_NO AS CONTRACT_NO, A.ID_NO AS ID_NO,
+        (SELECT B.PHONE_NO FROM UR_USER_INFO B WHERE B.ID_NO=A.ID_NO) AS PHONE_NO
+        FROM CS_CONUSERREL_INFO A WHERE 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                A.CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_NO">
+                A.ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="VALID">
+                SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <resultMap class="com.sitech.acctmgr.atom.domains.account.ContractEntity" id="ContractEntity">
+        <result property="con" column="contract_no"/>
+        <result property="id" column="id_no"/>
+        <result property="payType" column="pay_type"/>
+        <result property="effDate" column="eff_date"/>
+        <result property="expDate" column="exp_date"/>
+        <result property="accountName" column="contract_name"/>
+        <result property="attType" column="contractatt_type"/>
+        <result property="payCode" column="pay_code"/>
+        <result property="billOrder" column="BILL_ORDER"/>
+        <result property="custId" column="CUST_ID"/>
+    </resultMap>
+    <select id="selectConUserList" parameterClass="Map" resultMap="ContractEntity">
+        select
+        A.CONTRACT_NO,
+        A.ID_NO,
+        B.CUST_ID,
+        A.PAY_TYPE,
+        TO_CHAR(A.EFF_DATE,'yyyyMMDDHH24MISS') AS EFF_DATE,
+        TO_CHAR(A.EXP_DATE,'yyyyMMDDHH24MISS') AS EXP_DATE,
+        B.CONTRACT_NAME,
+        B.CONTRACTATT_TYPE,
+        B.PAY_CODE,
+        A.BILL_ORDER
+        FROM
+        CS_CONUSERREL_INFO A,
+        AC_CONTRACT_INFO B
+        WHERE A.CONTRACT_NO = B.CONTRACT_NO
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ID_NO">
+                AND A.ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CONTRACT_NO">
+                AND B.CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="VALID">
+                AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="qForWriteoff" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT  DISTINCT ID_NO,CHKOUT_PRI  , CASE  WHEN SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+        THEN  1  ELSE  0 END VALID_FLAG
+        FROM  CS_CONUSERREL_INFO a
+        WHERE EXISTS(SELECT 1  FROM ACT_UNPAYOWE_INFO B
+        WHERE A.CONTRACT_NO = B.CONTRACT_NO
+        AND   A.ID_NO = B.ID_NO)
+        AND CONTRACT_NO = #CONTRACT_NO:LONG#
+        ORDER BY a.CHKOUT_PRI
+    </select>
+
+    <select id="qConUserRelByConNo" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT ID_NO, BILL_ORDER
+        FROM  CS_CONUSERREL_INFO
+        WHERE CONTRACT_NO=#CONTRACT_NO#
+        AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+        ORDER BY CHKOUT_PRI
+    </select>
+
+  <select id="qByConNoForOpen"  parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT ID_NO, BILL_ORDER
+	FROM CS_CONUSERREL_INFO A
+	WHERE CONTRACT_NO = #CONTRACT_NO#
+	AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+		AND EXISTS (SELECT 1
+			FROM CS_USERDETAIL_INFO B
+			WHERE A.ID_NO = B.ID_NO
+			AND B.RUN_CODE ! = 'A')
+	ORDER BY CHKOUT_PRI
+  </select>
+  
+
+</sqlMap>

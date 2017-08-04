@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="act_billscheme_info">
+
+	<select id="qSchemeInfo" parameterClass="Map" resultClass="com.sitech.acctmgr.atom.domains.bill.SchemeInfoEntity">
+		SELECT B.GOODS_PRC_DESC goodsPrcDesc, 
+			   A.OUT_SET_FLOW outSetFlow, 
+			   A.PROD_PRCID_NEW prcId,
+		       B.PRC_TYPE prcType, 
+		       B.PRC_NAME prcName
+		FROM  ACT_BILLSCHEME_INFO A , PD_GOODSPRC_DICT B
+		WHERE A.PROD_PRCID_NEW = B.PRC_ID
+		AND A.PHONE_NO = #PHONE_NO#
+		AND A.STATIS_MONTH = #STATIS_MONTH#
+	</select>
+</sqlMap>

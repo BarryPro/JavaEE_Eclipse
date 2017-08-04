@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="act_collbilladd_recd">
+
+    <select id="count" parameterClass="Map" resultClass="Integer">
+        SELECT
+        COUNT(1) COUNT
+        FROM
+        ACT_COLLBILLADD_RECD
+        WHERE
+        CONTRACT_NO = #CONTRACT_NO#
+        AND BILL_CYCLE = #BILL_CYCLE#
+        AND PAY_FEE = #PAY_FEE#
+    </select>
+
+    <insert id="insert" parameterClass="com.sitech.acctmgr.atom.domains.collection.CollBillAddEntity">
+        insert into act_collbilladd_recd (CONTRACT_NO, PAY_FEE, BILL_CYCLE, POST_ACCOUNT, CITY_CODE)
+        values ( #contractNo#, #payFee#, #billCycle#, #postAccount#, #cityCode# )
+    </insert>
+</sqlMap>
+

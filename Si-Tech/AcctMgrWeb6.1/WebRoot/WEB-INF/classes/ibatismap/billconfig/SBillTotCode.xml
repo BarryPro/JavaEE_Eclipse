@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="sbilltotcode">
+
+	<!-- 包年优惠总量费用获取 -->
+	<select id="getYearFeeInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT NVL (C.FAVOUR1, 0) * 100 AS FAVOUR1,
+		NVL (TO_CHAR (D.EXP_DATE, 'YYYYMMDD'), '20060101') AS EXP_DATE,
+		NVL (TO_CHAR (D.EFF_DATE, 'YYYYMMDD'), '20060101') AS EFF_DATE
+		FROM PRICING_COMBINE A,
+		PD_TRANSPRODPRC B,
+		SBILLTOTCODE C,
+		UR_USERGOODS_INFO D
+		WHERE     A.PRICING_PLAN_ID = B.PRICING_PLAN_ID
+		AND A.DETAIL_TYPE = 'b'
+		AND A.DETAIL_CODE = C.TOTAL_CODE
+		AND B.PRC_ID = D.PRC_ID
+		AND B.BELONG_CODE = C.REGION_CODE
+		AND C.REGION_CODE = #REGION_CODE#
+		AND D.ID_NO = #ID_NO#
+		AND SYSDATE BETWEEN D.EFF_DATE AND D.EXP_DATE
+	</select>
+
+	<!-- 包年优惠使用费用获取 -->
+	<select id="getYearUsedFee" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT NVL (SUM (C.THIS_OBJFEE), 0) * 100 AS USED_FEE
+		FROM PRICING_COMBINE A,
+		PD_TRANSPRODPRC B,
+		WSUMFAVOUR C,
+		UR_USERGOODS_INFO D
+		WHERE     A.PRICING_PLAN_ID = B.PRICING_PLAN_ID
+		AND A.DETAIL_TYPE = 'b'
+		AND A.DETAIL_TYPE = C.DETAIL_TYPE
+		AND A.DETAIL_CODE = C.DETAIL_CODE
+		AND B.PRC_ID = D.PRC_ID
+		AND B.BELONG_CODE = #REGION_CODE#
+		AND D.ID_NO = #ID_NO#
+		AND C.ID_NO = D.ID_NO
+		AND TO_CHAR (D.EFF_DATE, 'YYYYMMDDHH24MISS') = C.CYCLE_BEGIN
+		AND SYSDATE BETWEEN D.EFF_DATE AND D.EXP_DATE
+	</select>
+	
+	<select id="getYearFavourFee" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT code_name,favour1
+		FROM sBillTotCode 
+		WHERE region_code = #REGION_CODE#
+		and total_code = #DETAIL_CODE#
+	</select>
+
+	<!-- sbilltotcode表中的favour费用，金额单位为：元 -->
+	<select id="getBillTotCodeInfo" parameterClass="Map" resultClass="com.sitech.acctmgr.atom.domains.query.BillTotCodeEntity">
+		SELECT REGION_CODE as regionCode, TOTAL_CODE as totalCode, ORDER_CODE as orderCode,
+		CASE WHEN FAVOUR1 &lt; 0 THEN ABS (FAVOUR1) * 100 ELSE 0 END AS favour1,
+		CASE WHEN FAVOUR2 &lt; 0 THEN ABS (FAVOUR2) * 100 ELSE 0 END AS favour2,
+		CASE WHEN FAVOUR3 &lt; 0 THEN ABS (FAVOUR3) * 100 ELSE 0 END AS favour3,
+		TRIM (FAVOUR_OBJECT) as favourObject
+		FROM SBILLTOTCODE
+		WHERE FAVOUR_TYPE = '0'
+		AND (   (STEP_VAL1 != -1 AND FAVOUR1 &lt; 0)
+		OR (STEP_VAL2 != -1 AND FAVOUR2 &lt; 0)
+		OR (STEP_VAL3 != -1 AND FAVOUR3 &lt; 0))
+		AND REGION_CODE = #REGION_CODE#
+		AND TOTAL_CODE = #TOTAL_CODE#
+	</select>
+
+</sqlMap>

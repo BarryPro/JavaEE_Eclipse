@@ -1,0 +1,73 @@
+package com.sitech.acctmgr.atom.dto.query;
+
+import com.sitech.acctmgr.common.dto.CommonInDTO;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+public class S8164InitInDTO extends CommonInDTO{
+	
+	@ParamDesc(path="BUSI_INFO.PHONE_NO",cons=ConsType.QUES,type="String",len="40",desc="服务号码",memo="略")
+	private String phoneNo;
+	@ParamDesc(path="BUSI_INFO.YEAR_MONTH",cons=ConsType.QUES,type="String",len="6",desc="年月",memo="略")
+	private String yearMonth;
+	@ParamDesc(path="BUSI_INFO.USER_PASS",cons=ConsType.QUES,type="String",len="40",desc="用户密码",memo="略")
+	private String userPass;
+	
+	
+	public void decode(MBean arg0){
+		super.decode(arg0);
+		
+		setPhoneNo(arg0.getObject(getPathByProperName("phoneNo")).toString());
+		setYearMonth(arg0.getObject(getPathByProperName("yearMonth")).toString());
+		setUserPass(arg0.getObject(getPathByProperName("userPass")).toString());
+	}
+
+
+	/**
+	 * @return the phoneNo
+	 */
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+
+	/**
+	 * @param phoneNo the phoneNo to set
+	 */
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+
+	/**
+	 * @return the yearMonth
+	 */
+	public String getYearMonth() {
+		return yearMonth;
+	}
+
+
+	/**
+	 * @param yearMonth the yearMonth to set
+	 */
+	public void setYearMonth(String yearMonth) {
+		this.yearMonth = yearMonth;
+	}
+
+
+	/**
+	 * @return the userPass
+	 */
+	public String getUserPass() {
+		return userPass;
+	}
+
+
+	/**
+	 * @param userPass the userPass to set
+	 */
+	public void setUserPass(String userPass) {
+		this.userPass = userPass;
+	}
+}

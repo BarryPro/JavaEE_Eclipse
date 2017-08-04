@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="bal_grpuser_rel">
+<typeAlias alias="VirtualGrpEntity" type="com.sitech.acctmgr.atom.domains.user.VirtualGrpEntity"/>
+
+	<select id="qryCount" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT COUNT(1) COUNT
+		FROM bal_grpuser_rel
+		WHERE UNIT_ID = #UNIT_ID#
+		and grp_contract_no = #CONTRACT_NO# 
+		and grp_phone_no = #PHONE_NO#
+	</select>
+	
+	<select id="qry" parameterClass="Map" resultClass="VirtualGrpEntity">
+		SELECT to_char(unit_id) unitId,
+		trim(unit_name) unitName,
+		to_char(nvl(grp_phone_no,'无')) grpPhoneNo,
+		trim(grp_contract_no) grpContractNo,
+		to_char(op_time,'YYYYMMDD hh24:mi:ss') opTime,
+		login_no loginNo
+		FROM bal_grpuser_rel
+		WHERE 1=1
+		<dynamic prepend="">
+            <isNotEmpty prepend="AND" property="UNIT_ID">
+                UNIT_ID = #UNIT_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PHONE_NO">
+                grp_phone_no = #PHONE_NO# 
+            </isNotEmpty>
+        </dynamic>
+	</select>
+		
+	<insert id="insert" parameterClass="VirtualGrpEntity">
+        INSERT INTO bal_grpuser_rel (UNIT_ID , UNIT_NAME , GRP_PHONE_NO, GRP_CONTRACT_NO,LOGIN_ACCPET , OP_TIME , LOGIN_NO ,GROUP_ID)
+        VALUES(#unitId# , #unitName# , #grpPhoneNo#, #grpContractNo#, #loginAccpet# , sysdate, #loginNo# , #groupId#)
+    </insert>
+
+	<delete id="delete" parameterClass="Map">
+		DELETE FROM bal_grpuser_rel
+		WHERE UNIT_ID = #UNIT_ID#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				grp_contract_no =#CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PHONE_NO">
+				grp_phone_no =#PHONE_NO#
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+    
+</sqlMap>

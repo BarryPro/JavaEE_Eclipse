@@ -1,0 +1,457 @@
+package com.sitech.acctmgr.atom.entity.inter;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.balance.ImeiFileMsgInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.ExpireOprEntity;
+import com.sitech.acctmgr.atom.domains.user.FamilyEntity;
+import com.sitech.acctmgr.atom.domains.user.GroupUserInfo;
+import com.sitech.acctmgr.atom.domains.user.UserBrandEntity;
+import com.sitech.acctmgr.atom.domains.user.UserDeadEntity;
+import com.sitech.acctmgr.atom.domains.user.UserDetailEntity;
+import com.sitech.acctmgr.atom.domains.user.UserExpireEntity;
+import com.sitech.acctmgr.atom.domains.user.UserGroupMbrEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserRelEntity;
+import com.sitech.acctmgr.atom.domains.user.UserdetaildeadEntity;
+import com.sitech.acctmgr.atom.domains.user.UsersvcAttrEntity;
+import com.sitech.acctmgr.atom.domains.user.VirtualGrpEntity;
+
+/**
+ * <p>
+ * Title: 用户类
+ * </p>
+ * <p>
+ * Description: 查询用户基本信息
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2016
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ *
+ * @author zhangbine
+ * @version 1.0
+ */
+public interface IUser {
+
+	/**
+	 * 功能：查询在网用户基本信息
+	 *
+	 * @param phoneNo
+	 * @return
+	 */
+	UserInfoEntity getUserInfo(String phoneNo);
+
+	UserInfoEntity getUserEntityByIdNo(Long idNo, Boolean isThrow);
+
+	UserInfoEntity getUserEntityByPhoneNo(String phoneNo, Boolean isThrow);
+
+	UserInfoEntity getUserEntityByConNo(Long conNo, Boolean isThrow);
+
+	/**
+	 * 功能：询在网用户信息
+	 *
+	 * @param idNo
+	 * @param phoneNo
+	 * @param contractNo
+	 * @param isThrow
+	 *            用户不存在时，是否throw异常标识
+	 * @return
+	 */
+	UserInfoEntity getUserEntity(Long idNo, String phoneNo, Long contractNo, Boolean isThrow);
+
+	UserInfoEntity getUserEntityAllDb(Long idNo, String phoneNo, Long contractNo, Boolean isThrow);
+
+	/**
+	 * 功能：查询离网用户信息 说明：三个可空参数至少需要传一个
+	 *
+	 * @param phoneNo
+	 *            服务号码(可空)
+	 * @param idNo
+	 *            用户标识(可空)
+	 * @param contractNo
+	 *            默认账户(可空)
+	 * @return
+	 */
+	List<UserDeadEntity> getUserdeadEntity(String phoneNo, Long idNo, Long contractNo);
+
+	/**
+	 * 名称：查询在网用户明细信息 </br> 说明：查询不到状态名称时，输出“未知” </br>
+	 *
+	 * @param inIdNo
+	 *            用户标识
+	 * @return Map： </br> OLD_RUN </br> RUN_CODE </br> RUN_NAME </br> RUN_TIME </br> USER_PASSWD </br> USER_GRADE_CODE </br> CARD_TYPE </br>
+	 * @author zhangbine
+	 */
+	UserDetailEntity getUserdetailEntity(Long inIdNo);
+
+	/**
+	 * 名称：查询离网用户明细信息 </br> 说明：查询不到状态名称时，输出“未知” </br>
+	 *
+	 * @param inIdNo
+	 *            用户标识
+	 * @return Map： </br> OLD_RUN </br> RUN_CODE </br> RUN_NAME </br> RUN_TIME </br> USER_PASSWD </br> USER_GRADE_CODE </br> CARD_TYPE </br> STOP_FLAG </br>
+	 * @author zhangbine
+	 */
+	UserdetaildeadEntity getUserdetailDeadEntity(Long inIdNo);
+
+	/**
+	 * 名称：查询用户品牌信息 </br> 说明：查询不到品牌名称时，输出“未知“ </br>
+	 *
+	 * @param inIdNo
+	 *            用户标识
+	 * @return Map： </br> BRAND_ID </br> BRAND_NAME </br>
+	 * @author zhangbine
+	 */
+	UserBrandEntity getUserBrandRel(Long inIdNo);
+
+	/**
+	 * 名称：判断用户是否为有效期生效用户
+	 *
+	 * @param inIdNo
+	 *            用户标识
+	 * @param timeFlag
+	 *            : 时间限制标识 0：不限制；1：限制
+	 * @return boolean
+	 * @author zhangbine
+	 */
+	boolean isUserExpire(long inIdNo, int timeFlag);
+
+	/**
+	 * 功能：查询用户有效期信息 <br>
+	 * 注意：此方法可能会有空指针异常出现，使用时，请自行处理空指针异常
+	 *
+	 * @param idNo
+	 * @return
+	 */
+	UserExpireEntity getUserExpireInfo(Long idNo);
+
+	/**
+	 * 名称：根据用户查找物联网号码
+	 *
+	 * @param idNo
+	 *            用户标识
+	 * @param addBbrType
+	 *            : 类型
+	 * @return phone_no
+	 */
+	String getAddServiceNo(Long idNo, String addBbrType);
+
+	/**
+	 * 名称：根据物联网号码查找用户号码
+	 *
+	 * @param addServieNo
+	 *            物联网号码
+	 * @param addBbrType
+	 *            : 类型
+	 * @return phone_no
+	 */
+	String getPhoneNoByAsn(String addServieNo, String addBbrType);
+
+	/**
+	 * 名称：取家庭虚拟用户id_no
+	 *
+	 * @param contractNo
+	 *            ： 家庭公共账户
+	 * @return 家庭虚拟用户id, 如果没有查询到 ， 则返回0
+	 * @author qiaolin
+	 */
+	long getFamilyId(long contractNo);
+
+	/**
+	 * 功能：根据群组ID获取群主下信息
+	 *
+	 * @param groupId
+	 * @return
+	 */
+	List<FamilyEntity> getFamilyInfoByGroupId(long groupId);
+
+	/**
+	 * 名称：取家庭所有成员基本信息
+	 *
+	 * @param idNo
+	 *            ： 家庭关键人或者成员ID
+	 * @return PHONE_NO <br/>
+	 *         CONTRACT_NO <br/>
+	 *         CONTRACT_NAME <br/>
+	 *         CONTRACTTYPE_NAME <br/>
+	 *         MEMBER_TYPE : 0 关键人 1 成员 <br/>
+	 * @author qiaolin
+	 */
+	List<FamilyEntity> getFamilyInfo(long idNo);
+
+	/**
+	 * 名称：取家庭所有成员基本信息
+	 *
+	 * @param idNo
+	 *            ： 家庭虚拟用户ID
+	 * @return PHONE_NO <br/>
+	 *         CONTRACT_NO <br/>
+	 *         CONTRACT_NAME <br/>
+	 *         CONTRACTTYPE_NAME <br/>
+	 *         MEMBER_TYPE : 0 关键人 1 成员 <br/>
+	 * @author qiaolin
+	 */
+	List<FamilyEntity> getFamilyInfoByVirtualId(long idNo);
+
+	List<Long> getFamilyRoleIds(Long codeClass, String mbrFlag);
+
+	/**
+	 * 功能：获取用户归属亲情网群组中的角色id
+	 *
+	 * @param idNo
+	 * @param memberRoleIds
+	 *            亲情网角色id拼接的字符串，按逗号（‘,’） 分割
+	 * @return UserGroupMbrEntity
+	 */
+	UserGroupMbrEntity getFamilyMemberInfo(Long idNo, List<Long> memberRoleIds);
+
+	/**
+	 * 获取用户归属群组中的角色id
+	 *
+	 * @param idNo
+	 * @param groupTypes
+	 *            群组类型字符串，按逗号（','）分割
+	 * @param memberRoleIds
+	 *            角色id拼接的字符串，按逗号（‘,’） 分割
+	 * @return
+	 */
+	UserGroupMbrEntity getFamilyMemberInfo(Long idNo, List<String> groupTypes, List<Long> memberRoleIds);
+
+	/**
+	 * 功能：判断号码是否主副卡号码
+	 *
+	 * @return flag 主卡返回 a 副卡返回 b 不属于主副卡返回 c
+	 * @author qiaolin
+	 */
+	char isPimaryOrSecondaryCard(String phoneNo);
+
+	/**
+	 * 功能：获取主副卡id_no,如果flag为a则返回主卡id, b则返回副卡id
+	 *
+	 * @author qiaolin
+	 */
+	long getCardId(String phoneNo, String flag);
+
+	/***
+	 * 是否物联网号码
+	 */
+	boolean isInternetOfThingsPhone(String phoneNo);
+	
+	/***
+	 * 是否物联网号码
+	 */
+	boolean isInternetOfThingsPhone(long idNo);
+
+	/**
+	 * 功能：判断是否为宽带号码
+	 * 
+	 * @param phoneNo
+	 * @return
+	 */
+	boolean isBroadbandPhone(String phoneNo);
+
+	/**
+	 * 功能：获取用户服务属性值
+	 * 
+	 * @param idNo
+	 * @param attrIds
+	 *            属性可以是多个，多个间用逗号分割
+	 * @return
+	 */
+	UsersvcAttrEntity getUsersvcAttr(long idNo, String attrIds);
+
+	/**
+	 * 功能：获取用户过户时间
+	 * 
+	 * @param idNo
+	 * @param contractNo
+	 * @return
+	 */
+	Date getUserPassDate(Long idNo, Long contractNo);
+
+	/**
+	 * 功能：查询用户归属的群组对应的ID_NO
+	 *
+	 * @param phoneNo
+	 *            群组内成员号码
+	 * @param groupType
+	 *            群组类型
+	 * @return
+	 */
+	UserGroupMbrEntity getGroupInfo(String phoneNo, String groupType);
+
+	/**
+	 * 功能：获取集团用户列表信息
+	 *
+	 * @param custId
+	 *            集团客户ID ，可空
+	 *
+	 * @return UserInfoEntity
+	 */
+	List<UserInfoEntity> getGrpUserInfoByCustId(Long custId);
+
+	/**
+	 * 功能：获取集团用户列表信息
+	 *
+	 * @param unitId
+	 *            集团编码， 可空
+	 *
+	 * @return UserInfoEntity
+	 */
+	List<UserInfoEntity> getGrpUserInfoByUnitId(Long unitId);
+
+	/**
+	 * 功能：获取有离网默认用户的集团账户列表
+	 *
+	 * @param unitId
+	 * @return UserDeadEntity
+	 */
+	List<UserDeadEntity> getGrpUserDeadInfo(Long unitId);
+
+	/**
+	 * 功能：根据集团客户ID与品牌获取集团用户列表
+	 * 
+	 * @param custId
+	 *            集团客户ID
+	 * @param brandIds
+	 *            集团指定品牌，多个品牌用户逗号分割， 如："2310AD, 2310ML"
+	 * @return
+	 */
+	List<UserInfoEntity> getGrpUserInfoByBrand(Long custId, String brandIds);
+
+	/**
+	 * 功能：按照idNo查找集团产品代码和产品名称
+	 *
+	 * @param idNo
+	 * @return Map
+	 */
+	Map<String, Object> getGroupGoods(long idNo);
+
+	/**
+	 * 功能：按照unitId或custId或groupNo获取集团信息
+	 *
+	 * @param iccid
+	 * @param custId
+	 * @param unitId
+	 * @param contractNo
+	 * @return Map
+	 */
+	List<GroupUserInfo> getGrpInfo(String iccid, String custId, String unitId, String contractNo);
+
+	/**
+	 * 功能：按照集团虚拟idNo获取集团信息
+	 *
+	 * @param idNo
+	 * @return Map
+	 */
+	Map<String, Object> getUrGrpInfo(long idNo);
+
+	/**
+	 * 名称：查询有效变更表
+	 *
+	 * @param lIdNo
+	 * @return LOGIN_NO OP_TIME DAYS OP_CODE REMARK
+	 */
+	List<ExpireOprEntity> getExpireOprList(long lIdNo);
+
+	/**
+	 * 名称：查询集团信息
+	 *
+	 * @param unitId
+	 * @param phoneNo
+	 * @return
+	 * @author liuhl
+	 */
+	List<VirtualGrpEntity> getVirtualGrpList(long unitId, String phoneNo);
+
+	/**
+	 * 功能：获取用户归属集群列表
+	 * 
+	 * @param idNo
+	 * @return
+	 */
+	List<UserGroupMbrEntity> getUserGroupList(Long idNo);
+
+	/**
+	 * 名称：判断是否合帐分享主卡用户
+	 *
+	 * @param idNo
+	 * @return
+	 * @author xiongjy
+	 */
+	int cntUserRel(long idNo);
+	
+	/**
+	 * 名称：判断是否合帐分享副卡卡用户
+	 *
+	 * @param idNo
+	 * @return
+	 */
+	boolean isSlaveCard(long idNo);
+	
+	/**
+	 * 名称：判断是否集团合帐分享副卡卡用户
+	 *
+	 * @param idNo
+	 * @return
+	 */
+	boolean isGroupSlaveCard(long idNo);
+	
+	/**
+	 * 名称：判断是否家庭合帐分享副卡卡用户
+	 *
+	 * @param idNo
+	 * @return
+	 */
+	boolean isFalSlaveCard(long idNo);
+	
+	/**
+	 * 名称：判断是否实名制用户
+	 *
+	 * @param idNo
+	 */
+	boolean isRealName(long idNo);
+	
+	/**
+	 * 功能：获取合帐分享主卡用户
+	 * 
+	 * @param idNo
+	 * @return
+	 */
+	UserRelEntity getMasterId(Long idNo,String opCode);
+	
+	/**
+	 * 功能：获取合帐分享副卡用户
+	 * 
+	 * @param idNo
+	 * @return
+	 */
+	List<UserRelEntity> getSlaveId(Long idNo,String opCode);
+
+	boolean isEasyOwnSigned(Long idNo);
+
+	/**
+	 * 判断用户是否为车务通
+	 * 
+	 * @author liuhl_bj
+	 * @param idNo
+	 * @param attrId
+	 * @param attrValue
+	 * @return
+	 */
+	boolean isTrafficFlux(long idNo, String attrId, String attrValue);
+	
+	/**
+	 * 功能：查询该号码拆包刷码记录
+	 * @param phoneNo 
+	 * @param startMonth 
+	 * @param endMonth 
+	 * @return
+     */
+	List<ImeiFileMsgInfoEntity> getImeiFileMsgInfo(String phoneNo,String startMonth,String endMonth);
+}

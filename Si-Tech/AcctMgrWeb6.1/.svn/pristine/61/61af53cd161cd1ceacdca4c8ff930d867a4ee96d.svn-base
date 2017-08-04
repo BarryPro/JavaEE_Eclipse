@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="sbilltotcode_user">
+
+	<select id="qDetailCode" parameterClass="Map" resultClass="java.util.HashMap">
+		select
+		b.detail_code DETAIL_CODE
+		from pd_transprodprc a,pricing_combine b
+		where a.belong_code= #REGION#
+		and a.prc_id= #PRC_ID#
+		and a.state='0'
+		and a.pricing_plan_id=b.pricing_plan_id and b.detail_type='e'
+	</select>
+
+	<insert id="isbilltotcodeUser" parameterClass="Map">
+		insert into SBILLTOTCODE_USER(group_contract,contract_no,
+		id_no,phone_no,region_code,total_code,order_code,favour_object,
+		favour_type,type_mode,favour_cycle,cycle_unit,step_val1,
+		favour1,step_val2,favour2,step_val3,favour3,code_name,time_flag,
+		begin_time,end_time)
+		select 0, #CONTRACT_NO#,
+		#ID_NO#, #PHONE_NO#, region_code, total_code, order_code, favour_object,
+		favour_type, type_mode, favour_cycle, cycle_unit, 0.00,
+		#BASE_FEE#*(-1),#BASE_FEE#,0.00,step_val3,favour3,code_name,time_flag,
+		sysdate, TO_DATE(#END_TIME#,'YYYYMMDD')
+		from DBCUSTADM.SBILLTOTCODE
+		where total_code=#TOTAL_CODE#
+		and region_code= #REGION_CODE#
+	</insert>
+
+</sqlMap>

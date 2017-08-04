@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+        
+<sqlMap namespace="SBILLTOTCODE_USER">
+	
+	<select id="qSbilltotcodeInfo" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT COUNT(1) COUNT FROM SBILLTOTCODE_USER
+		WHERE GROUP_CONTRACT = #GROUP_CONTRACT#
+		AND CONTRACT_NO = #CONTRACT_NO# 
+	</select>
+	
+</sqlMap>

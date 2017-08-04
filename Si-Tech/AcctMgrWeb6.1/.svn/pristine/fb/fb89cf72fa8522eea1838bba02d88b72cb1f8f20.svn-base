@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_payextend_info">
+
+	<insert id="inTransReason"  parameterClass="Map">
+   INSERT INTO BAL_PAYEXTEND_INFO VALUES (#PAY_SN#,#CONTRACT_NO#,#ID_NO#,#FOREIGN_SN#,
+   #FIELD_CODE#,#FIELD_VALUE#,#FIELD_ORDER#,SYSDATE,#LOGIN_NO#,#OP_CODE#)
+   </insert>
+   
+  <insert id="ipayextend"  parameterClass="Map">
+   insert into BAL_PAYEXTEND_INFO
+                     (PAY_SN, CONTRACT_NO, ID_NO, FOREIGN_SN, FIELD_CODE, 
+                        FIELD_VALUE, FIELD_ORDER, OP_TIME, LOGIN_NO, OP_CODE) 
+       VALUES(#PAY_SN#, #CONTRACT_NO#, #ID_NO#, #FOREIGN_SN#, #FIELD_CODE#,
+                        #FIELD_VALUE#, 0, SYSDATE, #LOGIN_NO#, #OP_CODE#)
+  </insert>
+  
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT	COUNT(*) FROM BAL_PAYEXTEND_INFO
+		WHERE PAY_SN=#PAY_SN#
+		AND TO_CHAR(OP_TIME,'YYYYMM') = #SUFFIX#
+		AND FIELD_VALUE = #FIELD_VALUE#
+		AND FIELD_CODE = #TRANS_CODE#
+	</select>
+</sqlMap>

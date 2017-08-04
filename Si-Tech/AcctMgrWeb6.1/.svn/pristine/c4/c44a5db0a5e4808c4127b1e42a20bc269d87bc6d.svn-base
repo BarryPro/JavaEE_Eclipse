@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="order_info">
+
+    <select id="qry" parameterClass="Map" resultClass="java.util.HashMap">    	  	
+		select  serv_code
+		from order_info 
+		where trim(MSISDN)=#PHONE_NO#
+		and sp_code=#SP_CODE#
+		and oper_code=#OPER_CODE#
+    </select>
+
+</sqlMap>
+

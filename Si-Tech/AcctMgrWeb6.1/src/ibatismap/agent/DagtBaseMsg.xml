@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dagtbasemsg">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.pay.AgentEntity" alias="agentEntity"/>
+
+    <resultMap id="agentEntity" class="agentEntity">
+        <result property="agentPhone" column="agt_phone"/>
+        <result property="agentConNo" column="contract_no"/>
+    </resultMap>
+
+    <select id="qryByGroupId" parameterClass="Map" resultMap="agentEntity">
+		select a.agt_phone, a.contract_no
+		  from dagtbasemsg a, ur_user_info b, bs_chngroup_rel c
+		where a.agt_phone = b.phone_no
+		  and b.group_id = c.group_id
+		  and c.province_id = #PROVINCE_ID#
+		  and c.parent_level = '3'
+		  and c.parent_group_id = #DISTRICT_GROUPID#
+	 <dynamic prepend="">
+   		<isNotEmpty prepend="" property="NOT_AGENTCHECK">
+   			and not exists
+			(
+				select 1 from bal_agentcheck_info e  where a.agt_phone = e.agt_phone_no
+			)
+   		</isNotEmpty>
+     </dynamic>
+    </select>
+    
+   <select id="qCnt" parameterClass="Map" resultClass="Integer">
+        select count(1) cnt from dagtbasemsg
+		where status = 'Y'
+	<dynamic prepend="">
+   		<isNotEmpty prepend="" property="PHONE_NO">
+			and agt_phone = #PHONE_NO#
+   		</isNotEmpty>
+   		<isNotEmpty prepend="" property="CONTRACT_NO">
+			and contract_no = #CONTRACT_NO#
+   		</isNotEmpty>
+     </dynamic>
+    </select>
+
+</sqlMap>

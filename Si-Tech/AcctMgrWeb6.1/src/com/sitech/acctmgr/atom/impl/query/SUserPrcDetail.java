@@ -1,0 +1,216 @@
+package com.sitech.acctmgr.atom.impl.query;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.base.LoginEntity;
+import com.sitech.acctmgr.atom.domains.prod.UserGgPrcInfoEntity;
+import com.sitech.acctmgr.atom.domains.prod.UserPrcDetailEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserPrcEntity;
+import com.sitech.acctmgr.atom.dto.query.SUserPrcDetailGgQueryInDTO;
+import com.sitech.acctmgr.atom.dto.query.SUserPrcDetailGgQueryOutDTO;
+import com.sitech.acctmgr.atom.dto.query.SUserPrcDetailQueryInDTO;
+import com.sitech.acctmgr.atom.dto.query.SUserPrcDetailQueryOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.*;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.inter.query.IUserPrcDetail;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+@ParamTypes({
+        @ParamType(c = SUserPrcDetailQueryInDTO.class, oc = SUserPrcDetailQueryOutDTO.class, m = "query"),
+        @ParamType(c = SUserPrcDetailGgQueryInDTO.class, oc = SUserPrcDetailGgQueryOutDTO.class, m = "ggQuery")
+})
+public class SUserPrcDetail extends AcctMgrBaseService implements IUserPrcDetail {
+
+    private IProd prod;
+    private IBillAccount billAccount;
+    private IUser user;
+    private ILogin login;
+    private IGroup group;
+
+    @Override
+    public OutDTO query(InDTO inParam) {
+        SUserPrcDetailQueryInDTO inDto = (SUserPrcDetailQueryInDTO) inParam;
+
+        log.debug("inDto=" + inDto.getMbean());
+
+        String phoneNo = inDto.getPhoneNo();
+
+        UserInfoEntity uie = user.getUserEntityByPhoneNo(phoneNo, true);
+
+        long idNo = uie.getIdNo();
+        String userGroupId = uie.getGroupId();
+
+        ChngroupRelEntity groupInfo = group.getRegionDistinct(userGroupId, "2", inDto.getProvinceId());
+        String regionCode = groupInfo.getRegionCode();
+
+        List<UserPrcEntity> userPrcList = prod.getPdPrcId(idNo, null);
+
+        if (userPrcList == null || userPrcList.size() == 0) {
+            throw new BusiException(AcctMgrError.getErrorCode("0000", "20007"), "用户未订购产品资费！");
+        }
+
+        List<UserPrcDetailEntity> outList = new ArrayList<>();
+        
+        for (UserPrcEntity userPrcEnt : userPrcList) {
+
+            String loginNo = userPrcEnt.getLoginNo();
+            String prcId = userPrcEnt.getProdPrcid();
+            String effDate = userPrcEnt.getEffDate();
+            String expDate = userPrcEnt.getExpDate();
+            String prcName = userPrcEnt.getProdPrcName();
+            String stateTime = userPrcEnt.getStateDate();
+            String prcClass = "";
+            String prcType = userPrcEnt.getPrcType();
+            if(prcType.equals("0")){
+            	prcClass = "主资费";
+            } else if(prcType.equals("1")){
+            	prcClass = "可选套餐";
+            }
+            String prcState = userPrcEnt.getExpFlag();
+            String prcDesc = userPrcEnt.getPrcDesc();
+            
+            UserPrcDetailEntity userPrcDetailEnt = new UserPrcDetailEntity();
+
+            LoginEntity loginInfo = login.getLoginInfo(loginNo, inDto.getProvinceId(), false);
+            String loginName = (loginInfo == null) ? "" : loginInfo.getLoginName();
+            Integer gprsMinOrder = billAccount.getGprsMinOrder(prcId, regionCode);
+            Integer voiceDisOrder = billAccount.getVoiceDisOrder(prcId, regionCode, false);
+            if (voiceDisOrder == null) {
+                //如果取不到语音类 那么就取既非语音也非流量的优先级
+                voiceDisOrder = billAccount.getVoiceDisOrder(prcId, regionCode, true);
+            }
+            int carryGprsinfo = billAccount.getGprsState(prcId, regionCode);
+            String clearName = null;
+            if (carryGprsinfo == 0) {
+                clearName = "是";
+            } else if (carryGprsinfo == 1) {
+                clearName = "否";
+            }
+
+            userPrcDetailEnt.setLoginName(loginName);
+            userPrcDetailEnt.setGprsMinOrder(gprsMinOrder == null ? "" : gprsMinOrder.toString());
+            userPrcDetailEnt.setVoiceDisOrder(voiceDisOrder == null ? "" : voiceDisOrder.toString());
+            userPrcDetailEnt.setClearName(clearName);
+            userPrcDetailEnt.setEffDate(effDate);
+            userPrcDetailEnt.setExpDate(expDate);
+            userPrcDetailEnt.setLoginNo(loginNo);
+            userPrcDetailEnt.setPrcClass(prcClass);
+            userPrcDetailEnt.setPrcDesc(prcDesc);
+            userPrcDetailEnt.setPrcId(prcId);
+            userPrcDetailEnt.setPrcName(prcName);
+            userPrcDetailEnt.setPrcState(prcState);
+            userPrcDetailEnt.setPrcType(prcType);
+            userPrcDetailEnt.setStateTime(stateTime);
+
+            outList.add(userPrcDetailEnt);
+        }
+
+        SUserPrcDetailQueryOutDTO outDto = new SUserPrcDetailQueryOutDTO();
+        outDto.setUserPrcDetailList(outList);
+
+        log.debug("outDto=" + outDto.toJson());
+
+        return outDto;
+    }
+
+    @Override
+    public OutDTO ggQuery(InDTO inParam) {
+        SUserPrcDetailGgQueryInDTO inDTO = (SUserPrcDetailGgQueryInDTO) inParam;
+        log.debug("inDto=" + inDTO.getMbean());
+
+        String phoneNo = inDTO.getPhoneNo();
+        UserInfoEntity uie = user.getUserEntityByPhoneNo(phoneNo, true);
+        long idNo = uie.getIdNo();
+        String userGroupId = uie.getGroupId();
+
+        ChngroupRelEntity groupInfo = group.getRegionDistinct(userGroupId, "2", inDTO.getProvinceId());
+        String regionCode = groupInfo.getRegionCode();
+
+        List<UserGgPrcInfoEntity> prcList = new ArrayList<>();
+        List<UserPrcEntity> userPrcList = prod.getValidPrcList(idNo);
+        if (userPrcList == null || userPrcList.size() == 0) {
+            throw new BusiException(AcctMgrError.getErrorCode("0000", "20007"), "用户未订购产品资费！");
+        }
+
+        for (UserPrcEntity prcEnt : userPrcList) {
+            String prcId = prcEnt.getProdPrcid();
+
+            if (!this.isGgPrcId(prcId, regionCode)) {
+                continue;
+            }
+
+            UserGgPrcInfoEntity ggPrcEnt = new UserGgPrcInfoEntity();
+
+            ggPrcEnt.setPrcid(prcId);
+            ggPrcEnt.setPrcName(prcEnt.getProdPrcName());
+            ggPrcEnt.setEffTime(prcEnt.getEffDate());
+            ggPrcEnt.setExpTime(prcEnt.getExpDate());
+
+            prcList.add(ggPrcEnt);
+        }
+
+        SUserPrcDetailGgQueryOutDTO outDTO = new SUserPrcDetailGgQueryOutDTO();
+        outDTO.setPrcList(prcList);
+        log.debug("outDto=" + outDTO.toJson());
+
+        return outDTO;
+    }
+
+    private boolean isGgPrcId(String prcId, String regionCode) {
+        boolean flag = false;
+        Integer minOrderr = billAccount.getGprsMinOrder(prcId, regionCode);
+        if (minOrderr != null) {
+            flag = true;
+        }
+
+        return flag;
+    }
+
+    public IProd getProd() {
+        return prod;
+    }
+
+    public void setProd(IProd prod) {
+        this.prod = prod;
+    }
+
+    public IBillAccount getBillAccount() {
+        return billAccount;
+    }
+
+    public void setBillAccount(IBillAccount billAccount) {
+        this.billAccount = billAccount;
+    }
+
+    public IUser getUser() {
+        return user;
+    }
+
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public ILogin getLogin() {
+        return login;
+    }
+
+    public void setLogin(ILogin login) {
+        this.login = login;
+    }
+
+    public IGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(IGroup group) {
+        this.group = group;
+    }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="push_tmp">
+  
+  <!-- 短信临时表，实时停机测试用，勿动 -->
+
+  <insert id="insert" parameterClass="Map">
+	INSERT INTO PUSH_TMP (DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO)
+	VALUES (#DATA_SOURCE#, #BUSIID_NO#, #BUSIID_TYPE#, #TOPIC_ID#, #CONTENT#, #LOGIN_ACCEPT#, SYSDATE, #OP_CODE#, #LOGIN_NO#)
+  </insert>
+  
+  <delete id="dDatabyAccept" parameterClass="Map">
+	DELETE FROM PUSH_TMP  
+	WHERE TOPIC_ID=#TOPIC_ID# 
+	AND LOGIN_ACCEPT=#LOGIN_ACCEPT# 
+  </delete>
+  
+  <insert id="iPush_2_0200" parameterClass="Map">
+	INSERT INTO push_2_0200 
+	      (seq, templateid, parameter, service_no, phone_no, insert_time, op_code, login_no, send_flag, send_time) 
+	VALUES 
+	      (#SEQ#, #TEMPLATEID#, #PARAMETER#, #SERVICE_NO#, #PHONE_NO#, sysdate, 'billingZg', 'system', #SEND_FLAG#, sysdate)
+  </insert>
+  
+  
+</sqlMap>

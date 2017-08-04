@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>basis</title>
+<!-- 定义HTML的细化功能的 -->
+<!-- 同样大小的字体 点（pt（point）比像素（px（pixel））大） -->
+<style type="text/css">
+	h1#logo1{
+		font:12pt 宋体;
+		color: red;		
+	}
+	h1#logo2{
+		font:12px 宋体;
+		color:red;
+	}
+	div#1{
+		color:red;
+	}
+	
+</style>
+<script type="text/javascript">
+	
+	
+</script>
+</head>
+<body background="D:\JavaFile\Image\落日桥.jpg">
+
+	<div id="1">
+		<ul type="disc">
+			<li >C</li>
+			<li>C++</li>
+			<li>Java</li>
+		</ul>
+		<ol type="a" start="4">
+			<li >C</li>
+			<li>C++</li>
+			<li>Java</li>
+		</ol>
+		<div align="reft" >
+			<!-- 段落：上下与其他的都分开 -->
+			<p>
+				你们好吗？
+			</p>
+		</div>
+	
+	</div>
+	<div>
+		<!-- 从h1到h6字号逐渐变小 -->
+		<h1 id="logo1">
+			<!-- 对同一个构件修饰按最近的起作用 -->
+			<font color="green">
+				<b>姓名	</b>		
+			</font>
+		</h1>
+		<h1 id="logo2">
+			<font>
+				姓名
+			</font>			
+		</h1>
+		<h2>年龄</h2>
+		<h3>性别</h3>
+
+	</div>
+		<!-- sub 斜向下表示  sup 斜线上表示 -->
+		O<sub>2</sub>+2H<sub>2</sub>=2H<sub>2</sub>O<br>
+	<div>
+		I Love You<br>		
+		<!-- b是加粗  &nbsp;是输出空格有几个就输出几个-->
+		<b>I Love &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You</b><br>
+		<!-- i是加斜 -->
+		<i>I Love You</i><br>
+		<!-- u是加下划线 -->
+		<u>I Love You</u><br>
+		<b><i><u>I Love You</u></i></b><br>
+	</div>
+	<div>
+		<a href="belong.jpg" target="_self"> belong</a> <br>
+		<!-- 换行 -->
+		<img alt="图片" src="chrome.jpg" width="200" height="100" border="1"
+			align="left"> <br> <br> <br> <br> <br>
+		<!-- 加载图片 alt为当图片加载过慢时出现的内容（“图片”） -->
+		<a href="table.html" ><font size="12">table</font></a><br> 
+		<a href="#11">书签</a><br>
+		<!-- 变量名对 必须成对出现 其他的也可以-->
+		<a name="11"></a><br>
+		<a href="192.168.1.106 file://F:/ee/er/WebContent/1.html">小胖子</a><br>
+		<a href="form.html"><font size="12"> form</font></a>
+	</div>
+</body>
+</html>

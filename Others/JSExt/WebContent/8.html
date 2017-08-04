@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript">
+	  
+		function outer(x){
+			
+			return function(y){
+				return x*y;				
+			}			
+		}
+		var m=outer(3);
+		alert(m(2));//3*2		
+		alert(m(4));//3*4
+	
+	</script>
+</head>
+<body>
+
+</body>
+</html>

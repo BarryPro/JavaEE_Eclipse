@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="act_collcondeal_mid">
+
+    <insert id="insertTable" parameterClass="com.sitech.acctmgr.atom.domains.collection.CollConDealEntity">
+    	INSERT INTO ACT_COLLCONDEAL_MID(
+		            CONTRACT_NO,PAY_MONEY,PASS_NO,GROUP_ID,
+		            OP_CODE,LOGIN_NO,YEAR_MONTH,OP_NOTE,
+		            PAY_TYPE,FETCH_NO,DEAL_FLAG)
+			   VALUES(#contractNo#,#payMoney#,#passNo#,#groupId#,
+				      #opCode#,#loginNo#,#yearMonth#,#opNote#,
+				      #payType#,#fetchNo#,#dealFlag#)
+    </insert>
+
+</sqlMap>
+

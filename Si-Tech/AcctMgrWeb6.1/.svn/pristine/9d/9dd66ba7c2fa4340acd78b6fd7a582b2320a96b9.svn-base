@@ -1,0 +1,271 @@
+package com.sitech.acctmgr.atom.impl.adj;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.busi.adj.inter.IAdjCommon;
+import com.sitech.acctmgr.atom.busi.query.inter.IRemainFee;
+import com.sitech.acctmgr.atom.domains.adj.AdjBIllEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayBookEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayUserBaseEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubWrtoffCtrlEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserPrcEntity;
+import com.sitech.acctmgr.atom.dto.adj.SRoamPayCfmInDTO;
+import com.sitech.acctmgr.atom.dto.adj.SRoamPayCfmOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IBalance;
+import com.sitech.acctmgr.atom.entity.inter.IBill;
+import com.sitech.acctmgr.atom.entity.inter.IBillAccount;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IProd;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.BaseBusi;
+import com.sitech.acctmgr.common.constant.PayBusiConst;
+import com.sitech.acctmgr.inter.adj.IRoamPay;
+import com.sitech.jcf.core.exception.BaseException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+import com.sitech.jcfx.util.DateUtil;
+
+
+@ParamTypes({ @ParamType(m = "payCfm", c = SRoamPayCfmInDTO.class, oc = SRoamPayCfmOutDTO.class)})
+public class SRoamPay extends BaseBusi implements IRoamPay{
+	
+	private IBillAccount billAccount;
+	private IAdjCommon adjCommon;
+	private IRemainFee remainFee;
+	private IControl control;
+	private IUser user;
+	private IBill bill;
+	private IProd prod;
+	private IBalance balance;
+
+	@Override
+	public OutDTO payCfm(InDTO inParam) {
+		// TODO Auto-generated method stub
+		
+		SRoamPayCfmInDTO inDto = (SRoamPayCfmInDTO)inParam;
+		
+		log.error("SRoamPay  inDto---->"+inDto.getMbean());
+		
+		String opCode = inDto.getOpCode();
+		String phoneNo = inDto.getPhoneNo();
+		String flag = "";
+		long payFee = inDto.getFee();
+		String acctItemCode = "";
+		
+		
+		//获取当前时间
+        String curTime = DateUtil.format(new Date(), PayBusiConst.YYYYMMDDHHMMSS2);
+        String yearMonth=String.format("%6s", curTime.substring(0, 6));//当前年月
+        int totalDate= Integer.parseInt(String.format("%6s", curTime.substring(0, 8)));
+        
+        
+        /*取用户的默认账户,作为支付账户*/
+        UserInfoEntity userEnt = user.getUserInfo(phoneNo);
+        Long contractNo=userEnt.getContractNo();
+        long idNo = userEnt.getIdNo();
+		
+		if(!opCode.equals("1186")){
+			payFee = 1800L;
+			acctItemCode = "0V2000000w";
+		}else{
+			acctItemCode = "0V2000000w";
+		}
+		
+		
+		if(opCode.equals("1186")){
+			
+			//获取资费名称
+			String proName = prod.getPdById(inDto.getOfferId());
+			
+			
+			if(flag.equals("01")){
+				Map<String,Object> iRoamMap = new HashMap<String,Object>();
+				iRoamMap.put("PHONE_NO", phoneNo);
+				iRoamMap.put("ID_NO", idNo);
+				iRoamMap.put("PAY_FLAG", inDto.getPayFlag());
+				iRoamMap.put("PRODINST_ID", inDto.getProInstId());
+				iRoamMap.put("PROD_TYPE", inDto.getPayFlag());
+				iRoamMap.put("PROD_NAME", proName);
+				iRoamMap.put("EFF_TIME", inDto.getEffDate());
+				iRoamMap.put("FEE_CYCLE", inDto.getFeeCycle());
+				iRoamMap.put("CYCLE_NUMBER", "1");
+				iRoamMap.put("FEE", payFee);
+				iRoamMap.put("PROD_ID", inDto.getProId());
+				
+				billAccount.insertRoamUsage(iRoamMap);
+			}else if(flag.equals("02")){
+				Map<String,Object> uRoamMap = new HashMap<String,Object>();
+				uRoamMap.put("PHONE_NO", phoneNo);
+				uRoamMap.put("ID_NO", idNo);
+				uRoamMap.put("PAY_FLAG", inDto.getPayFlag());
+				uRoamMap.put("PRODINST_ID", inDto.getProInstId());
+				uRoamMap.put("EXPIRE_TIME",inDto.getExpireDate());
+				uRoamMap.put("PROD_ID", inDto.getProId());
+				billAccount.updateRoamUsage(uRoamMap);
+			}
+		}
+		
+		
+		//判断出账期间不允许办理
+        PubWrtoffCtrlEntity wrtoffCtrlEntity = control.getWriteOffFlagAndMonth();
+        if (wrtoffCtrlEntity.getWrtoffFlag().equals("1")) { // 出账期间
+				
+			throw new BaseException(AcctMgrError.getErrorCode("8010","20220"), "系统出账期间不允许办理剩余流量转赠业务");
+		}
+        
+       
+        
+     	/*计算用户的账户余额*/
+        Map bookMap = new HashMap();
+        bookMap.put("SPECIAL_FLAG", "0");
+        bookMap.put("TRANS_FLAG", "0");
+        bookMap.put("CONTRACT_NO", contractNo);
+        bookMap.put("QUERY_TIME", totalDate);
+        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+        resultList = balance.getAcctBookList(bookMap);
+        
+        long curBalance = 0L;
+        for(Map<String, Object> resultMap:resultList){
+        	curBalance += Long.parseLong(resultMap.get("CUR_BALANCE").toString());
+        }
+        if(curBalance<payFee){
+        	throw new BaseException(AcctMgrError.getErrorCode("C240", "00005"),"用户可用余额不足,请充值后再办理！");
+        }
+    	
+    	
+        
+        /*取用户主资费*/
+        //取用户主产品
+        UserPrcEntity userPrcEnt = prod.getUserPrcidInfo(userEnt.getIdNo());
+        String prodPrcid = userPrcEnt.getProdPrcid();
+        
+        /*取补收流水*/ 
+        long paySn=control.getSequence("SEQ_PAY_SN");
+
+        /*取账单bill_day*/
+        Map<String, Object> inAdjMap = new HashMap<String, Object>();
+        inAdjMap.put("CONTRACT_NO",contractNo);
+        inAdjMap.put("BILL_CYCLE",yearMonth);
+        inAdjMap.put("BILL_DAY_BEGIN","8000");
+        inAdjMap.put("BILL_DAY_END","8500");
+        inAdjMap.put("SUFFIX",yearMonth);
+        int billDay=bill.getMaxBillDay(inAdjMap);
+
+        //用户基本信息实体设值
+        PayUserBaseEntity userBase = new PayUserBaseEntity();
+        userBase.setContractNo(contractNo);
+        userBase.setCustId(userEnt.getCustId());
+        userBase.setIdNo(userEnt.getIdNo());
+        userBase.setPhoneNo(phoneNo);
+        userBase.setBrandId(userEnt.getBrandId());
+        userBase.setUserGroupId(userEnt.getGroupId());
+        userBase.setProdPrcid(prodPrcid);
+
+        //补收账单实体设值
+        AdjBIllEntity billEnt = new AdjBIllEntity();
+        billEnt.setBillCycle(Integer.parseInt(yearMonth));
+        billEnt.setNaturalMonth(Integer.parseInt(yearMonth));
+        billEnt.setAcctItemCode(acctItemCode);
+        billEnt.setShouldPay(payFee);
+        billEnt.setBillDay(billDay);
+
+        //入账实体设值
+        PayBookEntity inBook =  new PayBookEntity();
+        //inBook.setGroupId(groupId);
+        inBook.setLoginNo(inDto.getLoginNo());
+        inBook.setOpCode(opCode);
+        inBook.setOpNote("国际漫游日套餐叠加包");
+        inBook.setPaySn(paySn);
+
+        //补收核心函数
+        inAdjMap = new HashMap<String, Object>();
+        inAdjMap.put("Header", inDto.getHeader());
+        inAdjMap.put("PAY_BOOK_ENTITY", inBook);
+        inAdjMap.put("ADJ_BILL_ENTITY", billEnt);
+        inAdjMap.put("PAY_USER_BASE_ENTITY", userBase);
+        inAdjMap.put("PROVINCE_ID", inDto.getProvinceId());
+
+        Map<String, Object> outParamMap = adjCommon.MicroAdj(inAdjMap);
+        
+        
+		SRoamPayCfmOutDTO outDto = new SRoamPayCfmOutDTO();
+		
+		
+		log.error("SRoamPay  outDto---->"+outDto.toJson());
+		return outDto;
+	}
+
+	public IBillAccount getBillAccount() {
+		return billAccount;
+	}
+
+	public void setBillAccount(IBillAccount billAccount) {
+		this.billAccount = billAccount;
+	}
+
+	public IAdjCommon getAdjCommon() {
+		return adjCommon;
+	}
+
+	public void setAdjCommon(IAdjCommon adjCommon) {
+		this.adjCommon = adjCommon;
+	}
+
+	public IControl getControl() {
+		return control;
+	}
+
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public IBill getBill() {
+		return bill;
+	}
+
+	public void setBill(IBill bill) {
+		this.bill = bill;
+	}
+
+	public IProd getProd() {
+		return prod;
+	}
+
+	public void setProd(IProd prod) {
+		this.prod = prod;
+	}
+
+	public IRemainFee getRemainFee() {
+		return remainFee;
+	}
+
+	public void setRemainFee(IRemainFee remainFee) {
+		this.remainFee = remainFee;
+	}
+
+	public IBalance getBalance() {
+		return balance;
+	}
+
+	public void setBalance(IBalance balance) {
+		this.balance = balance;
+	}
+
+	
+}

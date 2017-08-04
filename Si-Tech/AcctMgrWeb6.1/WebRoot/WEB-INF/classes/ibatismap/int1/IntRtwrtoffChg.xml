@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="int_rtwrtoff_chg">
+ 
+ <insert id="iRtwrtoffChg" parameterClass="Map">
+	INSERT INTO int_rtwrtoff_chg( 
+		WS_SN, CONTRACT_NO, BALANCE_ID, WRTOFF_FLAG, TASK_FLAG, BILL_FLAG , 
+		HOST_ID, HIS_FEE, STATUS , OP_TIME, PAY_SN , REMARK, J_FLAG, HEADER_STR
+	)	
+	VALUES(
+		#WS_SN#, #CONTRACT_NO#, #BALANCE_ID#, #WRTOFF_FLAG#, #TASK_FLAG#, #BILL_FLAG#, 
+		#HOST_ID#, #HIS_FEE#, #STATUS#, sysdate, #PAY_SN#, #REMARK#, #J_FLAG#, #HEADER_STR#
+  	)
+  </insert>
+  
+   <insert id="irtWrtoffChgHis"  parameterClass="Map">
+	INSERT INTO INT_RTWRTOFF_CHG_HIS (WS_SN, CONTRACT_NO, BALANCE_ID, WRTOFF_FLAG, TASK_FLAG, BILL_FLAG , 
+		HOST_ID, HIS_FEE, STATUS , OP_TIME, PAY_SN , REMARK, J_FLAG, HEADER_STR)
+	SELECT WS_SN, CONTRACT_NO, BALANCE_ID, WRTOFF_FLAG, TASK_FLAG, BILL_FLAG , 
+		HOST_ID, HIS_FEE, STATUS , OP_TIME, PAY_SN , REMARK||'按账户同步前删除!', J_FLAG, HEADER_STR FROM   int_rtwrtoff_chg
+	WHERE  CONTRACT_NO=#CONTRACT_NO# AND    TASK_FLAG = 'A'
+  </insert>
+  
+  <delete id= "dRtwrtoffChg"  parameterClass="Map" >
+	 	DELETE FROM int_rtwrtoff_chg WHERE  CONTRACT_NO=#CONTRACT_NO# AND TASK_FLAG = 'A'
+  </delete>
+  
+  <select id="qCntOfRtwroffByCon" parameterClass="Map" resultClass="java.util.HashMap">
+  	select count(1) as cnt from int_rtwrtoff_chg where contract_no = #CONTRACT_NO:LONG# and task_flag = 'A'
+  </select>
+  
+</sqlMap>

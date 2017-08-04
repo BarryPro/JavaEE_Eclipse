@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bs_chngroup_dict">
+	<typeAlias alias="BsChngroupDict" type="com.sitech.acctmgr.atom.domains.base.ChngroupDictEntity"/>
+	<typeAlias alias="GroupInfoEntity" type="com.sitech.acctmgr.atom.domains.query.GroupInfoEntity"/>
+	<select id="qChngInfoByGroupId" parameterClass="Map" resultClass="BsChngroupDict">
+		SELECT GROUP_NAME groupName,ROOT_DISTANCE rootDistance
+		FROM BS_CHNGROUP_DICT
+		WHERE GROUP_ID = #GROUP_ID#
+		AND PROVINCE_ID= #PROVINCE_ID#
+	</select>
+
+	<select id="isBindTown" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(1) COUNT
+		FROM BS_CHNGROUP_DICT A,BS_CHNCLASS_REL B
+		WHERE SUBSTR(BOSS_ORG_CODE,3,2) != '01'
+		AND CITY_GRADE_CODE IN('4','6')
+		AND A.CLASS_CODE=B.CLASS_CODE
+		ADN A.PROVINCE_ID = B.PROVINCE_ID
+		AND B.PARENT_CLASS_CODE IN ('1070','1696','1069')
+		AND A.GROUP_ID = #GROUP_ID#
+	</select>
+
+	<!-- 查询地市下的所有区县groupId -->
+	<select id="qDisGroupByCityGroup" parameterClass="Map" resultClass="BsChngroupDict">
+		SELECT  A.GROUP_ID groupId ,A.GROUP_NAME groupName, B.PARENT_GROUP_ID parentGroupId, A.group_id||'-->'||A.group_name plusNameId
+		FROM BS_CHNGROUP_DICT A,BS_CHNGROUP_REL B
+		WHERE A. ROOT_DISTANCE='3'
+		AND A.GROUP_ID=B.GROUP_ID
+		AND A.PROVINCE_ID = B.PROVINCE_ID
+		AND B.DENORM_LEVEL = #DENORM_LEVEL#
+		AND B.PARENT_GROUP_ID=#PARENT_GROUP_ID#
+		AND B.PROVINCE_ID = #PROVINCE_ID#
+		ORDER BY A.GROUP_ID
+	</select>
+	
+	<!-- 查询某省的所有地区市 -->
+	<select id="qDisGroupCity" parameterClass="Map" resultClass="GroupInfoEntity">
+		SELECT REGION_ID regionId,GROUP_ID groupId,GROUP_NAME groupName
+		FROM  BS_CHNGROUP_DICT 
+		WHERE PROVINCE_ID = #PROVINCE_ID#
+		AND ROOT_DISTANCE = 2
+		AND REGION_ID != 0
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="REGION_ID">
+				REGION_ID = #REGION_ID#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY REGION_ID
+	</select>
+	
+</sqlMap>

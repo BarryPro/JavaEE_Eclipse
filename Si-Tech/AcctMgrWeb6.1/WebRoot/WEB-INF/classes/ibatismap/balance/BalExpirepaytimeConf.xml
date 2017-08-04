@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_expirepaytime_conf">
+
+   <select id="qByReginProdMoney"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT	NVL(TIME_CODE,' ') TIME_CODE , NVL(DAYS,0) DAYS 
+    FROM   BAL_EXPIREPAYTIME_CONF 
+    WHERE    REGION_CODE = #REGION_CODE# AND  STATUS = #STATUS#
+     <dynamic prepend="">
+
+    	<isNotEmpty prepend="AND" property="TIME_CODE">
+    		TIME_CODE= #TIME_CODE#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PROD_PRCID">
+    		PROD_PRCID= #PROD_PRCID#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_MONEY">
+    		BEGIN_MONEY <![CDATA[ <= ]]>  #PAY_MONEY#
+    		AND END_MONEY <![CDATA[ > ]]> #PAY_MONEY#
+    	</isNotEmpty>
+
+    </dynamic>
+
+  </select>
+  
+  <select id="qMaxDayByRegin"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT	max(days) DAYS
+    FROM   BAL_EXPIREPAYTIME_CONF 
+    WHERE    REGION_CODE = #REGION_CODE# AND  STATUS = #STATUS#
+    AND TIME_CODE= 'XX'
+
+  </select>
+  
+
+  
+</sqlMap>

@@ -1,0 +1,164 @@
+.fixediv1 {
+    position: fixed;
+    top: 0px;
+    z-index: 9999;
+    width: 180px;
+}
+
+.fixediv1 img {
+    float: left;
+    width: 180px;
+    height: 180px;
+    border: none;
+    margin-bottom: 5px;
+}
+
+.fixediv1 a.close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.fixediv2 {
+    position: fixed;
+    top: 200px;
+    z-index: 9999;
+    width: 180px;
+}
+
+.fixediv2 img {
+    float: left;
+    width: 180px;
+    height: 180px;
+    border: none;
+    margin-bottom: 5px;
+}
+
+.fixediv2 a.close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.fixediv3 {
+    position: fixed;
+    top: 300px;
+    z-index: 9999;
+    width: 180px;
+}
+
+.fixediv3 img {
+    float: left;
+    width: 180px;
+    height: 180px;
+    border: none;
+    margin-bottom: 5px;
+}
+
+.fixediv3 a.close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.leftadv {
+    left: 0px;
+}
+
+.rightadv {
+    right: 0px;
+}
+
+#pop {
+    background: #fff;
+    width: 180px;
+    height: 180px;
+    font-size: 12px;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 100
+}
+
+#pop img {
+    width: 180px;
+    height: 180px;
+    border: none;
+}
+
+#popHead {
+    line-height: 32px;
+    background: #f6f0f3;
+    font-size: 12px;
+    padding: 0 0 0 10px;
+}
+
+#popHead h2 {
+    font-size: 14px;
+    color: #666;
+    line-height: 30px;
+    height: 30px;
+    display: none
+}
+
+#popHead #popClose {
+    position: absolute;
+    right: -4px;
+    top: 2px;
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0 5px;
+}
+
+#popHead a#popClose:hover {
+    color: #f00;
+    cursor: pointer;
+}
+
+#popl {
+    background: #fff;
+    width: 180px;
+    height: 180px;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 100
+}
+
+#popl img {
+    width: 180px;
+    height: 180px;
+    border: none;
+}
+
+#poplHead {
+    line-height: 32px;
+    background: #f6f0f3;
+    font-size: 12px;
+    padding: 0 0 0 10px;
+}
+
+#poplHead h2 {
+    font-size: 14px;
+    color: #666;
+    line-height: 30px;
+    height: 30px;
+    display: none
+}
+
+#poplHead #poplClose {
+    position: absolute;
+    right: -4px;
+    top: 2px;
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0 5px;
+}
+
+#poplHead a#poplClose:hover {
+    color: #f00;
+    cursor: pointer;
+}

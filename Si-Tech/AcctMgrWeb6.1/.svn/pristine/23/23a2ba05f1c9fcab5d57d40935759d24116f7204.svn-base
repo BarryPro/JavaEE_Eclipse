@@ -1,0 +1,288 @@
+package com.sitech.acctmgr.atom.domains.free;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+import java.io.Serializable;
+
+/**
+ * 功能：免费资源通用展示实体
+ * Created by wangyla on 2016/7/18.
+ */
+public class FreeDetailEntity implements Serializable {
+    @JSONField(name = "PROD_PRCID")
+    @ParamDesc(path = "PROD_PRCID", desc = "资费ID", cons = ConsType.CT001, len = "", memo = "")
+    private String prodPrcId;
+
+    @JSONField(name = "PROD_PRC_NAME")
+    @ParamDesc(path = "PROD_PRC_NAME", desc = "资费名称", cons = ConsType.CT001, len = "", memo = "")
+    private String prodPrcidName;
+
+    @JSONField(name = "BUSI_CODE")
+    @ParamDesc(path = "BUSI_CODE", cons = ConsType.CT001, len = "1", type = "string", desc = "业务类型标识", memo = "1:语音；2：短信；3:GPRS;4：vpmn;5:wlan; 7:彩信；8：cmwap;")
+    private String busiCode;
+
+    @JSONField(name = "BUSI_NAME")
+    @ParamDesc(path = "BUSI_NAME", desc = "业务类型名称", cons = ConsType.CT001, len = "", memo = "")
+    private String busiName;
+
+    @JSONField(name = "TOTAL")
+    @ParamDesc(path = "TOTAL", desc = "总优惠量", cons = ConsType.CT001, len = "", memo = "")
+    private String total;
+
+    @JSONField(serialize = false)
+    private long longTotal;
+
+    @JSONField(name = "USED")
+    @ParamDesc(path = "USED", desc = "已使用量", cons = ConsType.CT001, len = "", memo = "")
+    private String used;
+
+    @JSONField(serialize = false)
+    private long longUsed;
+
+    @JSONField(name = "REMAIN")
+    @ParamDesc(path = "REMAIN", desc = "剩余量", cons = ConsType.CT001, len = "", memo = "")
+    private String remain;
+
+    @JSONField(serialize = false)
+    private long longRemain;
+
+    @JSONField(name = "OUT")
+    @ParamDesc(path = "OUT", desc = "套餐外使用量", cons = ConsType.CT001, len = "", memo = "GPRS或WLAN时，此参数有值")
+    private String out;
+
+    @JSONField(serialize = false)
+    private long longOut;
+
+    @JSONField(name = "UNIT")
+    @ParamDesc(path = "UNIT", desc = "计量单位", cons = ConsType.CT001, len = "", memo = "")
+    private String unit;
+
+    @JSONField(name = "UNIT_NAME")
+    @ParamDesc(path = "UNIT_NAME", desc = "计量单位名称", cons = ConsType.CT001, len = "", memo = "")
+    private String unitName;
+
+    @JSONField(name = "FAV_TYPE")
+    @ParamDesc(path = "FAV_TYPE", desc = "优惠类型", cons = ConsType.CT001, len = "", memo = "")
+    private String favType;
+
+    @JSONField(name = "PRIORITY")
+    @ParamDesc(path = "PRIORITY", desc = "优先级", cons = ConsType.CT001, len = "", memo = "")
+    private String priority;
+
+    @JSONField(name = "EFF_DATE")
+    @ParamDesc(path = "EFF_DATE", desc = "资费生效时间", cons = ConsType.CT001, len = "", memo = "")
+    private String effDate;
+
+    @JSONField(name = "SHARE_FLAG")
+    @ParamDesc(path = "SHARE_FLAG", desc = "共享标识", cons = ConsType.CT001, len = "", memo = "取值：Y，共享；N，非共享；null,此参数无效")
+    private String shareFlag;
+
+    @JSONField(name = "CARRY_FLAG")
+    @ParamDesc(path = "CARRY_FLAG", desc = "结转标识", cons = ConsType.CT001, len = "", memo = "取值：Y，结转；N，非结转；null，此参数无效")
+    private String carryFlag;
+
+    @JSONField(name = "GPRS_LIMIT_TYPE")
+    @ParamDesc(path = "GPRS_LIMIT_TYPE", desc = "流量限制分类", cons = ConsType.CT001, len = "", memo = "取值：01，流量通用；02，流量专用；null，此参数无效")
+    private String gprsLimitType;
+
+    @JSONField(name = "GPRS_REGION_TYPE")
+    @ParamDesc(path = "GPRS_REGION_TYPE", desc = "流量地域分类", cons = ConsType.CT001, len = "", memo = "取值：01，国内流量；02，区域流量；null，此参数无效")
+    private String gprsRegionType;
+
+    public String getProdPrcId() {
+        return prodPrcId;
+    }
+
+    public void setProdPrcId(String prodPrcId) {
+        this.prodPrcId = prodPrcId;
+    }
+
+    public String getProdPrcidName() {
+        return prodPrcidName;
+    }
+
+    public void setProdPrcidName(String prodPrcidName) {
+        this.prodPrcidName = prodPrcidName;
+    }
+
+    public String getBusiCode() {
+        return busiCode;
+    }
+
+    public void setBusiCode(String busiCode) {
+        this.busiCode = busiCode;
+    }
+
+    public String getBusiName() {
+        return busiName;
+    }
+
+    public void setBusiName(String busiName) {
+        this.busiName = busiName;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getUsed() {
+        return used;
+    }
+
+    public void setUsed(String used) {
+        this.used = used;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public long getLongTotal() {
+        return longTotal;
+    }
+
+    public void setLongTotal(long longTotal) {
+        this.longTotal = longTotal;
+    }
+
+    public long getLongUsed() {
+        return longUsed;
+    }
+
+    public void setLongUsed(long longUsed) {
+        this.longUsed = longUsed;
+    }
+
+    public String getRemain() {
+        return remain;
+    }
+
+    public void setRemain(String remain) {
+        this.remain = remain;
+    }
+
+    public long getLongRemain() {
+        return longRemain;
+    }
+
+    public void setLongRemain(long longRemain) {
+        this.longRemain = longRemain;
+    }
+
+    public String getFavType() {
+        return favType;
+    }
+
+    public void setFavType(String favType) {
+        this.favType = favType;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getOut() {
+        return out;
+    }
+
+    public void setOut(String out) {
+        this.out = out;
+    }
+
+    public long getLongOut() {
+        return longOut;
+    }
+
+    public void setLongOut(long longOut) {
+        this.longOut = longOut;
+    }
+
+    public String getEffDate() {
+        return effDate;
+    }
+
+    public void setEffDate(String effDate) {
+        this.effDate = effDate;
+    }
+
+    public String getShareFlag() {
+        return shareFlag;
+    }
+
+    public void setShareFlag(String shareFlag) {
+        this.shareFlag = shareFlag;
+    }
+
+    public String getCarryFlag() {
+        return carryFlag;
+    }
+
+    public void setCarryFlag(String carryFlag) {
+        this.carryFlag = carryFlag;
+    }
+
+    public String getGprsLimitType() {
+        return gprsLimitType;
+    }
+
+    public void setGprsLimitType(String gprsLimitType) {
+        this.gprsLimitType = gprsLimitType;
+    }
+
+    public String getGprsRegionType() {
+        return gprsRegionType;
+    }
+
+    public void setGprsRegionType(String gprsRegionType) {
+        this.gprsRegionType = gprsRegionType;
+    }
+
+    @Override
+    public String toString() {
+        return "FreeDetailEntity{" +
+                "prodPrcId=" + prodPrcId +
+                ", prodPrcidName='" + prodPrcidName + '\'' +
+                ", busiCode='" + busiCode + '\'' +
+                ", busiName='" + busiName + '\'' +
+                ", total='" + total + '\'' +
+                ", longTotal=" + longTotal +
+                ", used='" + used + '\'' +
+                ", longUsed=" + longUsed +
+                ", remain='" + remain + '\'' +
+                ", longRemain=" + longRemain +
+                ", out='" + out + '\'' +
+                ", longOut=" + longOut +
+                ", unit='" + unit + '\'' +
+                ", unitName='" + unitName + '\'' +
+                ", favType='" + favType + '\'' +
+                ", priority='" + priority + '\'' +
+                ", effDate='" + effDate + '\'' +
+                ", shareFlag='" + shareFlag + '\'' +
+                ", carryFlag='" + carryFlag + '\'' +
+                ", gprsLimitType='" + gprsLimitType + '\'' +
+                ", gprsRegionType='" + gprsRegionType + '\'' +
+                '}';
+    }
+}

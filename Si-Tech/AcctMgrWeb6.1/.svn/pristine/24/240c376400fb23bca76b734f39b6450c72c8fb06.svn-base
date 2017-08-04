@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="dual">
+
+	<select id="qSysTime"  parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') CUR_TIME,
+		       TO_CHAR(SYSDATE, 'YYYYMMDD') CUR_DATE,
+		       TO_CHAR(SYSDATE, 'YYYYMM') CUR_YM,
+		       TO_CHAR(SYSDATE, 'MMDD') CUR_MD,
+		       TO_CHAR(SYSDATE, 'DD') CUR_DAY,
+		       TO_CHAR(SYSDATE, 'HH24MI') CUR_HHMI,
+		       TO_CHAR(SYSDATE, 'HH24MISS') CUR_HHMISS,
+		       TO_CHAR(LAST_DAY(SYSDATE), 'DD') LASTDAY,
+		       TO_CHAR(ADD_MONTHS(SYSDATE, -12), 'YYYYMM') ONE_BEFYM,
+		       TO_CHAR(ADD_MONTHS(SYSDATE, -24), 'YYYYMM') TWO_BEFYM,
+		       TO_CHAR(ADD_MONTHS(SYSDATE, -1), 'YYYYMM') LAST_YM,
+		       TO_CHAR(ADD_MONTHS(SYSDATE, +1), 'YYYYMM') NEXT_YM,
+		       TO_CHAR(SYSDATE, 'YYYY') BEGIN_YEAR,
+		       TO_CHAR(SYSDATE, 'MM') BEGIN_MONTH,
+		       TO_CHAR(ADD_MONTHS(SYSDATE, 11), 'YYYY') END_YEAR,
+		       TO_CHAR(ADD_MONTHS(SYSDATE, 11), 'MM') END_MONTH
+		  FROM DUAL
+	</select>
+	
+	<select id="qSequence" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR($SEQ_NAME$.NEXTVAL) NEXTVAL,
+		       TO_CHAR(SYSDATE, 'YYYY') SYS_YEAR,
+		       TO_CHAR(SYSDATE, 'MMDD') SYS_MMDD,
+		       TO_CHAR(SYSDATE, 'HH24MISS') SYS_HHMISS,
+		       TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') SYS_TIME
+		  FROM DUAL
+	</select>
+	
+	  <select id="qLastDay"  resultClass="java.util.HashMap">  
+	SELECT 
+      to_char(add_months(  last_day(   to_date(#CUR_MONTH#,'yyyymm')    ), $ADD_MONTH$ ), 'yyyymmdd') LAST_DAY
+	FROM DUAL
+  </select>
+
+  <select id="qSeqAndSystime" maxRows="1000" resultClass="java.util.HashMap">  
+	SELECT TO_CHAR($SEQ_NAME$.NEXTVAL) NEXTVAL, TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') SYSTIME
+	FROM   DUAL
+  </select>
+  
+</sqlMap>

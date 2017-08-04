@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="act_colldeal_info">
+
+    <insert id="instCollDealInfo" parameterClass="Map">
+      INSERT INTO act_colldeal_info (LOGIN_ACCEPT, YEAR_MONTH, CONTRACT_NO, LOGIN_NO,DEAL_FLAG, OP_TIME)
+      VALUES (#LOGIN_ACCEPT#, #YEAR_MONTH#, #CONTRACT_NO#, #LOGIN_NO#, #DEAL_FLAG#, sysdate)
+    </insert>
+
+</sqlMap>

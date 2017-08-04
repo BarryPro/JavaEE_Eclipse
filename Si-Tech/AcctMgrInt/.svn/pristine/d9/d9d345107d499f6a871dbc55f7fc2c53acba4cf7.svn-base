@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig 
+    PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="256"
+		maxSessions="64" maxTransactions="32" useStatementNamespaces="true" />
+	
+	<sqlMap resource="classpath:ibatisIntMap/balance/BalUserchgRecd.xml" />
+	
+	<sqlMap resource="classpath:ibatisIntMap/base/BsChnGroupRel.xml" />
+	
+	<sqlMap resource="classpath:ibatisIntMap/custsvc/CsUserdetailInfo.xml" />
+	
+	<sqlMap resource="classpath:ibatisIntMap/int1/CsUserdetailInfoCHG.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBcbusiorderDict.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBsdatasourceDict.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBsModTableRel.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBspriparmDict.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBsstatusToActionRel.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBssvcAttrGroupRel.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBssvcDict.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InBtoamsgsendInfo.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InDataSynDict.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InMsgsendInfo.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InSmssendErr.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/int1/InSmssendHis.xml" />
+	
+	<sqlMap resource="classpath:ibatisIntMap/pub/DUAL.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/pub/PushTemplate.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/pub/PubCodedefDict.xml" />
+	
+	<sqlMap resource="classpath:ibatisIntMap/user/UrBossToCrmState.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/user/UrBosstocrmstateHis.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/user/UrUserInfo.xml" />
+	<sqlMap resource="classpath:ibatisIntMap/user/UrUserSvcTraceInfo.xml" />
+	
+</sqlMapConfig>

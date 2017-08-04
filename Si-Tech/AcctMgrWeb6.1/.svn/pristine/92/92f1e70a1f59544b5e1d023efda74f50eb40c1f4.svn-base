@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invprint_info">
+<typeAlias alias="BalInvprintInfoEntity" type="com.sitech.acctmgr.atom.domains.invoice.BalInvprintInfoEntity"/>
+	<select id="qInvInfoByinvNo" parameterClass="Map" resultClass="BalInvprintInfoEntity">
+		SELECT PRINT_SN printSn,
+		PHONE_NO phoneNo,
+		ID_NO idNo,
+		PAY_SN paySn,
+		CASE WHEN REL_CONTRACT_NO IS NULL OR REL_CONTRACT_NO =0 THEN CONTRACT_NO ELSE REL_CONTRACT_NO END contractNo,
+		BILL_CYCLE billCycle,
+		INV_NO invNo,
+		INV_TYPE invType,
+		INV_CODE invCode,
+		PRINT_FEE printFee,
+		PRINT_ARRAY printArray,
+		TOTAL_DATE totalDate,
+		STATE state
+		FROM BAL_INVPRINT_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="YEAR_MONTH">
+				AND TO_CHAR(OP_TIME,'YYYYMM')=#YEAR_MONTH#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="" property="INV_CODE">
+				AND INV_CODE = #INV_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="INV_NO">
+				AND INV_NO=#INV_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATE">
+				AND STATE=#STATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONE_NO=#PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="ID_NO">
+				AND ID_NO=#ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="LOGIN_NO">
+				AND LOGIN_NO=#LOGIN_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PAY_SN">
+				AND PAY_SN=#PAY_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BILL_CYCLE">
+				AND BILL_CYCLE = #BILL_CYCLE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="MONTH_INVOICE">
+				AND SUBSTR(INV_TYPE,0,1)='M'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="qInvInfo" parameterClass="Map" resultClass="BalInvprintInfoEntity">
+		SELECT PRINT_SN printSn,
+	       INV_NO invNo,
+	       INV_CODE invCode,
+	       INV_TYPE invType,
+	       STATE state,
+	       PRINT_FEE printFee,
+	       TOTAL_DATE totalDate,
+	       COUNT(*) cnt
+  		FROM BAL_INVPRINT_INFO
+		WHERE TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[>=]]> #BEGIN_TIME#
+		AND TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[<=]]> #END_TIME#
+		AND INV_TYPE!='MM5002'
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="INV_CODE">
+				AND INV_CODE = #INV_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="INV_NO">
+				AND INV_NO=#INV_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATE">
+				AND STATE=#STATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONE_NO=#PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="LOGIN_NO">
+				AND LOGIN_NO=#LOGIN_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PAY_SN">
+				AND PAY_SN=#PAY_SN#
+			</isNotEmpty>
+		</dynamic>
+		GROUP BY PRINT_SN, INV_NO, INV_CODE, INV_TYPE, STATE, PRINT_FEE, TOTAL_DATE
+	</select>
+	
+	<select id="qPrintFlag" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(*)CNT,INV_CODE,INV_NO FROM BAL_INVPRINT_INFO 
+		WHERE TO_CHAR(OP_TIME,'YYYYMM')=#SUFFIX#
+		AND PAY_SN=#PAY_SN#
+		AND STATE=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+		</dynamic>
+		GROUP BY INV_CODE,INV_NO
+	</select>
+	
+  <select id="qryCntByCon"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT NVL(COUNT(1),0) AS CNT FROM BAL_INVPRINT_INFO WHERE CONTRACT_NO = #CONTRACT_NO:LONG# 
+    AND BILL_CYCLE = #BILL_CYCLE# and state='1' AND TO_CHAR(OP_TIME,'YYYYMM') = #SUFFIX#
+      <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    	ID_NO = #ID_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="INV_TYPE">
+    	TRIM(INV_TYPE) LIKE #INV_TYPE#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+  
+  <insert id="insInvPrint"  parameterClass="Map">
+    INSERT INTO BAL_INVPRINT_INFO VALUES(#PRINT_SN:LONG#,#PRINT_ARRAY:INT#,#PHONE_NO#,#CUST_ID:LONG#,#ID_NO:LONG#,#CONTRACT_NO:LONG#,
+    #BILL_CYCLE:INT#,#INV_NO#,#INV_CODE#,#TCM_CODE#,#INV_REL_NO#,#STATE#,#INV_TYPE#,#PAY_SN:LONG#,#TOTAL_FEE:LONG#,#TAX_RATE#,#TAX_FEE:LONG#,
+    #PRINT_FEE:LONG#,#PRINT_NUM:INT#,#LOGIN_NO#,#GROUP_ID#,#OP_CODE#,TO_NUMBER(TO_CHAR(SYSDATE,'yyyyMMdd')),SYSDATE,#REMARK#,1,#BEGIN_YMD#,#END_YMD#,#REQUEST_SN#)
+  </insert>
+
+	<insert id="insInvPrintEntry" parameterClass="BalInvprintInfoEntity">
+		insert into bal_invprint_info
+		(PRINT_SN,PRINT_ARRAY,PHONE_NO,CUST_ID,ID_NO,CONTRACT_NO,BILL_CYCLE,INV_NO,INV_CODE,TCM_CODE,
+		INV_REL_NO,STATE,INV_TYPE,PAY_SN,TOTAL_FEE,TAX_RATE,TAX_FEE,PRINT_FEE,PRINT_NUM,LOGIN_NO,GROUP_ID,
+		OP_CODE,TOTAL_DATE,OP_TIME,REMARK,PRINT_SEQ,BEGIN_YMD,END_YMD,REQUEST_SN,REL_CONTRACT_NO)
+		VALUES
+		(#printSn#,#printArray#,#phoneNo#,#custId#,#idNo#,#contractNo#,#billCycle#,#invNo#,#invCode#,
+		#tcmCode#,#invRelNo#,#state#,#invType#,#paySn#,#totalFee#,#taxRate#,#taxFee#,#printFee#,
+		#printNum#,#loginNo#,#groupId#,#opCode#,TO_NUMBER(TO_CHAR(SYSDATE, 'yyyyMMdd')),SYSDATE,
+		#remark#,1,#beginYmd#,#endYmd#,#requestSn#,#relContractNo#)
+	</insert>
+  
+  <update id="uInvPrint" parameterClass="Map">
+  update BAL_INVPRINT_INFO SET PRINT_FEE=#PRINT_FEE:LONG#,PRINT_NUM=#PRINT_NUM:INT#,REMARK=#REMARK# WHERE PRINT_SN=#PRINT_SN:LONG# AND TO_CHAR(OP_TIME,'YYYYMM') = #SUFFIX#
+   <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="INV_NO">
+    	INV_NO = #INV_NO#
+    	</isNotEmpty>
+    </dynamic>
+  </update>
+  
+  <select id="qryPrintedFee"  parameterClass="Map" resultClass="java.util.HashMap">
+    select NVL(sum(print_fee),0) AS PRINT_FEE from bal_invprint_INFO
+    where contract_no=#CONTRACT_NO:LONG# and state='1' AND TO_CHAR(OP_TIME,'YYYYMM') = #SUFFIX#
+    and bill_cycle=#BILL_CYCLE:INT# and inv_type='MM3001'
+      <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    	ID_NO = #ID_NO#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+  
+ 
+  <!-- add by liuhl_bj -->
+  <update id="upInvStateByInvNo" parameterClass="Map">
+  	UPDATE BAL_INVPRINT_INFO SET STATE=#STATE#
+  	<dynamic prepend="">
+  		<isNotEmpty prepend="," property="INV_CODE">
+  			INV_CODE=#INV_CODE#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="INV_NO">
+  			INV_NO=#INV_NO#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="PAY_SN">
+  			PAY_SN=#PAY_SN#
+  		</isNotEmpty>
+  	</dynamic>
+  	WHERE TO_CHAR(OP_TIME,'YYYYMM')=#SUFFIX#
+  	<dynamic prepend="">
+			<isNotEmpty prepend="" property="INV_CODE_OLD">
+				AND INV_CODE = #INV_CODE_OLD#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="INV_NO_OLD">
+				AND INV_NO=#INV_NO_OLD#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATE_OLD">
+				AND STATE=#STATE_OLD#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONE_NO=#PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PRINT_SN">
+				AND PRINT_SN=#PRINT_SN#
+			</isNotEmpty>
+		</dynamic>
+  	
+  </update>
+  
+  
+  <typeAlias type="com.sitech.acctmgr.atom.domains.invoice.InvoInfoEntity" alias="InvInvo" />
+  
+	<resultMap id="InvInvoEntry" class="InvInvo">
+		<result property="contractNo" column="CONTRACT_NO" />
+		<result property="invNo" column="INV_NO"/>
+		<result property="invCode" column="INV_CODE" />
+		<result property="printFee" column="TOTAL_FEE" />
+		<result property="printTime" column="OP_TIME" />
+		<result property="printSeq" column="PRINT_SEQ" />
+		<result property="orderSn" column="ORDER_SN" />
+		<result property="printSn" column="PRINT_SN" />
+		<result property="printArray" column="PRINT_ARRAY" />
+		<result property="invType" column="INV_TYPE" />
+		<result property="billCycleStr" column="BILLCYCLE_STR" />
+		<result property="billCyle" column="BILL_CYCLE" />
+		<result property="paySn" column="PAY_SN" />
+	</resultMap>
+	
+  <select id="qPrintedByPaySn"  parameterClass="Map" resultMap="InvInvoEntry">
+    SELECT a.contract_no,B.INV_NO,B.INV_CODE,B.TOTAL_FEE,to_char(A.OP_TIME,'yyyyMMdd HH24:MI:SS') AS OP_TIME,A.PRINT_SEQ,
+    b.order_sn,b.print_sn,a.print_array,inv_type,b.year_month as BILLCYCLE_STR,A.BILL_CYCLE,A.PAY_SN
+  FROM bal_invprint_info a, bal_invprintdet_info b
+ WHERE     TO_CHAR (a.op_time, 'YYYYMM') = #YEAR_MONTH#
+    AND B.YEAR_MONTH = substr(to_char(a.total_date),0,6)
+    <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    	 	A.CONTRACT_NO = #CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    	    a.pay_sn = #PAY_SN:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PRINT_SN">
+    	    a.PRINT_SN = #PRINT_SN:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PRINT_ARRAY">
+    	    A.PRINT_ARRAY = #PRINT_ARRAY:INT#
+    	</isNotEmpty>
+    </dynamic>
+       AND B.PRINT_SN = a.print_sn
+       AND A.PRINT_ARRAY = B.PRINT_ARRAY
+       AND B.SHOW_ORDER = 6
+       and A.STATE='1'
+  </select>
+
+	<resultMap id="InvInvoEntryoffLine" class="InvInvo">
+		<result property="contractNo" column="CONTRACT_NO" />
+		<result property="invNo" column="INV_NO" />
+		<result property="invCode" column="INV_CODE" />
+		<result property="printFee" column="TOTAL_FEE" />
+		<result property="printTime" column="OP_TIME" />
+		<result property="printSeq" column="PRINT_SEQ" />
+		<result property="printSnStr" column="PRINT_SN" />
+		<result property="printArray" column="PRINT_ARRAY" />
+		<result property="invType" column="INV_TYPE" />
+		<result property="billCyle" column="BILL_CYCLE" />
+		<result property="paySn" column="PAY_SN" />
+		<result property="beginYMD" column="BEGIN_YMD" />
+		<result property="endYMD" column="END_YMD" />
+	</resultMap>
+	<select id="qPrintedByPaySnoffline"  parameterClass="Map" resultMap="InvInvoEntryoffLine">
+   SELECT a.contract_no,a.INV_NO,a.INV_CODE,a.TOTAL_FEE,to_char(A.OP_TIME,'yyyyMMdd HH24:MI:SS') AS OP_TIME,A.PRINT_SEQ,
+    a.print_sn,a.print_array,a.inv_type,A.BILL_CYCLE,A.PAY_SN,A.BEGIN_YMD,A.END_YMD
+  FROM bal_invprint_info a
+ WHERE     TO_CHAR (a.op_time, 'YYYYMM') = #YEAR_MONTH#
+    <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    	 	A.CONTRACT_NO = #CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    	    a.pay_sn = #PAY_SN:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PRINT_SN">
+    	    a.PRINT_SN = #PRINT_SN#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PRINT_ARRAY">
+    	    A.PRINT_ARRAY = #PRINT_ARRAY:INT#
+    	</isNotEmpty>
+    </dynamic>
+       and A.STATE='1'
+  </select>
+
+  
+  	<resultMap id="InvInvoEntryofSigle" class="InvInvo">
+		<result property="contractNo" column="CONTRACT_NO" />
+		<result property="invNo" column="INV_NO"/>
+		<result property="invCode" column="INV_CODE" />
+		<result property="printFee" column="TOTAL_FEE" />
+		<result property="printTime" column="OP_TIME" />
+		<result property="printSeq" column="PRINT_SEQ" />
+		<result property="orderSn" column="ORDER_SN" />
+		<result property="printSn" column="PRINT_SN" />
+		<result property="printArray" column="PRINT_ARRAY" />
+		<result property="invType" column="INV_TYPE" />
+		<result property="billCycleStr" column="BILLCYCLE_STR" />
+		<result property="loginNo" column="LOGIN_NO" />
+		<result property="billCyle" column="BILL_CYCLE" />
+		<result property="state" column="STATE" />
+	</resultMap>
+  <select id="qPrintedByPaySnMuti03"  parameterClass="Map" resultMap="InvInvoEntryofSigle">
+    SELECT b.contract_no,
+       B.INV_NO,
+       B.INV_CODE,
+       B.TOTAL_FEE,
+       c.op_time,
+       c.PRINT_SEQ,
+       b.order_sn,
+       b.print_sn,
+       c.print_array,
+       c.inv_type,
+       b.year_month AS BILLCYCLE_STR,
+       c.login_no,
+       c.bill_cycle,
+       C.STATE
+  FROM bal_invprintdet_info b,
+       (  SELECT TO_CHAR (MIN(A.OP_TIME), 'yyyyMMdd HH24:MI:SS') AS OP_TIME,
+                 A.PRINT_SEQ,
+                 a.inv_type,
+                 SUBSTR (TO_CHAR (a.total_date), 0, 6) AS total_date,
+                 a.print_sn,
+                 a.print_Array,
+                 a.login_no,
+                 a.bill_cycle,
+                 A.STATE
+            FROM bal_invprint_info a
+           WHERE     TO_CHAR (a.op_time, 'YYYYMM') = #YEAR_MONTH#
+       <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    	 	A.CONTRACT_NO = #CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="TOP_CONTRACT_NO">
+    	 	(A.CONTRACT_NO IN (SELECT REL_CONTRACT_NO FROM CS_ACCOUNT_REL WHERE CONTRACT_NO=#TOP_CONTRACT_NO:LONG#) OR A.CONTRACT_NO=#TOP_CONTRACT_NO:LONG#)
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    	 	A.ID_NO = #ID_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    	    a.pay_sn = #PAY_SN:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PRINT_SN">
+    	    a.PRINT_SN = #PRINT_SN:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="BILL_CYCLE">
+    	    a.BILL_CYCLE = #BILL_CYCLE:INT#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ELEC_INVO">
+    	    SUBSTR(A.INV_TYPE,0,1) = 'E'
+    	</isNotEmpty>
+    	<isEmpty prepend="AND" property="ELEC_INVO">
+    		A.STATE = '1'
+    	</isEmpty>
+       </dynamic>
+        GROUP BY a.print_array,
+                 A.PRINT_SEQ,
+                 a.inv_type,
+                 a.total_date,
+                 a.print_sn,
+                 a.login_no,
+                 a.bill_cycle,
+                 A.STATE) c
+ WHERE     B.YEAR_MONTH = c.total_date
+       AND B.PRINT_SN = c.print_sn
+       AND c.PRINT_ARRAY = B.PRINT_ARRAY  
+       <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    	 	 B.CONTRACT_NO = #CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="TOP_CONTRACT_NO">
+    	 	(B.CONTRACT_NO IN (SELECT REL_CONTRACT_NO FROM CS_ACCOUNT_REL WHERE CONTRACT_NO=#TOP_CONTRACT_NO:LONG#) OR B.CONTRACT_NO=#TOP_CONTRACT_NO:LONG#)
+    	</isNotEmpty>
+       </dynamic>
+       AND B.SHOW_ORDER=any(6,20)   order by c.op_time desc
+  </select>
+  
+  <resultMap id="InvInvoEntryofSigleoffonline" class="InvInvo">
+	<result property="contractNo" column="CONTRACT_NO" />
+	<result property="invNo" column="INV_NO"/>
+	<result property="invCode" column="INV_CODE" />
+	<result property="printFee" column="TOTAL_FEE" />
+	<result property="printSnStr" column="PRINT_SN" />
+	<result property="printTime" column="OP_TIME" />
+	<result property="printSeq" column="PRINT_SEQ" />
+	<result property="invType" column="INV_TYPE" />
+	<result property="billCycleStr" column="BILLCYCLE_STR" />
+	<result property="printArray" column="PRINT_ARRAY" />
+	<result property="loginNo" column="LOGIN_NO" />
+	<result property="onlineFlag" column="ONLINE_FLAG" />
+  </resultMap>
+   <select id="qPrintedByPaySnMuti05"  parameterClass="Map" resultMap="InvInvoEntryofSigleoffonline">
+   	 SELECT a.contract_no,a.inv_no,a.inv_code,a.total_fee,to_char(a.print_sn) as print_sn,TO_CHAR (MIN(A.OP_TIME), 'yyyyMMdd HH24:MI:SS') AS OP_TIME,
+                 A.PRINT_SEQ,
+                 a.inv_type,
+                 SUBSTR (TO_CHAR (a.total_date), 0, 6) AS BILLCYCLE_STR,
+                 a.print_Array,
+                 a.login_no,
+                 -1 as online_flag
+            FROM bal_invprint_info a
+            WHERE TO_CHAR (a.op_time, 'YYYYMM') = #YEAR_MONTH#
+       <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    	 	A.CONTRACT_NO = #CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="TOP_CONTRACT_NO">
+    	 	A.CONTRACT_NO IN (SELECT REL_CONTRACT_NO FROM CS_ACCOUNT_REL WHERE CONTRACT_NO=#TOP_CONTRACT_NO:LONG#)
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    	 	A.ID_NO = #ID_NO:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    	    a.pay_sn = #PAY_SN:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PRINT_SN">
+    	    a.PRINT_SN = #PRINT_SN:LONG#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="BILL_CYCLE">
+    	    a.BILL_CYCLE = #BILL_CYCLE:INT#
+    	</isNotEmpty>
+       </dynamic>  
+       AND A.STATE = '1'
+        GROUP BY a.print_array,
+           A.PRINT_SEQ,
+           a.inv_type,
+           a.total_date,
+           a.print_sn,
+           a.print_array,
+           a.login_no,
+           a.contract_no,
+           a.inv_no,
+           a.inv_code,
+           a.total_fee   
+   </select>
+  
+  <update id="upTaxInvSTATEByPrintSn" parameterClass="Map">
+  UPDATE bal_invprint_info
+   SET STATE = #STATE#
+   <dynamic prepend="">
+    	<isNotEmpty prepend="," property="INV_REL_NO">
+    	INV_REL_NO = #INV_REL_NO#
+    	</isNotEmpty>
+    </dynamic> 
+ 	WHERE PRINT_SN = #PRINT_SN#
+       AND TO_CHAR (OP_TIME, 'YYYYMM') = #SUFFIX#
+       <dynamic prepend="">
+       	<isNotEmpty prepend="AND" property="PRINT_ARRAY">
+    	PRINT_ARRAY = #PRINT_ARRAY:INT#
+    	</isNotEmpty>
+    </dynamic>
+  </update>
+  
+  <select id="qPrintedByPaySnMuti02"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT CASE INV_TYPE
+          WHEN 'PM3001' THEN '2'
+          WHEN 'MM3001' THEN '1'
+          WHEN 'MM3002' THEN '1'
+          WHEN 'MM5002' THEN '3'
+          ELSE '0'
+       END AS PRINT_FLAG
+  FROM BAL_INVPRINT_INFO
+ WHERE     TO_CHAR (OP_TIME, 'YYYYMM') = #YEAR_MONTH#
+    <dynamic prepend="">
+   		<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		CONTRACT_NO=#CONTRACT_NO:LONG#
+    	</isNotEmpty>
+    </dynamic>
+       AND PAY_SN = #PAY_SN:LONG#
+       AND STATE = '1' and rownum<![CDATA[ < ]]>2
+  </select>
+  
+  <select id="qPrintedByPaySnMuti04"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT CASE INV_TYPE
+          WHEN 'PM3001' THEN '2'
+          WHEN 'MM3001' THEN '1'
+          WHEN 'MM3002' THEN '1'
+          WHEN 'MM5002' THEN '3'
+          ELSE '0'
+       END AS PRINT_FLAG
+  FROM BAL_INVPRINT_INFO
+ WHERE     TO_CHAR (OP_TIME, 'YYYYMM') = #YEAR_MONTH#
+    <dynamic prepend="">
+   		<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		(CONTRACT_NO in (select rel_contract_no from cs_account_rel where contract_no=#CONTRACT_NO:LONG#) or CONTRACT_NO=#CONTRACT_NO:LONG#)
+    	</isNotEmpty>
+    </dynamic>
+       AND PAY_SN = #PAY_SN:LONG#
+       AND STATE = '1' and rownum<![CDATA[ < ]]>2
+  </select>
+
+
+	<!-- liuhl_bj add -->
+	<select id="qryPrintInfo" parameterClass="Map" resultClass="BalInvprintInfoEntity">
+		SELECT PRINT_SN printSn,
+		PRINT_ARRAY printArray,
+		PHONE_NO phoneNo,
+		CUST_ID custId,
+		ID_NO idNo,
+		CONTRACT_NO contractNo,
+		BILL_CYCLE billCycle,
+		INV_NO invNo,
+		INV_CODE invCode,
+		TCM_CODE tcmCode,
+		INV_TYPE invType,
+		PAY_SN paySn,
+		TOTAL_FEE totalFee,
+		PRINT_FEE printFee,
+		OP_CODE opCode,
+		TOTAL_DATE totalDate,
+		OP_TIME opTime,
+		REMARK remark,
+		PRINT_SEQ printSeq,
+		BEGIN_YMD beginYmd,
+		END_YMD endYmd
+		FROM BAL_INVPRINT_INFO
+		WHERE TO_CHAR(OP_TIME,'YYYYMM')=#SUFFIX#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PAY_SN">
+				AND PAY_SN = #PAY_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PRINT_SN">
+				AND PRINT_SN = #PRINT_SN#
+				AND PRINT_ARRAY = 1
+			</isNotEmpty>
+		</dynamic>
+		
+	</select>
+	
+	<update id="upPrintSeq" parameterClass="Map">
+		UPDATE BAL_INVPRINT_INFO SET PRINT_SEQ=#PRINT_SEQ#
+		WHERE TO_CHAR(OP_TIME,'YYYYMM')=#SUFFIX#
+		AND PAY_SN=#PAY_SN#
+	</update>
+	
+	<!-- 判断是否打印过某月的月结发票 -->
+	<select id="qMonthinvCnt" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(*) CNT
+		FROM BAL_INVPRINT_INFO
+		WHERE TO_CHAR(OP_TIME, 'YYYYMM') = #SUFFIX#
+		AND CONTRACT_NO = #CONTRACT_NO#
+		AND SUBSTR(INV_TYPE, 1, 1) = 'M'
+		AND STATE IN ('1','0')
+		AND BILL_CYCLE=#BILL_CYCLE#
+	</select>
+
+	<!-- 查询打印增值税发票的账户和账期 -->
+	<select id="qTaxInvoiceInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT DISTINCT CASE WHEN REL_CONTRACT_NO  IS NOT NULL AND REL_CONTRACT_NO !=0  THEN REL_CONTRACT_NO ELSE CONTRACT_NO END CONTRACT_NO,
+		BILL_CYCLE FROM BAL_INVPRINT_INFO
+		WHERE TO_CHAR(OP_TIME,'YYYYMM')=#OP_TIME#
+		AND PRINT_SN=#PRINT_SN#
+		AND 
+		PRINT_ARRAY=#PRINT_ARRAY#
+	</select>
+
+	<update id="updateState" parameterClass="Map">
+		UPDATE bal_invprint_info
+		SET STATE = #STATE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="INV_REL_NO">
+				INV_REL_NO = #INV_REL_NO#
+			</isNotEmpty>
+		</dynamic>
+		WHERE PRINT_SN = #PRINT_SN#
+		AND TO_CHAR (OP_TIME, 'YYYYMM') = #SUFFIX#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PRINT_ARRAY">
+				PRINT_ARRAY = #PRINT_ARRAY:INT#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<update id="upPaySn" parameterClass="Map">
+		UPDATE bal_invprint_info
+		SET PAY_SN = #PAY_SN#, BILL_CYCLE = #BILL_CYCLE#
+		WHERE PRINT_SN = #PRINT_SN#
+		AND TO_CHAR (OP_TIME, 'YYYYMM') = #SUFFIX#
+		AND CONTRACT_NO = #CONTRACT_NO#
+	</update>
+	
+	<!-- 判断打印增值税发票的账户是否冲红或作废 -->
+	<select id="queryDeadInvoice" parameterClass="Map" resultClass = "java.lang.Long">
+		SELECT COUNT(*) NUM FROM BAL_INVPRINT_INFO WHERE TO_CHAR(OP_TIME,'YYYYMM') = #YEAR_MONTH#
+		AND BILL_CYCLE = #INVOICE_YM# AND STATE IN (2,6) AND PHONE_NO = #PHONE_NO#
+	</select>
+	
+</sqlMap>

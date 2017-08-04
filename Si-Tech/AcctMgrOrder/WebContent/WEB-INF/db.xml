@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource" class="com.sitech.jcf.core.datasource.DataSourceDelegating">
+        <property name="defaultDBLabel" value="B1"/>
+    </bean>
+
+	<bean id="dataSourceA" class="com.sitech.jcf.core.datasource.BasicDataSource">
+  		<property name="driverClassName"   	value="${DBCP.DataSource.ijdbc.driver}" />
+		<property name="url"               	value="${DBCP.DataSource.ijdbc.url}" /> 
+		<property name="username"          	value="${DBCP.DataSource.ijdbc.username}" />
+		<property name="password"          	value="${DBCP.DataSource.ijdbc.password}" />
+		<property name="maxActive"         	value="${DBCP.DataSource.ijdbc.maxactive}" />
+		<property name="maxIdle"           	value="${DBCP.DataSource.ijdbc.maxIdle}" />
+		<property name="maxWait"           	value="${DBCP.DataSource.ijdbc.maxwait}" />
+		<property name="testWhileIdle" 		value="${DBCP.DataSource.ijdbc.testWhileIdle}" />
+		<property name="validationQuery" 	value="${DBCP.DataSource.ijdbc.validationQuery}"/>
+		<property name="defaultAutoCommit" 	value="false" />
+	</bean>	
+
+	<bean id="dataSourceA1" class="com.sitech.jcf.core.datasource.BasicDataSource">
+  		<property name="driverClassName"   	value="${DBCP.DataSource.ijdbc.driver}" />
+		<property name="url"               	value="${DBCP.DataSourceA1.ijdbc.url}" /> 
+		<property name="username"          	value="${DBCP.DataSourceA1.ijdbc.username}" />
+		<property name="password"          	value="${DBCP.DataSourceA1.ijdbc.password}" />
+		<property name="maxActive"         	value="${DBCP.DataSource.ijdbc.maxactive}" />
+		<property name="maxIdle"           	value="${DBCP.DataSource.ijdbc.maxIdle}" />
+		<property name="maxWait"           	value="${DBCP.DataSource.ijdbc.maxwait}" />
+		<property name="testWhileIdle" 		value="${DBCP.DataSource.ijdbc.testWhileIdle}" />
+		<property name="validationQuery" 	value="${DBCP.DataSource.ijdbc.validationQuery}"/>
+		<property name="defaultAutoCommit" 	value="false" />
+	</bean>
+	
+	<bean id="dataSourceB1" class="com.sitech.jcf.core.datasource.BasicDataSource">
+  		<property name="driverClassName"   	value="${DBCP.DataSource.ijdbc.driver}" />
+		<property name="url"               	value="${DBCP.DataSourceB1.ijdbc.url}" /> 
+		<property name="username"          	value="${DBCP.DataSourceB1.ijdbc.username}" />
+		<property name="password"          	value="${DBCP.DataSourceB1.ijdbc.password}" />
+		<property name="maxActive"         	value="${DBCP.DataSource.ijdbc.maxactive}" />
+		<property name="maxIdle"           	value="${DBCP.DataSource.ijdbc.maxIdle}" />
+		<property name="maxWait"           	value="${DBCP.DataSource.ijdbc.maxwait}" />
+		<property name="testWhileIdle" 		value="${DBCP.DataSource.ijdbc.testWhileIdle}" />
+		<property name="validationQuery" 	value="${DBCP.DataSource.ijdbc.validationQuery}"/>
+		<property name="defaultAutoCommit" 	value="false" />
+	</bean>
+		<bean id="dataSourceA2" class="com.sitech.jcf.core.datasource.BasicDataSource">
+  		<property name="driverClassName"   	value="${DBCP.DataSource.ijdbc.driver}" />
+		<property name="url"               	value="${DBCP.DataSourceA2.ijdbc.url}" /> 
+		<property name="username"          	value="${DBCP.DataSourceA2.ijdbc.username}" />
+		<property name="password"          	value="${DBCP.DataSourceA2.ijdbc.password}" />
+		<property name="maxActive"         	value="${DBCP.DataSource.ijdbc.maxactive}" />
+		<property name="maxIdle"           	value="${DBCP.DataSource.ijdbc.maxIdle}" />
+		<property name="maxWait"           	value="${DBCP.DataSource.ijdbc.maxwait}" />
+		<property name="testWhileIdle" 		value="${DBCP.DataSource.ijdbc.testWhileIdle}" />
+		<property name="validationQuery" 	value="${DBCP.DataSource.ijdbc.validationQuery}"/>
+		<property name="defaultAutoCommit" 	value="false" />
+	</bean>
+	
+	<bean id="dataSourceB2" class="com.sitech.jcf.core.datasource.BasicDataSource">
+  		<property name="driverClassName"   	value="${DBCP.DataSource.ijdbc.driver}" />
+		<property name="url"               	value="${DBCP.DataSourceB2.ijdbc.url}" /> 
+		<property name="username"          	value="${DBCP.DataSourceB2.ijdbc.username}" />
+		<property name="password"          	value="${DBCP.DataSourceB2.ijdbc.password}" />
+		<property name="maxActive"         	value="${DBCP.DataSource.ijdbc.maxactive}" />
+		<property name="maxIdle"           	value="${DBCP.DataSource.ijdbc.maxIdle}" />
+		<property name="maxWait"           	value="${DBCP.DataSource.ijdbc.maxwait}" />
+		<property name="testWhileIdle" 		value="${DBCP.DataSource.ijdbc.testWhileIdle}" />
+		<property name="validationQuery" 	value="${DBCP.DataSource.ijdbc.validationQuery}"/>
+		<property name="defaultAutoCommit" 	value="false" />
+	</bean>
+	
+		
+</beans>

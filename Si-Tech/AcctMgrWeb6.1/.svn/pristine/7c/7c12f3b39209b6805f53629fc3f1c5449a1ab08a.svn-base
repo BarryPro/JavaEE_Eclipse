@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="remind_warn_user_info">
+	
+	
+	<!--dbaccadm.REMIND_WARN_USER_INFO -->
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(*) COUNT
+		FROM REMIND_WARN_USER_INFO 
+		WHERE WARN_RULE_ID in 
+		<iterate conjunction="," close=")" open="(" property="RULE_ID">
+			#RULE_ID[]#
+		</iterate>
+		AND TRIM(MSISDN) = #PHONE_NO#
+	</select>
+
+	<!-- DBBILLPRG.REMIND_WARN_USER_INFO -->
+	<insert id="ins" parameterClass="Map">
+		INSERT INTO
+		REMIND_WARN_USER_INFO 
+		(WARN_USER_INFO_ID,
+		ID_NO,
+		MSISDN,
+		WARN_RULE_ID,
+		EFF_DATE,
+		EXP_DATE,
+		IS_REMIND)
+		VALUES
+		(#LOGIN_ACCEPT#,
+		#ID_NO#,
+		#PHONE_NO#,
+		#WARN_RULE_ID#,
+		SYSDATE,
+		TO_DATE('21001231 23:59:59', 'YYYYMMDD HH24:MI:SS'),
+		0)
+	</insert>
+	
+	<!--DBBILLPRG.REMIND_WARN_USER_INFO -->
+	<delete id="del" parameterClass="Map">
+		DELETE FROM REMIND_WARN_USER_INFO 
+		WHERE ID_NO=#ID_NO#
+		AND WARN_RULE_ID IN 
+		<iterate conjunction="," open="(" close=")" property="WARN_RULE_ID">
+			#WARN_RULE_ID[]#
+		</iterate>
+	</delete>
+	
+</sqlMap>
+

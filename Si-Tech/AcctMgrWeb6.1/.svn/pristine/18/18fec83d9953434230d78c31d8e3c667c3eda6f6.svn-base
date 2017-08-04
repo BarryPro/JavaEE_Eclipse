@@ -1,0 +1,221 @@
+package com.sitech.acctmgr.common.utils;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSON;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubCodeDictEntity;
+
+/**
+ * 
+ * <p>
+ * Title: 发票工具类
+ * </p>
+ * <p>
+ * Description: 发票工具类
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author wangxind
+ * @version 1.0
+ */
+public class InvoiceUtil {
+	private static Logger log = LoggerFactory.getLogger(InvoiceUtil.class);
+
+	public static List<TaxInvoEntity> getSepraFeeInfo(List<TaxInvoEntity> feeInfo, List<PubCodeDictEntity> pubCodeList, long cfValue) {
+
+		Map<String, Object> outParam = null;
+		List<TaxInvoEntity> feeInfoTemp = new ArrayList<TaxInvoEntity>();
+		long billFee = 0;
+		long taxFee = 0;
+		long nfavFee = 0;// 折扣折让总费用
+		long nzzFee = 0;// 增值业务总费用
+		for (TaxInvoEntity payedoweFee : feeInfo) {
+			log.debug("cf_one_feeInfo_begin====" + payedoweFee);
+			billFee = payedoweFee.getTotalFee();// 发票面值总额
+			taxFee = payedoweFee.getTaxFee();// 增值税发票税额
+			nfavFee = payedoweFee.getFavrateFee();// 折扣折让费用含税额
+			nzzFee = payedoweFee.getInvcInitFee();// 增值税面额
+			log.debug("cfValue==" + cfValue);
+			if (billFee > cfValue) {
+				int cnt = Integer.parseInt("" + (billFee / cfValue));
+				log.debug("########发票[payedoweFee]拆分[" + cnt + "]张");
+				// 单价
+				long scfprice = new BigDecimal(cfValue / (1 + payedoweFee.getTaxRate())).setScale(0, BigDecimal.ROUND_HALF_UP).longValue();
+				// 税额
+				long scftaxfee = cfValue - scfprice;
+				long pintedfee = cnt * cfValue;
+				String favName = "";
+				for (int i = 0; i < cnt; i++) {
+					/* 基础费用 */
+					outParam = new HashMap<String, Object>();
+					outParam.put("FEE_NAME", getPubValue("0", String.valueOf(payedoweFee.getTaxRate()), pubCodeList));
+					outParam.put("BILL_FEE", cfValue);
+					outParam.put("TAX_FEE", scftaxfee);
+					outParam.put("TAX_RATE", payedoweFee.getTaxRate());
+					outParam.put("FAVRATE_FEE", 0);
+					outParam.put("FAVRATE_TAXFEE", 0);
+					outParam.put("BEGIN_YMD", payedoweFee.getBeginMonth());
+					outParam.put("END_YMD", payedoweFee.getEndMonth());
+					outParam.put("INVC_INITFEE", cfValue);
+
+					// 全是增值业务费
+					outParam.put("ADDTAX_SHOWNAME", getPubValue("0", String.valueOf(payedoweFee.getTaxRate()), pubCodeList));
+					outParam.put("ADDTAX_SHOWNORDER", 1);
+					outParam.put("ADDTAX_PRICE", scfprice);
+					outParam.put("ADDTAX_AMOUNT", 1);
+					outParam.put("ADDTAX_FEE", scftaxfee);
+					outParam.put("ADDTAX_TOTALFEE", cfValue);
+					outParam.put("ADDTAX_FLAG", 1);
+					String jsonStr = JSON.toJSONString(outParam);
+					TaxInvoEntity taxEnty = JSON.parseObject(jsonStr, TaxInvoEntity.class);
+					feeInfoTemp.add(taxEnty);
+				}
+
+				/* 生成最后一张拆分发票处理 */
+				if ((billFee % cfValue) > 0) {
+					int order = 1;
+					// 最后一张增值税发票
+					long lastLNzzFee = nzzFee - pintedfee;
+					// 最后一张发票金额
+					long llastTotalFee = billFee - pintedfee;
+
+					long lastTaxFavFee = 0;
+					long lastTaxLNzzFee = 0;
+
+					if (nzzFee > 0) {
+						// 增值税税额
+						lastTaxLNzzFee = lastLNzzFee
+								- (new BigDecimal(lastLNzzFee / (1 + payedoweFee.getTaxRate())).setScale(0, BigDecimal.ROUND_HALF_UP).longValue());
+					}
+					// 折扣折让税额
+					if (nfavFee > 0) {
+						lastTaxFavFee = nfavFee
+								- (new BigDecimal(nfavFee / (1 + payedoweFee.getTaxRate())).setScale(0, BigDecimal.ROUND_HALF_UP).longValue());
+					}
+
+					outParam = new HashMap<String, Object>();
+					outParam.put("FEE_NAME", getPubValue("0", String.valueOf(payedoweFee.getTaxRate()), pubCodeList));
+					outParam.put("BILL_FEE", llastTotalFee);
+					outParam.put("TAX_FEE", lastTaxLNzzFee - lastTaxFavFee);
+					outParam.put("TAX_RATE", payedoweFee.getTaxRate());
+					outParam.put("FAVRATE_FEE", nfavFee);
+					outParam.put("FAVRATE_TAXFEE", payedoweFee.getFavrateTaxFee());
+					outParam.put("BEGIN_YMD", payedoweFee.getBeginMonth());
+					outParam.put("END_YMD", payedoweFee.getEndMonth());
+					outParam.put("INVC_INITFEE", lastLNzzFee);
+
+					// 全是增值业务费
+					if (nzzFee > 0) {
+						// 单价
+						long lzzlastfee = new BigDecimal(lastLNzzFee / (1 + payedoweFee.getTaxRate())).setScale(0, BigDecimal.ROUND_HALF_UP)
+								.longValue();
+						// 税额
+						long lzztaxlast = lastLNzzFee - lzzlastfee;
+
+						outParam.put("ADDTAX_SHOWNAME", getPubValue("0", String.valueOf(payedoweFee.getTaxRate()), pubCodeList));
+						outParam.put("ADDTAX_SHOWNORDER", order);
+						outParam.put("ADDTAX_PRICE", lzzlastfee);
+						outParam.put("ADDTAX_AMOUNT", 1);
+						outParam.put("ADDTAX_FEE", lzztaxlast);
+						outParam.put("ADDTAX_TOTALFEE", lastLNzzFee);
+						outParam.put("ADDTAX_FLAG", 1);
+						order++;
+					}
+					if (nfavFee > 0) {
+						// 单价
+						long ldiscodezzlastfee = new BigDecimal(nfavFee / (1 + payedoweFee.getTaxRate())).setScale(0, BigDecimal.ROUND_HALF_UP)
+								.longValue();
+						// 税额
+						long ldiscodzztaxlast = nfavFee - ldiscodezzlastfee;
+						favName = getPubValue("1", String.valueOf(payedoweFee.getTaxRate()), pubCodeList);
+						outParam.put("DISCODE_SHOWNAME", favName);
+						outParam.put("DISCODE_SHOWNORDER", order);
+						outParam.put("DISCODE_PRICE", ldiscodezzlastfee * -1);
+						outParam.put("DISCODE_AMOUNT", 1);
+						outParam.put("DISCODE_FEE", ldiscodzztaxlast * -1);
+						outParam.put("DISCODE_TOTALFEE", nfavFee * -1);
+						outParam.put("DISCODE_FLAG", 1);
+					}
+					String jsonStr = JSON.toJSONString(outParam);
+					TaxInvoEntity taxEnty = JSON.parseObject(jsonStr, TaxInvoEntity.class);
+					feeInfoTemp.add(taxEnty);
+				}
+
+			} else {
+				int order = 1;
+				// 增值业务费
+				if (nzzFee > 0) {
+					// 单价
+					long lzzlastfee = new BigDecimal(nzzFee / (1 + payedoweFee.getTaxRate())).setScale(0, BigDecimal.ROUND_HALF_UP).longValue();
+					// 税额
+					long lzztaxlast = nzzFee - lzzlastfee;
+
+					payedoweFee.setAddtaxAmount(1);
+					payedoweFee.setAddtaxFee(lzztaxlast);
+					payedoweFee.setAddtaxFlag(1);
+					payedoweFee.setAddtaxPrice(lzzlastfee);
+					payedoweFee.setAddtaxShowName(getPubValue("0", String.valueOf(payedoweFee.getTaxRate()), pubCodeList));
+					payedoweFee.setAddtaxShowOrder(order);
+					payedoweFee.setAddtaxTotaleFee(nzzFee);
+
+					order++;
+				}
+				// 折扣折让费用
+				if (nfavFee > 0) {
+
+					String favName = getPubValue("1", String.valueOf(payedoweFee.getTaxRate()), pubCodeList);
+
+					long lfavlastfee = new BigDecimal(nfavFee / (1 + payedoweFee.getTaxRate())).setScale(0, BigDecimal.ROUND_HALF_UP).longValue();
+					long lfavtaxlast = nfavFee - lfavlastfee;
+					payedoweFee.setDiscodeAmount(1);
+					payedoweFee.setDiscodeFee(lfavtaxlast * -1);
+					payedoweFee.setDiscodeFlag(1);
+					payedoweFee.setDiscodePrice(lfavlastfee * -1);
+					payedoweFee.setDiscodeShowName(favName);
+					payedoweFee.setDiscodeShowOrder(order);
+					payedoweFee.setDiscodeTotaleFee(nfavFee * -1);
+
+				}
+				feeInfoTemp.add(payedoweFee);
+			}
+			log.debug("one_feeInfo_after====" + feeInfoTemp);
+		}
+		log.debug("cf_all_feeInfo_after====" + feeInfoTemp);
+		return feeInfoTemp;
+
+	}
+
+	/**
+	 * 获取value值
+	 * 
+	 * @param groupId
+	 * @param codeId
+	 * @param pudlist
+	 * @return
+	 */
+	public static String getPubValue(String groupId, String codeId, List<PubCodeDictEntity> pudCodelist) {
+		String pubValue = "";
+		if (pudCodelist != null) {
+			for (PubCodeDictEntity pubCode : pudCodelist) {
+				if (pubCode.getGroupId().equals(groupId) && pubCode.getCodeId().equals(codeId)) {
+					pubValue = pubCode.getCodeValue();
+					break;
+				}
+			}
+		}
+		return pubValue;
+	}
+}

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="XMLJOSN:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="XMLJOSN.war">
+      <element id="artifact" artifact-name="XMLJOSN:war exploded" />
+    </root>
+  </artifact>
+</component>

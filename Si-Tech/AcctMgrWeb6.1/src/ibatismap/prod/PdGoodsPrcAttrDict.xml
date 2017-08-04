@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pd_goodsprcattr_dict">
+
+
+	<select id="qExpenses" parameterClass="Map" resultClass="java.lang.String">
+		SELECT TO_CHAR(C.DEFAULT_VALUE)
+		FROM UR_USERGOODS_INFO A, PD_GOODSPRC_DICT B, PD_GOODSPRCATTR_DICT C
+		WHERE A.ID_NO = (SELECT ID_NO FROM UR_USER_INFO WHERE PHONE_NO = #PHONE_NO#)
+		AND A.PRC_ID = B.PRC_ID
+		AND A.PRC_ID = C.PRC_ID
+		AND B.PRC_CLASS = 'YnKD10'
+		AND B.PRC_TYPE = '0'
+		AND C.ATTR_ID = '23M018'
+		AND A.EXP_DATE <![CDATA[>]]> SYSDATE
+		AND A.EFF_DATE <![CDATA[<]]> SYSDATE
+	</select>
+
+	<select id="qPrcAttrValue" parameterClass="Map" resultClass="java.lang.String">
+		SELECT DEFAULT_VALUE
+		FROM PD_GOODSPRCATTR_DICT
+		WHERE PRC_ID = #PRC_ID#
+		AND ATTR_ID = #ATTR_ID#
+	</select>
+
+</sqlMap>

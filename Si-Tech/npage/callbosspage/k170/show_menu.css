@@ -1,0 +1,60 @@
+html{
+	scrollbar-face-color: #d5e1f7;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-shadow-color: #DEEBF7;
+	scrollbar-3dlight-color: #89b3e3;
+	scrollbar-arrow-color:  #121f54;
+	scrollbar-track-color: #F4F0EB;
+	scrollbar-darkshadow-color: #89b3e3;
+}
+#Operation_Table {
+	margin: 0px;
+	padding: 0px;
+}
+#Operation_Table .title {
+	background-color: #c9dbf2;
+	height: 24px;
+	background-image: url(/nresources/default/images/25.gif);
+	background-repeat: repeat-x;
+	background-position: left top;
+	padding-top: 5px;
+	padding-left: 15px;
+	font-size: 13px;
+	font-weight:bold;
+	text-decoration: none;
+	text-align: left;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-top-color: #99bbe8;
+	border-right-color: #99bbe8;
+	border-left-color: #99bbe8;
+	cursor:pointer;
+	color:#0256b8;
+	overflow: hidden; width: 200px; white-space: nowrap; text-overflow: ellipsis;
+}
+.tree{
+	overflow:hidden;
+	border-bottom:1px solid #99bbe8;
+	border-left:1px solid #99bbe8;
+	font-size:13px; 
+	color:#0256b8;
+	cursor:pointer;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	width:200px
+}
+.treeup{
+	overflow:hidden;
+	border-bottom:1px solid #99bbe8;
+	border-left:1px solid #99bbe8;
+	font-size:13px; 
+	color:#ff9900;
+	cursor:pointer;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	width:200px
+}

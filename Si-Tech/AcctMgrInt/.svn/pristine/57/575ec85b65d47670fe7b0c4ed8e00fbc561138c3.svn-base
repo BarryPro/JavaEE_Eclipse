@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_smssend_err_INT">
+
+	<insert id="insert" parameterClass="Map">
+	  INSERT INTO IN_SMSSEND_ERR (SEQ_NO, PHONE_NO, TEMPLATE_ID, SMS_NAME, CONTENT, 
+	  			TOPIC_ID, INSERT_TIME, SEND_RESULT, RESEND, ERR_CODE, REMARK)
+	  VALUES (#SEQ_NO#, #PHONE_NO#, #TEMPLATE_ID#, #SMS_NAME#, #CONTENT#,
+	   #TOPIC_ID#, sysdate, #SEND_RESULT#, #RESEND#, #ERR_CODE#, #REMARK#)
+	</insert>
+	
+</sqlMap>

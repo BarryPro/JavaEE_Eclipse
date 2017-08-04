@@ -1,0 +1,59 @@
+body
+{
+	background-color:#FFFFFF
+}
+.xtree
+{
+	behavior:url(xtree/css/xtree.htc);
+}
+.TreeNode
+{
+	/* height:10px; */
+	padding-left:7px;
+}
+.TreeNode input
+{
+	margin:0;
+	padding:0;
+	position:relative;
+	top:-10px;
+}
+.TreeNode img
+{
+	cursor:hand;
+}
+.TreeNode span
+{
+	font-family:Verdana Arial \u00CB\u00CE\u00CC\u00E5;
+	font-size:12px;
+	height:0px;
+	margin-left:0px;
+	border:0px solid #FFFFFF;
+	cursor:default;
+}
+.TreeNode span a
+{
+	color:#000000;
+	text-decoration:none
+}
+span.MouseOver
+{
+	background-color:#5F95D0;
+	border:1px solid #5F95D0;
+	cursor:hand;
+}
+span.HighLight
+{
+	background-color:#FFFFFF;
+	border:1px solid #FFFFFF;
+}
+span.loading
+{
+	margin:-1px -1px;
+	color:#153A55;
+}
+.container
+{
+	padding-left:10;
+	height:16;
+}

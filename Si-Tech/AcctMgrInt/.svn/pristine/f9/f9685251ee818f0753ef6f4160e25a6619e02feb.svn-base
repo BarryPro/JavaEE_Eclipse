@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 实体层基类 抽象类，不能实例化-->
+<bean id="baseBusi" class="com.sitech.acctmgrint.common.BaseBusi" abstract="true">
+	<property name="baseDao" ref="baseDao" />
+</bean>
+
+<!-- 不用上线生产，JUNITS测试用 : 按照JCF jar包中ReadMe.txt文件 -->
+<!--update by zhangleij 20170316 <bean id="logCaller" class="com.sitech.jcfx.log.e2e.LogCaller">
+    <property name="logNames">
+        <list>
+            <value>AccFlumeLog</value>
+        </list>
+    </property>
+</bean>
+<bean id="AccFlumeLog" class="com.sitech.acctmgrint.common.AccFlumeLog"/> -->
+<bean id="controlEnt" class="com.sitech.acctmgrint.common.IntControl" parent="baseBusi">
+</bean>
+
+<!-- ######服务开通统一接口bean注册###### -->
+<bean id="OdrLineContDAOEnt" class="com.sitech.acctmgrint.atom.busi.intface.odrblob.OdrLineContDAO" parent="baseBusi"/>
+<bean id="ParaTransEnt"      class="com.sitech.acctmgrint.atom.busi.intface.SvcOdrParaTrans" />
+<bean id="DataBaseCache" class="com.sitech.acctmgrint.atom.busi.intface.cfgcache.DataBaseCache" init-method="init" >
+ 	<property name="load_data"		value="${LOAD_DATA}" />
+	<property name="maxperkey"      value="${MAX_PER_KEY}" /> 
+	<property name="process_time"   value="${PROCESS_TIME}" />
+	<property name="addr"           value="${ADDR}" />
+	<property name="data_source"    value="${DATASOURCE}" />
+</bean>
+<!-- <bean id="DataBaseCache" class="com.sitech.acctmgrint.atom.busi.intface.cfgcache.DataBaseCache" >
+</bean> -->
+
+<bean id="CallBaseServEnt"   class="com.sitech.acctmgrint.atom.busi.intface.sqldeal.CallBaseServ" parent="baseBusi"/>
+<bean id="SqlDealEnt"        class="com.sitech.acctmgrint.atom.busi.intface.sqldeal.SqlDeal" parent="baseBusi">
+    <property name="dataBaseCache"  ref="DataBaseCache" />
+	<!--update by zhangleij 20170316 <property name="control"        ref="controlEnt" /> -->
+	<property name="callServ"       ref="CallBaseServEnt" />
+</bean>
+
+<bean id="SpliceOrderEnt"    class="com.sitech.acctmgrint.atom.busi.intface.odrsplice.SpliceOrder" parent="baseBusi">
+    <property name="iSqlDeal"       ref="SqlDealEnt" />
+    <property name="odrLineContDAO" ref="OdrLineContDAOEnt" />
+    <property name="dataBaseCache"  ref="DataBaseCache" />
+</bean>
+
+<!--服务开通bean ##Version 2.0 @20141211 -->
+<bean id="SvcOrderSvc" class="com.sitech.acctmgrint.atom.busi.intface.SvcOrder" parent="baseBusi">
+	<property name="odrLineContDAO"  ref="OdrLineContDAOEnt" />
+	<property name="svcOdrParaTrans" ref="ParaTransEnt" />
+	<property name="iSpliceOrder"    ref="SpliceOrderEnt" />
+	<property name="iSqlDeal"        ref="SqlDealEnt" />
+</bean>
+
+<!-- 短信发送bean -->
+<bean id="ShortMessageSvc" class="com.sitech.acctmgrint.atom.busi.intface.ShortMessage" parent="baseBusi">
+		<property name="dataBaseCache" ref="DataBaseCache" />
+		<property name="control" ref="controlEnt" />
+</bean>
+
+<!-- BOSS2CRM业务工单同步 bean -->
+<bean id="BusiOdrSndSvc" class="com.sitech.acctmgrint.atom.busi.intface.BusiMsgSnd" parent="baseBusi">
+	<property name="odrLineContDAO"  ref="OdrLineContDAOEnt" />
+	<property name="svcOdrParaTrans" ref="ParaTransEnt" />
+	<property name="iSpliceOrder"    ref="SpliceOrderEnt" />
+	<property name="iSqlDeal"        ref="SqlDealEnt" />
+</bean>
+
+</beans>

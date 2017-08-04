@@ -1,0 +1,164 @@
+package com.sitech.acctmgr.atom.dto.feeqry;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sitech.acctmgr.atom.domains.query.ClassifyPreEntity;
+import com.sitech.acctmgr.common.dto.CommonOutDTO;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+public class SClassifyPreInitOutDTO extends CommonOutDTO{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2506327718583649944L;
+	@ParamDesc(path="RETURN_ALL",cons=ConsType.CT001,type="long",len="15",desc="总返费金额",memo="略")
+	protected long returnAll = 0;
+	@ParamDesc(path="PREPAY_FEE",cons=ConsType.CT001,type="long",len="15",desc="预存款",memo="略")
+	protected long prepayFee = 0;
+	@ParamDesc(path="MONTH_RETURN_FEE",cons=ConsType.CT001,type="long",len="15",desc="每月返还金额",memo="略")
+	protected long monthReturnFee = 0;
+	@ParamDesc(path="RETURNED_MONTHS",cons=ConsType.CT001,type="int",len="8",desc="已返还月数",memo="略")
+	protected int returnedMonths = 0;
+	@ParamDesc(path="RETURNING_MONTHS",cons=ConsType.CT001,type="int",len="8",desc="未返还月数",memo="略")
+	protected int returningMonths = 0;
+	@ParamDesc(path="BEGIN_DATE",cons=ConsType.CT001,type="String",len="8",desc="开始日期",memo="略")
+	protected String beginDate = "";
+	@ParamDesc(path="END_DATE",cons=ConsType.CT001,type="String",len="8",desc="结束日期",memo="略")
+	protected String endDate = "";
+	
+	@ParamDesc(path="RETURN_LIST",cons=ConsType.STAR,type="compx",len="1",desc="预存分类信息列表",memo="略")
+	protected List<ClassifyPreEntity> returnList = new ArrayList<ClassifyPreEntity>();
+	
+	@Override
+	public MBean encode() {
+		// TODO Auto-generated method stub
+		MBean result=super.encode();
+		result.setRoot(getPathByProperName("returnAll"), returnAll);
+		result.setRoot(getPathByProperName("prepayFee"), prepayFee);
+		result.setRoot(getPathByProperName("monthReturnFee"), monthReturnFee);
+		result.setRoot(getPathByProperName("returnedMonths"), returnedMonths);
+		result.setRoot(getPathByProperName("returningMonths"), returningMonths);
+		result.setRoot(getPathByProperName("beginDate"), beginDate);
+		result.setRoot(getPathByProperName("endDate"), endDate);
+		result.setRoot(getPathByProperName("returnList"), returnList);
+
+		return result;
+	}
+
+	/**
+	 * @return the returnAll
+	 */
+	public long getReturnAll() {
+		return returnAll;
+	}
+
+	/**
+	 * @param returnAll the returnAll to set
+	 */
+	public void setReturnAll(long returnAll) {
+		this.returnAll = returnAll;
+	}
+
+	/**
+	 * @return the prepayFee
+	 */
+	public long getPrepayFee() {
+		return prepayFee;
+	}
+
+	/**
+	 * @param prepayFee the prepayFee to set
+	 */
+	public void setPrepayFee(long prepayFee) {
+		this.prepayFee = prepayFee;
+	}
+
+	/**
+	 * @return the monthReturnFee
+	 */
+	public long getMonthReturnFee() {
+		return monthReturnFee;
+	}
+
+	/**
+	 * @param monthReturnFee the monthReturnFee to set
+	 */
+	public void setMonthReturnFee(long monthReturnFee) {
+		this.monthReturnFee = monthReturnFee;
+	}
+
+	/**
+	 * @return the returnedMonths
+	 */
+	public int getReturnedMonths() {
+		return returnedMonths;
+	}
+
+	/**
+	 * @param returnedMonths the returnedMonths to set
+	 */
+	public void setReturnedMonths(int returnedMonths) {
+		this.returnedMonths = returnedMonths;
+	}
+
+	/**
+	 * @return the returningMonths
+	 */
+	public int getReturningMonths() {
+		return returningMonths;
+	}
+
+	/**
+	 * @param returningMonths the returningMonths to set
+	 */
+	public void setReturningMonths(int returningMonths) {
+		this.returningMonths = returningMonths;
+	}
+
+	/**
+	 * @return the beginDate
+	 */
+	public String getBeginDate() {
+		return beginDate;
+	}
+
+	/**
+	 * @param beginDate the beginDate to set
+	 */
+	public void setBeginDate(String beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	/**
+	 * @return the endDate
+	 */
+	public String getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 * @param endDate the endDate to set
+	 */
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	/**
+	 * @return the returnList
+	 */
+	public List<ClassifyPreEntity> getReturnList() {
+		return returnList;
+	}
+
+	/**
+	 * @param returnList the returnList to set
+	 */
+	public void setReturnList(List<ClassifyPreEntity> returnList) {
+		this.returnList = returnList;
+	}
+	
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_transfee_err">
+	
+	<insert id="iTransErr">
+	INSERT INTO BAL_TRANSFEE_ERR (TRANS_SN, PHONENO_OUT, CONTRACTNO_OUT, IDNO_OUT,
+   			PHONENO_IN, CONTRACTNO_IN, IDNO_IN, PAY_TYPE, TRANS_FEE, LOGIN_NO, TOTAL_DATE,
+   			OP_CODE, OP_TYPE, FOREIGN_SN, FOREIGN_DATE, OP_TIME, STATUS, REMARK, FACTOR_ONE,
+   			FACTOR_TWO, FACTOR_THREE, FACTOR_FOUR)
+		VALUES( #TRANS_SN#, #PHONENO_OUT#, #CONTRACTNO_OUT#, #IDNO_OUT#,
+   			#PHONENO_IN#, #CONTRACTNO_IN#, #IDNO_IN#, #PAY_TYPE#, #TRANS_FEE#, #LOGIN_NO#, #TOTAL_DATE#,
+   			#OP_CODE#, #OP_TYPE#, #FOREIGN_SN#, TO_DATE(#FOREIGN_DATE#, 'YYYYMMDD HH24:MI:SS'), 
+   			SYSDATE, #STATUS#, #REMARK#, #FACTOR_ONE#,
+   			#FACTOR_TWO#, #FACTOR_THREE#, #FACTOR_FOUR# )
+	</insert>
+</sqlMap>

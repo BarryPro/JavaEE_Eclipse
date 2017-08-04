@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_mk_yxzfact">
+
+	<typeAlias alias="mkYxzfactEntity"
+		type="com.sitech.acctmgr.atom.domains.balance.MkYxzfactEntity" />
+
+	<select id="qCnt" parameterClass="Map" resultClass="Integer">
+		select
+		count(1) CNT from bal_mk_yxzfact where region_code= #REGION_CODE# and
+		op_code= #OP_CODE#
+	</select>
+
+	<!-- <typeAlias type="com.sitech.acctmgr.atom.domains.balance.MkYxzfactEntity" 
+		alias="MkYxzfactEntity" /> -->
+
+	<insert id="inMkYxzfact"
+		parameterClass="com.sitech.acctmgr.atom.domains.balance.MkYxzfactEntity">
+		insert into
+		bal_mk_yxzfact(OP_CODE,LJ_PAY,LJ_PAYTYPE,REST_PAY,REST_PAYTYPE,REGION_CODE,LOGIN_NO,OP_TIME,LOGIN_ACCEPT,
+		REST_TOTAL_PAY,REST_MONTH,ACCUMULATE_TYPE,EXPENSE_MONTH) values
+		(#opCode#,#ljPay#,#ljPayType#,#restPay#,#restPayType#,#regionCode#,#loginNo#,to_date(#opTime#,'yyyymmddhh24miss'),#loginAccept#,
+		#restTotalPay#,#restMonth#,#accumulateType#,#expenseMonth#)
+	</insert>
+
+	<delete id="delMkYxzfactInfo" parameterClass="Map">
+		DELETE FROM BAL_MK_YXZFACT
+		WHERE OP_CODE = #OP_CODE#
+		and LOGIN_ACCEPT =
+		#LOGIN_ACCEPT#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="LOGION_NO">
+				LOGIN_NO=#LOGIN_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="REGION_CODE">
+				REGION_CODE=#REGION_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+
+	<select id="qMkYxzfactInfo" parameterClass="Map" resultClass="mkYxzfactEntity">
+		SELECT A.REGION_CODE REGIONCODE,
+		A.OP_CODE OPCODE,
+		A.REST_PAY RESTPAY,
+		A.REST_PAYTYPE RESTPAYTYPE,
+		A.REST_MONTH RESTMONTH,
+		A.EXPENSE_MONTH EXPENSEMONTH,
+		DECODE(A.ACCUMULATE_TYPE, 1, '是', 2, '否') ACCUMULATETYPE,
+		A.LOGIN_NO LOGINNO,
+		A.LJ_PAY LJPAY,
+		A.LJ_PAYTYPE LJPAYTYPE,
+		A.REST_TOTAL_PAY RESTTOTALPAY,
+		A.OP_TIME OPTIME,
+		A.LOGIN_ACCEPT LOGINACCEPT,
+		B.GROUP_NAME REGIONNAME
+		FROM BAL_MK_YXZFACT A,
+		(SELECT REGION_ID ,GROUP_ID ,GROUP_NAME 
+		FROM
+		BS_CHNGROUP_DICT
+		WHERE PROVINCE_ID=#PROVINCE_ID#
+		AND ROOT_DISTANCE=2
+		AND REGION_ID!=0
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="REGION_ID">
+				REGION_ID = #REGION_ID#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY REGION_ID) B
+		WHERE 1 = 1
+		AND A.REGION_CODE = B.REGION_ID
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="WORK_NO">
+				A.LOGIN_NO=#WORK_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="REGION_CODE">
+				A.REGION_CODE=#REGION_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_usersign_info_his">
+
+
+    <insert id="iSignInfoHis" parameterClass="Map">
+        insert into bal_usersign_info_his (ID_NO, PHONE_NO, BUSI_TYPE, sign_sn, sign_time, sign_flag, 
+        				login_accept, login_no, op_time, op_code, remark, update_accept, update_type, 
+        				update_time, update_date, update_login, update_code)
+			select ID_NO, PHONE_NO, BUSI_TYPE, sign_sn, sign_time, sign_flag, 
+						login_accept, login_no, op_time, op_code, remark, #UPDATE_ACCEPT#, #UPDATE_TYPE#, 
+						sysdate, #UPDATE_DATE#, #UPDATE_LOGIN#, #UPDATE_CODE#
+		from bal_usersign_info
+		where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+		and sign_flag = '0'
+    </insert>
+    
+ 
+  
+</sqlMap>

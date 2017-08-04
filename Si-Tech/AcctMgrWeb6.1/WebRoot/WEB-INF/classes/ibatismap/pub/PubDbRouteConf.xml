@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pub_dbroute_conf">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.pub.PubDbrouteConfEntity" alias="pubDbrouteConfiEntity"/>
+
+    <resultMap id="pubDbrouteConfiEntity" class="pubDbrouteConfiEntity">
+        <result property="partId" column="PART_ID"/>
+        <result property="regionId" column="REGION_ID"/>
+    </resultMap>
+
+    <select id="getRouteDb" parameterClass="Map" resultMap="pubDbrouteConfiEntity">
+		SELECT PART_ID, REGION_ID
+		FROM PUB_DBROUTE_CONF
+		WHERE ID_TYPE = #ID_TYPE#
+		AND #ID# BETWEEN BEGIN_ID AND END_ID
+	</select>
+
+</sqlMap>
+  
+   

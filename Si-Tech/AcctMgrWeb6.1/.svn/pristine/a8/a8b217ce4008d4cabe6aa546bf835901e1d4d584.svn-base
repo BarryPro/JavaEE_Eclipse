@@ -1,0 +1,25 @@
+package com.sitech.acctmgr.common.utils;
+
+import java.lang.reflect.Field;
+
+/**
+ * 给类赋默认值
+ * 
+ * @author liuhl_bj
+ *
+ */
+public class InstantiationUtils {
+	public static Object reflect(Object obj) throws Exception {
+		Class<?> cls = Class.forName(obj.getClass().getName());
+		Field[] fields = cls.getDeclaredFields();
+		for (Field field : fields) {
+			field.setAccessible(true);
+			if (field.getType().toString() instanceof java.lang.String) {
+				field.set(obj, "");
+			}
+			
+		}
+		return obj;
+	}
+
+}

@@ -1,0 +1,10 @@
+build.home=.
+
+src.dir=${build.home}/src
+webroot.dir=${build.home}/WebContent
+3rdLib.dir=${build.home}/WebContent/WEB-INF/lib
+build.dir=${build.home}/WebContent/WEB-INF
+build.classes.dir=${build.dir}/classes
+debugSwich=true
+
+version=2.0.0beta10

@@ -1,0 +1,5 @@
+serverName=BOSS_D/OFCS/DR0A/APP
+clusterName=QDETAIL
+loadBalance=ConsistentHash
+registryAddress=zookeeper://10.110.19.135:2181,10.110.19.136:2181,10.110.19.137:2181
+baseFrameSize=2048

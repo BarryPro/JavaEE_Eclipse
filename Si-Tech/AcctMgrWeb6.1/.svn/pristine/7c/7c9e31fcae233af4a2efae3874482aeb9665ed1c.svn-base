@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+        
+<sqlMap namespace="ct_custcontact_info">
+	<typeAlias alias="CtCustContactInfo" type="com.sitech.acctmgr.atom.domains.cust.CtCustContactEntity"/>
+	<select id="CtCustInfo" parameterClass="Map" resultClass="CtCustContactInfo">
+		SELECT CUST_ID as custId,CONTACT_ID as contactId, ID_TYPE as idType, ID_ICCID as idIccid,
+		CONTACT_ORDER as contactOrder, CONTACT_TYPE as contactType, CONTACT_NAME as contactName,
+		CONTACT_PHONE as contactPhone, ADDRESS_ID as addressId,
+		   CONTACT_ADDRESS as contactAddress,CONTACT_POST as contactPost,CONTACT_EMAIL as contactEmail
+		FROM   CT_CUSTCONTACT_INFO
+		WHERE  CUST_ID = #CUST_ID#
+	</select>
+</sqlMap>

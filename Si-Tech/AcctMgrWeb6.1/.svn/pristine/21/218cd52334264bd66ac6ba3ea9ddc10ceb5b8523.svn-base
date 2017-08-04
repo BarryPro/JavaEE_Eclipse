@@ -1,0 +1,5 @@
+package com.sitech.acctmgr.atom.dto.query;
+
+public class S8164InitOutDTO {
+	
+}

@@ -1,0 +1,400 @@
+<%@ page contentType="text/html;charset=GBK"%>
+<%@ include file="/npage/se112/public_title_name.jsp"%>
+<%@ include file="/npage/se112/footer.jsp"%>
+<%@page import="com.sitech.crmpd.core.bean.MapBean"%>
+<%@page import="java.util.*"%>
+<%@page import="com.sitech.crmpd.core.util.SiUtil"%>
+<%
+	String meansId = request.getParameter("meansId");
+	String phoneNo = request.getParameter("phoneNo");
+	String reginCode = request.getParameter("reginCode");
+	String loginNo = request.getParameter("loginNo");
+	String password = request.getParameter("password");
+	String orderId = request.getParameter("orderId");
+	String innetMons = request.getParameter("innetMons");
+	String actType   = request.getParameter("actType");//小类
+	System.out.println("meansId："+meansId);
+	System.out.println("++========meansId=====" + meansId);	
+	System.out.println("==++======phoneNo=====" + phoneNo);
+	System.out.println("=++=======reginCode=====" + reginCode);	
+	System.out.println("===++=====loginNo=====" + loginNo);	
+	System.out.println("==++======password=====" + password);	
+	System.out.println("=++=======orderId=====" + orderId);	
+	System.out.println("=++=======innetMons=====" + innetMons);	
+	System.out.println("=++=======actType=====" + actType);	
+	
+	String xml = request.getParameter("spInfo");
+	String SP_TYPE ="";
+	
+	System.out.println("spInfo=xml===AAAAAAAAAAAAAAAAAAAAAA====" + xml);
+	
+	MapBean mb = new MapBean();
+ %>	
+ <%@ include file="getMapBean.jsp"%>
+ <%	
+	List fundsList = null;
+	Iterator it =null;
+	
+	if(null != mb){
+		fundsList = mb.getList("OUT_DATA.H12.SP_INFO_LIST.SP_INFO");
+	}
+	
+ %>
+<html>
+	<head>
+	<title></title>
+	</head>
+	<body>
+		<div id="operation">
+		<form method="post" name="frm4938" action="">
+				
+				<div id="operation_table">
+					 <div class="title">
+						<div class="text">
+							sp业务详细信息
+						</div>
+					</div>
+					<div class="input">
+					<table>
+					<%
+					
+						Map sMap = (Map)fundsList.get(0);
+						
+						for(int i=0;i<fundsList.size();i++){
+							Map stMap = (Map)fundsList.get(i);
+							if(null!=stMap.get("SP_TYPE")&&!"".equals(stMap.get("SP_TYPE"))){
+								fundsList.remove(i);
+							}
+						}
+						SP_TYPE = sMap.get("SP_TYPE").toString();
+						
+						for(int i=0;i<fundsList.size();i++){
+							Map maps = (Map)fundsList.get(i);
+							String SP_NAME = (String)maps.get("SP_NAME") == null ? "":(String)maps.get("SP_NAME");
+							String SP_CODE = (String)maps.get("SP_CODE") == null ? "":(String)maps.get("SP_CODE");
+							String BIZ_CODE = (String)maps.get("BIZ_CODE") == null ? "":(String)maps.get("BIZ_CODE");
+							String SP_SYSTEM = (String)maps.get("SP_SYSTEM") == null ? "":(String)maps.get("SP_SYSTEM");
+							
+							String PAY_TYPE = (String)maps.get("PAY_TYPE") == null ? "":(String)maps.get("PAY_TYPE");
+							String RETURN_MONEY = (String)maps.get("RETURN_MONEY") == null ? "":(String)maps.get("RETURN_MONEY");
+							String RETURN_MONTH = (String)maps.get("RETURN_MONTH") == null ? "":(String)maps.get("RETURN_MONTH");
+							String LIMIT_MONEY = (String)maps.get("LIMIT_MONEY") == null ? "":(String)maps.get("LIMIT_MONEY");
+							String RETURN_TYPE = (String)maps.get("RETURN_TYPE") == null ? "":(String)maps.get("RETURN_TYPE");
+							String RETURN_CLASS = (String)maps.get("RETURN_CLASS") == null ? "":(String)maps.get("RETURN_CLASS");
+							String CONSUME_TIME = (String)maps.get("CONSUME_TIME") == null ? "":(String)maps.get("CONSUME_TIME");
+							String VALID_FLAG = (String)maps.get("VALID_FLAG") == null ? "":(String)maps.get("VALID_FLAG");
+							String GET_WINNING = (String)maps.get("GET_WINNING") == null ? "":(String)maps.get("GET_WINNING");
+							String PAY_FLAG = (String)maps.get("PAY_FLAG") == null ? "":(String)maps.get("PAY_FLAG");
+							String PER_MONTH_MONEY = (String)maps.get("PER_MONTH_MONEY") == null ? "":(String)maps.get("PER_MONTH_MONEY");
+							System.out.println("++++++++++++++===CONSUME_TIME = "+CONSUME_TIME);
+					 %>
+							<tr>
+								<th><input type="checkbox" name="SP_CODE" value="<%=SP_CODE %>" /></th>
+								<th>SP名称</th>
+								<td>
+								  <%=SP_NAME%>
+								</td>
+								<th>SP企业代码</th>
+								<td>
+								  <%= SP_CODE%>
+								</td>
+								<th>SP业务代码</th>
+								<td>
+							      <%=BIZ_CODE%>
+							    </td>
+							    <input type='hidden' id="<%=SP_CODE %>_1" value="<%=SP_NAME%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_2" value="<%=SP_CODE%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_3" value="<%=BIZ_CODE%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_4" value="<%=PAY_TYPE%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_5" value="<%=RETURN_MONEY%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_6" value="<%=RETURN_MONTH%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_7" value="<%=LIMIT_MONEY%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_8" value="<%=RETURN_TYPE%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_9" value="<%=RETURN_CLASS%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_10" value="<%=CONSUME_TIME%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_11" value="<%=VALID_FLAG%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_12" value="<%=GET_WINNING%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_13" value="<%=PAY_FLAG%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_14" value="<%=PER_MONTH_MONEY%>"/>
+							    <input type='hidden' id="<%=SP_CODE %>_15" value="<%=SP_SYSTEM%>"/>
+							    
+							</tr>
+							     <!-- 魔百和业务，展示机顶盒输入框,默认展示28位固定数字，可以修改-->
+							    <% 
+							       if("20830000".equals(BIZ_CODE) && ( "699212".equals(SP_CODE)|| "699213".equals(SP_CODE))&&!"4".equals(SP_TYPE) ){
+							    %>
+							    	   
+							    	<tr>
+							    	   <th></th>
+							    	   <th style="display: none">机顶盒ID</th>
+								       <td>
+							    	        <input type="text"  style= "width:95%;display: none;" id="<%=SP_CODE %>_16" value="003903FF00210070" readonly="readonly" />
+							    	   </td>
+							        </tr>
+							    <%
+							       }
+							    %> 
+						<%
+						}%>
+						</table>
+						<%if("147".equals(actType)&&!"4".equals(SP_TYPE)){%>
+							<div class="title">
+							<div class="text">
+								附加填写项
+							</div>
+							</div>
+							<table>	
+								<tr>
+							        
+							    	   <th>宽带号</th>
+								       <td>
+							    	      <input type="text" name="netcode" id="netcode" value="" style= "width:20%" />
+												<input type="button" class="b_text" name="verify" id="verify" onclick="chknetcode()" value="验证"/>
+												<font style="color:red"><b>*</b></font>
+												<div id="td1" align="left">
+							    	   </td>
+							    	
+							     </tr>	
+							</table>
+						<%}%>	
+						</div>
+					<div id="operation_button">
+						<input type="button" class="b_foot" value="选择" id="btnSubmit" 
+						    name="btnSubmit"onclick="subAll()" />	
+						<input type="button" class="b_foot" value="关闭" id="btnCancel"
+							name="btnCancel" onclick="closeWin()" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	<script type="text/javascript">
+	
+	var retCode = "000000";
+	var retMsg = "";
+	
+	function subAll(){
+	
+	  var sp_codes = "";
+	  var show_sp_names ="";	
+	  var sp_names = "";
+      var biz_codes = "";
+	  var pay_types = "";
+	  var return_moneys = "";
+	  var return_months = "";
+	  var limit_moneys = "";
+	  var return_types = "";
+	  var return_classs = "";
+	  var consume_times = "";
+	  var valid_flags = "";
+	  var get_winnings = "";
+	  var winning_rates="";
+	  var pay_flags = "";
+	  var per_month_moneys = "";
+	  var sp_systems = "";
+	  var assPhoneNos ="";
+	  var innetMons = "<%=innetMons%>";
+	  var spType = "<%=SP_TYPE%>";
+	  var boxIds = "";
+	  var netFlag = "";
+	  //验证宽带号码的返回值
+	  var netcode = $("#netcode").val();//IMEI
+	  
+	  //alert(spType);
+	  var chenked=$("input[type='checkbox']:checked").val([]); 
+	  if(chenked.length==0){
+	  	showDialog("请选择至少一个sp业务",0);
+	  	return false;
+	  }
+
+	  if("<%=actType%>"=="147" && netcode==""&&"<%=SP_TYPE%>"!="4"){
+		showDialog("请填写宽带号，进行验证!",0);
+	 	return false;		
+	  }
+	  if(retCode!="000000"){
+		showDialog(retMsg,0);
+	 	return false;		
+	  }
+
+	  if(spType ==3 && chenked.length != 1){
+  	     showDialog("魔百盒业务，SP业务必选1个，请重新选择！！",0);
+  	     return false;
+	  }
+	  //0为存量，1为新入网
+	 // if(spType ==1 && chenked.length != 3){
+  	  //	showDialog("新入网用户，SP业务必选3个，请重新选择！！",0);
+  	//	return false;
+	 // }
+	 // if(spType ==0 && chenked.length != 4 ){
+	 //   showDialog("存量用户，SP业务必选4个，请重新选择！！",0);
+  	//	return false;
+	//  }
+	  var split = "";
+	  var split2 = "";
+	  for(var i=0;i<chenked.length;i++){
+			var tid =chenked[i].value;
+			var sp_name = $.trim($("#"+tid+"_1").val());
+			var sp_code = $.trim($("#"+tid+"_2").val());
+			var biz_code = $.trim($("#"+tid+"_3").val());
+			var pay_type = $.trim($("#"+tid+"_4").val());
+			var return_money = $.trim($("#"+tid+"_5").val());
+			var return_month = $.trim($("#"+tid+"_6").val());
+			var limit_money = $.trim($("#"+tid+"_7").val());
+			var return_type = $.trim($("#"+tid+"_8").val());
+			var return_class = $.trim($("#"+tid+"_9").val());
+			var consume_time = $.trim($("#"+tid+"_10").val());
+			var valid_flag = $.trim($("#"+tid+"_11").val());
+			var get_winning = $.trim($("#"+tid+"_12").val());
+			var pay_flag = $.trim($("#"+tid+"_13").val());
+			var per_month_money = $.trim($("#"+tid+"_14").val());
+			var sp_system = $.trim($("#"+tid+"_15").val());
+			var boxId ="";
+			//alert("consume_time="+consume_time);
+
+			sp_names = sp_names + split + sp_name;
+			sp_codes = sp_codes + split + sp_code;
+			biz_codes = biz_codes + split + biz_code;
+			sp_systems =  sp_systems + split + sp_system;
+			show_sp_names = show_sp_names + split2 + sp_name;
+			consume_times = consume_times + split + consume_time;
+			valid_flags = valid_flags + split + valid_flag;
+			if(pay_type != ""){
+				pay_types =  pay_types + split + pay_type;
+				return_moneys = return_moneys + split + return_money;
+				return_months = return_months + split + return_month;
+				limit_moneys =  limit_moneys + split + limit_money;
+				return_types = return_types + split + return_type;
+				return_classs =  return_classs + split + return_class;
+				get_winnings =  get_winnings + split + get_winning;
+				pay_flags =  pay_flags + split + pay_flag;
+				per_month_moneys =  per_month_moneys + split + per_month_money;
+			}
+			
+			
+			 if(biz_code=="20830000"&&(sp_code=="699212"||sp_code=="699213")){
+				boxId =  $.trim($("#"+tid+"_16").val());
+				//alert("boxId="+boxId+";  sp_code="+sp_code);
+			/* 	if(boxId.length != 32){
+					showDialog("机顶盒id必须为32位,请重新输入",0);
+				  	return false;
+				} */
+			} 
+			//alert("biz_code="+biz_code+";sp_code="+sp_code);
+			if(biz_code=="20830000" && (sp_code=="699212"||sp_code=="699213")){
+				netFlag="Y";
+			}
+			//alert("netFlag="+netFlag);
+			
+		   boxIds = boxIds + split + boxId;
+
+			split = "#";
+			split2 = "<br>";
+		}
+		
+		//alert(sp_codes);
+		var sPacket = new AJAXPacket("getSPContent.jsp","请稍候......");
+		sPacket.data.add("iChnSource","<%=reginCode%>");
+		sPacket.data.add("iLoginNo","<%=loginNo%>");
+		sPacket.data.add("iLoginPWD","<%=password%>");
+		sPacket.data.add("iPhoneNo","<%=phoneNo%>");
+		sPacket.data.add("iOprAccept","<%=orderId%>");
+		core.ajax.sendPacket(sPacket,doserviceResCat);
+		sPacket = null;
+		
+		if(RETURN_CODE!="000000"){
+		
+		}else{
+			if(spIdStr!=""){
+				var sp_codeStrs = sp_codes.split("#");
+				//alert(sp_codeStrs);
+				for(var i=0;i<sp_codeStrs.length;i++){
+					var sp_code = sp_codeStrs[i];
+					if(spIdStr.indexOf(sp_code) != -1){
+						showDialog("该用户已存在包年的sp业务，不可以重复办理，请重选！！",0);
+		  				return false;
+					}
+				}
+			}
+			
+			if(spType == "2"|| "<%=actType%>"=="147"|| "<%=actType%>"=="16"|| "<%=actType%>"=="19"){
+				var sPackets = new AJAXPacket("checkSPContent.jsp","请稍候......");
+				sPackets.data.add("iPhoneNo","<%=phoneNo%>");
+				sPackets.data.add("iSpCode",sp_codes);
+				sPackets.data.add("iBizCode",biz_codes);
+				sPackets.data.add("actType","<%=actType%>");
+				sPackets.data.add("iBoxId",boxIds);
+				sPackets.data.add("spType",spType);
+				core.ajax.sendPacket(sPackets,doserviceResCats);
+				sPackets = null;
+			}
+			
+			//alert("boxIds="+boxIds+";  consume_times="+consume_times);
+			if(return_code == "0"){
+				parent.SpBusinessfuc(show_sp_names,sp_names,sp_codes,biz_codes,valid_flags,consume_times,sp_systems,boxIds,spType,netcode);
+				parent.addSpSystemPay(get_winnings,winning_rates,pay_types,return_moneys,return_months,per_month_moneys,limit_moneys,return_types,return_classs,consume_times,pay_flags,assPhoneNos,sp_systems);	
+				parent.sp_Checkfuc();
+				parent.BuildSPNetFlag(netFlag);
+				if(netFlag=="Y"){
+					parent.subH12SPDisable();
+				}
+				closeDivWin();
+			}
+		}
+	}
+	
+	var spIdStr = "";
+	var RETURN_CODE = "";
+	function doserviceResCat(packet){
+		RETURN_CODE = packet.data.findValueByName("RETURN_CODE");
+		var RETURN_MSG = packet.data.findValueByName("RETURN_MSG");
+		
+		if(RETURN_CODE!="000000"){
+			showDialog(RETURN_MSG,0);
+			return false;
+		}
+		spIdStr = packet.data.findValueByName("spIdStr");
+
+	}
+	
+	
+	var return_code = "0";
+	var return_msg = "";
+	function doserviceResCats(packet){
+		return_code = packet.data.findValueByName("RETURN_CODE");
+		return_msg = packet.data.findValueByName("RETURN_MSG");
+		if(return_code!="0"){
+			showDialog(return_msg,0);
+			return false;
+		}
+	}
+
+
+	function chknetcode(){
+		var netcode = $("#netcode").val();//IMEI
+		var myPacket = null;
+		myPacket = new AJAXPacket("checkNetCodeData.jsp","请稍后...");
+		myPacket.data.add("netcode",netcode);
+		core.ajax.sendPacket(myPacket,doResourceCat);
+		myPacket =null;
+	}
+
+	function doResourceCat(packet){
+		retCode =  packet.data.findValueByName("returnCode");
+		retMsg = packet.data.findValueByName("returnMsg");
+		if(trim(retCode)=="000000"){
+			var td1 = document.getElementById("td1");
+	 		td1.innerHTML=trim(retMsg);
+	 		$("#imei_code").attr("readonly",true);
+		}else if(trim(retCode)!="000000"){
+			var td1 = document.getElementById("td1");
+	 		td1.innerHTML=trim(retMsg);
+		}
+	}
+	
+
+	function closeWin(){
+		closeDivWin();
+	}
+	
+	</script>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="ur_userprcsp_info">
+	<typeAlias alias="spInfoEntity" type="com.sitech.acctmgr.atom.domains.adj.SpInfoEntity"/>
+
+	<!-- add by liuyc_billing  查询SP资费-->
+	<select id="qUserSPBusi" parameterClass="Map" resultClass="spInfoEntity"> 
+	 	SELECT 
+	 	UR_USER_INFO.PHONE_NO phoneNo,
+	 	UR_USERPRCSP_INFO.SP_ID spId,
+	 	UR_USERPRCSP_INFO.BUSI_CODE bizCode,
+	 	UR_USERPRCSP_INFO.LOGIN_ACCEPT loginAccept,
+	 	TO_CHAR(UR_USERPRCSP_INFO.OP_TIME, 'YYYYMMDD HH24:MI:SS') opTime,
+	 	TO_CHAR(UR_USERPRCSP_INFO.EXP_DATE, 'YYYYMMDD HH24:MI:SS') expDate 
+	 	FROM 
+	 	UR_USERPRCSP_INFO,UR_USER_INFO
+	 	WHERE 
+	 	UR_USER_INFO.ID_NO=UR_USERPRCSP_INFO.ID_NO
+	 	AND UR_USER_INFO.PHONE_NO=#PHONE_NO#
+	 	<dynamic prepend="">
+			<isNotEmpty property="SP_ID">
+				AND SP_ID=#SP_ID#
+			</isNotEmpty>
+			<isNotEmpty property="BUSI_CODE">
+				AND BUSI_CODE=#BUSI_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+</sqlMap>

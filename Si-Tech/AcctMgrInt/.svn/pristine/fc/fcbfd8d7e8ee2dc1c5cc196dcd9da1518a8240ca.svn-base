@@ -1,0 +1,15 @@
+build.home=.
+jetty=/bossapp/jetty
+
+src.dir=${build.home}/src
+groovy.dir=${build.home}/groovy
+config.dir=${build.home}/config
+webroot.dir=${build.home}/WebRoot
+3rdLib.dir=${build.home}/WebRoot/WEB-INF/lib
+build.dir=${build.home}/WebRoot/WEB-INF
+build.classes.dir=${build.dir}/classes
+build.config.dir=${build.classes.dir}
+build.groovy.dir=${build.dir}/groovy
+debugSwich=true
+
+version=2.0.0beta10

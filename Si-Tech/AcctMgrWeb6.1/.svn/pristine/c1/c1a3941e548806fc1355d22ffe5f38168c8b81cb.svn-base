@@ -1,0 +1,282 @@
+package com.sitech.acctmgr.atom.dto.feeqry;
+
+import com.sitech.acctmgr.common.dto.CommonOutDTO;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+public class SBalanceQueryOutDTO extends CommonOutDTO {
+
+	private static final long serialVersionUID = 1L;
+
+	@ParamDesc(path = "CONTRACT_NO", cons = ConsType.CT001, type = "long", len = "20", desc = "账户号码", memo = "略")
+	private long contractNo = 0;
+
+	@ParamDesc(path = "PREPAY_FEE", cons = ConsType.CT001, type = "long", len = "20", desc = "预存", memo = "略")
+	private long prepayFee = 0;
+
+	@ParamDesc(path = "REMAIN_BALANCE", cons = ConsType.CT001, type = "long", len = "20", desc = "余额", memo = "略")
+	private long curBalance = 0;
+
+	@ParamDesc(path = "UNBILL_FEE_ALL", cons = ConsType.CT001, type = "long", len = "20", desc = "未出帐话费", memo = "略")
+	private long unBillFeeAll = 0;
+
+	@ParamDesc(path = "OWE_FEE_ALL", cons = ConsType.CT001, type = "long", len = "20", desc = "总欠费", memo = "略")
+	private long oweFeeAll = 0;
+
+	@ParamDesc(path = "BACK_DEPOSIT", cons = ConsType.CT001, type = "String", len = "20", desc = "可退押金", memo = "略")
+	private long backDeposit = 0;
+
+	@ParamDesc(path = "BRAND_NAME", cons = ConsType.CT001, type = "String", len = "20", desc = "品牌名称", memo = "略")
+	private String brandName = null;
+
+	@ParamDesc(path = "LIMIT_OWE", cons = ConsType.CT001, type = "String", len = "20", desc = "信誉度", memo = "略")
+	private long limitOwe = 0;
+
+	@ParamDesc(path = "OPEN_TIME", cons = ConsType.CT001, type = "String", len = "20", desc = "开户时间", memo = "略")
+	private String openTime = "";
+
+	@ParamDesc(path = "RUN_TIME", cons = ConsType.CT001, type = "String", len = "20", desc = "状态变更时间", memo = "略")
+	private String runTime = "";
+
+	@ParamDesc(path = "REGION_CODE", cons = ConsType.CT001, type = "String", len = "30", desc = "地市代码", memo = "略")
+	private String regionCode = "";
+
+	@ParamDesc(path = "RUN_CODE", cons = ConsType.CT001, type = "String", len = "30", desc = "运行状态", memo = "略")
+	private String runCode = "";
+
+	@ParamDesc(path = "RUN_NAME", cons = ConsType.CT001, type = "String", len = "30", desc = "状态名称", memo = "略")
+	private String runName = "";
+
+	@ParamDesc(path = "COMMON_REMAIN_FEE", cons = ConsType.CT001, type = "long", len = "30", desc = "普通预存款余额", memo = "略")
+	private long commonRemainFee;
+
+	@ParamDesc(path = "SPECIAL_REMAIN_FEE", cons = ConsType.CT001, type = "long", len = "30", desc = "转款预存款余额", memo = "略")
+	private long specialRemainFee;
+
+	@ParamDesc(path = "DELAY_FEE", cons = ConsType.CT001, type = "long", len = "30", desc = "滞纳金", memo = "略")
+	private long delayFee;
+
+	@Override
+	public MBean encode() {
+		MBean result = super.encode();
+		result.setRoot(getPathByProperName("contractNo"), contractNo);
+		result.setRoot(getPathByProperName("prepayFee"), prepayFee);
+		result.setRoot(getPathByProperName("commonRemainFee"), commonRemainFee);
+		result.setRoot(getPathByProperName("specialRemainFee"), specialRemainFee);
+		result.setRoot(getPathByProperName("curBalance"), curBalance);
+		result.setRoot(getPathByProperName("unBillFeeAll"), unBillFeeAll);
+		result.setRoot(getPathByProperName("oweFeeAll"), oweFeeAll);
+		result.setRoot(getPathByProperName("backDeposit"), backDeposit);
+		result.setRoot(getPathByProperName("brandName"), brandName);
+		result.setRoot(getPathByProperName("limitOwe"), limitOwe);
+		result.setRoot(getPathByProperName("openTime"), openTime);
+		result.setRoot(getPathByProperName("runTime"), runTime);
+		result.setRoot(getPathByProperName("regionCode"), regionCode);
+		result.setRoot(getPathByProperName("runCode"), runCode);
+		result.setRoot(getPathByProperName("runName"), runName);
+		result.setRoot(getPathByProperName("delayFee"), delayFee);
+
+		log.info(result.toString());
+		return result;
+	}
+
+	public long getDelayFee() {
+		return delayFee;
+	}
+
+	public void setDelayFee(long delayFee) {
+		this.delayFee = delayFee;
+	}
+
+	/**
+	 * @return the runCode
+	 */
+	public String getRunCode() {
+		return runCode;
+	}
+
+	/**
+	 * @param runCode
+	 *            the runCode to set
+	 */
+	public void setRunCode(String runCode) {
+		this.runCode = runCode;
+	}
+
+	/**
+	 * @return the runName
+	 */
+	public String getRunName() {
+		return runName;
+	}
+
+	public long getCommonRemainFee() {
+		return commonRemainFee;
+	}
+
+	public void setCommonRemainFee(long commonRemainFee) {
+		this.commonRemainFee = commonRemainFee;
+	}
+
+	public long getSpecialRemainFee() {
+		return specialRemainFee;
+	}
+
+	public void setSpecialRemainFee(long specialRemainFee) {
+		this.specialRemainFee = specialRemainFee;
+	}
+
+	/**
+	 * @param runName
+	 *            the runName to set
+	 */
+	public void setRunName(String runName) {
+		this.runName = runName;
+	}
+
+	/**
+	 * @return the contractNo
+	 */
+	public long getContractNo() {
+		return contractNo;
+	}
+
+	/**
+	 * @param contractNo
+	 *            the contractNo to set
+	 */
+	public void setContractNo(long contractNo) {
+		this.contractNo = contractNo;
+	}
+
+	/**
+	 * @return the prepayFee
+	 */
+	public long getPrepayFee() {
+		return prepayFee;
+	}
+
+	/**
+	 * @param prepayFee
+	 *            the prepayFee to set
+	 */
+	public void setPrepayFee(long prepayFee) {
+		this.prepayFee = prepayFee;
+	}
+
+	/**
+	 * @return the curBalance
+	 */
+	public long getCurBalance() {
+		return curBalance;
+	}
+
+	/**
+	 * @param curBalance
+	 *            the curBalance to set
+	 */
+	public void setCurBalance(long curBalance) {
+		this.curBalance = curBalance;
+	}
+
+	/**
+	 * @return the unBillFeeAll
+	 */
+	public long getUnBillFeeAll() {
+		return unBillFeeAll;
+	}
+
+	/**
+	 * @param unBillFeeAll
+	 *            the unBillFeeAll to set
+	 */
+	public void setUnBillFeeAll(long unBillFeeAll) {
+		this.unBillFeeAll = unBillFeeAll;
+	}
+
+	/**
+	 * @return the oweFeeAll
+	 */
+	public long getOweFeeAll() {
+		return oweFeeAll;
+	}
+
+	/**
+	 * @param oweFeeAll
+	 *            the oweFeeAll to set
+	 */
+	public void setOweFeeAll(long oweFeeAll) {
+		this.oweFeeAll = oweFeeAll;
+	}
+
+	/**
+	 * @return the backDeposit
+	 */
+	public long getBackDeposit() {
+		return backDeposit;
+	}
+
+	/**
+	 * @param backDeposit
+	 *            the backDeposit to set
+	 */
+	public void setBackDeposit(long backDeposit) {
+		this.backDeposit = backDeposit;
+	}
+
+	/**
+	 * @return the brandName
+	 */
+	public String getBrandName() {
+		return brandName;
+	}
+
+	/**
+	 * @param brandName
+	 *            the brandName to set
+	 */
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	/**
+	 * @return the limitOwe
+	 */
+	public long getLimitOwe() {
+		return limitOwe;
+	}
+
+	/**
+	 * @param limitOwe
+	 *            the limitOwe to set
+	 */
+	public void setLimitOwe(long limitOwe) {
+		this.limitOwe = limitOwe;
+	}
+
+	public String getOpenTime() {
+		return openTime;
+	}
+
+	public void setOpenTime(String openTime) {
+		this.openTime = openTime;
+	}
+
+	public String getRunTime() {
+		return runTime;
+	}
+
+	public void setRunTime(String runTime) {
+		this.runTime = runTime;
+	}
+
+	public String getRegionCode() {
+		return regionCode;
+	}
+
+	public void setRegionCode(String regionCode) {
+		this.regionCode = regionCode;
+	}
+
+}

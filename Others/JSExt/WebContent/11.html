@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function Tune(song,artist){
+		var title=song;
+		var artist=artist;
+		this.concat=function(){
+			return title+"-"+artist;			
+		}			
+	}
+	window.onload=function(){
+		// 创建实例，打印出值
+		var happySong=new Tune("Hello","World");
+		//prototype扩展该对象的功能（方法）
+		Tune.prototype.addCategory=function(categoryName){//扩展方法
+			this.category=categoryName;	
+			
+			alert(categoryName);
+		}
+		Tune.prototype.add="123";//扩展属性,等效于this.add="123";
+		//添加分类
+		happySong.addCategory("Swing");	
+		alert(happySong.add);
+		//                          HelloWorld                      Swing		
+		var song="Title and artist:"+happySong.concat()+" Category:"+happySong.category+happySong.add;
+		
+		var p=document.createElement("p");//创建p段落节点
+		var txt=document.createTextNode(song);//创建文本，内容是song变量
+		p.appendChild(txt);//把song中的内容给p
+		document.getElementById("song").appendChild(p);//把p对象放到div中		
+	}
+
+
+</script>
+</head>
+<body>
+	<h1>Tune</h1>
+	<div id="song">
+	
+	</div>
+	
+</body>
+</html>

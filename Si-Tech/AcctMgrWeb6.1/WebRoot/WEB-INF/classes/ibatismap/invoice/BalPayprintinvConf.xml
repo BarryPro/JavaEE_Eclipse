@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_payprintinv_conf">
+	<select id="qRemark" parameterClass="Map" resultClass="java.lang.String">
+		SELECT
+		INV_CONTENT
+		FROM BAL_PAYPRINTINV_CONF
+		WHERE REGION_ID = #GROUP_ID#
+		AND OP_CODE = #OP_CODE#
+		AND SYSDATE BETWEEN BEGIN_TIME AND END_TIME
+	</select>
+</sqlMap>

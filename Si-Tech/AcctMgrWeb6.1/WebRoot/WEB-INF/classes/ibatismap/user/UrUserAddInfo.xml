@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_useradd_info">
+
+    <select id="qCntTopConUser" parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT COUNT(*) CNT FROM UR_USERADD_INFO
+		WHERE FIELD_CODE='13000001' AND FIELD_VALUE=TO_CHAR(#CONTRACT_NO#) AND ID_NO = #ID_NO#
+  </select>
+
+    <select id="qFamilyCon" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT ID_NO, FIELD_VALUE CONTRACT_NO
+        FROM UR_USERADD_INFO
+        WHERE FIELD_CODE = '20000004'
+
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ID_NO">
+                AND ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CONTRACT_NO">
+                AND FIELD_VALUE = #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+
+    </select>
+
+</sqlMap>

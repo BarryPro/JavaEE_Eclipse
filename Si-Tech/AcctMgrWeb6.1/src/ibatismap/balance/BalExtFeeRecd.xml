@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_extfee_recd">
+  
+  <insert id="insertRecd"  parameterClass="Map">
+   INSERT INTO BAL_EXTFEE_RECD
+   		(OPER_SN,CONTRACT_NO,PHONE_NO,PAY_FEE,PAY_TYPE,LOGIN_NO,OP_TIME,STATUS,REMARK, OP_CODE,PAY_PATH,PAY_METHOD
+   		,FOREIGN_SN,FOREIGN_TIME,DELAY_RATE,OP_TYPE,PRIORITY,GRP_CON_NO
+   		 <dynamic prepend="">
+	    	<isNotEmpty prepend="" property="YEAR_MONTH">
+	    		,YEAR_MONTH 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FETCH_NO">
+	    		,FETCH_NO 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_ONE">
+	    		,FACTOR_ONE 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_TWO">
+	    		,FACTOR_TWO 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_THREE">
+	    		,FACTOR_THREE 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_FOUR">
+	    		,FACTOR_FOUR 
+	    	</isNotEmpty>
+	    </dynamic>
+   		)
+	VALUES
+		(#OPER_SN#,#CONTRACT_NO#,#PHONE_NO#,#PAY_FEE#,#PAY_TYPE#,#LOGIN_NO#,SYSDATE,#STATUS#,#REMARK#,#OP_CODE#
+		,#PAY_PATH#,#PAY_METHOD#,#FOREIGN_SN#,TO_DATE(#FOREIGN_TIME#,'YYYYMMDDHH24MISS'),#DELAY_RATE#,#OP_TYPE#
+		,#PRIORITY#,#GRP_CON_NO#
+		<dynamic prepend="">
+	    	<isNotEmpty prepend="" property="YEAR_MONTH">
+	    		,#YEAR_MONTH# 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FETCH_NO">
+	    		,#FETCH_NO#
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_ONE">
+	    		,#FACTOR_ONE# 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_TWO">
+	    		,#FACTOR_TWO# 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_THREE">
+	    		,#FACTOR_THREE# 
+	    	</isNotEmpty>
+	    	<isNotEmpty prepend="" property="FACTOR_FOUR">
+	    		,#FACTOR_FOUR# 
+	    	</isNotEmpty>
+	    </dynamic>
+		)
+    </insert>
+    
+    
+</sqlMap>

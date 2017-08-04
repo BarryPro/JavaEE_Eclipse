@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pub_wrtoff_ctrl">
+  <typeAlias alias="PubWrtoffCtrl" type="com.sitech.acctmgr.atom.domains.pub.PubWrtoffCtrlEntity"/>
+  <select id="qWriteOffFlagAndMonth"  resultClass="PubWrtoffCtrl">  
+	SELECT NVL(NATURAL_MONTH,0) wrtoffMonth , NVL(WRTOFF_FLAG,0) wrtoffFlag
+	FROM PUB_WRTOFF_CTRL 
+	WHERE  TO_CHAR(SYSDATE,'HH24MISS') BETWEEN START_TIME  AND END_TIME 
+ 	AND TO_NUMBER(TO_CHAR(SYSDATE,'DD'))  BETWEEN START_DAY AND END_DAY
+  </select>
+  
+</sqlMap>

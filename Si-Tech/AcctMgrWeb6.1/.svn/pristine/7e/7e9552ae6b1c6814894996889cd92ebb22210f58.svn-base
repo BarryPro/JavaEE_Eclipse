@@ -1,0 +1,19 @@
+package com.sitech.acctmgr.test.atom.entity;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import com.sitech.jcfx.util.CodecUtil;
+
+public class IdIccidEnc {
+	public static void main(String[] args) throws UnsupportedEncodingException, IOException {
+		// 客户名称解密
+		// String custname = new String(CodecUtil.decodeBASE64("e36ebb71a25fea8e281c88f02cd3fb23"), "GB18030");
+		// System.out.println("客户名称解密后：" + custname);
+		//
+		// 证件ID解密
+		String idiccid = new String(CodecUtil.decodeBASE64("157ea8cffc3b84c64ddeead3ec19f17761b0510bf705995816cbd910c989bf25"), "UTF-8");
+		System.err.println("证件ID解密后：" + idiccid);
+
+	}
+}

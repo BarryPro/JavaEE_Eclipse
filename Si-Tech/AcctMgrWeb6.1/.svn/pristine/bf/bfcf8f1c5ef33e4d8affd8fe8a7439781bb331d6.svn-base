@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invprintdet_info">
+
+	<typeAlias alias="BalInvprintdetInfo"
+		type="com.sitech.acctmgr.atom.domains.invoice.BalInvprintdetInfo" />
+	
+	<insert id="iInvprintdetEntity" parameterClass="BalInvprintdetInfo">
+		INSERT INTO
+		BAL_INVPRINTDET_INFO
+		(ORDER_SN,
+		PRINT_SN,
+		PHONE_NO,
+		ID_NO,
+		CONTRACT_NO,
+		INV_NO,
+		INV_CODE,
+		SHOW_ORDER,
+		SHOW_NAME,
+		AMOUNT,
+		UNITE_PRICE,
+		TOTAL_FEE,
+		TAX_RATE,
+		YEAR_MONTH,
+		PRINT_ARRAY)
+		VALUES
+		(#orderSn#,
+		#printSn#,
+		#phoneNo#,
+		#idNo#,
+		#contractNo#,
+		#invNo#,
+		#invCode#,
+		#showOrder#,
+		#showName#,
+		#amount#,
+		#unitePrice#,
+		#totalFee#,
+		#taxRate#,
+		#yearMonth#,
+		#printArray#)
+
+	</insert>
+
+	<select id="qCntByPrintSn" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(1) CNT
+		FROM BAL_INVPRINTDET_INFO
+		WHERE PRINT_SN=#PRINT_SN#
+		AND YEAR_MONTH = #YEAR_MONTH#
+		<dynamic prepend="">
+			<isNotEmpty property="ORDER_SN" prepend="">
+				AND ORDER_SN=#ORDER_SN#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<typeAlias alias="xmlDataBlob"	type="com.sitech.acctmgr.atom.domains.invoice.PrintDataBlob" />
+	<resultMap id="xmlDataBlobEntry" class="xmlDataBlob">
+		<result property="printContent" column="PRINT_DATA" jdbcType="BLOB" javaType="java.lang.String" />
+		<result property="printSn" column="PRINT_SN" />
+		<result property="yearMonth" column="YEAR_MONTH" />
+	</resultMap>
+	<update id="upXMLByPrintSn" parameterClass="xmlDataBlob">
+		update
+		bal_invprintdet_info
+		set PRINT_DATA=#printContent#
+		where
+		PRINT_SN=#printSn:LONG#
+		AND YEAR_MONTH=#yearMonth#
+		AND SHOW_ORDER IN (1,6,17)
+		
+	</update>
+
+
+</sqlMap>

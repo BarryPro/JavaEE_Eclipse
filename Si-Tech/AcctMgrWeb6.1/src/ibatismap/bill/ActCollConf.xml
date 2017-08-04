@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="act_coll_conf">
+    <typeAlias type="com.sitech.acctmgr.atom.domains.collection.CollectionConf" alias="CollectionConfEnt"/>
+
+    <resultMap id="CollectionConfEnt" class="CollectionConfEnt">
+        <result property="disGroupId" column="GROUP_ID"/>
+        <result property="cityCode" column="CITY_CODE"/>
+        <result property="opType" column="OP_TYPE"/>
+        <result property="busiCode" column="BUSI_CODE"/>
+        <result property="enterCode" column="ENTER_CODE"/>
+        <result property="operType" column="OPER_TYPE"/>
+    </resultMap>
+
+    <select id="qCollConfInfo" parameterClass="Map" resultMap="CollectionConfEnt">
+        SELECT GROUP_ID, CITY_CODE, OP_TYPE, BUSI_CODE, ENTER_CODE, OPER_TYPE
+        FROM ACT_COLL_CONF
+        WHERE 1 = 1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="GROUP_ID">
+                GROUP_ID = #GROUP_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ENTER_CODE">
+                ENTER_CODE = #ENTER_CODE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="OPER_TYPE">
+                OPER_TYPE = #OPER_TYPE#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+</sqlMap>

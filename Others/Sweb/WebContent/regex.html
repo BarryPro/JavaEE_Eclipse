@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        function mykey(e){
+            //e.keyCode是ie e.which是火狐
+            var keyvalue = window.event? e.keyCode: e.which;
+            var value = String.fromCharCode(keyvalue);
+            //正则表达式的形式在//之间
+            var reg = /\d/;
+            var flag = reg.test(value);
+            if(flag){
+                //空制样式的显示
+                document.getElementById("label1").style.display="none";
+            } else {
+//                两种方法都可以
+//                document.getElementById("label1").style.display="block";
+                document.all.label1.style.display="block";
+            }
+            return flag;
+        }
+    </script>
+</head>
+<body>
+    姓名<input type="text" name="username" id="username" onkeypress="return mykey(event)" style="ime-mode: disabled"/><br>
+    密码<input type="password" name="password" id="password" /><br>
+    <label id="label1" style="display: none">错误:必须是数字</label><br>
+</body>
+</html>

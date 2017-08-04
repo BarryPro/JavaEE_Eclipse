@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_usersignadd_info">
+
+    <delete id="delSignaddInfo" parameterClass="Map">
+	 	delete from bal_usersignadd_info
+	 	where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+		and finish_flag = '0'
+    </delete>
+
+    <insert id="iSignaddInfo" parameterClass="Map">
+        INSERT INTO bal_usersignadd_info (ID_NO, BUSI_TYPE, FIELD_CODE, FIELD_VALUE, OTHER_VALUE, 
+        		FINISH_FLAG, OP_TIME, LOGIN_NO, LOGIN_ACCEPT, OP_CODE)
+        VALUES(#ID_NO# , #BUSI_TYPE# , #FIELD_CODE# , #FIELD_VALUE#, #OTHER_VALUE# , 
+        		#FINISH_FLAG#, sysdate, #LOGIN_NO#, #LOGIN_ACCEPT# , #OP_CODE#)
+    </insert>
+
+	<select id="qry" parameterClass="Map" resultClass="java.lang.String">
+		select FIELD_VALUE
+		from bal_usersignadd_info
+		where id_no = #ID_NO#
+		and	busi_type = #BUSI_TYPE#
+		and field_code = #FIELD_CODE#
+	</select>
+
+	<select id="qSignaddInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		select field_code, field_value, other_value
+		from bal_usersignadd_info
+		where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="LOGIN_ACCEPT">
+				LOGIN_ACCEPT = #LOGIN_ACCEPT#
+			</isNotEmpty>
+
+		</dynamic>
+	</select>
+  
+</sqlMap>

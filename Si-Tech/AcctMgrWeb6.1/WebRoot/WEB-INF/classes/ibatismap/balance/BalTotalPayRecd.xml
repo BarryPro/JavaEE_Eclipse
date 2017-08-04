@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_totalpay_recd">
+
+    <insert id="inRecd"  parameterClass="Map">
+     insert into BAL_TOTALPAY_RECD (
+	    TRANSACTIONID,SETTLEDATE,ORDERTYPE,TRANSTYPE,ORGANID
+	  , IDTYPE, PHONE_NO,IDNO,CHARGEMONEY,CNLTYP,PAYEDTYPE 
+	  , PAYMENT,SETTLEMONEY,ORDERCNT,ACTIVITYNO
+ 	  <dynamic prepend="">
+	     <isNotEmpty prepend="" property="BUSITRANSID"> ,BUSITRANSID </isNotEmpty>
+	     <isNotEmpty prepend="" property="PAYTRANSID"> ,PAYTRANSID </isNotEmpty>
+	    <isNotEmpty prepend="" property="TRANSSTATUS"> ,TRANSSTATUS </isNotEmpty>
+	    <isNotEmpty prepend="" property="ORDERNO"> ,ORDERNO </isNotEmpty>
+ 	    <isNotEmpty prepend="" property="PRODUCTNO"> ,PRODUCTNO </isNotEmpty> 
+ 	    <isNotEmpty prepend="" property="PRODUCTSHELFNO"> ,PRODUCTSHELFNO </isNotEmpty>
+   	    <isNotEmpty prepend="" property="COMMISON"> ,COMMISON </isNotEmpty>
+   	    <isNotEmpty prepend="" property="SERVICEFEE"> ,SERVICEFEE </isNotEmpty>
+   	    <isNotEmpty prepend="" property="REBATEFEE"> ,REBATEFEE </isNotEmpty>
+   	    <isNotEmpty prepend="" property="CREDITCARDFEE"> ,CREDITCARDFEE </isNotEmpty>	    
+     	<isNotEmpty prepend="" property="RESERVEFEE1"> ,RESERVEFEE1 </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE2"> ,RESERVEFEE2 </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE3"> ,RESERVEFEE3 </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE4"> ,RESERVEFEE4 </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE5"> ,RESERVEFEE5 </isNotEmpty>
+     	<isNotEmpty prepend="" property="REMARK2"> ,REMARK2 </isNotEmpty>
+     	<isNotEmpty prepend="" property="REMARK3"> ,REMARK3 </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_NO"> ,CARD_NO </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_TYPE"> ,CARD_TYPE </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_BUSI_PROP"> ,CARD_BUSI_PROP </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_PROVINCE"> ,CARD_PROVINCE </isNotEmpty>
+     	<isNotEmpty prepend="" property="CALLING_ID_VALUE"> ,CALLING_ID_VALUE </isNotEmpty>
+     	<isNotEmpty prepend="" property="BATCH_NO"> ,BATCH_NO </isNotEmpty>
+     	<isNotEmpty prepend="" property="IS_GIVE"> ,IS_GIVE </isNotEmpty>
+     	<isNotEmpty prepend="" property="PAYORGAN_ID"> ,PAYORGAN_ID </isNotEmpty>
+     	<isNotEmpty prepend="" property="CORRELATION_ID"> ,CORRELATION_ID </isNotEmpty>
+     	
+    </dynamic>
+	  , DIFFTYPE,  REMARK1, OP_FLAG, OP_TIME, BIPCODE
+	  , ACTIVITYCODE,SESSIONID,TRANSIDO,TRANSIDOTIME,TRANSIDH,TRANSIDHTIME,MSGSENDER, MSGRECEIVER
+	  , OPCODE,  CONTRACT_NO, LOGIN_NO, ACTIONDATE, ACTIONTIME, OP_MSG ,BACK_FLAG,ORI_TRANSACTIONID
+	  ,USER_GROUP,BRAND_ID,YEAR_MONTH
+	 )
+	  values(
+	      #TRANSACTIONID#, #SETTLEDATE#, #ORDERTYPE#, #TRANSTYPE#
+	      , #ORGANID#, #IDTYPE#, #PHONE_NO#,#IDNO#, #CHARGEMONEY#, #CNLTYP#, #PAYEDTYPE#
+		  ,#PAYMENT#, #SETTLEMONEY#, #ORDERCNT#, #ACTIVITYNO#
+ 	<dynamic prepend="">
+		 <isNotEmpty prepend="" property="BUSITRANSID"> ,#BUSITRANSID# </isNotEmpty>
+	     <isNotEmpty prepend="" property="PAYTRANSID"> ,#PAYTRANSID# </isNotEmpty>	
+    	<isNotEmpty prepend="" property="TRANSSTATUS"> ,#TRANSSTATUS# </isNotEmpty>
+        <isNotEmpty prepend="" property="ORDERNO"> ,#ORDERNO# </isNotEmpty>
+ 	    <isNotEmpty prepend="" property="PRODUCTNO"> ,#PRODUCTNO# </isNotEmpty>
+ 	    <isNotEmpty prepend="" property="PRODUCTSHELFNO"> ,#PRODUCTSHELFNO# </isNotEmpty> 
+    	<isNotEmpty prepend="" property="COMMISON"> ,#COMMISON# </isNotEmpty>
+   	    <isNotEmpty prepend="" property="SERVICEFEE"> ,#SERVICEFEE# </isNotEmpty>
+   	    <isNotEmpty prepend="" property="REBATEFEE"> ,#REBATEFEE# </isNotEmpty>
+   	    <isNotEmpty prepend="" property="CREDITCARDFEE"> ,#CREDITCARDFEE# </isNotEmpty>    
+     	<isNotEmpty prepend="" property="RESERVEFEE1"> ,#RESERVEFEE1# </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE2"> ,#RESERVEFEE2# </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE3"> ,#RESERVEFEE3# </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE4"> ,#RESERVEFEE4# </isNotEmpty>
+     	<isNotEmpty prepend="" property="RESERVEFEE5"> ,#RESERVEFEE5# </isNotEmpty>
+     	<isNotEmpty prepend="" property="REMARK2"> ,#REMARK2# </isNotEmpty>
+     	<isNotEmpty prepend="" property="REMARK3"> ,#REMARK3# </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_NO"> ,#CARD_NO# </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_TYPE"> ,#CARD_TYPE# </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_BUSI_PROP"> ,#CARD_BUSI_PROP# </isNotEmpty>
+     	<isNotEmpty prepend="" property="CARD_PROVINCE"> ,#CARD_PROVINCE# </isNotEmpty>
+     	<isNotEmpty prepend="" property="CALLING_ID_VALUE">,#CALLING_ID_VALUE# </isNotEmpty>
+     	<isNotEmpty prepend="" property="BATCH_NO">,#BATCH_NO# </isNotEmpty>
+     	<isNotEmpty prepend="" property="IS_GIVE"> ,#IS_GIVE# </isNotEmpty>
+     	<isNotEmpty prepend="" property="PAYORGAN_ID">,#PAYORGAN_ID# </isNotEmpty>
+     	<isNotEmpty prepend="" property="CORRELATION_ID">,#CORRELATION_ID# </isNotEmpty>
+    </dynamic>
+		  ,#DIFFTYPE#,  #REMARK1#,#OP_FLAG#, SYSDATE,  #BIPCODE#
+		  ,#ACTIVITYCODE#, #SESSIONID#, #TRANSIDO#, #TRANSIDOTIME#, #TRANSIDH#, #TRANSIDHTIME#
+		  ,#MSGSENDER#, #MSGRECEIVER#
+		  ,#OPCODE#, #CONTRACT_NO#, #LOGIN_NO#, #ACTIONDATE#, #ACTIONTIME#,#OP_MSG# ,#BACK_FLAG#,#TRANSACTIONID#
+		  ,#USER_GROUP#,#BRAND_ID#,#YEAR_MONTH#
+	 )
+  </insert>
+  
+  	<select id="qCntByTranId"  parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM BAL_TOTALPAY_RECD
+   	    WHERE YEAR_MONTH = #YEAR_MONTH# AND TRANSACTIONID = #TRANSACTIONID#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="SETTLEDATE">
+				SETTLEDATE = #SETTLEDATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ACTIONDATE">
+				ACTIONDATE = #ACTIONDATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="OP_FLAG">
+				OP_FLAG = #OP_FLAG#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qTotalpayByTranId" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT OP_FLAG,BACK_FLAG
+		FROM BAL_TOTALPAY_RECD
+		WHERE YEAR_MONTH = #YEAR_MONTH# AND TRANSACTIONID = #TRANSACTIONID#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="SETTLEDATE">
+				SETTLEDATE = #SETTLEDATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ACTIONDATE">
+				ACTIONDATE = #ACTIONDATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="OP_FLAG">
+				OP_FLAG = #OP_FLAG#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<update id="updateRecd" parameterClass="Map">
+		UPDATE BAL_TOTALPAY_RECD SET BACK_FLAG=#BACK_FLAG#
+		WHERE YEAR_MONTH= #PAY_MONTH# AND TRANSACTIONID = #ORI_TRANSACTIONID# AND
+		OP_FLAG=0 AND BACK_FLAG=0
+	</update>
+  
+  <insert id="iForRoback"  parameterClass="Map" >
+      INSERT INTO BAL_TOTALPAY_RECD (
+	    TRANSACTIONID,SETTLEDATE,ORDERTYPE,TRANSTYPE,ORGANID
+		,IDTYPE, PHONE_NO,IDNO, CHARGEMONEY,CNLTYP,PAYEDTYPE 
+	  	,PAYMENT, SETTLEMONEY, ORDERCNT, ACTIVITYNO
+	  	,BUSITRANSID,PAYTRANSID,TRANSSTATUS,ORDERNO ,PRODUCTNO  ,PRODUCTSHELFNO   
+		,COMMISON ,SERVICEFEE ,REBATEFEE ,CREDITCARDFEE,RESERVEFEE1,RESERVEFEE2 ,RESERVEFEE3 ,RESERVEFEE4 ,RESERVEFEE5
+ 		,REMARK2 ,REMARK3
+	  	,DIFFTYPE,  REMARK1, OP_FLAG, OP_TIME, BIPCODE
+	  	,ACTIVITYCODE,SESSIONID,TRANSIDO,TRANSIDOTIME,TRANSIDH,TRANSIDHTIME,MSGSENDER, MSGRECEIVER
+	  	,OPCODE,CONTRACT_NO,LOGIN_NO,ACTIONDATE,ACTIONTIME,OP_MSG,BACK_FLAG,ORI_TRANSACTIONID,USER_GROUP
+	    ,BRAND_ID,CARD_NO ,CARD_TYPE,CARD_BUSI_PROP,CARD_PROVINCE,CALLING_ID_VALUE,BATCH_NO,IS_GIVE,PAYORGAN_ID,CORRELATION_ID,YEAR_MONTH
+	 )
+	 SELECT 
+	  	#TRANSACTIONID#,#SETTLEDATE#,ORDERTYPE ,TRANSTYPE,ORGANID
+		, IDTYPE, PHONE_NO,IDNO,  (-1)*CHARGEMONEY,  CNLTYP,  PAYEDTYPE 
+	  	, (-1)*PAYMENT, (-1)*SETTLEMONEY, ORDERCNT, ACTIVITYNO
+	  	,BUSITRANSID,PAYTRANSID,TRANSSTATUS,ORDERNO ,PRODUCTNO ,PRODUCTSHELFNO   
+		,(-1)*COMMISON,(-1)*SERVICEFEE ,(-1)*REBATEFEE ,(-1)*CREDITCARDFEE ,(-1)*RESERVEFEE1 ,(-1)*RESERVEFEE2 ,(-1)*RESERVEFEE3 ,(-1)*RESERVEFEE4 ,(-1)*RESERVEFEE5
+ 		,REMARK2 ,REMARK3
+	  	,DIFFTYPE,  #REMARK1#, #OP_FLAG#, SYSDATE, BIPCODE
+	  	,#ACTIVITYCODE#,#SESSIONID#,#TRANSIDO#,#TRANSIDOTIME#,#TRANSIDH#,#TRANSIDHTIME#,#MSGSENDER#,#MSGRECEIVER#
+	  	,#OPCODE#, CONTRACT_NO,LOGIN_NO,ACTIONDATE,ACTIONTIME,#OP_MSG#,#BACK_FLAG#,ORI_TRANSACTIONID,USER_GROUP
+	  	,BRAND_ID,CARD_NO ,CARD_TYPE,CARD_BUSI_PROP,CARD_PROVINCE,CALLING_ID_VALUE,BATCH_NO,IS_GIVE,PAYORGAN_ID,CORRELATION_ID,#BACK_MONTH#
+	 FROM BAL_TOTALPAY_RECD 
+	 WHERE YEAR_MONTH=#PAY_MONTH# AND TRANSACTIONID=#ORI_TRANSACTIONID# and OP_FLAG=0
+   </insert>
+   
+  	<select id="qPayPathByTranId" parameterClass="Map" resultClass="java.lang.String">
+		SELECT CNLTYP
+		FROM BAL_TOTALPAY_RECD
+		WHERE YEAR_MONTH = #YEAR_MONTH# AND TRANSACTIONID = #TRANSACTIONID#
+		AND OP_FLAG = '0'
+	</select>
+	
+</sqlMap>

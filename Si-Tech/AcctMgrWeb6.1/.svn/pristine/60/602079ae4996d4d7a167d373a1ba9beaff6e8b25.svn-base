@@ -1,0 +1,92 @@
+package com.sitech.acctmgr.atom.busi.invoice.inter;
+
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.invoice.elecInvoice.InvoiceInfo;
+import com.sitech.acctmgr.atom.domains.invoice.elecInvoice.InvoiceXhfInfo;
+
+/**
+ * 电子发票
+ * 
+ * @author liuhl_bj
+ *
+ */
+public interface IElecInvoice {
+
+	/**
+	 * 获取pdf文件
+	 * 
+	 * @param requestSn
+	 * @param phoneNo
+	 * @return
+	 */
+	String getInvPdfFile(String requestSn, String phoneNo);
+	
+	/**
+	 * 获取发票文件fileType 0, 原始PDF文件 1, 黑白PDF 2， PNG图片
+	 * 
+	 * @param requestSn
+	 * @param phoneNo
+	 * @param fileType
+	 * @return
+	 */
+	String getInvFile(String requestSn, String phoneNo, String fileType);
+
+	/**
+	 * 电子发票139邮箱推送
+	 * 
+	 * @param inParam
+	 */
+	void sendMail(Map<String, Object> inParam);
+
+	/**
+	 * 蓝发票打印，调用CRMPD接口。支持同步和异步方式
+	 * 
+	 * @param eleInvoice
+	 * @param xhfInfo
+	 * @param invType
+	 * @param sendMsgFlag
+	 *            短信发送标志 0：发送 1：不发送
+	 * @return
+	 */
+	Map<String, String> EInvPrintSub(InvoiceInfo eleInvoice, InvoiceXhfInfo xhfInfo, String invType, int sendMsgFlag);
+
+	/**
+	 * 发送短信
+	 * 
+	 * @param phoneNo
+	 * @param url
+	 */
+	void sendSms(String phoneNo, String url);
+
+	/**
+	 * 重发短信
+	 * 
+	 * @param inParamMap
+	 */
+	void smsSendAgain(Map<String, Object> inParamMap);
+
+	/**
+	 * 保存CRM电子发票信息
+	 * 
+	 * @param inParamMap
+	 */
+	void saveCrmElecInvoice(Map<String, Object> inParamMap);
+
+	/**
+	 * CRM对发票同步打印接口返回的content内容解析，并入相关的表
+	 * 
+	 * @param inParamMap
+	 * @param content
+	 * @throws Exception
+	 */
+	void EInvcContentDealCrm(Map<String, Object> inParamMap, String content) throws Exception;
+
+	/**
+	 * 给CRM发送工单
+	 * 
+	 * @param inmap
+	 * @throws Exception
+	 */
+	void sendOrderToCRM(Map<String, Object> inmap) throws Exception;
+}

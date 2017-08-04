@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_usersign_info">
+
+    <delete id="delSignInfo" parameterClass="Map">
+	 	delete from bal_usersign_info
+	 	where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+		and sign_flag = '0'
+    </delete>
+
+<typeAlias type="com.sitech.acctmgr.atom.domains.pay.UserSignInfoEntity" alias="UserSignInfoEntity" />
+
+    <insert id="iSignInfo" parameterClass="UserSignInfoEntity">
+        INSERT INTO bal_usersign_info ( ID_NO, PHONE_NO, BUSI_TYPE, SIGN_SN, SIGN_TIME,
+        		SIGN_FLAG, LOGIN_ACCEPT, LOGIN_NO, OP_TIME, OP_CODE, REMARK)
+        VALUES(#idNo# , #phoneNo# , #busiType# , #signSn#, #signTime# , 
+        		#signFlag#, #loginAccept#, #loginNo#, SYSDATE , #opCode# , #remark# )
+    </insert>
+    
+   <select id="qCnt"  parameterClass="Map" resultClass="Integer">
+		select count(1) CNT
+		from bal_usersign_info
+		where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+		and sign_flag = '0'
+  </select>
+  
+  	<typeAlias alias="UserSignInfo" type="com.sitech.acctmgr.atom.domains.pay.UserSignInfoEntity"/>
+	<resultMap id="UserSignInfo" class="UserSignInfo">
+		<result property="idNo" column="ID_NO"/>
+		<result property="phoneNo" column="PHONE_NO"/>
+		<result property="busiType" column="BUSI_TYPE"/>
+		<result property="signSn" column="SIGN_SN"/>
+		<result property="signTime" column="SIGN_TIME"/>
+		<result property="signFlag" column="SIGN_FLAG"/>
+		<result property="loginAccept" column="LOGIN_ACCEPT"/>
+		<result property="loginNo" column="LOGIN_NO"/>
+		<result property="opTime" column="OP_TIME"/>
+		<result property="opCode" column="OP_CODE"/>
+		<result property="remark" column="REMARK"/>
+	</resultMap>
+	
+  <select id="qUserSignInfo"  parameterClass="Map" resultMap="UserSignInfo">
+	select ID_NO, PHONE_NO, BUSI_TYPE, SIGN_SN, SIGN_TIME,
+	SIGN_FLAG, LOGIN_ACCEPT, LOGIN_NO, TO_CHAR(OP_TIME, 'yyyymmddhh24misshh') OP_TIME, OP_CODE, REMARK
+	from bal_usersign_info
+	where id_no = #ID_NO#
+	<dynamic prepend="">
+
+		<isNotEmpty prepend="AND" property="BUSI_TYPE">
+			busi_type = #BUSI_TYPE#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="SIGN_FLAG">
+			SIGN_FLAG = #SIGN_FLAG#
+		</isNotEmpty>
+	</dynamic>
+  </select>
+  
+  
+</sqlMap>

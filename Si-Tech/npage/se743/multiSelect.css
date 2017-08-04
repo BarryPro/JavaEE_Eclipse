@@ -1,0 +1,63 @@
+.select_div
+	{
+	font-size: 12px;
+		font-family: Verdana;
+		border: 1px solid #333;
+		overflow-y: auto;
+		float: left;
+		background:#D9E9FE;
+	}
+	.select_div table
+	{
+	border: 0px;
+	table-layout: fixed;
+	}
+	.select_div .select_div_title
+	{
+	padding: 5px;
+	background: #658BB2;
+	color: #fff;
+	font-weight: bold;
+	font-size: 12px;
+	white-space: nowrap;
+	height: 20px;
+	}
+	.select_div tr
+	{
+	color: #000;
+	height: 12px;
+	}
+	.select_div .odd
+	{
+	background: #fff;
+	}
+	.select_div .even
+	{
+	background: #fff;
+	}
+	.select_div .selected
+	{
+	background: #D9E9FE;
+	}
+	.select_div td
+	{
+	padding-left: 5px;
+	white-space: nowrap;
+	}
+	.select_div .select_div_bottom {
+		background: #ddd;
+		padding: 8px;
+		text-align: right;
+	}
+	.select_div .right_td
+	{
+		text-align: right;
+		width: 20px;
+		padding: 1px;
+	}
+	.select_div_bottom
+	{
+		bottom: 0;
+		left: 0;
+	}
+	.ListText{background:url(TextBtn.jpg) no-repeat;height:20px;width:92px!important;width:84px;border:0px;line-height:20px;cursor:pointer;padding:2px 0px 0px 0px!important;padding:0px 0px 0px 8px}

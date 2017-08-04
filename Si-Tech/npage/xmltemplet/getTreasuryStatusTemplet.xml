@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+    <head>
+        <requestTime>asdf</requestTime>
+        <method>CertificationStatusQuery</method>
+        <appId></appId>
+        <clientIp></clientIp>
+    </head>
+   	<body>
+   	    <resType>app</resType>
+   	    <account></account>
+   	    <subAccount></subAccount>
+   	    <sceneId></sceneId>
+   	    <sceneName></sceneName>
+   	    <sensitiveData></sensitiveData>
+   	    <sensitiveOperate></sensitiveOperate>
+   	    <appSessionId></appSessionId>
+   	</body>
+</request>

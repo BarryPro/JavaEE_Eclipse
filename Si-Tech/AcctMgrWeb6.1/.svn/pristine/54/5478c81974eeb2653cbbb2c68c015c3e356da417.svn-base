@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="fav_class_info">
+	<select id="qFavClassName" parameterClass="Map" resultClass="java.lang.String">
+		SELECT TRIM(NOTE) AS NOTE
+		FROM FAV_CLASS_INFO
+		WHERE FAV_CLASS = #FAV_CLASS#
+	</select>
+</sqlMap>

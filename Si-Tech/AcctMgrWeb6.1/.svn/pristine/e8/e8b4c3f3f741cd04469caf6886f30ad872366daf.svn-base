@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ct_para_type_value">
+    <select id="qParaName" parameterClass="Map" resultClass="java.lang.String">
+		SELECT PARA_NAME paraName
+		  FROM CT_PARA_TYPE_VALUE
+		 WHERE PARA_TYPE_ID = #PARA_TYPE_ID#
+		   AND PARA_ID = #PARA_ID#
+	</select>
+</sqlMap>

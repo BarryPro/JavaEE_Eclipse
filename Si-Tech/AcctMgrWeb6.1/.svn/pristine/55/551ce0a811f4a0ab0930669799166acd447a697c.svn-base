@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 服务层注册Bean -->
+	
+	<bean id="8005Svc" class="com.sitech.acctmgr.atom.impl.invoice.S8005">
+		<property name="printDataXml" ref="printDataXMLEnt" />
+		<property name="preInvHeader" ref="PreInvHeaderEnt" />
+		<property name="invFee" ref="InvFeeEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="reFee" ref="remainFeeEnt" />
+		<property name="billDisplayer" ref="billDisplayerEnt" />
+		<property name="writeOffer" ref="writeOfferEnt" />
+		<!-- liuhl_bj add 20161026 -->
+		<property name="cust" ref="custEnt" />
+		<property name="bill" ref="billEnt"/>
+		<property name="record" ref="recordEnt" />
+		<!-- add 20161031 -->
+		<property name="invPrint" ref="invPrintEnt"></property>
+		<property name="logincheck" ref="loginCheckCompEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="8224Svc" class="com.sitech.acctmgr.atom.impl.invoice.S8224">
+		<property name="invPrint" ref="invPrintEnt" />
+		<property name="invFee" ref="InvFeeEnt" />
+		<property name="preInvHeader" ref="PreInvHeaderEnt" />
+		<property name="printDataXML" ref="printDataXMLEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="cust" ref="custEnt" />
+		<property name="logincheck" ref="loginCheckCompEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+		<!-- <property name="billDisplayer" ref="billDisplayerEnt" /> <property 
+			name="writeOffer" ref="writeOfferEnt" /> -->
+
+	</bean>
+ 	
+ 	
+ 	<bean id="8240InvAdminSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8240InvAdmin">
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="user" ref="userEnt" />
+	</bean>
+	
+ 	<bean id="8056ZfInvoSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8056RelatedInvo">
+		<property name="invoice" ref="invoiceEnt"/>
+	</bean>
+	
+	<bean id="8056ZFInvoiceSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8056ZFInvoice">
+		<property name="invoice" ref="invoiceEnt"/>
+	</bean>
+	
+	<bean id="8006InvoiceSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8006Invoice">
+		<property name="invPrint" ref="invPrintEnt"></property>
+		<property name="record" ref="recordEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+		
+	</bean>
+	
+	<bean id="8014AcceptListSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8014AcceptList">
+		<property name="printDataXml" ref="printDataXMLEnt" />
+		<property name="base" ref="baseEnt"/>
+		<property name="login" ref="loginEnt" />
+		<property name="user" ref="userEnt"/>
+		<property name="cust" ref="custEnt"/>
+		<property name="control" ref="controlEnt"/>
+		<property name="account" ref="accountEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="8241Svc" class="com.sitech.acctmgr.atom.impl.invoice.S8241">
+		<property name="user" ref="userEnt"/>
+		<property name="record" ref="recordEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="invPrint" ref="invPrintEnt"/>
+		<property name="control" ref="controlEnt"/>
+		<property name="account" ref="accountEnt"/>
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="8290Svc" class="com.sitech.acctmgr.atom.impl.invoice.S8290">
+		<property name="user" ref="userEnt"/>
+		<property name="invPrint" ref="invPrintEnt"/>
+		<property name="account" ref="accountEnt"/>
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="preInvoiceRecycleSvc" class="com.sitech.acctmgr.atom.impl.invoice.SPreInvoiceRecycle">
+		<property name="user" ref="userEnt"/>
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="account" ref="accountEnt"/>
+		<property name="control" ref="controlEnt"/>
+	</bean>
+	
+	<bean id="acrossFieldInvoSvc" class="com.sitech.acctmgr.atom.impl.invoice.SAcrossFieldInvo">
+		<property name="user" ref="userEnt"/>
+		<property name="cust" ref="custEnt"/>
+		<property name="control" ref="controlEnt"/>
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="invPrint" ref="invPrintEnt"/>
+		<property name="invFee" ref="InvFeeEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+	</bean>
+	
+	<bean id="printBankSvc" class="com.sitech.acctmgr.atom.impl.invoice.SPrintBank">
+		<property name="user" ref="userEnt"/>
+		<property name="invPrint" ref="invPrintEnt"/>
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="payManage" ref="payManageEnt" />
+		<property name="record" ref="recordEnt"/>
+	</bean>
+	
+	<bean id="8068InvoiceSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8068Invoice">
+		<property name="invPrint" ref="invPrintEnt"/>
+		<property name="invoice" ref="invoiceEnt"/>
+		<property name="record" ref="recordEnt"/>
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="3101Svc" class="com.sitech.acctmgr.atom.impl.invoice.S3101">
+		<property name="user" ref="userEnt"/>
+		<property name="cust" ref="custEnt"/>
+		<property name="agent" ref="agentEnt"/>
+		<property name="control" ref="controlEnt"/>
+		<property name="invoice" ref="invoiceEnt"/>
+		<property name="record" ref="recordEnt"/>
+	</bean>
+	
+	<bean id="8247TaxInvoSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8247TaxInvo">
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="invFee" ref="InvFeeEnt" />
+		<property name="cust" ref="custEnt"/>
+		<property name="control" ref="controlEnt"/>
+		<property name="group" ref="groupEnt" />
+		<property name="balance" ref="balanceEnt"/>
+	</bean>
+	
+	<bean id="8248TaxInvoAoSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8248TaxInvo">
+		<property name="invFee" ref="InvFeeEnt" />
+		<property name="preInvHeader" ref="PreInvHeaderEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="cust" ref="custEnt"/>
+		<property name="balance" ref="balanceEnt"/>
+		<property name="record" ref="recordEnt"/>
+		<property name="shortMessage" ref="ShortMessageEnt" />
+		<!-- <property name="busiMsgSend" ref="BusiOdrBcEnt" /> -->
+
+	</bean>
+	
+	<bean id="8248TaxInvoSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8248TaxInvoComp">
+		<property name="control" ref="controlEnt" />
+	</bean>
+	
+	<bean id="8076InvoiceSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8076Invoice">
+		<property name="preInvHeader" ref="PreInvHeaderEnt" />
+		<property name="printDataXML" ref="printDataXMLEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt"/>
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="8215Svc" class="com.sitech.acctmgr.atom.impl.invoice.S8215">
+		<property name="printDataXML" ref="printDataXMLEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="record" ref="recordEnt"/>
+		<property name="preOrder" ref="preOrderEnt" />
+	</bean>
+	
+	
+	<bean id="8157PrintSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8157Print">
+		<property name="printDataXml" ref="printDataXMLEnt" />
+		<property name="base" ref="baseEnt"/>
+		<property name="login" ref="loginEnt" />
+		<property name="user" ref="userEnt"/>
+		<property name="cust" ref="custEnt"/>
+		<property name="record" ref="recordEnt" />
+		<property name="credit" ref="creditEnt"></property>
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="preInvoicePrintSvc" class="com.sitech.acctmgr.atom.impl.invoice.SPreInvoicePrint">
+		<property name="user" ref="userEnt"/>
+		<property name="record" ref="recordEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+	</bean>
+	
+	<bean id="8226Svc" class="com.sitech.acctmgr.atom.impl.invoice.S8226">
+		<property name="collection" ref="collectionEnt"/>
+		<property name="bill" ref="billEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="printDataXml" ref="printDataXMLEnt" />
+	</bean>
+	
+	<bean id="2313Svc" class="com.sitech.acctmgr.atom.impl.invoice.S2313">
+		<property name="group" ref="groupEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="control" ref="controlEnt" />
+	</bean>
+	
+	<bean id="8081PrintSvc" class="com.sitech.acctmgr.atom.impl.invoice.S8081Print">
+		<property name="printDataXml" ref="printDataXMLEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="user" ref="userEnt"/>
+		<property name="cust" ref="custEnt"/>
+		<property name="record" ref="recordEnt" />
+		<property name="account" ref="accountEnt" />
+	</bean>
+	
+	<bean id="2318Svc" class="com.sitech.acctmgr.atom.impl.invoice.S2318">
+		<property name="invoice" ref="invoiceEnt" />
+	</bean>
+	
+</beans>

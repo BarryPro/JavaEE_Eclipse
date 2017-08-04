@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_booksource_info">
+
+    <insert id="iBooksource" parameterClass="Map">
+        INSERT INTO BAL_BOOKSOURCE_INFO
+        (INCOME_SN , PAY_SN , CONTRACT_NO ,ID_NO , BALANCE_ID ,PAY_TYPE , PAY_FEE , STATUS
+        , GROUP_ID , LOGIN_NO , OP_TIME , BEGIN_TIME ,	END_TIME, YEAR_MONTH)
+        VALUES(
+        SEQ_INCOME_SN.NEXTVAL , #PAY_SN# , #CONTRACT_NO# , #ID_NO# , #BALANCE_ID# ,
+        #PAY_TYPE# , #PAY_FEE# , #STATUS# , #GROUP_ID# , #LOGIN_NO# , SYSDATE ,
+        TO_DATE(#BEGIN_TIME#,'YYYYMMDDHH24MISS'),TO_DATE(#END_TIME#,'YYYYMMDDHH24MISS'), #YEAR_MONTH#)
+    </insert>
+
+    <select id="qBookSourceByPaySn" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT INCOME_SN, BALANCE_ID, PAY_TYPE , PAY_FEE , STATUS, LOGIN_NO, CONTRACT_NO,
+        TO_CHAR(BEGIN_TIME,'YYYYMMDDHH24MISS') BEGIN_TIME, TO_CHAR(END_TIME,'YYYYMMDDHH24MISS') END_TIME
+        FROM BAL_BOOKSOURCE_INFO A
+        WHERE PAY_SN = #PAY_SN#
+        AND YEAR_MONTH = #SUFFIX:LONG#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PAY_TYPE">
+                PAY_TYPE = #PAY_TYPE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CUR_STATUS">
+                INSTR ( #CUR_STATUS# , STATUS) > 0
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="POSITIVE">
+                PAY_FEE <![CDATA[ > ]]> 0
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ACCPERT_PAYTYPE">
+                EXISTS (SELECT PAY_TYPE
+                FROM BAL_BOOKTYPE_DICT
+                WHERE A.PAY_TYPE = PAY_TYPE
+                AND SUBSTR(PAY_ATTR,6,1)!='1')
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY BEGIN_TIME
+    </select>
+
+    <resultMap id="FeeEntity" class="com.sitech.acctmgr.atom.domains.bill.FeeEntity">
+        <result property="money" column="PAY_FEE"/>
+        <result property="specialFlag" column="SPECIAL_FLAG"/>
+        <result property="presentFlag" column="PRESENT_FLAG"/>
+    </resultMap>
+    <select id="qIncome" parameterClass="Map" resultMap="FeeEntity">
+        SELECT
+        NVL(SUM(T1.PAY_FEE), 0) PAY_FEE,
+        SUBSTR(T2.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+        DECODE(SUBSTR(T2.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+        FROM
+        BAL_BOOKSOURCE_INFO T1,
+        BAL_BOOKTYPE_DICT T2
+        WHERE
+        T1.PAY_TYPE = T2.PAY_TYPE
+        AND T1.CONTRACT_NO = #CONTRACT_NO#
+        AND T1.ID_NO= #ID_NO#
+        AND T1.YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(T2.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        AND T1.STATUS != '2' AND (NOT (T1.STATUS = '5' AND T1.PAY_FEE <![CDATA[ < ]]> 0))
+        GROUP BY T2.PAY_ATTR
+    </select>
+
+    <resultMap id="FeeEntity2" class="com.sitech.acctmgr.atom.domains.bill.FeeEntity">
+        <result property="money" column="PAY_FEE"/>
+        <result property="type" column="PAY_TYPE"/>
+        <result property="typeName" column="PAY_TYPE_NAME"/>
+        <result property="specialFlag" column="SPECIAL_FLAG"/>
+        <result property="presentFlag" column="PRESENT_FLAG"/>
+    </resultMap>
+    <select id="qIncomeGroupByPayType" parameterClass="Map" resultMap="FeeEntity2">
+        SELECT
+        NVL(SUM(T1.PAY_FEE), 0) PAY_FEE,
+        T1.PAY_TYPE,
+        T2.PAY_TYPE_NAME,
+        SUBSTR(T2.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+        DECODE(SUBSTR(T2.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+        FROM
+        BAL_BOOKSOURCE_INFO T1,
+        BAL_BOOKTYPE_DICT T2
+        WHERE
+        T1.PAY_TYPE = T2.PAY_TYPE
+        AND T1.CONTRACT_NO = #CONTRACT_NO#
+        AND T1.ID_NO= #ID_NO#
+        AND T1.YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(T2.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        AND T1.STATUS != '2' AND (NOT (T1.STATUS = '5' AND T1.PAY_FEE <![CDATA[ < ]]> 0))
+        GROUP BY T1.PAY_TYPE, PAY_TYPE_NAME, T2.PAY_ATTR
+    </select>
+
+    <select id="qSumPayfee" parameterClass="Map" resultClass="java.lang.Long">
+        SELECT NVL(SUM(PAY_FEE),0) PAY_FEE
+        FROM BAL_BOOKSOURCE_INFO WHERE PAY_SN=#PAY_SN#
+        AND YEAR_MONTH = #SUFFIX:LONG#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ID_NO">
+                AND ID_NO= #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CONTRACT_NO">
+                AND CONTRACT_NO= #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BALANCE_ID">
+                AND BALANCE_ID= #BALANCE_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="PAY_TYPE">
+                AND PAY_TYPE= #PAY_TYPE#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <!--
+    AND #YEAR_MONTH# BETWEEN TO_CHAR(BEGIN_TIME, 'YYYYMM') AND TO_CHAR(END_TIME, 'YYYYMM')
+    -->
+    <select id="qReturnFee" parameterClass="Map" resultMap="FeeEntity">
+        SELECT
+        NVL(SUM(T1.PAY_FEE), 0) PAY_FEE,
+        SUBSTR(T2.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+        DECODE(SUBSTR(T2.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+        FROM
+        BAL_BOOKSOURCE_INFO T1,
+        BAL_BOOKTYPE_DICT T2
+        WHERE
+        T1.PAY_TYPE = T2.PAY_TYPE
+        AND T1.CONTRACT_NO = #CONTRACT_NO#
+        AND T1.ID_NO= #ID_NO#
+        AND T1.YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(T2.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        AND T1.PAY_FEE > 0
+        AND T1.STATUS = '2'
+        GROUP BY T2.PAY_ATTR
+    </select>
+
+    <select id="qReturnFeeGroupByPayType" parameterClass="Map" resultMap="FeeEntity2">
+        SELECT
+        NVL(SUM(T1.PAY_FEE), 0) PAY_FEE,
+        T1.PAY_TYPE,
+        T2.PAY_TYPE_NAME,
+        SUBSTR(T2.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+        DECODE(SUBSTR(T2.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+        FROM
+        BAL_BOOKSOURCE_INFO T1,
+        BAL_BOOKTYPE_DICT T2
+        WHERE
+        T1.PAY_TYPE = T2.PAY_TYPE
+        AND T1.CONTRACT_NO = #CONTRACT_NO#
+        AND T1.ID_NO= #ID_NO#
+        AND T1.YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(T2.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        AND T1.PAY_FEE > 0
+        AND T1.STATUS = '2'
+        GROUP BY T1.PAY_TYPE, T2.PAY_TYPE_NAME, T2.PAY_ATTR
+    </select>
+
+    <!--退费或转出的任意金额减少的操作-->
+    <select id="qOutFee" parameterClass="Map" resultMap="FeeEntity">
+        SELECT
+        NVL(SUM(-1 * A.PAY_FEE), 0) PAY_FEE, SUBSTR(B.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+        DECODE(SUBSTR(B.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+        FROM
+        BAL_BOOKSOURCE_INFO A,
+        BAL_BOOKTYPE_DICT B
+        WHERE
+        A.PAY_TYPE = B.PAY_TYPE
+        AND A.CONTRACT_NO = #CONTRACT_NO#
+        AND A.ID_NO= #ID_NO#
+        AND A.PAY_FEE <![CDATA[ < ]]> 0
+        AND A.STATUS = ANY
+        <iterate property="STATUS" open="(" close=")" conjunction="," prepend="">
+            #STATUS[]#
+        </iterate>
+        AND A.YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(B.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY B.PAY_ATTR
+    </select>
+
+    <select id="qOutFeeGroupByPayType" parameterClass="Map" resultMap="FeeEntity2">
+        SELECT
+        NVL(SUM(-1 * A.PAY_FEE), 0) PAY_FEE,
+        A.PAY_TYPE,
+        B.PAY_TYPE_NAME,
+        SUBSTR(B.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+        DECODE(SUBSTR(B.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+        FROM
+        BAL_BOOKSOURCE_INFO A,
+        BAL_BOOKTYPE_DICT B
+        WHERE
+        A.PAY_TYPE = B.PAY_TYPE
+        AND A.CONTRACT_NO = #CONTRACT_NO#
+        AND A.ID_NO= #ID_NO#
+        AND A.PAY_FEE <![CDATA[ < ]]> 0
+        AND A.STATUS = ANY
+        <iterate property="STATUS" open="(" close=")" conjunction="," prepend="">
+            #STATUS[]#
+        </iterate>
+        AND A.YEAR_MONTH = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(B.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY A.PAY_TYPE, B.PAY_TYPE_NAME, B.PAY_ATTR
+    </select>
+
+    <resultMap id="BookSourceEntity" class="com.sitech.acctmgr.atom.domains.balance.BookSourceEntity">
+        <result property="sequence" column="INCOME_SN"/>
+        <result property="paySn" column="PAY_SN"/>
+        <result property="contractNo" column="CONTRACT_NO"/>
+        <result property="userNo" column="ID_NO"/>
+        <result property="balanceId" column="BALANCE_ID"/>
+        <result property="payType" column="PAY_TYPE"/>
+        <result property="payFee" column="PAY_FEE"/>
+        <result property="status" column="STATUS"/>
+        <result property="groupId" column="GROUP_ID"/>
+        <result property="loginNo" column="LOGIN_NO"/>
+        <result property="opTime" column="OP_TIME"/>
+        <result property="effTime" column="BEGIN_TIME"/>
+        <result property="expTime" column="END_TIME"/>
+        <result property="payAttr" column="PAY_ATTR"/>
+        <result property="payName" column="PAY_TYPE_NAME"/>
+        <result property="remark" column="REMARK"/>
+    </resultMap>
+    <select id="qBookSourceList" parameterClass="java.util.Map" resultMap="BookSourceEntity">
+        SELECT
+        INCOME_SN,
+        PAY_SN,
+        CONTRACT_NO,
+        ID_NO,
+        BALANCE_ID,
+        A.PAY_TYPE,
+        PAY_FEE,
+        STATUS,
+        GROUP_ID,
+        LOGIN_NO,
+        TO_CHAR(OP_TIME, 'YYYY/MM/DD HH24:MI:SS') OP_TIME,
+        TO_CHAR(BEGIN_TIME, 'YYYY/MM/DD HH24:MI:SS') BEGIN_TIME,
+        TO_CHAR(END_TIME, 'YYYY/MM/DD HH24:MI:SS') END_TIME,
+        B.PAY_ATTR PAY_ATTR,
+        B.PAY_TYPE_NAME,
+        (SELECT REMARK FROM BAL_PAYMENT_INFO WHERE PAY_SN = A.PAY_SN
+        AND YEAR_MONTH = #YEAR_MONTH# AND ROWNUM =1) REMARK
+        FROM
+        BAL_BOOKSOURCE_INFO A,
+        BAL_BOOKTYPE_DICT B
+        WHERE
+        A.PAY_TYPE = B.PAY_TYPE
+        AND YEAR_MONTH = #YEAR_MONTH#
+        AND CONTRACT_NO = #CONTRACT_NO#
+        AND PAY_FEE != 0
+        <dynamic prepend="">
+
+            <isNotEmpty property="ID_NO" prepend=" AND ">
+                ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotNull prepend=" AND " property="BEGIN_TIME">
+                OP_TIME >= TO_DATE(#BEGIN_TIME#, 'YYYYMMDD HH24:MI:SS')
+            </isNotNull>
+            <isNotNull prepend=" AND " property="END_TIME">
+                OP_TIME <![CDATA[ <= ]]> TO_DATE(#END_TIME#, 'YYYYMMDD HH24:MI:SS')
+            </isNotNull>
+            <isNotNull prepend=" AND " property="PAY_TYPE">
+                A.PAY_TYPE = #PAY_TYPE#
+            </isNotNull>
+            <isNotNull prepend=" AND " property="BALANCE_ID">
+                A.BALANCE_ID = #BALANCE_ID#
+            </isNotNull>
+
+        </dynamic>
+    </select>
+
+    <update id="uStatus" parameterClass="Map">
+        UPDATE BAL_BOOKSOURCE_INFO SET STATUS= #STATUS#
+        WHERE BALANCE_ID= #BALANCE_ID#
+        AND YEAR_MONTH = #SUFFIX#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="CUR_STATUS">
+                AND STATUS= #CUR_STATUS#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="PAY_SN">
+                AND PAY_SN= #PAY_SN#
+            </isNotEmpty>
+
+        </dynamic>
+    </update>
+
+    <insert id="iForRoback" parameterClass="Map">
+        INSERT INTO BAL_BOOKSOURCE_INFO (INCOME_SN,PAY_SN,CONTRACT_NO,ID_NO,
+        BALANCE_ID,PAY_TYPE,PAY_FEE,STATUS,GROUP_ID,LOGIN_NO,OP_TIME,BEGIN_TIME,END_TIME, YEAR_MONTH)
+        SELECT SEQ_INCOME_SN.NEXTVAL, #PAY_BACK_SN#,CONTRACT_NO,ID_NO,
+        BALANCE_ID,PAY_TYPE,(-1)*PAY_FEE,#STATUS#,#GROUP_ID#
+        ,#LOGIN_NO#,SYSDATE,BEGIN_TIME,END_TIME, #YEAR_MONTH#
+        FROM BAL_BOOKSOURCE_INFO WHERE BALANCE_ID= #BALANCE_ID#
+        AND YEAR_MONTH = #SUFFIX#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="PAY_SN">
+                AND PAY_SN = #PAY_SN#
+            </isNotEmpty>
+        </dynamic>
+    </insert>
+
+
+    <select id="qBalanceidByPaySn" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT BALANCE_ID, PAY_FEE, STATUS
+        FROM BAL_BOOKSOURCE_INFO
+        WHERE PAY_SN= #PAY_SN:LONG# AND YEAR_MONTH = #SUFFIX# AND PAY_FEE <![CDATA[ > ]]> 0
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO:LONG#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="TOP_CONTRACT_NO">
+                CONTRACT_NO in (select rel_contract_no from CS_ACCOUNT_REL WHERE CONTRACT_NO=#TOP_CONTRACT_NO:LONG#)
+            </isNotEmpty>
+        </dynamic>
+    </select>
+</sqlMap>

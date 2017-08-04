@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invprintdet_info">
+
+	<typeAlias alias="BalInvprintdetInfo"
+		type="com.sitech.acctmgr.atom.domains.invoice.BalInvprintdetInfo" />
+
+	<insert id="iInvprintdet" parameterClass="Map">
+		INSERT INTO
+		BAL_INVPRINTDET_INFO(ORDER_SN,PRINT_SN,PHONE_NO,ID_NO,CONTRACT_NO,INV_NO
+		,INV_CODE,SHOW_ORDER,SHOW_NAME,AMOUNT,UNITE_PRICE,TOTAL_FEE,TAX_RATE,YEAR_MONTH,PRINT_ARRAY)
+		VALUES(#ORDER_SN:LONG#,#PRINT_SN:LONG#,#PHONE_NO#,#ID_NO:LONG#,#CONTRACT_NO:LONG#,
+		#INV_NO#,#INV_CODE#,#SHOW_ORDER:INT#,#SHOW_NAME#,#AMOUNT:INT#,#UNITE_PRICE:LONG#,#TOTAL_FEE:LONG#,#TAX_RATE:DOUBLE#,#SUFFIX#,#PRINT_ARRAY:INT#)
+	</insert>
+	
+	<insert id="iInvprintdetEntity" parameterClass="BalInvprintdetInfo">
+		INSERT INTO
+		BAL_INVPRINTDET_INFO
+		(ORDER_SN,
+		PRINT_SN,
+		PHONE_NO,
+		ID_NO,
+		CONTRACT_NO,
+		INV_NO,
+		INV_CODE,
+		SHOW_ORDER,
+		SHOW_NAME,
+		AMOUNT,
+		UNITE_PRICE,
+		TOTAL_FEE,
+		TAX_RATE,
+		YEAR_MONTH,
+		PRINT_ARRAY)
+		VALUES
+		(#orderSn#,
+		#printSn#,
+		#phoneNo#,
+		#idNo#,
+		#contractNo#,
+		#invNo#,
+		#invCode#,
+		#showOrder#,
+		#showName#,
+		#amount#,
+		#unitePrice#,
+		#totalFee#,
+		#taxRate#,
+		#yearMonth#,
+		#printArray#)
+
+	</insert>
+
+	<select id="qInvcDetail" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT
+		SHOW_ORDER,SHOW_NAME,AMOUNT,UNITE_PRICE,TOTAL_FEE,TAX_RATE,TAX_FEE,TOTAL_FEE
+		FROM bal_invPrintdet_info b WHERE 1 = 1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PRINT_SN">
+				b.PRINT_SN =
+				#PRINT_SN:LONG#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	
+
+
+	<!--公用sql,改造由detailprint转换到print表, 如影响别的功能在修改 -->
+	<select id="qInvDetByCon" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT A.PRINT_SN,
+		A.PRINT_SN,
+		'账目项' AS FEE_NAME,
+		A.TOTAL_FEE,
+		A.TAX_RATE,
+		A.PRINT_FEE,
+		A.TAX_FEE,
+		B.BILL_CYCLE,
+		B.STATE,
+		B.INV_TYPE,
+		B.TAXPAYER_ID,
+		B.UNIT_NAME,
+		B.PHONE_NO,
+		B.LOGIN_NO,
+		B.REPORT_TO,
+		B.CUST_ID,
+		A.CONTRACT_NO,
+		B.INV_CODE,
+		B.INV_NO,
+		B.TCM_CODE,
+		B.REMARK,
+		C.ADDRESS,
+		C.BANK_NAME,
+		C.BANK_ACCOUNT,
+		C.PHONE_NO AS COM_PHONE,
+		case
+		b.state when '0' then '待开具'
+		when '1' then '已审批'
+		when '2' then '审批不通过'
+		when '3' then '已打印'
+		when '4' then '已开具'
+		when '5' then '已审核'
+		when '6' then
+		'审核不通过'
+		when '7' then '已开具'
+		when '8' then '已传递'
+		when '9' then '归档'
+		else ''
+		end print_name
+		FROM bal_invprint_info A, BAL_INVAUDIT_INFO B
+		,CT_TAXPAYER_INFO C
+		WHERE A.PRINT_SN = B.PRINT_SN
+		AND
+		C.TAXPAYER_ID=B.TAXPAYER_ID
+
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				A.CONTRACT_NO=#CONTRACT_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YEAR_MONTH">
+				B.YEAR_MONTH =
+				#YEAR_MONTH:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="TAX_RATE">
+				A.TAX_RATE =
+				#TAX_RATE:DOUBLE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				B.BILL_CYCLE =
+				#BILL_CYCLE:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="REPORT_TO">
+				B.REPORT_TO =
+				#REPORT_TO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="AUDIT_NO">
+				B.AUDIT_NO = #AUDIT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="STATE">
+				B.STATE in 
+				<iterate close=")" conjunction="," open="(" prepend="" property="STATE">
+					#STATE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="INV_TYPE">
+				B.INV_TYPE = #INV_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PHONE_NO">
+				B.PHONE_NO = #PHONE_NO#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qInvDetInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		select
+		D.show_order,D.show_name,D.amout,D.unite_price,D.total_fee,D.tax_rate
+		from bal_invprintdet_info D,BAL_INVAUDIT_INFO B where AND B.ORDER_SN
+		=D.ORDER_SN AND B.PRINT_SN =D.PRINT_SN ;
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				B.CONTRACT_NO=#CONTRACT_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				B.BILL_CYCLE =
+				#BILL_CYCLE:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="REPORT_TO">
+				B.REPORT_TO =
+				#REPORT_TO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="AUDIT_NO">
+				B.AUDIT_NO = #AUDIT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="STATE">
+				B.STATE in 
+				<iterate close=")" conjunction="," open="(" prepend="" property="STATE">
+					#STATE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="INV_TYPE">
+				B.INV_TYPE = #INV_TYPE#
+			</isNotEmpty>
+		</dynamic>
+
+	</select>
+	<select id="qInvDetByConByDetail" parameterClass="Map"
+		resultClass="java.util.HashMap">
+		SELECT A.PRINT_SN,
+		A.PRINT_SN,
+		'账目项' AS FEE_NAME,
+		A.TOTAL_FEE,
+		A.TAX_RATE,
+		A.PRINT_FEE,
+		A.TAX_FEE,
+		B.BILL_CYCLE,
+		B.STATE,
+		B.INV_TYPE,
+		B.TAXPAYER_ID,
+		B.UNIT_NAME,
+		B.PHONE_NO,
+		B.LOGIN_NO,
+		B.REPORT_TO,
+		B.CUST_ID,
+		A.CONTRACT_NO,
+		B.INV_CODE,
+		B.INV_NO,
+		B.TCM_CODE,
+		B.REMARK,
+		C.ADDRESS,
+		C.BANK_NAME,
+		C.BANK_ACCOUNT,
+		C.PHONE_NO AS COM_PHONE,
+		case
+		b.state when '0' then '待审批'
+		when '1' then '已审批'
+		when '2' then '审批不通过'
+		when '3' then '已打印'
+		when '4' then '已出票'
+		when '5' then '已审核'
+		when '6' then
+		'审核不通过'
+		when '7' then '已开具'
+		when '8' then '已传递'
+		when '9' then '归档'
+		else ''
+		end
+		print_name,D.show_order,D.show_name,D.amout,D.unite_price,D.total_fee,D.tax_rate
+		FROM bal_invprint_info A, BAL_INVAUDIT_INFO B ,CT_TAXPAYER_INFO
+		C,bal_invprintdet_info D
+		WHERE AND A.PRINT_SN = B.PRINT_SN
+		AND
+		C.TAXPAYER_ID=B.TAXPAYER_ID
+		AND A.PRINT_SN =D.PRINT_SN
+		AND B.ORDER_SN
+		=D.ORDER_SN
+
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				A.CONTRACT_NO=#CONTRACT_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YEAR_MONTH">
+				A.YEAR_MONTH =
+				#YEAR_MONTH:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="TAX_RATE">
+				A.TAX_RATE =
+				#TAX_RATE:DOUBLE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				B.BILL_CYCLE =
+				#BILL_CYCLE:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="REPORT_TO">
+				B.REPORT_TO =
+				#REPORT_TO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="AUDIT_NO">
+				B.AUDIT_NO = #AUDIT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="STATE">
+				B.STATE in 
+				<iterate close=")" conjunction="," open="(" prepend="" property="STATE">
+					#STATE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="INV_TYPE">
+				B.INV_TYPE = #INV_TYPE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+
+
+	<delete id="delInvDetByOrder" parameterClass="Map">
+		DELETE bal_invprintDet_info WHERE ORDER_SN = #ORDER_SN:LONG#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PRINT_SN">
+				PRINT_SN =
+				#PRINT_SN:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO=#CONTRACT_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YEAR_MONTH">
+				YEAR_MONTH =
+				#YEAR_MONTH:INT#
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+
+	<update id="uPrintedByOrder" parameterClass="Map">
+		update
+		bal_invprintdet_info set inv_no=#INV_NO#,INV_CODE=#INV_CODE# where
+		print_sn=#PRINT_SN:LONG#
+	</update>
+
+	<update id="uPrintedTotalByOrder" parameterClass="Map">
+		update BAL_INVADDTAXPRINT_INFO set
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="printstate">
+				state = #printstate#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="INV_NO">
+				inv_no=#INV_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="INV_CODE">
+				INV_CODE = #INV_CODE#
+			</isNotEmpty>
+		</dynamic>
+		where print_sn=#PRINT_SN:LONG#
+
+	</update>
+
+	<insert id="inRedInvDet" parameterClass="Map">
+		INSERT INTO
+		BAL_INVPRINTDET_INFO
+		SELECT #ORDER_SN:LONG#,
+		#PRINT_SN:LONG#,
+		PHONE_NO,
+		ID_NO,
+		CONTRACT_NO,
+		#INV_NO#,
+		#INV_CODE#,
+		SHOW_ORDER,
+		SHOW_NAME,
+		-1,
+		UNITE_PRICE,
+		TOTAL_FEE,
+		TAX_RATE,
+		TO_CHAR (SYSDATE, 'YYYYMM'),
+		PRINT_DATA,
+		PRINTED_NUM,
+		1,
+		TAX_FEE
+		FROM BAL_INVPRINTDET_INFO
+		WHERE
+		YEAR_MONTH = #YEAR_MONTH:INT#
+		AND PRINT_SN = #PRINT_SN_OLD:LONG#
+		AND
+		PRINT_ARRAY = #PRINT_ARRAY:INT#
+		AND ORDER_SN = #ORDER_SN_OLD:LONG#
+	</insert>
+
+	<select id="qCntByPrintSn" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(1) CNT
+		FROM BAL_INVPRINTDET_INFO
+		WHERE PRINT_SN=#PRINT_SN#
+		AND YEAR_MONTH = #YEAR_MONTH#
+		<dynamic prepend="">
+			<isNotEmpty property="ORDER_SN" prepend="">
+				AND ORDER_SN=#ORDER_SN#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<typeAlias alias="xmlDataBlob"
+		type="com.sitech.acctmgr.atom.domains.invoice.PrintDataBlob" />
+	<resultMap id="xmlDataBlobEntry" class="xmlDataBlob">
+		<result property="printContent" column="PRINT_DATA" jdbcType="BLOB" />
+		<result property="printNum" column="PRINTED_NUM" />
+		<result property="printSn" column="PRINT_SN" />
+		<result property="orderSn" column="ORDER_SN" />
+		<result property="yearMonth" column="YEAR_MONTH" />
+	</resultMap>
+	<update id="upXMLByPrintSn" parameterClass="xmlDataBlob">
+		update
+		bal_invprintdet_info
+		set PRINT_DATA=#printContent:BLOB#,
+		PRINTED_NUM=#printNum:INT#
+		where PRINT_SN=#printSn:LONG#
+		AND YEAR_MONTH=#yearMonth#
+	</update>
+
+	<select id="qXMLByPrintSn" parameterClass="Map" resultMap="xmlDataBlobEntry">
+		select PRINT_DATA,PRINTED_NUM,PRINT_SN,ORDER_SN,YEAR_MONTH from
+		bal_invprintdet_info where YEAR_MONTH=#YEAR_MONTH# AND
+		ORDER_SN=#ORDER_SN:LONG# AND (SHOW_ORDER=6 or SHOW_ORDER=20)
+	</select>
+
+	<typeAlias alias="dataBlob"
+		type="com.sitech.acctmgr.atom.domains.invoice.PrintDataBlob" />
+	<resultMap id="dataBlobEnt" class="dataBlob">
+		<result property="printNum" column="PRINTED_NUM" />
+		<result property="printSn" column="PRINT_SN" />
+		<result property="orderSn" column="ORDER_SN" />
+		<result property="yearMonth" column="YEAR_MONTH" />
+		<result property="showOrder" column="SHOW_ORDER" />
+	</resultMap>
+	<select id="qPrintedByPaySn" parameterClass="Map" resultMap="dataBlobEnt">
+		select nvl(PRINTED_NUM,0) AS
+		PRINTED_NUM,PRINT_SN,ORDER_SN,YEAR_MONTH,SHOW_ORDER from
+		bal_invprintdet_info where YEAR_MONTH=#YEAR_MONTH:INT# AND
+		PRINT_SN=#PRINT_SN_OLD:LONG# AND PRINT_ARRAY=#PRINT_ARRAY:INT#
+	</select>
+
+	<update id="uPrintedTimeByOrder" parameterClass="Map">
+		update
+		bal_invprintdet_info set printed_num=printed_num+1 where
+		year_month=#YEAR_MONTH:INT# AND ORDER_SN=#ORDER_SN:LONG#
+	</update>
+
+	<!--8272发票作废修改 -->
+	<update id="uInvagaindis" parameterClass="Map">
+
+		update BAL_INVADDTAXPRINT_INFO set
+		op_time = sysdate
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="INVSTATE">
+				state = #INVSTATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REMARK">
+				remark=#REMARK#
+			</isNotEmpty>
+		</dynamic>
+		where print_sn=#PRINT_SN:LONG#
+
+	</update>
+
+
+	<!--8272补打操作-老记录同步 -->
+	<insert id="iSynInvInfo" parameterClass="Map">
+
+		INSERT INTO
+		BAL_INVADDTAXPRINT_INFO
+		(PRINT_SN,PRINT_ARRAY,PHONE_NO,CUST_ID,ID_NO,CONTRACT_NO,
+		BILL_CYCLE,INV_NO,INV_CODE,TCM_CODE,INV_REL_NO,INV_REL_CODE,STATE,INV_TYPE,PAY_SN,TOTAL_FEE,TAX_RATE,TAX_FEE,
+		PRINT_FEE,PRINT_NUM,LOGIN_NO,GROUP_ID,OP_CODE,TOTAL_DATE,OP_TIME,REMARK,PRINT_SEQ,
+		BEGIN_YMD,END_YMD,FOREIGN_SN,ADDTAX_NAME,ADDTAX_NUM,ADDTAX_PRICE,ADDTAX_FEE,ADDTAX_TAXFEE,DISCOUNT_NAME,DISCOUNT_NUM,DISCOUNT_PRICE,
+		DISCOUNT_FEE,DISCOUNT_TAXFEE) SELECT
+		SEQ_SYSTEM_SN.NEXTVAL,PRINT_ARRAY,PHONE_NO,CUST_ID,ID_NO,CONTRACT_NO,
+		BILL_CYCLE,INV_NO,INV_CODE,TCM_CODE,#INV_REL_NO#,#INV_REL_CODE#,STATE,INV_TYPE,PAY_SN,TOTAL_FEE,TAX_RATE,TAX_FEE,
+		PRINT_FEE,PRINT_NUM,LOGIN_NO,GROUP_ID,OP_CODE,TOTAL_DATE,OP_TIME,REMARK,PRINT_SEQ,
+		BEGIN_YMD,END_YMD,FOREIGN_SN,ADDTAX_NAME,ADDTAX_NUM,ADDTAX_PRICE,ADDTAX_FEE,ADDTAX_TAXFEE,DISCOUNT_NAME,DISCOUNT_NUM,DISCOUNT_PRICE,
+		DISCOUNT_FEE,DISCOUNT_TAXFEE from BAL_INVADDTAXPRINT_INFO s where
+		s.print_sn=#PRINT_SN:LONG#
+
+	</insert>
+
+
+	<!--8272补打操作:修改老记录 -->
+	<update id="uoldInvInfo" parameterClass="Map">
+
+		update BAL_INVADDTAXPRINT_INFO z set
+		z.op_time = sysdate,
+		print_array
+		=(select print_array + 1 from
+		BAL_INVADDTAXPRINT_INFO k where
+		k.print_sn=#PRINT_SN:LONG#)
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="INVSTATE">
+				z.state = #INVSTATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REMARK">
+				z.remark=#REMARK#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="INV_CODE">
+				z.inv_code=#INV_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="INV_NO">
+				z.inv_no=#INV_NO#
+			</isNotEmpty>
+		</dynamic>
+		where z.print_sn=#PRINT_SN:LONG#
+
+	</update>
+
+	<!--记录增值税发票操作日志 -->
+	<insert id="iTaxRecordInfo" parameterClass="Map">
+		insert into
+		BAL_INVASMTRANS_INFO(LOGIN_ACCEPT,CONTRACT_NO,OP_TIME
+		,TRANS_INFO,LOGIN_NO ,PHONE_NO,OP_CODE,SRV_NAME)
+		values(#LOGIN_ACCEPT#,#CONTRACT_NO#,sysdate,#TRANS_INFO#,#LOGIN_NO#,#PHONE_NO#,#OP_CODE#,#SRV_NAME#)
+	</insert>
+
+
+	<typeAlias type="com.sitech.acctmgr.atom.domains.invoice.TaxInvoEntity"	alias="TaxInvo" />
+	<resultMap id="TaxInvoEntry" class="TaxInvo">
+		<result property="feeName" column="SHOW_NAME" />
+		<result property="totalFee" column="TOTAL_FEE" />
+		<result property="taxFee" column="TAX_FEE" />
+		<result property="taxRate" column="TAX_RATE" />
+		<result property="unitFee" column="UNITE_PRICE" />
+		<result property="billCycle" column="BILL_CYCLE" />
+		<result property="loginNo" column="LOGIN_NO" />
+		<result property="printedName" column="PRINT_NAME" />
+	</resultMap>
+
+	<select id="qNotFinishedFlow" parameterClass="Map" resultMap="TaxInvoEntry">
+		select
+		c.show_name,c.total_fee,c.unite_price,c.tax_fee,c.tax_rate,b.bill_cycle,
+		CASE b.state
+		WHEN '0' THEN b.report_to
+		WHEN '1' THEN b.report_to
+		WHEN '3' THEN b.report_to
+		WHEN '4' THEN b.audit_no
+		WHEN '5' THEN b.audit_no
+		WHEN '6' THEN b.login_no
+		WHEN '7' THEN b.audit_no
+		WHEN '8' THEN b.login_no
+		ELSE ''
+		END
+		login_no,
+		'流程未完成:'||case b.state when '0' then '待审批'
+		when '1' then '已审批'
+		when '3' then '已打印'
+		when '4' then '已出票'
+		when '5' then '已审核'
+		when '6' then '审核不通过'
+		when '7' then '已开具'
+		when '8' then '已传递'
+		else '' end print_name from bal_invaudit_info b,(
+		SELECT order_sn,
+		print_sn,
+		show_name,
+		total_fee,
+		unite_price,
+		tax_rate,
+		round((unite_price*tax_rate),0) as tax_fee
+		FROM bal_invprintdet_info a
+		WHERE a.contract_no = #CONTRACT_NO:LONG#
+		AND a.year_month = #YEAR_MONTH#
+		AND amount = 1
+		AND show_order = 1
+		AND id_no = 0) c where b.order_sn=c.order_sn and b.print_sn=c.print_sn
+		and b.year_month=#YEAR_MONTH:INT# and b.bill_cycle=#BILL_CYCLE:INT#
+		and b.inv_type='0' and b.state<![CDATA[ <> ]]>'9'
+		and b.state<![CDATA[ <> ]]>'2'
+		union all
+		select
+		c.show_name,c.total_fee,c.unite_price,c.tax_fee,c.tax_rate,b.bill_cycle,
+		CASE b.state
+		WHEN '0' THEN b.report_to
+		ELSE '' END login_no,
+		'流程未完成:'||case b.state when '0' then '作废待审批'
+		else '' end print_name from bal_invaudit_info b,(
+		SELECT order_sn,
+		print_sn,
+		show_name,
+		total_fee,
+		unite_price,
+		tax_rate,
+		round((unite_price*tax_rate),0) as tax_fee
+		FROM bal_invprintdet_info a
+		WHERE a.contract_no = #CONTRACT_NO:LONG#
+		AND a.year_month = #YEAR_MONTH:INT#
+		AND amount = 1
+		AND show_order = 1
+		AND id_no = 0) c where b.order_sn=c.order_sn and b.print_sn=c.print_sn
+		and b.year_month=#YEAR_MONTH:INT# AND b.bill_cycle=#BILL_CYCLE:INT#
+		and b.inv_type='2' and b.state='0'
+		union all
+		select
+		c.show_name,c.total_fee,c.unite_price,c.tax_fee,c.tax_rate,b.bill_cycle,
+		CASE b.state
+		WHEN '0' THEN b.report_to
+		WHEN '2' THEN b.login_no
+		WHEN '3' THEN b.report_to
+		WHEN '4' THEN b.audit_no
+		WHEN '5' THEN b.audit_no
+		WHEN '6' THEN b.login_no
+		WHEN '7' THEN b.audit_no
+		WHEN '8' THEN b.login_no
+		ELSE ''
+		END
+		login_no,
+		'流程未完成:'||case b.state when '0' then '待审批'
+		when '2' then '审批不通过'
+		when '3' then '已打印'
+		when '4' then '已出票'
+		when '5' then '已审核'
+		when '6' then '审核不通过'
+		when '7' then '已开具'
+		when '8' then '已传递'
+		else '' end print_name from bal_invaudit_info b,(
+		SELECT order_sn,
+		print_sn,
+		show_name,
+		total_fee,
+		unite_price,
+		tax_rate,
+		round((unite_price*tax_rate),0) as tax_fee
+		FROM bal_invprintdet_info a
+		WHERE a.contract_no = #CONTRACT_NO:LONG#
+		AND a.year_month = #YEAR_MONTH:INT#
+		AND amount = 1
+		AND show_order = 1
+		AND id_no = 0) c where b.order_sn=c.order_sn and b.print_sn=c.print_sn
+		and b.year_month=#YEAR_MONTH:INT# and b.bill_cycle=#BILL_CYCLE:INT#
+		and b.inv_type='1' and (b.state<![CDATA[ <> ]]>'9'
+		and b.state<![CDATA[ <> ]]>'1')
+	</select>
+
+</sqlMap>

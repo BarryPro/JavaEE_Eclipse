@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pd_prc_dict">
+
+    <resultMap id="PdPrcInfoEnt" class="com.sitech.acctmgr.atom.domains.prod.PdPrcInfoEntity">
+        <result property="prodPrcId" column="PROD_PRCID"/>
+        <result property="prodPrcName" column="PROD_PRC_NAME"/>
+        <result property="prodPrcDesc" column="PROD_PRC_DESC"/>
+        <result property="useRange" column="USE_RANGE"/>
+
+    </resultMap>
+
+    <select id="qPrcDictInfo" parameterClass="Map" resultMap="PdPrcInfoEnt">
+        SELECT PROD_PRCID, PROD_PRC_NAME, PROD_PRC_DESC, USE_RANGE
+        FROM PD_PRC_DICT
+        WHERE PROD_PRCID = #PROD_PRCID#
+    </select>
+
+</sqlMap>

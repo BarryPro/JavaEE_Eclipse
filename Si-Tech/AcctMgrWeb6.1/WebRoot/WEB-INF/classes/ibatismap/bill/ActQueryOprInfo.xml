@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_queryopr_info">
+    <typeAlias alias="ActQueryoprInfo" type="com.sitech.acctmgr.atom.domains.record.ActQueryOprEntity"/>
+    <insert id="iActQueryOpr" parameterClass="ActQueryoprInfo">
+        INSERT INTO ACT_QUERYOPR_INFO (QUERY_SN, LOGIN_NO, LOGIN_GROUP, TOTAL_DATE, CONTACT_ID, ID_NO,
+        PHONE_NO, BRAND_ID, QUERY_TYPE, OP_CODE, OP_TIME, REMARK, AUTH_NAME, DETAIL_QRY_CODE, OPTION_TYPE, RIGHT_CODE)
+        VALUES (#querySn#, #loginNo#, #loginGroup#, #totalDate#, #contactId#, #idNo#, #phoneNo#,
+        #brandId#, #queryType#, #opCode#, SYSDATE, #remark#, #authName#, #detailQryCode#, #optionType#, #rightCode#)
+    </insert>
+	
+	<typeAlias alias="DetailQryRecord" type="com.sitech.acctmgr.atom.domains.detail.DetailQryRecord"/>
+    <resultMap class="DetailQryRecord" id="DetailQryRecord">
+    	<result property="phoneNo" column="PHONE_NO"/>
+    	<result property="loginNo" column="LOGIN_NO"/>
+    	<result property="opTime" column="OP_TIME"/>
+    	<result property="remark" column="REMARK"/>
+    	<result property="authName" column="AUTH_NAME"/>
+    	<result property="queryTime" column="QUERY_TIME"/>
+    </resultMap>
+    <select id="qryRecordList" parameterClass="Map" resultMap="DetailQryRecord">
+    	SELECT PHONE_NO,LOGIN_NO,TO_CHAR(OP_TIME,'YYYY-MM-DD HH24:MI:SS') OP_TIME,REMARK,AUTH_NAME, QUERY_TIME 
+    	FROM ACT_QUERYOPR_INFO
+    	WHERE 1=1
+    	<dynamic prepend="">
+    		<isNotNull prepend="AND" property="LOGIN_NO">
+    			LOGIN_NO = #LOGIN_NO#
+    		</isNotNull>
+    		<isNotNull prepend="AND" property="BEGIN_TIME">
+    			TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[ >= ]]> #BEGIN_TIME#
+    		</isNotNull>
+    		<isNotNull prepend="AND" property="END_TIME">
+    			TO_CHAR(OP_TIME,'YYYYMMDD') <![CDATA[ <= ]]> #END_TIME#
+    		</isNotNull>
+    		<isNotNull prepend="AND" property="BEGIN_MONTH">
+    			TO_CHAR(OP_TIME,'YYYYMM') <![CDATA[ >= ]]> #BEGIN_MONTH#
+    		</isNotNull>
+    		<isNotNull prepend="AND" property="END_MONTH">
+    			TO_CHAR(OP_TIME,'YYYYMM') <![CDATA[ <= ]]> #END_MONTH#
+    		</isNotNull>
+    	</dynamic>
+    	AND OP_CODE = #OP_CODE#
+    	ORDER BY OP_TIME DESC    
+    </select>
+    
+    <select id="qryCnt" parameterClass="Map" resultClass="int">
+    	SELECT COUNT(1)
+  		FROM ACT_QUERYOPR_INFO
+ 		WHERE PHONE_NO = #PHONE_NO#
+   		AND TO_CHAR(OP_TIME, 'YYYYMM') = #YEAR_MONTH#
+   		AND QUERY_TYPE = #QUERY_TYPE#
+   		AND OP_CODE = #OP_CODE#
+   		AND LOGIN_NO != #LOGIN_NO#
+    </select>
+    
+</sqlMap>
+

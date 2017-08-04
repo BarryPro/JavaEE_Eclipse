@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cover</title>
+<style type="text/css">
+b#name {
+	color: white;
+}
+</style>
+<script type="text/javascript">
+	var regexp = "[a-zA-Z]";
+	var rootpassword = "123456789";
+	var temp;
+	function checku(username){
+		var t=document.getElementById("id_2");
+		alert(t.value);
+	}
+	function checkp(password){	
+		if(password==rootpassword){
+			alert("密码正确");
+		} else {
+			alert("密码错误");
+		}
+		temp = password;
+		return true;
+	}
+	function checke(password){
+		if(password==temp){
+			alert("密码一致");
+		} else {
+			alert("密码不一致");
+		}
+		return true;
+		
+	}
+	
+</script>
+</head>
+<body background="cover.jpg" >
+		<form >
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> 
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br> 
+			<table align="center">
+				<td>
+					<b id="name">rootuser:</b> 
+					<input id="id_2" type="text" name="username" value="用户名" onclick="checku()"/>
+				</td>
+				<tr></tr>
+				<td>
+					<b id="name">password:</b>
+					<input id="id_1" type="password" name="pwd" value="" onmouseout="checkp(value)"/>
+				</td>
+				<tr></tr>
+				<td>
+					<b id="name">try again:</b> 
+					<input id="id_3" type="password" name="pwd2" value="" onmouseout="checke(value)" />
+				</td>
+				<tr></tr>
+				<td>
+					<input id="id_4" type="reset" value="reset" />
+				</td>
+				
+				<td>
+					<input id="id_5" type="button" onclick="window.location='resume.html';" value="register"/>					
+				</td>
+				<tr></tr>
+			</table>			
+		</form>
+</body>
+</html>

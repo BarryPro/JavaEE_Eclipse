@@ -1,0 +1,102 @@
+package com.sitech.acctmgr.inter.pay;
+
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ * @Title:  省内一点支付缴费 [8020]
+ * @Description:  支付账户给被支付账户转账
+ * @Date :
+ * @Company: SI-TECH
+ * @author : qiaolin
+ * @version : 1.0
+ * @modify history
+ *  <p>修改日期    修改人   修改目的<p> 	
+ */
+public interface I8020Ao {
+
+	/**
+	* 名称：根据证件号获取符合条件的支付账户
+	* @param BUSI_INFO.ID_ICCID  证件号
+	* @return  ACCOUNT_LIST
+	* 		ACCOUNT_LIST.ACCOUNT
+	* @throws Exception
+	* @author LIJXD
+	 */
+	OutDTO getAccoutByZJ(final InDTO inParam);
+
+ 
+	/**
+	* 名称：查询银行名称
+	* @param OPR_INFO.LOGIN_NO		工号
+	* @param BUSI_INFO.BANK_CODE 	银行代码
+	* @param BUSI_INFO.BANK_NAME 	银行名称
+	* @param BUSI_INFO.CHECK_NO		支票号码 
+	* @param BUSI_INFO.CHECK_FLAG	Y：查询支票； N：查询银行
+	*  
+	* @return CHECK_PREPAY （HECK_FLAG=Y）
+	* @return BANK_LIST	（HECK_FLAG=N）
+	* 		BANK_LIST.BANK_CODE<br>
+	* 		BANK_LIST.BANK_NAME<br>
+	* @throws Exception
+	* @author LIJXD
+	 */
+	OutDTO getBankOrCheck(final InDTO inParam);
+
+	
+	
+	/**
+	* 名称： 一点支付缴费 查询
+	* @param OPR_INFO.LOGIN_NO 工号 
+	* @param OPR_INFO.OP_CODE	 操作代码 8020
+	* 
+	* @param BUSI_INFO.CONTRACT_NO
+	* @return
+	* @return OUT_DATA.PREPAY_FEE  支付账户可用余额
+	* @return OUT_DATA.ALL_TOTAL  	支付账户合计应支付金额
+	* @return OUT_DATA.ACCT_LIST 	欠费账单列表
+	* 				ACCT_LIST.CONTRACT_NO  被支付账户 <br> 
+	* 				ACCT_LIST.PREPAY_PAYED  	被支付账户余额 <br> 
+	* 				ACCT_LIST.TOTAL_OWE		被支付账户欠费 <br> 
+	* 				ACCT_LIST.PAY_NAME		支付方式（定额、全额）	<br> 
+	* 				ACCT_LIST.FIX_FEE   			支付金额<br> 
+	* 				ACCT_LIST.SUM_DELAYFEE   违约金	<br> 
+	* @throws Exception
+	* @author LIJXD
+	*/
+	OutDTO init(final InDTO inParam);
+
+ 
+	/**
+	* 名称： 一点支付缴费确认
+	* @param OPR_INFO.LOGIN_NO 工号
+	* @param OPR_INFO.OP_CODE	 操作代码 8020
+	* 
+	* @param BUSI_INFO.CONTRACT_NO 支付账户
+	* @param BUSI_INFO.PAY_MONEY   支付金额
+	* @param BUSI_INFO.PAY_TYPE  	缴费方式
+	* @param BUSI_INFO.PAY_NOTE 	交费注释
+	* @param BUSI_INFO.YEAR_MONTH 	交费标志
+	* @param BUSI_INFO.DELAY_RATE		滞纳金优惠率
+	* @param BUSI_INFO.BANK_CODE		银行代码[对支票交费]
+	* @param BUSI_INFO.CHECK_NO		支票号码[对支票交费]
+	* @return
+	* @return OUT_DATA.PAY_SN  流水
+	* @throws Exception
+	* @author LIJXD
+	 */
+	OutDTO cfm(final InDTO inParam);
+
+	
+	/**
+	* 名称：获取地市编码列表
+	* @param 
+	* @return  REGION_LIST
+	* 		REGION_LIST.REGION_CODE  地市编码
+	* 		REGION_LIST.REGION_GROUP 地市归属
+	* 		REGION_LIST.REGION_NAME 地市名称
+	* @throws Exception
+	* @author LIJXD
+	 */
+	OutDTO getRegionId(final InDTO inParam);
+}

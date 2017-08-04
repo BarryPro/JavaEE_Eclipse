@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_signpay_info">
+
+	<insert id="iPay" parameterClass="com.sitech.acctmgr.atom.domains.balance.SignPayEntity">
+		INSERT INTO BAL_SIGNPAY_INFO
+		(PHONE_NO_SIGN, ID_NO_SIGN,PHONE_NO_PAY,ID_NO_PAY,PAY_MONEY,BUSI_TYPE,LOGIN_NO,OP_TIME,LOGIN_ACCEPT,
+		YEAR_MONTH)
+		VALUES
+		(#phoneNoSign#,#idNoSign#,#phoneNoPay#,#idNoPay#,#payMoney#,#busiType#,#loginNo#,to_date(#opTime#,'yyyymmddhh24miss'),#loginAccept#,
+		#yearMonth#)
+	</insert>
+
+</sqlMap>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="act_exfavowe_info">
+
+    <resultMap id="ExFavOweFeeEnt" class="com.sitech.acctmgr.atom.domains.bill.ExFavOweFeeEntity">
+        <result property="shouldPay" column="SHOULD_PAY"/>
+        <result property="favourFee" column="FAVOUR_FEE"/>
+        <result property="realFee" column="REAL_FEE"/>
+        <result property="exFavourFee" column="EXFAVOUR_FEE"/>
+    </resultMap>
+
+    <select id="getSumFeeInfo" parameterMap="Map" resultMap="ExFavOweFeeEnt">
+        SELECT NVL(SUM(SHOULD_PAY), 0) AS SHOULD_PAY,
+        NVL(SUM( FAVOUR_FEE), 0) AS FAVOUR_FEE,
+        NVL(SUM(SHOULD_PAY - FAVOUR_FEE), 0) AS REAL_FEE ,
+        NVL(SUM(EXFAVOUR_FEE), 0) AS EXFAVOUR_FEE
+        FROM ACT_EXFAVOWE_INFO
+        WHERE BILL_CYCLE = #YEAR_MONTH#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ID_NO">
+                AND ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CONTRACT_NO">
+                AND CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+
+    </select>
+</sqlMap>

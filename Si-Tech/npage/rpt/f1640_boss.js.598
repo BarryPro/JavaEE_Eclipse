@@ -1,0 +1,88 @@
+//wanghfa 20100602 crm维护的报表调用此方法，参数statement是页面form对象
+function select_boss(statement)
+{
+	if(statement)
+	{
+		with(statement)
+		{
+			if(rpt_type.value==2)
+			{
+				hTableName.value="rpr001";
+				hParams1.value= "prc_1640_pr001_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==12)
+			{
+				hTableName.value="rcr001";
+				hParams1.value= "prc_1247_pr002_1_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==41)
+			{
+				hTableName.value="rcd002";
+				hParams1.value= 
+				"prc_1250_3_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==42)
+			{
+				hTableName.value="rpr001";
+				hParams1.value= 
+				"prc_1251_4_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==43)
+			{
+				hTableName.value="rct003";
+				hParams1.value= 
+				"prc_1247_pr001_3_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==75)
+			{
+				hTableName.value="rpt003";
+				hParams1.value= "prc_2308_pt075_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";} 
+			else if(rpt_type.value==78)
+			{
+				hTableName.value="rcr7722";
+				hParams1.value= "prc_7722adj_4_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";} 
+			else if(rpt_type.value==79)
+			{
+				hTableName.value="rcr7722";
+				hParams1.value= "prc_7722adj_mx4_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"','"+begin_phonehead.value+"','"+end_phonehead.value+"' ";
+				action="print_rpt_boss.jsp";} 
+			else if(rpt_type.value==129)
+			{
+				hTableName.value="rfo006";
+				hParams1.value= "prc_1364_mx_rpt_upg('"+rptRight.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+workNo.value+"',' ','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}									  
+			else if(rpt_type.value==130)
+			{
+				hTableName.value="rfo006";
+				hParams1.value= "prc_1364_rpt_upg('"+rptRight.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+workNo.value+"',' ','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==139)
+			{
+				hTableName.value="RCR7722";
+				hParams1.value= "prc_2225_tj_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' "; 
+				action="print_rpt_boss.jsp";} 
+			else if(rpt_type.value==140)
+			{
+				hTableName.value="rcr7722";
+				hParams1.value=  "prc_2225_mx_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";  
+				action="print_rpt_boss.jsp";} 
+			else if(rpt_type.value==148)
+			{
+				hTableName.value="rjo005";
+				hParams1.value= "prc_3459_pr0148_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==170)
+			{
+				hTableName.value="rjo005";
+				hParams1.value= "prc_5260_pr0170_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+			else if(rpt_type.value==185)
+			{
+				hTableName.value="rjo005";
+				hParams1.value= "prc_3303_rpt1640_upg('"+workNo.value+"','"+groupId.value+"','"+bGroupId.value+"','"+eGroupId.value+"','"+begin_time.value+"','"+end_time.value+"' ";
+				action="print_rpt_boss.jsp";}
+		}
+	}
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BK_pubic">
+
+  <select id="qDbIdByRoute"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT decode(REGION_CODE, '2201','A', '2207','A', '2208','A', 'B')||PORT_CODE DB_CODE,
+     decode(REGION_CODE, '2201','B', '2207','B', '2208','B', 'A')||PORT_CODE       DB_RE_CODE
+	FROM RS_NOHLR_REL WHERE 1=1 
+    <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="REGION_CODE">
+    		REGION_CODE = #REGION_CODE#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="PHONE_HEAD">
+    		PHONE_HEAD = #PHONE_HEAD#
+    	</isNotEmpty>
+    </dynamic>
+    AND rownum <![CDATA[ < ]]> 2
+  </select>
+
+</sqlMap>

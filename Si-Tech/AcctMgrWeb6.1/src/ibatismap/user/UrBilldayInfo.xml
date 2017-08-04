@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_billday_info">
+
+    <typeAlias alias="UrBilldayInfo" type="com.sitech.acctmgr.atom.domains.user.BilldayInfoEntity"/>
+    <select id="qBillDayInfo" parameterClass="Map" resultClass="UrBilldayInfo">
+        SELECT DUR_FLAG durFlag,
+        DECODE(END_CYCLE-BEGIN_CYCLE,0, DECODE(DUR_FLAG, 0,
+        TO_NUMBER(TO_CHAR(TO_DATE(#YEAR_MONTH# * 100 + TO_NUMBER(BEGIN_DAY),'yyyymmdd'),'yyyymmdd')),
+        TO_NUMBER(TO_CHAR(EFF_DATE,'yyyymmdd'))),TO_NUMBER
+        (TO_CHAR(DECODE (SIGN (TO_DATE (#YEAR_MONTH# , 'yyyymm') +
+        TO_NUMBER (BEGIN_DAY) - ADD_MONTHS (TO_DATE (#YEAR_MONTH#, 'yyyymm'), 1)),
+        1, ADD_MONTHS (TO_DATE (#YEAR_MONTH# , 'yyyymm'), 1), TO_DATE (#YEAR_MONTH# , 'yyyymm') +
+        TO_NUMBER (BEGIN_DAY) - 1),'yyyymmdd')))
+        beginDate,
+        DECODE(END_CYCLE-BEGIN_CYCLE,0,TO_NUMBER(TO_CHAR(EXP_DATE,'yyyymmdd')),DECODE(to_number(BEGIN_DAY),1,
+        TO_NUMBER(TO_CHAR(LAST_DAY(TO_DATE(#YEAR_MONTH# ,'YYYYMM')),'YYYYMMDD')), TO_NUMBER
+        (TO_CHAR(
+        DECODE (SIGN (ADD_MONTHS (TO_DATE (#YEAR_MONTH# , 'yyyymm'), 1) + TO_NUMBER (BEGIN_DAY) - 1
+        - LAST_DAY (ADD_MONTHS (TO_DATE (#YEAR_MONTH# , 'yyyymm'), 1))), 1, LAST_DAY (
+        ADD_MONTHS (TO_DATE (#YEAR_MONTH#, 'yyyymm'), 1)),ADD_MONTHS (TO_DATE (#YEAR_MONTH#, 'yyyymm'), 1) + TO_NUMBER
+        (BEGIN_DAY) - 2)
+        ,'yyyymmdd'))))
+        endDate
+        FROM UR_BILLDAY_INFO
+        WHERE SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+        <dynamic prepend=" ">
+            <isNotEmpty prepend=" " property="ID_NO">
+                AND ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend=" " property="CONTRACT_NO">
+                AND CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+</sqlMap>

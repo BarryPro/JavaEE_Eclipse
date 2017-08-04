@@ -1,0 +1,13 @@
+package com.sitech.acctmgr.atom.busi.pay.hlj;
+
+import com.sitech.acctmgr.atom.busi.pay.trans.TransAccount;
+
+public class TransSpecial extends TransAccount{
+	
+	@Override
+	public String getTransTypes(){
+		
+		return "d,1,0,BC,BZ,BQ,BX,BY,EI,EJ";
+	}
+
+}

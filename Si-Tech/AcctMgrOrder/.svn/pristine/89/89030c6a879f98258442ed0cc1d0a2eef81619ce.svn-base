@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgsend_err">
+    
+  <select id="qCount"  parameterClass="Map" resultClass="java.lang.Integer">  
+    SELECT nvl(count(1), 0) COUNT
+      FROM IN_MSGSEND_ERR
+     WHERE  1=1 
+    <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CREATE_ACCEPT">
+    		CREATE_ACCEPT = #CREATE_ACCEPT#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ERR_CODE">
+    		ERR_CODE = #ERR_CODE#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="MINUTS_FORMAT">
+    		SYSDATE - #MINUTS_FORMAT# <![CDATA[ <= ]]> OP_TIME
+    		AND OP_CODE != 'C200'
+    	</isNotEmpty>
+    </dynamic>
+    AND rownum <![CDATA[ <= ]]> 200
+	ORDER BY OP_TIME,LOGIN_ACCEPT 
+  </select>
+    
+ <!-- BLOB 操作方式处理 -->  
+ <typeAlias alias="OdrLineErrClass" type="com.sitech.acctmgr.app.odrBlob.OdrLineErrVO"/>
+ <resultMap id="odrLineErrVOMap" class="OdrLineErrClass">
+  <result property="gsTopicId"   column="TOPIC_ID"/>
+  <result property="gbContent"   column="CONTENT" jdbcType="BLOB"/>
+  <result property="gsOpCode"    column="OP_CODE"/>
+  <result property="gsDataSrc"   column="DATA_SOURCE"/>
+  <result property="gsBusiidNo"  column="BUSIID_NO"/>
+  <result property="gsBusiidType" column="BUSIID_TYPE"/>
+  <result property="gsLoginAct"  column="LOGIN_ACCEPT"/>
+  <result property="glCreatAct"  column="CREATE_ACCEPT"/>
+  <result property="gsLoginNo"   column="LOGIN_NO"/>
+  <result property="gsErrCode"   column="ERR_CODE"/>
+  <result property="gsErrMsg"    column="ERR_MSG"/>
+ </resultMap>
+
+  <insert id="iDatabyAccept" parameterClass="Map">
+	INSERT INTO IN_MSGSEND_ERR (TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO, CREATE_ACCEPT, DATA_SOURCE, BUSIID_TYPE, BUSIID_NO,
+	 SEND_TIME, ERR_MSG, ERR_CODE) 
+	SELECT TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO, CREATE_ACCEPT, DATA_SOURCE, BUSIID_TYPE, BUSIID_NO, 
+	 SYSDATE, #ERR_MSG# , #ERR_CODE# 
+	  FROM IN_MSGSEND_INFO WHERE TOPIC_ID=#TOPIC_ID#
+	   AND CREATE_ACCEPT=#CREATE_ACCEPT#
+  </insert>
+  
+  <insert id="insert" parameterClass="OdrLineErrVO">
+	INSERT INTO IN_MSGSEND_ERR (CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, 
+        CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO, OP_TIME, SEND_TIME, ERR_CODE, ERR_MSG)
+    VALUES (#glCreatAct#, #gsDataSrc#, #gsBusiidNo#, #gsBusiidType#, #gsTopicId#, 
+        #gbContent:BLOB#, #gsLoginAct#, #gsOpCode#, #gsLoginNo#, SYSDATE, SYSDATE, #gsErrCode#, #gsErrMsg#)
+  </insert>
+  
+  <delete id="dDatabyAccept" parameterClass="Map">
+	DELETE FROM IN_MSGSEND_ERR 
+	WHERE TOPIC_ID=#TOPIC_ID# 
+	AND CREATE_ACCEPT=#CREATE_ACCEPT# 
+  </delete>
+  
+  <select id="qTopic" parameterClass="Map" resultMap="odrLineErrVOMap">
+    SELECT TOPIC_ID, CONTENT, OP_CODE, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, LOGIN_ACCEPT, CREATE_ACCEPT, LOGIN_NO, ERR_CODE, ERR_MSG
+           <!-- to_char(op_time,'YYYYMM') OP_TIME_YM , #SUFFIX# SUFFIX --> 
+      FROM IN_MSGSEND_ERR 
+     WHERE  1=1 
+    <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="CREATE_ACCEPT">
+    		CREATE_ACCEPT = #CREATE_ACCEPT#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ERR_CODE">
+    		ERR_CODE = #ERR_CODE#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="MINUTS_FORMAT">
+    		SYSDATE - #MINUTS_FORMAT# <![CDATA[ <= ]]> OP_TIME
+    		AND OP_CODE != 'C200'
+    	</isNotEmpty>
+    </dynamic>
+    AND rownum <![CDATA[ <= ]]> 200
+	ORDER BY OP_TIME,LOGIN_ACCEPT 
+  </select>
+  
+</sqlMap>

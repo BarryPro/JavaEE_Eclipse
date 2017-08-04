@@ -1,0 +1,83 @@
+package com.sitech.acctmgr.atom.domains.invoice;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+public class OrderInfoEntity {
+
+	@JSONField(name = "TAX_LIST")
+	@ParamDesc(path = "TAX_LIST", cons = ConsType.CT001, type = "compx", len = "1", desc = "订单航列表", memo = "略")
+	private List<OrderTaxInfoEntity> orderTaxList = new ArrayList<OrderTaxInfoEntity>();
+
+	@JSONField(name = "OP_CODE")
+	@ParamDesc(path = "OP_CODE", cons = ConsType.CT001, type = "string", len = "20", desc = "业务代码", memo = "略")
+	private String opCode;
+
+	@JSONField(name = "OP_NAME")
+	@ParamDesc(path = "OP_NAME", cons = ConsType.CT001, type = "compx", len = "1", desc = "订单航列表", memo = "略")
+	private String opName;
+
+	@JSONField(name = "ORDER_ID")
+	@ParamDesc(path = "ORDER_ID", cons = ConsType.CT001, type = "compx", len = "1", desc = "订单航列表", memo = "略")
+	private String orderId;
+
+	@JSONField(name = "SERVICE_NO")
+	@ParamDesc(path = "SERVICE_NO", cons = ConsType.CT001, type = "compx", len = "1", desc = "订单航列表", memo = "略")
+	private String serviceNo;
+
+	@JSONField(name = "SUFFIX")
+	@ParamDesc(path = "SUFFIX", cons = ConsType.CT001, type = "compx", len = "1", desc = "订单航列表", memo = "略")
+	private String suffix;
+
+	public List<OrderTaxInfoEntity> getOrderTaxList() {
+		return orderTaxList;
+	}
+
+	public void setOrderTaxList(List<OrderTaxInfoEntity> orderTaxList) {
+		this.orderTaxList = orderTaxList;
+	}
+
+	public String getOpCode() {
+		return opCode;
+	}
+
+	public void setOpCode(String opCode) {
+		this.opCode = opCode;
+	}
+
+	public String getOpName() {
+		return opName;
+	}
+
+	public void setOpName(String opName) {
+		this.opName = opName;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getServiceNo() {
+		return serviceNo;
+	}
+
+	public void setServiceNo(String serviceNo) {
+		this.serviceNo = serviceNo;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+}

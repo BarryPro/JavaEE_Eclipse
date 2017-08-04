@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="AcctMgrInt">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="C:/Program Files/eclipse/"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="EAR Libraries.libraryclasspath"/>
+    <path id="Web App Libraries.libraryclasspath">
+        <pathelement location="WebRoot/WEB-INF/lib/3des-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/XmlSchema-1.4.7.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/activation-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/aopalliance-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/asm-3.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/avro-1.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/avro-ipc-1.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axiom-api-1.2.19.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axiom-dom-1.2.19.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axiom-impl-1.2.19.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-adb-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-jaxws-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-kernel-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-transport-http-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-transport-local-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/brmAgent.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cglib-nodep-2.1_3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/common.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-codec-1.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-configuration-1.10.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-dbcp-1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-dbutils-1.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-httpclient-3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-io-2.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-lang-2.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-logging-1.1.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-net-3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-net-ftp-2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-pool-1.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-pool2-2.4.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/contiperf-2.2.0_.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/curator-client-2.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/curator-framework-2.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/curator-recipes-2.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-api-2.7.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-bindings-soap-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-bindings-xml-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-core-2.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-databinding-jaxb-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-frontend-jaxws-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-frontend-jaxws-3.1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-frontend-simple-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-transports-common-2.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-transports-http-2.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-ws-addr-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-ws-policy-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/dmdbjdbc.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/dom4j-1.6.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/druid-0.2.26.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/ezmorph-1.0.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/fastjson-1.2.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/fluent-hc-4.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/flume-ng-log4jappender-1.4.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/flume-ng-sdk-1.4.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/geronimo-javamail_1.4_spec-1.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/geronimo-jms_1.1_spec-1.1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/groovy-all-2.1.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/gson-2.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/guava-18.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/hamcrest-core-1.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/hsf-2.0.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpasyncclient-4.0.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpclient-4.3.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpclient-cache-4.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpclient-osgi-4.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpcore-4.3.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpcore-nio-4.3.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpmime-4.3.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/iJCF-2.5.0-javadoc.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/iJCF-2.5.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/idmm2-client-api-0.0.1-SNAPSHOT.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/ini4j-0.5.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-annotations-2.2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-core-2.2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-core-asl-1.9.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-databind-2.2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-mapper-asl-1.9.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javassist-3.12.1.GA.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javax.annotation-api-1.2-b02.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javax.servlet-api-3.0.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javax.ws.rs-api-2.0-rc3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jaxb-impl-2.1.13.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jaxen-1.1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jaxrs-api-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jcip-annotations-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jcl-over-slf4j-1.7.7.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jedis-2.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jettison-1.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jetty-util-7.2.0.v20101020.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jline-0.9.94.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jms-api-1.1-rev-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/joda-time-2.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jolokia-client-java-1.2.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-20140107.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-lib-2.3-jdk15.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-path-0.8.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-simple-1.1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-smart-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jsr250-api-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jta-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/junit-4.10.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/log4j-1.2.17.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/mina-core-2.0.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.22.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/neethi-3.0.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-3.5.12.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-3.6.6.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-all-4.0.33.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-buffer-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-codec-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-common-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-handler-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-transport-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/ojdbc6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/opensaml-2.5.1-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/openws-1.4.2-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/oro-2.0.8.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/oscache-2.4.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/protobuf-java-2.5.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/pwdfile.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-jaxb-provider-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-jaxrs-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-jettison-provider-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-spring-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/scannotation-1.0.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/servlet-api-2.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-api-1.7.12.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-log4j12-1.7.7.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-simple-1.7.12.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-aop-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-beans-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-context-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-context-support-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-core-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-expression-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-jdbc-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-orm-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-test-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-tx-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-web-3.0.5.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/stax2-api-3.1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/unirest-java-1.3.26.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/woden-api-1.0M9.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/woodstox-core-asl-4.1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/wsdl4j-1.6.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/wss4j-1.6.10.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xalan-2.7.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xercesImpl-2.8.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmemcached-2.0.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xml-apis-1.3.03.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xml-resolver-1.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmlpull-1.1.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmlschema-core-2.0.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmlsec-1.5.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmltooling-1.3.2-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xom-1.2.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xpp3_min-1.1.4c.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xroad-client-api-2.0.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xstream-1.4.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/zkclient-2.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/zookeeper-3.4.6.jar"/>
+    </path>
+    <path id="Server Library [Apache Tomcat v7.0] (unbound).libraryclasspath"/>
+    <path id="AcctMgrInt.classpath">
+        <pathelement location="WebRoot/WEB-INF/classes"/>
+        <path refid="EAR Libraries.libraryclasspath"/>
+        <path refid="Web App Libraries.libraryclasspath"/>
+        <pathelement location="WebRoot/WEB-INF/lib/3des-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/activation-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/aopalliance-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/asm-3.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/avro-1.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/avro-ipc-1.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axiom-api-1.2.19.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axiom-dom-1.2.19.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axiom-impl-1.2.19.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-adb-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-jaxws-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-kernel-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-transport-http-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/axis2-transport-local-1.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/brmAgent.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cglib-nodep-2.1_3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/common.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-codec-1.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-configuration-1.10.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-dbcp-1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-dbutils-1.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-httpclient-3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-io-2.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-lang-2.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-logging-1.1.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-net-3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-net-ftp-2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-pool-1.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-pool2-2.4.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/contiperf-2.2.0_.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/curator-client-2.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/curator-framework-2.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/curator-recipes-2.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-api-2.7.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-bindings-soap-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-bindings-xml-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-core-2.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-databinding-jaxb-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-frontend-jaxws-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-frontend-jaxws-3.1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-frontend-simple-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-transports-common-2.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-transports-http-2.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-ws-addr-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cxf-rt-ws-policy-2.7.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/dmdbjdbc.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/dom4j-1.6.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/druid-0.2.26.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/ezmorph-1.0.6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/fastjson-1.2.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/fluent-hc-4.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/flume-ng-log4jappender-1.4.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/flume-ng-sdk-1.4.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/geronimo-javamail_1.4_spec-1.7.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/geronimo-jms_1.1_spec-1.1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/groovy-all-2.1.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/gson-2.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/guava-18.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/hamcrest-core-1.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/hsf-2.0.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpasyncclient-4.0.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpclient-4.3.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpclient-cache-4.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpclient-osgi-4.3.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpcore-4.3.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpcore-nio-4.3.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpmime-4.3.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/idmm2-client-api-0.0.1-SNAPSHOT.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/iJCF-2.5.0-javadoc.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/iJCF-2.5.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/ini4j-0.5.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-annotations-2.2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-core-2.2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-core-asl-1.9.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-databind-2.2.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jackson-mapper-asl-1.9.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javassist-3.12.1.GA.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javax.annotation-api-1.2-b02.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javax.servlet-api-3.0.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/javax.ws.rs-api-2.0-rc3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jaxb-impl-2.1.13.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jaxen-1.1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jaxrs-api-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jcip-annotations-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jcl-over-slf4j-1.7.7.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jedis-2.7.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jettison-1.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jetty-util-7.2.0.v20101020.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jline-0.9.94.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jms-api-1.1-rev-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/joda-time-2.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jolokia-client-java-1.2.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-20140107.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-lib-2.3-jdk15.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-path-0.8.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-simple-1.1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/json-smart-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jsr250-api-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jta-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/junit-4.10.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/log4j-1.2.17.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/mina-core-2.0.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.22.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/neethi-3.0.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-3.5.12.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-3.6.6.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-all-4.0.33.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-buffer-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-codec-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-common-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-handler-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/netty-transport-4.0.24.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/ojdbc6.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/opensaml-2.5.1-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/openws-1.4.2-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/oro-2.0.8.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/oscache-2.4.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/protobuf-java-2.5.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/pwdfile.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-jaxb-provider-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-jaxrs-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-jettison-provider-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/resteasy-spring-2.3.4.Final.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/scannotation-1.0.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/servlet-api-2.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-api-1.7.12.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-log4j12-1.7.7.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-simple-1.7.12.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-aop-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-beans-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-context-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-context-support-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-core-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-expression-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-jdbc-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-orm-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-test-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-tx-3.2.0.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-web-3.0.5.RELEASE.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/stax2-api-3.1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/unirest-java-1.3.26.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/woden-api-1.0M9.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/woodstox-core-asl-4.1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/wsdl4j-1.6.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/wss4j-1.6.10.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xalan-2.7.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xercesImpl-2.8.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmemcached-2.0.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xml-apis-1.3.03.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xml-resolver-1.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmlpull-1.1.3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/XmlSchema-1.4.7.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmlschema-core-2.0.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmlsec-1.5.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xmltooling-1.3.2-1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xom-1.2.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xpp3_min-1.1.4c.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xroad-client-api-2.0.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xstream-1.4.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/zkclient-2.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/zookeeper-3.4.6.jar"/>
+        <path refid="Server Library [Apache Tomcat v7.0] (unbound).libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="WebRoot/WEB-INF/classes"/>
+        <copy includeemptydirs="false" todir="WebRoot/WEB-INF/classes">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+                <exclude name="com/sitech/acctmgr/atom/impl/jl/pay/"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="WebRoot/WEB-INF/classes">
+            <fileset dir="test">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="WebRoot/WEB-INF/classes">
+            <fileset dir="config">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="WebRoot/WEB-INF/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="WebRoot/WEB-INF/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="test"/>
+            <src path="config"/>
+            <exclude name="com/sitech/acctmgr/atom/impl/jl/pay/"/>
+            <classpath refid="AcctMgrInt.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="Idmm2SenderTest">
+        <java classname="com.sitech.acctmgr.test.atom.busi.inter.Idmm2SenderTest" failonerror="true" fork="yes">
+            <classpath refid="AcctMgrInt.classpath"/>
+        </java>
+    </target>
+    <target name="OrderSvcTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sitech.acctmgr.test.atom.busi.inter.OrderSvcTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="AcctMgrInt.classpath"/>
+        </junit>
+    </target>
+    <target name="PubInterCpp">
+        <java classname="com.sitech.acctmgr.atom.busi.intface.PubInterCpp" failonerror="true" fork="yes">
+            <classpath refid="AcctMgrInt.classpath"/>
+        </java>
+    </target>
+    <target name="S1018Query">
+        <java classname="com.sitech.acctmgr.comp.busi.S1018Query" failonerror="true" fork="yes">
+            <classpath refid="AcctMgrInt.classpath"/>
+        </java>
+    </target>
+    <target name="SendMsg">
+        <java classname="com.sitech.acctmgr.atom.busi.intface.SendMsg" failonerror="true" fork="yes">
+            <classpath refid="AcctMgrInt.classpath"/>
+        </java>
+    </target>
+    <target name="SvcOdrParaTrans">
+        <java classname="com.sitech.acctmgr.atom.busi.intface.SvcOdrParaTrans" failonerror="true" fork="yes">
+            <classpath refid="AcctMgrInt.classpath"/>
+        </java>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>

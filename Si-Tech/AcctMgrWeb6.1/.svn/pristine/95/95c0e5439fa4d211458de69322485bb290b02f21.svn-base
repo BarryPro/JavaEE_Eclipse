@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_returnacctbook_info">
+
+  <select id="qReturnAcctBookInfo"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT A.PAY_TYPE PAY_TYPE,
+			 NVL(A.CUR_BALANCE,0) CUR_BALANCE,
+			 B.PAY_TYPE_NAME PAY_TYPE_NAME, 
+			 TO_CHAR(A.BEGIN_TIME,'YYYYMMDD HH24:MI:SS') BEGIN_TIME, 
+			 TO_CHAR(A.END_TIME,'YYYYMMDD HH24:MI:SS') END_TIME,
+       		 TO_CHAR(A.PAY_TIME,'YYYYMMDD HH24:MI:SS') PAY_TIME,
+       		 B.PAY_ATTR PAY_ATTR
+	FROM BAL_RETURNACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B 
+	WHERE A.PAY_TYPE=B.PAY_TYPE 	
+		   AND CONTRACT_NO=#CONTRACT_NO#  
+		   AND SYSDATE <![CDATA[ < ]]> BEGIN_TIME
+     <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="PAY_SN">
+    		A.PAY_SN = #PAY_SN#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="FOREIGN_SN">
+    		A.FOREIGN_SN = #FOREIGN_SN#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="STATUS">
+    		A.STATUS IN ('0','1', '2')
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+
+	<select id="qUnReturnAcctBookInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT A.PAY_TYPE PAY_TYPE,
+		NVL(A.CUR_BALANCE,0) CUR_BALANCE,
+		B.PAY_TYPE_NAME PAY_TYPE_NAME,
+		TO_CHAR(A.BEGIN_TIME,'YYYYMMDD HH24:MI:SS') BEGIN_TIME,
+		TO_CHAR(A.END_TIME,'YYYYMMDD HH24:MI:SS') END_TIME,
+		TO_CHAR(A.PAY_TIME,'YYYYMMDD HH24:MI:SS') PAY_TIME,
+		B.PAY_ATTR PAY_ATTR
+		FROM BAL_RETURNACCTBOOK_INFO A, BAL_BOOKTYPE_DICT B
+		WHERE A.PAY_TYPE=B.PAY_TYPE
+		AND CONTRACT_NO=#CONTRACT_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PAY_SN">
+				A.PAY_SN = #PAY_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FOREIGN_SN">
+				A.FOREIGN_SN = #FOREIGN_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="STATUS">
+				A.STATUS = '4'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+  <insert id="iReturnacctbook"  parameterClass="Map">
+    INSERT INTO 
+    		BAL_RETURNACCTBOOK_INFO 
+    	( BALANCE_ID, CONTRACT_NO , PAY_TYPE, INIT_BALANCE, CUR_BALANCE, BALANCE_TYPE, 
+    	  BEGIN_TIME, END_TIME, PAY_TIME, PAY_SN, STATUS, 
+    	  BILL_CYCLE, PRINT_FLAG, FOREIGN_SN, FOREIGN_TIME, PUB_CON, 
+    	  ACT_ID, MEANS_ID, ACT_TYPE, FLAG  )
+	VALUES( #BALANCE_ID#, #CONTRACT_NO# , #PAY_TYPE#, #INIT_BALANCE#, #CUR_BALANCE#, #BALANCE_TYPE#, 
+    	  TO_DATE(#BEGIN_TIME#, 'YYYYMMDDHH24MISS'), TO_DATE(#END_TIME#,'YYYYMMDDHH24MISS'), sysdate, #PAY_SN#, #STATUS#, 
+    	  #BILL_CYCLE#, #PRINT_FLAG#, #FOREIGN_SN#, TO_DATE(#FOREIGN_TIME#,'YYYYMMDDHH24MISS'), #PUB_CON#, 
+    	  #ACT_ID#, #MEANS_ID#, #ACT_TYPE#, #FLAG# )
+  </insert>
+
+	<select id="qryAllFee" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT NVL(SUM(CUR_BALANCE),0) CUR_BALANCE
+		FROM BAL_RETURNACCTBOOK_INFO
+		WHERE CONTRACT_NO=#CONTRACT_NO#
+		<dynamic prepend="">
+			<isNotEmpty property="EXP">
+				AND END_TIME <![CDATA[ < ]]>
+				SYSDATE
+			</isNotEmpty>
+			<isNotEmpty property="WILL">
+				AND BEGIN_TIME > SYSDATE
+			</isNotEmpty>
+			<isNotEmpty property="EFF">
+				AND 1=2
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="qByBalanceId"  parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT CUR_BALANCE,PAY_SN,INIT_BALANCE, STATUS
+         FROM BAL_RETURNACCTBOOK_INFO WHERE BALANCE_ID= #BALANCE_ID#
+    </select>
+    
+    <update id="uStatus" parameterClass="Map">
+		UPDATE BAL_RETURNACCTBOOK_INFO SET STATUS = #STATUS#, OP_TIME = sysdate
+		WHERE CONTRACT_NO=#CONTRACT_NO#
+		and BALANCE_ID= #BALANCE_ID#
+	</update>
+  
+</sqlMap>

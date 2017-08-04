@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_creditadj_his">
+
+	<typeAlias alias="creditEntity" type="com.sitech.acctmgr.atom.domains.cct.CreditAdjEntity"/>
+	<insert id="iCreidtAdjHis" parameterClass="creditEntity">
+		INSERT INTO
+		CCT_CREDITADJ_HIS
+		(ID_NO,LOGIN_ACCEPT,OP_TIME,EXPIRE_TIME,STATUS,UPDATE_ACCEPT,UPDATE_TIME,LOGIN_NO,OLD_LIMIT_OWE,NEW_LIMIT_OWE,OP_CODE)
+		SELECT #idNo#,#loginAccept#,SYSDATE,SYSDATE,#status# ,#loginAccept#,SYSDATE,#loginNo#,#oldLimitOwe#,#newLimitOwe#,#opCode#
+		FROM DUAL
+	</insert>
+
+	<select id="qCreditAdjInfo" resultClass="creditEntity"	parameterClass="Map">
+		SELECT UPDATE_ACCEPT loginAccept,
+		OLD_LIMIT_OWE oldLimitOwe,
+		NEW_LIMIT_OWE newLimitOwe
+		FROM CCT_CREDITADJ_HIS
+		WHERE UPDATE_ACCEPT = #LOGIN_ACCEPT#
+		AND ID_NO = #ID_NO#
+	</select>
+	
+</sqlMap>
+

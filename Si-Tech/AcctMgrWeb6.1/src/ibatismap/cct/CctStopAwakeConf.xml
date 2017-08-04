@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_stopawake_conf">
+    <!--<select id="qryCreditGradeName" parameterClass="Map" resultClass="java.lang.String">
+        SELECT CREDIT_NAME
+        FROM CCT_STOPAWAKE_CONF
+        WHERE OP_TYPE='STOP'
+        AND REGION_CODE=#REGION_CODE#
+        AND CREDIT_CODE=#CREDIT_CODE#
+    </select>-->
+
+    <typeAlias alias="AwakeConfInfo" type="com.sitech.acctmgr.atom.domains.cct.StopAwakeInfoEntity"/>
+    <select id="qryAwakeConf" parameterClass="Map" resultClass="AwakeConfInfo">
+        SELECT REGION_CODE regionCode,
+        CREDIT_CODE creditCode,
+        CREDIT_NAME creditName,
+        CARD_TYPE cardType,
+        OVER_FEE overFee,
+        AWAKE_FEE awakeFee,
+        CALLING_TIMES callingTimes,
+        AWAKE_TIMES awakeTimes,
+        SINGLESTOP_DAYS singlestopDays,
+        VOICESTOP_DAYS voicestopDays,
+        AWAKE_TIMES awakeTimes,
+        LIMIT_DAYS limitDays,
+        CREDIT_AWAKE_FLAG creditAwakeFlag
+        FROM CCT_STOPAWAKE_CONF
+        WHERE OP_TYPE='STOP'
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="REGION_CODE">
+                AND REGION_CODE = #REGION_CODE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CREDIT_CODE">
+                AND CREDIT_CODE = #CREDIT_CODE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CARD_TYPE">
+                AND CARD_TYPE = #CARD_TYPE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="LIST_TYPE">
+                AND SPECIAL_LIST = #SPECIAL_LIST#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    
+    <select id="qCreditGrade" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT CREDIT_NAME FROM CCT_STOPAWAKE_CONF
+		WHERE OP_TYPE='STOP'
+		AND REGION_CODE=#REGION_CODE# AND CREDIT_CODE=#CREDIT_CODE#
+	</select>
+
+	<select id="qWarningMsg" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR(OVER_FEE) OVER_FEE,
+		TO_CHAR(LIMIT_DAYS) LIMIT_DAYS,
+		TO_CHAR(SINGLESTOP_DAYS) SINGLESTOP_DAYS
+		FROM CCT_STOPAWAKE_CONF
+		WHERE
+		OP_TYPE = 'STOP'
+		AND REGION_CODE = #REGION_CODE#
+		AND CREDIT_CODE = #CREDIT_CODE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="LIST_TYPE">
+				AND SPECIAL_LIST = #LIST_TYPE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<typeAlias alias="CreditListEntity" type="com.sitech.acctmgr.atom.domains.cct.CreditListEntity"/>
+	<select id="qCreditList" parameterClass="Map" resultClass="CreditListEntity">
+		select
+		distinct(credit_code) creditCode,
+		credit_name creditName
+		from cct_stopawake_conf
+		where op_type='STOP' order by credit_code desc
+	</select>
+	
+</sqlMap>

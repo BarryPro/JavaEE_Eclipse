@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cfg_sp_oper_info">
+     
+	<typeAlias type="com.sitech.acctmgr.atom.domains.adj.SpInfoEntity" alias="spInfoEntity"/>
+	<select id="getBizCode" parameterClass="Map" resultClass="spInfoEntity">		  
+	 	SELECT DISTINCT SPID spId, BIZCODE bizCode, SERVNAME servName
+  		FROM (SELECT SPID, BIZCODE, SERVNAME
+        FROM DDSMPSPBIZINFO
+        WHERE SPID = #SPID#
+        AND SERVNAME LIKE #SERVNAME#
+        AND SYSDATE BETWEEN TO_DATE(VALIDDATE, 'YYYYMMDD') AND TO_DATE(EXPIREDATE, 'YYYYMMDD')
+
+        UNION ALL
+
+        SELECT SP_CODE SPID, OPER_CODE BIZCODE, OPER_NAME SERVNAME
+        FROM CFG_SP_OPER_INFO
+        WHERE SP_CODE = #SPID#
+        AND OPER_NAME LIKE #SERVNAME#
+        AND TO_CHAR(SYSDATE, 'yyyyMMdd') BETWEEN OPER_VALID_DATE AND  OPER_EXPIRE_DATE)
+	</select>
+	
+	
+	
+</sqlMap>

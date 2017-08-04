@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+<script type="text/javascript">
+	function Tune() {		
+	};
+
+	Tune.prototype = {
+		value : "weikun", //属性1
+		URL : "www.papaok.org", //属性2
+		setValue : function(v) { //set方法
+			this.value = v;
+		},		
+		getValue : function() { //get方法
+			return this.value;
+		},
+		setURL : function(v) { //set方法			
+			this.URL = v;			
+		},
+		getURL : function() { //get方法
+			return this.URL;
+		},
+		print : function() { //自定义函数，打印
+			alert(this.value);
+			alert(this.URL);
+		}
+	}
+
+	var o = new Tune();
+	o.setValue("weikun");
+	o.setURL("www.papaok.org");
+	alert(o.getValue()+"-"+o.getURL());	
+	o.print();
+</script>
+</head>
+<body>
+
+</body>
+</html>

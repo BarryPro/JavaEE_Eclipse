@@ -1,0 +1,308 @@
+package com.sitech.acctmgr.atom.domains.query;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+import java.io.Serializable;
+
+/**
+ *
+ * <p>Title:   </p>
+ * <p>Description:   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author 
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
+public class Pay8107Entity implements Serializable {
+
+	@JSONField(name="CONTRACT_NO")
+	@ParamDesc(path="CONTRACT_NO",cons=ConsType.CT001,type="long",len="18",desc="账户号码",memo="略")
+	private long contractNo = 0;
+	@JSONField(name="EFF_TIME")
+	@ParamDesc(path="EFF_TIME",cons=ConsType.CT001,type="String",len="20",desc="生效时间",memo="略")
+	private String effTime = "";
+	@JSONField(name="LOGIN_NAME")
+	@ParamDesc(path="LOGIN_NAME",cons=ConsType.CT001,type="String",len="100",desc="操作工号",memo="略")
+	private String loginName = "";
+	@JSONField(name="LOGIN_GROUP_NAME")
+	@ParamDesc(path="LOGIN_GROUP_NAME",cons=ConsType.CT001,type="String",len="50",desc="工号归属地名称",memo="略")
+	private String loginGroupName = "";
+	@JSONField(name="REMARK")
+	@ParamDesc(path="REMARK",cons=ConsType.CT001,type="String",len="256",desc="备注",memo="略")
+	private String remark = "";
+	@JSONField(name="OP_TIME")
+	@ParamDesc(path="OP_TIME",cons=ConsType.CT001,type="String",len="20",desc="操作时间",memo="略")
+	private String opTime = "";
+	@JSONField(name="PAY_NAME")
+	@ParamDesc(path="PAY_NAME",cons=ConsType.CT001,type="String",len="100",desc="缴费类型名称",memo="略")
+	private String payName = "";
+	@JSONField(name="OP_NAME")
+	@ParamDesc(path="OP_NAME",cons=ConsType.CT001,type="String",len="100",desc="工号名称",memo="略")
+	private String opName = "";
+	@JSONField(name="PAY_MONEY")
+	@ParamDesc(path="PAY_MONEY",cons=ConsType.CT001,type="long",len="20",desc="缴费金额",memo="略")
+	private long payMoney = 0;
+	@JSONField(name="LOGIN_ACCEPT")
+	@ParamDesc(path="LOGIN_ACCEPT",cons=ConsType.CT001,type="long",len="30",desc="缴费流水",memo="略")
+	private long loginAccept = 0;
+	@JSONField(name="PAYED_DELAY")
+	@ParamDesc(path="PAYED_DELAY",cons=ConsType.CT001,type="long",len="20",desc="滞纳金",memo="略")
+	private long payedDelay = 0;
+	@JSONField(name="PREPAY_FEE")
+	@ParamDesc(path="PREPAY_FEE",cons=ConsType.CT001,type="long",len="20",desc="余额",memo="略")
+	private long prepayFee = 0;
+	@JSONField(name="PAYED_OWE")
+	@ParamDesc(path="PAYED_OWE",cons=ConsType.CT001,type="long",len="20",desc="缴欠费",memo="略")
+	private long payedOwe = 0;
+	@JSONField(name="OTHER_FEE")
+	@ParamDesc(path="OTHER_FEE",cons=ConsType.CT001,type="long",len="20",desc="其它费用",memo="略")
+	private long otherFee = 0;
+	@JSONField(name="LOGIN_NO")
+	@ParamDesc(path="LOGIN_NO",cons=ConsType.CT001,type="String",len="50",desc="操作工号",memo="略")
+	private String loginNo = "";
+	@JSONField(name="BAKC_FLAG")
+	@ParamDesc(path="BAKC_FLAG",cons=ConsType.CT001,type="String",len="50",desc="操作类型",memo="略")
+	private String backFlag = "";
+	@JSONField(name="PHONE_NO")
+	@ParamDesc(path="PHONE_NO",cons=ConsType.CT001,type="String",len="20",desc="服务号码",memo="略")
+	private String phoneNo = "";
+	@JSONField(name="DISTRICT_NAME")
+	@ParamDesc(path="DISTRICT_NAME",cons=ConsType.CT001,type="String",len="100",desc="区县",memo="略")
+	private String districtName = "";
+	@JSONField(name="HALL_NAME")
+	@ParamDesc(path="HALL_NAME",cons=ConsType.CT001,type="String",len="100",desc="营业厅",memo="略")
+	private String hallName = "";
+	
+	/**
+	 * @return the effTime
+	 */
+	public String getEffTime() {
+		return effTime;
+	}
+	/**
+	 * @param effTime the effTime to set
+	 */
+	public void setEffTime(String effTime) {
+		this.effTime = effTime;
+	}
+	/**
+	 * @return the loginName
+	 */
+	public String getLoginName() {
+		return loginName;
+	}
+	/**
+	 * @param loginName the loginName to set
+	 */
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+	/**
+	 * @return the loginGroupName
+	 */
+	public String getLoginGroupName() {
+		return loginGroupName;
+	}
+	/**
+	 * @param loginGroupName the loginGroupName to set
+	 */
+	public void setLoginGroupName(String loginGroupName) {
+		this.loginGroupName = loginGroupName;
+	}
+	/**
+	 * @return the remark
+	 */
+	public String getRemark() {
+		return remark;
+	}
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	/**
+	 * @return the opTime
+	 */
+	public String getOpTime() {
+		return opTime;
+	}
+	/**
+	 * @param opTime the opTime to set
+	 */
+	public void setOpTime(String opTime) {
+		this.opTime = opTime;
+	}
+	/**
+	 * @return the payName
+	 */
+	public String getPayName() {
+		return payName;
+	}
+	/**
+	 * @param payName the payName to set
+	 */
+	public void setPayName(String payName) {
+		this.payName = payName;
+	}
+	/**
+	 * @return the opName
+	 */
+	public String getOpName() {
+		return opName;
+	}
+	/**
+	 * @param opName the opName to set
+	 */
+	public void setOpName(String opName) {
+		this.opName = opName;
+	}
+	/**
+	 * @return the payMoney
+	 */
+	public long getPayMoney() {
+		return payMoney;
+	}
+	/**
+	 * @param payMoney the payMoney to set
+	 */
+	public void setPayMoney(long payMoney) {
+		this.payMoney = payMoney;
+	}
+	/**
+	 * @return the loginAccept
+	 */
+	public long getLoginAccept() {
+		return loginAccept;
+	}
+	/**
+	 * @param loginAccept the loginAccept to set
+	 */
+	public void setLoginAccept(long loginAccept) {
+		this.loginAccept = loginAccept;
+	}
+	
+	/**
+	 * @return the payedDelay
+	 */
+	public long getPayedDelay() {
+		return payedDelay;
+	}
+	/**
+	 * @param payedDelay the payedDelay to set
+	 */
+	public void setPayedDelay(long payedDelay) {
+		this.payedDelay = payedDelay;
+	}
+	/**
+	 * @return the prepayFee
+	 */
+	public long getPrepayFee() {
+		return prepayFee;
+	}
+	/**
+	 * @param prepayFee the prepayFee to set
+	 */
+	public void setPrepayFee(long prepayFee) {
+		this.prepayFee = prepayFee;
+	}
+	/**
+	 * @return the payedOwe
+	 */
+	public long getPayedOwe() {
+		return payedOwe;
+	}
+	/**
+	 * @param payedOwe the payedOwe to set
+	 */
+	public void setPayedOwe(long payedOwe) {
+		this.payedOwe = payedOwe;
+	}
+	/**
+	 * @return the otherFee
+	 */
+	public long getOtherFee() {
+		return otherFee;
+	}
+	/**
+	 * @param otherFee the otherFee to set
+	 */
+	public void setOtherFee(long otherFee) {
+		this.otherFee = otherFee;
+	}
+	/**
+	 * @return the loginNo
+	 */
+	public String getLoginNo() {
+		return loginNo;
+	}
+	/**
+	 * @param loginNo the loginNo to set
+	 */
+	public void setLoginNo(String loginNo) {
+		this.loginNo = loginNo;
+	}
+	/**
+	 * @return the backFlag
+	 */
+	public String getBackFlag() {
+		return backFlag;
+	}
+	/**
+	 * @param backFlag the backFlag to set
+	 */
+	public void setBackFlag(String backFlag) {
+		this.backFlag = backFlag;
+	}
+	/**
+	 * @return the phoneNo
+	 */
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+	/**
+	 * @param phoneNo the phoneNo to set
+	 */
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+	/**
+	 * @return the contractNo
+	 */
+	public long getContractNo() {
+		return contractNo;
+	}
+	/**
+	 * @param contractNo the contractNo to set
+	 */
+	public void setContractNo(long contractNo) {
+		this.contractNo = contractNo;
+	}
+	/**
+	 * @return the districtName
+	 */
+	public String getDistrictName() {
+		return districtName;
+	}
+	/**
+	 * @param districtName the districtName to set
+	 */
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
+	/**
+	 * @return the hallName
+	 */
+	public String getHallName() {
+		return hallName;
+	}
+	/**
+	 * @param hallName the hallName to set
+	 */
+	public void setHallName(String hallName) {
+		this.hallName = hallName;
+	}
+}

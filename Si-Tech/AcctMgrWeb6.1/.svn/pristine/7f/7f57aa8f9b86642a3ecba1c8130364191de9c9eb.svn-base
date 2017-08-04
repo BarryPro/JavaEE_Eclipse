@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_translimit_his">
+
+	<insert id="insert" parameterClass="Map">
+		INSERT INTO
+		bal_translimit_his
+		(UNIT_ID,JT_CONTRACT_NO,ADMIN_PHONE,OPER_PHONE,BEGIN_YMD,
+		END_YMD,LIMIT_PAY,TOTAL_PAYED,OP_TIME,BAK1,BAK2)
+		select 
+		UNIT_ID,JT_CONTRACT_NO,ADMIN_PHONE,OPER_PHONE,BEGIN_YMD,
+		END_YMD,LIMIT_PAY,TOTAL_PAYED,OP_TIME,to_char(sysdate,'yyyymmdd hh24miss'),'U'
+		from BAL_TRANSFEE_LIMIT
+		where unit_id = #UNIT_ID#
+		and admin_phone = #ADMIN_PHONE#
+		and oper_phone = #OPER_PHONE#
+		and jt_contract_no = #JT_CONTRACT_NO#
+	</insert>
+
+</sqlMap>

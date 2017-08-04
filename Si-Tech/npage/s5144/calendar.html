@@ -1,0 +1,114 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html charset=gb2312">
+<title>日历</title>
+<style>
+.underline { text-align:center; border-top:1px none #000000; border-left:1px none #000000; border-right:1px none #000000; border-bottom:1px solid #000000;  }
+.arrow4 { cursor:hand; color:darkgreen; font-weight:bold; font-size:16px; font-family:Webdings }
+.b1 { color:#606060; font-size:12px; font-weight:bold }
+th{color:#FFFFFF;background-color:#F89807}
+td{color:#000000;background-color:#ffffff}
+body { cursor:default }
+body,table,td,tr,div,p,li,select,option,input,a,font { font-family:Sans Serif; font-size: 12px }
+</style>
+<script language="javascript">
+var weeklable=new Array("日","一","二","三","四","五","六");
+var days = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+var nowdate = new Date();
+var nowyear = nowdate.getYear();
+var nowmonth = nowdate.getMonth() +1;
+var nowday = nowdate.getDate();
+var nowdatestr = "" + nowyear + "-" + nowmonth + "-" + nowday;
+var gotoyear = nowyear;
+
+function isEnter(){
+	if(event.keyCode == 13) {
+		var s1 = document.form1.someyear_input.value;
+		if(isNaN(parseInt(s1))) return;
+		gotoyear = parseInt(s1);
+		writeMonths(gotoyear);
+		document.form1.someyear_input.focus();
+	}
+}
+function addYear(n){
+	gotoyear = gotoyear + n;
+	return gotoyear;
+}
+function isLeap(y){
+	if((y%4==0 && y%100!=0) || (y%400==0)) return true;
+	return false;
+}
+function writeMonth(someyear,somemonth){
+	var d1 = new Date(someyear,somemonth -1,1);
+	var someweek = d1.getDay() + 1;  //1 for Sunday, 2 for Monday, and so on.
+	var n = days[somemonth -1];
+	if(isLeap(someyear) && somemonth == 2) n++;
+	
+	var str = "<table border=0 cellspacing=0><tr><th><font color=#FFFFFF>"
+		+ somemonth + "月</font>"
+		+ "<table border=0 cellspacing=0 cellpadding=1><tr align=center>";
+	
+	for(var i=0;i<weeklable.length;i++){
+		str += "<td align=center valign=center><nobr>" + weeklable[i] + "</td>";
+	}
+	str += "</tr><tr align=center>";
+	
+	for(var i=1;i<=42;i++){
+		if(i%7==1 && i>1) str += "</tr><tr align=center>";
+		
+		if(i< someweek || i>(n+someweek-1)){
+			str += "<td>&nbsp;</td>";
+		}else{
+			if(someyear == nowyear && somemonth == nowmonth && i == (nowday+someweek-1))
+				str += "<td style='color:#FFFFFF; background-color:#F89807'";
+			else
+				str += "<td style='color:#000000; background-color:#FFFFFF' onmouseover='javascript:this.style.color=\"#FFFFFF\";this.style.backgroundColor=\"#F89807\";' onmouseout='javascript:this.style.color=\"#000000\";this.style.backgroundColor=\"#FFFFFF\";'";
+			str += " align=center valign=center onclick='getsomedate(this)' v1=" + someyear + " v2=" + somemonth + " v3=" + (i-someweek+1) + ">" + (i-someweek+1) + "</td>";
+		}
+	}
+	
+	str += "</tr></table></th></tr></table>";
+	return str;
+}
+function writeMonths(someyear){
+	var str = "<form name=form1><table border=0>" 
+		+ "<tr><td colspan=4 align=right><nobr>" 
+		+ "今天：" + nowdatestr + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font class=b1>" + "<input type=text class='underline' name=someyear_input size=4 maxlength=4 onkeypress='isEnter()' value=" + someyear + ">" + "年 </font>"
+		+ " <font class=arrow4 title=前五年 onclick=writeMonths(addYear(-5)) onmouseover=b1(this) onmouseout=b2(this)>7</font>"
+		+ " <font class=arrow4 title=前一年 onclick=writeMonths(addYear(-1)) onmouseover=b1(this) onmouseout=b2(this)>3</font>"
+		+ " <font class=arrow4 title=后一年 onclick=writeMonths(addYear(1)) onmouseover=b1(this) onmouseout=b2(this)>4</font>"
+		+ " <font class=arrow4 title=后五年 onclick=writeMonths(addYear(5)) onmouseover=b1(this) onmouseout=b2(this)>8</font>"
+		+ "</td></tr><tr>";
+	for(var i=1;i<=12;i++){
+		if(i%4==1 && i>1) str += "</tr><tr>";
+		str += "<td>" + writeMonth(someyear,i) + "</td>";
+	}
+	str+="</tr></table></form>";
+	document.all["div1"].innerHTML = str;
+}
+function b1(node){
+	node.style.color = "red";
+}
+function b2(node){
+	node.style.color = "darkgreen";
+}
+function fillZero(s){
+	var a = parseInt(s);
+	if(isNaN(a)) return s;
+	if(a < 10) return "0" + a;
+	return s;
+}
+</script>
+</head>
+<body bgcolor="#ffffff" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onselectstart="javascript:return false;">
+<div id="div1"></div>
+<script language="javascript">writeMonths(gotoyear);</script>
+</body>
+<script language="javascript">
+function getsomedate(node){
+	var str1 = node.v1 + "-" + fillZero(node.v2)+ "-" + fillZero(node.v3);
+	window.returnValue = str1;
+	window.close();
+}
+</script>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        function form1(){
+//            var username = document.getElementById("username");
+            var username = document.all.form1.username.value;
+            alert(username);
+        }
+        function form2(){
+            document.all.submit();
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" action="1.js">
+        <input type="text" name="username" id="username" value="belong"/><br>
+        <input type="password" name="password" id="password" value="belong"/><br>
+        <input type="button" value="提交" onclick="form2()"/><br>
+    </form>
+
+</body>
+</html>

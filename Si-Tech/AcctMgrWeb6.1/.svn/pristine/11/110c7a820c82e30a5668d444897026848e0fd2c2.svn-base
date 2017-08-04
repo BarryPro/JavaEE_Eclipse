@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="tt_wgroupinvoice">
+
+	<typeAlias alias="TtWgroupInvoice" type="com.sitech.acctmgr.atom.domains.invoice.TtWgroupinvoice"/>
+
+	<select id="qGroupInvoice" parameterClass="Map" resultClass="TtWgroupInvoice">
+		SELECT S_INVOICE_NUMBER sInvoiceNumber,
+		E_INVOICE_NUMBER eInvoiceNumber,
+		INVOICE_NUMBER invoiceNumber,
+		INVOICE_CODE invoiceCode,
+		REGION_CODE regionCode,
+		DISTRICT_CODE districtCode,
+		LOGIN_NO loginNo,
+		TO_CHAR(OP_TIME, 'YYYYMMDD') opTime,
+		YEAR_MONTH yearMonth,
+		FLAG flag,
+		GROUP_ID groupId
+		FROM TT_WGROUPINVOICE
+		WHERE REGION_CODE = #REGION_CODE#
+		AND INVOICE_CODE = #INVOICE_CODE#
+		AND DISTRICT_CODE = #DISTRICT_CODE#
+		AND FLAG='N'
+		<dynamic>
+			<isNotEmpty prepend="" property="GROUP_ID">
+				AND GROUP_ID = #GROUP_ID#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="insGroupInvoice" parameterClass="TtWgroupInvoice">
+		INSERT INTO	TT_WGROUPINVOICE
+		(LOGIN_ACCEPT,
+		S_INVOICE_NUMBER,
+		E_INVOICE_NUMBER,
+		INVOICE_NUMBER,
+		INVOICE_CODE,
+		REGION_CODE,
+		DISTRICT_CODE,
+		LOGIN_NO,
+		OP_TIME,
+		YEAR_MONTH,
+		FLAG,
+		GROUP_ID)
+		values
+		(#loginAccept#,
+		#sInvoiceNumber#,
+		#eInvoiceNumber#,
+		#invoiceNumber#,
+		#invoiceCode#,
+		#regionCode#,
+		#districtCode#,
+		#loginNo#,
+		SYSDATE,
+		#yearMonth#,
+		#flag#,
+		#groupId#)
+	</insert>
+	
+</sqlMap>

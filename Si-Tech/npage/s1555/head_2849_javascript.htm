@@ -1,0 +1,48 @@
+<script language=javascript>
+<!--
+function doProcess(packet)
+{
+	var vRetPage=packet.data.findValueByName("rpc_page");
+	if(vRetPage=="phoneqry"){
+	  var vCustName = packet.data.findValueByName("cust_name");
+	  var vIdiccid = packet.data.findValueByName("id_iccid");
+	  var vIdAddress = packet.data.findValueByName("id_address");
+	  var vReturnCode  = "999999";
+	  vReturnCode = packet.data.findValueByName("return_code");
+	  var vReturnMsg = packet.data.findValueByName("return_msg");
+	  var vCustPasswd = packet.data.findValueByName("cust_passwd");
+	  
+		if(vReturnCode == "000000"){
+			document.all.cust_name.value = vCustName;
+	  	document.all.id_iccid.value = vIdiccid;
+	  	document.all.id_address.value = vIdAddress;
+	  	document.all.con_user_passwd.value = vCustPasswd;
+     	document.frm.confirm.disabled = false;
+		 	return true; 
+		}else{
+			rdShowMessageDialog(vReturnMsg);
+		 	document.all.phone_no.focus();
+		 	document.all.confirm.disabled = true;
+		 	return false;
+	 }
+  }
+}
+
+
+ function showPrtDlg(printType,DlgMessage,submitCfm,varPrintInfo)
+ {  //显示打印对话框 
+ 		var h=150;
+ 		var w=350;
+ 		var t=screen.availHeight/2-h/2;
+ 		var l=screen.availWidth/2-w/2;
+ 		
+ 		var printStr = printInfo(varPrintInfo);
+ 		var prop="dialogHeight:"+h+"px; dialogWidth:"+w+"px; dialogLeft:"+l+"px; dialogTop:"+t+"px;toolbar:no; menubar:no; scrollbars:yes; resizable:no;location:no;status:no;help:no"; 
+ 		var path = "<%=request.getContextPath()%>/page/innet/hljPrint.jsp?DlgMsg=" + DlgMessage;
+ 		var path = path + "&printInfo=" + printStr + "&submitCfm=" + submitCfm;
+ 		var ret=window.showModalDialog(path,"",prop);
+ 		return ret;    
+ }
+
+//-->
+</script>

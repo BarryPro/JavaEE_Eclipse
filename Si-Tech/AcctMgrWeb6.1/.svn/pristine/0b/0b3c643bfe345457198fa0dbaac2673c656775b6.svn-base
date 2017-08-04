@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="location_code_info">
+    <typeAlias type="com.sitech.acctmgr.atom.domains.query.LocationCodeEntity" alias="LocationCodeEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="LocationCodeEntity">
+		select flag_code flagCode,
+		visit_area_code visitAreaCode,
+		lac_code lacCode,
+		cell_id cellId,
+		to_char(begin_date, 'yyyy-mm-dd') beginDate,
+		to_char(end_date, 'yyyy-mm-dd') endDate, 
+		note
+		from location_code_Info
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="LAC_CODE">
+				LAC_CODE=#LAC_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CELL_ID">
+				CELL_ID=#CELL_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FLAG_CODE">
+				FLAG_CODE=#FLAG_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

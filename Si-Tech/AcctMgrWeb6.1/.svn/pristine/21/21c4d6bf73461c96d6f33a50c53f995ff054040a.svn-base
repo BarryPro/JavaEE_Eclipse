@@ -1,0 +1,288 @@
+package com.sitech.acctmgr.atom.entity.inter;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.pub.PubBillCtrlEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubCodeDictEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubDbrouteConfEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubWrtoffCtrlEntity;
+import com.sitech.acctmgr.net.ServerInfo;
+
+/**
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ *
+ * @author
+ * @version 1.0
+ */
+public interface IControl {
+
+	/**
+	 * 取出账标志和出账时间
+	 *
+	 * @param 无
+	 * @return WRTOFF_FLAG：出账标志，0：正常 1：出账<br/>
+	 *         WRTOFF_MONTH：出账年月，只有WRTOFF_FLAG为1时才有效 @
+	 */
+	PubWrtoffCtrlEntity getWriteOffFlagAndMonth();
+
+	/**
+	 * 名称：取公共配置表pub_codedef_dict中CODE_VALUE信息
+	 *
+	 * @param group_id
+	 * @param codeClass
+	 * @param codeId
+	 * @return String codeValue
+	 * @author qiaolin
+	 */
+	String getPubCodeValue(long lCodeClass, String codeId, String groupId);
+	
+	/**
+	 * 名称：取公共配置表pub_codedef_dict中CODE_VALUE信息
+	 *
+	 * @param group_id
+	 * @param codeClass
+	 * @param codeId
+	 * @return String codeValue
+	 * @author qiaolin
+	 */
+	String getPubCodeValue(long lCodeClass, String codeId, String groupId, boolean throwFlag);
+
+	/**
+	 * 名称：取公共开关配置表CCT_BUSINESS_CTRL中CTRL_FLAG信息
+	 *
+	 * @param ctrlNo
+	 * @param opCode
+	 * @param regionId
+	 *            ,如果不限制到地市则传null
+	 * @return String ctrlFlag
+	 * @author qiaolin
+	 */
+	String getCctCtrlFlag(String ctrlNo, String opCode, String regionId);
+
+	/**
+	 * 名称：客户名称模糊化、敏感信息加解密（敏感信息包括客户证件、名称、地址等敏感信息）
+	 *
+	 * @param IN_DATA
+	 *            名称
+	 * @param IN_TYPE
+	 *            操作类型(0_敏感信息加密, 1_敏感信息解密, 2_客户名称模糊化)
+	 * @return @
+	 * @author xiongjy
+	 */
+	String pubEncryptData(String inName, int inType);
+
+	/**
+	 * 名称：除客户名称外其他模糊化、三户密码加解密
+	 *
+	 * @param IN_DATA
+	 *            名称
+	 * @param IN_TYPE
+	 *            操作类型(0_三户密码加密, 1_三户密码解密, 2_除客户名称外其他模糊化)
+	 * @param blurType
+	 *            模糊类型(2：邮件地址;3：护照号码和军官证;4：身份证号码;5、其他证件;6：银行账号;7：证件、联系、家庭、单位地址和工作单位名称;8：手机号码)
+	 * @return @
+	 * @author xiongjy
+	 */
+	String pubNomalEncryptData(String inName, int inType, int blurType);
+
+	/**
+	 * 名称：获取序列
+	 *
+	 * @param 入参String型序列名称
+	 *            ，例如： SEQ_PAY_SN
+	 * @return long型序列值
+	 * @author qiaolin
+	 */
+	long getSequence(String seqName);
+
+	/**
+	 * 名称：取公共配置表pub_codedef_dict信息
+	 *
+	 * @param CODE_CLASS
+	 * @param CODE_ID
+	 * @param GROUP_ID
+	 * @param STATUS
+	 * @return String CODE_COMP
+	 * @author LIJXD
+	 */
+	List<PubCodeDictEntity> getPubCodeList(Long codeClass, String codeId, String groupId, String status);
+	
+	/**
+	 * 名称：取公共配置表pub_codedef_dict信息
+	 *
+	 * @param CODE_CLASS
+	 * @param CODE_ID
+	 * @param GROUP_ID
+	 * @param STATUS
+	 * @param CODE_VLAUE
+	 * @return String CODE_COMP
+	 * @author liuyc_billing
+	 */
+	List<PubCodeDictEntity> getPubCodeList(Long codeClass, String codeId, String groupId, String status,String codeValue);
+
+
+	/**
+	 * 名称：取缴费限额
+	 *
+	 * @param opCode
+	 *            , regionId:传0不进行地市级别限制, opType ：普通缴费传PTJF ,不限制地市 地市可以传入0
+	 * @return fee : 最大缴费限额
+	 * @author qiaolin
+	 */
+	long getLimitFee(String opCode, Long reginId, String opType);
+
+	/**
+	 * 名称：获取开关
+	 *
+	 * @return
+	 * @author yankma
+	 */
+	PubBillCtrlEntity getPubBillCtrl();
+
+	/**
+	 * 名称：获取支付方式名称(251)、账户性质(3969)
+	 *
+	 * @param paraId
+	 * @param paraTypeId
+	 *            查询类型:251支付方式 3969账户性质
+	 * @return
+	 * @author xiongjy
+	 */
+	String getParaTypeName(String paraId, Integer paraTypeId);
+
+	/**
+	 * 名称：判断是否是在线计费
+	 *
+	 * @param sIdType
+	 *            查询类型，取值 1 用户；2：账户；3：客户
+	 * @param id
+	 *            查询号码
+	 * @author
+	 */
+	boolean isOnLineBill(String sIdType, long id);
+
+	/**
+	 * 功能：判断是否是在线计费
+	 *
+	 * @param sIdType
+	 * @param id
+	 * @param sAppName
+	 * @return true:在线计费； false:离线计费
+	 */
+	boolean isOnLineBill(String sIdType, long id, String sAppName);
+
+	/**
+	 * 名称：渠道DES加密和解密 方法
+	 *
+	 * @param inData
+	 *            名称
+	 * @param inType
+	 *            操作类型(0_加密, 1_解密)
+	 * @param channelId
+	 *            渠道
+	 * @author qiaolin
+	 */
+	String pubDesForChannel(String inData, String inType, String channelId);
+
+	/**
+	 * 名称：查询缴费渠道名称
+	 *
+	 * @param sPaypath
+	 * @return PATH_NAME
+	 * @author zhangbine
+	 */
+	String getPaypathName(String sPaypath);
+
+	/**
+	 * 名称：获取数据库时间
+	 *
+	 * @return CUR_TIME : 当前时间YYYYMMDDHH24MISS
+	 * @author qiaolin
+	 */
+	Map<String, Object> getSysDate();
+
+	/**
+	 * 名称：获取ID_NO或CONTRACT_NO数据库标签
+	 *
+	 * @param idType
+	 *            查询类型：1 用户 2 账户
+	 * @param id
+	 *            idType=1 :ID_NO ; idType=2 : CONTRACT_NO; idType=3 : CUST_ID
+	 * @return PubDbrouteConfEntity
+	 * @author qiaolin
+	 */
+	PubDbrouteConfEntity getConOrUserDb(String idType, long id);
+
+	/**
+	 * 功能：调用计费接口时路由信息获取
+	 *
+	 * @param phoneHead
+	 * @param appType
+	 *            路由业务类型，取值“FREEMINQRY”、“DETAILQRY”等
+	 * @return
+	 */
+	ServerInfo getPhoneRouteConf(String phoneHead, String appType);
+
+	/**
+	 * 名称：根据账户id,用户id,客户id获取省份代码
+	 * 
+	 * @param id
+	 * @return 省份代码
+	 */
+	public String getProvinceId(long id);
+
+	/**
+	 * 名称：获取统一代码配置表记录数
+	 * 
+	 * @param inMap
+	 * @return 记录数
+	 */
+	public int getCntPubCodeDict(Map<String, Object> inMap);
+
+	/**
+	 * 名称：获取缴费方式名称
+	 * 
+	 * @author liuhl_bj
+	 * @param payMethod
+	 * @return
+	 */
+	String getPayMethodName(String payMethod);
+
+	/**
+	 * 名称：取营销送费规则信息
+	 * @param	sRuleId
+	 * @return	List
+	 * @author qiaolin
+	 */
+	 List<Map<String, Object>> getReturnrel(String sRuleId);
+	
+	/**
+	 * 名称：取营销送费子规则信息
+	 * @param	sChildRel
+	 * @return	List
+	 * @author qiaolin
+	 */
+	Map<String, Object> getChildrule(String sChildRel);
+	
+	/**
+	 * 名称：获取几个月后最后一天
+	 * @param   curMonth		: 当前年月
+	 * @param	ADD_MONTH		: 几个月后
+	 * @return  几个月后最后一天
+	 * @author qiaolin
+	 */
+	String getLastDay(String curMonth, int addMonth);
+	
+}

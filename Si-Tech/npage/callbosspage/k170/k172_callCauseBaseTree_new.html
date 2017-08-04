@@ -1,0 +1,338 @@
+<HTML>  
+	<!--左边的树 -->  
+	<head>
+		 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />	
+		 <META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+	</head>	
+<STYLE type=text/css>TD {
+	FONT-SIZE: 9pt; FONT-FAMILY: "宋体"
+}
+BODY {
+	FONT-SIZE: 9pt; FONT-FAMILY: "宋体"
+}
+SELECT {
+	FONT-SIZE: 9pt; FONT-FAMILY: "宋体"
+}
+A {
+	FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: "宋体"; TEXT-DECORATION: none
+}
+A:hover {
+	FONT-SIZE: 9pt; COLOR: #ff0000; FONT-FAMILY: "宋体"; TEXT-DECORATION: underline
+}
+</STYLE>  
+<link href="/nresources/default/css/FormText.css" rel="stylesheet" type="text/css"></link>
+<SCRIPT language=javascript src="/npage/callbosspage/k170/tree/js/foldernav_main.js"></SCRIPT>
+<script type="text/javascript" src="/njs/extend/prototype/prototype.js"></script>	
+<!--modify wangyong 20090817 修改引入js，替换成吉林本地使用-->
+<script src="/njs/extend/jquery/jquery123_pack.js" type="text/javascript"></script>  
+<script src="/njs/si/core_sitech_pack.js" type="text/javascript"></script>
+<!--script type="text/javascript" src="/njs/si/core_sitech_pack_new.js"></script-->	
+<script type="text/javascript" src="/njs/redialog/redialog.js"></script>
+<script language="JavaScript" src="/njs/si/validate_pack.js"></script>
+<BODY>   
+ <form name="form2" method="POST" action="">	        
+
+
+<DIV id='mainDiv'>
+
+</DIV>
+      <input type="hidden" name="strFlag" id="strFlag" value="">
+      <input type="hidden" name="contactId" id="contactId" value="">
+      <input type="hidden" name="contactMonth" id="contactMonth" value="">  
+      <input type="hidden" name="strId" id="strId" value=""> 		
+        
+ </form>
+</BODY>        
+</html>  
+ <SCRIPT type=text/javascript> 
+ 	if(parent.opener.cCcommonTool!=undefined)
+ 	parent.opener.cCcommonTool.DebugLog("javascript *** k172_callCauseBaseTree_new.jsp begin");
+ function setOpenPreFolder(node_id){
+ 	  	if(node_id!='0'){
+ 				parent.temp_callCauseNode_=node_id;
+ 	  	}else{
+ 	  		parent.temp_callCauseNode_='';
+ 	  	}	
+ 	}
+
+//座席单击来电原因，取得对应流水数据
+ function findContactInfo()
+ { 
+ 	   if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript *** findContactInfo begin");
+     var contactId="";
+     var contactMonth="";
+     var strFlag='';
+    
+     if(strFlag==9){//9表示未保存来电原因的流水。
+     contactId='';
+     contactMonth='';
+     }
+     else{
+      contactId=parent.document.getElementById("contactId").value; 
+      contactMonth = parent.document.getElementById("contactMonth").value;
+     }
+     
+    var mypacket = new AJAXPacket("/npage/callbosspage/k170/k170_selectCause.jsp","\u6b63\u5728\u5904\u7406,\u8bf7\u7a0d\u540e...");
+    mypacket.data.add("strContactId",contactId);
+    mypacket.data.add("strContactMonth",contactMonth);
+	  core.ajax.sendPacket(mypacket,doFindContactInfo,true);
+	  mypacket=null;  
+	  if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript *** findContactInfo end");
+ }
+ //findContactInfo回掉函数
+ function doFindContactInfo(packet)
+ {
+ 	   if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript  doFindContactInfo begin");
+     var call_cause_id= packet.data.findValueByName("call_cause_id");
+     var callcausedescs =packet.data.findValueByName("callcausedescs"); 
+     var remarkInfo =   packet.data.findValueByName("remarkInfo"); 
+     
+   // alert(call_cause_id);
+    //alert(callcausedescs);
+    // alert(remarkInfo);
+     if(call_cause_id!=null ||call_cause_id!=''||callcausedescs!=null ||call_cause_id!='')
+     { 
+        insertShowName(call_cause_id,callcausedescs,remarkInfo);
+     }
+     
+     iniNode_import();
+     if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript  doFindContactInfo end");
+     
+ }	
+ 
+// 取消所有的checkbox选中
+function unCheckBoxBySelect(){
+		var checkBoxItems = document.getElementsByTagName("input");
+
+   	
+		for(var i=0;i<checkBoxItems.length;i++){
+				if(checkBoxItems[i].type=='checkbox'&&checkBoxItems[i].checked==true){
+						checkBoxItems[i].checked=false;
+				}
+		}
+	
+		 
+	}
+     
+
+
+function insertShowName(call_cause_id,callcausedescs,remarkInfo)
+{
+  parent.document.getElementById("node_Id").value=call_cause_id;
+  parent.document.getElementById("my_div").innerHTML=callcausedescs;
+  var arr = parent.document.getElementsByTagName("span");
+  //alert(arr.length);
+  //alert("1");
+  var mynodename = "";
+  for(var i=0;i<arr.length;i++){
+  		var name = arr[i].innerHTML;
+ 			name = name.replace("&lt;","");
+ 			name = name.replace("&gt;","");
+ 			name = name.replace("<BR>","");
+ 			mynodename = mynodename+","+name;
+  }
+  parent.show_Name.value=mynodename;
+  //parent.document.getElementById("show_Name").value=callcausedescs;
+  var strFlag='';
+  if(strFlag==9){
+		   parent.document.getElementById("node_Name").value="";
+		   parent.document.getElementById("remarkInfo").value="";
+		   if(parent.document.frames["myFrame3"].window){
+		   	parent.document.frames["myFrame3"].window.unCheckBoxBySelect();
+		   }
+   
+   }
+   else{
+   
+		   parent.document.getElementById("remarkInfo").value=remarkInfo;
+		   
+		   //alert(mynodename);
+		   var arrid =call_cause_id.split(",");
+		   var arrname = mynodename.split(",");
+		   for(var i=0;i<arrid.length;i++){
+		   		
+		   		var myid = arrid[i];
+		   		var myname =arrname[i];
+		   		//alert(myid);
+		   		if(myid!=""){
+		   				parent.document.getElementById("select_Name").options.add(new Option(myname,myid));
+		   		}
+		   }
+		   //alert(mynodename);
+		   parent.document.getElementById("node_Name").value=mynodename;
+   }
+}
+
+
+//判断一个字符串是否在数组中出现
+function isStr(strtreeData,str){
+	if(str!=null){
+			  for(var j=0;j<str.length;j++){
+     	if(strtreeData==str[j]){
+     		return true;
+     		}
+		}
+}  
+   	return false;
+	}   
+	
+	/*
+	*判断节点ID是否在选中的集合中
+	*/
+	function isInShowName(node_id){
+	
+	 var els =parent.document.getElementsByTagName("span");
+	 if(els==null||els==undefined)return false;
+	 for(var i=0;i<els.length;i++){
+	   if(els[i].id==node_id){
+	     return true;
+	   }
+	 }
+	 return false;
+	}
+	//满足查询条件的树
+	function selectInfo(selectName)
+	{      
+          Window.open("/npage/callbosspage/k170/k172_callCauseNewTree.jsp?caption="+selectName,"myFrame2");
+	  
+	}
+	function img1Click(par_id){
+		changeColor(par_id);
+		var pardiv=document.getElementById('m'+par_id+'span');
+		//针对非叶子节点，打开加载数据
+		if(pardiv.is_Leaf=='0'){
+			setOpenPreFolder(par_id);
+			//节点层数的限制
+			if(pardiv.nodeLevel<=leftTreeMaxLevel){
+				if(pardiv.isOpen=='0'){
+					if(pardiv.hasLoad=='0'){
+						getChildren(par_id);
+						pardiv.isOpen='1';
+						//pardiv.hasLoad='1';
+						hideOrShow_(par_id);
+			  	}else{
+			  		pardiv.isOpen='1';
+			  		hideOrShow_(par_id);	
+			  		if(par_id=='07'){
+  	 					var spandiv_ = document.getElementById('img'+par_id+'f');
+  	 					spandiv_.scrollIntoView();
+  					}  	   	  	
+			  	}
+		 	 	}else{		  		
+		  		pardiv.isOpen='0';
+		  		hideOrShow_(par_id);
+		  	}
+			}else{
+				window.open("/npage/callbosspage/k170/k172_callCauseBaseLeaveTree_new.jsp?nodeId="+par_id+"&fullname="+pardiv.fullName+"&isleaf="+pardiv.is_Leaf+"&selectPara=6","myFrame3");	
+			}
+		}else{
+				window.open("/npage/callbosspage/k170/k172_callCauseBaseLeaveTree_new.jsp?nodeId="+par_id+"&fullname="+pardiv.fullName+"&isleaf="+pardiv.is_Leaf+"&selectPara=2","myFrame3");
+			}	
+	}
+	function img2Click(par_id){
+		img1Click(par_id);
+	}
+	function spanClick(par_id){
+		if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript *** spanClick begin");
+		changeColor(par_id);
+		var pardiv=document.getElementById('m'+par_id+'span');
+		//针对非叶子节点，打开加载数据
+		if(pardiv.is_Leaf=='0'){
+			setOpenPreFolder(par_id);
+			//节点层数的限制
+			if(pardiv.nodeLevel<=leftTreeMaxLevel){
+				if(pardiv.isOpen=='0'){
+					if(pardiv.hasLoad=='0'){
+						
+						getChildren(par_id);
+						pardiv.isOpen='1';
+						//pardiv.hasLoad='1';
+						hideOrShow_(par_id);
+			  	}else{
+			  		pardiv.isOpen='1';
+			  		hideOrShow_(par_id);
+			  		//20090605 jiangbing	
+			  		if(par_id=='07'){
+  	 					var spandiv_ = document.getElementById('img'+par_id+'f');
+  	 					spandiv_.scrollIntoView();
+  					}  	  	
+			  	}
+			  	
+		 	 	}else{		  		
+		  		pardiv.isOpen='0';
+		  		hideOrShow_(par_id);
+		  	}
+			}else{
+				window.open("/npage/callbosspage/k170/k172_callCauseBaseLeaveTree_new.jsp?nodeId="+par_id+"&fullname="+pardiv.fullName+"&isleaf="+pardiv.is_Leaf+"&selectPara=6","myFrame3");	
+			}
+		}else{
+				window.open("/npage/callbosspage/k170/k172_callCauseBaseLeaveTree_new.jsp?nodeId="+par_id+"&fullname="+pardiv.fullName+"&isleaf="+pardiv.is_Leaf+"&selectPara=2","myFrame3");
+			}	
+			if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript *** spanClick end");
+	}
+	
+	function spandblClick(par_id){
+		changeColor(par_id);
+		var pardiv=document.getElementById('m'+par_id+'span');
+		if(pardiv.is_Leaf=='0'){
+				if(pardiv.isOpen=='1'){
+						pardiv.isOpen='0';
+		  		  hideOrShow_(par_id);
+		 	 	}			
+		}
+	}
+  function doOpen(){
+  	    var strId = '';
+		    openLeftTree('0','2',leftTreeMaxLevel,strId,'1','1');
+		}
+	function iniNode_import(){
+		if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript *** iniNode_import begin");
+ 	   setTimeout("iniRootNodes('mainDiv','0','1','0','1')",100);
+		if(parent.opener.cCcommonTool!=undefined)
+ 	   parent.opener.cCcommonTool.DebugLog("javascript *** iniNode_import end");
+	}
+	window.onload = function(){
+		var firstInitree = '1';
+		if(firstInitree=='1'){
+		   setTimeout('findContactInfo()',100);
+		 }else{
+		 		iniNode_import();
+		 }
+	}
+
+	if(parent.opener.cCcommonTool!=undefined)
+ 	parent.opener.cCcommonTool.DebugLog("javascript *** k172_callCauseBaseTree_new.jsp end");
+
+
+	//F8挂机
+    function keydown_release(){
+			  if (window.event.keyCode==119){
+			     //使用F8键挂机
+			     if(parent.opener.document.getElementById('K013') != undefined){
+			      
+			      parent.opener.document.getElementById('K013').click();//子窗体
+			     
+			     } 
+			     event.returnValue=false;
+			  }
+			}
+
+    var obj = document.getElementsByTagName("body");
+
+		if(window.addEventListenner){
+		  obj[0].addEventListenner("keydown",keydown_release,false);
+		}
+		else
+		 obj[0].attachEvent("onkeydown",keydown_release);
+
+</SCRIPT>        
+
+   
+      

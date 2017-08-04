@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_bosstocrmstate_INT">
+  
+  <select id="qRunCodeByBossNewRun" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT a.RUN_CODE REAL_RUN_CODE ,b.CRM_RUN_CODE CRM_RUN_CODE
+    FROM   UR_BOSSTOCRMSTATE_INFO b,CS_RUNCODE_COMPRULE_DICT a
+    WHERE  trim(a.CRM_RUN_CODE)=trim(b.CRM_RUN_CODE)
+    AND    trim(a.BOSS_RUN_CODE)=#BOSS_NEW_RUN#
+    AND    b.ID_NO=#ID_NO#
+  </select>
+  
+  <select id="qBossRunCodeByIdNo" maxRows="1000"  parameterClass="Map" resultClass="java.lang.String">
+    SELECT BOSS_RUN_CODE
+    FROM   UR_BOSSTOCRMSTATE_INFO 
+    WHERE  ID_NO=#ID_NO#
+  </select>
+  
+  <update id="uBossToCrmStateByIdNo" parameterClass="Map">
+    UPDATE UR_BOSSTOCRMSTATE_INFO SET
+    LOGIN_ACCEPT=#OPT_SN#,
+    OP_CODE=#OPT_CODE#,
+    BOSS_RUN_CODE=#RUN_CODE#,
+    BOSS_RUN_TIME=TO_DATE(#BOSS_NEW_TIME#,'YYYYMMDDHH24MISS'),
+    RUN_CODE=#REAL_RUN_CODE#,
+    LOGIN_NO=#LOGIN_NO#,
+    OP_TIME=sysdate 
+    WHERE ID_NO=#ID_NO#
+  </update>
+  
+  <update id="uTwoRunCodeByCrmRunCode" parameterClass="Map">
+	UPDATE UR_BOSSTOCRMSTATE_INFO SET 
+	    RUN_CODE=#REAL_RUN_CODE#,
+		BOSS_RUN_CODE='A',
+		BOSS_RUN_TIME=TO_DATE(#BOSS_NEW_TIME#,'YYYYMMDDHH24MISS'),
+		CRM_RUN_CODE='A',
+		CRM_RUN_TIME=TO_DATE(#BOSS_NEW_TIME#,'YYYYMMDDHH24MISS'),
+	    LOGIN_ACCEPT=#OPT_SN#,
+	    OP_CODE=#OPT_CODE#,
+	    LOGIN_NO=#LOGIN_NO#,
+	    OP_TIME=sysdate 
+	WHERE ID_NO=#ID_NO#
+  </update>
+  
+  <insert id="iBossToCrmStateByNewIdNo" parameterClass="Map">
+  INSERT INTO UR_BOSSTOCRMSTATE_INFO( 
+		ID_NO,
+		OPT_SN,
+		OPT_CODE,
+		CRM_RUN_CODE,
+		CRM_RUN_TIME,
+		BOSS_RUN_CODE,
+		BOSS_RUN_TIME,
+		RUN_CODE,
+		LOGIN_NO,
+		OP_TIME,
+		REMARK)
+VALUES(
+		#ID_NO#,
+		#OPT_SN#,
+		#OPT_CODE#,
+		#CRM_RUN_CODE#,
+		TO_DATE(#CRM_RUN_TIME#,'YYYYMMDDHH24MISS'),
+		'A',
+		TO_DATE(#BOSS_RUN_TIME#,'YYYYMMDDHH24MISS'),
+		#RUN_CODE#,
+		#LOGIN_NO#,
+		TO_DATE(#OP_TIME#,'YYYYMMDDHH24MISS'),
+		'REMARK')
+  </insert>
+    
+  <delete id="dBtcstateInfoByIdNo" parameterClass="Map">
+	DELETE FROM UR_BOSSTOCRMSTATE_INFO
+	 WHERE ID_NO=#ID_NO#
+  </delete>
+    
+</sqlMap>

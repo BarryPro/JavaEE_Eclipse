@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_batchadj">
+	<typeAlias alias="batchAdjInfo"	type="com.sitech.acctmgr.atom.domains.adj.BatchAdjInfoEntity" />
+	<typeAlias alias="batchAdjErr" type="com.sitech.acctmgr.atom.domains.adj.BatchAdjErrEntity" />
+
+	<insert id="iBatchAdj" parameterClass="batchAdjInfo">
+		INSERT INTO
+		BAL_BATCHADJ_INFO
+		(BATCH_SN,LOGIN_ACCEPT,CONTRACT_NO,ID_NO,PHONE_NO,BILL_CYCLE,ACCT_ITEM_CODE
+		,PAY_TYPE,SHOULD_PAY,FAVOUR_FEE,LOGIN_NO,OP_TIME,REMARK,DEAL_TYPE,BALANCE_TYPE)
+		VALUES
+		(#batchSn#,#loginAccept#,#contractNo#,#idNo#,#phoneNo#,#billCycle#,#acctItemCode#
+		,#payType#,#shouldPay#,#favourFee#,#loginNo#,SYSDATE,#remark#,#dealType#,#balanceType#)
+	</insert>
+
+	<insert id="iBatchAdjErr" parameterClass="batchAdjErr">
+		INSERT INTO
+		BAL_BATCHADJ_ERR
+		(BATCH_SN,LOGIN_ACCEPT,CONTRACT_NO,ID_NO,PHONE_NO,BILL_CYCLE,ACCT_ITEM_CODE
+		,PAY_TYPE,SHOULD_PAY,FAVOUR_FEE,LOGIN_NO,OP_TIME,REMARK,ERR_CODE,ERR_MSG,INSERT_TIME,ERR_TYPE
+		,DEAL_TYPE,BALANCE_TYPE)
+		VALUES
+		(#batchSn#,#loginAccept#,#contractNo#,#idNo#,#phoneNo#,#billCycle#,#acctItemCode#
+		,#payType#,#shouldPay#,#favourFee#,#loginNo#,SYSDATE,#remark#,#errCode#,#errMsg#,SYSDATE,#errType#,#dealType#,#balanceType#)
+	</insert>
+
+
+</sqlMap>

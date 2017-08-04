@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_loginopr_info">
+
+   <typeAlias alias="BalLoginoprInfo" type="com.sitech.acctmgr.atom.domains.record.LoginOprEntity"/>
+   <insert id= "iLoginOpr"  parameterClass="BalLoginoprInfo" >
+	 insert into  BAL_LOGINOPR_INFO  (LOGIN_SN, LOGIN_NO, LOGIN_GROUP, TOTAL_DATE,ID_NO,PHONE_NO
+		,BRAND_ID,PAY_TYPE, PAY_FEE, OP_CODE,OP_TIME,REMARK) 
+	VALUES (#loginSn#,#loginNo#,#loginGroup#,#totalDate#,#idNo#,#phoneNo#,#brandId#
+		,#payType#,#payFee#,#opCode#, sysdate,#remark#)
+  </insert>
+  
+  <insert id="iForRoback"  parameterClass="Map" >
+    INSERT INTO BAL_LOGINOPR_INFO (LOGIN_SN,LOGIN_NO,LOGIN_GROUP,TOTAL_DATE,ID_NO,
+      PHONE_NO,BRAND_ID,PAY_TYPE,PAY_FEE,OP_CODE,OP_TIME,REMARK)
+    SELECT #PAY_BACK_SN#, #LOGIN_NO#, #GROUP_ID#, #TOTAL_DATE#,ID_NO,
+      PHONE_NO,BRAND_ID,PAY_TYPE,(-1)*PAY_FEE, #OP_CODE#,SYSDATE, #OP_NOTE#
+      FROM BAL_LOGINOPR_INFO WHERE  LOGIN_SN= #LOGIN_SN#
+      AND TO_CHAR(OP_TIME,'YYYYMM') = #SUFFIX#
+  </insert>
+  
+    
+  <select id="queryOneId"  parameterClass="Map" resultClass="java.lang.Long">
+  	SELECT ID_NO FROM BAL_LOGINOPR_INFO 
+  	WHERE LOGIN_SN=#LOGIN_SN# 
+  	  AND TO_CHAR(OP_TIME,'YYYYMM') = #SUFFIX#
+  	  AND TOTAL_DATE=#TOTAL_DATE# 
+  	  AND OP_CODE=#OP_CODE# AND ROWNUM=1
+  </select>
+
+	<select id="qLoginOpr" parameterClass="Map" resultClass="BalLoginoprInfo">
+		SELECT LOGIN_SN loginSn,
+		LOGIN_NO loginNo,
+		LOGIN_GROUP loginGroup,
+		TOTAL_DATE totalDate,
+		ID_NO idNo,
+		PHONE_NO phoneNo,
+		BRAND_ID brandId,
+		PAY_TYPE payType,
+		PAY_FEE payFee,
+		OP_CODE opCode,
+		TO_CHAR(OP_TIME,'YYYY-MM-DD HH24:MI:SS') opTime,
+		REMARK remark
+		FROM BAL_LOGINOPR_INFO
+		WHERE TO_CHAR(OP_TIME, 'YYYYMM') = #SUFFIX#
+		AND LOGIN_SN = #LOGIN_ACCEPT#
+	</select>
+  
+</sqlMap>

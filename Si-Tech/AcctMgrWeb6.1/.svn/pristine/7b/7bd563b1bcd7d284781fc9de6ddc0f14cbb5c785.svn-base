@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 	        
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 服务层注册Bean -->
+
+	<!-- 调账类服务实现层 -->
+	
+	<!-- 单个号码费用补收 -->
+	<bean id="8010Svc" class="com.sitech.acctmgr.atom.impl.adj.S8010">
+		<property name="control" ref="controlEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="writeOffer" ref="writeOfferEnt" />
+		<property name="payOpener" ref="payOpenerEnt" />
+		<property name="adjCommon" ref="adjCommonEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="adj" ref="adjEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+	</bean>
+	
+	<!-- 投诉退费 -->
+	<bean id="8041Svc" class="com.sitech.acctmgr.atom.impl.adj.S8041">
+		<property name="adj" ref="adjEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="writeOffer" ref="writeOfferEnt" />
+		<property name="payOpener" ref="payOpenerEnt" />
+		<property name="adjCommon" ref="adjCommonEnt" />
+		<property name="group" ref="groupEnt"/>
+		<property name="prod" ref="prodEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="payManage" ref="payManageEnt"/>
+		<property name="preOrder" ref="preOrderEnt" />
+	</bean>
+
+	<!-- 投诉退费原因维护 -->
+	<bean id="8292Svc" class="com.sitech.acctmgr.atom.impl.adj.S8292">
+		<property name="adj" ref="adjEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<!-- 飞豆充值 -->
+	<bean id="feiDouPaySvc" class="com.sitech.acctmgr.atom.impl.adj.SFeiDouPay">
+		<property name="user" ref="userEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="adj" ref="adjEnt" />
+		<property name="adjCommon" ref="adjCommonEnt" />
+		<property name="bill" ref="billEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="transFactory" ref="transFactoryEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="payManage" ref="payManageEnt" />
+		<property name="shortMessage" ref="ShortMessageEnt" />
+	</bean>
+
+	<!-- 批量补收 -->
+	<bean id="8011Svc" class="com.sitech.acctmgr.atom.impl.adj.S8011">
+		<property name="adjCommon" ref="adjCommonEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="adj" ref="adjEnt" />
+		<property name="writeOffer" ref="writeOfferEnt" />
+		<property name="payOpener" ref="payOpenerEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="account" ref="accountEnt" />
+	</bean>
+	
+	<!-- GPRS退费 -->
+	<bean id="8054Svc" class="com.sitech.acctmgr.atom.impl.adj.S8054">
+		<property name="control" ref="controlEnt" />
+		<property name="prod" ref="prodEnt" />
+	</bean>
+
+	<!-- 求赠赠与扣费接口 -->
+	<bean id="givenMicroPaySvc" class="com.sitech.acctmgr.atom.impl.adj.SGivenMicroPay">
+		<property name="user" ref="userEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="bill" ref="billEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="adjCommon" ref="adjCommonEnt" />
+		<property name="adj" ref="adjEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="shortMessage" ref="ShortMessageEnt" />
+		<property name="payManage" ref="payManageEnt" />
+	</bean>
+	
+		<!-- 小额支付 -->
+	<bean id="microPaySvc" class="com.sitech.acctmgr.atom.impl.adj.SMicroPay">
+		<property name="adj" ref="adjEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="adjCommon" ref="adjCommonEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="trans" ref="TransAccountEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="bill" ref="billEnt" />
+		<property name="payOpener" ref="payOpenerEnt" />
+	</bean>
+	
+	<!-- 一键退费 -->
+	<bean id="8084Svc" class="com.sitech.acctmgr.atom.impl.adj.S8084">
+		<property name="adj" ref="adjEnt" />
+	</bean>
+
+</beans>

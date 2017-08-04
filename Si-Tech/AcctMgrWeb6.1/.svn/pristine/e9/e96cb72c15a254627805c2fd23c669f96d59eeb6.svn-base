@@ -1,0 +1,12 @@
+package com.sitech.acctmgr.inter.invoice;
+
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+public interface IInvoiceOfBroad {
+  
+	public OutDTO print(InDTO inParam);
+	
+	public OutDTO qryBroadPayInfo(InDTO inParam);
+	
+}

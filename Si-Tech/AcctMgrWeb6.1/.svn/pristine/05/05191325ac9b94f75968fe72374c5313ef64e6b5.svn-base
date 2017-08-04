@@ -1,0 +1,111 @@
+package com.sitech.acctmgr.test.atom.impl.invoice;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.collections.MapUtils;
+import org.junit.Test;
+
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.common.CrossEntity;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.hsf.common.logger.Logger;
+import com.sitech.hsf.common.logger.LoggerFactory;
+import com.sitech.jcfx.dt.MBean;
+
+public class EInvoiceTest {
+	private IControl control;
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	@Test
+	public void test1() {
+		long requestSn = 1111;
+		Map<String, String> outPut = new HashMap<String, String>();
+		// 获取数据交换流水号（唯一） requestCode+8位日期(YYYYMMDD)+9位序列号
+		long changerSn = 111111111;
+		String dataExchangeId = "23" + DateUtils.getCurYm() + changerSn;
+
+		MBean serviceMBean = new MBean();
+		serviceMBean.setBody("terminalCode", "1"); // 终端类型标识代码 0:B/S请求来源 1:C/S请求来源
+		serviceMBean.setBody("appId", "ZZS_PT_DZFP"); // 应用标识 默认为ZZS_PT_DZFP：增值税普通电子发票
+		serviceMBean.setBody("version", "2.0"); // 接口版本 默认为2.0
+		serviceMBean.setBody("interfaceCode", "ECXML.FPKJ.BC.E_INV_SYN"); // 接口编码
+		serviceMBean.setBody("userName", "13310101"); // 平台编码
+		serviceMBean.setBody("password", 64444842); // 密码64444842
+		serviceMBean.setBody("requestCode", "23"); // 各省区域编码 黑龙江23
+		serviceMBean.setBody("requestTime", DateUtils.getCurDate("yyyy-MM-dd HH:mm:ss SSS")); // 数据交换请求发出时间
+		serviceMBean.setBody("taxpayerId", "23001866751050002577"); // 纳税人识别号23001866751050002577
+		serviceMBean.setBody("authorizationCode", "12325610"); // 纳税人授权码
+		serviceMBean.setBody("responseCode", "121"); // 数据交换请求接受方代码,由平台提供，企业调用时为空
+		serviceMBean.setBody("dataExchangeId", dataExchangeId); // 数据交换流水号（唯一） requestCode+8位日期(YYYYMMDD)+9位序列号
+		serviceMBean.setBody("returnCode", "");
+		serviceMBean.setBody("returnMessage", "");
+
+		// 设置content
+		String content = "";
+		serviceMBean
+				.setBody(
+						"content",
+						"<REQUEST_FPKJXX class=\"REQUEST_FPKJXX\">  <FPKJXX_FPTXX class=\"FPKJXX_FPTXX\">    <FPQQLSH>B2017053114091920012</FPQQLSH>    <DSPTBM>13310101</DSPTBM>    <NSRSBH>23001866751050002577</NSRSBH>    <NSRMC>中国移动通信集团黑龙江有限公司牡丹江分公司</NSRMC>    <NSRDZDAH></NSRDZDAH>    <SWJG_DM></SWJG_DM>    <DKBZ>0</DKBZ>    <PYDM></PYDM>    <KPXM>通信业务服务费</KPXM>    <BMB_BBH></BMB_BBH>    <XHF_NSRSBH>91231000766020320D</XHF_NSRSBH>    <XHFMC>中国移动通信集团黑龙江有限公司牡丹江分公司</XHFMC>    <XHF_DZ>牡丹江市西安区爱民街129号</XHF_DZ>    <XHF_DH>0453-6928138</XHF_DH>    <GHFMC>李振斌</GHFMC>    <GHF_NSRSBH></GHF_NSRSBH>    <GHF_DZ></GHF_DZ>    <GHF_SF></GHF_SF>    <GHF_GDDH>13514574622</GHF_GDDH>    <GHF_SJ>13514574622</GHF_SJ>    <GHF_EMAIL></GHF_EMAIL>    <GHFQYLX>03</GHFQYLX>    <GHF_YHZH></GHF_YHZH>    <HY_DM></HY_DM>    <HY_MC></HY_MC>    <KPY>韩丽梅</KPY>    <SKY>韩丽梅</SKY>    <KPRQ></KPRQ>    <KPLX>1</KPLX>    <YFP_DM></YFP_DM>    <YFP_HM></YFP_HM>    <TSCHBZ></TSCHBZ>    <CZDM>10</CZDM>    <QD_BZ>0</QD_BZ>    <QDXMMC></QDXMMC>    <CHYY></CHYY>    <KPHJJE>2.0</KPHJJE>    <HJBHSJE>0.00</HJBHSJE>    <HJSE>2.0</HJSE>    <BZ></BZ>    <BYZD1></BYZD1>    <BYZD2></BYZD2>    <BYZD3></BYZD3>    <BYZD4></BYZD4>    <BYZD5></BYZD5>  </FPKJXX_FPTXX>  <FPKJXX_XMXXS class=\"FPKJXX_XMXX;\" size=\"1\">    <FPKJXX_XMXX>      <XMMC>通信业务服务费</XMMC>      <XMDW></XMDW>      <GGXH></GGXH>      <XMSL>1</XMSL>      <HSBZ></HSBZ>      <FPHXZ>0</FPHXZ>      <XMDJ>2.0</XMDJ>      <SPBM></SPBM>      <ZXBM></ZXBM>      <YHZCBS></YHZCBS>      <LSLBS></LSLBS>      <ZZSTSGL></ZZSTSGL>      <XMJE>2.0</XMJE>      <SL>0</SL>      <SE>0</SE>      <BYZD1></BYZD1>      <BYZD2></BYZD2>      <BYZD3></BYZD3>      <BYZD4></BYZD4>      <BYZD5></BYZD5>    </FPKJXX_XMXX>  </FPKJXX_XMXXS>  <FPKJXX_DDXX class=\"FPKJXX_DDXX\">    <DDH>30000001600581</DDH>    <THDH></THDH>    <DDDATE></DDDATE>  </FPKJXX_DDXX></REQUEST_FPKJXX>");
+		String sEaiServe = "EAI_ElecInvoicePrint_SYN";
+
+
+
+		// 调用CRMPD接口
+		long HXstart = ValueUtils.longValue(DateUtils.getCurDate("yyyyMMddHHmmssSSS"));
+		Map<String, String> EaiResult = CrossEntity.callService(sEaiServe, serviceMBean);
+		log.debug("调用开具请求报文: " + serviceMBean);
+		log.debug("调用开具响应结果: " + EaiResult);
+		long HXend = ValueUtils.longValue(DateUtils.getCurDate("yyyyMMddHHmmssSSS"));
+		log.error("调用航信开始时间--" + HXstart + "--调用航信结束时间--" + HXend + "--调用航信总用时--" + (HXend - HXstart));
+
+		// 对返回报文转码
+		String returnMsgByPd = "";
+		if (EaiResult != null) {
+			try {
+				returnMsgByPd = new String(EaiResult.toString().getBytes("GBK"), "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+				log.error("===> reQuestSn : {},调用开具响应结果:{} " + EaiResult);
+				MapUtils.safeAddToMap(outPut, "RETURN_CODE", "0001");
+				MapUtils.safeAddToMap(outPut, "RETURN_MSG", "开具失败，航信返回报文异常");
+				MapUtils.safeAddToMap(outPut, "TIME", (HXend - HXstart) + "");
+			}
+			log.debug("===> reQuestSn : {},调用开具转码响应结果:{} " + ">>>" + requestSn + "****" + returnMsgByPd);
+		}
+
+		// 解析返回报文
+		String retCode = MapUtils.getString(EaiResult, "returnCode", "8888");
+		String returnMsg = "";
+		try {
+			// 处理返回信息
+			if (StringUtils.isNotEmptyOrNull(EaiResult.get("returnMessage"))) {
+				returnMsg = new String(EaiResult.get("returnMessage").getBytes("GBK"), "UTF-8");
+				log.debug("===> reQuestSn : {},调用开具返回信息:{} " + ">>>>" + requestSn + "****" + returnMsg);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("===> reQuestSn : " + requestSn + ",调用开具returnMsg :" + EaiResult.get("returnMessage"));
+		}
+
+		if (!retCode.equals("0000")) {
+			log.error("===> reQuestSn : {},航信开具失败，错误代码:{} ，错误信息:{}" + requestSn + ">>>>>" + retCode + ">>>>" + returnMsg);
+			MapUtils.safeAddToMap(outPut, "RETURN_CODE", "0002");
+			MapUtils.safeAddToMap(outPut, "RETURN_MSG", "航信开具失败，错误代码：" + retCode + "，错误信息：" + returnMsg);
+			MapUtils.safeAddToMap(outPut, "TIME", (HXend - HXstart) + "");
+		}
+		System.err.println(outPut);
+	}
+
+	public IControl getControl() {
+		return control;
+	}
+
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+}

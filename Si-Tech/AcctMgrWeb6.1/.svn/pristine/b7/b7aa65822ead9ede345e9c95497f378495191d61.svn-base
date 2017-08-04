@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dinvreturns">
+
+  <select id="queryIncrementInvoice"  parameterClass="java.lang.Long" resultClass="java.util.HashMap">
+		SELECT INVOICE_YM INVOICE_YM,USER_NO USER_NO,CONTRACT_NO CONTRACT_NO FROM DINVRETURNS
+		WHERE CONTRACT_NO = #contractNo#
+		GROUP BY INVOICE_YM,USER_NO,CONTRACT_NO
+		ORDER BY INVOICE_YM DESC
+  </select>
+
+</sqlMap>

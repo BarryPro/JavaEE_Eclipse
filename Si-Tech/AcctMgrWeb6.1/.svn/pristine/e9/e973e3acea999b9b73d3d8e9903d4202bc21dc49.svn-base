@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dProductInfoFun">
+
+	<resultMap class="com.sitech.acctmgr.atom.domains.bill.InterRoamProdInfoEntity" id="InterRoamProdInfoEntity">
+        <result column="PHONE_NO" property="phoneNo"/>
+        <result column="OP_TIME" property="opTime"/>
+        <result column="PROD_ID" property="prodId"/>
+        <result column="PRODINST_ID" property="prodinstId"/>
+    </resultMap>
+    
+    <select id="qryByPhoneNo" parameterClass="String" resultMap="InterRoamProdInfoEntity">
+    	SELECT PHONE_NO, PROD_ID, PRODINST_ID, OP_TIME
+  		FROM DPRODUCT_INFO_FUN
+ 		WHERE PHONE_NO = #PHONE_NO#
+ </select>
+
+</sqlMap>

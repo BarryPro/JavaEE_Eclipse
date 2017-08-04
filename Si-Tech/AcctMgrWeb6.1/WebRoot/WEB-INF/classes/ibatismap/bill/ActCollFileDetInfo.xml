@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="act_collfiledet_info">
+	<insert id="insert" parameterClass="com.sitech.acctmgr.atom.domains.collection.CollFileDetailEntity">
+	
+		INSERT INTO ACT_COLLFILEDET_INFO
+  			(FILE_NAME,USER_CONTRACT, CONTRACT_NO,OP_CODE,
+   			LOGIN_NO, OP_TIME,PAY_MONEY,YEAR_MONTH,
+   			OP_NOTE,RETURN_CODE, RETURN_MSG)
+		VALUES
+  			(#fileName#, TRIM(#userEnterAccountNo#),#contractNo#,
+   			#opCode#,#loginNo#,TO_DATE(#opTime#,'yyyymmddhh24miss'),#payMoney#,
+   			#yearMonth#, #opNote#, #recReturnCode#,
+   			NVL(TRIM(#recReturnMsg#), '成功'))
+	
+	</insert>
+	
+</sqlMap>
+

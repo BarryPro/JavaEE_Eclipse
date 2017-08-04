@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="ac_contractdead_info">
+
+    <typeAlias alias="AcContractdeadInfo" type="com.sitech.acctmgr.atom.domains.account.ContractDeadInfoEntity"/>
+<select id="qConDeadInfoByConNo" parameterClass="Map" resultClass="AcContractdeadInfo">
+SELECT PAY_CODE payCode,
+       GROUP_ID groupId,
+       CUST_ID custId,
+       ACCOUNT_TYPE accountType,
+       CONTRACT_NAME contractName,
+       CONTRACTATT_TYPE contractattType,
+       CONTRACT_PASSWD contractPasswd
+  FROM AC_CONTRACTDEAD_INFO
+ WHERE CONTRACT_NO = #CONTRACT_NO#
+</select>
+
+</sqlMap>

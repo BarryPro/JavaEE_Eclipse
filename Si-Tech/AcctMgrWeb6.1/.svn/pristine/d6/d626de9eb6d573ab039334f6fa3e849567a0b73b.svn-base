@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="int_bosstocrmstate_chg">
+
+  <insert id="iBosstocrmChgByIdNo" >  
+	INSERT INTO INT_BOSSTOCRMSTATE_CHG( 
+			ORDER_ID,
+			OPER_TYPE,
+			INSERT_TIME,
+			DEAL_FLAG,
+			ID_NO,
+			OPT_SN,
+			OPT_CODE,
+			CRM_RUN_CODE,
+			CRM_RUN_TIME,
+			BOSS_RUN_CODE,
+			BOSS_RUN_TIME,
+			RUN_CODE,
+			LOGIN_NO,
+			OP_TIME,
+			REMARK,
+			IN_OPT_SN,
+			IN_LOGIN_NO,
+			IN_OP_TIME,
+			IN_REMARK)
+	SELECT #OPT_SN#,
+			'1',
+			SYSDATE,
+			SEQ_INT_DEAL_FLAG.nextval,
+			ID_NO,
+			OPT_SN,
+			OPT_CODE,
+			CRM_RUN_CODE,
+			CRM_RUN_TIME,
+			BOSS_RUN_CODE,
+			BOSS_RUN_TIME,
+			RUN_CODE,
+			LOGIN_NO,
+			OP_TIME,
+			REMARK,
+			#OPT_SN#,
+			#LOGIN_NO#,
+			sysdate,
+			#REMARK# 
+	FROM UR_BOSSTOCRMSTATE_INFO 
+	WHERE ID_NO=#ID_NO#
+  </insert>
+
+</sqlMap>

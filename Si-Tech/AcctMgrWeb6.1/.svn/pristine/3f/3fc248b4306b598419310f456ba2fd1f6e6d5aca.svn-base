@@ -1,0 +1,187 @@
+package com.sitech.acctmgr.atom.impl.query;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.bill.Fav1860CfgEntity;
+import com.sitech.acctmgr.atom.domains.bill.UnbillEntity;
+import com.sitech.acctmgr.atom.domains.prod.UserPdPrcEntity;
+import com.sitech.acctmgr.atom.domains.query.PrcIdTransEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserPrcEntity;
+import com.sitech.acctmgr.atom.dto.query.SFavTypeQueryInDTO;
+import com.sitech.acctmgr.atom.dto.query.SFavTypeQueryOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IBill;
+import com.sitech.acctmgr.atom.entity.inter.IBillAccount;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.IProd;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.constant.CommonConst;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.acctmgr.inter.query.IFavType;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ * Created by wangyla on 2016/7/14.
+ */
+@ParamTypes({ @ParamType(c = SFavTypeQueryInDTO.class, m = "query", oc = SFavTypeQueryOutDTO.class) })
+public class SFavType extends AcctMgrBaseService implements IFavType {
+	private IUser user;
+	private IProd prod;
+	private IBillAccount billAccount;
+	private IGroup group;
+	private IBill bill;
+
+	@Override
+	public OutDTO query(InDTO inParam) {
+		SFavTypeQueryInDTO inDTO = (SFavTypeQueryInDTO) inParam;
+		SFavTypeQueryOutDTO outDTO = new SFavTypeQueryOutDTO();
+		long idNo = 0;
+		String modeCode = "";
+		String regionCode = "";
+		String rateCode = "";
+		String favType = "";
+		String favName = "";
+		long favFee = 0;
+		long remainFee = 0;
+		int specFund = 0;
+
+		outDTO.setModeCode(modeCode);
+		outDTO.setRegionCode(regionCode);
+		outDTO.setRateCode(rateCode);
+		outDTO.setFavType(favType);
+		outDTO.setIdNo(idNo);
+		outDTO.setFavName(favName);
+		outDTO.setFavFee(favFee);
+		outDTO.setFavRemain(remainFee);
+		outDTO.setSpecFund(specFund);
+
+		String phoneNo = inDTO.getPhoneNo();
+		String returnCode = "";
+
+		// 查询用户信息
+		UserInfoEntity userInfo = user.getUserEntityByPhoneNo(phoneNo, false);
+		if (userInfo == null) {
+			returnCode = "000002";
+			outDTO.setReturnCode(returnCode);
+			return outDTO;
+		}
+
+		idNo = userInfo.getIdNo();
+		long contractNo = userInfo.getContractNo();
+		outDTO.setIdNo(idNo);
+		// 查询地市代码
+		ChngroupRelEntity chnGroupRel = group.getRegionDistinct(userInfo.getGroupId(), "2", inDTO.getProvinceId());
+		regionCode = chnGroupRel.getRegionCode();
+		outDTO.setRegionCode(regionCode);
+
+		// 根据id_no查询基本资费ID offerId
+		List<UserPrcEntity> basePrcList = prod.getPdPrcId(idNo, CommonConst.BASE_PRC_FLAG);
+
+		if (basePrcList == null || basePrcList.size() == 0) {
+			returnCode = "000003";
+			outDTO.setReturnCode(returnCode);
+			return outDTO;
+		}
+		modeCode = basePrcList.get(0).getProdPrcid();
+		outDTO.setModeCode(modeCode);
+		// 根据prodPrcid查询二批代码
+		List<PrcIdTransEntity> rateInfoList = billAccount.getRateInfo(basePrcList.get(0).getProdPrcid(), "0", regionCode);
+		if (rateInfoList.size() == 0) {
+			rateCode = "0000";
+		} else {
+			rateCode = rateInfoList.get(0).getDetailCode();
+		}
+		outDTO.setRateCode(rateCode);
+		// 获取优惠类型
+		Fav1860CfgEntity favEntity = billAccount.getFavInfo(ValueUtils.longValue(regionCode), basePrcList.get(0).getProdPrcid(), null);
+		if (favEntity == null) {
+			outDTO.setReturnCodeBody("000000");
+			return outDTO;
+		}
+		favFee = favEntity.getFavCall() - favEntity.getFavSave();
+
+		UnbillEntity unbillEntity = bill.getUnbillFee(contractNo, idNo, CommonConst.UNBILL_TYPE_BILL_TOT);
+		remainFee = favFee - unbillEntity.getFavourFee() > 0 ? favFee - unbillEntity.getFavourFee() : 0;
+
+		// 根据id_no查询附加资费ID
+		List<UserPrcEntity> attachPrcListTmp = prod.getPdPrcId(idNo, CommonConst.ATTACH_PRC_FLAG);
+		List<UserPdPrcEntity> attachPrcList = new ArrayList<UserPdPrcEntity>();
+
+		for (UserPrcEntity userPrc : attachPrcListTmp) {
+			// 根据prodPrcid查询二批代码
+			String prodPrcId = userPrc.getProdPrcid();
+			List<PrcIdTransEntity> prcIdTrans = billAccount.getRateInfo(prodPrcId, "0", regionCode);
+			if (prcIdTrans.size() == 0) {
+				continue;
+			}
+			UserPdPrcEntity userPdprc = new UserPdPrcEntity();
+			userPdprc.setEffDate(userPrc.getEffDate());
+			userPdprc.setExpDate(userPrc.getExpDate());
+			userPdprc.setProdPrcId(userPrc.getProdPrcid());
+			userPdprc.setProdPrcName(userPrc.getProdPrcName());
+			userPdprc.setStateDate(userPrc.getStateDate());
+			userPdprc.setRateCode(prcIdTrans.get(0).getDetailCode());
+			attachPrcList.add(userPdprc);
+		}
+
+		outDTO.setModeCode(basePrcList.get(0).getProdPrcid());
+		outDTO.setRegionCode(regionCode);
+		if (StringUtils.isEmptyOrNull(rateCode)) {
+			outDTO.setRateCode(rateCode);
+		}
+		outDTO.setUserPdPrcList(attachPrcList);
+		outDTO.setFavType(favEntity.getFavType() + "");
+		outDTO.setFavName(favEntity.getFavChar() + "");
+		outDTO.setFavFee(favFee);
+		outDTO.setFavRemain(remainFee);
+		return outDTO;
+	}
+
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public IProd getProd() {
+		return prod;
+	}
+
+	public void setProd(IProd prod) {
+		this.prod = prod;
+	}
+
+	public IBillAccount getBillAccount() {
+		return billAccount;
+	}
+
+	public void setBillAccount(IBillAccount billAccount) {
+		this.billAccount = billAccount;
+	}
+
+	public IGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	public IBill getBill() {
+		return bill;
+	}
+
+	public void setBill(IBill bill) {
+		this.bill = bill;
+	}
+
+}

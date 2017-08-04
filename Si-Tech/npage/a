@@ -1,0 +1,27 @@
+./e005/s1300Cfm.jsp:            <wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>"  retcode="retCode2" retmsg="retMsg2" outnum="1">
+./e005/s1300Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6" retmsg="retMsg6" outnum="1">
+./e005/s1300Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6_card" retmsg="retMsg6_card" outnum="1">
+./e900/e900.jsp:<wtc:service name="sCrmDefSqlSel" outnum="2" retmsg="return_msg1" retcode="return_code1">
+./e900/e900_select.jsp:<wtc:service name="sCrmDefSqlSel"  retcode="retCode2" retmsg="retMsg2" outnum="2">
+./e900/e900_select1.jsp:<wtc:service name="sCrmDefSqlSel"  retcode="retCode2" retmsg="retMsg2" outnum="2">
+./g573/s1300Cfm.jsp:            <wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>"  retcode="retCode2" retmsg="retMsg2" outnum="1">
+./g573/s1300Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6" retmsg="retMsg6" outnum="1">
+./g573/s1300Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6_card" retmsg="retMsg6_card" outnum="1">
+./g659/s1300Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6" retmsg="retMsg6" outnum="2">
+./rpt/select_rpc_new.jsp:<wtc:service name="sCrmDefSqlSel"  routerKey="region" routerValue="<%=regionCode%>" outnum="2">
+./s1300/s1300Cfm.jsp:           <wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>"  retcode="retCode2" retmsg="retMsg2" outnum="1">
+./s1300/s1300Cfm.jsp:           <wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=serviceno%>"  retcode="retCode4" retmsg="retMsg4" outnum="1">
+./s1300/s1300Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode_smz" retmsg="retMsg_smz" outnum="2">
+./s1300/s1300Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6" retmsg="retMsg6" outnum="2">
+./s1300/sg297Cfm.jsp:           <wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>"  retcode="retCode2" retmsg="retMsg2" outnum="1">
+./s1300/sg297Cfm.jsp:           <wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=serviceno%>"  retcode="retCode4" retmsg="retMsg4" outnum="1">
+./s1300/sg297Cfm.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6" retmsg="retMsg6" outnum="2">
+grep: 0652-033 Cannot open ./s2896/f2896_querydParterMsg.
+grep: 0652-033 Cannot open (2).jsp.
+./s5255/s1300Cfm.jsp:           <wtc:service name="sCrmDefSqlSel" outnum="1" retmsg="msg1" retcode="code1" routerKey="region" routerValue="<%=regionCode%>">
+./s5255/s1300Cfm.jsp:           <wtc:service name="sCrmDefSqlSel" outnum="1" retmsg="msg3" retcode="code3" routerKey="region" routerValue="<%=regionCode%>">
+./s5255/s1300Cfm.jsp:           <wtc:service name="sCrmDefSqlSel" outnum="1" retmsg="msg6" retcode="code6" routerKey="region" routerValue="<%=regionCode%>">
+./s6710/select_rpc_new.jsp:                 <wtc:service name="sCrmDefSqlSel" routerKey="region" routerValue="<%=regionCode%>"  retcode="retCode1" retmsg="retMsg1" outnum="2">
+./zg62/zg62_2.jsp:              <wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>"  retcode="retCode2" retmsg="retMsg2" outnum="1">
+./zg62/zg62_2.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6" retmsg="retMsg6" outnum="1">
+./zg62/zg62_2.jsp:<wtc:service name="sCrmDefSqlSel" routerKey="phone" routerValue="<%=phoneNo%>" retcode="retCode6_card" retmsg="retMsg6_card" outnum="1">

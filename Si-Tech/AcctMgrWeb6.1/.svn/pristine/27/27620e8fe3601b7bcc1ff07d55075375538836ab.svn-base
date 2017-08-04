@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="sofferflagcode">
+
+	<select id="qFlagInfo" parameterClass="Map" resultClass="java.util.HashMap">
+SELECT D.FLAG_CODE ATTR_VAL, D.FLAG_CODE_NAME FLAG_CODE_NAME
+  FROM UR_USERGOODSPRCATTR_INFO A,
+       PD_TRANSPRODPRC          B,
+       PRICING_COMBINE          C,
+       SRATEFLAGCODE            D
+ WHERE ATTR_ID = #ATTR_ID#
+   AND A.PRC_ID = B.PRC_ID
+   AND B.PRICING_PLAN_ID = C.PRICING_PLAN_ID
+   AND C.DETAIL_CODE = D.RATE_CODE
+   AND ID_NO = #ID_NO#
+	</select>
+
+
+</sqlMap>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AcctMgrWeb" default="compile">
+	<description>
+	        author:
+	        date: 
+	        descript:
+	</description>
+
+	<property file="build.properties" />
+
+	<path id="classpath">
+		<fileset dir="${3rdLib.dir}" includes="**/*.jar" />
+		<fileset dir="${src.dir}" includes="**/*.jar" />
+	</path>
+
+	<!-- Target to create the build directories prior to the compile target. -->
+	<target name="prepare">
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${build.groovy.dir}" />
+		<mkdir dir="${build.config.dir}" />
+	</target>
+	
+	<target name="clean" description="Removes all generated files">
+		<delete dir="${build.classes.dir}" />
+		<delete dir="${build.groovy.dir}" />
+		<delete dir="${build.config.dir}" />
+	</target>
+	
+	<patternset id="meta.files">
+		<include name="**/*.xml"/>
+		<include name="**/*.properties"/>
+	</patternset>
+
+	<target name="compile" description="Compiles all source code." depends="prepare">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" encoding="UTF-8" includeantruntime="on" debug="true" verbose="true">
+			<compilerarg value="-Xlint:unchecked" />
+			<classpath refid="classpath" />
+		</javac>			
+		<!--
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.dir}">
+			</fileset>
+		</copy>
+		-->
+		<copy todir="${build.classes.dir}/ibatismap">
+			<fileset dir="${src.dir}/ibatismap"/>
+		</copy>
+		<copy todir="${build.classes.dir}">
+      			<fileset dir="${src.dir}">
+        			<patternset refid="meta.files"/>
+      			</fileset>
+    		</copy>
+    		<copy todir="${build.groovy.dir}">
+    			<fileset dir="${groovy.dir}" />
+    		</copy>
+    		<copy todir="${build.config.dir}">
+    			<fileset dir="${config.dir}" />
+    		</copy>
+		<!--
+		<copy todir="${build.dir}/lib">
+			<fileset dir="${3rdLib.dir}" includes="**/*.jar"/>
+		</copy>
+		-->
+		<!--
+		<copy file="${webroot.dir}/WEB-INF/web.xml" todir="${build.dir}"/>
+		-->
+	</target>
+	
+	<target name="war" depends="compile">
+		<tstamp>
+			<format property="now" pattern="yyyy-MM-dd" unit="day" />
+		</tstamp>
+		<war destfile="${build.dir}/AcctMgrWeb.war" webxml="${webroot.dir}/WEB-INF/web.xml">
+			<classes dir="${build.classes.dir}" />
+			<fileset dir="${webroot.dir}" />
+			<manifest>
+				<attribute name="Build-By" value="si-tech.com.cn" />
+				<attribute name="Version" value="${version}" />
+				<attribute name="Create-Time" value="${now}" />
+			</manifest>
+		</war>
+	</target>
+	
+	<target name="jar" depends="compile" description="打成jar包">
+	    <tstamp>
+		<format property="now" pattern="yyyy-MM-dd" unit="day" />
+	    </tstamp>
+	    <jar destfile="${build.dir}/acctMgrWeb.jar" basedir="${build.classes.dir}" >
+	        <manifest>
+		    <attribute name="Build-By" value="si-tech.com.cn" />
+		    <attribute name="Version" value="${version}" />
+		    <attribute name="Create-Time" value="${now}" />
+	        </manifest>
+	    </jar>
+	</target>
+
+	<target name="all" depends="clean,prepare,compile" description="Cleans, Prepares, then compile all source code."></target>
+
+</project>

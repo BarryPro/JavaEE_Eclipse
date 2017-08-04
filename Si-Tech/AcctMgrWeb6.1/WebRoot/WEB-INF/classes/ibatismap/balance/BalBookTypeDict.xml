@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_booktype_dict">
+	
+	<typeAlias alias="bookType" type="com.sitech.acctmgr.atom.domains.balance.BookTypeEntity"/>
+	<select id="qBookTypeDictByType" parameterClass="Map"
+		resultClass="java.util.HashMap">
+		SELECT PAY_TYPE, PAY_TYPE_NAME, PRIORITY, PAY_ATTR, REMARK
+		FROM
+		BAL_BOOKTYPE_DICT
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty property="PAY_TYPE" prepend="AND">
+				PAY_TYPE =#PAY_TYPE#
+			</isNotEmpty>
+
+			<isNotEmpty property="BLUR_PAY_TYPE" prepend="AND">
+				PAY_TYPE LIKE '%'|| #BLUR_PAY_TYPE# ||'%'
+			</isNotEmpty>
+
+			<isNotEmpty property="SP_FLAG" prepend="AND">
+				SUBSTR(PAY_ATTR,1,1)=#SP_FLAG#
+			</isNotEmpty>
+
+			<isNotEmpty property="PAY_NAME" prepend="AND">
+				trim(PAY_TYPE_NAME)=#PAY_NAME#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+  <select id="qryPresentType"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT PAY_TYPE FROM bal_booktype_dict where substr(pay_attr,6,1) = '1'
+  </select>
+  
+  	<typeAlias alias="PayTypeEntity"
+		type="com.sitech.acctmgr.atom.domains.pay.PayTypeEntity" />
+	<select id="qryTypeForCrm" parameterClass="Map" resultClass="PayTypeEntity">
+		SELECT PAY_TYPE payType,trim(PAY_TYPE_NAME) payName FROM
+		bal_booktype_dict
+		where 1=1
+		<dynamic prepend="">
+			<isEqual property="FLAG" compareValue="0">
+				and substr(pay_attr,6,1) = '2'
+				and (substr(pay_attr,4,1) = '1' or pay_type in ('EU'))
+				and pay_type NOT in(select CODE_ID from pub_codedef_dict where
+				code_class='1046')
+				order by pay_type
+			</isEqual>
+			<isEqual property="FLAG" compareValue="1" prepend="and">
+				substr(pay_attr,6,1) = '1'
+				and pay_type NOT in(select CODE_ID from pub_codedef_dict where
+				code_class='1046')
+				order by pay_type
+			</isEqual>
+			<isEqual property="FLAG" compareValue="2" prepend="and">
+				1=2
+			</isEqual>
+		</dynamic>
+
+	</select>
+
+  <select id="qCntByPayType"  parameterClass="Map" resultClass="Integer">
+    select count(1) CNT from bal_booktype_dict
+	where pay_type = #PAY_TYPE#
+  </select>
+	
+  
+</sqlMap>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cs_userrel_info">
+    <select id="qryCnt" parameterClass="Map" resultClass="java.lang.Integer">
+	SELECT COUNT(1) COUNT FROM cs_userrel_info
+	WHERE relation_code ='60'
+	<dynamic prepend="">
+		<isNotEmpty prepend="AND" property="MASTER_ID">
+			 master_id=#MASTER_ID#
+		</isNotEmpty>
+
+		<isNotEmpty prepend="AND" property="SLAVE_ID">
+			slave_id = #SLAVE_ID#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="OP_CODE">
+			OP_CODE = #OP_CODE#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="OP_CODES">
+    		OP_CODE IN 
+    		<iterate close=")" open="(" conjunction="," prepend="" property="OP_CODES">
+    			#OP_CODES[]#
+    		</iterate>
+    	</isNotEmpty>
+	</dynamic>
+        and to_char(sysdate,'YYYYMMDD')>=to_char(eff_date,'YYYYMMDD')
+		and to_char(sysdate,'YYYYMMDD')<![CDATA[<=]]>to_char(exp_date,'YYYYMMDD')
+    </select>
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.user.UserRelEntity" alias="UserRelEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="UserRelEntity">
+		SELECT master_id masterId,
+		slave_id slaveId,
+		to_char(eff_Date,'YYYYMM') effDate,
+		to_char(eff_Date,'YYYYMM') expDate 
+		FROM cs_userrel_info
+		WHERE relation_code ='60'
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="MASTER_ID">
+				master_id=#MASTER_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="SLAVE_ID">
+				slave_id = #SLAVE_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="OP_CODE">
+				OP_CODE = #OP_CODE#
+			</isNotEmpty>
+		</dynamic>
+		and to_char(sysdate,'YYYYMMDD')>=to_char(eff_date,'YYYYMMDD')
+		and to_char(sysdate,'YYYYMMDD')<![CDATA[<=]]>to_char(exp_date,'YYYYMMDD')
+	</select>
+    
+</sqlMap>

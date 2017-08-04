@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_returnfee_recd">
+
+    <typeAlias alias="BalReturnfeeInfo" type="com.sitech.acctmgr.atom.domains.balance.ReturnFeeEntity"/>
+
+	<select id="qry" parameterClass="Map" resultClass="BalReturnfeeInfo">
+		select FIRST_EFF beginTime,pay_type payType,sum_fee allFee,exp_date endTime,return_month returnNum,foreign_sn foreginSn
+		from
+		bal_returnfee_recd
+		where 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				and contract_no = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="ID_NO">
+				and id_no = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="FOREIGN_SN">
+				AND FOREIGN_SN = #FOREIGN_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PAY_PATH">
+				and pay_path = #PAY_PATH#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="VALID">
+				AND TO_CHAR(SYSDATE,'YYYYMMDD') <![CDATA[>=]]> FIRST_EFF
+			</isNotEmpty>
+			
+		</dynamic>
+		and to_char(sysdate,'YYYYMMDD')<![CDATA[ <= ]]>EXP_DATE
+	</select>
+	
+	<select id="qryPayType">
+		
+	</select>
+
+</sqlMap>

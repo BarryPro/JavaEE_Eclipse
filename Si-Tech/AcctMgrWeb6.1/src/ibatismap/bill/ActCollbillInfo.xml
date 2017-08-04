@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="act_collbill_info">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.collection.CollectionBillEntity" alias="CollectionBillEntity"/>
+
+    <resultMap id="CollectionBillEntity" class="CollectionBillEntity">
+        <result property="contractNo" column="CONTRACT_NO"/>
+        <result property="payNum" column="PAY_NUM"/>
+        <result property="payFee" column="PAY_FEE"/>
+        <result property="billCycle" column="BILL_CYCLE"/>
+        <result property="dealFlag" column="DEAL_FLAG"/>
+        <result property="returnCode" column="RETURN_CODE"/>
+        <result property="billDay" column="BILL_DAY"/>
+        <result property="groupId" column="GROUP_ID"/>
+    </resultMap>
+
+    <select id="qCollBillInfo" parameterClass="Map" resultMap="CollectionBillEntity">
+        SELECT A.CONTRACT_NO, A.PAY_NUM , A.PAY_FEE, A.BILL_CYCLE, A.DEAL_FLAG, A.RETURN_CODE, A.BILL_DAY, A.GROUP_ID
+        FROM ACT_COLLBILL_INFO A
+        WHERE A.BILL_CYCLE= #BILL_CYCLE#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="CONTRACT_NO">
+                AND A.CONTRACT_NO= #CONTRACT_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="DEAL_FLAG">
+                AND DEAL_FLAG=#DEAL_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BEGIN_CONTRACT_NO">
+                AND A.CONTRACT_NO >= #BEGIN_CONTRACT_NO:LONG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="END_CONTRACT_NO">
+                AND A.CONTRACT_NO <![CDATA[ <= ]]> #END_CONTRACT_NO:LONG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BILL_DAY">
+                AND A.BILL_DAY = #BILL_DAY#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="ERR_CODE">
+                AND A.RETURN_CODE != '00'
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="RETURN_CODE">
+                AND A.RETURN_CODE = #RETURN_CODE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="DIS_GROUP_ID">
+                AND EXISTS ( SELECT 1 FROM BS_CHNGROUP_REL B
+                WHERE A.GROUP_ID = B.GROUP_ID
+                AND B.PARENT_LEVEL = 3
+                AND B.CURRENT_LEVEL >= 3
+                AND B.PARENT_GROUP_ID = #DIS_GROUP_ID#
+                AND B.PROVINCE_ID= #PROVINCE_ID#)
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <update id="uByConBillcycle" parameterClass="Map">
+        UPDATE ACT_COLLBILL_INFO
+        SET DEAL_FLAG = #DEAL_FLAG#
+        <dynamic prepend="">
+            <isNotEmpty prepend="," property="RETURN_CODE">
+                RETURN_CODE = #RETURN_CODE#
+            </isNotEmpty>
+        </dynamic>
+        WHERE CONTRACT_NO = #CONTRACT_NO# AND BILL_CYCLE = #BILL_CYCLE#
+    </update>
+
+    <!-- 按区县统计托收清单明细 author wangyla 20150129 -->
+    <typeAlias type="com.sitech.acctmgr.atom.domains.collection.CollBillDetailEntity" alias="CollBillDetail" />
+    <resultMap id="CollBillDetailEntity" class="CollBillDetail">
+        <result property="contractNo" column="CONTRACT_NO" />
+        <result property="collName" column="COLL_NAME" />
+        <result property="returnCode" column="RETURN_CODE" />
+        <result property="payNum" column="PAY_NUM" />
+        <result property="payFee" column="PAY_FEE" />
+        <result property="billCycle" column="BILL_CYCLE" />
+    </resultMap>
+    <select id="qCollBillByDisCode" maxRows="1000" parameterClass="Map" resultMap="CollBillDetailEntity">
+        SELECT A.CONTRACT_NO, TRIM(NVL(B.CODE_VALUE,'未知')) COLL_NAME,
+        A.RETURN_CODE,
+        A.PAY_NUM, A.PAY_FEE, A.BILL_CYCLE
+        FROM ACT_COLLBILL_INFO A, PUB_CODEDEF_DICT B
+        WHERE A.RETURN_CODE = B.CODE_ID(+)
+        AND B.CODE_CLASS = 1003
+        AND B.GROUP_ID= #REGION_ID#
+        AND A.BILL_CYCLE = #BILL_CYCLE:INT#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="BEGIN_CONTRACT_NO">
+                A.CONTRACT_NO >= #BEGIN_CONTRACT_NO:LONG#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="END_CONTRACT_NO">
+                A.CONTRACT_NO <![CDATA[ <= ]]>
+                #END_CONTRACT_NO:LONG#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="RETURN_CODE">
+                A.RETURN_CODE = #RETURN_CODE#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="DIS_GROUP_ID">
+                EXISTS ( SELECT 1 FROM BS_CHNGROUP_REL C WHERE C.PARENT_LEVEL = 3 AND
+                C.CURRENT_LEVEL >= 3 AND
+                C.PARENT_GROUP_ID = #DIS_GROUP_ID# AND A.GROUP_ID = C.GROUP_ID)
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <!-- 按区县统计托收清单分组 author wangyla 20150129 -->
+    <typeAlias type="com.sitech.acctmgr.atom.domains.collection.CollBillStatusGroupEntity" alias="CollBillStatusGroup" />
+    <resultMap id="CollBillStatusGroupEntity" class="CollBillStatusGroup">
+        <result property="collName" column="COLL_NAME" />
+        <result property="returnCode" column="RETURN_CODE" />
+        <result property="conNums" column="CON_NUMS" />
+        <result property="sumPayFee" column="SUM_PAY_FEE" />
+    </resultMap>
+    <select id="qDisBillGroupByName" maxRows="1000" parameterClass="Map"
+            resultMap="CollBillStatusGroupEntity">
+        SELECT TRIM(NVL(B.CODE_VALUE,'未知')) COLL_NAME, A.RETURN_CODE, COUNT(1)
+        CON_NUMS,
+        SUM(A.PAY_FEE) SUM_PAY_FEE
+        FROM ACT_COLLBILL_INFO A, PUB_CODEDEF_DICT B
+        WHERE A.RETURN_CODE = B.CODE_ID(+)
+        AND B.CODE_CLASS = 1003
+        AND B.GROUP_ID= #REGION_ID#
+        AND A.BILL_CYCLE = #BILL_CYCLE:INT#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="BEGIN_CONTRACT_NO">
+                A.CONTRACT_NO >= #BEGIN_CONTRACT_NO:LONG#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="END_CONTRACT_NO">
+                A.CONTRACT_NO <![CDATA[ <= ]]>
+                #END_CONTRACT_NO:LONG#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="RETURN_CODE">
+                A.RETURN_CODE = #RETURN_CODE#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="DIS_GROUP_ID">
+                EXISTS ( SELECT 1 FROM BS_CHNGROUP_REL C WHERE C.PARENT_LEVEL = 3 AND
+                C.CURRENT_LEVEL >= 3 AND
+                C.PARENT_GROUP_ID = #DIS_GROUP_ID# AND A.GROUP_ID = C.GROUP_ID)
+            </isNotEmpty>
+        </dynamic>
+        GROUP BY B.CODE_VALUE, A.RETURN_CODE
+    </select>
+	
+	<!-- add by liuhl_bj 2017/3/9 查询未处理的账户信息-->
+	<select id="qNoDealContractInfo" resultClass="java.util.HashMap" parameterClass="Map">
+		SELECT DISTINCT B.CONTRACT_NO,BANK_CODE,PRINT_NO
+		FROM ACT_COLLBILL_INFO A,ACT_COLLBILLDET_INFO B
+		WHERE A.CONTRACT_NO = B.CONTRACT_NO
+		AND A.GROUP_ID = #GROUP_ID#
+		AND BANK_CODE <![CDATA[ >= ]]> #BEGIN_BANK#
+		AND BANK_CODE <![CDATA[ <= ]]> #END_BANK#
+		AND PRINT_NO <![CDATA[ >= ]]> #BEGIN_PRINT_NO#
+		AND PRINT_NO <![CDATA[ <= ]]> #END_PRINT_NO#
+		AND A.BILL_CYCLE = #YEAR_MONTH#
+		AND B.BILL_CYCLE = #YEAR_MONTH#
+		AND A.DEAL_FLAG='1'
+		ORDER BY BANK_CODE,PRINT_NO
+	</select>
+
+</sqlMap>
+

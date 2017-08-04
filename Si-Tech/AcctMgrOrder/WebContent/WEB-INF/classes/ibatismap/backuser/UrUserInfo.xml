@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BK_ur_user_info">
+  
+  <select id="qUserInfo"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT  phone_no,id_no,contract_no,group_id,cust_id,OWNER_TYPE,to_char(open_time,'YYYYMMDD') open_time,to_char(sysdate,'YYYYMMDDHH24MISS') sys_date,
+	MASTER_SERV_ID,group_flag,
+	to_char(months_between(to_date(to_char(sysdate,'yyyymm'),'yyyymm'),to_date(to_char(open_time,'yyyymm'),'yyyymm'))) open_month,
+	to_char(open_time,'YYYY/MM/DD') open_time1, TO_CHAR(BILL_START_TIME, 'YYYYMMDD') BILL_START_TIME 
+	FROM ur_user_info  WHERE 1=1 
+    <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="PHONE_NO">
+    		PHONE_NO = #PHONE_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="ID_NO">
+    		ID_NO = #ID_NO#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="CONTRACT_NO">
+    		CONTRACT_NO = #CONTRACT_NO#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+    
+  <select id="getPhoneNoIdNoByCon"  parameterClass="Map" resultClass="java.util.HashMap">
+    select a.phone_no PHONE_NO,a.id_no ID_NO 
+	from ur_user_info a,ac_conuserrel_info b 
+	where b.contract_no = #CONTRACT_NO#
+	and b.bill_order = '99999999'  and  a.id_no = b.id_no
+  </select>
+  
+  <select id="qCustIdInfoByIdNo"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT CUST_ID,GROUP_ID,PHONE_NO,CONTRACT_NO 
+    FROM   UR_USER_INFO
+    WHERE  ID_NO=#ID_NO#
+  </select>
+  
+  <select id="qCoBrGrpbyIdNo"  parameterClass="java.lang.Long" resultClass="java.util.HashMap">
+    SELECT GROUP_ID,PHONE_NO,CONTRACT_NO, BRAND_ID
+    FROM   UR_USER_INFO a, ur_userbrand_rel b
+    WHERE  a.ID_NO = b.ID_NO 
+     AND   a.ID_NO=#ID_NO#
+     AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+  </select>
+  
+  <select id="qUserByPh"  parameterClass="java.lang.String" resultClass="java.util.HashMap">
+    SELECT A.GROUP_ID, A.ID_NO, A.CONTRACT_NO, B.BRAND_ID,
+           to_char(SYSDATE, 'YYYYMMDDHH24MISS') OP_TIME,
+           to_char(SYSDATE, 'YYYYMMDDHH24MISS') LOGIN_ACCEPT,
+           decode(substr(A.ID_NO, 4, 1), '1','A1', '7','A1', '8','A1', 'B1') DB_ID
+    FROM   UR_USER_INFO a, UR_USERBRAND_REL b
+    WHERE  a.ID_NO = b.ID_NO 
+    AND    PHONE_NO=#PHONE_NO#
+  </select>
+  
+</sqlMap>

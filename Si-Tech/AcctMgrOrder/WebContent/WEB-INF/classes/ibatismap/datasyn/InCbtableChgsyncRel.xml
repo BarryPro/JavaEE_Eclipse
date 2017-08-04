@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_cbtable_chgsync_rel">
+  
+  <select id="qChgOthrDataByChgTab" parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT CHG_COLUMN,DATA_TYPE,DEFAULT_VALUE,INDEX_FLAG 
+	FROM  IN_CBTABLE_CHGSYNC_REL
+	WHERE CHG_TABLE=#CHG_TABLE#
+	AND   SYNC_FLAG='1'
+  </select>
+    
+</sqlMap>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="bal_extfee_err">
+
+    <typeAlias alias="BatchPayErrEntity" type="com.sitech.acctmgr.atom.domains.query.BatchPayErrEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="BatchPayErrEntity">
+		SELECT PHONE_NO phoneNo,PAY_FEE payMoney,'网上交费三重礼' activityName,
+		to_char(op_time,'YYYYMMDD') loseDate
+		FROM BAL_EXTFEE_ERR
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PHONE_NO">
+				PHONE_NO= #PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BEGIN_YM">
+				to_char(op_time,'YYYYMM')>=#BEGIN_YM#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="END_YM">
+				to_char(op_time,'YYYYMM')<![CDATA[ <= ]]>#END_YM#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="REGION_CODE">
+				PHONE_NO in(select phone_no from ur_user_info where group_id in(select
+				group_id from bs_chngroup_dict where region_id=#REGION_CODE#))
+			</isNotEmpty>			
+		</dynamic>
+		and rownum<![CDATA[ <= ]]>10
+  </select>
+  
+</sqlMap>

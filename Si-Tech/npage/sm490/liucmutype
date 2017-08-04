@@ -1,0 +1,122 @@
+GetProdAttr.jsp:<wtc:utype name="sGetAttrPage" id="retVal" scope="end">
+GetProdAttr.jsp:</wtc:utype>
+GetProdAttr2.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+GetProdAttr2.jsp:</wtc:utype>
+GetProdAttr2.jsp:<wtc:utype name="sGetAttrPage" id="retVal" scope="end">
+GetProdAttr2.jsp:</wtc:utype>
+PMUserBaseInfo.jsp:<wtc:utype name="sPMQryUserInfo" id="retUserInfo" scope="end"  routerKey="region" routerValue="<%=regionCode%>">
+PMUserBaseInfo.jsp:</wtc:utype>
+addGroupInfo.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+addGroupInfo.jsp:</wtc:utype>
+ajax_getPayType.jsp:<wtc:utype name="sGetServ" id="retVal" scope="end">
+ajax_getPayType.jsp:</wtc:utype>
+ajax_qryOfferBySecRentInfo.jsp:<wtc:utype name="sGetZjOffer" id="retVal" scope="end">
+ajax_qryOfferBySecRentInfo.jsp:</wtc:utype>
+ajax_qryOfferInfoByOfferId.jsp:<wtc:utype name="sGetOfferById" id="retVal" scope="end">
+ajax_qryOfferInfoByOfferId.jsp:</wtc:utype>
+applyAddOffer.jsp:<wtc:utype name="sApplyAddOffer" id="retVal" scope="end">
+applyAddOffer.jsp:</wtc:utype>
+applyMainOffer.jsp:<wtc:utype name="sApplyMainOffer" id="retVal" scope="end">
+applyMainOffer.jsp:</wtc:utype>
+cancelOffer.jsp:<wtc:utype name="sCutOfferInst" id="retVal" scope="end">
+cancelOffer.jsp:</wtc:utype>
+changeProduce.jsp:	<wtc:utype name="sPMQryUserInfo" id="retUserInfo" scope="end">
+changeProduce.jsp:    </wtc:utype>
+changeProduce.jsp:<wtc:utype name="sInstance" id="mainInst" scope="end">
+changeProduce.jsp:</wtc:utype>	
+changeProduce.jsp:<wtc:utype name="sGetUsrMain" id="mainProd" scope="end">
+changeProduce.jsp:</wtc:utype>
+changeProduce.jsp:<wtc:utype name="sGetCustOrdMsg" id="retCustVal" scope="end">
+changeProduce.jsp:</wtc:utype>
+changeProduce.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+changeProduce.jsp:</wtc:utype>
+changeProduceConfirm.jsp:<wtc:utype name="sProdChgCfm" id="retVal" scope="end" >  
+changeProduceConfirm.jsp:</wtc:utype> 
+checkLimit.jsp:	<wtc:utype name="sPMQOfferlimit" id="retVal" scope="end" >
+checkLimit.jsp:	</wtc:utype>	
+chgProAttr.jsp:<wtc:utype name="sQProdIntAtr" id="retVal1" scope="end" >
+chgProAttr.jsp:</wtc:utype>
+chkOfferRel.jsp:<wtc:utype name="sChkOfferRel" id="doubleChk" scope="end">
+chkOfferRel.jsp:</wtc:utype>
+complexPro.jsp:<wtc:utype name="sQCompMemInfo" id="retVal" scope="end">
+complexPro.jsp:</wtc:utype>
+consNoSum.jsp:<wtc:utype name="sQryMemCount" id="retVal" scope="end">
+consNoSum.jsp:</wtc:utype>
+famChgCfm.jsp:<wtc:utype name="sSetGrpMem" id="retVal" scope="end" >
+famChgCfm.jsp:</wtc:utype>
+famChgMain.jsp:<wtc:utype name="sQryGrpMem" id="retVal" scope="end">
+famChgMain.jsp:</wtc:utype>
+famChgMain_ajax.jsp:	<wtc:utype name="sDelMemSrv" id="retVals" scope="end" >	
+famChgMain_ajax.jsp:  </wtc:utype>
+getCurrentOpeInfo.jsp:<wtc:utype name="sGetChgBuffMsg" id="retVal" scope="end">
+getCurrentOpeInfo.jsp:</wtc:utype>
+getCutOffer.jsp:<wtc:utype name="sPMGetRedoOffer" id="retVal2" scope="end">
+getCutOffer.jsp:</wtc:utype>	
+getOfferRel2.jsp:<wtc:utype name="sQryOfferRel" id="retVal" scope="end">
+getOfferRel2.jsp:</wtc:utype>
+getProdCompRel.jsp: <wtc:utype name="sGetCompRel" id="retVal" scope="end"> 
+getProdCompRel.jsp:</wtc:utype>
+getProductInfo.jsp:  <wtc:utype name="sGetChgServProd" id="retVal4" scope="end" >
+getProductInfo.jsp:	</wtc:utype>	
+groupDetInfo.jsp:<wtc:utype name="sPMGroupDetail" id="retVal" scope="end">
+groupDetInfo.jsp:</wtc:utype>
+groupDetInfo.jsp:<wtc:utype name="sPMMebList" id="retMebVal" scope="end">
+groupDetInfo.jsp:</wtc:utype>
+hot_product_show_ajax.jsp:<wtc:utype name="sGetHotBOffer" id="retVal2" scope="end">
+hot_product_show_ajax.jsp:</wtc:utype>
+ignoreThis.jsp:<wtc:utype name="sOrdArryCncl" id="retVal"  routerKey="region" routerValue="<%=regionCode_sOrdArryCncl%>">
+ignoreThis.jsp:</wtc:utype>
+limitChk.jsp:	<wtc:utype name="sPMQProdlimit" id="retVal" scope="end" >
+limitChk.jsp:	</wtc:utype>	
+limitChk1.jsp:	<wtc:utype name="sPMQOfferlimit" id="retVal" scope="end" >
+limitChk1.jsp:	</wtc:utype>	
+modifyDate.jsp:<wtc:utype name="sCutQuitOffer" id="retVal" scope="end">
+modifyDate.jsp:</wtc:utype>
+offerReplace3.jsp:<wtc:utype name="sSetAttrVal" id="retVal" scope="end">
+offerReplace3.jsp:</wtc:utype>
+offerReplace6.jsp:<wtc:utype name="sIProdMidMac" id="retVal" scope="end">
+offerReplace6.jsp:</wtc:utype>	
+offerReplace6.jsp:<wtc:utype name="sProdChgCfm" id="retVal" scope="end" >
+offerReplace6.jsp:</wtc:utype>
+phoneCheck.jsp:<wtc:utype name="sChkMemSrv" id="retVal" scope="end">
+phoneCheck.jsp:</wtc:utype>
+produceChgShow.jsp:<wtc:utype name="sGetCustOrdMsg" id="retVal" scope="end">
+produceChgShow.jsp:</wtc:utype>	
+produceChgShow.jsp:  <wtc:utype name="sQryUserOffers" id="retVal3" scope="end" >
+produceChgShow.jsp:	</wtc:utype>	
+product_show_ajax.jsp:<wtc:utype name="sGetChgBOffer" id="retVal2" scope="end">
+product_show_ajax.jsp:</wtc:utype>
+qp01Cfm.jsp:<wtc:utype name="sCrtOrderMsg" id="retVal1" scope="end" routerKey="region" routerValue="<%=regionCode_sCrtOrderMsg%>">
+qp01Cfm.jsp:</wtc:utype>	
+qp01Cfm.jsp:<wtc:utype name="<%=serverNameSub%>" id="retVal" scope="end"  routerKey="region" routerValue="<%=regionCode_sProdChgCfm%>">
+qp01Cfm.jsp:</wtc:utype>
+qp01Main.jsp:<wtc:utype name="sQBasicInfo" id="retBd0002" scope="end"  routerKey="region" routerValue="<%=bd0002_regionCode%>">
+qp01Main.jsp:</wtc:utype>
+qryAddOffer.jsp:<wtc:utype name="sQryChgAddOffer" id="retVal" scope="end">
+qryAddOffer.jsp:</wtc:utype>
+qryAddOffer_m.jsp:<wtc:utype name="sQryChgAddOffer" id="retVal" scope="end">
+qryAddOffer_m.jsp:</wtc:utype>
+qryMainOffer.jsp:<wtc:utype name="sQryChgMOffer" id="retVal" scope="end">
+qryMainOffer.jsp:</wtc:utype>
+qryMainOffer_m.jsp:<wtc:utype name="sQryChgMOffer" id="retVal" scope="end">
+qryMainOffer_m.jsp:</wtc:utype>
+qryOfferInst.jsp:<wtc:utype name="sQryOfferInst" id="retVal" scope="end">
+qryOfferInst.jsp:</wtc:utype>
+setAttr.jsp:<wtc:utype name="sSetAttrVal" id="retVal" scope="end">
+setAttr.jsp:</wtc:utype>
+showAttr.jsp:<wtc:utype name="sQryAttrVal" id="retVal" scope="end">
+showAttr.jsp:</wtc:utype>
+showDesc.jsp:<wtc:utype name="sQryChgOfferMS" id="retVal" scope="end">
+showDesc.jsp:</wtc:utype>
+showGroup.jsp:<wtc:utype name="sQGrpAttrDet" id="retVal" scope="end">
+showGroup.jsp:</wtc:utype>
+showGroup.jsp:<wtc:utype name="sPMQGrpMebType" id="retTypeVal" scope="end">  
+showGroup.jsp:</wtc:utype>
+showGroup.jsp:<wtc:utype name="sPMQGrpInsRole" id="retInsVal" scope="end">
+showGroup.jsp:</wtc:utype>
+showPrice.jsp:<wtc:utype name="sPMQPriPln" id="retVal" scope="end">
+showPrice.jsp:</wtc:utype>
+undoCancel.jsp:<wtc:utype name="sCutQuitOffer" id="retVal" scope="end">
+undoCancel.jsp:</wtc:utype>
+undoOrder.jsp:<wtc:utype name="sCutQuitOffer" id="retVal" scope="end">
+undoOrder.jsp:</wtc:utype>

@@ -1,0 +1,224 @@
+package com.sitech.acctmgrint.atom.busi.intface.comm;
+
+
+import com.sitech.acctmgrint.common.AcctMgrError;
+import com.sitech.acctmgrint.common.constant.InterBusiConst;
+import com.sitech.common.DateConst;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcf.json.JSONArray;
+import com.sitech.jcf.json.JSONObject;
+import com.sitech.jcfx.dt.MBean;
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+public class DataSynParse {
+
+	public MBean parseJsonOdr(Map<String, Object> map, boolean check)
+	{
+		if( map == null || map.isEmpty() ){//如果同步数据为空，则报错
+			if (check == true)
+				throw new BusiException(AcctMgrError.getErrorCode(
+				InterBusiConst.ErrInfo.OP_CODE,
+				InterBusiConst.ErrInfo.DATASYN+"004"), 
+						"数据同步查询结果不能为空,请检查配置！");
+			else 
+				return null;
+		}
+		
+		MBean outMbJson = new MBean();
+		JSONArray tables = new JSONArray();
+		Set<String> tableKeys = map.keySet();
+		DateFormat sdf = new SimpleDateFormat(DateConst.DATE_MODEL_8);
+		System.out.println("sdf="+sdf.toString());
+		/**
+		 * 循环解析每张表的数据拼成对应节点
+		 */
+		for (Iterator<String> it = tableKeys.iterator(); it.hasNext();) {
+			
+			String tableName = (String) it.next();//需同步的目标表名
+			System.out.println("--for--tn="+tableName);
+			Map<String, Object> tableInfo = (Map<String, Object>) map.get(tableName);//同步的目标记录
+			List<Map<String, Object>> records = (List<Map<String, Object>>) tableInfo.get("records");//记录数
+			List<String> keys = (List<String>) tableInfo.get("keys");//主键
+			String opType = (String) tableInfo.get("update_type");//操作类型
+			
+			System.out.println("--for--tableInfo="+tableInfo.toString());
+			
+			JSONObject table = new JSONObject();
+			table.put("TABLENAME", tableName);//表名
+			//构造表字段
+			JSONArray dataRecords = new JSONArray();
+			//每张表的数据记录拼装 
+			for(Map<String, Object> record:records){
+				JSONObject dataRecord = new JSONObject();
+				
+				Set<String> columnNames = record.keySet();
+				Map<String, Object> cols = new HashMap<String, Object>();//一条记录
+				//遍历字段map
+				for (Iterator<String> it2 = columnNames.iterator(); it2.hasNext();) {
+					String columnName = (String) it2.next();
+					
+					//过滤历史表的若干公共字段不同步,持续添加...
+					if(columnName.equals("") || columnName.equals("_CLASS_NAME_")){
+						System.out.println("filter columnName="+columnName);
+						continue;
+					}
+					
+					Object columnValue = record.get(columnName);
+					if(null == columnValue){
+						columnValue = "";
+					}else if(columnValue instanceof Timestamp){
+						//时间类型数据转换格式
+						columnValue = sdf.format(columnValue);
+					}else {
+						//其它类型字段暂时不变
+					}
+					
+					if(opType.equals("I") || opType.equals("U") || opType.equals("X")){
+						cols.put(columnName, columnValue);//记录数
+					}else if(opType.equals("D")){//删除操作只传删除条件
+						if(keys.indexOf(columnName) != -1){
+							cols.put(columnName, columnValue);
+						}
+					}else{
+						throw new BusiException(AcctMgrError.getErrorCode(
+								InterBusiConst.ErrInfo.OP_CODE, InterBusiConst.ErrInfo.DATASYN+"005"), 
+								"操作类型"+opType+"不能识别");
+					}
+				}
+				dataRecord.put("OP", opType);//操作类型
+				dataRecord.put("COLS", cols);// 传输的列
+				if(opType.equals("U") || opType.equals("X")){//
+					dataRecord.put("PK", keys);//主键
+				}
+				dataRecords.add(dataRecord);
+			}
+			table.put("DATARECORDS", dataRecords);//表记录
+			tables.add(table);
+		}
+		outMbJson.addBody("TABLES", tables);
+		System.out.println("outMbJson="+outMbJson.toString());
+		
+		return outMbJson;
+	}
+	
+	public MBean parseJsonOdrByList(List<Map<String, Object>> list, boolean check)
+	{
+		/*
+		result.put("keys", keys);//主键
+		result.put("records", records);//数据集
+		result.put("update_type", sUpType);
+		result.put("table_name", tableName);
+		qryResult.add(result);
+		 */
+		
+		if( list == null || list.isEmpty() ){//如果同步数据为空，则报错
+			if (check == true)
+				throw new BusiException(AcctMgrError.getErrorCode(
+				InterBusiConst.ErrInfo.OP_CODE,
+				InterBusiConst.ErrInfo.DATASYN+"004"), 
+						"数据同步查询结果不能为空,请检查配置！");
+			else 
+				return null;
+		}
+		
+		boolean bSameTable = false;
+		String tmpTable = "";
+		String tableName = "";
+		MBean outMbJson = new MBean();
+		JSONArray tables = new JSONArray();
+		DateFormat sdf = new SimpleDateFormat(DateConst.DATE_MODEL_8);
+		System.out.println("sdf="+sdf.toString());
+
+		/**
+		 * 循环解析每张表的数据拼成对应节点
+		 */
+		JSONObject table = null;
+		JSONArray dataRecords = null;
+		int len = list.size();
+		for (int i = 0; i < len; i++) {
+			Map<String, Object> tableInfo = list.get(i);
+			
+			tmpTable = tableName;
+			tableName = tableInfo.get("table_name").toString();//需同步的目标表名
+			System.out.println("--for--tablename="+tableName+" ,tmpTable="+tmpTable);
+
+			List<Map<String, Object>> records = (List<Map<String, Object>>) tableInfo.get("records");//记录数
+			List<String> keys = (List<String>) tableInfo.get("keys");//主键
+			String opType = (String) tableInfo.get("update_type");//操作类型
+			
+			System.out.println("--for--tableInfo="+tableInfo.toString());
+			
+			if (!tableName.equals(tmpTable)) {
+				table = new JSONObject();
+				table.put("TABLENAME", tableName);//表名			
+				//构造表字段
+				dataRecords = new JSONArray();
+			}
+			
+			//每张表的数据记录拼装
+			for(Map<String, Object> record:records){
+				JSONObject dataRecord = new JSONObject();
+				
+				Set<String> columnNames = record.keySet();
+				Map<String, Object> cols = new HashMap<String, Object>();//一条记录
+				//遍历字段map
+				for (Iterator<String> it2 = columnNames.iterator(); it2.hasNext();) {
+					String columnName = (String) it2.next();
+					
+					//过滤历史表的若干公共字段不同步,持续添加...
+					if(columnName.equals("") || columnName.equals("_CLASS_NAME_")){
+						System.out.println("filter columnName="+columnName);
+						continue;
+					}
+					
+					Object columnValue = record.get(columnName);
+					if(null == columnValue){
+						columnValue = "";
+					}else if(columnValue instanceof Timestamp){
+						//时间类型数据转换格式
+						columnValue = sdf.format(columnValue);
+					}else {
+						//其它类型字段暂时不变
+					}
+					
+					if(opType.equals("I") || opType.equals("U") || opType.equals("X")){
+						cols.put(columnName, columnValue);//记录数
+					}else if(opType.equals("D")){//删除操作只传删除条件
+						if(keys.indexOf(columnName) != -1){
+							cols.put(columnName, columnValue);
+						}
+					}else{
+						throw new BusiException(AcctMgrError.getErrorCode(
+								InterBusiConst.ErrInfo.OP_CODE,
+								InterBusiConst.ErrInfo.DATASYN+"005"), 
+								"操作类型"+opType+"不能识别");
+					}
+				}
+				
+				dataRecord.put("OP", opType);//操作类型
+				dataRecord.put("COLS", cols);// 传输的列
+
+				if(opType.equals("U") || opType.equals("X")){//
+					dataRecord.put("PK", keys);//主键
+				}
+				dataRecords.add(dataRecord);
+
+			}//for records end
+
+			if ((!tmpTable.equals("") && !tableName.equals(tmpTable)) || i == len - 1) {
+				table.put("DATARECORDS", dataRecords);//表记录
+				tables.add(table);
+			}
+			
+		}//for end
+		outMbJson.addBody("TABLES", tables);
+		System.out.println("--outMbJson="+outMbJson.toString());
+		
+		return outMbJson;
+	}
+
+}

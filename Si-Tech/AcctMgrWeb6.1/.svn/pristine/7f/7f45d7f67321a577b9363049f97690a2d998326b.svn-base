@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="fav_remind_info">
+
+
+	<select id="qFavRemindFee" parameterClass="Map" resultClass="Map">
+		select sum(FREE_SUM) from FAV_REMIND_INFO 
+		where 1=1  
+		and FREE_TYPE ='4' 
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PRC_ID">
+				PRC_ID=#PRC_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BELONG_CODE">
+				belong_code = #BELONG_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ADJ_TYPE">
+				ADJ_TYPE IN 
+				<iterate property="ADJ_TYPE" close=")" open="(" conjunction="," prepend="">
+				#ADJ_TYPE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BEGIN_TIME">
+				<isNotEmpty prepend="AND" property="END_TIME">
+					TO_CHAR(OP_TIME,'YYYYMMDD') BETWEEN #BEGIN_TIME# AND
+					#END_TIME#
+				</isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="YEAR_MONTH">
+				TO_CHAR(OP_TIME,'YYYYMM') =#YEAR_MONTH#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

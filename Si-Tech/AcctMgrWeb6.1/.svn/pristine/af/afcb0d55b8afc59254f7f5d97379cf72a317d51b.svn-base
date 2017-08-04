@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invaudit_info">
+
+	<typeAlias alias="balInvauditInfo"	type="com.sitech.acctmgr.atom.domains.invoice.BalInvauditInfo" />
+	<!-- liuhl_bj add 蓝字发票入表 -->
+	<insert id="insInvAudit" parameterClass="balInvauditInfo">
+		insert into	bal_invaudit_info
+		(AUDIT_SN,ORDER_SN,PRINT_SN,PRINT_NUM,DATA_SOURCE,PHONE_NO,CUST_ID,STATE,PRINT_TYPE,INV_TYPE,
+		INV_NO,INV_CODE,TCM_CODE,BEGIN_YM,END_YM,LOGIN_NO,REPORT_TO,INSERT_TIME,REMARK,UNIT_NAME,TAXPAYER_ID,
+		DEAL_NO,DEAL_TIME,FLOW_ID,ORDER_INFO,REDINV_CAUSE,REDINV_ORDERNO,REDINV_REMARK,REDINV_CRMREMARK,
+		ORDER_SN_REL,AUDIT_SN_REL)
+		values
+		(
+		#auditSn#,#orderSn#,#printSn#,#printNum#,#dataSource#,#phoneNo#,#custId#,#state#,#printType#,#invType#,
+		#invNo#,#invCode#,#tcmCode#,#beginYm#,#endYm#,#loginNo#,#reportTo#,sysdate,#remark#,#unitName#,#taxpayerId#,
+		#loginNo#,sysdate,#flowId#,	#orderInfo#,#redinvCause#,#redinvOrderno#,#redinvRemark#,#redinvCrmremark#,
+		#orderSnRel#,#auditSnRel#
+		)
+	</insert>
+
+
+	<insert id="insAuditForRed" parameterClass="balInvauditInfo">
+		insert into bal_invaudit_info
+		(AUDIT_SN,ORDER_SN,PRINT_SN,PRINT_NUM,DATA_SOURCE,PHONE_NO,CUST_ID,STATE,PRINT_TYPE,INV_TYPE,
+		INV_NO,INV_CODE,TCM_CODE,BEGIN_YM,END_YM,LOGIN_NO,REPORT_TO,INSERT_TIME,REMARK,UNIT_NAME,TAXPAYER_ID,
+		DEAL_NO,DEAL_TIME,FLOW_ID,ORDER_INFO,REDINV_CAUSE,REDINV_ORDERNO,REDINV_REMARK,REDINV_CRMREMARK,
+		ORDER_SN_REL,AUDIT_SN_REL)
+		SELECT #auditSn#,ORDER_SN,#printSn#,PRINT_NUM,DATA_SOURCE,PHONE_NO,CUST_ID,#state#,PRINT_TYPE,#invType#,
+		#invNo#,#invCode#,#tcmCode#,BEGIN_YM,END_YM,#loginNo#,#reportTo#,sysdate,#remark#,UNIT_NAME,TAXPAYER_ID,
+		#loginNo#,sysdate,FLOW_ID,#orderInfo#,#redinvCause#,#redinvOrderno#,#redinvRemark#,#redinvCrmremark#,
+		ORDER_SN,AUDIT_SN
+		FROM BAL_INVAUDIT_INFO
+		WHERE AUDIT_SN=#auditSnRel#
+	</insert>
+	
+	<select id="qryAuditInfo" parameterClass="Map" resultClass="balInvauditInfo">
+		SELECT AUDIT_SN auditSn,PRINT_SN printSn,CUST_ID custId,TAXPAYER_ID taxPayerId,TO_CHAR(INSERT_TIME,'YYYYMM') insertTime,
+		UNIT_NAME unitName,BEGIN_YM beginYm,END_YM endYm,INV_TYPE invType,STATE state,REMARK remark,AUDIT_SN_REL auditSnRel,
+		INV_NO invNo,INV_CODE invCode,TO_CHAR(REPORT_TIME,'YYYYMM') reportTime
+		FROM BAL_INVAUDIT_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="AUDIT_SN">
+				AND AUDIT_SN = #AUDIT_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="INV_NO">
+				AND INV_NO = #INV_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="INV_CODE">
+				AND INV_CODE = #INV_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PHONE_NO">
+				AND PHONE_NO = #PHONE_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CUST_ID">
+				AND CUST_ID = #CUST_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BEGIN_YM">
+				AND TO_CHAR(INSERT_TIME,'YYYYMM') <![CDATA[>=]]> #BEGIN_YM#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="END_YM">
+				AND TO_CHAR(INSERT_TIME,'YYYYMM') <![CDATA[<=]]> #END_YM#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATE">
+				AND STATE IN
+				<iterate close=")" conjunction="," open="(" prepend="" property="STATE">
+					#STATE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="EXP_STATE">
+				AND STATE NOT IN 
+				<iterate close=")" conjunction="," open="(" prepend="" property="EXP_STATE">
+					#EXP_STATE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="AUDIT_SN_REL">
+				AND AUDIT_SN_REL = #AUDIT_SN_REL#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="REPORT_TO">
+				AND REPORT_TO = #REPORT_TO#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!-- liuhl_bj add 更新表中的字段 -->
+	<update id="updateInvAudit" parameterClass="Map">
+		UPDATE BAL_INVAUDIT_INFO SET STATE=#STATE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="INV_NO">
+				INV_NO=#INV_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="INV_CODE">
+				INV_CODE=#INV_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REPORT_TO">
+				REPORT_TO=#REPORT_TO#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="AUDIT_NO">
+				AUDIT_NO=#AUDIT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REPORT_TIME">
+				REPORT_TIME=SYSDATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="AUDIT_TIME">
+				AUDIT_TIME=SYSDATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REMARK">
+				REMARK=#REMARK#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="PRINT_TIME">
+				PRINT_TIME=SYSDATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="DISABLED_TIME">
+				DISABLED_TIME=SYSDATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="AUDITOK_TIME">
+				AUDITOK_TIME=SYSDATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="CALLBACK_TIME">
+				CALLBACK_TIME=SYSDATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="DEAL_NO">
+				DEAL_NO=#DEAL_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="DEAL_TIME">
+				DEAL_TIME=SYSDATE
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="INV_TYPE">
+				INV_TYPE=#INV_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REDINV_CAUSE">
+				REDINV_CAUSE=#REDINV_CAUSE#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REDINV_REMARK">
+				REDINV_REMARK=#REDINV_REMARK#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REDINV_CRMREMARK">
+				REDINV_CRMREMARK=#REDINV_CRMREMARK#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="REDINV_ORDERNO">
+				REDINV_ORDERNO=#REDINV_ORDERNO#
+			</isNotEmpty>
+		</dynamic>
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PRINT_SN">
+				AND PRINT_SN=#PRINT_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="AUDIT_SN">
+				AND AUDIT_SN=#AUDIT_SN#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(*) FROM BAL_INVAUDIT_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="AUDIT_SN_REL">
+				AND AUDIT_SN_REL=#AUDIT_SN_REL#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

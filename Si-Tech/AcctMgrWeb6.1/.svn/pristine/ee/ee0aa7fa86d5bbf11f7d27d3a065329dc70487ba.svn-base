@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_groupcharge_recd">
+	<typeAlias alias="GroupCharge" type="com.sitech.acctmgr.atom.domains.pay.GroupChargeEntity"/>
+
+    <delete id="delRecdByGrpCon" parameterClass="Map">
+	 	DELETE FROM BAL_GROUPCHARGE_RECD 
+	 	WHERE  GROUP_CONTRACT_NO=#GROUP_CONTRACT_NO#
+    </delete>
+  
+	<delete id="delRecdByPhoneSn" parameterClass="Map">
+	 	DELETE FROM BAL_GROUPCHARGE_RECD 
+	 	WHERE  PHONE_NO=#PHONE_NO# AND IMPORT_BATCH_SN=#IMPORT_BATCH_SN#
+    </delete>
+
+	<select id="qryRecdList" parameterClass="Map" resultClass="GroupCharge">
+	    SELECT TO_CHAR(A.PHONE_NO) phoneNo,TO_CHAR(A.PAY_MONEY) payMoney,TO_CHAR(A.IMPORT_BATCH_SN) importBatchSn,D.RUN_NAME runName,
+	           A.CONTRACT_NO contractNo,A.GROUP_PRODUCT_NAME groupProductName
+	    FROM BAL_GROUPCHARGE_RECD A , UR_USER_INFO B,CS_USERDETAIL_INFO C,CS_RUNCODE_DICT D
+        WHERE A.GROUP_CONTRACT_NO = #GROUP_CONTRACT_NO#
+        AND A.PHONE_NO = B.PHONE_NO
+	    AND B.ID_NO =  C.ID_NO
+	    AND C.RUN_CODE=D.RUN_CODE
+	</select>
+
+	<insert id="iGrpChargeRecd"  parameterClass="Map">
+		INSERT INTO BAL_GROUPCHARGE_RECD (TOTAL_DATE,OP_CODE,PHONE_NO,CONTRACT_NO,LOGIN_NO,IMPORT_TIME,GROUP_CONTRACT_NO,
+		GROUP_PRODUCT_NAME,FILE_NAME,IMPORT_BATCH_SN,PAY_MONEY)
+		VALUES(#TOTAL_DATE#,#OP_CODE#,#PHONE_NO#,#CONTRACT_NO#,#LOGIN_NO#,SYSDATE,#GROUP_CONTRACT_NO#,
+		#GROUP_PRODUCT_NAME#,#FILE_NAME#,#IMPORT_BATCH_SN#,#PAY_MONEY#)
+	</insert>
+
+</sqlMap>

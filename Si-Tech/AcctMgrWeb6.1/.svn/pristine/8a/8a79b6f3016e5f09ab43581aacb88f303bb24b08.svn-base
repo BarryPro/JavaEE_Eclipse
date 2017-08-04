@@ -1,0 +1,858 @@
+package com.sitech.acctmgr.atom.busi.adj;
+
+import com.sitech.acctmgr.atom.busi.adj.inter.IAdjCommon;
+import com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder;
+import com.sitech.acctmgr.atom.busi.pay.inter.IWriteOffer;
+import com.sitech.acctmgr.atom.domains.adj.AdjBIllEntity;
+import com.sitech.acctmgr.atom.domains.adj.AdjExtendEntity;
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.bill.BillItemEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayBookEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayUserBaseEntity;
+import com.sitech.acctmgr.atom.domains.user.BilldayInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.GroupchgInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserBrandEntity;
+import com.sitech.acctmgr.atom.domains.user.UserPrcEntity;
+import com.sitech.acctmgr.atom.entity.inter.*;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.BaseBusi;
+import com.sitech.acctmgr.common.constant.PayBusiConst;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcf.core.exception.BaseException;
+import com.sitech.jcfx.util.DateUtil;
+
+import java.util.*;
+
+import static org.apache.commons.collections.MapUtils.*;
+
+/**
+*
+* <p>Title: 补收、退费公共方法类  </p>
+* <p>Description: 提供补收、退费公共方法  </p>
+* <p>Copyright: Copyright (c) 2016</p>
+* <p>Company: SI-TECH </p>
+* @author guowy
+* @version 1.0
+*/
+public class AdjCommon extends BaseBusi implements IAdjCommon {
+	
+	private IBill bill;
+	private IAdj adj;
+	private IControl control;
+	private IUser user;
+	private IProd prod;
+	private IBalance balance;
+	private IGroup group;
+	private IWriteOffer writeOffer;
+	private IPreOrder preOrder;
+
+	public Map<String, Object> doAdjOweFinal(Map<String, Object> inParam) {
+		Map<String, Object> inAdjMap = null;
+		Map<String, Object> outAdjMap = null;
+		
+		//获取入参信息
+		String payDetail = inParam.get("PAY_DETAIL").toString();
+		PayUserBaseEntity userBase =  (PayUserBaseEntity)inParam.get("PAY_USER_BASE_ENTITY");
+		String provinceId = inParam.get("PROVINCE_ID").toString();
+
+		log.info("-------> doAdjOwe_in : "+inParam.entrySet());
+
+		//页面所有账目项分拆后明细 0q0q00|1#0q1q00#-- >0q0101|5|0.06|1#0q0102|5|0.06|1#0q1q00|5|0.06|1#
+		String fcPayDetail = acctItemCodeSplitAndJoint(payDetail, userBase.getContractNo(), provinceId);
+		
+		log.info("-------> doAdjOweFinal fcPayDetail : "+fcPayDetail);
+		
+		//补收核心函数
+		inAdjMap=new HashMap<String, Object>();
+		inAdjMap.putAll(inParam);
+		inAdjMap.put("PAY_DETAIL", fcPayDetail);
+		outAdjMap=doAdjOweAo(inAdjMap);
+
+		return outAdjMap;
+	}
+	
+	//补收函数，不包含账目项拆分
+	public Map<String, Object> doAdjOweAo(Map<String, Object> inParam) {
+		Map<String, Object> outParam = null;  /*变量:出参*/
+		Map<String, Object> inMap = null;/*临时变量:入参*/
+		
+		log.info("-------> doAdjOwe_in : "+inParam.entrySet());
+		
+		//获取入参信息
+		String payDetail = inParam.get("PAY_DETAIL").toString();
+		PayBookEntity inBook = (PayBookEntity)inParam.get("PAY_BOOK_ENTITY");
+		AdjBIllEntity billEnt =  (AdjBIllEntity)inParam.get("ADJ_BILL_ENTITY");
+		PayUserBaseEntity userBase =  (PayUserBaseEntity)inParam.get("PAY_USER_BASE_ENTITY");
+		AdjExtendEntity adjExtendEnt = (AdjExtendEntity)inParam.get("ADJ_EXTEND_ENTITY");
+
+		long totalPay = inBook.getPayFee();
+		long contractNo = userBase.getContractNo();
+		long idNo = userBase.getIdNo();
+		int billCycle = billEnt.getBillCycle();
+
+		//获取当前时间
+		String curTime = DateUtil.format(new Date(), PayBusiConst.YYYYMMDDHHMMSS2);
+		String curYm=String.format("%6s", curTime.substring(0, 6));//当前年月
+
+		//取BILL_DAY
+		long billDay = adj.getBillDay(contractNo, idNo, curYm);
+
+		//取交费流水
+		long paySn = 0;
+		if (inBook.getPaySn() == 0) {
+			paySn = control.getSequence("SEQ_PAY_SN");
+			inBook.setPaySn(paySn);
+			inBook.setOriginalSn(paySn);
+			adjExtendEnt.setOpSn(paySn);
+		}else{
+			paySn = inBook.getPaySn();
+		}
+		
+		inBook.setPrintFlag("0");
+		
+		//取冲销流水
+		long wrtoffSn =  control.getSequence("SEQ_WRTOFF_SN");
+		//取账本流水
+		long balanceId = 	control.getSequence("SEQ_BALANCE_ID");
+		inBook.setBalanceId(balanceId);
+		
+		//查询用户品牌
+		UserBrandEntity userBrandEnt = user.getUserBrandRel(idNo);
+		String brandId = userBrandEnt.getBrandId();
+
+		//取用户主产品
+		UserPrcEntity userPrcEnt = prod.getUserPrcidInfo(idNo);
+		String prodPrcid = userPrcEnt.getProdPrcid();
+
+		//取账期开始、结束时间
+		BilldayInfoEntity billDayEnt = bill.getBillCycle(idNo, 0, billCycle);
+		int beginDate= billDayEnt.getBeginDate();
+		int endDate= billDayEnt.getEndDate();
+		
+		//账单实体设值
+		billEnt.setBillBegin(beginDate);
+		billEnt.setBillDay(billDay);
+		billEnt.setBillEnd(endDate);
+		billEnt.setBillType("0");
+		billEnt.setBrandId(brandId);
+		billEnt.setDuration(0);
+		billEnt.setFavourFee(0);
+		billEnt.setPayedLater(0);
+		billEnt.setProdPrcid(prodPrcid);
+		billEnt.setTimes(0);
+
+		long sumAdjFee = 0;
+
+		//支持多个账目项同时补收
+		int iDetailLen=payDetail.trim().length();
+		
+		log.info("[sPayDetail -"+payDetail+",iDetailLen - "+iDetailLen+"]");
+		
+		if(!"#".equals(payDetail.substring(iDetailLen-1))){
+			log.error("------> 传入串格式错误0");
+			throw new BaseException(AcctMgrError.getErrorCode("8010", "00013"),"传入串格式错误["+payDetail+"]");
+		}
+		
+		String[] arrayDetail= StringUtils.split(payDetail, "#");
+		
+		log.info("------>arrayDetail "+Arrays.toString(arrayDetail));
+		
+		for(int i=0;i<arrayDetail.length;i++){
+			log.info("---------> arrayDetail_llist ="+i);
+			
+			if(-1==arrayDetail[i].indexOf("|")){
+				log.error("------> 传入串格式错误1");
+				throw new BaseException(AcctMgrError.getErrorCode("8010", "00014"),"传入串格式错误["+payDetail+"]");
+			}
+			
+			String[] feeDetail= StringUtils.split(arrayDetail[i], "|");
+			
+			if (5 != feeDetail.length) {
+				log.error("------> 传入串格式错误2");//acct_item_code|adj_fee|tax_rate|tax_fee
+				throw new BaseException(AcctMgrError.getErrorCode("8010", "00015"),"传入串格式错误["+payDetail+"]");
+			}
+
+			String acctItemCode=feeDetail[0];
+			long payMoney=Long.parseLong(feeDetail[1]);
+			double taxRate = Double.parseDouble(feeDetail[2]);
+			long taxFee  = Long.parseLong(feeDetail[3]);
+			String detailCode=feeDetail[4];
+
+			//查询税率税费，分拆账目项公式：round(((应收-优惠)-(应收-优惠)/(1+税率))*100)
+			/*double taxRate = bill.getTaxRateByItemCode(sAcctItemCode);
+			long taxFee = Math.round(((lPayMoney)-(lPayMoney)/(1+taxRate))*100);*/
+
+			//取账单流水
+			long billId = control.getSequence("SEQ_BILL_ID");
+
+			//获取最小账单年月
+			String selDate = control.getPubCodeValue(108, "HISBILLYM", null);
+			
+			String tablePayedowe = "";
+			if( billCycle >= Integer.parseInt(selDate) ){
+				tablePayedowe = "ACT_PAYEDOWE_" + billCycle;
+			}else{
+				tablePayedowe = "ACT_PAYEDOWE_HIS";
+			}
+
+			//补收账单实体其他值设值，补收插入明细
+			billEnt.setAcctItemCode(acctItemCode);
+			billEnt.setBillId(billId);
+			billEnt.setDetailCode(detailCode);
+			billEnt.setShouldPay(payMoney);
+			billEnt.setTaxRate(taxRate);
+			
+			adjExtendEnt.setBillId(billId);
+			
+			log.info("-------> payMoney : "+payMoney);
+			if(payMoney > 0){
+				//正补收
+				billEnt.setPayedPrepay(0);
+				billEnt.setPayedTax(0);
+				billEnt.setTaxFee(taxFee);
+				baseDao.insert("act_unpayowe_info.iUnPayoweInfo", billEnt.toMap());
+			}else {
+				//负补收
+				billEnt.setPayedPrepay(payMoney);
+				billEnt.setPayedTax(taxFee);
+				billEnt.setTaxFee(taxFee);
+				
+				inMap = new HashMap<String, Object>();
+				inMap.put("TABLE_PAYEDOWE", tablePayedowe);
+				inMap.putAll(billEnt.toMap());
+				baseDao.insert("act_payedowe_info.iPayedOweInfo", inMap);
+
+				//状态为已销账的账单插入销账记录表		
+				Map inWrtoffMap = new HashMap();
+				inWrtoffMap.put( "WRTOFF_SN" , wrtoffSn);
+				inWrtoffMap.put( "ID_NO" , idNo);
+				inWrtoffMap.put( "LOGIN_NO" , inBook.getLoginNo());
+				inWrtoffMap.put( "BILL_ID" , billId);
+				inWrtoffMap.put( "STATUS" , "0");
+				inWrtoffMap.put( "BALANCE_ID" , inBook.getBalanceId() );
+				inWrtoffMap.put( "PAY_TYPE" , inBook.getPayType());
+				inWrtoffMap.put("LOGIN_NO", inBook.getLoginNo());
+				inWrtoffMap.put( "PRINT_FLAG" ,"0");
+				inWrtoffMap.put("YEAR_MONTH", curYm);
+				inWrtoffMap.put("TABLE_PAYEDOWE", tablePayedowe);
+				log.info("--> writeOffer_in="+inMap.entrySet());
+				saveWrtoff(inWrtoffMap);
+			}
+
+			//记录补收信息
+			log.info("--> billEnt.BILLID"+billEnt.getBillId());
+			adj.saveAcctAdjOweInfo(billEnt, adjExtendEnt);
+			
+			 //报表发送
+	        Map<String, Object> adjoweKey = new HashMap<String, Object>();
+	        adjoweKey.put("BILL_ID", billId);
+	        adjoweKey.put("CONTRACT_NO", contractNo);
+	        
+	        Map inMapTmp = new HashMap<String, Object>();
+	        inMapTmp.put("ACTION_ID", "1014");
+	        inMapTmp.put("KEY_DATA", adjoweKey);
+			inMapTmp.put("LOGIN_NO", inBook.getLoginNo());
+			inMapTmp.put("PHONE_NO", userBase.getPhoneNo());
+			inMapTmp.put("LOGIN_SN", paySn);
+			inMapTmp.put("OP_CODE", inBook.getOpCode());
+			
+			preOrder.sendReportData((Map<String, Object>)inParam.get("Header"), inMapTmp);
+			
+			//sp信息记录sp信息表
+			if(adjExtendEnt.isSpFlag()){
+				Map spInMap = new HashMap<String, Object>();
+				spInMap.putAll(inParam);
+				spInMap.put("BILL_CYCLE",billEnt.getBillCycle());
+				spInMap.put("ID_NO",billEnt.getIdNo());
+				spInMap.put("LOGIN_ACCEPT", adjExtendEnt.getOpSn() );
+				spInMap.put("BACK_RSLT", adjExtendEnt.getAdjReason());
+				//act_obbizback_info表back_fee应该记为正值,冲正记为负值
+				spInMap.put("BACK_FEE",-1*inBook.getPayFee());
+				spInMap.put("YEAR_MONTH", curYm);
+				adjExtendEnt.getOpTime();
+				adj.saveSpInfo(spInMap);
+			}
+
+			sumAdjFee = sumAdjFee + payMoney;
+		}//有账目项，多条记录
+
+		if(sumAdjFee != totalPay){
+			String errmsgT=String.format("补收总金额[%.2f]和实际补收金额[%.2f]不符,差额[%.2f]"
+					,(double)totalPay/100 ,(double)sumAdjFee/100,(double)(totalPay-sumAdjFee)/100);
+			throw new BaseException(AcctMgrError.getErrorCode("8010", "00016"),errmsgT);
+		}
+
+		//正补收同步实时销账
+		if(totalPay > 0){
+			/*同步实时销账*/ 
+			Map<String, Object> rtWrtoffMap = new HashMap<String, Object>(); 
+			rtWrtoffMap.put("Header", inParam.get("Header")); 
+			rtWrtoffMap.put("PAY_SN", paySn); 
+			rtWrtoffMap.put("CONTRACT_NO", contractNo); 
+			rtWrtoffMap.put("WRTOFF_FLAG", "2"); 
+			rtWrtoffMap.put("REMARK", "补收同步"); 
+			rtWrtoffMap.put("J_FLAG", "1");  //要做开机
+			balance.saveRtwroffChg(rtWrtoffMap);
+		}
+		//负补收入账本表、支出表、同步实时销账
+		if(totalPay<=0){
+			inBook.setPayFee(-1 * totalPay);
+			saveAdjBook(userBase, inBook, wrtoffSn);
+		}
+		
+		outParam = new HashMap<String, Object>();
+		outParam.put("PAY_SN", paySn);
+		return outParam;
+	}
+
+
+	public IPreOrder getPreOrder() {
+		return preOrder;
+	}
+
+	public void setPreOrder(IPreOrder preOrder) {
+		this.preOrder = preOrder;
+	}
+
+	//小额支付补收核心方法
+	public Map<String, Object> MicroAdj(Map<String, Object> inParam){
+		AdjBIllEntity billEnt =  (AdjBIllEntity)inParam.get("ADJ_BILL_ENTITY");
+		PayBookEntity inBook = (PayBookEntity)inParam.get("PAY_BOOK_ENTITY");
+		PayUserBaseEntity userBase = (PayUserBaseEntity)inParam.get("PAY_USER_BASE_ENTITY");
+
+		//取账目项税率和税费
+		String acctItem=billEnt.getAcctItemCode();
+		Long giveFee=billEnt.getShouldPay()-billEnt.getFavourFee();
+		Map<String,Object> outParam=bill.getTaxFee(giveFee,acctItem);
+		double taxRate=Double.parseDouble(outParam.get("TAX_RATE").toString());
+		long   taxFee= Long.parseLong(outParam.get("TAX_FEE").toString());
+
+		//取账期开始、结束时间
+		BilldayInfoEntity billDayEnt = bill.getBillCycle(userBase.getIdNo(), userBase.getContractNo(), billEnt.getBillCycle());
+		int beginDate= billDayEnt.getBeginDate();
+		int endDate= billDayEnt.getEndDate();
+
+		//入正账单
+		billEnt.setContractNo(userBase.getContractNo());
+		billEnt.setCustId(userBase.getCustId());
+		billEnt.setGroupId(userBase.getUserGroupId());
+		billEnt.setIdNo(userBase.getIdNo());
+		long billId = 0;
+		if((long) inParam.get("BILL_ID")==0L){
+			billId = control.getSequence("SEQ_BILL_ID");
+		}else{
+			billId = (long) inParam.get("BILL_ID");
+		}
+		billEnt.setBillId(billId);
+		billEnt.setCycleType("0");
+		billEnt.setTaxRate(taxRate);
+		billEnt.setPayedPrepay(0);
+		billEnt.setPayedTax(0);
+		billEnt.setStatus("0");
+		billEnt.setTaxFee(taxFee);
+		billEnt.setBrandId(userBase.getBrandId());
+		billEnt.setProdPrcid(userBase.getProdPrcid());
+		billEnt.setBillType("0");
+		billEnt.setBillBegin(beginDate);
+		billEnt.setBillEnd(endDate);
+		billEnt.setDuration(0);
+		billEnt.setFavourFee(0);
+		billEnt.setPayedLater(0);
+		billEnt.setTimes(0);
+
+		
+		baseDao.insert("act_unpayowe_info.iUnPayoweInfo", billEnt.toMap());
+		
+		
+		//触发冲销
+		Map<String, Object> inParamMap = new HashMap<String, Object>();
+		inParamMap.put("Header", inParam.get("Header"));
+		inParamMap.put("PAY_SN", inBook.getPaySn());
+		inParamMap.put("CONTRACT_NO", userBase.getContractNo());
+		inParamMap.put("PHONE_NO", userBase.getPhoneNo());
+		inParamMap.put("LOGIN_NO", inBook.getLoginNo());
+		inParamMap.put("GROUP_ID", inBook.getGroupId());
+		inParamMap.put("OP_CODE", inBook.getOpCode());
+		inParamMap.put("DELAY_FAVOUR_RATE", "0");
+		inParamMap.put("PAY_PATH", "11");
+		writeOffer.doWriteOff(inParamMap);
+
+		return null;
+	}
+	
+	
+	//小额支付负补收核心方法，与小额支付的正补收对应
+	public Map<String, Object> MinusAdj(Map<String, Object> inParam){
+		AdjBIllEntity billEnt =  (AdjBIllEntity)inParam.get("ADJ_BILL_ENTITY");
+		PayBookEntity inBook = (PayBookEntity)inParam.get("PAY_BOOK_ENTITY");
+		PayUserBaseEntity userBase = (PayUserBaseEntity)inParam.get("PAY_USER_BASE_ENTITY");
+		String provinceId = (String)inParam.get("PROVINCE_ID");
+
+		//取账目项税率和税费
+		String acctItem=billEnt.getAcctItemCode();
+		Long payFee=billEnt.getShouldPay()-billEnt.getFavourFee();
+		Map<String,Object> outParam=bill.getTaxFee(payFee,acctItem);
+		double taxRate=Double.parseDouble(outParam.get("TAX_RATE").toString());
+		long   taxFee= Long.parseLong(outParam.get("TAX_FEE").toString());
+
+		//取账期开始、结束时间
+		BilldayInfoEntity billDayEnt = bill.getBillCycle(userBase.getIdNo(), userBase.getContractNo(), billEnt.getBillCycle());
+		int beginDate= billDayEnt.getBeginDate();
+		int endDate= billDayEnt.getEndDate();
+		
+		int billCycle = billEnt.getBillCycle();
+		//获取最小账单年月
+		String selDate = control.getPubCodeValue(108, "HISBILLYM", null);
+		String tablePayedowe = "";
+		if( billCycle >= Integer.parseInt(selDate) ){
+			tablePayedowe = "ACT_PAYEDOWE_" + billCycle;
+		}else{
+			tablePayedowe = "ACT_PAYEDOWE_HIS";
+		}
+
+		//取冲销流水
+		long wrtoffSn =  control.getSequence("SEQ_WRTOFF_SN");
+		//取账本流水
+		long balanceId = 	control.getSequence("SEQ_BALANCE_ID");
+		inBook.setBalanceId(balanceId);
+		
+		//获取当前时间
+		String curTime = DateUtil.format(new Date(), PayBusiConst.YYYYMMDDHHMMSS2);
+		String curYm=String.format("%6s", curTime.substring(0, 6));//当前年月
+		
+		//入负补收账单
+		billEnt.setContractNo(userBase.getContractNo());
+		billEnt.setCustId(userBase.getCustId());
+		billEnt.setGroupId(userBase.getUserGroupId());
+		billEnt.setIdNo(userBase.getIdNo());
+		billEnt.setBillId(control.getSequence("SEQ_BILL_ID"));
+		billEnt.setCycleType("0");
+		billEnt.setTaxRate(taxRate);
+		billEnt.setStatus("2");
+		billEnt.setBrandId(userBase.getBrandId());
+		billEnt.setProdPrcid(userBase.getProdPrcid());
+		billEnt.setBillType("0");
+		billEnt.setBillBegin(beginDate);
+		billEnt.setBillEnd(endDate);
+		billEnt.setDuration(0);
+		billEnt.setFavourFee(0);
+		billEnt.setPayedLater(0);
+		billEnt.setTimes(0);
+		billEnt.setPayedPrepay(payFee);
+		billEnt.setPayedTax(taxFee);
+		billEnt.setTaxFee(taxFee);
+		
+
+		Map inMap = new HashMap<String, Object>();
+		inMap.put("TABLE_PAYEDOWE", tablePayedowe);
+		inMap.putAll(billEnt.toMap());
+		baseDao.insert("act_payedowe_info.iPayedOweInfo", inMap);
+
+	/*	//状态为已销账的账单插入销账记录表
+		inMap.put( "WRTOFF_SN" , wrtoffSn);
+		inMap.put( "BALANCE_ID" , inBook.getBalanceId() );
+		inMap.put( "PAY_TYPE" , inBook.getPayType());
+		inMap.put("LOGIN_NO", inBook.getLoginNo());
+		inMap.put( "PRINT_FLAG" ,"0");
+		inMap.put("YEAR_MONTH", curYm);
+		log.info("--> writeOffer_in="+inMap.entrySet());
+		saveWrtoff(inMap);
+		*/
+		//状态为已销账的账单插入销账记录表		
+		Map inWrtoffMap = new HashMap();
+		inWrtoffMap.put( "WRTOFF_SN" , wrtoffSn);
+		inWrtoffMap.put( "ID_NO" , billEnt.getIdNo());
+		inWrtoffMap.put( "LOGIN_NO" , inBook.getLoginNo());
+		inWrtoffMap.put( "BILL_ID" , billEnt.getBillId());
+		inWrtoffMap.put( "STATUS" , "0");
+		inWrtoffMap.put( "BALANCE_ID" , inBook.getBalanceId() );
+		inWrtoffMap.put( "PAY_TYPE" , inBook.getPayType());
+		inWrtoffMap.put("LOGIN_NO", inBook.getLoginNo());
+		inWrtoffMap.put( "PRINT_FLAG" ,"0");
+		inWrtoffMap.put("YEAR_MONTH", curYm);
+		inWrtoffMap.put("TABLE_PAYEDOWE", tablePayedowe);
+		log.info("--> writeOffer_in="+inMap.entrySet());
+		saveWrtoff(inWrtoffMap);
+		
+		//记录补收信息
+		//adj.saveAcctAdjOweInfo(billEnt, adjExtendEnt);
+		
+		//负补收入账本表、支出表、同步实时销账
+		inBook.setPayFee(-1 * payFee);
+		saveAdjBook(userBase, inBook, wrtoffSn);
+
+		//触发冲销
+		Map<String, Object> inParamMap = new HashMap<String, Object>();
+		inParamMap.put("Header", inParam.get("Header"));
+		inParamMap.put("PAY_SN", inBook.getPaySn());
+		inParamMap.put("CONTRACT_NO", userBase.getContractNo());
+		inParamMap.put("PHONE_NO", userBase.getPhoneNo());
+		inParamMap.put("LOGIN_NO", inBook.getLoginNo());
+		inParamMap.put("GROUP_ID", inBook.getGroupId());
+		inParamMap.put("OP_CODE", inBook.getOpCode());
+		inParamMap.put("DELAY_FAVOUR_RATE", "0");
+		inParamMap.put("PAY_PATH", "11");
+		writeOffer.doWriteOff(inParamMap);
+		
+		return null;
+	}
+
+	/**
+	* 名称：多账目项拆分拼接
+	* @param payAcctItemDetail 账目项信息字符串  例如：0q0q00|10#0q0q01|1#
+	* @param contractNo 账户号码
+	* 
+	* @return acctItemDetail 重新组合后的账目项信息字符串 例如：0q0q02|10#0q0q03|1#
+	* @throws
+	 */
+	@SuppressWarnings("unchecked")
+	private String acctItemCodeSplitAndJoint(String payAcctItemDetail, long contractNo, String provinceId){
+		// 支持多个账目项同时补收 0q0q00|10#
+		
+		String acctItemDetail = ""; // 账目项拆分组合后新字符串
+		
+		//获取当前时间
+		String curTime =DateUtil.format(new Date(), PayBusiConst.YYYYMMDDHHMMSS2);
+		String curYm  =curTime.substring(0, 6);
+		
+		//取账户归属GROUP_ID
+		GroupchgInfoEntity groupEnt = group.getChgGroup(null, null, contractNo);
+		String conGroupId= groupEnt.getGroupId();
+
+		//取账户地市编码-2位
+		ChngroupRelEntity chnGroupEnt = group.getRegionDistinct(conGroupId, "2", provinceId);
+		String regionId = chnGroupEnt.getRegionCode();
+		String regionOld = regionId.substring(2, 4);
+		
+		int detailLen = payAcctItemDetail.trim().length(); // 获取字符串长度
+
+		log.info("[payAcctItemDetail -->" + payAcctItemDetail + ",detailLen --> " + detailLen + "]");
+
+		// 字符串格式验证
+		if (!"#".equals(payAcctItemDetail.substring(detailLen - 1))) {
+			log.error("------> 传入串格式错误0,payAcctItemDetail=" + payAcctItemDetail);
+			throw new BaseException(AcctMgrError.getErrorCode("8010", "00010"), "传入串格式错误[" + payAcctItemDetail + "]");
+		}
+
+		// 字符串拆分
+		String[] arrayDetail = StringUtils.split(payAcctItemDetail, "#");
+
+		log.info("------>arrayDetail " + Arrays.toString(arrayDetail));
+
+		for (int i = 0; i < arrayDetail.length; i++) {
+
+			log.info("---------> arrayDetail_list =" + i);
+
+			if (-1 == arrayDetail[i].indexOf("|")) {
+				log.error("------> 传入串格式错误1,payDetail=" + payAcctItemDetail);
+				throw new BaseException(AcctMgrError.getErrorCode("8010", "00011"),
+						"传入串格式错误[" + payAcctItemDetail + "]");
+			}
+
+			String[] feeDetail = StringUtils.split(arrayDetail[i], "|");
+
+			if (2 != feeDetail.length) {
+				log.error("------> 传入串格式错误2,payDetail=" + payAcctItemDetail);
+				throw new BaseException(AcctMgrError.getErrorCode("8010", "00012"),
+						"传入串格式错误[" + payAcctItemDetail + "]");
+			}
+
+			String acctItemCode = feeDetail[0]; // 账目项
+			long prepayFee = Long.parseLong(feeDetail[1]); // 账目项补收费用
+
+			Map<String, Object> inForMap = null;
+			Map<String, Object> outForMap = null;
+
+			// TODO　判断是否是保底消费帐目项<保底消费要拆分帐目项>
+			boolean isBDItem = false; //bill.isBDItemCode(acctItemCode);
+
+			log.info("------>acctItemCode_bdCnt =" + acctItemCode + "," + isBDItem);
+
+			if (isBDItem) {
+				log.info("------>保底消费帐目项：按照拆分规则拆分账目项");
+
+				double numValue1 = 0;
+				// double numValue2 = 0;
+				double taxRate1 = 0;
+				double taxRate2 = 0;
+				inForMap = new HashMap<String, Object>();
+				safeAddToMap(inForMap, "CODE_CLASS", 2407);
+				outForMap = (Map<String, Object>) baseDao.queryForObject("pub_codedef_dict.qVision", inForMap);
+				if (outForMap == null) {
+					numValue1 = 0.55;
+					// numValue2 = 0.45;
+					taxRate1 = 0.11;
+					taxRate2 = 0.06;
+				}
+				numValue1 = getDoubleValue(outForMap, "CODE_ID");// 0.55
+				// numValue2 = getDoubleValue(outForMap, "CODE_NAME");//0.45
+				taxRate1 = getDoubleValue(outForMap, "CODE_VALUE"); // 0.11
+				taxRate2 = getDoubleValue(outForMap, "CODE_DESC"); // 0.06
+
+				long prepayFee1 = Math.round(prepayFee * numValue1);
+				long prepayFee2 = prepayFee - prepayFee1;
+
+				long taxFee1 = Math.round(((prepayFee1) - (prepayFee1) / (1 + taxRate1)) * 100);
+				long taxFee2 = Math.round(((prepayFee2) - (prepayFee2) / (1 + taxRate2)) * 100);
+
+				acctItemDetail += acctItemCode + "|" + prepayFee1 + "|" + taxRate1 + "|" + taxFee1 + "|" + acctItemCode
+						+ "|#";
+				acctItemDetail += acctItemCode + "|" + prepayFee2 + "|" + taxRate2 + "|" + taxFee2 + "|" + acctItemCode
+						+ "|#";
+
+			} else {
+				log.info("------>非保底消费帐目项0：判断是否需要拆分");
+
+				/** 查看是否满足拆分规则配置 */
+				inForMap = new HashMap<String, Object>();
+				safeAddToMap(inForMap, "ACCT_ITEM_CODE", acctItemCode);
+				safeAddToMap(inForMap, "REGION_CODE", regionOld);
+				safeAddToMap(inForMap, "CUR_YM", curYm);
+				
+				// TODO 是否需要拆分，需确认
+				List<Map<String, Object>> listSplit = new ArrayList<Map<String, Object>>();
+				//List<Map<String, Object>> listSplit = bill.getItemSlitCode(inForMap);
+				int lenSplit = listSplit.size();
+
+				if (lenSplit == 0) {
+					log.info("------>非保底消费帐目项1：不需要拆分账目项，acctItemCode=" + acctItemCode);
+			        BillItemEntity billItem = bill.getItemConf(acctItemCode);
+					double taxRate = billItem.getNewTaxRate();
+					
+					log.info("------>sAcctItemCode_taxRate =" + acctItemCode + "," + taxRate);
+					
+					long taxFee = Math.round(((prepayFee) - (prepayFee) / (1 + taxRate)) * 100);
+
+					acctItemDetail += acctItemCode + "|" + prepayFee + "|" + taxRate + "|" + taxFee + "|" + acctItemCode
+							+ "|#";
+				} else {
+					log.info("------>非保底消费帐目项12：需要拆分，按照拆分规则拆分账目项，acctItemCode=" + acctItemCode);
+
+					long sumPrepay = 0; // split_flag=0 的总和
+					for (Map<String, Object> mapSplit : listSplit) {
+						String splitCode = getString(mapSplit, "SPLIT_CODE");
+						String splitFlag = getString(mapSplit, "SPLIT_FLAG");
+						double splitRule = getDoubleValue(mapSplit, "SPLIT_RULE");
+
+						// 分拆后在税率
+						Map<String, Object> inMap = new HashMap<String, Object>();
+				        safeAddToMap(inMap, "ACCT_ITEM_CODE", splitCode);
+				        BillItemEntity billItem = (BillItemEntity) baseDao.queryForObject("act_item_conf.qItemNameByItemCode", inMap);
+						double splitTaxRate = billItem.getNewTaxRate();
+
+						// 分拆后在金额
+						long splitFee = 0;
+						if ("0".equals(splitFlag)) {
+							// splitFlag=0 : 计算拆分金额、累加
+							splitFee = Math.round(prepayFee * splitRule);
+							sumPrepay += splitFee;
+						} else if ("1".equals(splitFlag)) {
+							// splitFlag=1 计算最后一份金额,排除四舍五入精度
+							splitFee = prepayFee - sumPrepay;
+						}
+						// 分拆后在税费
+						long splitTaxFee = Math.round(((splitFee) - (splitFee) / (1 + splitTaxRate)) * 100);
+
+						acctItemDetail += splitCode + "|" + splitFee + "|" + splitTaxRate + "|" + splitTaxFee + "|"
+								+ acctItemCode + "|#";
+					}
+				} // 按照拆分规则拆分账目项 end
+			} // 非保底end
+		} // 重新拼字符串acctItemDetail end
+		return acctItemDetail;
+	} 
+	
+	
+	/**
+	 * 名称：已冲销记录插入冲销记录表
+	 * @param 
+	 * @return 
+	 * @throws
+	 */
+	public void saveWrtoff(Map<String, Object> inParam)  {	
+		Map<String, Object> inParamMap = new HashMap<String, Object>(); //临时变量入参转为map
+		
+		if (inParam.get("CONTRACT_NO") !=null && !inParam.get("CONTRACT_NO").equals("")) {
+			inParamMap.put( "CONTRACT_NO" , inParam.get("CONTRACT_NO"));
+		}
+		
+		if (inParam.get("ID_NO") !=null && !inParam.get("ID_NO").equals("")) {
+			inParamMap.put( "ID_NO" , inParam.get("ID_NO"));
+		}
+		
+		if (inParam.get("BILL_ID") !=null && !inParam.get("BILL_ID").equals("")) {
+			inParamMap.put( "BILL_ID" , inParam.get("BILL_ID"));
+		}
+		
+		//以下三个字段如果为空，则和缴费一致，都默认为0
+		if (StringUtils.isEmptyOrNull(inParam.get("DELAY_FAVOUR_RATE"))) {
+			inParamMap.put( "DELAY_FAVOUR_RATE" , 0L);
+		}
+		if (StringUtils.isEmptyOrNull(inParam.get("PAYED_DELAY"))) {
+			inParamMap.put( "PAYED_DELAY" , 0L);
+		}
+		if (StringUtils.isEmptyOrNull(inParam.get("DELAY_FAVOUR"))) {
+			inParamMap.put( "DELAY_FAVOUR" , 0L);
+		}
+		
+		
+		inParamMap.put( "WRTOFF_SN" ,inParam.get("WRTOFF_SN") );
+		inParamMap.put( "BALANCE_ID" , (Long)inParam.get("BALANCE_ID") );
+		inParamMap.put( "PAY_TYPE" ,inParam.get("PAY_TYPE"));
+		inParamMap.put( "STATUS" ,  inParam.get("STATUS"));
+		inParamMap.put( "LOGIN_NO" ,  inParam.get("LOGIN_NO"));
+		inParamMap.put( "PRINT_FLAG" , inParam.get("PRINT_FLAG") );
+		inParamMap.put( "YEAR_MONTH" , inParam.get("YEAR_MONTH"));
+		inParamMap.put( "TABLE_PAYEDOWE" , inParam.get("TABLE_PAYEDOWE"));
+		
+		baseDao.insert("bal_writeoff_yyyymm.iBalWriteoff",inParamMap);	
+	}
+	
+
+	/**
+	* 名称：负补收入账本表、支出表、同步实时销账
+	* @param 
+	* @return 
+	* @throws
+	 */
+	private void saveAdjBook(PayUserBaseEntity payUserBase, PayBookEntity inBook, long wrtoffSn){
+		//记录账本余额
+		balance.saveAcctBook(payUserBase, inBook);
+
+		/*负补收更改余额表,同步在线帐务,同步实时销账(正补收不更改余额表,不同步)*/
+		Map<String, Object> rtWrtoffMap = new HashMap<String, Object>();
+		rtWrtoffMap.put("PAY_SN", inBook.getPaySn());
+		rtWrtoffMap.put("CONTRACT_NO", payUserBase.getContractNo());
+		rtWrtoffMap.put("BALANCE_ID", inBook.getBalanceId());
+		rtWrtoffMap.put("WRTOFF_FLAG", "1");
+		rtWrtoffMap.put("REMARK", "补收缴费同步");//单条账本,缴费同步
+		balance.saveRtwroffChg(rtWrtoffMap);
+
+		//记录负支出
+		Map<String, Object> inMap=new HashMap<String, Object>();
+		inMap.put( "PAY_SN" , inBook.getPaySn());
+		inMap.put( "WRTOFF_SN" , wrtoffSn);
+		inMap.put( "CONTRACT_NO" , payUserBase.getContractNo());
+		inMap.put( "ID_NO" , payUserBase.getIdNo());
+		inMap.put( "BALANCE_ID" , inBook.getBalanceId() );
+		inMap.put( "PAY_TYPE" ,inBook.getPayType());
+		inMap.put( "OPER_TYPE" ,"6");
+		inMap.put( "OUT_BALANCE" , (-1) * inBook.getPayFee());//支出表为负 -1条
+		inMap.put( "DELAY_FEE" , 0);
+		inMap.put( "DELAY_FAVOUR" , 0);
+		inMap.put( "REMONTH_FEE" , 0);
+		inMap.put( "REMONTH_FAVOUR" , 0);
+		inMap.put( "STATUS" , "0");
+		inMap.put( "GROUP_ID" , inBook.getGroupId());
+		inMap.put( "LOGIN_NO" , inBook.getLoginNo() );
+		inMap.put( "YEAR_MONTH" , inBook.getYearMonth() );
+		baseDao.insert("bal_bookpayout_info.iBookPayOutInfo",inMap);
+	}
+
+	/**
+	 * @return the bill
+	 */
+	public IBill getBill() {
+		return bill;
+	}
+
+	/**
+	 * @param bill the bill to set
+	 */
+	public void setBill(IBill bill) {
+		this.bill = bill;
+	}
+
+	/**
+	 * @return the adj
+	 */
+	public IAdj getAdj() {
+		return adj;
+	}
+
+	/**
+	 * @param adj the adj to set
+	 */
+	public void setAdj(IAdj adj) {
+		this.adj = adj;
+	}
+
+	/**
+	 * @return the control
+	 */
+	public IControl getControl() {
+		return control;
+	}
+
+	/**
+	 * @param control the control to set
+	 */
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public IUser getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the prod
+	 */
+	public IProd getProd() {
+		return prod;
+	}
+
+	/**
+	 * @param prod the prod to set
+	 */
+	public void setProd(IProd prod) {
+		this.prod = prod;
+	}
+
+	/**
+	 * @return the balance
+	 */
+	public IBalance getBalance() {
+		return balance;
+	}
+
+	/**
+	 * @param balance the balance to set
+	 */
+	public void setBalance(IBalance balance) {
+		this.balance = balance;
+	}
+
+	/**
+	 * @return the group
+	 */
+	public IGroup getGroup() {
+		return group;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	public IWriteOffer getWriteOffer() {
+		return writeOffer;
+	}
+
+	public void setWriteOffer(IWriteOffer writeOffer) {
+		this.writeOffer = writeOffer;
+	}
+
+}

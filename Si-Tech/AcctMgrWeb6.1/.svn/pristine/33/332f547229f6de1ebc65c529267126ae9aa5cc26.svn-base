@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_einvpdf_info">
+	<insert id="insPdfInfo" parameterClass="Map">
+		INSERT INTO BAL_INVPDF_INFO
+			(INVOICE_ACCEPT,OP_TIME,INVOICE_CODE,INVOICE_NUMBER,BASE64_PDF,LOGIN_NO)
+		VALUES
+			(#REQUEST_SN#,SYSDATE,#INVOICE_CODE#,#INVOICE_NUMBER#,#PDFFILEBYTE:BLOB#,#LOGIN_NO#)
+	</insert>
+</sqlMap>

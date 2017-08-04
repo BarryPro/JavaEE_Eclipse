@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_bcbusiorder_dict_INT">
+<!--
+ <cacheModel id="svccfg_cache" type="LRU" readOnly="true">
+  <flushInterval seconds="20"/>
+    cacheModel="svccfg_cache"
+  <flushOnExecute statement="in_bcbusiorder_dict.qOrderInfo"/>
+
+  <property name="reference-type" value="WEAK"/>
+ </cacheModel>
+   -->
+  <select id="qOrderInfo" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap" >  
+    SELECT STATUS CHECK_STATUS,BUSI_NAME,BUSI_TEMPLATE,ORDER_TYPE,ORDER_LEVEL,BUSI_TOPIC TOPIC_ID 
+    FROM IN_BCBUSIORDER_DICT 
+    WHERE BUSI_ID=#ORDER_ID#
+  </select>
+
+</sqlMap>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_avoidstop_info">
+	<insert id="insert" parameterClass="Map">
+		INSERT INTO
+		cct_avoidstop_info
+		(ID_NO,PHONE_NO,GROUP_ID,STOP_FLAG,STOP_OWE,OP_TYPE,EFF_DATE,EXP_DATE,OP_NOTE )
+		VALUES
+		(#ID_NO#,#PHONE_NO#,#GROUP_ID#,'1',999999,'1',to_date(#EFF_DATE#,'YYYYMMDDHH24MISS'),to_date(#EXP_DATE#,'YYYYMMDDHH24MISS'),#OP_NOTE#)		
+	</insert>
+	
+	<select id="qCnt" parameterClass="Long" resultClass="java.lang.Integer">
+		SELECT COUNT(*) cnt FROM cct_avoidstop_info 
+		WHERE ID_NO=#ID_NO# 
+		and to_char(EFF_DATE,'YYYYMMDDHH24MISS')>=to_char(sysdate,'YYYYMMDDHH24MISS')
+		and to_char(EXP_DATE,'YYYYMMDDHH24MISS')>=to_char(sysdate,'YYYYMMDDHH24MISS')
+	</select>
+
+</sqlMap>

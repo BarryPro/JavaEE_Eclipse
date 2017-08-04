@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_busikey_dict">
+  
+  <select id="qkeysBybusicode" parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT ROOT_KEY, TRANS_LEVEL, TRANS_TYPE, SRC_KEY, DEST_KEY, VALUE_TYPE  
+	FROM   IN_BUSIKEY_DICT
+	WHERE  BUSI_CODE = #BUSI_CODE#
+	AND    EFF_FLAG  = 'Y'
+	ORDER BY TRANS_LEVEL
+  </select>
+
+</sqlMap>

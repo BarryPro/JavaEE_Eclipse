@@ -1,0 +1,119 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gbk" />	
+		<script src="/njs/extend/jquery/jquery123_pack.js" type="text/javascript"></script>
+		<style>
+			#Operation_Table {
+				margin: 0px;
+				padding: 0px;
+			}
+			#Operation_Table .title {
+				background-color: #c9dbf2;
+				height: 24px;
+				background-image: url(/nresources/default/images/25.gif);
+				background-repeat: repeat-x;
+				background-position: left top;
+				padding-top: 5px;
+				padding-left: 15px;
+				font-size: 13px;
+				font-weight:bold;
+				text-decoration: none;
+				text-align: left;
+				border-top-width: 1px;
+				border-right-width: 1px;
+				border-left-width: 1px;
+				border-top-style: solid;
+				border-right-style: solid;
+				border-left-style: solid;
+				border-top-color: #99bbe8;
+				border-right-color: #99bbe8;
+				border-left-color: #99bbe8;
+				cursor:pointer;
+				color:#0256b8;
+			}
+			.tree{
+				overflow:hidden;
+				border-bottom:1px solid #99bbe8;
+				border-left:1px solid #99bbe8;
+				padding-left: 25px;
+				font-size:13px; 
+				color:#0256b8;
+				cursor:pointer;
+				white-space:nowrap;
+				text-overflow:ellipsis;
+				width:200px
+			}
+			.treeup{
+				overflow:hidden;
+				border-bottom:1px solid #99bbe8;
+				border-left:1px solid #99bbe8;
+				padding-left: 25px;
+				font-size:13px; 
+				color:#ff9900;
+				cursor:pointer;
+				white-space:nowrap;
+				text-overflow:ellipsis;
+				width:200px
+			}
+			</style>
+			<script language='javaScript'>
+						var a,b,c,d;
+				window.onload=function(){
+					var contends = window.parent.opener.xmlHelper.getContendsByNode('full','firstlevel');
+					for(var i=0;i<contends.length;i++)
+					{
+							c=$('#Operation_Table').clone();
+							c.children('.bar').children('.title').text(contends[i].getAttribute('CAPTION'));
+							c.appendTo('body');
+							c.children('.tree').remove();
+							var contends1 = window.parent.opener.xmlHelper.getContendsByNodeProperty('full','secondelevel',{'key':'SUPER_ID','value':contends[i].getAttribute('CALLCAUSE_ID')});
+								for(var j=0;j<contends1.length;j++)
+								{
+										c.append("<div class='tree' id='"+contends1[j].getAttribute('CALLCAUSE_ID')+"'>"+contends1[j].getAttribute('CAPTION')+"</div>");
+								}
+								
+								c.children('.tree').click(function(){getdetail(this);});
+								c.children('.tree').mouseover(function(){changecolor(this);});
+								c.children('.tree').mouseout(function(){changecolor(this);});
+					}
+					$('#Operation_Table').remove();
+					a=$('body > #Operation_Table > .tree ');
+			    b=$('body > #Operation_Table > .bar > .title ');
+			    a.toggle();
+				};
+				
+				function getdetail(p)
+				{
+					window.open('callreasonlist.jsp?id='+p.id,'myFrame4');
+				}
+				function changecolor(p)
+				{
+					if($('#'+p.id).attr('class') == 'tree')
+					{
+						$('#'+p.id).removeClass();
+						$('#'+p.id).addClass('treeup');
+					}else{
+						$('#'+p.id).removeClass();
+						$('#'+p.id).addClass('tree');
+					}
+				}
+				</script>
+	</head>
+	<body>
+<div id="Operation_Table">
+	<div class='bar'>
+		<div class='title' style='width:200px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;'></div>
+		</div>
+		<div class='tree'></div>
+	</div>
+	</body>
+	<script language='javaScript'>
+
+		$(document).ready(function(){
+		 b.click(function(e){
+			$(e.target).parent().parent().children('.tree').toggle();
+			});
+			});
+		
+		</script>
+</html>

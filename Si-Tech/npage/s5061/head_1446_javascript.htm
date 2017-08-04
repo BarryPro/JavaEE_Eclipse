@@ -1,0 +1,568 @@
+<script language=javascript>
+<!--
+ 
+  var pwdFlag="false";
+  var op_code="";
+ 
+  onload=function()
+  {
+  	document.all.phoneno.focus();
+    self.status="";
+  }
+
+
+//--------3---------验证按钮专用函数-------------
+ 
+function simChk()
+{
+   	var myPacket = new AJAXPacket("qryCus_sim.jsp","正在查询客户，请稍候......");
+	document.all.phoneno.disabled=true;//芦学琛20060310，防改写
+	myPacket.data.add("phoneNo",(document.all.phoneno.value).trim());
+	myPacket.data.add("opCode",(document.all.opCode.value).trim());	
+	core.ajax.sendPacket(myPacket);
+	myPacket=null;
+}
+ 
+ 
+
+ //--------4---------doProcess函数----------------
+ 
+ 
+function doProcess(packet)
+{
+    var vRetPage=packet.data.findValueByName("rpc_page");
+    if(vRetPage == "qryCus_sim")
+	{
+    	var retCode = packet.data.findValueByName("retCode");
+    	var retMsg = packet.data.findValueByName("retMsg");    	
+	    var idNo = packet.data.findValueByName("idNo");
+	    var smCode = packet.data.findValueByName("smCode");
+	    var smName = packet.data.findValueByName("smName");
+	    var belongCode = packet.data.findValueByName("belongCode");
+	    var custName = packet.data.findValueByName("custName");
+	    var userPassword = packet.data.findValueByName("userPassword");
+	    var runCode = packet.data.findValueByName("runCode");
+	    var runName = packet.data.findValueByName("runName");
+	    var idName = packet.data.findValueByName("idName");
+	    var idIccid = packet.data.findValueByName("idIccid");
+	    var ownerGrade = packet.data.findValueByName("ownerGrade");
+	    var gradeName = packet.data.findValueByName("gradeName");
+	    var card_name = packet.data.findValueByName("card_name");
+	    var totalPrepay = packet.data.findValueByName("totalPrepay");
+	    var totalOwe = packet.data.findValueByName("totalOwe");
+	    var loginAccept = packet.data.findValueByName("loginAccept");
+	    var opCode = packet.data.findValueByName("opCode");
+	    var opName = packet.data.findValueByName("opName");
+	    var transPhone = packet.data.findValueByName("transPhone");
+		var paymoney = packet.data.findValueByName("paymoney");	
+		if(retCode == 0)
+		{	    
+			document.all.idNo.value = idNo;
+			document.all.smCode.value = smCode;
+			document.all.smName.value = smName;
+			document.all.belongCode.value = belongCode;
+			document.all.custName.value = custName;
+			document.all.userPassword.value = userPassword;
+			document.all.runCode.value = runCode;
+			document.all.runName.value = runName;
+			document.all.idName.value = idName;
+			document.all.idIccid.value = idIccid;
+			document.all.ownerGrade.value = ownerGrade;
+			document.all.gradeName.value = gradeName;
+			document.all.card_name.value = card_name;
+			document.all.totalPrepay.value = totalPrepay;
+			document.all.totalOwe.value = totalOwe;
+			document.all.loginAccept.value = loginAccept;
+			document.all.opCode.value = opCode;
+			document.all.opName.value = opName;
+			document.all.transPhone.value = transPhone;
+			document.all.paymoney.value = paymoney;
+			document.all.confirm.disabled=false;//确认按钮
+			document.all.transPhone.focus();
+			if(opName=="申请"){
+				document.all.vHandFee.value = "10.00";      //huangrong add 2011-5-26 修改“改号通知(1446)”业务,功能费由默认是10改为10.00元		
+				document.all.vRealFee.value = "10.00";	//huangrong add 2011-5-23 修改“改号通知(1446)”业务,实收金额默认是10.00元	
+			}
+			//芦学琛20060522 add
+			//alert("opName="+opName);
+			if(opName=="申请"||opName=="取消"||opName=="冲正" )
+			{
+				document.all("op_type").options.length=3;
+				document.all.op_type.options[0].text  ="业务申请";
+				document.all.op_type.options[0].value="申请";
+				document.all.op_type.options[1].text  ="业务取消";
+				document.all.op_type.options[1].value="取消";
+				document.all.op_type.options[2].text  ="业务冲正";
+				document.all.op_type.options[2].value="冲正";
+			}
+			else if(opName=="申请(联通号)"||opName=="取消(联通号)")
+			{
+				document.all("op_type").options.length=2;
+				document.all.op_type.options[0].text  ="业务申请(联通)";
+				document.all.op_type.options[0].value="申请(联通号)";
+				document.all.op_type.options[1].text  ="业务取消(联通)";
+				document.all.op_type.options[1].value="取消(联通号)";
+			}
+			else
+			{
+				rdShowMessageDialog("返回值有误!opName="+opName);
+				return;
+			}			
+			//芦学琛20060522 end
+		}
+		else
+		{
+			rdShowMessageDialog("错误:"+ retCode + "->" + retMsg);
+			return;
+		}    
+    }
+    else if(vRetPage=="postSim")
+    { 
+		var retCode = packet.data.findValueByName("retCode");
+	    var retMsg = packet.data.findValueByName("retMsg");    
+		var post_address = packet.data.findValueByName("post_address");
+		var post_zip = packet.data.findValueByName("post_zip");
+		var fax_no = packet.data.findValueByName("fax_no");
+		var mail_address = packet.data.findValueByName("mail_address");
+		var post_name = packet.data.findValueByName("post_name");
+		var cust_name = packet.data.findValueByName("cust_name");	
+		if(retCode == 0)
+		{	
+			document.all.post_address.value = post_address;
+			document.all.post_zip.value = post_zip;
+			document.all.fax_no.value = fax_no;
+			document.all.mail_address.value = mail_address;
+			document.all.post_name.value = post_name;
+			document.all.cust_name.value = cust_name;
+			document.all.confirm.disabled=false;		
+		}
+		else
+		{
+			rdShowMessageDialog("错误:"+ retCode + "->" + retMsg);
+			return;
+		}    
+    }    
+}
+
+ function getRemain(){
+
+/*if(flag!=1){
+rdShowMessageDialog("请先查询用户信息！");
+return;
+}*/
+
+
+if(parseFloat(document.s1446.vHandFee.value) < parseFloat(document.s1446.vRealFee.value)){
+	rdShowMessageDialog("功能费不能大于"+document.s1446.vHandFee.value);
+	document.s1446.vRealFee.value = "0";
+	return;
+}
+
+document.s1446.vPayChange.value=document.s1446.vHandFee.value-document.s1446.vRealFee.value;
+}
+
+//-------2---------验证及提交函数-----------------
+
+function printCommit()
+{
+	getAfterPrompt(op_code);
+	var temp;
+	document.all.phoneno.disabled=false;//芦学琛20060310
+
+	// 芦学琛 20060522 add //选择的列表框中的操作与返回的汉字不符合，都进行错误提示(需求139)
+	//移动手机部分
+	if(document.all.opName.value == "申请" && document.all.op_type.value == "取消")
+	{
+			rdShowMessageDialog("移动手机用户["+document.all.phoneno.value+"]未办理此业务,不能取消!");
+			return false;
+	}
+	if(document.all.opName.value == "取消" && document.all.op_type.value=="申请")
+	{
+		rdShowMessageDialog("移动手机用户["+document.all.phoneno.value+"]办理过此业务,无需再办!");
+		return false;
+	}
+	if(document.all.opName.value != "冲正" && document.all.op_type.value == "冲正")
+	{
+		rdShowMessageDialog("移动手机用户["+document.all.phoneno.value+"]今日未办理过此业务,不能冲正!");
+		return false;
+	}
+	if(document.all.opName.value == "冲正" && document.all.op_type.value != "冲正")
+	{
+		rdShowMessageDialog("移动手机用户["+document.all.phoneno.value+"]今日办理过此业务,只能进行冲正操作!");
+		return false;
+	}
+	//联通手机部分
+	if(document.all.opName.value == "申请(联通号)" && document.all.op_type.value == "取消(联通号)")
+	{
+		rdShowMessageDialog("联通手机用户["+document.all.phoneno.value+"]未办理过此业务,不能取消!");
+		return false;
+	}
+	if(document.all.opName.value == "取消(联通号)" && document.all.op_type.value == "申请(联通号)")
+	{
+		rdShowMessageDialog("联通手机用户["+document.all.phoneno.value+"]已经理过此业务,无需再办!");
+		return false;
+	}
+	//alert(document.all.opName.value);alert(document.all.op_type.value);
+	if(document.all.opName.value != document.all.op_type.value)//除非程序被改动过,否则上面那些if就return了,执行不到这步
+	{
+		rdShowMessageDialog("服务返回值与所选操作不符,程序出错");
+		return false;
+	}// 芦学琛 20060522 end
+
+	//校验
+	if(!(check(s1446)))
+		return false;
+	if (document.s1446.transPhone.value.length!=11)
+	{
+		rdShowMessageDialog("手机号码为11位！");
+		return ;
+	}	
+	//getRemain1();
+
+	if(document.s1446.opName.value == "冲正")
+	{
+		document.s1446.vHandFee.value = document.s1446.paymoney.value;
+	}  
+	else if(document.s1446.opName.value == "申请(联通号)")//芦学琛20060313添加用于兼容联通号--开始
+	{							
+		if((document.s1446.transPhone.value.substring(0,3)>="134"&& document.s1446.transPhone.value.substring(0,3)<="139")||document.s1446.transPhone.value.substring(0,2)=="15"||document.s1446.transPhone.value.substring(0,2)=="18"||document.s1446.transPhone.value.substring(0,2)=="14")
+		{
+			
+			if(parseFloat(document.s1446.vHandFee.value) != parseFloat(0.00))
+			{
+				rdShowMessageDialog("此功能对于联通客户免费");
+				document.s1446.vHandFee.value="0.00";
+				document.s1446.vRealFee.value="0.00";
+				return false;
+			}
+			if(parseFloat(document.s1446.vRealFee.value) != parseFloat(0.00))
+			{
+				rdShowMessageDialog("此功能对于联通客户免费");
+				document.s1446.vHandFee.value="0.00";
+				document.s1446.vRealFee.value="0.00";
+				return false;
+			}
+			if(parseFloat(document.s1446.vRealFee.value)<parseFloat(document.s1446.vHandFee.value))
+			{
+			   rdShowMessageDialog("实收不能小于手续费！");
+			   return false;
+			}
+		}
+		else
+		{
+		    rdShowMessageDialog("对于联通客户,变更号码必须为移动公司号码!");
+			return false;
+		}
+
+		document.all.t_sys_remark.value="联通用户"  + document.all.phoneno.value + "改号为" +document.all.transPhone.value+"功能费"+parseFloat(document.all.vHandFee.value)+"元";		
+	}
+	else if(document.s1446.opName.value == "取消(联通号)")
+	{
+		document.s1446.vHandFee.value = "0.00";
+		document.all.t_sys_remark.value="此用户"+ document.all.phoneno.value +"为联通用户！请让其自行取消原号码呼转功能";
+		rdShowMessageDialog("用户"+ document.all.phoneno.value +"为联通用户,曾经申请过此业务！如果想取消，请让其自行取消原号码呼转功能。");
+		//document.s1446.opName.value="";
+		return false;
+	}
+	//芦学琛20060313添加用于兼容联通号--结束
+	else
+	{
+          if(document.s1446.opName.value == "取消")
+		   {
+	          document.s1446.vHandFee.value = "0.00";
+		   }
+          else
+		  { 
+	 //alert("asdf");
+	         if(parseFloat(document.s1446.vHandFee.value) < parseFloat(10.00))
+			 {
+	           rdShowMessageDialog("功能费不能小于10.00元！");
+			   return false;
+			  }
+	         if(parseFloat(document.s1446.vRealFee.value)<parseFloat(document.s1446.vHandFee.value))
+			 {
+			   rdShowMessageDialog("实收不能小于手续费！");
+			   return false;
+			  }
+		//	document.s1446.vHandFee.value = "0.00";
+	     //   document.s1446.vRealFee.value = "0.00";
+		  }
+        document.s1446.vPayChange.value=document.s1446.vRealFee.value - document.s1446.vHandFee.value;
+	}
+
+    if(document.all.opName.value =="申请")
+	{
+       
+	   /*if(document.all.vHandFee.value == 0.00)
+	    {
+      	rdShowConfirmDialog("手续费不能为空！");
+        document.all.vHandFee.focus();
+		return;  
+	     }
+       */
+       //打印工单并提交表单
+        document.all.t_sys_remark.value="用户"  + document.all.phoneno.value + "改号为" +document.all.transPhone.value+"功能费"+parseFloat(document.all.vHandFee.value)+"元";
+	}
+     
+	if(document.all.opName.value =="取消")
+	{
+		document.all.t_sys_remark.value="用户"  + document.all.phoneno.value + "取消改号通知";
+	}
+	
+    if(document.all.opName.value =="冲正")
+	{
+		document.all.t_sys_remark.value="用户"  + document.all.phoneno.value + "改号冲正退功能费" +parseFloat(document.all.paymoney.value)+"元";
+    }
+	var ret = showPrtDlg("Detail","确实要进行电子免填单打印吗？","Yes");
+
+    if((ret=="confirm"))
+    {
+        if(rdShowConfirmDialog('确认要提交信息吗？')==1)
+        {  
+	      　s1446.submit();
+        }
+	    if(ret=="remark")
+	    {
+			if(rdShowConfirmDialog('确认要提交信息吗？')==1)
+			{
+				s1446.submit();
+			}
+		}
+	}
+    else
+    {
+		if(rdShowConfirmDialog('确认要提交信息吗？')==1)
+		{
+			s1446.submit();
+		}
+    }	
+    return true;
+}
+  
+  
+  
+  function showPrtDlg(printType,DlgMessage,submitCfm)
+  {  //显示打印对话框 
+   var h=180;
+   var w=350;
+   var t=screen.availHeight/2-h/2;
+   var l=screen.availWidth/2-w/2;
+
+   var pType="subprint";                                      // 打印类型：print 打印 subprint 合并打印
+   var billType="1";                                          //  票价类型：1电子免填单、2发票、3收据
+   var sysAccept=document.all.loginAccept.value;              // 流水号
+   var printStr=printInfo(printType);                         //调用printinfo()返回的打印内容
+   var opName=document.all.opName.value;
+   var opCode="";
+   if(opName=="申请"){
+   	   opCode="1446";
+   }else{
+   	   opCode="1447";	
+   }
+   var mode_code=null;                                        //资费代码
+   var fav_code=null;                                         //特服代码
+   var area_code=null;                                        //小区代码                                       //操作代码
+   var phoneNo=document.all.phoneno.value;                    //客户电话
+
+   var prop="dialogHeight:"+h+"px; dialogWidth:"+w+"px; dialogLeft:"+l+"px; dialogTop:"+t+"px;toolbar:no; menubar:no; scrollbars:yes; resizable:no;location:no;status:no;help:no";
+   var path = "<%=request.getContextPath()%>/npage/innet/hljBillPrint_jc_hw.jsp?DlgMsg=" + DlgMessage+ "&submitCfm=" + submitCfm;
+   path=path+"&mode_code="+mode_code+"&fav_code="+fav_code+"&area_code="+area_code+"&opCode="+opCode+"&sysAccept="+sysAccept+"&phoneNo="+phoneNo+"&submitCfm="+submitCfm+"&pType="+pType+"&billType="+billType+ "&printInfo=" + printStr;
+   var ret=window.showModalDialog(path,printStr,prop);
+   return ret;
+  }
+
+  function printInfo(printType)
+  {
+ 	var cust_info=""; //客户信息
+	var opr_info=""; //操作信息
+	var note_info1=""; //备注1
+	var note_info2=""; //备注2
+	var note_info3=""; //备注3
+	var note_info4=""; //备注4
+    var retInfo = "";  //打印内容
+	
+	cust_info+="手机号码："+document.all.phoneno.value+"|";  
+	cust_info+="客户姓名："+document.all.custName.value+"|";
+	cust_info+="证件号码："+document.all.idIccid.value+"|";
+ 	
+    opr_info+="用户品牌："+document.all.smName.value+"  办理业务：改号通知"+"|";
+    opr_info+="操作流水："+document.all.loginAccept.value+"  手续费："+document.all.vHandFee.value+"|";
+    opr_info+="生效时间："+'<%=new java.text.SimpleDateFormat("yyyyMMdd ", Locale.getDefault()).format(new java.util.Date())%>'+"|";
+   
+   	note_info1+="备注："+document.all.t_sys_remark.value+"|";
+   	
+    retInfo = strcat(cust_info,opr_info,note_info1,note_info2,note_info3,note_info4);
+	retInfo=retInfo.replace(new RegExp("#","gm"),"%23"); 
+      
+    return retInfo;	
+  }
+
+/*wangmei   add*/
+function selType()
+{
+	with(document.all)
+	{ 
+		if (transPhone.value == "")
+		{ 
+			note1.style.display = "block";
+			note2.style.display = "block";
+		}
+		else if( note1.style.display != "block")
+		{ 
+			note1.style.display = "none";
+			note2.style.display = "none";
+		}
+	} 
+}
+
+function dochange(){
+with(document.all){
+ if(opName.value == "冲正")
+	    note3.style.display = "block";
+ else 
+	    note3.style.display = "none";
+ }
+}
+
+
+function getRemain1(){
+ if(document.s1446.opName.value == "冲正")
+   {
+     document.s1446.vHandFee.value = document.s1446.paymoney.value;
+   }
+   else
+     {
+          if(document.s1446.opName.value == "取消")
+		   {
+	          document.s1446.vHandFee.value = "0.00";
+		   }
+          else
+		  { 
+	         if(parseFloat(document.s1446.vHandFee.value) < parseFloat(10.00))
+	           rdShowMessageDialog("功能费不能小于10.00元！");
+			   return false;
+	         if(parseFloat(document.s1446.vRealFee.value)<parseFloat(document.s1446.vHandFee.value))
+			   rdShowMessageDialog("实收不能小于手续费！");
+			   return false;
+		//	document.s1446.vHandFee.value = "0.00";
+	     //   document.s1446.vRealFee.value = "0.00";
+		  }
+        document.s1446.vPayChange.value=document.s1446.vRealFee.value - document.s1446.vHandFee.value;
+	 }
+  return;
+}
+
+
+function getRemain(){
+
+/*if(flag!=1){
+rdShowMessageDialog("请先查询用户信息！");
+return;
+}*/
+
+if(parseFloat(document.s3216.vHandFee.value) < parseFloat(document.s3216.vRealFee.value)){
+	rdShowMessageDialog("功能费不能大于"+document.s3216.vHandFee.value);
+	return;
+}
+
+document.s3216.vPayChange.value=document.s3216.vHandFee.value-document.s3216.vRealFee.value;
+}
+
+function  modify()
+{
+         //alert("test");
+        if(document.all.aCurrentPoint.value > document.all.vCurrentPoint.value)
+	
+	{
+		rdShowMessageDialog("转赠积分不能大于当前积分,请重新操作！");
+		document.all.aCurrentPoint.value = "";
+		document.all.aCurrentPoint.focus();
+		return;
+	}
+	
+        if(document.all.aCurrentPoint.value == 0 || document.all.aCurrentPoint.value < 0)
+	
+	{
+		rdShowMessageDialog("转赠积分不能为空或0或小于0,请重新操作！");
+		document.all.aCurrentPoint.value = "";
+		document.all.aCurrentPoint.focus();
+		return;
+	}
+        if(document.all.t_op_remark.value == 0)
+	
+	{
+		document.all.t_op_remark.value = "";
+		document.all.t_op_remark.focus();
+	}
+         
+         var t =  parseInt(document.s3216.aCurrentPoint.value,10) ;
+         var c= parseInt(document.s3216.pCurrentPoint.value,10)  ;
+        //document.s3216.pCurrentPoint.value =  t + c  ;
+        document.s3216.b.value =  t;
+        document.s3216.d.value =  document.s3216.vCurrentPoint.value - document.s3216.aCurrentPoint.value;
+        document.s3216.e.value =  t + c;
+        
+      
+       
+        
+}
+function  submitreset()
+{
+s3216.reset();
+//document.s3216.aCurrentPoint.disabled = true;
+//document.s3216.confirm.disabled = true;
+self.location.reload();
+return false;
+
+//onBlur="if(this.value =='清除'){s3216.reset();document.all.aCurrentPoint.disabled = true;document.s3216.confirm.disabled=true;return false;}"
+
+}  
+	function getBeforePrompt(opCode)
+	{
+		var packet = new AJAXPacket("/npage/include/getBeforePrompt.jsp","请稍后...");
+		packet.data.add("opCode" ,opCode);
+	  core.ajax.sendPacketHtml(packet,doGetBeforePrompt,true);//异步
+		packet =null;
+	}
+	
+	function doGetBeforePrompt(data)
+	{
+		$('#wait').hide();
+		$('#beforePrompt').html(data);
+	}
+	
+	function getAfterPrompt(opCode)
+	{
+		var packet = new AJAXPacket("/npage/include/getAfterPrompt.jsp","请稍后...");
+		packet.data.add("opCode" ,opCode);
+	  core.ajax.sendPacket(packet,doGetAfterPrompt,false);//同步
+		packet =null;
+	}
+	
+	function doGetAfterPrompt(packet)
+	{
+    var retCode = packet.data.findValueByName("retCode"); 
+    var retMsg = packet.data.findValueByName("retMsg"); 
+    if(retCode=="000000"){
+    	promtFrame(retMsg);
+    }
+	}
+
+
+ //-->
+function getBefore(){
+	var op_type=document.all.op_type.value;
+	if(op_type=="申请"||op_type=="申请(联通号)"){
+		getBeforePrompt("1446");
+		op_code="1446";
+		document.all.op_code.value = "1446";
+	}else{
+		getBeforePrompt("1447");
+		op_code="1447";
+		document.all.op_code.value = "1447";
+	}
+}
+function doLoad(){
+	getBeforePrompt("<%=opCode%>");
+}
+</script>

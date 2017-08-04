@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_billitem_conf">
+    <typeAlias alias="BillItemEnt" type="com.sitech.acctmgr.atom.domains.bill.BillItemEntity"/>
+
+    <select id="qItemNameByItemId" parameterClass="Map" resultClass="BillItemEnt">
+        SELECT 
+        TRIM(ITEM_NAME) AS itemName,
+        ITEM_ID AS acctItemCode
+        FROM ACT_BILLITEM_CONF
+        WHERE 1=1
+         <dynamic prepend="">
+            <isNotEmpty prepend="" property="ITEM_LEVEL">
+                AND ITEM_LEVEL= #ITEM_LEVEL#
+            </isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ITEM_ID">
+                AND ITEM_ID= #ITEM_ID#
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY ITEM_LEVEL
+    </select>
+
+</sqlMap>

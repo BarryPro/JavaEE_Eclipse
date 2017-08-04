@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="int_outsidefee_info">
+ 
+ <insert id="iMicroPayZC" parameterClass="Map">
+	INSERT INTO INT_OUTSIDEFEE_INFO( 
+		ORDER_ID,ID_NO,PHONE_NO,BUSI_TYPE,SP_CODE,BILL_CYCLE,ACCT_ITEM_CODE,SHOULD_PAY
+		,BEGIN_TIME,END_TIME,OP_TIME, LOGIN_NO,GROUP_ID,FAVOUR_FEE,PRODUCT_CODE,OP_CODE
+	)	
+	VALUES(
+		#ORDER_ID#,#ID_NO#,#PHONE_NO#,#BUSI_TYPE#,#SP_CODE#,#BILL_CYCLE#,#ACCT_ITEM_CODE#,#SHOULD_PAY#
+		,	SYSDATE,#END_TIME#,SYSDATE, #LOGIN_NO#,#GROUP_ID#,#FAVOUR_FEE#,#PRODUCT_CODE#,#OP_CODE#
+  	)
+  </insert>
+  
+</sqlMap>

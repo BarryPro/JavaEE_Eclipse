@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>js 2 test</title>
+<style type="text/css">
+	body{
+		background-color: grey;
+	}
+	.warn{
+		border: 1px solid red;
+		color: red;		
+	}
+	#test{
+		width: 400px;
+		margin:100px auto;
+		padding:3px;
+	}
+</style>
+<script type="text/javascript">
+	function text1(e){
+		var key = window.event?e.keyCode:e.which;//同时兼容火狐和ie浏览器
+		var kvalue = String.fromCharCode(key);//把文本框中的接受的键盘的ascii码转换成字符
+		var regex = /[0-9|a-z|A-Z]/;
+		var flag = regex.test(kvalue);
+		var t = document.getElementById("test");
+		if(flag){
+			t.className="";
+		} else {
+			t.className="warn";
+		}
+		return flag;
+	}
+	function text2(){
+		var t = document.getElementsByName("username");
+		alert(t[1].value);
+	}
+	function text3(){
+		var t = document.all.form1.username;
+		for(var i = 0;i<3;i++){
+			alert(t[i].value);			
+		}
+	}
+	function text4(){
+		var t = document.getElementsByName("password");
+		for(var i = 0;i<t.length;i++){
+			alert(t[i].value);
+		}
+	}
+	function text5(){
+		var t = document.getElementsByName("r");
+		for(var i = 0;i<t.length;i++){
+			if(t[i].checked){
+				alert(t[i].value);
+			}
+		}
+	}
+	function text6(){		
+		var t = document.getElementsByName("cb");
+		for(var i = 0;i<t.length;i++){
+			if(t[i].checked){
+				alert(t[i].value);
+			}			
+		}
+	}
+	function text7(){
+		var t = document.getElementById("sid");
+		for(var i = 0;i<t.options.length;i++){
+			if(t[i].selected){
+				alert(t[i].value);
+			}
+		}
+	}
+	function finish(){
+		var user = document.getElementById("user1");
+		var password = document.getElementById("pwd");
+		if(user.value=="belong"&&password.value=="123456"){//在密码和用户名全对的前提下才提交
+			document.all.form1.submit();
+		} else {
+			alert("请认真检查信息");
+		}		
+	}
+	function over(){
+		document.all.tip.style.display="block";		
+	}
+	function out(){
+		document.all.tip.style.display="none";	
+	}
+</script>
+</head>
+<body>
+	
+	<form name="form1">
+		<div id="test">
+			<b>用户名</b> <input type="text" id="user1" name="username"
+				value="请输入用户名" onkeypress="return text1(event);" /><br> <b>密码</b> <input
+				type="password" id="pwd" name="password" value="" onclick="text2();" /><br>
+			<b>确认密码</b> <input type="password" id="pwd" name="password" value=""
+				onclick="text3();" /><br> <input type="button" id="b1"
+				value="确认" onclick="text4();" /> <input type="reset" id="b2"
+				value="重置" /><br> <input type="radio" name="r" value="1" />男 <input
+				type="radio" name="r" value="2" />女 <input type="button" name="b"
+				value="单选" onclick="text5();" /> <input type="checkbox" name="cb"
+				value="1" />北京 <input type="checkbox" name="cb" value="2" />天津 <input
+				type="checkbox" name="cb" value="3" /><br>上海 <input
+				type="button" name="b3" value="复选" onclick="text6();" /><br> <select
+				id="sid" name="interest">
+				<option value="1">跑步</option>
+				<option value="2">骑马</option>
+				<option value="3">射箭</option>
+				<option value="4">唱歌</option>
+				<option value="5">跳舞</option>
+			</select><br> <input type="button" name="b2" value="下拉框"
+				onclick="text7();" /><br> <input type="button" name="b3"
+				value="提交" onclick="finish();" />
+		</div>
+	</form>
+	<div id="test">
+		<a href="#" onmouseover="over();" onmouseout="out();">点开有惊喜哦</a><br>
+		<div id="tip" style="display: none">
+			<table border="2">
+				<tr>
+					<td><img alt="图片" src="赵丽颖.jpeg"></td>
+				</tr>
+				<tr>
+					<td><b>留言 ：我方了,约吗？</b></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

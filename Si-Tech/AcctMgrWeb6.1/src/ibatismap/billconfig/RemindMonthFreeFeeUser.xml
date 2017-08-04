@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="remind_month_free_fee_user">
+    <resultMap id="FamilyFreeFeeUserEnt" class="com.sitech.acctmgr.atom.domains.free.FamilyFreeFeeUserEntity">
+        <result property="freeFee" column="free_fee"/>
+        <result property="voiceUsed" column="use_value"/>
+        <result property="pkRate" column="pk_value"/>
+        <result property="groupType" column="flag"/>
+        <result property="groupName" column="group_name"/>
+        <result property="ctrlFlag" column="flag_ctrl"/>
+        <result property="level" column="level_flag"/>
+    </resultMap>
+    <select id="qryFamilyFreeInfo" parameterClass="Map" resultMap="FamilyFreeFeeUserEnt">
+        SELECT free_value * 100 AS free_fee,
+        use_value,
+        pk_value || '%' AS pk_value,
+        DECODE (flag,  'Q', '0',  'A', '2',  'B', '3',  'C', '4') flag,
+        DECODE (flag,
+        'Q', '亲情网',
+        'A', '亲情网A',
+        'B', '亲情网B',
+        'C', '亲情网C')
+        group_name,
+        flag_ctrl,
+        DECODE (is_level,  'L', '0',  'M', '1',  'H', '2') level_flag
+        FROM REMIND_MONTH_FREE_FEE_USER
+        WHERE phone_no = #PHONE_NO#
+        AND TO_CHAR (insert_time, 'yyyymm') = #YEAR_MONTH#
+    </select>
+</sqlMap>

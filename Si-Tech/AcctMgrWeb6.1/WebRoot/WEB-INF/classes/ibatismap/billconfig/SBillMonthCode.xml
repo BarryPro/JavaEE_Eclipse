@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="sBillMonthCode">
+
+	<select id="qMonthShare" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT REGION_CODE,
+		MONTH_CODE,
+		MONTH_FLAG,
+		MONTH_FEE,
+		DAY_FLAG,
+		DAY_FEE,
+		ACC_DETAIL
+		FROM SBILLMONTHCODE
+		WHERE REGION_CODE = #REGION_CODE#
+		AND MONTH_CODE = #MONTH_CODE#
+	</select>
+
+	<select id="qMonthFee" parameterClass="Map" resultClass="java.lang.Long">
+		select nvl(sum(c.month_fee),0)
+		from sbillmonthcode c,
+		(select distinct b.detail_code, a.prc_id, a.belong_code
+		from pd_transprodprc a, pricing_combine b
+		where a.state = '0'
+		and a.pricing_plan_id = b.pricing_plan_id 
+		and a.belong_code=#REGION_CODE#
+		) d
+		where trim(c.month_code) = trim(d.detail_code)
+		and d.belong_code = c.region_code
+		and d.prc_id = #PRC_ID#
+		and c.region_code = #REGION_CODE#
+	</select>
+
+
+</sqlMap>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="sProvCritical">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.query.ProvCriticalEntity" alias="ProvCriticalEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="ProvCriticalEntity">
+		select visit_prov_code visitProvCode,
+		visit_msc_id mscId,
+		visit_lac_id lacId,
+		visit_cell_id cellId,
+		local_prov_code localProvCode,
+		local_long_code localLongCode,
+		to_char(start_datetime, 'YYYYMMDD HH24:MI:SS') beginTime,
+		to_char(end_datetime, 'YYYYMMDD HH24:MI:SS') endTime
+		from sProvCritical
+		WHERE 1=1
+		<dynamic prepend="">
+		    <isEqual property="OP_TYPE" compareValue="0">
+				and flag != '2'
+			</isEqual>
+			<isEqual property="OP_TYPE" compareValue="1">
+				and flag = '2'
+			</isEqual>
+			<isNotEmpty prepend="AND" property="MSC_ID">
+				visit_msc_id=#MSC_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CELL_ID">
+				visit_cell_id=#CELL_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="LAC_ID">
+				visit_lac_id=#LAC_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BEGIN_DATE">
+				to_char(start_datetime,'YYYYMMDD') >= #BEGIN_DATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="END_DATE">
+				to_char(start_datetime,'YYYYMMDD') <![CDATA[ <= ]]> #END_DATE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="8143Svc" class="com.sitech.acctmgr.atom.impl.bill.S8143">
+        <property name="user" ref="userEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="credit" ref="creditEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="billDisplayer" ref="billDisplayerEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+    </bean>
+
+    <bean id="8102Svc" class="com.sitech.acctmgr.atom.impl.bill.S8102">
+        <property name="user" ref="userEnt"/>
+        <property name="billDisplayer" ref="billDisplayerEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="record" ref="recordEnt"/>
+    </bean>
+
+    <bean id="8164Svc" class="com.sitech.acctmgr.atom.impl.bill.S8164">
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="billDisplayer" ref="billDisplayerEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="record" ref="recordEnt"/>
+    </bean>
+
+    <bean id="gprsBillSvc" class="com.sitech.acctmgr.atom.impl.bill.SGprsBill">
+        <property name="user" ref="userEnt"/>
+        <property name="billDisplayer" ref="billDisplayerEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+    </bean>
+
+    <bean id="grpBillSvc" class="com.sitech.acctmgr.atom.impl.bill.SGrpBill">
+        <property name="user" ref="userEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+    </bean>
+
+    <bean id="phoneBillSvc" class="com.sitech.acctmgr.atom.impl.bill.SPhoneBill">
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="delay" ref="delayEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="record" ref="recordEnt"/>
+    </bean>
+
+    <bean id="bankBillSvc" class="com.sitech.acctmgr.atom.impl.bill.SBankBill">
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="delay" ref="delayEnt"/>
+    </bean>
+
+    <bean id="famBillSvc" class="com.sitech.acctmgr.atom.impl.bill.SFamBill">
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+    </bean>
+    
+    <bean id="broadBillSvc" class="com.sitech.acctmgr.atom.impl.bill.SBroadBill">
+        <property name="user" ref="userEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+</beans>

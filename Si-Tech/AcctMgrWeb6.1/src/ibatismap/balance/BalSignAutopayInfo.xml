@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_signautopay_info">
+
+    <typeAlias alias="SignAutoPayEntity" type="com.sitech.acctmgr.atom.domains.balance.SignAutoPayEntity" />
+        
+	<select id="qCnt" parameterClass="Map" resultClass="Integer">
+		select count(1) CNT
+		from bal_signautopay_info
+		where id_no = #ID_NO#
+		and AUTO_FLAG = '1'
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="" property="BUSI_TYPE">
+				busi_type = #BUSI_TYPE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="uByIdno" parameterClass="Map">
+		update bal_signautopay_info
+			set login_no = #LOGIN_NO#, op_time = sysdate
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="PAY_MONEY">
+				,pay_money = #PAY_MONEY#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BALANCE_LIMIT">
+				, balance_limit = #BALANCE_LIMIT#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="AUTO_FLAG">
+				, auto_flag = #AUTO_FLAG#
+			</isNotEmpty>
+		</dynamic>
+		where id_no = #ID_NO#
+	</update>
+	
+	<insert id="iAutoPay" parameterClass="Map">
+		INSERT INTO
+		bal_signautopay_info
+		(ID_NO, PHONE_NO, BUSI_TYPE, PAY_MONEY, BALANCE_LIMIT, AUTO_FLAG, PAY_DAY,
+		LOGIN_NO, OP_TIME)
+		VALUES
+		(#ID_NO#, #PHONE_NO#, #BUSI_TYPE#, #PAY_MONEY#, #BALANCE_LIMIT#, #AUTO_FLAG#, #PAY_DAY#,
+		#LOGIN_NO#, sysdate)
+	</insert>
+
+    <delete id="delSignaddInfo" parameterClass="Map">
+	 	delete from bal_signautopay_info
+	 	where id_no = #ID_NO#
+		and busi_type = #BUSI_TYPE#
+    </delete>
+
+	<select id="qry" parameterClass="Map" resultClass="SignAutoPayEntity">
+		select PAY_MONEY payMoney,
+		BALANCE_LIMIT balanceLimit,
+		AUTO_FLAG autoFlag,
+		PAY_DAY payDay,
+		to_char(OP_TIME,'YYYYMMDDHH24MISS') opTime,
+		LOGIN_NO loginNo
+		from bal_signautopay_info
+		where id_no=#ID_NO#
+	</select>
+
+  
+</sqlMap>

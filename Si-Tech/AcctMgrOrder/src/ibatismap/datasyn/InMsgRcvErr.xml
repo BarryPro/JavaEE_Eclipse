@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgrcv_err">
+
+ <!-- BLOB 操作方式处理 -->  
+ <typeAlias alias="OdrLineErrVO" type="com.sitech.acctmgr.app.odrBlob.OdrLineErrVO"/>
+ <resultMap id="odrLineErrVOMap" class="OdrLineErrVO">
+  <result property="gsTopicId"   column="TOPIC_ID"/>
+  <result property="gbContent"   column="CONTENT" jdbcType="BLOB"/>
+  <result property="gsOpCode"    column="OP_CODE"/>
+  <result property="gsDataSrc"   column="DATA_SOURCE"/>
+  <result property="gsBusiidNo"  column="BUSIID_NO"/>
+  <result property="gsBusiidType" column="BUSIID_TYPE"/>
+  <result property="gsLoginAct"  column="LOGIN_ACCEPT"/>
+  <result property="glCreatAct"  column="CREATE_ACCEPT"/>
+  <result property="gsLoginNo"   column="LOGIN_NO"/>
+  <result property="gsErrCode"   column="ERR_CODE"/>
+  <result property="gsErrMsg"    column="ERR_MSG"/>
+ </resultMap>
+
+  <insert id="iDatabyAccept" parameterClass="Map">
+	INSERT INTO IN_MSGRCV_ERR (DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO, 
+	                           RCV_TIME, ERR_CODE, ERR_MSG) 
+	SELECT DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, CONTENT, LOGIN_ACCEPT, SYSDATE, OP_CODE, LOGIN_NO,
+	                           OP_TIME ,#ERR_CODE#, #ERR_MSG# 
+	  FROM IN_MSGRCV_INFO 
+	 WHERE TOPIC_ID=#TOPIC_ID#
+	   AND LOGIN_ACCEPT=#LOGIN_ACCEPT#
+  </insert>
+  
+  <insert id="insert" parameterClass="OdrLineErrVO">
+	INSERT INTO IN_MSGRCV_ERR (CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, 
+        CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO, OP_TIME, RCV_TIME, ERR_CODE, ERR_MSG)
+    VALUES (#glCreatAct#, #gsDataSrc#, #gsBusiidNo#, #gsBusiidType#, #gsTopicId#, 
+        #gbContent:BLOB#, #gsLoginAct#, #gsOpCode#, #gsLoginNo#, SYSDATE, SYSDATE, #gsErrCode#, #gsErrMsg#)
+  </insert>
+  
+  <delete id="dDatabyAccept" parameterClass="Map">
+	DELETE FROM IN_MSGRCV_ERR 
+	WHERE TOPIC_ID=#TOPIC_ID# 
+	AND CREATE_ACCEPT=#CREATE_ACCEPT#
+  </delete>
+  
+  <select id="qErrData" parameterClass="Map" resultClass="java.util.HashMap">  
+    SELECT TOPIC_ID ,CONTENT ,LOGIN_ACCEPT ,OP_CODE ,LOGIN_NO ,CREATE_ACCEPT ,DATA_SOURCE, BUSIID_TYPE ,BUSIID_NO ,ERR_CODE
+    FROM  IN_MSGRCV_ERR 
+    WHERE 1=1 
+      AND TOPIC_ID=#TOPIC_ID# 
+	　AND ERR_CODE in(#ERR_CODE_0#, #ERR_CODE_1#)
+	  AND ROWNUM <![CDATA[ <= ]]> 1000 
+    ORDER BY OP_TIME
+  </select>
+  
+  <update id="uErrDataErrCode" parameterClass="Map">
+    UPDATE IN_MSGRCV_ERR SET 
+    ERR_CODE=#ERR_CODE#
+    WHERE CREATE_ACCEPT=#CREATE_ACCEPT#
+  </update>
+  
+</sqlMap>

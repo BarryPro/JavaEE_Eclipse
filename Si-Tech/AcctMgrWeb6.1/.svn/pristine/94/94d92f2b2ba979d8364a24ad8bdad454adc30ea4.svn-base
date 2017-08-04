@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cKeyWordMap">
+
+    <select id="qry" parameterClass="Map" resultClass="java.lang.String">
+		select key_value from cKeyWordMap	
+		where key_word=#REGION_CODE# 
+		AND op_code = #OP_CODE#
+		AND op_type = 'MODE'
+	</select>
+	
+	<insert id="insert" parameterClass="Map" >
+		insert into cKeyWordMap
+		(op_code, op_type, key_word, key_value, note, is_valid)
+		values
+		(#OP_CODE#, 'MODE', #REGION_CODE#, #OP_TYPE#, #NOTE#, 1)
+	</insert>
+
+	<delete id="delete" parameterClass="Map">
+		delete from cKeyWordMap
+		 WHERE op_code = #OP_CODE#
+	   AND op_type = 'MODE'
+	   AND key_word = #REGION_CODE#
+	</delete>
+
+</sqlMap>

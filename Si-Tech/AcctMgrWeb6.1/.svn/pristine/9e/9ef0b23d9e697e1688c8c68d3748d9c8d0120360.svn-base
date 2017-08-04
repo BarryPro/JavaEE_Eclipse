@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="tellcode_inc_bak">
+
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		select
+		count(*) CNT from tellcode_inc_bak
+		where trim(SEGNUM)=#LOGIN_ACCEPT#
+		and trim(MSISDN)=#PHONE_NO#
+	</select>
+	
+	<select id="qCntDel" parameterClass="Map" resultClass="java.lang.Integer">
+		select
+		count(*) CNT from tellcode_inc_del_bak
+		where trim(MSISDN)=#PHONE_NO#
+		and order_id='B'
+		and substr(start_datetime,1,6)=#YEAR_MONTH#
+		and	flag1='Z'
+	</select>
+
+	<typeAlias alias="TellCodeEntity" type="com.sitech.acctmgr.atom.domains.query.TellCodeEntity"/>
+	<select id="qryDel" parameterClass="Map" resultClass="TellCodeEntity">
+		select to_char(a.msisdn) phoneNo,
+		decode(a.order_flag, '1', '包月', '0', '点播') orderFlag,
+		nvl(decode(a.zy_flag, '1', '梦网', '0', '自有'),'无') zyFlag,
+		nvl(substr(serv_name, 0, 200),'无') servName,
+		to_char(a.oper_code) operCode,
+		nvl(a.fee,'无') fee,
+		to_char(a.reply_time) replyTime,
+		to_char(a.reply_time) replyTime1,
+		nvl(decode(a.flag1, 'Z', '是', '否'),'无') flag
+		from tellcode_inc_del_bak a, ur_user_info b
+		where trim(a.msisdn) = b.phone_no
+		and a.reply_time between #BEGIN_TIME# and #END_TIME#
+		and a.reply_time is not null
+	</select>
+
+	<select id="qry" parameterClass="Map" resultClass="java.util.HashMap">
+		select sp_code,oper_code,flag1,order_id,order_flag
+		from tellcode_inc_bak
+		where trim(SEGNUM)=#LOGIN_ACCEPT#
+		and
+		trim(MSISDN)=#PHONE_NO#
+	</select>
+	
+	<update id="updateN" parameterClass="Map" >
+		update tellcode_inc_bak
+		set FLAG1='N'
+		where trim(SEGNUM)=#LOGIN_ACCEPT#
+		and
+		trim(MSISDN)=#PHONE_NO#
+	</update>
+	
+	<update id="updateZ" parameterClass="Map" >
+		update tellcode_inc_bak
+		set FLAG1='Z',reply_time=to_char(sysdate,'yyyymmddhh24miss')
+		where trim(SEGNUM)=#LOGIN_ACCEPT#
+		and
+		trim(MSISDN)=#PHONE_NO#
+	</update>
+	
+	<update id="updateReply" parameterClass="Map" >
+		update tellcode_inc_bak
+		set reply_time=to_char(sysdate,'yyyymmddhh24miss')
+		where trim(SEGNUM)=#LOGIN_ACCEPT#
+		and
+		trim(MSISDN)=#PHONE_NO#
+	</update>
+	
+	<update id="updateY" parameterClass="Map" >
+		update tellcode_inc_bak
+		set FLAG1='Y'
+		where trim(SEGNUM)=#LOGIN_ACCEPT#
+		and
+		trim(MSISDN)=#PHONE_NO#
+	</update>
+
+</sqlMap>

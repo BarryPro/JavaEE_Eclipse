@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ac_contrust_info">
+
+	<typeAlias alias="ConTrustEntity" type="com.sitech.acctmgr.atom.domains.account.ConTrustEntity"/>
+	<select id="qByCon" parameterClass="Map" resultClass="ConTrustEntity">
+		SELECT CONTRACT_NO as contractNo, BANK_CODE as bankCode,
+		NVL(ACCOUNT_NO,'0') as accountNo,
+		NVL(POST_BANK_CODE,' ') as postBankCode
+		FROM AC_CONTRUST_INFO
+		WHERE CONTRACT_NO= #CONTRACT_NO#
+	</select>
+
+</sqlMap>
+

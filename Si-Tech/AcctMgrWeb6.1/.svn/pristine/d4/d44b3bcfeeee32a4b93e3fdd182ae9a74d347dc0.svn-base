@@ -1,0 +1,159 @@
+package com.sitech.acctmgr.atom.busi.invoice.inter;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.balance.TransFeeEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvCondEntity;
+import com.sitech.acctmgr.atom.domains.invoice.PreInvoiceDispEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoiceFeeEntity;
+
+/**
+ *
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author
+ * @version 1.0
+ */
+public interface IInvFee {
+	/**
+	 * 预存发票上展示的金额
+	 * 
+	 * @param inParam
+	 * @return
+	 */
+	PreInvoiceDispEntity getPreInvoiceFee(Map<String, Object> inParam);
+
+	/**
+	 * 查询账本支出表和冲销表，得到缴费冲销的滞纳金和本金
+	 * 
+	 * @author liuhl
+	 * @param billCycle
+	 * @param paySn
+	 * @param contractNo
+	 * @param idNo
+	 * @return
+	 */
+	List<Map<String, Object>> qryWritoffInfo(int billCycle, long paySn, long contractNo, long idNo);
+
+	/**
+	 * 查询月结发票上展示的费用信息
+	 * 
+	 * @author liuhl
+	 * @param inParam
+	 * @return
+	 */
+	Map<String, Object> getMonthInvoiceFee(Map<String, Object> inParam);
+
+	/**
+	 * 功能：查询增值税发票信息
+	 * 
+	 * @param contractNo
+	 * @param beginMon
+	 * @param endMon
+	 * @param groupId
+	 * @return
+	 */
+	List<TaxInvoEntity> getTaxInvoFee(String contractNo, int beginMon, int endMon, String groupId);
+
+	/**
+	 * 一点支付：按照子账号查询费用信息
+	 * 
+	 * @param contractNoList
+	 * @param iBeginMon
+	 * @param iEndMon
+	 * @param groupId
+	 * @return
+	 */
+	List<TaxInvoEntity> getTotalTaxInvoFee(List<InvCondEntity> contractNoList, int iBeginMon, int iEndMon, String groupId);
+
+	/**
+	 * 一点支付：获取拆分方法
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	long getCfValue(String groupId);
+
+	/**
+	 * 更新发票记录表标示
+	 * 
+	 * @param contractNo
+	 * @param billCycle
+	 * @param printFlag
+	 * @param taxRate
+	 * @param oldPirntFlag
+	 * @param printSn
+	 */
+	void upTaxInvoFlag(long contractNo, int billCycle, String printFlag, double taxRate, String oldPirntFlag, long printSn);
+
+	/**
+	 * 
+	 * @param contractNo
+	 * @param billCycle
+	 * @param printFlag
+	 * @param taxRate
+	 * @param oldPirntFlag
+	 * @param printSn
+	 */
+	void upTaxOnePonitInvoFlag(long contractNo, int billCycle, String printFlag, double taxRate, String oldPirntFlag, long printSn);
+
+	/**
+	 * 查询某账户在某月的增值税金额
+	 * 
+	 * @param contractNo
+	 * @param naturalMon
+	 * @return
+	 */
+	List<TaxInvoEntity> getAddTaxFee(long contractNo, int naturalMon);
+
+	/**
+	 * 查询多账户在多账期内的增值税发票总金额（按税率和pay_type分开，主要是为了入bal_invtaxprint_info）
+	 * 
+	 * @param invoiceFeeDetailList
+	 * 
+	 * @return
+	 */
+	List<TaxInvoiceFeeEntity> getTaxInvoFeeTotalForTaxPrint(List<TaxInvoiceFeeEntity> invoiceFeeDetailList);
+
+	/**
+	 * 查询账户在账期内的使用的增值税发票冲销信息（按账户，账期，税率分开）
+	 * 
+	 * @param contractStr
+	 * @param beginYm
+	 * @param endYm
+	 * @return
+	 */
+	List<TaxInvoiceFeeEntity> getTaxInvoFeeDetail(String contractStr, int beginYm, int endYm);
+
+	/**
+	 * 查询某一账户在账期内的发票金额（按账户和账期分开，主要是为了入bal_invprint_info表）
+	 * 
+	 * @param contractStr
+	 * @param beginYm
+	 * @param endYm
+	 * @return
+	 */
+	List<TaxInvoiceFeeEntity> getTaxInvoFeeTotalForInvPrint(List<TaxInvoiceFeeEntity> invoiceFeeDetailList);
+
+	/**
+	 * 查询一点支付账户子账户的的冲销记录
+	 * 
+	 * @param paySnList
+	 * @return
+	 */
+	List<TaxInvoiceFeeEntity> getTaxInvoFeeDetail(List<TransFeeEntity> transFeeList, int beginYm, int endYm);
+
+}

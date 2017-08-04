@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgsend_cfg">
+
+  <select id="query" parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT TOPIC_ID, DATA_SOURCE, SUFFIX, TOPIC_PRIOR
+    FROM  IN_MSGSEND_CFG
+    WHERE DATA_SOURCE=#DATA_SOURCE#
+  </select>
+
+
+
+</sqlMap>

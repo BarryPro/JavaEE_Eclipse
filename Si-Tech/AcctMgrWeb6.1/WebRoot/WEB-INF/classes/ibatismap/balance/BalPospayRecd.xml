@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BAL_POSPAY_RECD">
+
+	<insert id="insert" parameterClass="Map">
+		insert into BAL_POSPAY_RECD
+		(FOREIGN_SN, PAY_SN, MERCHANT_ID, TERMINAL_ID,
+		CARD_ID,
+		VOUCHER_ID,
+		BOSS_ORDER_ID, FOREIGN_TIME, FOREIGN_NOTE, PHONE_NO, ID_NO,
+		CONTRACT_NO, PAY_PATH, PAY_TYPE, PAY_FEE, LOGIN_NO, GROUP_ID, OP_CODE,
+		OP_TIME, STATUS, REMARK, TOTAL_DATE, BANK_NAME, BUSI_TYPE, BATCH_NO,
+		AUTH_NO, REFERENCE_NO, ORIGINAL_DATE, ORIGINAL_SN, POS_FEE,
+		RESULT_STR,
+		PRINT_CONT, MERCHANT_NAME, INSTALNUM, BUDGET_START_PAY,
+		CARD_TYPE,
+		ORIGINAL_VOUCHER_ID)
+		values (#FOREIGN_SN#, #PAY_SN#,
+		#MERCHANT_ID#, #TERMINAL_ID#, #CARD_ID#,
+		#VOUCHER_ID#, #BOSS_ORDER_ID#,
+		TO_DATE(#FOREIGN_TIME#,'YYYYMMDDHH24:MI:SS'), #FOREIGN_NOTE#,
+		#PHONE_NO#, #ID_NO#,
+		#CONTRACT_NO#, #PAY_PATH#, #PAY_TYPE#, #PAY_FEE#,
+		#LOGIN_NO#, #GROUP_ID#, #OP_CODE#,
+		SYSDATE, #STATUS#, #OP_NOTE#,
+		#TOTAL_DATE#, #BANK_NAME#, #BUSI_TYPE#,
+		#BATCH_NO#,
+		#AUTH_NO#,
+		#REFERENCE_NO#, #ORIGINAL_DATE#, #ORIGINAL_SN#, #POS_FEE#,
+		#RESULT_STR#,
+		#PRINT_CONT#, #MERCHANT_NAME#, #INSTALNUM#,
+		#BUDGET_START_PAY#, #CARD_TYPE#,
+		#ORIGINAL_VOUCHER_ID#)
+	</insert>
+	
+	<select id="qsellerInfo" parameterClass="Map" resultClass="java.util.HashMap">
+	select MERCHANT_NAME,MERCHANT_ID,TERMINAL_ID,CARD_ID,BATCH_NO,AUTH_NO from bal_pospay_recd where to_char(op_time,'YYYYMM')=#YEAR_MONTH# AND PAY_SN=#PAY_SN#
+	</select>
+	
+	
+	
+</sqlMap>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_collbilldet_info">
+	<resultMap id="CollBillDetInfoEnt" class="com.sitech.acctmgr.atom.domains.collection.CollectionDispEntity">
+		<result property="contractNo" column="CONTRACT_NO"/>
+		<result property="contractName" column="CONTRACT_NAME"/>
+		<result property="accountNo" column="ACCOUNT_NO"/>
+		<result property="bankCode" column="BANK_CODE"/>
+		<result property="bankName" column="BANK_NAME"/>
+		<result property="printNo" column="PRINT_NO"/>
+		<result property="phoneNo" column="PHONE_NO"/>
+		<result property="payFee" column="PAY_FEE"/>
+		<result property="mealFee" column="FEE1"/>
+		<result property="specFee" column="FEE2"/>
+		<result property="localCallFee" column="FEE3"/>
+		<result property="longDisFee" column="FEE4"/>
+		<result property="roamFee" column="FEE5"/>
+		<result property="msgFee" column="FEE6"/>
+		<result property="pzFee" column="FEE7"/>
+		<result property="ipFee" column="FEE8"/>
+		<result property="otherFee" column="FEE9"/>
+		<result property="videoPhoneFee" column="FEE10"/>
+		<result property="fee11" column="FEE11"/>
+	</resultMap>
+
+	<!-- 查询托收单明细信息 -->
+	<select id="qBillDetInfo" parameterClass="Map" resultMap="CollBillDetInfoEnt">
+		SELECT A.CONTRACT_NO, TRIM(A.CONTRACT_NAME) CONTRACT_NAME, A.ACCOUNT_NO,A.BANK_CODE,
+		TRIM(A.BANK_NAME) BANK_NAME,A.PRINT_NO,NVL(A.PHONE_NO,' ') PHONE_NO,A.PAY_FEE,A.FEE1,A.FEE2,
+		A.FEE3,A.FEE4,A.FEE5,A.FEE6,A.FEE7,A.FEE8,A.FEE9,A.FEE10,A.FEE11
+		FROM ACT_COLLBILLDET_INFO A
+		WHERE
+		A.BILL_CYCLE = #BILL_CYCLE:INT#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				A.CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BEGIN_BANK_CODE">
+				A.BANK_CODE <![CDATA[ >= ]]> #BEGIN_BANK_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="END_BANK_CODE">
+				A.BANK_CODE <![CDATA[ <= ]]>#END_BANK_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BEGIN_PRINT_NO">
+				A.PRINT_NO <![CDATA[ >= ]]>#BEGIN_PRINT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="END_PRINT_NO">
+				A.PRINT_NO <![CDATA[ <= ]]>#END_PRINT_NO#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="PARENT_GROUP_ID">
+				EXISTS (SELECT 1 FROM
+				BS_CHNGROUP_REL B WHERE A.GROUP_ID = B.GROUP_ID
+				AND
+				B.PARENT_GROUP_ID=#PARENT_GROUP_ID#
+				AND B.PARENT_LEVEL
+				=#PARENT_LEVEL#)
+			</isNotEmpty>
+
+		</dynamic>
+		ORDER BY A.BANK_CODE, A.PRINT_NO
+	</select>
+
+</sqlMap>

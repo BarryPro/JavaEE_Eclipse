@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript">
+		window.onload=function(){
+			var items=new Array("apple","orangle","cherry");
+			var sep="*";
+			concatenateString(items,sep);
+			alert(items);//数组做出了修改，引用传递
+			alert(sep);//而字符串没有修改，副本改了，但是本身没变，引用传递
+			
+		}
+		function concatenateString(strings,separator){
+			
+			
+			strings[3]="pear";//追加元素到末尾
+			separator="-";
+		}
+	
+	</script>
+</head>
+<body>
+
+</body>
+</html>

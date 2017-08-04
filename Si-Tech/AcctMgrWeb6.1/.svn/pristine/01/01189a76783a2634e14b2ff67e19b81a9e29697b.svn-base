@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="remind_ctrl_fav">
+
+	<select id="qCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT
+		COUNT(*) COUNT
+		FROM remind_ctrl_fav
+		where msisdn=#PHONE_NO#
+		and system_type='gg'
+		and to_char(sysdate,'yyyymm')=to_char(deal_time,'yyyymm')
+		and deal_flag='6'
+		and ctrl_value='5120'
+	</select>
+	
+	<select id="qCprsCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT
+		COUNT(*) COUNT
+		FROM remind_ctrl_fav
+		where msisdn=#PHONE_NO#
+		and to_char(sysdate,'yyyymm')=to_char(deal_time,'yyyymm')
+		and deal_flag='7'
+	</select>
+
+</sqlMap>

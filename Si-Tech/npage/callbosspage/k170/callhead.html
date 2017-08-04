@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<script src="/njs/csp/xmlHelper.js" type="text/javascript"></script>
+		<script>
+				var xmlHelper = new XmlHelper();
+				var xmlSeach = new XmlHelper();
+				window.onload=function()
+				{
+					var ret = xmlHelper.loadXml('http://10.161.6.148:11000/npage/test.xml');
+					if(ret==false)
+						alert(xmlHelper.getLoadXmlErrDesc());
+						
+					ret = xmlSeach.loadXml('http://10.161.6.148:11000/npage/test1.xml');
+					if(ret==false)
+						alert(xmlSeach.getLoadXmlErrDesc());
+						
+				}
+				function tb()
+				{
+					window.open('/npage/callreson.jsp?contactId=2009082409470052123t7&contactMonth=200908');
+				}
+			</script>
+	</head>
+	<body>
+  <div>
+  	<input type='button' value='打开新页面' onclick='tb()'>
+  	<div>
+		<body>
+</html>

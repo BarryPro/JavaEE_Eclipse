@@ -1,0 +1,227 @@
+@charset "utf-8";
+#star,
+#star1,
+#star2 {
+    position: relative;
+    margin: 0 auto;
+    height: 90px;
+}
+
+#star ul,
+#star span {
+    float: left;
+    display: inline;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px 0;
+}
+#star1 ul,
+#star1 span {
+    float: left;
+    display: inline;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px 0;
+}
+#star2 ul,
+#star2 span {
+    float: left;
+    display: inline;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px 0;
+}
+
+#star ul,
+#star1 ul,
+#star2 ul {
+    margin-left: 10px;
+}
+
+#star li,
+#star1 li,
+#star2 li {
+    float: left;
+    width: 24px;
+    cursor: pointer;
+    text-indent: -9999px;
+    background: url(../../pub-ui/images/star.png) no-repeat;
+}
+
+#star strong,
+#star1 strong,
+#star2 strong {
+    color: #f60;
+    padding-left: 10px;
+}
+
+#star li.on,
+#star1 li.on,
+#star2 li.on {
+    background-position: 0 -28px;
+}
+
+#star p,
+#star1 p,
+#star2 p {
+    position: absolute;
+    top: 70px;
+    width: 100px;
+    height: 60px;
+    display: none;
+    background-color: #eef6fa;
+    z-index: 1000;
+}
+
+#star p em,
+#star1 p em,
+#star2 p em {
+    color: #f60;
+    display: block;
+    font-style: normal;
+}
+
+/* END jQuery.Rating Plugin CSS */
+.up-main-left {
+    width: 30px;
+    height: 40px;
+    position: fixed;
+    right: 10px;
+    top: 40px;
+    background: url(../../pub-ui/images/icon-tobo.png) no-repeat 0 -27px #44ade5;
+    cursor: pointer;
+}
+/*弹窗样式*/
+#pop_bg{
+    width: 100%;
+    height: 100%;
+    background: #000 !important;
+    opacity: 0.4 !important;
+    filter: alpha(opacity=40) !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    z-index: 10000;
+}
+.thick-show {
+    position: fixed;
+    z-index: 100000;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+.home-mini{
+    height:0;
+    overflow: hidden;
+}
+.home-mini div.up-main-left{
+    background: url(../../pub-ui/images/icon-tobo.png) no-repeat 0 6px #44ade5;
+}
+.op-nav-sub-box{
+    z-index: 100 !important;
+}
+/*客户经理首页*/
+.op-list-1 li{
+    padding-left:10px;
+    padding-right: 10px;
+}
+.header-title {
+    background: #44ade5;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+}
+.header-title h3 {
+    font-size: 18px;
+    color: #fff;
+    height: auto;
+    line-height: 2;
+    margin: 0;
+    padding: 5px 10px;
+
+}
+.table-info01{
+    height:230px;
+    background: #f7f9f9;
+    border-left: 1px solid #ccc;
+}
+.table-info01 tr {
+    line-height:60px;
+    color: #fff;
+
+}
+.table-info01 td {
+    text-align: right;
+    padding-right: 20px;
+    font-size:16px;
+    color:#44ade5;
+}
+.table-info01 td.tab-td-1{
+    color:#666;
+    font-size: 18px;
+}
+.bor-rus-1{
+    border-radius: 3px !important;
+}
+.pull-sp{
+    color:#fff;
+    font-size: 14px;
+}
+.bann-tit{
+    background-color: #0073ca;
+}
+.bann-tit h1{
+    margin-top:3px;
+    margin-left: 5px;
+}
+/*客户经理*/
+.btn-list-1 li.short button{
+    width:100% !important;
+}
+.short li{
+    border-bottom: 1px dashed #ccc;
+}
+.short li a{
+    display:block;
+    height: 34px;
+    color: #333;
+    font-size: 16px;
+    line-height: 34px;
+    padding-left: 20px;
+    background: url(../../pub-ui/images/i-right.png) no-repeat right center;
+}
+.short li a:hover{
+    color:#44ade5;
+    text-decoration: underline;
+}
+.title-h3{
+    height:42px;
+    line-height: 42px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    background-color: #779dd9;
+}
+
+.short-list {
+    width:100%;
+}
+.short-list li{
+    border-bottom: 1px dashed #ccc;
+}
+.short-list li a{
+    display:block;
+    height: 50px;
+    color: #333;
+    font-size: 14px;
+    line-height: 50px;
+    padding-left: 28px;
+    background: url(../../pub-ui/images/rank.png) no-repeat -4px -2px;
+}
+.short-list li a:hover{
+    color:#44ade5;
+    text-decoration: underline;
+}
+.bor-cc{
+    border-bottom: 1px dashed #ccc;
+}

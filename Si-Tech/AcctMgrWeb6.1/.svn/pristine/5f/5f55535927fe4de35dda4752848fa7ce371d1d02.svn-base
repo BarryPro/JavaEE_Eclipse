@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_einvoicetax_dict">
+	<typeAlias alias="sellerInfo" type="com.sitech.acctmgr.atom.domains.invoice.elecInvoice.InvoiceXhfInfo"/>
+	<select id="qsellerInfo" parameterClass="Map" resultClass="sellerInfo">
+		select REGION_CODE regionCode ,NSBSH xhfnsrsbh, NSRMC xhfmc, XHFDZ xhfdz, XHFDH xhfdh, BANK_NO bankCode,BANK_NAME bankName, REMARK mark, SQM sqm,FHR fhr
+		  from BAL_EINVOICETAX_DICT where 1=1 
+       <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="REGION_ID">
+    		REGION_CODE = #REGION_ID#
+    	</isNotEmpty>
+    	</dynamic>
+	</select>
+</sqlMap>

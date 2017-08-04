@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BK_bal_user_sync">
+  
+  <insert id="iUserSyncByCols" parameterClass="Map">
+	INSERT INTO BAL_USER_SYNC (ID_NO, PHONE_NO, CUST_ID, GROUP_ID, OPEN_TIME, BILL_START_TIME, INSERT_TIME, OWNER_TYPE)
+	select ID_NO, PHONE_NO, CUST_ID, GROUP_ID, OPEN_TIME, BILL_START_TIME, sysdate INSERT_TIME, OWNER_TYPE  
+	from ur_user_info 
+	where ID_NO = #ID_NO#
+  </insert>
+
+</sqlMap>

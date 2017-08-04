@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_user_info_INT">
+  
+	<select id="qCustIdInfoByIdNo" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">
+	  SELECT CUST_ID,GROUP_ID,PHONE_NO,CONTRACT_NO ,B.RUN_CODE OLD_RUN
+	  FROM   UR_USER_INFO A, CS_USERDETAIL_INFO B
+	  WHERE  A.ID_NO = B.ID_NO 
+	  AND    A.ID_NO=#ID_NO#
+	</select>
+	
+</sqlMap>

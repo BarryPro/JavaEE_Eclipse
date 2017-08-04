@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="bal_grppreinv_info">
+	<typeAlias alias="balGrppreinvInfo" type="com.sitech.acctmgr.atom.domains.invoice.BalGrppreinvInfo"/>
+	<typeAlias alias="preInvoiceRecycle" type="com.sitech.acctmgr.atom.domains.invoice.PreInvoiceRecycleEntity"/>
+	<insert id="insertBalGrppreinvInfo" parameterClass="balGrppreinvInfo">
+  		INSERT INTO  BAL_GRPPREINV_INFO(
+				UNIT_ID,
+				UNIT_NAME,
+				GRP_PHONE_NO,
+				GRP_CONTRACT_NO,
+				LOGIN_ACCEPT,
+				OP_TIME,
+				LOGIN_NO,
+				INV_FEE,
+				STATE,
+				ITEM,
+				INV_NO,
+				MANAGER_NAME,
+				RETURN_DATE) 
+		VALUES(
+				#unitId#,
+				#unitName#,
+				#grpPhoneNo#,
+				#grpContractNo#,
+				#loginAccpet#,
+				sysdate,
+				#loginNo#,
+				#invFee#,
+				#state#,
+				#item#,
+				#invNo#,
+				#managerName#,
+				#returnDate#)
+		</insert>
+		
+		<update id="updateState" parameterClass="Map">
+			UPDATE BAL_GRPPREINV_INFO SET STATE=#STATE# 
+			WHERE 1=1 
+			<dynamic prepend="">
+				<isNotEmpty prepend="" property="INV_NO">
+					AND INV_NO=#INV_NO#
+				</isNotEmpty>
+				<isNotEmpty prepend="" property="LOGIN_ACCPET">
+					AND LOGIN_ACCEPT=#LOGIN_ACCPET#
+				</isNotEmpty>
+				<isNotEmpty prepend="" property="CONTRACT_NO">
+					AND GRP_CONTRACT_NO=#CONTRACT_NO#
+				</isNotEmpty>
+			</dynamic>
+			
+		</update>
+		
+		<select id="qryCntGrpInv" parameterClass="Map" resultClass="java.util.HashMap">
+			SELECT COUNT(*) CNT FROM BAL_GRPPREINV_INFO
+			WHERE INV_NO=#INV_NO#
+			<dynamic prepend="">
+				<isNotEmpty prepend="" property="STATE_LIST">
+				AND STATE IN 
+					<iterate open="(" close=")" prepend="" property="STATE_LIST" conjunction=",">
+						#STATE_LIST[]#
+					</iterate>
+				</isNotEmpty>
+			</dynamic>
+		</select>
+
+	<select id="qryGrpInvTotal" parameterClass="Map" resultClass="preInvoiceRecycle">
+		SELECT LOGIN_ACCEPT printSn,
+		SUM(INV_FEE) printFee,
+		TO_CHAR(OP_TIME, 'YYYYMMDD HH24:MI:SS') opTime
+		FROM BAL_GRPPREINV_INFO
+		WHERE UNIT_ID =#UNIT_ID#
+		AND TO_CHAR(OP_TIME, 'YYYYMM') = #SUFFIX#
+		AND STATE=#STATE#
+		GROUP BY LOGIN_ACCEPT, OP_TIME,STATE
+	</select>
+
+	<select id="qryGrpInvDetail" parameterClass="Map" resultClass="preInvoiceRecycle">
+		SELECT UNIT_ID unitId,
+		GRP_PHONE_NO grpPhoneNo,
+		GRP_CONTRACT_NO grpContractNo,
+		LOGIN_ACCEPT printSn,
+		TO_CHAR(OP_TIME,'YYYYMMDD HH24:MI:SS') opTime,
+		INV_FEE printFee,
+		STATE state
+		FROM BAL_GRPPREINV_INFO
+		WHERE UNIT_ID = #UNIT_ID#
+		AND LOGIN_ACCEPT = #LOGIN_ACCEPT#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="STATE">
+				AND STATE = #STATE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+		
+		<select id="qryCount" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT COUNT(1) COUNT
+		FROM BAL_GRPPREINV_INFO
+		WHERE  STATE = 'p'
+		<dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PHONE_NO">
+                grp_phone_no = #PHONE_NO# 
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                GRP_CONTRACT_NO = #CONTRACT_NO# 
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="UNIT_ID">
+               UNIT_ID = #UNIT_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="LOGIN_ACCPET">
+               LOGIN_ACCEPT = #LOGIN_ACCPET#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="INV_FEE">
+               INV_FEE = #INV_FEE#
+            </isNotEmpty>
+        </dynamic>
+	</select> 
+</sqlMap>

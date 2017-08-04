@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 实体层基类 抽象类，不能实例化-->
+    <bean id="baseBusi" class="com.sitech.acctmgr.common.BaseBusi" abstract="true">
+        <property name="baseDao" ref="baseDao"/>
+    </bean>
+
+
+    <!-- 实体层 -->
+    <!-- 公共实体 -->
+
+    <bean id="userEnt" class="com.sitech.acctmgr.atom.entity.User" parent="baseBusi">
+        <property name="account" ref="accountEnt"/>
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="accountEnt" class="com.sitech.acctmgr.atom.entity.Account" parent="baseBusi">
+        <property name="user" ref="userEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+
+    <bean id="custEnt" class="com.sitech.acctmgr.atom.entity.Cust" parent="baseBusi">
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="prodEnt" class="com.sitech.acctmgr.atom.entity.Prod" parent="baseBusi">
+    </bean>
+
+    <bean id="groupEnt" class="com.sitech.acctmgr.atom.entity.Group" parent="baseBusi">
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+    </bean>
+
+    <bean id="loginEnt" class="com.sitech.acctmgr.atom.entity.Login" parent="baseBusi">
+
+    </bean>
+
+    <bean id="controlEnt" class="com.sitech.acctmgr.atom.entity.Control" parent="baseBusi">
+    </bean>
+
+    <bean id="delayEnt" class="com.sitech.acctmgr.atom.entity.hlj.DelayHLJ" parent="baseBusi">
+        <property name="account" ref="accountEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="invoiceEnt" class="com.sitech.acctmgr.atom.entity.Invoice" parent="baseBusi">
+    	<property name="balance" ref="balanceEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="collection" ref = "collectionEnt"/>
+		<property name="login" ref="loginEnt"/>
+		<property name="group" ref="groupEnt"/>
+    </bean>
+
+    <bean id="agentEnt" class="com.sitech.acctmgr.atom.entity.hlj.AgentHLJ" parent="baseBusi">
+    	<property name="account" ref="accountEnt"/>
+    	<property name="user" ref="userEnt"/>
+    </bean>
+
+    <bean id="billEnt" class="com.sitech.acctmgr.atom.entity.Bill" parent="baseBusi">
+        <property name="control" ref="controlEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="delay" ref="delayEnt" />
+    </bean>
+
+    <bean id="balanceEnt" class="com.sitech.acctmgr.atom.entity.Balance" parent="baseBusi">
+        <property name="bill" ref="billEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="account" ref="accountEnt"/>
+    </bean>
+
+    <bean id="recordEnt" class="com.sitech.acctmgr.atom.entity.Record" parent="baseBusi">
+        <property name="group" ref="groupEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="creditEnt" class="com.sitech.acctmgr.atom.entity.Credit" parent="baseBusi"/>
+
+    <bean id="depositEnt" class="com.sitech.acctmgr.atom.entity.Deposit" parent="baseBusi">
+        <property name="account" ref="accountEnt"/>
+    </bean>
+    
+    <bean id="adjEnt" class="com.sitech.acctmgr.atom.entity.Adj" parent="baseBusi">
+    	<property name="control" ref="controlEnt"/>
+    	<property name="billAccount" ref="billAccountEnt"/>
+    </bean>
+    
+    <bean id="baseEnt" class="com.sitech.acctmgr.atom.entity.Base" parent="baseBusi">
+        <property name="group" ref = "groupEnt"/>
+    </bean>
+    
+    <bean id="chequeEnt" class="com.sitech.acctmgr.atom.entity.Cheque" parent="baseBusi">
+	</bean>
+
+	<bean id="remindEnt" class="com.sitech.acctmgr.atom.entity.Remind" parent="baseBusi">
+	</bean>
+
+    <bean id="collectionEnt" class = "com.sitech.acctmgr.atom.entity.Collection" parent="baseBusi">
+        <property name="account" ref = "accountEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+
+    <bean id="billDisplayerEnt" class="com.sitech.acctmgr.atom.entity.BillDisplayer" parent="baseBusi">
+        <property name="account" ref="accountEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+    </bean>
+
+    <bean id="freeDisplayerEnt" class="com.sitech.acctmgr.atom.entity.FreeDisplayer" parent="baseBusi">
+        <property name="control" ref="controlEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+    </bean>
+    
+    <bean id="billAccountEnt" class="com.sitech.acctmgr.atom.entity.BillAccount" parent="baseBusi">
+    	 <property name="control" ref="controlEnt"/>
+    </bean>
+    
+    <bean id="userSignEnt" class="com.sitech.acctmgr.atom.entity.UserSign" parent="baseBusi">
+    	<property name="goods" ref="goodsEnt"/>
+    </bean>
+    
+    <bean id="goodsEnt" class="com.sitech.acctmgr.atom.entity.Goods" parent="baseBusi">
+    </bean>
+    
+    <bean id="shortMsgEnt" class="com.sitech.acctmgr.atom.entity.ShortMsg" parent="baseBusi">
+    </bean>
+    
+</beans>

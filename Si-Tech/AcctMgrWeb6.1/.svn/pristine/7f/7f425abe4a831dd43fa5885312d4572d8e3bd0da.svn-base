@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_unstopholiday_rel">
+    <typeAlias alias="UnStopHolidayEntity" type="com.sitech.acctmgr.atom.domains.cct.UnStopHolidayEntity"/>
+	<select id="qry" parameterClass="Map" resultClass="UnStopHolidayEntity">
+		SELECT b.HOLIDAY_ID holidayId,b.HOLIDAY_NAME holidayName,to_char(b.BEGIN_TIME, 'YYYYMMDDHH24MISS') beginTime,to_char(b.END_TIME,'YYYYMMDDHH24MISS') endTime
+		FROM CCT_UNSTOPHOLIDAY_REL a, CCT_HOLIDAY_INFO b
+		WHERE a.group_id = #GROUP_ID#
+		AND a.credit_class = #CREDIT_CLASS#
+		AND a.HOLIDAY_ID = b.HOLIDAY_ID
+		AND to_char(SYSDATE + 3, 'YYYYMMDDHH24MISS')>to_char(b.BEGIN_TIME,'YYYYMMDDHH24MISS')
+		AND to_char(SYSDATE,'YYYYMMDDHH24MISS')<![CDATA[ < ]]>to_char(b.BEGIN_TIME,'YYYYMMDDHH24MISS')
+	</select>
+   
+</sqlMap>

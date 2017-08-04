@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_checkmsg_info">
+
+	<insert id="iBalCheckMsgInfo" parameterClass="Map">
+		INSERT INTO
+		BAL_CHECKMSG_INFO(BANK_CODE,CHECK_NO,BANK_COUNT,OWNER_UNIT,CHECK_MONEY,
+		OWNER_NAME,CONTACT_PERSON,OWNER_ID,CHECK_STATUS,CONFIRM_STATUS,LOGIN_NO,OP_CODE,
+		OP_TIME,REMARK)
+		VALUES(#BANK_CODE#,#CHECK_NO#,#BANK_COUNT#,#OWNER_UNIT#,#CHECK_MONEY#,
+		#OWNER_NAME#,#CONTACT_PERSON#,#OWNER_ID#,#CHECK_STATUS#,#CONFIRM_STATUS#,#LOGIN_NO#,#OP_CODE#,
+		SYSDATE,#REMARK#)
+	</insert>
+
+	<select id="qCheckNoCount" parameterClass="Map" resultClass="java.lang.Long">
+		SELECT count(1) CNT
+		FROM BAL_CHECKMSG_INFO
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="BANK_CODE">
+				BANK_CODE=#BANK_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CHECK_NO">
+				CHECK_NO=#CHECK_NO#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="query" parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT  CHECK_MONEY,
+			BANK_COUNT,
+     	  	OWNER_UNIT ,
+       		OWNER_NAME,
+       		CONTACT_PERSON,
+       		OWNER_ID
+ 	FROM BAL_CHECKMSG_INFO
+ 	WHERE BANK_CODE = #BANK_CODE#
+  	AND CHECK_NO = #CHECK_NO#
+	</select>
+
+	<delete id="del" parameterClass="Map">
+		delete from BAL_CHECKMSG_INFO
+		WHERE TRIM(BANK_CODE)= #BANK_CODE# AND
+		TRIM(CHECK_NO) = #CHECK_NO#
+	</delete>
+	
+
+</sqlMap>

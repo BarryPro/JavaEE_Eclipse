@@ -1,0 +1,32 @@
+#new udp.port
+#Fri Jan 19 15:43:12 CST 2008
+jdbc.url=jdbc\:odbc\:myqq
+tcp.ip.port=5638
+password=2004190316
+jdbc.driver=sun.jdbc.odbc.JdbcOdbcDriver
+udp.Port=9223
+username=sa
+#new udp.port
+#Thu Mar 13 22:49:49 CST 2008
+jdbc.url=jdbc\:odbc\:myqq
+tcp.ip.port=5638
+password=2004190316
+jdbc.driver=sun.jdbc.odbc.JdbcOdbcDriver
+udp.Port=9224
+username=sa
+#new udp.port
+#Thu Mar 13 22:58:28 CST 2008
+jdbc.url=jdbc\:odbc\:myqq
+tcp.ip.port=5638
+password=2004190316
+jdbc.driver=sun.jdbc.odbc.JdbcOdbcDriver
+udp.Port=9225
+username=sa
+#new udp.port
+#Thu Mar 13 23:30:52 CST 2008
+jdbc.url=jdbc\:odbc\:myqq
+tcp.ip.port=5638
+password=2004190316
+jdbc.driver=sun.jdbc.odbc.JdbcOdbcDriver
+udp.Port=9226
+username=sa

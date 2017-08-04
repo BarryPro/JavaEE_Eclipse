@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	window.onload=function(){
+		var func=prompt("输入函数体:","");//可以输入体 parseInt(x)+parseInt(y)
+		var x=prompt("输入X值:","");
+		var y=prompt("输入Y值:","");
+		var newFun=new Function("x","y",func);//声明一个函数对象
+		var result=newFun(x,y);		
+	}
+</script>
+</head>
+<body>
+	
+</body>
+</html>

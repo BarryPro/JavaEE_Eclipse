@@ -1,0 +1,293 @@
+<html>
+<head>
+
+
+<script type="text/javascript">
+
+function loadPrintCtrlCss()
+{
+	var cssVars = new Array();
+
+	for(var i = 0; i < 5; i ++)
+	{
+		var temp=new Array();
+		cssVars.push(temp);
+	}
+	
+	//大字体。
+	cssVars[0][0] = 'bigLabel';
+	cssVars[0][1] = 'FontName="黑体" FontSize="12" FontWeight="500" Left="10"  Width="700" Top="5"';
+	
+	//打印内容
+	cssVars[1][0] = 'normalText';	
+	cssVars[1][1] = 'FontName="宋体" FontSize="10" Height="30" Left="10" Width="1590" Top="5"';
+
+	//tr。
+	cssVars[2][0] = 'trStyle';
+	cssVars[2][1] = 'Height="30" Width="1600" BorderStyle="5"';
+
+	//td。
+	cssVars[3][0] = 'tdStyle';
+	cssVars[3][1] = 'Height="30" Width="1600" BorderStyle="5"';
+	
+	//model。
+	cssVars[4][0] = 'modelStyle';
+	cssVars[4][1] = ' BorderStyle="0" BusiInfoSpace="300" Height="1660" IsModifier="N" Left="0" PageHeight="1799"  PageWidth="2420" PrintDirection="horizontal" Top="0" Width="2000"';
+	printctrl.InitCss(cssVars);
+}
+
+function PrintTest()
+{
+	var xslDoc = new ActiveXObject("MSXML.DOMDocument");
+    
+    xslDoc.load (xXmlData.XMLDocument);
+
+	var sXmlBuff = xslDoc.xml;
+
+	delete xslDoc;
+
+	var PrintVars = new Array();
+	for(var i = 0; i < 100; i ++)
+	{
+		var temp=new Array();
+		PrintVars.push(temp);
+	}
+	PrintVars[0][0] = 'IsPrintScale';       //主要是为了调试打印的位置。
+	PrintVars[0][1] = 'N';                  //打印刻度。
+	PrintVars[1][0] = 'IsPrintModifier';    //是否打印修饰信息。
+	PrintVars[1][1] = 'Y';                  //是打印。
+	PrintVars[2][0] = 'IsPrintSpecialEl';   //是否打印具有特殊属性的元素。
+	PrintVars[2][1] = 'N';                  //默认不打印。
+	PrintVars[3][0] = 'PrintAccept';
+	PrintVars[3][1] = '666777888';
+	PrintVars[4][0] = 'PrintTime';
+	PrintVars[4][1] = '2011  12  12';
+	PrintVars[5][0] = 'ProtocolHostPort';
+	PrintVars[5][1] = 'http://10.95.242.153:11001';
+	printctrl.PrintXmlBuff(sXmlBuff, PrintVars);
+}
+
+function GetVersion()
+{
+	alert(printctrl.Author);
+	alert(printctrl.Version);
+}
+
+    </script>
+
+    <style type="text/css">
+        .style1
+        {
+            width: 75px;
+        }
+        .style5
+        {
+        }
+        .style6
+        {
+            width: 7px;
+        }
+        .style11
+        {
+            height: 5px;
+        }
+        .style12
+        {
+            width: 75px;
+            height: 13px;
+        }
+    </style>
+
+</head>
+<body onload="loadPrintCtrlCss()">
+	
+	<xml id="xXmlData">
+<?xml version="1.0" encoding="GB2312"?>
+<PrintModel IsModifier="N" BorderStyle="0" BusiInfoSpace="300" PageWidth="1900" PageHeight="1020" Left="0" Top="0" Width="1900" Height="1020" FontSize="10" FontStyle="normal" FontWeight="normal" PrintDirection="horizontal" PrintModelDes="吉林托收发票">
+	<ContentTable IsModifier="Y" BorderStyle="0" ContentType="1" ElType="area" Left="200" Top="220" Width="1500" Height="0" TableLayout="fixed">    </ContentTable>
+	<ContentTable IsModifier="Y" BorderStyle="0" ContentType="3" ElType="area" Left="200" Top="220" Width="1500" Height="700" TableLayout="auto">
+		<Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1160" Height="60" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1160" Height="60">
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="50" Top="15" Width="220" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="15943412088" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="310" Top="15" Width="360" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="220140200091530493" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="680" Top="15" Width="100" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="00494" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="800" Top="15" Width="60" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="54800" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="5" ElType="tr" Top="0" Width="1500" Height="60" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1500" Height="60">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="0" Top="15" Width="160" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="开票日期：" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="170" Top="15" Width="380" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="2015年12月03日" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="560" Top="15" Width="160" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="行业分类：" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="730" Top="15" Width="350" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="邮电通信业" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="8" Left="1090" Top="15" Width="110" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="付款期限" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="8" Left="1220" Top="15" Width="80" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="2015" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="8" Left="1280" Top="15" Width="40" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="年" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="8" Left="1320" Top="15" Width="50" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="12" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="8" Left="1350" Top="15" Width="40" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="月" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="8" Left="1390" Top="15" Width="50" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="03" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="8" Left="1420" Top="15" Width="40" Height="60" PrintCondition="1" FontWeight="bold" PrintContent="日" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="75" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="20" Top="10" Width="35" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="付" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1425" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="10" Top="20" Width="200" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="全称" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="120" Top="20" Width="750" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="吉林大药房药业股份有限公司" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="950" Top="20" Width="300" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="全称" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="8" Left="1125" Top="5" Width="600" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="中国移动通信集团" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="8" Left="1100" Top="35" Width="600" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="吉林有限公司长春城区分公司" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="75" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="20" Top="10" Width="35" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="款" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1425" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="10" Top="20" Width="200" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="账号" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="120" Top="20" Width="750" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="NULL" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="950" Top="20" Width="300" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="账号" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="9" Left="1080" Top="20" Width="600" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="4200220209000030711" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="75" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="20" Top="10" Width="35" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="人" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1425" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="8" Left="10" Top="20" Width="200" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="开户银行" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="140" Top="20" Width="750" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="12939219392" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="8" Left="950" Top="20" Width="300" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="开户银行" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="8" Left="1130" Top="20" Width="600" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="工行光明路支行" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1500" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="9" Left="30" Top="2" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="委收" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="9" Left="30" Top="32" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="金额" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="140" Top="20" Width="250" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="人民币（大写）" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="390" Top="20" Width="50" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="￥" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="450" Top="20" Width="400" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="贰仟玖佰玖拾捌元整" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="920" Top="20" Width="130" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="（小写）" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="1050" Top="20" Width="50" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="￥" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="1100" Top="20" Width="410" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="2998.00" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1500" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="30" Top="2" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="款项" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="30" Top="32" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="名称" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="140" Top="20" Width="380" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="550" Top="1" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="委托收款" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="550" Top="32" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="凭据名称" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="720" Top="20" Width="920" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="1170" Top="1" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="附寄单" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="1170" Top="32" Width="110" Height="30" PrintCondition="1" FontWeight="bold" PrintContent="证张数" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="1320" Top="20" Width="920" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1500" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="10" Top="20" Width="110" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="通话费" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="150" Top="20" Width="250" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="199.20" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="400" Top="20" Width="110" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="新业务" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="530" Top="20" Width="250" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="0.00" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1500" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="10" Top="20" Width="110" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="长途费" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="150" Top="20" Width="250" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="2.80" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="400" Top="20" Width="110" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="其  它" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="530" Top="20" Width="250" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="2800.00" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="0" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="0" ElType="td" Width="1500" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="10" Top="20" Width="110" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="漫  游" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="150" Top="20" Width="250" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="0.00" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+		<Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1500" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="10" Left="30" Top="20" Width="110" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="备注" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="10" Left="150" Top="20" Width="350" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="11" Left="530" Top="20" Width="250" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="见单付款" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+	</ContentTable>
+	<ContentTable IsModifier="N" BorderStyle="5" ContentType="5" ElType="area" Left="200" Top="920" Width="1500" Height="100" TableLayout="fixed">
+		<Tr IsModifier="Y" BorderStyle="5" ElType="tr" Width="1500" Height="65" IsCycle="N">
+			<Td IsModifier="Y" BorderStyle="5" ElType="td" Width="1500" Height="65">
+				<Text IsModifier="Y" ElType="text" FontSize="9" Left="980" Top="20" Width="290" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="付款人开户银行盖章" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="9" Left="1275" Top="20" Width="70" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="2015" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="9" Left="1340" Top="20" Width="35" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="年" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="9" Left="1375" Top="20" Width="35" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="12" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="9" Left="1410" Top="20" Width="35" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="月" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="N" ElType="text" FontSize="9" Left="1440" Top="20" Width="30" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="03" PrintContentDesc="" FontName="宋体"/>
+				<Text IsModifier="Y" ElType="text" FontSize="9" Left="1475" Top="20" Width="30" Height="65" PrintCondition="1" FontWeight="bold" PrintContent="日" PrintContentDesc="" FontName="宋体"/>
+			</Td>
+		</Tr>
+	</ContentTable>
+</PrintModel>
+	</xml>
+
+    <table border="1" datatotal="22" id="xmlTable">
+        <tr>
+            <td rowspan=3 class="style5" colspan="2">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 X 2 0000</td>
+            <td class="style11" colspan="2">
+                1122
+                1199333333333333333
+            </td>
+        </tr>
+        <tr>
+            <td class="style12">
+            </td>
+            <td rowspan=3>
+                227933
+            </td>
+        </tr>
+        <tr>
+            <td class="style1">
+                222552
+                </td>
+        </tr>
+         <tr>
+            <td class="style6">
+                331991
+            </td>
+            <td>
+                33333</td>
+            <td class="style1">
+                3322
+            </td>
+        </tr>
+   </table>
+    <table border="1">
+        <tr>
+            <td>
+                打印：
+            </td>
+            <td>
+                <input type="button" name="print5" value="打印" onclick="PrintTest()">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                属性测试：
+            </td>
+            <td>
+                <input type="button" name="TVersion" value="得到版本" onclick="GetVersion()">
+            </td>
+        </tr>
+    </table>
+    <!-------引入打印控件---------->
+    <object classid="clsid:2A5F2678-FE4C-4793-8A6B-28CE833FA134" codebase="PrintXml.dll#version=1,0,0,22"
+        id="printctrl" viewastext>
+    </object>
+</body>
+</html>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_userbrand_rel">
+	<typeAlias alias="UrUserbrandRel" type="com.sitech.acctmgr.atom.domains.user.UserBrandEntity"/>
+	<resultMap id="UrUserbrandRelResult" class="UrUserbrandRel">
+		<result property="brandId" column="BRAND_ID"/>
+		<result property="brandName" column="BRAND_NAME"/>
+	</resultMap>
+	<select id="qUserbrandInfo" parameterClass="Map" resultMap="UrUserbrandRelResult">
+		SELECT A.BRAND_ID, NVL(B.BRAND_NAME, '未知') BRAND_NAME
+		FROM UR_USERBRAND_REL A, PD_BRAND_DICT B
+		WHERE A.ID_NO = #ID_NO#
+		AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+		AND A.BRAND_ID = B.BRAND_ID(+)
+	</select>
+
+</sqlMap>

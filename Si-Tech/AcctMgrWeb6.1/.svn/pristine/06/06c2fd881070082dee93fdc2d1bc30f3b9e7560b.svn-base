@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_collbill_recd">
+
+	<insert id="iCollbillRecd" parameterClass="com.sitech.acctmgr.atom.domains.record.ActCollBillRecdEntity">
+		INSERT INTO ACT_COLLBILL_RECD( CONTRACT_NO, BILL_CYCLE, TOTAL_DATE,
+			LOGIN_ACCEPT, GROUP_ID, PAY_FEE, PAY_PREPAY, FETCH_NO, BACK_FLAG, RETURN_CODE, OP_CODE,
+			LOGIN_NO , ORG_ID , OP_TIME , REMARK )
+		VALUES(#contractNo#, #billCycle#, #totalDate#, 
+			#loginAccept#, #groupId#, #payFee#, 0 , #fetchNo#, #backFlag#, #returnCode#, #opCode#,
+			#loginNo# , #orgId# , sysdate , #remark#)
+	</insert>
+
+	<update id="updBackFlagByAccept" parameterClass="Map">
+		UPDATE ACT_COLLBILL_RECD SET BACK_FLAG = '1'
+		WHERE CONTRACT_NO =#CONTRACT_NO# 
+		
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				BILL_CYCLE= #BILL_CYCLE#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="FETCH_NO">
+				FETCH_NO= #FETCH_NO#
+			</isNotEmpty>
+		</dynamic>
+		
+		AND LOGIN_ACCEPT = #LOGIN_ACCEPT#
+	</update>
+
+	<select id="qCollBillRecd" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT
+		CONTRACT_NO,BILL_CYCLE,TOTAL_DATE,LOGIN_ACCEPT,FETCH_NO,LOGIN_NO,BACK_FLAG
+		FROM ACT_COLLBILL_RECD
+		WHERE CONTRACT_NO = #CONTRACT_NO# 
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="LOGIN_ACCEPT">
+				  LOGIN_ACCEPT= #LOGIN_ACCEPT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="RETURN_CODE">
+				  RETURN_CODE = #RETURN_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BACK_FLAG">
+				BACK_FLAG = #BACK_FLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				BILL_CYCLE = #BILL_CYCLE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FETCH_NO">
+				FETCH_NO = #FETCH_NO#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<insert id="iForRoback" parameterClass="Map">
+	insert into ACT_COLLBILL_RECD (CONTRACT_NO, BILL_CYCLE, TOTAL_DATE, LOGIN_ACCEPT, GROUP_ID,
+		PAY_FEE, PAY_PREPAY, FETCH_NO, BACK_FLAG, RETURN_CODE, OP_CODE, LOGIN_NO, ORG_ID, OP_TIME, REMARK)
+	select CONTRACT_NO, BILL_CYCLE, #TOTAL_DATE#, #PAY_BACK_SN#, #GROUP_ID#, 
+		(-1)*PAY_FEE, (-1)*PAY_PREPAY, FETCH_NO, '1', RETURN_CODE, #OP_CODE#, #LOGIN_NO#, #GROUP_ID#, sysdate, #REMARK#
+	  from ACT_COLLBILL_RECD
+	  where contract_no = #CONTRACT_NO# and login_accept = #LOGIN_ACCEPT#
+    </insert>          
+
+   	<select id="qByConAndLogSn" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT BILL_CYCLE FROM ACT_COLLBILL_RECD  
+		WHERE CONTRACT_NO = #CONTRACT_NO# AND LOGIN_ACCEPT= #LOGIN_ACCEPT#
+	</select>
+	
+	
+</sqlMap>
+

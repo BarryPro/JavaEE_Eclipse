@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="wTellCode">
+
+	<insert id="insert" parameterClass="Map" >
+		insert into wTellCode
+		(PHONE_NO,ID_NO,LOGIN_NO,OFFON_TYPE,LOGIN_ACCEPT,OP_TIME)
+		values(#PHONE_NO#,#ID_NO#,#LOGIN_NO#,#OFFON_TYPE#,#LOGIN_ACCEPT#,sysdate)
+	</insert>
+
+</sqlMap>

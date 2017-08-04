@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invuserdefine_info">
+	
+	<select id="qDefineFeeCnt"  parameterClass="Map" resultClass="java.util.HashMap">
+	 select count(1) cnt from bal_invuserdefine_info where 1=1 
+	 <dynamic prepend="">
+		<isNotEmpty prepend="AND" property="CONTRACT_NO">
+		  	contract_no=#CONTRACT_NO:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ID_NO">
+		  	ID_NO=#ID_NO:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_YEARMONTH">
+		  	LAST_YEARMONTH=#LAST_YEARMONTH:INT#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="PRINT_SN">
+		  	PRINT_SN=#PRINT_SN:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="WRTOFF_SN">
+		  	WRTOFF_SN =#WRTOFF_SN:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="BILL_ID">
+		  	BILL_ID =#BILL_ID:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="BALANCE_ID">
+		  	BALANCE_ID =#BALANCE_ID:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_BILLDAY">
+		  	LAST_BILLDAY =#LAST_BILLDAY:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_PAYTYPE">
+		  	LAST_PAYTYPE =#LAST_PAYTYPE:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="PRINT_FLAG">
+		  	PRINT_FLAG =#PRINT_FLAG#
+		</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="qDefineFee"  parameterClass="Map" resultClass="java.util.HashMap">
+     select nvl(PRINT_SN,0) PRINT_SN,nvl(WRTOFF_SN,0) WRTOFF_SN,nvl(BILL_ID,0) BILL_ID,nvl(BALANCE_ID,0) BALANCE_ID,nvl(CONTRACT_NO,0) CONTRACT_NO,nvl(ID_NO,0) ID_NO,nvl(PRINT_FLAG,'0') PRINT_FLAG,nvl(USERSET_FEE,0) USERSET_FEE,nvl(USERSET_BEGIN_DATE,0) USERSET_BEGIN_DATE,nvl(USERSET_END_DATE,0) USERSET_END_DATE,
+     nvl(BEGIN_YM,0) BEGIN_YM,nvl(END_YM,0) END_YM,nvl(LAST_YEARMONTH,0) LAST_YEARMONTH,nvl(LAST_FEE,0) LAST_FEE,nvl(LAST_PRINT_SN,0) LAST_PRINT_SN,nvl(to_char(OP_TIME,'yyyyMMdd HH24MISS'),'') OP_TIME,nvl(LAST_BILLDAY,0) LAST_BILLDAY,nvl(LAST_PAYTYPE,'') LAST_PAYTYPE from bal_invuserdefine_info where 1=1 
+     <dynamic prepend="">
+		<isNotEmpty prepend="AND" property="CONTRACT_NO">
+		  	contract_no=#CONTRACT_NO:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ID_NO">
+		  	ID_NO=#ID_NO:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_YEARMONTH">
+		  	LAST_YEARMONTH=#LAST_YEARMONTH:INT#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="PRINT_SN">
+		  	PRINT_SN=#PRINT_SN:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="WRTOFF_SN">
+		  	WRTOFF_SN =#WRTOFF_SN:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="BILL_ID">
+		  	BILL_ID =#BILL_ID:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="BALANCE_ID">
+		  	BALANCE_ID =#BALANCE_ID:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_BILLDAY">
+		  	LAST_BILLDAY =#LAST_BILLDAY:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_PAYTYPE">
+		  	LAST_PAYTYPE =#LAST_PAYTYPE:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="PRINT_FLAG">
+		  	PRINT_FLAG =#PRINT_FLAG#
+		</isNotEmpty>
+	</dynamic>
+  </select>
+  
+  <update id="uDefineFee" parameterClass="Map">
+  	update bal_invuserdefine_info set PRINT_FLAG=#PRINT_FLAG#
+  	<dynamic prepend="">
+		<isNotEmpty prepend="," property="LAST_FEE">
+		  	LAST_FEE=#LAST_FEE:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="NEW_PRINT_SN">
+		  	NEW_PRINT_SN=#NEW_PRINT_SN:LONG#
+		</isNotEmpty>
+	</dynamic>
+  	 where 1=1
+  	<dynamic prepend="">
+		<isNotEmpty prepend="AND" property="CONTRACT_NO">
+		  	contract_no=#CONTRACT_NO:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ID_NO">
+		  	ID_NO=#ID_NO:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_YEARMONTH">
+		  	LAST_YEARMONTH=#LAST_YEARMONTH:INT#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="PRINT_SN">
+		  	PRINT_SN=#PRINT_SN:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="WRTOFF_SN">
+		  	WRTOFF_SN =#WRTOFF_SN:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="BILL_ID">
+		  	BILL_ID =#BILL_ID:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="BALANCE_ID">
+		  	BALANCE_ID =#BALANCE_ID:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_BILLDAY">
+		  	LAST_BILLDAY =#LAST_BILLDAY:LONG#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="LAST_PAYTYPE">
+		  	LAST_PAYTYPE =#LAST_PAYTYPE:LONG#
+		</isNotEmpty>
+	</dynamic>
+  </update>
+  
+  <insert id="insDefinFee"  parameterClass="Map">
+  insert into bal_invuserdefine_info
+	values
+  (#PRINT_SN:LONG#,
+   #WRTOFF_SN:LONG#,
+   #BILL_ID:LONG#,
+   #BALANCE_ID:LONG#,
+   #CONTRACT_NO:LONG#,
+   #ID_NO:LONG#,
+   #PRINT_FLAG#,
+   #USERSET_FEE:LONG#,
+   #USERSET_BEGIN_DATE:INT#,
+   #USERSET_END_DATE:INT#,
+   #BEGIN_YM:INT#,
+   #END_YM:INT#,
+   #LAST_YEARMONTH:INT#,
+   #LAST_FEE:LONG#,
+   #LAST_PRINT_SN:LONG#,
+   SYSDATE,
+   #LAST_BILLDAY:INT#,
+   #LAST_PAYTYPE#)
+  </insert>
+  
+</sqlMap>

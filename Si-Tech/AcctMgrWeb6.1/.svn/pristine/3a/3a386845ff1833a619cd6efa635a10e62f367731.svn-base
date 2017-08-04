@@ -1,0 +1,63 @@
+package com.sitech.acctmgr.common.utils;
+
+public class UnitUtils {
+	public static final String GPRS_UNIT_KB = "KB";
+	public static final String GPRS_UNIT_MB = "MB";
+	public static final String GPRS_UNIT_GB = "GB";
+
+	public static String trans(long netKb, String unitFormat) {
+		String returnValue = null;
+		switch (unitFormat) {
+		case GPRS_UNIT_KB:
+			returnValue = String.format("%d", netKb);
+			break;
+		case GPRS_UNIT_MB:
+			returnValue = kb2mb(netKb);
+			break;
+		case GPRS_UNIT_GB:
+			returnValue = kb2gb(netKb);
+			break;
+		default:
+			returnValue = String.format("%d", netKb);
+			break;
+
+		}
+		return returnValue;
+	}
+
+	private static String kb2mb(long value) {
+		return String.format("%.2f", value / 1024.0);
+	}
+
+	private static String kb2gb(long netKb) {
+		String outNet = "";
+
+		double netMb = 0;
+		double netGb = 0;
+
+		if (netKb >= 1024) {
+			netMb = Double.parseDouble(String.format("%.2f", netKb / 1024.0));// 转换成M
+			if (netMb >= 1024) {
+				netGb = Double.parseDouble(String.format("%.2f", netMb / 1024.0));// 转换成G
+				if (netMb - netGb * 1024 > 0) {
+					outNet = Double.valueOf(netGb).longValue() + "GB" + Double.valueOf(netMb - netGb * 1024).longValue()
+							+ "MB";
+				} else {
+					outNet = Double.valueOf(netGb).longValue() + "GB";
+				}
+			} else {
+				outNet = String.format("%.2f", netMb) + "MB";
+			}
+		} else {
+			outNet = String.format("%.2fMB", netKb / 1024.0);
+		}
+
+		return outNet;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

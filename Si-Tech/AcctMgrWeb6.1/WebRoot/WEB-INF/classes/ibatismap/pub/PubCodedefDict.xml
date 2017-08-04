@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pub_codedef_dict">
+<typeAlias alias="PubCodedefDict" type="com.sitech.acctmgr.atom.domains.pub.PubCodeDictEntity"/>
+	<select id="qVision"  parameterClass="Map" resultClass="PubCodedefDict">
+		SELECT
+		CODE_ID codeId,
+		CODE_VALUE codeValue,
+		CODE_NAME codeName,
+		CODE_DESC codeDesc,
+		STATUS status,
+		GROUP_ID groupId,
+		LOGIN_NO loginNo,
+		CODE_ID||'-->'||CODE_VALUE codeComp,
+		TO_CHAR(BEGIN_TIME,'YYYYMM') beginMonth
+		FROM PUB_CODEDEF_DICT
+		WHERE CODE_CLASS = #CODE_CLASS:LONG#
+		<dynamic prepend="  ">
+			<isNotEmpty prepend=" " property="CODE_ID">
+				AND CODE_ID = #CODE_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="GROUP_ID">
+				AND GROUP_ID = #GROUP_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="CODE_VALUE">
+				AND CODE_VALUE = #CODE_VALUE#
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="STATUS">
+				AND STATUS = #STATUS#
+			</isNotEmpty>
+			<isNotEmpty prepend=" " property="LOGIN_NO">
+				AND TRIM(LOGIN_NO) = #LOGIN_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="ADJSTATUS">
+    			AND STATUS IN 
+    			<iterate close=")" open="(" conjunction="," prepend="" property="ADJSTATUS">
+    				#ADJSTATUS[]#
+    			</iterate>
+    		</isNotEmpty>
+		</dynamic>
+		ORDER BY CODE_ID
+	</select>
+
+	<select id="qryCntPubCon" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT (1) AS CNT
+		FROM AC_CONTRACT_INFO a
+		WHERE a.CONTRACT_NO = #CONTRACT_NO:LONG#
+		AND EXISTS
+		(SELECT 1
+		FROM pub_codedef_dict b
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CODE_CLASS">
+				WHERE b.code_class = #CODE_CLASS:INT# AND A.CONTRACTATT_TYPE =
+				B.CODE_VALUE)
+			</isNotEmpty>
+			<isEmpty prepend="" property="CODE_CLASS">
+				WHERE b.code_class = 1037 AND A.CONTRACTATT_TYPE = B.CODE_VALUE)
+			</isEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qCntPubCodeDict" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT COUNT(1) CNT FROM PUB_CODEDEF_DICT
+		WHERE CODE_CLASS = #CODE_CLASS:INT#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CODE_ID">
+				CODE_ID = #CODE_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="GROUP_ID">
+				GROUP_ID = #GROUP_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CODE_VALUE">
+				CODE_VALUE = #CODE_VALUE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CODE_NAME">
+				CODE_NAME = #CODE_NAME#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="STATUS">
+				STATUS = #STATUS#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="SPSTATUS">
+    			AND STATUS IN 
+    			<iterate close=")" open="(" conjunction="," prepend="" property="SPSTATUS">
+    				#SPSTATUS[]#
+    			</iterate>
+    		</isNotEmpty>
+			<isNotEmpty prepend="AND" property="TIME">
+				SYSDATE BETWEEN BEGIN_TIME AND END_TIME
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<delete id="delPubCodeDict" parameterClass="Map">
+		DELETE PUB_CODEDEF_DICT
+		WHERE CODE_CLASS = #CODE_CLASS:INT#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CODE_ID">
+				CODE_ID = #CODE_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="GROUP_ID">
+				GROUP_ID = #GROUP_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CODE_VALUE">
+				CODE_VALUE = #CODE_VALUE#
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+
+	<update id="updPubCodeDict" parameterClass="Map">
+		UPDATE PUB_CODEDEF_DICT SET OP_TIME=SYSDATE
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CODE_VALUE">
+				, CODE_VALUE= #CODE_VALUE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CODE_DESC">
+				, CODE_DESC = #CODE_DESC#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATUS">
+				, STATUS = #STATUS#
+			</isNotEmpty>
+		</dynamic>
+		WHERE CODE_CLASS = #CODE_CLASS:INT#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CODE_ID">
+				CODE_ID = #CODE_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="GROUP_ID">
+				GROUP_ID = #GROUP_ID#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+
+	<insert id="instPubCodeDict" parameterClass="Map">
+		INSERT INTO
+		PUB_CODEDEF_DICT(CODE_CLASS,CODE_ID,GROUP_ID,CODE_NAME,CODE_VALUE,CODE_DESC,STATUS,BEGIN_TIME,END_TIME,LOGIN_NO,OP_TIME)
+		VALUES(#CODE_CLASS:INT#,#CODE_ID#,#GROUP_ID#,#CODE_NAME#,#CODE_VALUE#,#CODE_DESC#,#STATUS#,TO_DATE(#BEGIN_TIME#,'YYYYMMDDHH24MiSS'),
+		TO_DATE(#END_TIME#,'YYYYMMDDHH24MiSS'),#LOGIN_NO#,SYSDATE)
+	</insert>
+	
+	<update id="updCollMonth" parameterClass="Map">
+		UPDATE PUB_CODEDEF_DICT SET BEGIN_TIME = TO_DATE(#BEGIN_TIME#,'YYYY-MM-DD'),OP_TIME=SYSDATE
+		WHERE CODE_CLASS = #CODE_CLASS:INT#
+		AND CODE_ID=#CODE_ID# AND CODE_VALUE = #CODE_VALUE#
+	</update>
+
+	<select id="qPreCode" parameterClass="Map" resultClass="java.util.HashMap">
+			SELECT CODE_ID,CODE_VALUE,CODE_NAME,CODE_DESC,GROUP_ID
+			FROM PUB_CODEDEF_DICT  
+			WHERE  CODE_CLASS=#CODE_CLASS#
+			<dynamic prepend="">
+				<isNotEmpty prepend="" property="GROUP_ID">
+					AND GROUP_ID = #GROUP_ID#
+				</isNotEmpty>
+				<isNotEmpty prepend="" property="MICRO_FLAG">
+					AND TO_NUMBER(CODE_ID) <![CDATA[ <= ]]> #MICRO_FLAG# AND TO_NUMBER(CODE_DESC) <![CDATA[ >]]> #MICRO_FLAG#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	<typeAlias alias="complainAdjReasonEntity" type="com.sitech.acctmgr.atom.domains.adj.ComplainAdjReasonEntity"/>
+	<select id="qryAdjReason" parameterClass="Map" resultClass="complainAdjReasonEntity">
+		SELECT A.CODE_ID firstCode,
+		       A.CODE_NAME firstName,
+		       B.CODE_ID secondCode,
+		       B.CODE_NAME secondName,
+		       C.CODE_ID thirdCode,
+		       C.CODE_NAME thirdName
+		FROM
+		(SELECT CODE_ID,CODE_NAME,GROUP_ID
+		FROM PUB_CODEDEF_DICT
+		WHERE CODE_CLASS=2410 AND GROUP_ID = #REGION_CODE#
+		AND CODE_ID = #FIRST_CODE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="STATUS">
+					STATUS IN 
+					<iterate property="STATUS" close=")" open="(" conjunction="," prepend="">
+					#STATUS[]#
+					</iterate>
+			</isNotEmpty>
+		</dynamic>
+		) A,
+		(SELECT CODE_ID,CODE_NAME,CODE_VALUE,GROUP_ID
+		FROM PUB_CODEDEF_DICT
+		WHERE CODE_CLASS=2411 AND GROUP_ID=#REGION_CODE#
+		<dynamic prepend="">
+		<isNotEmpty prepend="AND" property="STATUS">
+					STATUS IN 
+					<iterate property="STATUS" close=")" open="(" conjunction="," prepend="">
+					#STATUS[]#
+					</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="SECOND_CODE">
+				 CODE_ID = #SECOND_CODE#	
+		</isNotEmpty>
+		</dynamic>
+		) B,
+		(SELECT CODE_ID,CODE_NAME,CODE_VALUE,GROUP_ID
+		FROM PUB_CODEDEF_DICT
+		WHERE CODE_CLASS=2412 AND GROUP_ID=#REGION_CODE#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="STATUS">
+					STATUS IN 
+					<iterate property="STATUS" close=")" open="(" conjunction="," prepend="">
+					#STATUS[]#
+					</iterate>
+			</isNotEmpty>
+		</dynamic>
+		) C
+		WHERE A.CODE_ID=B.CODE_VALUE(+)
+		AND B.CODE_ID=C.CODE_VALUE(+)
+	</select>
+
+	<select id="qryMaxCodeId" parameterClass="Map" resultClass="java.lang.String">
+		SELECT MAX(CODE_ID) CODE_ID
+		FROM PUB_CODEDEF_DICT
+		WHERE CODE_CLASS = #CODE_CLASS#
+		AND GROUP_ID = #GROUP_ID#
+	</select>
+
+</sqlMap>

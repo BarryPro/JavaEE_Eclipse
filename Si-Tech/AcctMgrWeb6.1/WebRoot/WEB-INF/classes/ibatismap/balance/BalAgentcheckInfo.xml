@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_agentcheck_info">
+
+    <insert id="iagentcheckInfo" parameterClass="Map">
+        INSERT INTO BAL_AGENTCHECK_INFO ( AGT_PHONE_NO , AGT_CONTRACT_NO , CHECK_TYPE , LOGIN_NO
+        , OP_TIME)
+        VALUES(#AGT_PHONE_NO# , #AGT_CONTRACT_NO# , #CHECK_TYPE# , #LOGIN_NO#
+        , SYSDATE)
+    </insert>
+
+    <select id="qCnt" parameterClass="Map" resultClass="Integer">
+        select count(1) CNT from bal_agentcheck_info
+		where agt_phone_no = #PHONE_NO#
+		and agt_contract_no = #CONTRACT_NO#
+    </select>
+
+</sqlMap>

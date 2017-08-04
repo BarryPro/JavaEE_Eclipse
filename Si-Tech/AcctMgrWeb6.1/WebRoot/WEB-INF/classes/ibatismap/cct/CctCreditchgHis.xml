@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_creditchg_his">
+
+    <typeAlias alias="CreditChgHisEntity" type="com.sitech.acctmgr.atom.domains.cct.CreditChgHisEntity"/>
+	<insert id="iCreditchgHis" parameterClass="Map">
+		INSERT INTO
+		CCT_CREDITCHG_HIS
+		(ID_NO,REGION_ID,CREDIT_CLASS,CREDIT_FEE,STOP_FLAG,OWE_FLAG,VALID_FLAG,BEGIN_TIME,END_TIME,LOGIN_NO,OP_TIME,OP_CODE,OP_NOTE,OP_TYPE,OP_ACCEPT,PHONE_NO)
+		SELECT ID_NO, REGION_ID,
+		CREDIT_CLASS,CREDIT_FEE,STOP_FLAG,OWE_FLAG,VALID_FLAG,BEGIN_TIME,END_TIME,
+		#LOGIN_NO#,SYSDATE,#OP_CODE#,'CreditAdjust',#OP_TYPE#,111,PHONE_NO
+		FROM
+		CCT_CREDIT_INFO WHERE ID_NO=#ID_NO#
+	</insert>
+	<insert id="iCreditchgHis1" parameterClass="Map">
+		insert into
+		cct_creditchg_his
+		SELECT
+		SEQ_COMMON_ID.nextval,ID_NO,REGION_ID,CREDIT_CLASS,CREDIT_FEE,STOP_FLAG,OWE_FLAG,VALID_FLAG,to_date(#START_DAY_STR#,'yyyy-MM-dd') as BEGIN_TIME,to_date(#END_DAY_STR#,'yyyy-MM-dd') as END_TIME,#LOGIN_NO#,sysdate,'U','8157',#OP_NOTE#,NVL(PHONE_NO,#PHONE_NO#),LIMIT_OWE
+		from CCT_CREDIT_INFO
+		WHERE ID_NO=#ID_NO#
+	</insert>
+	
+	<select id="qCreditchgHis" parameterClass="Map" resultClass="CreditChgHisEntity">
+	     SELECT S.OP_ACCEPT opAccept,
+	       S.PHONE_NO phoneNo,
+	       A.CREDIT_NAME creditName,
+	       S.CREDIT_FEE creditFee,
+	       S.LOGIN_NO loginNo,
+	       TO_CHAR(S.OP_TIME,'YYYYMMDDHH24MISS') opTime
+		  FROM CCT_CREDITCHG_HIS S, CCT_STOPAWAKE_CONF A
+		 WHERE S.REGION_ID = A.REGION_CODE AND S.CREDIT_CLASS=A.CREDIT_CODE
+		   AND S.LOGIN_NO != 'system'
+		   AND S.OP_TYPE = 'U'
+		   AND S.ID_NO=#ID_NO# ORDER BY OP_TIME DESC
+	</select>
+	
+	<select id="qForCrmClass" parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT CREDIT_CLASS
+    FROM cct_creditchg_his a
+   WHERE id_no = #ID_NO:LONG# AND to_char(op_time,'yyyymmdd') <![CDATA[ <= ]]> #OP_TIME# and a.op_code='C205' AND ROWNUM <![CDATA[ < ]]>2 
+ORDER BY op_time DESC
+	</select>
+	
+	<select id="qForCrmClassName" parameterClass="Map" resultClass="java.util.HashMap">
+	SELECT CREDIT_NAME
+  FROM CCT_STOPAWAKE_CONF 
+  WHERE
+  OP_TYPE = 'STOP'
+  AND region_code=#REGION_CODE#
+  and credit_code=#CREDIT_CODE#
+	</select>
+</sqlMap>
+  

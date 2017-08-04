@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="act_item_group_detail">
+  
+    <select id="isWriteOff"  parameterClass="Map" resultClass="java.lang.Integer">
+		select count(1)
+		from act_item_group_detail
+		where acct_item_group = #ACCT_ITEM_GROUP#
+		and acct_item_code = #ACCT_ITEM_CODE#
+  </select>
+  
+</sqlMap>

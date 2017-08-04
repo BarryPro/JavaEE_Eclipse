@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="8155Svc" class="com.sitech.acctmgr.atom.impl.query.S8155">
+        <property name="user" ref="userEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="account" ref="accountEnt"/>
+    </bean>
+
+    <bean id="8288Svc" class="com.sitech.acctmgr.atom.impl.cct.S8288">
+        <property name="credit" ref="creditEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="8124Svc" class="com.sitech.acctmgr.atom.impl.query.S8124">
+        <property name="user" ref="userEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+    
+     <bean id="8073Svc" class="com.sitech.acctmgr.atom.impl.query.S8073">
+     	<property name="adj" ref="adjEnt" />
+    </bean>
+
+    <bean id="8107Svc" class="com.sitech.acctmgr.atom.impl.feeqry.S8107">
+        <property name="account" ref="accountEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="billDisplayer" ref="billDisplayerEnt"/>
+        <property name="credit" ref="creditEnt"/>
+        <property name="base" ref="baseEnt"/>
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="oweBill" ref="oweBillEnt"/>
+        <property name="prod" ref="prodEnt"/>
+    </bean>
+
+    <bean id="8123Svc" class="com.sitech.acctmgr.atom.impl.query.S8123">
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="preOrder" ref="preOrderEnt"/>
+        <property name="user" ref="userEnt"/>
+    </bean>
+
+    <bean id="8291Svc" class="com.sitech.acctmgr.atom.impl.query.S8291">
+        <property name="login" ref="loginEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="preOrder" ref="preOrderEnt"/>
+    </bean>
+
+    <bean id="districtRegionSvc" class="com.sitech.acctmgr.atom.impl.query.SDistrictRegion">
+        <property name="group" ref="groupEnt"/>
+    </bean>
+
+    <bean id="bankSvc" class="com.sitech.acctmgr.atom.impl.query.SBank">
+        <property name="base" ref="baseEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+
+    <!-- 总队总业务限制查询 -->
+    <bean id="topPayQrySvc" class="com.sitech.acctmgr.atom.impl.query.STopPayQry">
+    </bean>
+
+	<bean id="backPayQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SBackPayQry">
+	    <property name="balance" ref="balanceEnt" />
+	    <property name="user" ref="userEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+
+    <bean id="dataFavSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SDataFav">
+    </bean>
+    
+    <bean id="8428Svc" class="com.sitech.acctmgr.atom.impl.query.S8428">
+    	<property name="bill" ref="billEnt" />
+    	<property name="user" ref="userEnt" />
+    	<property name="cust" ref="custEnt" />
+    	<property name="group" ref="groupEnt"/>
+    	<property name="control" ref="controlEnt" />
+	</bean>
+	
+	<bean id="checkUserInfoSvc" class="com.sitech.acctmgr.atom.impl.query.SCheckUserInfo">
+		<property name="invoice" ref="invoiceEnt" />
+	</bean>
+	
+    <bean id="payTypeQrySvc" class="com.sitech.acctmgr.atom.impl.query.SPayTypeQry">
+        <property name="balance" ref="balanceEnt"/>
+    </bean>
+
+    <bean id="favTypeSvc" class="com.sitech.acctmgr.atom.impl.query.SFavType">
+        <property name="user" ref="userEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+    <bean id="tdGprsSvc" class="com.sitech.acctmgr.atom.impl.query.STdGprs">
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+    <bean id="remindOpenQrySvc" class="com.sitech.acctmgr.atom.impl.query.SRemindOpenQry">
+        <property name="remind" ref="remindEnt"/>
+    </bean>
+
+	<bean id="insRemindCtrlSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SInsRemindCtrl">
+		<property name="user" ref="userEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+	</bean>
+
+	<bean id="smsRightJudgeSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SSmsRightJudge">
+		<property name="billAccount" ref="billAccountEnt" />
+	</bean>
+
+	<bean id="unifyPortalQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SUnifyPortalQry">
+	    <property name="user" ref="userEnt" />
+	    <property name="bill" ref="billEnt" />
+	    <property name="freeDisplayer" ref="freeDisplayerEnt" />
+	    <property name="balance" ref="balanceEnt" />
+	</bean>
+
+    <bean id="smashEggQrySvc" class="com.sitech.acctmgr.atom.impl.query.SSmashEggQry">
+    </bean>
+
+	<bean id="17951IpFeeQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.S17951IpFeeQry">
+	    <property name="user" ref="userEnt" />
+	    <property name="bill" ref="billEnt" />
+	    <property name="account" ref="accountEnt" />
+	    <property name="balance" ref="balanceEnt" />
+	</bean>
+
+	<bean id="remainFeeQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SRemainFeeQry">
+		<property name="balance" ref="balanceEnt" />  
+		<property name="control" ref="controlEnt" />		
+		<property name="record" ref="recordEnt" />
+		<property name="user" ref="userEnt" /> 
+		<property name="bill" ref="billEnt" /> 
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="prod" ref="prodEnt" /> 
+	</bean>
+
+	<bean id="agentOprQrySvc" class="com.sitech.acctmgr.atom.impl.query.SAgentOprQry">
+	    <property name="control" ref="controlEnt"/>
+		<property name="record" ref="recordEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="account" ref="accountEnt" />
+	</bean>
+
+    <bean id="50MRoofedSvc" class="com.sitech.acctmgr.atom.impl.billAccount.S50MRoofed">
+    </bean>
+
+	<bean id="getAreaCodeSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SGetAreaCode">
+	    <property name="billAccount" ref="billAccountEnt" />
+	    <property name="user" ref="userEnt" />
+	</bean>
+	
+	<bean id="gprsRemindSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SGprsRemind">
+	    <property name="control" ref="controlEnt"/>
+		<property name="record" ref="recordEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+		<property name="shortMessage" ref="ShortMessageEnt" />
+	</bean>
+
+    <bean id="baseLineFavQrySvc"
+          class="com.sitech.acctmgr.atom.impl.billAccount.SBaseLineFavQry">
+    </bean>
+
+    <bean id="cacheOpr" class="com.sitech.acctmgr.common.CacheOpr">
+        <constructor-arg ref="cacheUtils" />
+    </bean>
+    <bean id="cacheUtils" class="com.sitech.acctmgr.common.utils.JedisUtils"/>
+
+    <bean id="detailSvc" class="com.sitech.acctmgr.atom.impl.detail.SDetail">
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="detailDisplayer" ref="detailDisplayerEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="cacheOpr" ref="cacheOpr"/>
+        <property name="shortMessage" ref="ShortMessageEnt"/>
+    </bean>
+
+    <bean id="securityDetailSvc" class="com.sitech.acctmgr.atom.impl.detail.SSecurityDetail">
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="detailDisplayer" ref="detailDisplayerEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="detailCheckSvc" class="com.sitech.acctmgr.atom.impl.detail.SDetailCheck">
+        <property name="detailDisplayer" ref="detailDisplayerEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="user" ref="userEnt"/>
+    </bean>
+
+    <bean id="grpDetailSvc" class="com.sitech.acctmgr.atom.impl.detail.SGrpDetail">
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="detailDisplayer" ref="detailDisplayerEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="login" ref="loginEnt"/>
+    </bean>
+
+    <bean id="freeSvc" class="com.sitech.acctmgr.atom.impl.free.SFree">
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="preOrder" ref="preOrderEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="goods" ref="goodsEnt"/>
+        <property name="shortMessage" ref="ShortMessageEnt" />
+    </bean>
+
+    <bean id="zeroFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SZeroFree">
+    	<property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+    </bean>
+
+    <bean id="dxFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SDxFree">
+        <property name="user" ref="userEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+
+    <bean id="yearFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SYearFree">
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="user" ref="userEnt"/>
+    </bean>
+
+    <bean id="monthFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SMonthFree">
+    	<property name="user" ref="userEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+    <bean id="mzoneFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SMzoneFree">
+        <property name="user" ref="userEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+    </bean>
+
+    <bean id="familyFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SFamilyFree">
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="prod" ref="prodEnt"/>
+    </bean>
+
+    <bean id="intlRoamFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SIntlRoamFree">
+        <property name="user" ref="userEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+    </bean>
+
+    <bean id="transFreeSvc" class="com.sitech.acctmgr.atom.impl.free.STransFree">
+        <property name="user" ref="userEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+    </bean>
+
+    <bean id="grpFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SGrpFree">
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="record" ref="recordEnt"/>
+    </bean>
+    
+    <bean id="schoolFreeSvc" class="com.sitech.acctmgr.atom.impl.free.SSchoolFree">
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="user" ref="userEnt"/>
+    </bean>
+
+    <bean id="balanceSvc" class="com.sitech.acctmgr.atom.impl.feeqry.SBalance">
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="credit" ref="creditEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="login" ref="loginEnt"/>
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="deposit" ref="depositEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="billAccount" ref="billAccountEnt" />
+        <property name="control" ref="controlEnt"/>
+        <property name="prod" ref="prodEnt"/>
+    </bean>
+
+    <bean id="feeQuerySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SFeeQuery">
+        <property name="account" ref="accountEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="remind" ref="remindEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+    
+    <bean id="feeQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SFeeQry">
+        <property name="user" ref="userEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+    <bean id="gMBalanceSvc" class="com.sitech.acctmgr.atom.impl.feeqry.SGMBalance">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="shortMessage" ref="ShortMessageEnt"/>
+    </bean>
+
+    <bean id="getDetailTypeSvc" class="com.sitech.acctmgr.atom.impl.query.SGetDetailType">
+        <property name="detailDisplayer" ref="detailDisplayerEnt"/>
+
+    </bean>
+
+    <bean id="remindSvc" class="com.sitech.acctmgr.atom.impl.query.SRemind">
+        <property name="remind" ref="remindEnt"/>
+    </bean>
+
+    <bean id="sendMailSvc" class="com.sitech.acctmgr.comp.impl.query.SSendMailComp">
+        <property name="emailSend" ref="emailSendCompEnt"/>
+    </bean>
+
+	<bean id="groupConSvc" class="com.sitech.acctmgr.atom.impl.query.SGroupCon">
+		<property name="user" ref="userEnt" />
+		<property name="prod" ref="prodEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="control" ref="controlEnt"/>
+	</bean>
+	
+	<bean id="refundSvc" class="com.sitech.acctmgr.atom.impl.query.SRefund">
+		<property name="user" ref="userEnt" />
+		<property name="adj" ref="adjEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="8412Svc" class="com.sitech.acctmgr.atom.impl.feeqry.S8412">
+		<property name="user" ref="userEnt" />
+		<property name="billDisplayer" ref="billDisplayerEnt" />
+		<property name="bill" ref="billEnt" />
+	</bean>
+	
+	
+	<bean id="8413Svc" class="com.sitech.acctmgr.atom.impl.query.S8413">
+		<property name="user" ref="userEnt" />
+		<property name="billDisplayer" ref="billDisplayerEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="8414Svc" class="com.sitech.acctmgr.atom.impl.query.S8414">
+		<property name="balance" ref="balanceEnt" />
+		<property name="bill" ref="billEnt" />
+	</bean>
+
+	<bean id="8504Svc" class="com.sitech.acctmgr.atom.impl.billAccount.S8504">
+		<property name="billAccount" ref="billAccountEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	
+	<bean id="payQuerySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SPayQuery">
+		<property name="user" ref="userEnt"/>
+		<property name="record" ref="recordEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="base" ref="baseEnt" />
+		<property name="login" ref="loginEnt"/>
+	</bean>
+	
+	<bean id="8418Svc" class="com.sitech.acctmgr.atom.impl.query.S8418">
+		<property name="balance" ref="balanceEnt" />
+		<property name="bill" ref="billEnt" />
+	</bean>
+	
+	<bean id="8419Svc" class="com.sitech.acctmgr.atom.impl.query.S8419">
+		<property name="balance" ref="balanceEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="8128Svc" class="com.sitech.acctmgr.atom.impl.feeqry.S8128">
+		<property name="user" ref="userEnt" />
+		<property name="base" ref="baseEnt" />
+	</bean>
+
+    <bean id="8109Svc" class="com.sitech.acctmgr.atom.impl.query.S8109">
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="writeOffer" ref="writeOfferEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="billDisplayer" ref="billDisplayerEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+
+   <!--  <bean id="8177Svc" class="com.sitech.acctmgr.atom.impl.feeqry.S8177">
+        <property name="account" ref="accountEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean> -->
+
+
+    <!-- add by liuhl_bj 20161011 -->
+    <bean id="monthShareQrySvc" class="com.sitech.acctmgr.atom.impl.billAccount.SMonthShareQry">
+        <property name="billAccount" ref="billAccountEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+	
+	<bean id="8420Svc" class="com.sitech.acctmgr.atom.impl.query.S8420">
+		<property name="balance" ref="balanceEnt" />
+	</bean>
+	
+	<bean id="payMoreQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SPayMoreQry">
+		<property name="user" ref="userEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="bill" ref="billEnt" />
+	</bean>
+	
+	 <bean id="holidayOprSvc" class="com.sitech.acctmgr.atom.impl.acctmng.SHolidayOpr">
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="credit" ref="creditEnt"/>
+    </bean>
+    
+	<bean id="8421Svc" class="com.sitech.acctmgr.atom.impl.query.S8421">
+		<property name="user" ref="userEnt" />
+		<property name="userSign" ref="userSignEnt" />
+	</bean>
+	
+	<bean id="8424Svc" class="com.sitech.acctmgr.atom.impl.query.S8424">
+		<property name="user" ref="userEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="userRunTimeQrySvc" class="com.sitech.acctmgr.atom.impl.query.SUserRunTimeQry">
+		<property name="user" ref="userEnt" />
+		<property name="balance" ref="balanceEnt" />
+	</bean>
+
+	<bean id="disFlagQrySvc" class="com.sitech.acctmgr.atom.impl.query.SDisFlagQry">
+		<property name="user" ref="userEnt" />
+		<property name="balance" ref="balanceEnt" />
+	</bean>
+	
+	<bean id="giveReturnSvc" class="com.sitech.acctmgr.atom.impl.feeqry.SGiveReturnQry">
+		<property name="user" ref="userEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="topPayPrtQrySvc" class="com.sitech.acctmgr.atom.impl.query.STopPayPrtQry">
+		<property name="record" ref="recordEnt" />
+		<property name="invoice" ref="invoiceEnt"/>
+		<property name="user" ref="userEnt"/>
+		<property name="login" ref="loginEnt"/>
+	</bean>
+	
+	<bean id="topPayTransQrySvc" class="com.sitech.acctmgr.atom.impl.query.STopPayTransQry">
+		<property name="balance" ref="balanceEnt" />
+	</bean>
+	
+	<bean id="8148Svc" class="com.sitech.acctmgr.atom.impl.feeqry.S8148">
+		<property name="balance" ref="balanceEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="8422Svc" class="com.sitech.acctmgr.atom.impl.feeqry.S8422">
+		<property name="account" ref="accountEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="balance" ref="balanceEnt" />
+	</bean>
+	
+	<bean id="userStopTimeQrySvc" class="com.sitech.acctmgr.atom.impl.query.SUserStopTimeQry">
+		<property name="user" ref="userEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="oweIotQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SOweIotQry">
+		<property name="user" ref="userEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="login" ref="loginEnt" />
+	</bean>
+	
+	<bean id="8120Svc" class="com.sitech.acctmgr.atom.impl.billAccount.S8120">
+		<property name="billAccount" ref="billAccountEnt" />
+	</bean>
+	
+	<bean id="priceCodeSvc" class="com.sitech.acctmgr.atom.impl.query.SPriceCode">
+		<property name="billAccount" ref="billAccountEnt" />
+	</bean>
+	
+	<bean id="prcDetailSvc" class="com.sitech.acctmgr.atom.impl.query.SPrcDetail">
+		<property name="billAccount" ref="billAccountEnt" />
+        <property name="group" ref="groupEnt"/>
+	</bean>
+	
+	<bean id="userPrcDetailSvc" class="com.sitech.acctmgr.atom.impl.query.SUserPrcDetail">
+		<property name="prod" ref="prodEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="login" ref="loginEnt"/>
+	</bean>
+	
+	<bean id="shareAccountQrySvc" class="com.sitech.acctmgr.atom.impl.query.SShareAccountQry">
+		<property name="user" ref="userEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="cust" ref="custEnt" />
+		<property name="bill" ref="billEnt" />
+	</bean>
+
+	<bean id="8250Svc" class="com.sitech.acctmgr.atom.impl.pay.S8250">
+		<property name="user" ref="userEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="regionConfig" ref="regionConfigEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+	
+	<bean id="packetFeeQrySvc" class="com.sitech.acctmgr.atom.impl.billAccount.SPacketFeeQry">
+		<property name="group" ref="groupEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="goods" ref="goodsEnt"/>
+		<property name="bill" ref="billEnt"/>
+	</bean>
+
+	<bean id="ipShopSvc" class="com.sitech.acctmgr.atom.impl.query.SIpShop">
+		<property name="user" ref="userEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+        <property name="group" ref="groupEnt" />
+	</bean>
+
+	<bean id="collectionBillSvc" class="com.sitech.acctmgr.atom.impl.acctmng.SCollectionBill">
+		<property name="user" ref="userEnt" />
+		<property name="bill" ref="billEnt"/>
+		<property name="account" ref="accountEnt" />
+	</bean>
+	
+	
+	<bean id="jtzzQrySvc" class="com.sitech.acctmgr.atom.impl.query.SJtzzQry">
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="8430CoSvc" class="com.sitech.acctmgr.comp.impl.query.S8430Comp">
+		<property name="user" ref="userEnt" />
+	</bean>
+	
+	<bean id="oweQuerySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SOweQuery">
+		<property name="user" ref="userEnt" />
+		<property name="bill" ref="billEnt"/>
+	</bean>
+	
+	<bean id="detailCheckCompSvc" class="com.sitech.acctmgr.comp.impl.detail.SDetailCheckComp">
+    </bean>
+    
+	<bean id="8199Svc" class="com.sitech.acctmgr.atom.impl.query.S8199">
+		<property name="user" ref="userEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="cust" ref="custEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="bill" ref="billEnt" />
+	</bean>
+	
+	<bean id="classifyPreQrySvc" class="com.sitech.acctmgr.atom.impl.feeqry.SClassifyPreQry">
+		<property name="user" ref="userEnt" />
+		<property name="remainFee" ref="remainFeeEnt"/>
+		<property name="balance" ref="balanceEnt"/>
+	</bean>
+	
+	<bean id="transNoSvc" class="com.sitech.acctmgr.atom.impl.query.STransNo">
+		<property name="user" ref="userEnt" />
+	</bean>
+	
+	<bean id="8426Svc" class="com.sitech.acctmgr.atom.impl.detail.S8426">
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="interRoamUsageSvc" class="com.sitech.acctmgr.atom.impl.billAccount.SInterRoamUsage">
+        <property name="billAccount" ref="billAccountEnt"/>
+    </bean>
+
+    <bean id="freeOpenSvc" class="com.sitech.acctmgr.atom.impl.free.SFreeOpen">
+        <property name="user" ref="userEnt"/>
+        <property name="freeDisplayer" ref="freeDisplayerEnt"/>
+        <property name="billAccount" ref="billAccountEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+	
+</beans>

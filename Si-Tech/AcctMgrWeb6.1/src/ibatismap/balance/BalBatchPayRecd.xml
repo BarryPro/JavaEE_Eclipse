@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_batchpay_recd">
+
+	<insert id="inBatchRecd"  parameterClass="Map">
+		INSERT INTO BAL_BATCHPAY_RECD (
+			REGION_ID,ACT_ID,BATCH_SN,ACT_TYPE,MEANS_ID,ACT_NAME,SEND_DATE,SMS_FLAG,
+			SEND_MONTH,OP_TIME,YEAR_MONTH,LOGIN_NO,OP_CODE,OP_NOTE,FILE_NAME
+			<dynamic prepend="">
+				<isNotEmpty prepend="AND" property="AUDIT_TIME">,AUDIT_TIME	</isNotEmpty>
+				<isNotEmpty prepend="AND" property="AUDIT_LOGIN">,AUDIT_LOGIN</isNotEmpty>
+				<isNotEmpty prepend="AND" property="AUDIT_INFO">,AUDIT_INFO	</isNotEmpty>
+			</dynamic>
+			,AUDIT_FLAG,TOTAL_NUM,INVALID_NUM,TOTAL_FEE,INVALID_FEE,USER_PHONE,
+			DOCUMENT_NO, DOCUMENT_NAME, BACK_RULE, ERR_FLAG, ERR_MSG, 
+			FACTOR_ONE, FACTOR_TWO, FACTOR_THREE, FACTOR_FOUR, FACTOR_FIVE
+		  )
+		VALUES(
+			#REGION_ID#,#ACT_ID#,#BATCH_SN#,#ACT_TYPE#,#MEANS_ID#,#ACT_NAME#,#SEND_DATE#,#SMS_FLAG#,#SEND_MONTH#
+			,SYSDATE,#YEAR_MONTH#,#LOGIN_NO#,#OP_CODE#,#OP_NOTE#,#FILE_NAME#
+			<dynamic prepend="">
+				<isNotEmpty prepend="AND" property="AUDIT_TIME">,SYSDATE</isNotEmpty>
+				<isNotEmpty prepend="AND" property="AUDIT_LOGIN">,#AUDIT_LOGIN#</isNotEmpty>
+				<isNotEmpty prepend="AND" property="AUDIT_INFO">,#AUDIT_INFO#</isNotEmpty>
+			</dynamic>
+			,#AUDIT_FLAG#,#TOTAL_NUM#,#INVALID_NUM#,#TOTAL_FEE#,#INVALID_FEE#,#USER_PHONE#,
+			#DOCUMENT_NO#, #DOCUMENT_NAME#, #BACK_RULE#, #ERR_FLAG#, #ERR_MSG#, 
+			#FACTOR_ONE#, #FACTOR_TWO#, #FACTOR_THREE#, #FACTOR_FOUR#, #FACTOR_FIVE#
+		)
+	</insert>
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.pay.BatchPayRecdEntity" alias="batchPayEntity"/>
+
+    <resultMap id="batchPayEntity" class="batchPayEntity">
+        <result property="regionId" column="REGION_ID"/>
+        <result property="actId" column="ACT_ID"/>
+        <result property="batchSn" column="BATCH_SN"/>
+        <result property="actName" column="ACT_NAME"/>
+        <result property="sendDate" column="SEND_DATE"/>
+        <result property="smsFlag" column="SMS_FLAG"/>
+        <result property="sendMonth" column="SEND_MONTH"/>
+        <result property="opTime" column="OP_TIME"/>
+        <result property="yearMonth" column="YEAR_MONTH"/>
+        <result property="loginNo" column="LOGIN_NO"/>
+        <result property="opCode" column="OP_CODE"/>
+        <result property="opNote" column="OP_NOTE"/>
+        <result property="fileName" column="FILE_NAME"/>
+        <result property="auditTime" column="AUDIT_TIME"/>
+        <result property="auditLogin" column="AUDIT_LOGIN"/>
+        <result property="auditInfo" column="AUDIT_INFO"/>
+        <result property="auditFlag" column="AUDIT_FLAG"/>
+        <result property="totalNum" column="TOTAL_NUM"/>
+        <result property="invalidNum" column="INVALID_NUM"/>
+        <result property="totalFee" column="TOTAL_FEE"/>
+        <result property="invalidFee" column="INVALID_FEE"/>
+        <result property="userPhone" column="USER_PHONE"/>
+        <result property="documentName" column="DOCUMENT_NAME"/>
+        <result property="documentNo" column="DOCUMENT_NO"/>
+        <result property="factorOne" column="FACTOR_ONE"/>
+        <result property="factorTwo" column="FACTOR_TWO"/>
+    </resultMap>
+
+	<select id="qBatchRecd"  parameterClass="Map" resultMap="batchPayEntity">
+		select
+		REGION_ID,NVL(ACT_ID,'') ACT_ID ,BATCH_SN, nvl(ACT_NAME,'') ACT_NAME, SEND_DATE, SMS_FLAG,
+		SEND_MONTH, to_char(OP_TIME,'YYYYMMDD HH24:MI:SS') OP_TIME, YEAR_MONTH, LOGIN_NO, OP_CODE,
+		nvl(OP_NOTE,'') OP_NOTE, FILE_NAME, to_char(AUDIT_TIME,'YYYYMMDD HH24:MI:SS') AUDIT_TIME, 
+		nvl(AUDIT_LOGIN,'') AUDIT_LOGIN, nvl(AUDIT_INFO,'') AUDIT_INFO, AUDIT_FLAG, TOTAL_NUM, INVALID_NUM,
+		(TOTAL_FEE *SEND_MONTH) TOTAL_FEE ,INVALID_FEE, USER_PHONE,DOCUMENT_NAME,DOCUMENT_NO,FACTOR_ONE,FACTOR_TWO
+		FROM BAL_BATCHPAY_RECD
+		WHERE 1=1
+		 AND AUDIT_FLAG in
+		    <iterate close=")" open="(" conjunction="," property="AUDIT_FLAG">
+    			#AUDIT_FLAG[]#
+    		</iterate>
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="BEGIN_DATE">
+				 AND TO_CHAR(OP_TIME,'YYYYMMDD') BETWEEN  #BEGIN_DATE# and  #END_DATE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="LOGIN_NO">
+				 AND LOGIN_NO = #LOGIN_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BATCH_SN">
+				AND BATCH_SN = #BATCH_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="REGION_CODE">
+				 AND REGION_ID = #REGION_CODE#
+			</isNotEmpty>
+		</dynamic>
+		 AND INVALID_NUM <![CDATA[ > ]]> 0
+		 AND ACT_TYPE = #ACT_TYPE#
+		 ORDER BY OP_TIME DESC
+	</select>
+		 
+	<update id="uAuditByActsn"  parameterClass="Map">
+		UPDATE BAL_BATCHPAY_RECD
+		SET AUDIT_FLAG = #AUDIT_FLAG#
+		,AUDIT_LOGIN = #AUDIT_LOGIN#
+		,AUDIT_TIME = SYSDATE		 
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="AUDIT_DESC">
+					,AUDIT_INFO= #AUDIT_DESC#
+			</isNotEmpty>
+		</dynamic>		
+		WHERE BATCH_SN = #BATCH_SN# AND AUDIT_FLAG = #OLD_AUDIT_FLAG#
+	</update>
+
+	
+</sqlMap>
+

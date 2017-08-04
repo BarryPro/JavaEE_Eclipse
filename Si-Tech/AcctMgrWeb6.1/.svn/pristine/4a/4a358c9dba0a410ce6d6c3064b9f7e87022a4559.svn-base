@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ttkd_account_msg">
+
+	<select id="qCnt" parameterClass="java.lang.Long" resultClass="java.lang.Integer">
+		SELECT COUNT(*) FROM TTKD_ACCOUNT_MSG
+		WHERE ID_NO=#idNo#
+		AND END_TIME <![CDATA[>=]]> TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+	</select>
+	
+	<select id="qAccDay" parameterClass="java.lang.Long" resultClass="java.util.HashMap">
+		SELECT SUBSTR(ACCT_DAY,7,2) ACCT_DAY
+		FROM TTKD_ACCOUNT_MSG
+		WHERE ID_NO=#idNo#
+		AND TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS') BETWEEN BEGIN_TIME AND END_TIME
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="choliday_unstop">
+
+    <typeAlias alias="UnStopHolidayEntity" type="com.sitech.acctmgr.atom.domains.cct.UnStopHolidayEntity"/>
+
+	<select id="qry" parameterClass="Map" resultClass="UnStopHolidayEntity">
+		SELECT
+		REGION_CODE regionCode,
+		to_char(ILEVEL) creditClass,
+		BEGIN_YMDH beginTime,
+		END_YMDH endTime,
+		HOLIDAY_NAME holidayName,
+		LOGIN_NO loginNo,
+		OP_TIME opTime,
+		OP_NOTE opNote
+		FROM CHOLIDAY_UNSTOP_NEW
+		WHERE
+		region_code =#REGION_CODE#
+	</select>
+    
+	<select id="qryCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		select count(1) from CHOLIDAY_UNSTOP_NEW
+		where REGION_CODE=#REGION_CODE# 
+		and ILEVEL=#ILEVEL#
+		and BEGIN_YMDH=#BEGIN_YMDH#
+		and END_YMDH=#END_YMDH#
+	</select>
+
+	<insert id="insert" parameterClass="Map" >
+		insert into CHOLIDAY_UNSTOP_NEW
+		(ACCEPT,REGION_CODE,ILEVEL,BEGIN_YMDH,END_YMDH,HOLIDAY_NAME,LOGIN_NO,OP_TIME,OP_NOTE)
+		values
+		(#LOGIN_ACCEPT#,#REGION_CODE#,#ILEVEL#,#BEGIN_YMDH#,#END_YMDH#,#HOLIDAY_NAME#,#LOGIN_NO#,sysdate,#OP_NOTE#)
+	</insert>
+
+	<delete id="delete" parameterClass="Map">
+		delete from CHOLIDAY_UNSTOP_NEW
+		where REGION_CODE=#OLD_REGION_CODE# 
+		and ILEVEL=#OLD_ILEVEL#
+		and BEGIN_YMDH=#OLD_BEGIN_YMDH#
+		and END_YMDH=#OLD_END_YMDH#
+	</delete>
+
+	<insert id="update" parameterClass="Map">
+		update CHOLIDAY_UNSTOP_NEW 
+		set REGION_CODE=#REGION_CODE# ,
+		ILEVEL=#ILEVEL#,
+	    BEGIN_YMDH=#BEGIN_YMDH#,
+		END_YMDH=#END_YMDH#,
+		HOLIDAY_NAME=#HOLIDAY_NAME# ,
+		LOGIN_NO=#LOGIN_NO#,
+		OP_TIME=sysdate,
+		OP_NOTE=#OP_NOTE#
+		where REGION_CODE=#OLD_REGION_CODE# 
+		and ILEVEL=#OLD_ILEVEL#
+		AND BEGIN_YMDH=#OLD_BEGIN_YMDH#
+		AND END_YMDH=#OLD_END_YMDH#
+	</insert>
+
+</sqlMap>

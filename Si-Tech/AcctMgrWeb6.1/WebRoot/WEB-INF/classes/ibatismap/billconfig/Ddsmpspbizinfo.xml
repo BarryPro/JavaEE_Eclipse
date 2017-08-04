@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ddsmpspbizinfo">
+
+	<select id="getBizName" parameterClass="Map" resultClass="java.lang.String">
+	 	SELECT SERVNAME FROM DDSMPSPBIZINFO WHERE SPID=#SP_ID# AND BIZCODE=#BIZ_CODE#
+	</select>
+
+
+
+</sqlMap>

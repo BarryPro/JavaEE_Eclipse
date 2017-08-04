@@ -1,0 +1,162 @@
+package com.sitech.acctmgr.atom.impl.free;
+
+import static org.apache.commons.collections.MapUtils.safeAddToMap;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.entity.inter.*;
+
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.query.FreeMinBill;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserPrcEntity;
+import com.sitech.acctmgr.atom.dto.free.SZeroFreeQueryInDTO;
+import com.sitech.acctmgr.atom.dto.free.SZeroFreeQueryOutDTO;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.inter.free.IZeroFree;
+import com.sitech.billing.qdetail.common.util.StringUtils;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+/**
+ * 功能：0月租优惠信息查询
+ * Created by wangyla on 2016/7/22.
+ */
+@ParamTypes({@ParamType(c = SZeroFreeQueryInDTO.class, m = "query", oc = SZeroFreeQueryOutDTO.class)})
+public class SZeroFree extends AcctMgrBaseService implements IZeroFree {
+
+	private IUser user;
+	private IGroup group;
+	private IProd prod;
+	private IFreeDisplayer freeDisplayer;
+    private IBill bill;
+	
+    @Override
+    public OutDTO query(InDTO inParam){
+        SZeroFreeQueryInDTO inDTO = (SZeroFreeQueryInDTO) inParam;
+        log.debug("inDto=" +inDTO.getMbean());
+        
+        String phoneNo = inDTO.getPhoneNo();
+        
+        UserInfoEntity userInfo = user.getUserEntityByPhoneNo(phoneNo, true);
+        long idNo = userInfo.getIdNo();
+        long contractNo = userInfo.getContractNo();
+        int curYm = DateUtils.getCurYm();
+        String userGroupId = userInfo.getGroupId();
+        
+        ChngroupRelEntity regionInfo = group.getRegionDistinct(userGroupId, "2", inDTO.getProvinceId());
+        String regionCode = regionInfo.getRegionCode();
+        
+        UserPrcEntity mainPrcInfo = prod.getUserPrcidInfo(idNo, true);
+        String prcId = mainPrcInfo.getProdPrcid();
+
+        //todo   sfav1860cfg  0月租配置信息
+        String favCall = "100";
+        String favSave1 = "10";
+        
+        Map<String, Long> dxFeeMaps = this.getDxFees(idNo);
+        long dxTotal = dxFeeMaps.get("DX_TOTAL");
+        long dxUsed = dxFeeMaps.get("DX_USED");
+        long dxLeft = dxFeeMaps.get("DX_REMAIN");
+        long actualFee = 0;
+        
+        if(!StringUtils.isEmpty(favCall)){
+            
+            List<FreeMinBill> freeList = freeDisplayer.getFreeDetailList(phoneNo, curYm, "0");
+            Map<String, Long> freeMap = freeDisplayer.getFreeTotalMap(freeList);
+            
+            long voiceTotal = freeMap.get("VOICE_TOTAL"); 
+            long voiceUsed = freeMap.get("VOICE_USED");
+            long voiceRemain = voiceTotal - voiceUsed;
+            
+        	dxTotal = Long.parseLong(favCall) * Long.parseLong(favSave1);
+        	if(voiceRemain > 0){
+        		dxUsed = (Long.parseLong(favCall) - voiceRemain) * Long.parseLong(favSave1);
+        		dxLeft = voiceRemain * Long.parseLong(favSave1);
+        	} else {
+        		dxUsed = dxTotal;
+        		dxLeft = 0;
+        	}
+        } else {
+        	//getUnbilledFee()
+        	dxTotal = actualFee *100;
+        	dxLeft = dxLeft * 100;
+        	dxUsed = actualFee *100 - dxLeft * 100;
+        }
+        
+        SZeroFreeQueryOutDTO outDTO = new SZeroFreeQueryOutDTO();
+        outDTO.setTotalFee(dxTotal);
+        outDTO.setBaseConsumeFee(dxUsed);
+        outDTO.setBaseRemainFee(dxLeft);
+        
+        return outDTO;
+    }
+
+    private Map<String, Long> getDxFees(long idNo) {
+        long dxLeft = 0;
+        long dxTotal = 0;
+        long dxUsed = 0;
+        Map<String, Long> dxMapTmp = bill.getUnbillDxInfo(idNo);
+
+        dxLeft = dxMapTmp.get("DX_LEFT");
+        dxTotal = dxMapTmp.get("DX_PAY_MONEY");
+
+        if (dxLeft >= dxTotal) {
+            dxLeft = dxTotal;
+        }
+
+        dxUsed = dxTotal - dxLeft;
+
+        Map<String, Long> dxFeesMap = new HashMap<>();
+        safeAddToMap(dxFeesMap, "DX_TOTAL", dxTotal); //底线优惠总金额
+        safeAddToMap(dxFeesMap, "DX_USED", dxUsed); //底线优惠已使用量
+        safeAddToMap(dxFeesMap, "DX_REMAIN", dxLeft); //底线优惠剩余金额
+
+        return dxFeesMap;
+    }
+
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public IGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	public IProd getProd() {
+		return prod;
+	}
+
+	public void setProd(IProd prod) {
+		this.prod = prod;
+	}
+
+	public IFreeDisplayer getFreeDisplayer() {
+		return freeDisplayer;
+	}
+
+	public void setFreeDisplayer(IFreeDisplayer freeDisplayer) {
+		this.freeDisplayer = freeDisplayer;
+	}
+
+    public IBill getBill() {
+        return bill;
+    }
+
+    public void setBill(IBill bill) {
+        this.bill = bill;
+    }
+}

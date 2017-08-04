@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dTellShortMsgOffOn">
+
+	<select id="qryCnt" parameterClass="Map" resultClass="java.lang.Integer">
+		select count(1) COUNT from dTellShortMsgOffOn
+		where phone_no=#PHONE_NO#
+	</select>
+	
+	<select id="qryType" parameterClass="Map" resultClass="String">
+		select offon_type from dTellShortMsgOffOn
+		where phone_no=#PHONE_NO#
+	</select>
+
+	<insert id="insertHis" parameterClass="Map">
+		insert into
+		dTellShortMsgOffOnHis
+		(PHONE_NO ,
+		ID_NO ,
+		LOGIN_NO ,
+		OFFON_TYPE ,
+		LOGIN_ACCEPT ,
+		OP_TIME ,
+		UPDATE_ACCEPT,
+		UPDATE_TIME ,
+		UPDATE_DATE ,
+		UPDATE_LOGIN ,
+		UPDATE_TYPE)
+		select PHONE_NO,ID_NO,LOGIN_NO,OFFON_TYPE,LOGIN_ACCEPT,OP_TIME,#LOGIN_ACCEPT#,sysdate,
+		#TOTAL_DATE#,#LOGIN_NO#,#OP_TYPE#
+		from dTellShortMsgOffOn
+		where phone_no=#PHONE_NO#
+	</insert>
+
+	<insert id="insert" parameterClass="Map">
+		insert into
+		dTellShortMsgOffOn
+		(PHONE_NO ,
+		ID_NO ,
+		LOGIN_NO ,
+		OFFON_TYPE ,
+		LOGIN_ACCEPT,
+		OP_TIME )
+		values(#PHONE_NO#,#ID_NO#,#LOGIN_NO#,#OFFON_TYPE#,#LOGIN_ACCEPT#,sysdate)
+	</insert>
+	
+	<update id="update" parameterClass="Map">
+		update
+		dTellShortMsgOffOn
+		set offon_type=#OFFON_TYPE#,op_time=sysdate,login_accept=#LOGIN_ACCEPT#
+		where phone_no=#PHONE_NO#
+	</update>
+
+</sqlMap>

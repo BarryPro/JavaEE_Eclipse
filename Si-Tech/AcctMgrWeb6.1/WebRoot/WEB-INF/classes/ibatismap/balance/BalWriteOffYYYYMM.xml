@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_writeoff_yyyymm">
+
+     <select id="qOutFee" parameterClass="Map" resultClass="Long">
+         SELECT
+         NVL(SUM(PAYED_PREPAY + PAYED_LATER) , 0) OUT_BALANCE
+         FROM
+         BAL_WRITEOFF_$SUFFIX$ T1,
+         BAL_BOOKTYPE_DICT T2
+         WHERE
+         T1.PAY_TYPE = T2.PAY_TYPE
+         AND T1.CONTRACT_NO = #CONTRACT_NO#
+         AND T1.ID_NO = #ID_NO#
+         AND SUBSTR(T2.PAY_ATTR, 1, 1) = #SPEC_FLAG#
+         AND T1.PAY_TYPE = #PAY_TYPE#
+     </select>
+
+	<resultMap id="FeeEntity" class="com.sitech.acctmgr.atom.domains.bill.FeeEntity">
+		<result property="money" column="OUT_BALANCE"/>
+		<result property="otherMoney" column="OTHER_OUTFEE"/>
+		<result property="specialFlag" column="SPECIAL_FLAG"/>
+		<result property="presentFlag" column="PRESENT_FLAG"/>
+	</resultMap>
+	<!-- 获取消费支出、其他支出 -->
+    <select id="qOutFees" parameterClass="Map" resultMap="FeeEntity">
+        SELECT
+        NVL(SUM(T1.PAYED_PREPAY + T1.PAYED_LATER), 0) AS OUT_BALANCE,
+		NVL(SUM(T1.PAYED_DELAY), 0) OTHER_OUTFEE,
+        SUBSTR(T2.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+        DECODE(SUBSTR(T2.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+        FROM
+        BAL_WRITEOFF_$SUFFIX$ T1,
+        BAL_BOOKTYPE_DICT T2
+        WHERE
+        T1.PAY_TYPE = T2.PAY_TYPE
+        AND CONTRACT_NO = #CONTRACT_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ID_NO">
+                AND T1.ID_NO = #ID_NO#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="SPECIAL_FLAG">
+                AND SUBSTR(T2.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+            </isNotEmpty>
+        </dynamic>
+		AND (T1.bill_day &lt; 9000 OR T1.payed_prepay > 0)
+		GROUP BY T2.PAY_ATTR
+    </select>
+
+	<resultMap id="FeeEntity2" class="com.sitech.acctmgr.atom.domains.bill.FeeEntity">
+		<result property="money" column="OUT_BALANCE"/>
+		<result property="otherMoney" column="OTHER_OUTFEE"/>
+		<result property="type" column="PAY_TYPE"/>
+		<result property="typeName" column="PAY_TYPE_NAME"/>
+		<result property="specialFlag" column="SPECIAL_FLAG"/>
+		<result property="presentFlag" column="PRESENT_FLAG"/>
+	</resultMap>
+	<!-- 获取消费支出、其他支出 -->
+	<select id="qOutFeesGroupByPayType" parameterClass="Map" resultMap="FeeEntity2">
+		SELECT
+		NVL(SUM(T1.PAYED_PREPAY + T1.PAYED_LATER), 0) AS OUT_BALANCE,
+		NVL(SUM(T1.PAYED_DELAY), 0) OTHER_OUTFEE,
+		T1.PAY_TYPE,
+		T2.PAY_TYPE_NAME,
+		SUBSTR(T2.PAY_ATTR, 1, 1) SPECIAL_FLAG ,
+		DECODE(SUBSTR(T2.PAY_ATTR, 6, 1),'0','0','1') PRESENT_FLAG
+		FROM
+		BAL_WRITEOFF_$SUFFIX$ T1,
+		BAL_BOOKTYPE_DICT T2
+		WHERE
+		T1.PAY_TYPE = T2.PAY_TYPE
+		AND CONTRACT_NO = #CONTRACT_NO#
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="ID_NO">
+				AND T1.ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="SPECIAL_FLAG">
+				AND SUBSTR(T2.PAY_ATTR, 1, 1) = #SPECIAL_FLAG#
+			</isNotEmpty>
+		</dynamic>
+		AND (T1.bill_day &lt; 9000 OR T1.payed_prepay > 0)
+		GROUP BY T1.PAY_TYPE, T2.PAY_TYPE_NAME, T2.PAY_ATTR
+	</select>
+
+    <insert id="iBalWriteoff" parameterClass="Map">
+		INSERT INTO BAL_WRITEOFF_$YEAR_MONTH$
+		(WRTOFF_SN,BILL_ID,BALANCE_ID,ID_NO,CONTRACT_NO,PAY_TYPE
+		,NATURAL_MONTH,BILL_CYCLE,ACCT_ITEM_CODE,PAYED_PREPAY,PAYED_LATER,STATUS,LOGIN_NO,OP_TIME
+		,PRINT_FLAG,TAX_RATE,TAX_FEE,BILL_DAY,USER_GROUP_ID, DETAIL_CODE, DELAY_FAVOUR_RATE, PAYED_DELAY, DELAY_FAVOUR)
+		SELECT #WRTOFF_SN#,BILL_ID,
+		#BALANCE_ID#,ID_NO,CONTRACT_NO,#PAY_TYPE#,NATURAL_MONTH,BILL_CYCLE,ACCT_ITEM_CODE
+		,PAYED_PREPAY,PAYED_LATER,#STATUS#,#LOGIN_NO#,SYSDATE,#PRINT_FLAG#,TAX_RATE,TAX_FEE,BILL_DAY,GROUP_ID, DETAIL_CODE, #DELAY_FAVOUR_RATE#, #PAYED_DELAY#, #DELAY_FAVOUR# 
+		FROM $TABLE_PAYEDOWE$
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_ID">
+				BILL_ID=#BILL_ID#
+			</isNotEmpty>
+		</dynamic>
+	</insert>
+	
+	<insert id="iForBalWriteoffDead" parameterClass="Map">
+		INSERT INTO BAL_WRITEOFF_$YEAR_MONTH$
+		(WRTOFF_SN,BILL_ID,BALANCE_ID,ID_NO,CONTRACT_NO,PAY_TYPE
+		,NATURAL_MONTH,BILL_CYCLE,ACCT_ITEM_CODE,PAYED_PREPAY,PAYED_LATER,STATUS,LOGIN_NO,OP_TIME
+		,PRINT_FLAG,TAX_RATE,TAX_FEE,BILL_DAY,USER_GROUP_ID, DELAY_FAVOUR_RATE, PAYED_DELAY, DELAY_FAVOUR, DETAIL_CODE,
+		VIRTUAL_OWE)
+		SELECT #WRTOFF_SN#,BILL_ID,#BALANCE_ID#,ID_NO,CONTRACT_NO,#PAY_TYPE#,
+		NATURAL_MONTH,BILL_CYCLE,ACCT_ITEM_CODE
+		,0,#PAYED_LATER#,#STATUS#,#LOGIN_NO#,SYSDATE,#PRINT_FLAG#,NVL(TAX_RATE,0) TAX_RATE,#PAYED_TAX#,BILL_DAY,GROUP_ID,
+		#DELAY_FAVOUR_RATE#, #PAYED_DELAY#, #DELAY_FAVOUR#, DETAIL_CODE ,
+		nvl(VIRTUAL_OWE,'0')
+		FROM ACT_DEADOWE_INFO
+		WHERE BILL_ID=#BILL_ID# 
+	</insert>
+    
+    <select id="qCntByPrintSn" parameterClass="Map" resultClass="java.util.HashMap">
+		select NVL(COUNT(1),0) as CNT from bal_writeoff_$YEAR_MONTH$ WHERE 1=1 
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				BILL_CYCLE=#BILL_CYCLE:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO=#CONTRACT_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="TOP_CONTRACT_NO">
+				CONTRACT_NO in (select rel_contract_no from CS_ACCOUNT_REL WHERE CONTRACT_NO=#TOP_CONTRACT_NO:LONG#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_SN">
+				PRINT_SN=#PRINT_SN:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BALANCE_ID">
+				BALANCE_ID=#BALANCE_ID:LONG# 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="WRTOFF_SN">
+				WRTOFF_SN=#WRTOFF_SN:LONG# 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="uPrintFlag" parameterClass="Map">
+		UPDATE BAL_WRITEOFF_$SUFFIX$
+        SET PRINT_FLAG=#PRINT_FLAG#
+        <dynamic prepend="">
+       		<isNotEmpty prepend="," property="PRINT_SN">
+				PRINT_SN = #PRINT_SN:LONG#
+			</isNotEmpty>
+        </dynamic>
+        WHERE STATUS='0'
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO=#CONTRACT_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="TOP_CONTRACT_NO">
+				CONTRACT_NO in (select rel_contract_no from CS_ACCOUNT_REL WHERE CONTRACT_NO=#TOP_CONTRACT_NO:LONG#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="NATURAL_MONTH">
+				NATURAL_MONTH = #NATURAL_MONTH:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				BILL_CYCLE = #BILL_CYCLE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="WRTOFF_SN">
+				WRTOFF_SN = #WRTOFF_SN#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_ID">
+				BILL_ID = #BILL_ID:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BALANCE_ID">
+				BALANCE_ID = #BALANCE_ID:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ACCPERT_PAYTYPE">
+				PAY_TYPE NOT IN (select pay_type from bal_booktype_dict where substr(pay_attr,6,1)='1')
+				AND PAY_TYPE NOT IN (select CODE_ID from pub_codedef_dict where code_class=1108)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_FLAG_OLD">
+				PRINT_FLAG = #PRINT_FLAG_OLD#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_SN_OLD">
+				PRINT_SN = #PRINT_SN_OLD:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="WRTOFF_LIST">
+				AND WRTOFF_SN IN 
+				<iterate conjunction="," open="(" close=")" prepend="" property="WRTOFF_LIST">
+					#WRTOFF_LIST[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BILL_CYCLE_LIST">
+				AND BILL_CYCLE IN
+				<iterate conjunction="," open="(" close=")" prepend="" property="BILL_CYCLE_LIST">
+					#BILL_CYCLE_LIST[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO_LIST">
+				AND CONTRACT_NO IN
+				<iterate conjunction="," open="(" close=")" prepend="" property="CONTRACT_NO_LIST">
+					#CONTRACT_NO_LIST[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BALANCE_ID_LIST">
+				AND BALANCE_ID IN
+				<iterate conjunction="," open="(" close=")" prepend="" property="BALANCE_ID_LIST">
+					#BALANCE_ID_LIST[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</update>
+
+    <insert id="iForWriteoff" parameterClass="Map">
+		INSERT INTO BAL_WRITEOFF_$YEAR_MONTH$
+		  (WRTOFF_SN, BILL_ID, BALANCE_ID, ID_NO, CONTRACT_NO,
+		   PAY_TYPE, NATURAL_MONTH, BILL_CYCLE, ACCT_ITEM_CODE, PAYED_PREPAY, PAYED_LATER,
+		   STATUS, LOGIN_NO, OP_TIME, TAX_RATE, TAX_FEE,
+		   PRINT_FLAG, USER_GROUP_ID, BILL_DAY, DELAY_FAVOUR_RATE, PAYED_DELAY, DELAY_FAVOUR, DETAIL_CODE,
+		   VIRTUAL_OWE )
+		SELECT #WRTOFF_SN#, BILL_ID, #BALANCE_ID#, ID_NO,CONTRACT_NO,
+		  #PAY_TYPE#, NATURAL_MONTH, BILL_CYCLE,ACCT_ITEM_CODE,0, #PAYED_LATER#,
+		  #STATUS#, #LOGIN_NO#, SYSDATE, TAX_RATE, #PAYED_TAX#,
+		  #PRINT_FLAG#,GROUP_ID, BILL_DAY, #DELAY_FAVOUR_RATE#, #PAYED_DELAY#, #DELAY_FAVOUR#, DETAIL_CODE,
+		  nvl(VIRTUAL_OWE,'0') 
+		from ACT_UNPAYOWE_INFO WHERE BILL_ID= #BILL_ID#
+	</insert>
+
+	<select id="qWrtoffByWrtoSn" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT BILL_ID ,CONTRACT_NO, NATURAL_MONTH, BILL_CYCLE, PAYED_LATER , PAYED_PREPAY ,
+		PRINT_FLAG ,ID_NO, NVL(PAYED_DELAY,0) PAYED_DELAY,
+		NVL(TAX_RATE,0.00) TAX_RATE , NVL(TAX_FEE,0) TAX_FEE,  NVL(TAX_FEE,0) PAYED_TAX,PRINT_SN
+		FROM BAL_WRITEOFF_$SUFFIX$
+		WHERE WRTOFF_SN=#WRTOFF_SN#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BALANCE_ID">
+				BALANCE_ID = #BALANCE_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_SN_CHU">
+				PRINT_SN <![CDATA[ <> ]]> #PRINT_SN_CHU:LONG# AND PRINT_SN is not null
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="NOT_NULL">
+				PRINT_SN is not null
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_FLAG">
+				PRINT_FLAG IN 
+				<iterate close=")" conjunction="," open="(" prepend="" property="PRINT_FLAG">
+					#PRINT_FLAG[]#
+				</iterate>
+			</isNotEmpty>
+			AND STATUS='0' ORDER BY NATURAL_MONTH
+		</dynamic>
+	</select>
+	
+	<update id="uWrtoffByWrSnBalId" parameterClass="Map">
+        UPDATE BAL_WRITEOFF_$SUFFIX$
+        SET STATUS= #STATUS#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="PRINT_FLAG">
+                , PRINT_FLAG= #PRINT_FLAG#
+            </isNotEmpty>
+        </dynamic>
+        WHERE WRTOFF_SN= #WRTOFF_SN#
+        AND BILL_ID = #BILL_ID#
+        AND BALANCE_ID= #BALANCE_ID#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CONTRACT_NO">
+                CONTRACT_NO = #CONTRACT_NO#
+            </isNotEmpty>
+        </dynamic>
+    </update>
+	
+	<select id="qDelFeefromWrioff" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT NVL(sum(PAYED_DELAY),0) as DELAY_FEE
+		FROM bal_writeoff_$SUFFIX$ b
+		WHERE CONTRACT_NO = #CONTRACT_NO:LONG# AND STATUS='0'
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO:LONG#
+			</isNotEmpty>
+			<isEmpty prepend="AND" property="ID_NO">
+				ID_NO <![CDATA[ > ]]> 0
+			</isEmpty>
+			<isNotEmpty prepend="AND" property="NATURAL_MONTH">
+				NATURAL_MONTH = #NATURAL_MONTH:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="AL_FEE_TYPE">
+				(print_flag='2' or b.PAY_TYPE in (select CODE_ID from pub_codedef_dict where code_class=1042))
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ALMON_FEE_TYPE">
+				print_flag = #ALMON_FEE_TYPE#
+				AND b.PAY_TYPE NOT in (select pay_type from bal_booktype_dict where substr(pay_attr,6,1)='1')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="GI_FEE_TYPE">
+				b.PAY_TYPE in (select pay_type from bal_booktype_dict where substr(pay_attr,6,1)='1')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+    <insert id="iForRoback" parameterClass="Map">
+		INSERT INTO BAL_WRITEOFF_$YEAR_MONTH$
+		  (WRTOFF_SN,BILL_ID,BALANCE_ID,ID_NO,CONTRACT_NO,PAY_TYPE,
+		    NATURAL_MONTH,BILL_CYCLE,ACCT_ITEM_CODE,PAYED_PREPAY,PAYED_LATER,STATUS,
+		    PRINT_FLAG,TAX_RATE,TAX_FEE, USER_GROUP_ID, BILL_DAY,
+		    DELAY_FAVOUR_RATE, PAYED_DELAY, DELAY_FAVOUR,
+		    LOGIN_NO,OP_TIME, DETAIL_CODE)
+		SELECT #BACK_WRTOFF_SN#,BILL_ID,BALANCE_ID,ID_NO,CONTRACT_NO,PAY_TYPE, 
+		    NATURAL_MONTH,BILL_CYCLE ,ACCT_ITEM_CODE,(-1)*PAYED_PREPAY ,(-1)*PAYED_LATER,#STATUS#, 
+		    PRINT_FLAG,TAX_RATE,(-1)*TAX_FEE, USER_GROUP_ID, BILL_DAY,
+		    (-1)*DELAY_FAVOUR_RATE, (-1)*PAYED_DELAY, (-1)*DELAY_FAVOUR,
+		    #LOGIN_NO# ,SYSDATE, DETAIL_CODE 
+		FROM BAL_WRITEOFF_$SUFFIX$ WHERE WRTOFF_SN= #WRTOFF_SN#
+		AND BILL_ID= #BILL_ID# AND BALANCE_ID= #BALANCE_ID#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				CONTRACT_NO = #CONTRACT_NO#
+			</isNotEmpty>
+		</dynamic>
+	</insert>
+    
+    <select id="qSumFeeByCon" parameterClass="Map" resultClass="java.util.HashMap">
+    	select nvl(SUM(nvl(PAYED_PREPAY,0)+nvl(PAYED_LATER,0)),0) AS FEE from bal_writeoff_$SUFFIX$ 
+    		where contract_no=#CONTRACT_NO# AND BILL_CYCLE=#BILL_CYCLE# AND STATUS ='0'
+    		and payed_prepay<![CDATA[ >= ]]>0
+			and payed_later<![CDATA[ >= ]]>0
+    	<dynamic prepend="">
+    		<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="AL_READ">
+			    (PRINT_FLAG = '2' OR PAY_TYPE IN (select CODE_ID from pub_codedef_dict where code_class='1042')) 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="AL_MON">
+				PRINT_FLAG = '1'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="GIFT_FEE">
+				PAY_TYPE IN (SELECT PAY_TYPE FROM bal_booktype_dict where substr(pay_attr,6,1) = '1')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_FEE">
+			    (PRINT_FLAG = '0' AND PAY_TYPE NOT IN (select CODE_ID from pub_codedef_dict where code_class='1042')
+			    AND PAY_TYPE NOT IN (SELECT PAY_TYPE FROM bal_booktype_dict where substr(pay_attr,6,1) = '1'))
+			</isNotEmpty>
+    	</dynamic>
+    </select>
+    
+    <update id="uPrintSn" parameterClass="Map">
+		UPDATE BAL_WRITEOFF_$SUFFIX$
+        SET PRINT_SN = #PRINT_SN:LONG#
+        WHERE CONTRACT_NO = #CONTRACT_NO:LONG# AND STATUS='0'
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="NATURAL_MONTH">
+				NATURAL_MONTH = #NATURAL_MONTH:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				BILL_CYCLE = #BILL_CYCLE:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="WRTOFF_SN">
+				WRTOFF_SN = #WRTOFF_SN:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_ID">
+				BILL_ID = #BILL_ID:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BALANCE_ID">
+				BALANCE_ID = #BALANCE_ID:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ACCPERT_PAYTYPE">
+				PAY_TYPE IN (select pay_type from bal_booktype_dict where substr(pay_attr,6,1)='1')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_FLAG_OLD">
+				PRINT_FLAG = #PRINT_FLAG_OLD#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_SN_OLD">
+				PRINT_SN =
+				#PRINT_SN_OLD:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINTSN_ISNULL">
+				(PRINT_SN = 0 OR PRINT_SN IS NULL) 
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<!-- add by liuhl_bj -->
+	<select id="qryPayedFeeForWriteOff" parameterClass="Map"
+		resultClass="java.util.HashMap">
+		SELECT PAY_TYPE, nvl(PAYED_PREPAY,0) AS PAYED_PREPAY,
+		nvl(PAYED_LATER,0) AS PAYED_LATER,
+		PRINT_FLAG, WRTOFF_SN, BILL_ID, BALANCE_ID, ACCT_ITEM_CODE,PAYED_DELAY,BILL_DAY,nvl(PRINT_SN,0) AS PRINT_SN
+        FROM BAL_WRITEOFF_$YEAR_MONTH$
+		WHERE CONTRACT_NO = #CONTRACT_NO:LONG#
+        AND NATURAL_MONTH = #NATURAL_MONTH:INT# AND STATUS ='0' 
+		and payed_prepay<![CDATA[ >= ]]>0
+		and payed_later<![CDATA[ >= ]]>0
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO:LONG#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- liuhl_bj add 2016/11/5 -->
+	<select id="qryPrintFlag" parameterClass="Map" resultClass="java.lang.Integer">
+		SELECT COUNT(*) FROM BAL_WRITEOFF_$SUFFIX$ WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty property="WRTOFF_SN" prepend="">
+				AND WRTOFF_SN=#WRTOFF_SN#
+			</isNotEmpty>
+			<isNotEmpty property="BALANCE_ID" prepend="">
+				AND BALANCE_ID=#BALANCE_ID#
+			</isNotEmpty>
+			<isNotEmpty property="PRINT_FLAG" prepend="">
+				AND PRINT_FLAG IN
+				<iterate close=")" conjunction="," open="(" prepend="" property="PRINT_FLAG">
+					#PRINT_FLAG[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+		AND STATUS=0
+	</select>
+
+	<select id="qWriteOffFee" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT PAYED_PREPAY + PAYED_LATER PAY_FEE,BALANCE_ID,
+		PAY_TYPE,
+		PRINT_FLAG,
+		ID_NO,
+		BILL_ID,
+		BILL_CYCLE,
+		ACCT_ITEM_CODE,
+		BILL_DAY
+		FROM BAL_WRITEOFF_$SUFFIX$
+		WHERE 1=1
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="ID_NO">
+				AND ID_NO = #ID_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="CONTRACT_NO">
+				AND CONTRACT_NO=#CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BILL_CYCLE">
+				AND BILL_CYCLE=#BILL_CYCLE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="STATUS">
+				AND STATUS=#STATUS#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="PAY_TYPE">
+				AND PAY_TYPE=#PAY_TYPE#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BILL_DAY">
+				AND BILL_DAY <![CDATA[<]]> #BILL_DAY#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qTaxFeeForWriteOff" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT CONTRACT_NO,
+		BILL_CYCLE,
+		PAY_TYPE,
+		NVL (PAYED_PREPAY, 0) + NVL (PAYED_LATER, 0) AS WRITE_FEE,
+		a.TAX_RATE,
+		NVL (A.TAX_FEE, 0) AS TAX_FEE
+		FROM BAL_WRITEOFF_$YEAR_MONTH$ a, act_item_conf b
+		WHERE A.ACCT_ITEM_CODE = B.ACCT_ITEM_CODE
+		AND a.CONTRACT_NO = #CONTRACT_NO#
+		
+		AND a.STATUS = '0'
+		AND print_flag = '0'
+		AND (BILL_DAY<![CDATA[<]]> 9000 OR (PAYED_PREPAY+PAYED_LATER) <![CDATA[>=]]> 0)
+		<dynamic>
+			<isNotEmpty prepend="" property="NATURAL_MONTH">
+				AND NATURAL_MONTH = #NATURAL_MONTH#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="BALANCE_ID">
+				AND BALANCE_ID = #BALANCE_ID#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<update id="uPrintFlagTax" parameterClass="Map">
+		UPDATE BAL_WRITEOFF_$SUFFIX$
+        SET PRINT_FLAG=#PRINT_FLAG#
+        <dynamic prepend="">
+       		<isNotEmpty prepend="," property="PRINT_SN">
+				PRINT_SN = #PRINT_SN:LONG#
+			</isNotEmpty>
+        </dynamic>
+        WHERE CONTRACT_NO = #CONTRACT_NO:LONG# AND STATUS='0'
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="NATURAL_MONTH">
+				NATURAL_MONTH = #NATURAL_MONTH:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BILL_CYCLE">
+				BILL_CYCLE = #BILL_CYCLE:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="WRTOFF_SN">
+				WRTOFF_SN = #WRTOFF_SN:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="BALANCE_ID">
+				BALANCE_ID = #BALANCE_ID:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO:LONG#
+			</isNotEmpty>
+		    <isNotEqual prepend="AND" property="TAX_RATE" compareValue="0.00">
+			    TAX_RATE = #TAX_RATE#
+			</isNotEqual>
+			<isNotEmpty prepend="AND" property="ACCPERT_PAYTYPE">
+				PAY_TYPE NOT IN 
+				<iterate conjunction="," property="ACCPERT_PAYTYPE" close=")" open="(" prepend="">
+					#ACCPERT_PAYTYPE[]#
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_FLAG_OLD">
+				PRINT_FLAG = #PRINT_FLAG_OLD#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ZERO_PRINTFLAG">
+				PRINT_FLAG = #ZERO_PRINTFLAG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="INVPRINT_SN">
+				PRINT_SN = #INVPRINT_SN#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<update id="uPrintOnePonitInvFlagTax" parameterClass="Map">
+		UPDATE BAL_WRITEOFF_$SUFFIX$
+        SET PRINT_FLAG=#PRINT_FLAG#,PRINT_SN = #NEWPRINT_SN:LONG#
+        WHERE CONTRACT_NO IN (SELECT DISTINCT REL_CONTRACT_NO
+            FROM CS_ACCOUNT_REL
+            WHERE CONTRACT_NO = #CONTRACT_NO:LONG#)
+         AND STATUS='0' AND PRINT_SN = #OLDINVPRINT_SN# AND NATURAL_MONTH = #NATURAL_MONTH:INT#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="ID_NO">
+				ID_NO = #ID_NO:LONG#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PRINT_FLAG_OLD">
+				PRINT_FLAG = #PRINT_FLAG_OLD#
+			</isNotEmpty>
+		</dynamic>
+    </update>
+    
+</sqlMap>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>黑龙江移动综合客户服务系统</title>
+<style>
+body
+{
+	margin:0;
+	padding:0;
+	font:12px Verdana, Arial, Helvetica, sans-serif,"宋体"，"黑体";
+	line-height:1.8em;
+	text-align:left;
+	color:#003399;
+}
+html {
+	scrollbar-face-color:#d5e1f7;
+	scrollbar-highlight-color:#FFFFFF;
+	scrollbar-shadow-color:#DEEBF7;
+	scrollbar-3dlight-color:#89b3e3;
+	scrollbar-arrow-color: #121f54;
+	scrollbar-track-color:#F4F0EB;
+	scrollbar-darkshadow-color:#89b3e3;
+	overflow:hidden;
+}
+</style>
+<script>
+window.onload=function()
+{
+	document.getElementById('contactId').value=window.opener.document.getElementById("contactId").value;
+	document.getElementById('contactMonth').value=window.opener.document.getElementById("contactMonth").value;
+	if(window.opener.isLoadCallCauseWindow!=undefined){
+		window.opener.isLoadCallCauseWindow = 1;
+	}
+}
+</script>
+</head>
+<body>
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+	<input type='hidden' id='contactId' value='<%=contactId%>'>
+	<input type='hidden' id='contactMonth' value='<%=contactMonth%>'>
+	<tr>
+		<td width="25%" id=up style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+			<iframe
+			name="myFrame2" frameborder="0" width="100%" height="530px"
+			marginwidth="0" marginheight="0" scrolling="auto"
+			src="callcomereasonemenus.jsp"></iframe>
+		</td>
+		<td id=up style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+			<iframe name="myFrame3" frameborder="0" width="100%" height="530px"
+			marginwidth="0" marginheight="0" scrolling="auto"
+			src="callreasonright.html"></iframe>
+		</td>
+	</tr>
+<table>
+<body>
+</html>

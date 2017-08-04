@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ct_grpcust_info">
+	<typeAlias alias="CtGrpcustInfo" type="com.sitech.acctmgr.atom.domains.cust.GrpCustInfoEntity"/>
+	<select id="qGrpcustInfo" parameterClass="Map" resultClass="CtGrpcustInfo">
+		SELECT CUST_ID custId, GROUP_TYPE groupType, UNIT_ID unitId
+		FROM CT_GRPCUST_INFO
+		WHERE 1 = 1
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CUST_ID">
+				CUST_ID = #CUST_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="UNIT_ID">
+				UNIT_ID = #UNIT_ID#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="qryCount" parameterClass="Map" resultClass="CtGrpcustInfo">
+		select count(*) count
+		from CT_GRPCUST_INFO
+		where unit_id = #UNIT_ID#
+		and scope_code in ('A1', 'A2', 'B1', 'B2', 'C1')
+	</select>
+
+	<select id="qGrpCustList" parameterClass="Map" resultClass="com.sitech.acctmgr.atom.domains.cust.GrpCustEntity">
+		SELECT A.CUST_ID AS custId,
+		A.CUST_NAME AS custName,
+		B.UNIT_ID AS unitId,
+		A.ID_ICCID AS idIccid,
+		A.ID_TYPE as idType
+		FROM CT_CUST_INFO A, CT_GRPCUST_INFO B
+		WHERE A.CUST_ID = B.CUST_ID
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CUST_ID">
+				AND A.CUST_ID = #CUST_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="UNIT_ID">
+				AND B.UNIT_ID = #UNIT_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="ID_ICCID">
+				AND A.ID_ICCID = #ID_ICCID#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

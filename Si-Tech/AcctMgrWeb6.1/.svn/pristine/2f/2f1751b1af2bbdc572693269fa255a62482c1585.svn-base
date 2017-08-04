@@ -1,0 +1,517 @@
+package com.sitech.acctmgr.atom.busi.pay;
+
+import com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder;
+import com.sitech.acctmgr.atom.domains.pay.PayMentEntity;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IProd;
+import com.sitech.acctmgr.common.BaseBusi;
+import com.sitech.acctmgrint.atom.busi.intface.IBusiMsgSnd;
+import com.sitech.acctmgrint.atom.busi.intface.IDataSyn;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcfx.dt.MBean;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.collections.MapUtils.getString;
+
+/**
+ * <p>Title:  报表 </p>
+ * <p>Description:  报表接口 </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ *
+ * @author
+ * @version 1.0
+ */
+@SuppressWarnings("unchecked")
+public class PreOrder extends BaseBusi implements IPreOrder {
+
+    private IBusiMsgSnd busiOrderBc;
+    private IControl control;
+    private IProd prod;
+    private IDataSyn dataSyn;
+
+
+    /* (non-Javadoc)
+     * @see com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder#sendData(java.util.Map)
+     */
+    @Override
+    public boolean sendData(Map<String, Object> inParam) {
+
+        //发送营业日报
+        pSendBusiDaily(inParam);
+
+        Map<String, Object> reportMap = new HashMap<String, Object>();
+        reportMap.put("ACTION_ID", inParam.get("ACTION_ID"));
+        reportMap.put("KEY_DATA", inParam.get("KEY_DATA"));
+        reportMap.put("LOGIN_SN", inParam.get("PAY_SN").toString());
+        reportMap.put("OP_CODE", inParam.get("OP_CODE"));
+        reportMap.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+
+        sendReportData((Map<String, Object>) inParam.get("Header"), reportMap);
+
+        Map<String, Object> oprCnttMap = new HashMap<String, Object>();
+        oprCnttMap.put("Header", (Map<String, Object>) inParam.get("Header"));
+        oprCnttMap.put("PAY_SN", inParam.get("PAY_SN").toString());
+        oprCnttMap.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+        oprCnttMap.put("GROUP_ID", inParam.get("GROUP_ID"));
+        oprCnttMap.put("OP_CODE", inParam.get("OP_CODE"));
+        oprCnttMap.put("REGION_ID", inParam.get("REGION_ID"));
+        oprCnttMap.put("OP_NOTE", inParam.get("OP_NOTE"));
+        oprCnttMap.put("CUST_ID_TYPE", inParam.get("CUST_ID_TYPE"));
+        oprCnttMap.put("CUST_ID_VALUE", inParam.get("CUST_ID_VALUE"));
+        oprCnttMap.put("OP_TIME", inParam.get("OP_TIME"));
+        oprCnttMap.put("CONTACT_ID", inParam.get("CONTACT_ID"));
+        if (StringUtils.isNotEmptyOrNull(inParam.get("TOTAL_FEE"))) {
+            oprCnttMap.put("TOTAL_FEE", inParam.get("TOTAL_FEE").toString());
+        }
+        sendOprCntt(oprCnttMap);
+
+        return true;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder#sendData2(java.util.Map)
+     */
+    public boolean sendData2(Map<String, Object> inParam) {
+
+        log.debug("发送营业日报，sendData2 begin: " + inParam.toString());
+
+        //发送营业日报
+        pSendBusiDaily(inParam);
+
+        Map<String, Object> reportMap = new HashMap<String, Object>();
+        List<Map<String, Object>> keysList = (List<Map<String, Object>>) inParam.get("KEYS_LIST");
+        reportMap.put("ACTION_ID", inParam.get("ACTION_ID"));
+        reportMap.put("LOGIN_SN", inParam.get("PAY_SN").toString());
+        reportMap.put("OP_CODE", inParam.get("OP_CODE"));
+        reportMap.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+        reportMap.put("KEYS_LIST", keysList);
+        if (keysList != null && keysList.size() != 0) {
+            sendReportDataList((Map<String, Object>) inParam.get("Header"), reportMap);
+        }
+
+        String regionId = "";
+        if (inParam.get("REGION_ID") != null && !inParam.get("REGION_ID").toString().equals("")) {
+
+            regionId = inParam.get("REGION_ID").toString();
+        } else {
+
+            regionId = inParam.get("CUST_ID_VALUE").toString().substring(0, 4);
+        }
+
+        if (inParam.get("OP_CODE").toString().equals("8009")) {/*空中充值冲正需要发两条统一接触*/
+            List<Map<String, Object>> resultList = (List<Map<String, Object>>) inParam.get("PHONES_LIST");
+            for (Map<String, Object> resultMap : resultList) {
+                Map<String, Object> oprCnttMap = new HashMap<String, Object>();
+                oprCnttMap.put("Header", (Map<String, Object>) inParam.get("Header"));
+                //缴费号码流水前加P，代理商加A
+                if (Long.parseLong(resultMap.get("TOTAL_FEE").toString()) >= 0)
+                    oprCnttMap.put("PAY_SN", "P" + inParam.get("PAY_SN").toString());
+                else
+                    oprCnttMap.put("PAY_SN", "A" + inParam.get("PAY_SN").toString());
+                oprCnttMap.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+                oprCnttMap.put("GROUP_ID", inParam.get("GROUP_ID"));
+                oprCnttMap.put("OP_CODE", inParam.get("OP_CODE"));
+                oprCnttMap.put("REGION_ID", regionId);
+                oprCnttMap.put("OP_NOTE", inParam.get("OP_NOTE"));
+                oprCnttMap.put("CUST_ID_TYPE", "1");
+                oprCnttMap.put("CUST_ID_VALUE", resultMap.get("PHONE_NO").toString());
+                oprCnttMap.put("OP_TIME", inParam.get("OP_TIME"));
+                oprCnttMap.put("CONTACT_ID", inParam.get("CONTACT_ID"));
+                oprCnttMap.put("TOTAL_FEE", resultMap.get("TOTAL_FEE").toString());
+                sendOprCntt(oprCnttMap);
+            }
+
+        } else {
+            Map<String, Object> oprCnttMap = new HashMap<String, Object>();
+            oprCnttMap.put("Header", (Map<String, Object>) inParam.get("Header"));
+            oprCnttMap.put("PAY_SN", inParam.get("PAY_SN").toString());
+            oprCnttMap.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+            oprCnttMap.put("GROUP_ID", inParam.get("GROUP_ID"));
+            oprCnttMap.put("OP_CODE", inParam.get("OP_CODE"));
+            oprCnttMap.put("REGION_ID", regionId);
+            oprCnttMap.put("OP_NOTE", inParam.get("OP_NOTE"));
+            oprCnttMap.put("CUST_ID_TYPE", inParam.get("CUST_ID_TYPE"));
+            oprCnttMap.put("CUST_ID_VALUE", inParam.get("CUST_ID_VALUE"));
+            oprCnttMap.put("OP_TIME", inParam.get("OP_TIME"));
+            oprCnttMap.put("CONTACT_ID", inParam.get("CONTACT_ID"));
+            if (StringUtils.isNotEmptyOrNull(inParam.get("TOTAL_FEE"))) {
+                oprCnttMap.put("TOTAL_FEE", inParam.get("TOTAL_FEE").toString());
+            }
+
+            sendOprCntt(oprCnttMap);
+        }
+
+        return true;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.sitech.acctmgr.atom.busi.pay.IBusiOrder#pSendBusiDaily(java.util.Map)
+     */
+    @Override
+    public boolean pSendBusiDaily(Map<String, Object> inParam) {
+
+        Map<String, Object> inMapTmp = new HashMap<String, Object>();    //临时变量:入参
+        Map<String, Object> outMapTmp = new HashMap<String, Object>();   //临时变量:出参
+        Map<String, Object> mOutParam = new HashMap<String, Object>();    //出参
+        MBean sendBusi = new MBean();    //拼装的发送消息中间件报文
+
+        String objectType = "3";
+        String objectName = "账户";
+        int sendFlag = 0;
+        String contactId = "";
+
+        String curYm = ((String) inParam.get("OP_TIME")).substring(0, 6);
+        if (inParam.get("CONTACT_ID") != null && !((String) inParam.get("CONTACT_ID")).equals("")) {
+            contactId = (String) inParam.get("CONTACT_ID");
+        }
+        String phoneNo = "";
+        if (inParam.get("PHONE_NO") != null && !((String) inParam.get("PHONE_NO")).equals("")) {
+            phoneNo = (String) inParam.get("PHONE_NO");
+        }
+        String brandId = "";
+        if (inParam.get("BRAND_ID") != null && !((String) inParam.get("BRAND_ID")).equals("")) {
+            brandId = (String) inParam.get("BRAND_ID");
+        }
+
+        inMapTmp = new HashMap<String, Object>();
+        inMapTmp.put("PAY_SN", (Long) inParam.get("PAY_SN"));
+        inMapTmp.put("SUFFIX", curYm);
+        long idNo = 0;
+        List<PayMentEntity> resultList = baseDao.queryForList("bal_payment_info.qBalPayMent", inMapTmp);
+
+        List<Map<String, Object>> paramObj = new ArrayList<Map<String, Object>>();
+        for (PayMentEntity resultMap : resultList) {
+
+            idNo = resultMap.getIdNo();
+
+            //UserPrcEntity  prcEntity = prod.getUserPrcidInfo(resultMap.getIdNo());
+
+            Map<String, Object> objMap = new HashMap<String, Object>();
+            objMap.put("OBJECT_TYPE", objectType);
+            objMap.put("OBJECT_ID", resultMap.getContractNo());
+            objMap.put("OBJECT_NAME", objectName);
+            objMap.put("PHONE_NO", phoneNo);
+            objMap.put("BRAND_ID", brandId);
+            objMap.put("OBJECT_NO", resultMap.getIdNo());
+            objMap.put("BASE_PRODPRC_ID", "");  //主资费暂定传空
+
+            paramObj.add(objMap);
+
+        }
+
+
+        List<Map<String, Object>> paramFee = new ArrayList();
+        for (Map<String, Object> mapTmp : paramObj) {
+
+			 /*取账本来源信息*/
+            inMapTmp = new HashMap<String, Object>();
+            inMapTmp.put("PAY_SN", (Long) inParam.get("PAY_SN"));
+            inMapTmp.put("CONTRACT_NO", Long.valueOf(mapTmp.get("OBJECT_ID").toString()));
+            inMapTmp.put("SUFFIX", curYm);
+            List<Map<String, Object>> resultList1 = baseDao.queryForList("bal_booksource_info.qBookSourceByPaySn", inMapTmp);
+            for (Map<String, Object> mapTmp1 : resultList1) {
+
+                if (Long.valueOf(mapTmp1.get("PAY_FEE").toString()) != 0) {    //0缴费、0支出时不发送营业日报
+                    sendFlag = 1;
+                }
+
+                Map<String, Object> feeMap = new HashMap<String, Object>();
+                feeMap.put("OBJECT_TYPE", objectType);
+                feeMap.put("OBJECT_ID", Long.valueOf(mapTmp.get("OBJECT_ID").toString()));
+                feeMap.put("FEE_TYPE", "9");
+                feeMap.put("FEE_CODE", "0");
+                feeMap.put("PAY_TYPE", (String) mapTmp1.get("PAY_TYPE"));
+                if (((String) mapTmp1.get("PAY_TYPE")).equals("0")) {
+                    feeMap.put("CASH_FEE", Long.valueOf(mapTmp1.get("PAY_FEE").toString()));    //现金费用
+                    feeMap.put("OTHER_FEE", 0);    //非现金费用
+                } else {
+                    feeMap.put("CASH_FEE", 0);    //现金费用
+                    feeMap.put("OTHER_FEE", Long.valueOf(mapTmp1.get("PAY_FEE").toString()));    //非现金费用
+                }
+                feeMap.put("DERATE_FEE", "0");
+
+                paramFee.add(feeMap);
+
+            }
+
+            //取账本支出信息
+            inMapTmp = new HashMap<String, Object>();
+            inMapTmp.put("PAY_SN", (Long) inParam.get("PAY_SN"));
+            inMapTmp.put("CONTRACT_NO", Long.valueOf(mapTmp.get("OBJECT_ID").toString()));
+            inMapTmp.put("SUFFIX", curYm);
+            List<Map<String, Object>> resultList2 = baseDao.queryForList("bal_bookpayout_info.qBookPayoutByPaySn", inMapTmp);
+            for (Map<String, Object> mapTmp2 : resultList2) {
+
+                //支出费用
+                if (Long.valueOf(mapTmp2.get("OUT_BALANCE").toString()) != 0) {    //0支出不发送营业日报
+
+                    sendFlag = 1;
+
+                    Map<String, Object> feeMap = new HashMap<String, Object>();
+                    feeMap.put("OBJECT_TYPE", objectType);
+                    feeMap.put("OBJECT_ID", Long.valueOf(mapTmp.get("OBJECT_ID").toString()));
+                    feeMap.put("FEE_TYPE", "9");
+                    if (((String) mapTmp2.get("OPER_TYPE")).equals("0") ||
+                            ((String) mapTmp2.get("OPER_TYPE")).equals("5")) {    //冲销欠费
+                        feeMap.put("FEE_CODE", "1");
+                        continue; //暂时不发冲销数据，报文太大
+                    }
+                    if (((String) mapTmp2.get("OPER_TYPE")).equals("4") ||
+                            ((String) mapTmp2.get("OPER_TYPE")).equals("9")) {    //退费或转出的用现金表示
+                        feeMap.put("FEE_CODE", "0");
+                    }
+                    if (((String) mapTmp2.get("OPER_TYPE")).equals("1") ||
+                            ((String) mapTmp2.get("OPER_TYPE")).equals("a")) {    //冲销呆账
+                        feeMap.put("FEE_CODE", "2");
+                    }
+                    if (((String) mapTmp2.get("OPER_TYPE")).equals("2") ||
+                            ((String) mapTmp2.get("OPER_TYPE")).equals("b")) {    //冲销坏账
+                        feeMap.put("FEE_CODE", "3");
+                    }
+                    feeMap.put("PAY_TYPE", (String) mapTmp2.get("PAY_TYPE"));
+                    if (((String) mapTmp2.get("PAY_TYPE")).equals("0")) {
+                        feeMap.put("CASH_FEE", (-1) * Long.valueOf(mapTmp2.get("OUT_BALANCE").toString()));    //现金费用
+                        feeMap.put("OTHER_FEE", 0);    //非现金费用
+                    } else {
+                        feeMap.put("CASH_FEE", 0);    //现金费用
+                        feeMap.put("OTHER_FEE", (-1) * Long.valueOf(mapTmp2.get("OUT_BALANCE").toString()));    //非现金费用
+                    }
+                    feeMap.put("DERATE_FEE", "0");
+
+                    paramFee.add(feeMap);
+
+                }
+
+                //冲销滞纳金费用
+                if (Long.parseLong(mapTmp2.get("DELAY_FEE").toString()) != 0) {    //0滞纳金不发送营业日报
+
+                    sendFlag = 1;
+
+                    Map<String, Object> feeMap = new HashMap<String, Object>();
+                    feeMap.put("OBJECT_TYPE", objectType);
+                    feeMap.put("OBJECT_ID", Long.valueOf(mapTmp.get("OBJECT_ID").toString()));
+                    feeMap.put("FEE_TYPE", "9");
+                    feeMap.put("FEE_CODE", "4");    //冲销滞纳金
+                    feeMap.put("PAY_TYPE", (String) mapTmp2.get("PAY_TYPE"));
+                    if (((String) mapTmp2.get("PAY_TYPE")).equals("0")) {
+                        feeMap.put("CASH_FEE", (-1) * Long.valueOf(mapTmp2.get("DELAY_FEE").toString()));    //现金费用
+                        feeMap.put("OTHER_FEE", 0);    //非现金费用
+                    } else {
+                        feeMap.put("CASH_FEE", 0);    //现金费用
+                        feeMap.put("OTHER_FEE", (-1) * Long.valueOf(mapTmp2.get("DELAY_FEE").toString()));    //非现金费用
+                    }
+                    feeMap.put("DERATE_FEE", "0");
+
+                    paramFee.add(feeMap);
+
+                }
+
+            }
+
+        }
+
+        sendBusi.setBody("COMMON.LOGIN_ACCEPT", inParam.get("PAY_SN").toString());
+        sendBusi.setBody("COMMON.LOGIN_NO", (String) inParam.get("LOGIN_NO"));
+        sendBusi.setBody("COMMON.SUB_ORDER_ID", inParam.get("PAY_SN").toString());
+        sendBusi.setBody("COMMON.OP_TIME", (String) inParam.get("OP_TIME"));
+        sendBusi.setBody("COMMON.OP_CODE", (String) inParam.get("OP_CODE"));
+        sendBusi.setBody("COMMON.GROUP_ID", (String) inParam.get("GROUP_ID"));
+        sendBusi.setBody("COMMON.OP_NOTE", (String) inParam.get("OP_NOTE"));
+        sendBusi.setBody("COMMON.CONTACT_ID", contactId.toString());
+        sendBusi.setBody("COMMON.BACK_FLAG", (String) inParam.get("BACK_FLAG"));
+        sendBusi.setBody("COMMON.OLD_LOGIN_ACCEPT", inParam.get("OLD_ACCEPT").toString());
+        sendBusi.setBody("COMMON.BUSI_DAY", ((String) inParam.get("OP_TIME")).substring(0, 8));
+        //8020跨库转账：1条流水发送2次日报,增加节点COMMON.FEEEXP_FLAG=1； 其他正常
+        if (inParam.get("FEEEXP_FLAG") != null && !"".equals(inParam.get("FEEEXP_FLAG").toString())) {
+            sendBusi.setBody("COMMON.FEEEXP_FLAG", inParam.get("FEEEXP_FLAG").toString());
+        }
+        sendBusi.setBody("OBJ_INFO_LIST", paramObj);
+        sendBusi.setBody("FEE_INFO_LIST", paramFee);
+
+        log.info("发送CRM营业日报报文" + sendBusi.toString());
+
+        //增加开关配置，配置帐管自己的OP_CODE 才向CRM发送消息
+        String opCodes = control.getPubCodeValue(2013, "YYRB", null);
+        if (-1 == opCodes.indexOf(inParam.get("OP_CODE").toString())) {            //不在表中配置的OP_CODE不发送营业日报
+
+            sendFlag = 0;
+        }
+
+        //调用接口发送消息中间件
+        if (1 == sendFlag) {
+
+            Map<String, Object> bcMap = new HashMap<String, Object>();
+            bcMap.put("LOGIN_ACCEPT", inParam.get("PAY_SN").toString());
+            bcMap.put("CONTACT_ID", contactId); //统一流水
+            bcMap.put("BUSIID_NO", idNo);
+            bcMap.put("LOGIN_NO", (String) inParam.get("LOGIN_NO"));
+            bcMap.put("OP_CODE", (String) inParam.get("OP_CODE"));
+            bcMap.put("OWNER_FLAG", "1");
+            bcMap.put("ORDER_ID", "10001");//工单模板号
+            bcMap.put("ODR_CONT", sendBusi);
+            log.info("调用发送消息中间件接口opBcPubOdrInter begin: " + bcMap.toString());
+            busiOrderBc.opPubOdrSndInter(bcMap);
+            log.info("调用发送消息中间件接口opBcPubOdrInter end!");
+
+        }
+
+        return true;
+
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder#sendReportData(long, java.util.Map, boolean)
+     */
+    @Override
+    public boolean sendReportData(Map<String, Object> header, Map<String, Object> inParam) {
+
+        MBean inMbean = new MBean();
+        inMbean.setHeader(header);
+
+        inMbean.addBody("ACTION_ID", inParam.get("ACTION_ID"));
+        inMbean.addBody("CHECK_KEY", true);
+        inMbean.addBody("KEY_DATA", inParam.get("KEY_DATA"));
+        inMbean.addBody("LOGIN_SN", inParam.get("LOGIN_SN"));
+        inMbean.addBody("OP_CODE", inParam.get("OP_CODE"));
+        inMbean.addBody("LOGIN_NO", inParam.get("LOGIN_NO"));
+
+        log.debug("同步报表库begin：[ " + inMbean.toString() + " ]");
+        dataSyn.sendSynInter(inMbean);
+
+        return true;
+    }
+
+    public void sendReportDataList(Map<String, Object> header, Map<String, Object> inParam) {
+
+        MBean inMbean = new MBean();
+        inMbean.setHeader(header);
+
+        inMbean.addBody("ACTION_ID", inParam.get("ACTION_ID"));
+        inMbean.addBody("CHECK_KEY", true);
+        inMbean.addBody("LOGIN_SN", inParam.get("LOGIN_SN"));
+        inMbean.addBody("OP_CODE", inParam.get("OP_CODE"));
+        inMbean.addBody("LOGIN_NO", inParam.get("LOGIN_NO"));
+        inMbean.addBody("KEYS_LIST", inParam.get("KEYS_LIST"));
+
+        log.debug("同步报表库begin：[ " + inMbean.toString() + " ]");
+        dataSyn.sendBusiDataInter(inMbean);
+
+    }
+
+    @Override
+    public void sendOprCntt(Map<String, Object> inParam) {
+        this.sendPubOprCnnt(inParam, "10008");
+    }
+
+    @Override
+    public void sendQueryCntt(Map<String, Object> inParam) {
+        this.sendPubOprCnnt(inParam, "10007");
+    }
+
+    /**
+     * 功能：发送统一接触，公共
+     * @param inParam
+     * @param orderId 受理：10008， 查询：10007
+     * @return
+     */
+    private boolean sendPubOprCnnt(Map<String, Object> inParam, String orderId) {
+
+        Map<String, Object> oprInfoMap = new HashMap<>();
+        String contactId = "-1";
+        if (StringUtils.isNotEmpty(getString(inParam, "CONTACT_ID"))) {
+            contactId = getString(inParam, "CONTACT_ID");
+        }
+        oprInfoMap.put("CONTACT_ID", contactId);
+        oprInfoMap.put("REGION_ID", inParam.get("REGION_ID"));
+        oprInfoMap.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+        oprInfoMap.put("GROUP_ID", inParam.get("GROUP_ID"));
+        oprInfoMap.put("OP_CODE", inParam.get("OP_CODE"));
+        oprInfoMap.put("OP_NOTE", inParam.get("OP_NOTE"));
+        oprInfoMap.put("CUST_ID_TYPE", inParam.get("CUST_ID_TYPE"));   //0客户ID;1-服务号码;2-用户ID;3-账户ID;
+        oprInfoMap.put("CUST_ID_VALUE", inParam.get("CUST_ID_VALUE"));
+        if (getString(inParam, "CUST_ID_TYPE").equals("1")) {        //如果是服务号码，则传一个SERVICE_NO节点
+            if (StringUtils.isNotEmptyOrNull(inParam.get("CUST_ID_VALUE"))) {
+                oprInfoMap.put("SERVICE_NO", inParam.get("CUST_ID_VALUE"));
+            } else {
+                oprInfoMap.put("SERVICE_NO", "99999999999");
+            }
+        }
+        oprInfoMap.put("CNTT_LOGIN_ACCEPT", inParam.get("PAY_SN").toString());
+        oprInfoMap.put("CNTT_OP_TIME", inParam.get("OP_TIME"));
+        if (StringUtils.isNotEmptyOrNull(inParam.get("TOTAL_FEE"))) {
+            oprInfoMap.put("TOTAL_FEE", inParam.get("TOTAL_FEE").toString()); //缴费相关模块需要传
+        }
+        if (StringUtils.isNotEmptyOrNull(inParam.get("SERVICE_NAME"))) {
+            oprInfoMap.put("SERVICE_NAME", inParam.get("SERVICE_NAME")); //查询模版可传
+        }
+
+        MBean sendBean = new MBean();
+        sendBean.setHeader((Map<String, Object>) inParam.get("Header"));
+        sendBean.addBody("OPR_INFO", oprInfoMap);
+
+        Map<String, Object> bcMap = new HashMap<String, Object>();
+        bcMap.put("LOGIN_ACCEPT", inParam.get("PAY_SN").toString());
+        bcMap.put("CONTACT_ID", contactId); //统一流水
+        bcMap.put("BUSIID_TYPE", inParam.get("CUST_ID_TYPE"));
+        bcMap.put("BUSIID_NO", inParam.get("CUST_ID_VALUE").toString());
+        bcMap.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+        bcMap.put("OP_CODE", inParam.get("OP_CODE"));
+        bcMap.put("OWNER_FLAG", "1");
+        bcMap.put("ORDER_ID", orderId);//工单模板号, 10007 查询工单，10008 受理工单
+        bcMap.put("ODR_CONT", sendBean);
+        log.info("发送统一接触消息 begin: " + bcMap.toString());
+        busiOrderBc.opPubOdrSndInter(bcMap);
+        log.info("发送统一接触消息 end!");
+
+        return true;
+    }
+
+    public IBusiMsgSnd getBusiOrderBc() {
+        return busiOrderBc;
+    }
+
+
+    public void setBusiOrderBc(IBusiMsgSnd busiOrderBc) {
+        this.busiOrderBc = busiOrderBc;
+    }
+
+
+    public IDataSyn getDataSyn() {
+        return dataSyn;
+    }
+
+
+    public void setDataSyn(IDataSyn dataSyn) {
+        this.dataSyn = dataSyn;
+    }
+
+
+    public IControl getControl() {
+        return control;
+    }
+
+
+    public void setControl(IControl control) {
+        this.control = control;
+    }
+
+
+    public IProd getProd() {
+        return prod;
+    }
+
+
+    public void setProd(IProd prod) {
+        this.prod = prod;
+    }
+
+
+}

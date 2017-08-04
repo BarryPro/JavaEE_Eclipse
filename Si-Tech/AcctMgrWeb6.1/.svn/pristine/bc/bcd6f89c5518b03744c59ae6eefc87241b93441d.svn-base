@@ -1,0 +1,135 @@
+package com.sitech.acctmgr.atom.busi.invoice.inter;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.domains.invoice.InvCondEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoTotalEntity;
+
+
+public interface ITaxInvoFlow {
+
+	/**
+	 * 名称：账务增值税发票申请打印流程<br/>
+	 * 
+	 * @param ID_NO
+	 *            : 用户ID_NO
+	 * @param CONTRACT_NO
+	 *            : 账户
+	 * @param BEGIN_MON
+	 *            : 开始月份
+	 * @param END_MON
+	 *            : 结束月份
+	 * @return :
+	 * @throws
+	 * @author fanck
+	 */
+	public void appPrtBOSSInvo(Map<String, Object> inParam, List<TaxInvoEntity> taxInvList, List<InvCondEntity> invCondList);
+
+	/**
+	 * 名称：营业增值税发票申请打印流程<br/>
+	 * 
+	 * @param ID_NO
+	 *            : 用户ID_NO
+	 * @param CONTRACT_NO
+	 *            : 账户
+	 * @param BEGIN_MON
+	 *            : 开始月份
+	 * @param END_MON
+	 *            : 结束月份
+	 * @return :
+	 * @throws
+	 * @author fanck
+	 */
+	public void appPrtCRMInvo(Map<String, Object> inParam);
+
+	/**
+	 * 名称：增值税发票作废申请流程<br/>
+	 * 
+	 * @param ID_NO
+	 *            : 用户ID_NO
+	 * @param CONTRACT_NO
+	 *            : 账户
+	 * @param BEGIN_MON
+	 *            : 开始月份
+	 * @param END_MON
+	 *            : 结束月份
+	 * @return :
+	 * @throws
+	 * @author fanck
+	 */
+	public void appDISInvo(Map<String, Object> inParam);
+
+	/**
+	 * 名称：增值税发票冲红申请流程<br/>
+	 * 
+	 * @param ID_NO
+	 *            : 用户ID_NO
+	 * @param CONTRACT_NO
+	 *            : 账户
+	 * @param BEGIN_MON
+	 *            : 开始月份
+	 * @param END_MON
+	 *            : 结束月份
+	 * @return :
+	 * @throws
+	 * @author fanck
+	 */
+	public void appRedInvo(Map<String, Object> inParam);
+
+
+	/**
+	 * 名称：查询当前月有没有审批记录，如果有，则删除原审批记录（对应的税率），再删除原明细记录<br/>
+	 * 
+	 * @param List
+	 *            .TaxInvoEntity :查询账期的增值税发票信息
+	 * @return
+	 * @author fanck
+	 */
+	// public void delCurYmFlow(List<TaxInvoEntity> qryTaxInvInfo, long contractNo);
+
+	// public List<TaxInvoEntity> qryPrintedInfo(long contractNo, int billCycle);
+
+	/* 对已经打印过发票的记录，修改状态,修改成作废申请状态 */
+	// public void disPrintedInvo(int printMon, String reportTo, long orderSn, String reson);
+
+
+
+	/* 发票审核完，修改发票状态 */
+	public void auditCfm(int yearMon, long orderSn, String state);
+
+
+
+
+
+
+
+
+	/**
+	 * 功能：查询发票明细信息
+	 * 
+	 * @param inParam
+	 * @return
+	 */
+	public List<TaxInvoTotalEntity> qtaxInvosubTotal(Map<String, Object> inParam);
+
+	/** 发票数据重置，提交作废申请 **/
+	public void dataRestCfm(Map<String, Object> inParam);
+
+	/** 发票数据重置，提交作废申请 **/
+	public void disabledInvReq(Map<String, Object> inParam);
+
+	/** 红字发票申请操作 **/
+	public void redInvReq(Map<String, Object> inParam);
+
+	/** 红字发票号等待确认 **/
+	public void redInvCfm(long printSn, String redNo, String state);
+
+	/** 同步一点支付发票申请数据 **/
+	public void OneInvRqSyn(Map<String, Object> invMap);
+
+	/** 同步一点支付发票重置数据 **/
+	public void OneInvResetSyn(Map<String, Object> invMap);
+
+}

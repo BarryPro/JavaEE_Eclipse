@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cct_creditadj_info">
+
+	<typeAlias alias="creditEntity" type="com.sitech.acctmgr.atom.domains.cct.CreditAdjEntity"/>
+
+	<select id="qCnt" parameterClass="Long" resultClass="java.lang.Integer">
+		SELECT COUNT(*) cnt FROM CCT_CREDITADJ_INFO WHERE ID_NO=#idNo# and expire_time > sysdate
+	</select>
+
+	<insert id="iCreditAdj" parameterClass="creditEntity">
+		INSERT INTO
+		CCT_CREDITADJ_INFO
+		(ID_NO,LOGIN_ACCEPT,OP_TIME,EXPIRE_TIME,STATUS)
+		VALUES
+		( #idNo#,#loginAccept#,sysdate,to_date(#expireTime#,'YYYYMMDD'),#status#)
+		
+	</insert>
+
+	<delete id= "delCreditAdj"  parameterClass="Long" >
+		DELETE FROM CCT_CREDITADJ_INFO WHERE  ID_NO=#idNo#
+	</delete>
+
+	<update id="uCreditAdj"  parameterClass="creditEntity">
+		UPDATE CCT_CREDITADJ_INFO SET LOGIN_ACCEPT = #loginAccept#,OP_TIME=sysdate,EXPIRE_TIME=to_date(#expireTime#,'YYYYMMDD'),STATUS=#status#
+		WHERE ID_NO=#idNo#
+	</update>
+
+</sqlMap>
+  
+   

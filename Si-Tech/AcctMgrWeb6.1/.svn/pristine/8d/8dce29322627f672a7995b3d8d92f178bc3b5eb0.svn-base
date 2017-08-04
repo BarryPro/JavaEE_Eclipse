@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_einvpdf_info">
+
+	<typeAlias alias="pdfDataBlob"	type="com.sitech.acctmgr.atom.domains.invoice.elecInvoice.EInvPdfEntity" />
+	<resultMap id="pdfDataBlob" class="pdfDataBlob">
+		<result property="pdf" column="BASE64_PDF" jdbcType="BLOB" javaType="java.lang.String" />
+		<result property="invoiceAccept" column="INVOICE_ACCEPT" />
+		<result property="invCode" column="INVOICE_CODE" />
+		<result property="invNo" column="INVOICE_NUMBER" />
+		<result property="loginNo" column="LOGIN_NO" />
+		<result property="splitOrder" column="SPLIT_ORDER"/>
+	</resultMap>
+	<insert id="insPdfInfo" parameterClass="pdfDataBlob">
+		INSERT INTO BAL_EINVPDF_INFO
+			(INVOICE_ACCEPT,OP_TIME,INVOICE_CODE,INVOICE_NUMBER,BASE64_PDF,LOGIN_NO,SPLIT_ORDER)
+		VALUES
+			(#invoiceAccept#,SYSDATE,#invCode#,#invNo#,#pdf#,#loginNo#,#splitOrder#)
+	</insert>
+	
+	<select id="qryPdfInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT INVOICE_ACCEPT,INVOICE_CODE,INVOICE_NUMBER,BASE64_PDF,SPLIT_ORDER FROM　BAL_EINVPDF_INFO
+		WHERE INVOICE_ACCEPT=#INVOICE_ACCEPT#
+		ORDER BY SPLIT_ORDER 
+	</select>
+</sqlMap>

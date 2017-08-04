@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_signautopay_his">
+
+    <insert id="iAutoPayHis" parameterClass="Map">
+		INSERT INTO
+		bal_signautopay_his
+		(ID_NO, PHONE_NO, BUSI_TYPE, PAY_MONEY, BALANCE_LIMIT, AUTO_FLAG, PAY_DAY, LOGIN_NO, OP_TIME,
+		 LAST_PAY_TIME, FLAG, UPDATE_ACCEPT, UPDATE_TIME, UPDATE_LOGIN, UPDATE_FLAG)
+		SELECT 
+		ID_NO, PHONE_NO, BUSI_TYPE, PAY_MONEY, BALANCE_LIMIT, AUTO_FLAG, PAY_DAY, LOGIN_NO, OP_TIME,
+		LAST_PAY_TIME, FLAG, #UPDATE_ACCEPT#, sysdate, #UPDATE_LOGIN#, #UPDATE_FLAG#
+        FROM bal_signautopay_info
+		WHERE id_no = #ID_NO#
+	</insert>
+
+  
+</sqlMap>

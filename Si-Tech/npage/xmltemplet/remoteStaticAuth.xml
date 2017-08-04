@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+	<head>
+		<appId></appId>
+		<requestTime>2011-01-25 11:12:13</requestTime>
+		<method>authent_type_static</method>
+		<clientIp>10.32.3.120</clientIp>
+	</head>
+	<body>
+		<account></account>
+		<subAccount></subAccount>
+		<approverAccount></approverAccount>
+		<beginTime></beginTime>
+		<endTime></endTime>
+		<authCode></authCode>
+		<moreMsg></moreMsg>
+		<appSessionId></appSessionId>
+		<sceneId></sceneId>
+	</body>
+</request>

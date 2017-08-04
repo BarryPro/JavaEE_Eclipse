@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="bal_presspayment_info">
+
+<typeAlias alias="AcUserOweInfo" type="com.sitech.acctmgr.atom.domains.user.UserOweEntity"/>
+
+	<select id="qCashPayInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR(NVL(CASH_PAY,0)) CASH_PAY
+	      FROM BAL_PRESSPAYMENT_INFO 
+	      WHERE 1=1
+	      <dynamic prepend="">
+	      		<isNotEmpty prepend="AND" property="PHONE_NO">
+	      			PHONE_NO=#PHONE_NO#
+	      		</isNotEmpty>
+	      		<isNotEmpty prepend="AND" property="LOGIN_ACCEPT">
+	      			LOGIN_ACCEPT=#LOGIN_ACCEPT#
+	      		</isNotEmpty>
+			  <isNotEmpty prepend="AND" property="ID_NO">
+			   		ID_NO=#ID_NO#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="BILL_YEAR">
+			   		 BILL_YEAR=#BILL_YEAR# 
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="BILL_MONTH">
+			   		BILL_MONTH=#BILL_MONTH#
+			  </isNotEmpty>
+		 </dynamic>
+		  AND STATUS='0'
+	</select>
+	
+	
+	<select id="qDeadPayInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		SELECT TO_CHAR(NVL(CASH_PAY,0)) CASH_PAY,TO_CHAR(NVL(PAYED_OWE,0)) PAYED_OWE, 
+		TO_CHAR(NVL(DELAY_FEE,0)) DELAY_FEE,BILL_YEAR,BILL_MONTH
+	      FROM BAL_PRESSPAYMENT_INFO 
+	      WHERE PHONE_NO=#PHONE_NO# AND STATUS='0'
+	      <dynamic prepend="">
+			  <isNotEmpty prepend="AND" property="ID_NO">
+			   		ID_NO=#ID_NO#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="BILL_YEAR">
+			   		 BILL_YEAR=#BILL_YEAR# 
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="BILL_MONTH">
+			   		BILL_MONTH=#BILL_MONTH#
+			  </isNotEmpty>
+			     <isNotEmpty prepend="AND" property="PAY_LOGIN">
+			   		 LOGIN_NO=#PAY_LOGIN#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="LOGIN_ACCEPT">
+			   		 LOGIN_ACCEPT=#LOGIN_ACCEPT#
+			  </isNotEmpty>
+		 </dynamic>
+	</select>
+	
+	
+	<insert id="iPressPayMent" parameterClass="Map">
+		INSERT INTO  BAL_PRESSPAYMENT_INFO(ID_NO,PHONE_NO,LOGIN_NO,LOGIN_ACCEPT,OP_TIME,
+		OP_CODE,PAYED_OWE,DELAY_FEE,CASH_PAY,BILL_YEAR,BILL_MONTH,PAY_NOTE,STATUS)
+		VALUES(#ID_NO#,#PHONE_NO#,#LOGIN_NO#,#LOGIN_ACCEPT#,SYSDATE,
+		#OP_CODE#,#PAYED_OWE#,#DELAY_FEE#,#CASH_PAY#,#BILL_YEAR#,#BILL_MONTH#,#BAK_CHAR#,'0')
+	</insert>
+	
+	
+	<update id="uPressPayMent" parameterClass="Map">
+		UPDATE   BAL_PRESSPAYMENT_INFO SET STATUS=#STATUS#
+		WHERE  LOGIN_ACCEPT=#LOGIN_ACCEPT#
+		 <dynamic prepend="">
+			  <isNotEmpty prepend="AND" property="ID_NO">
+			   		ID_NO=#ID_NO#
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="BILL_YEAR">
+			   		 BILL_YEAR=#BILL_YEAR# 
+			  </isNotEmpty>
+			  <isNotEmpty prepend="AND" property="BILL_MONTH">
+			   		BILL_MONTH=#BILL_MONTH#
+			  </isNotEmpty>
+			     <isNotEmpty prepend="AND" property="PAY_LOGIN">
+			   		 LOGIN_NO=#PAY_LOGIN#
+			  </isNotEmpty>
+		 </dynamic>
+	</update>
+	
+	
+</sqlMap>

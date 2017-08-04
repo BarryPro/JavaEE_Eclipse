@@ -1,0 +1,46 @@
+package com.sitech.acctmgr.atom.domains.free;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Created by wangyla on 2017/6/7.
+ */
+public class FreeDetailLv1InEntity implements Serializable {
+
+    @JSONField(name = "ResCode")
+    @ParamDesc(path = "ResCode", cons = ConsType.CT001, type = "string", len = "2", desc = "资源类型代码", memo = "")
+    private String busiCode;
+
+    @JSONField(name = "SubResInfo")
+    @ParamDesc(path = "SubResInfo", cons = ConsType.PLUS, type = "complex", len = "", desc = "二级资源信息", memo = "列表")
+    private List<FreeDetailLv2InEntity> detailList;
+
+    public String getBusiCode() {
+        return busiCode;
+    }
+
+    public void setBusiCode(String busiCode) {
+        this.busiCode = busiCode;
+    }
+
+    public List<FreeDetailLv2InEntity> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<FreeDetailLv2InEntity> detailList) {
+        this.detailList = detailList;
+    }
+
+    @Override
+    public String toString() {
+        return "FreeDetailLv1InEntity{" +
+                "busiCode='" + busiCode + '\'' +
+                ", detailList=" + detailList +
+                '}';
+    }
+}

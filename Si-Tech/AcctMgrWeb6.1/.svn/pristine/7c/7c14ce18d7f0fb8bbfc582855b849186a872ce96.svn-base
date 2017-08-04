@@ -1,0 +1,1022 @@
+package com.sitech.acctmgr.atom.impl.pay;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+import com.sitech.ac.rdc.re.api.common.util.MBean;
+import com.sitech.acctmgr.atom.busi.pay.inter.IPayManage;
+import com.sitech.acctmgr.atom.busi.pay.inter.IPreOrder;
+import com.sitech.acctmgr.atom.busi.pay.inter.ITransType;
+import com.sitech.acctmgr.atom.busi.pay.inter.IWriteOffer;
+import com.sitech.acctmgr.atom.busi.query.inter.IOweBill;
+import com.sitech.acctmgr.atom.busi.query.inter.IRemainFee;
+import com.sitech.acctmgr.atom.domains.account.AccountListEntity;
+import com.sitech.acctmgr.atom.domains.account.ContractInfoEntity;
+import com.sitech.acctmgr.atom.domains.account.CsAccountRelEntity;
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.base.LoginEntity;
+import com.sitech.acctmgr.atom.domains.fee.OutFeeData;
+import com.sitech.acctmgr.atom.domains.pay.AccountPayedEntity;
+import com.sitech.acctmgr.atom.domains.base.BankEntity;
+import com.sitech.acctmgr.atom.domains.pay.ChequeEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayBookEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayUserBaseEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubDbrouteConfEntity;
+import com.sitech.acctmgr.atom.domains.record.LoginOprEntity;
+import com.sitech.acctmgr.atom.domains.user.GroupchgInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserBrandEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.pay.S8020AccountInDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8020AccountOutDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8020BankCheckInDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8020BankCheckOutDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8020CfmInDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8020CfmOutDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8020InitInDTO;
+import com.sitech.acctmgr.atom.dto.pay.S8020InitOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IAccount;
+import com.sitech.acctmgr.atom.entity.inter.IBalance;
+import com.sitech.acctmgr.atom.entity.inter.IBase;
+import com.sitech.acctmgr.atom.entity.inter.ICheque;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.ILogin;
+import com.sitech.acctmgr.atom.entity.inter.IRecord;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.constant.PayBusiConst;
+import com.sitech.acctmgr.inter.pay.I8020Ao;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcf.core.exception.BaseException;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.context.JCFContext;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+import com.sitech.jcfx.util.CodecUtil;
+
+import static org.apache.commons.collections.MapUtils.*;
+
+/**
+ * <p>
+ * Title:省内一点支付缴费 </p>
+ * <p> Description:  </p>
+ * <p> Copyright: Copyright (c) 2014
+ * </p>
+ * <p>Company: SI-TECH  </p>
+ * 
+ * @author
+ * @version 1.0
+ */
+@ParamTypes({
+	@ParamType(c = S8020BankCheckInDTO.class, oc = S8020BankCheckOutDTO.class, m = "getBankOrCheck")
+	})
+public class S8020 extends AcctMgrBaseService implements I8020Ao {
+
+	private IAccount 	account;
+	private IUser 		user;
+	private ILogin 		login;
+	private IControl 	control;
+	private ICheque 	cheque;
+	private IOweBill 	oweBill;
+	private IBalance 	balance;
+	private IRecord 	record;
+	private IGroup 		group;
+	private IPayManage 	payManage;
+	private IRemainFee 	reFee;
+	private IWriteOffer writeOffer;
+	private IPreOrder	preOrder;
+	private IBase		base;
+	
+	@Override
+	public OutDTO getAccoutByZJ(InDTO inParam) {
+
+		String encrypIDICCID = "";
+
+		S8020AccountInDTO inDTO = (S8020AccountInDTO) inParam;
+		log.error("-> 8020Account_in" + inDTO.getMbean());
+
+		// 证件号密码DES解密
+		String iDICCID = "";
+		try {
+			iDICCID = CodecUtil.decodeDESForChannel(inDTO.getIdICCID(), "11");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("-----> sIDICCIDJM = " + inDTO.getIdICCID() + ", sIDICCID = " + iDICCID);
+
+		// 身份证加密后查询
+		encrypIDICCID = control.pubEncryptData(iDICCID, 0);
+		log.error("------> 加密后证件 sEncrypIDICCID ：" + encrypIDICCID);
+
+		// 用身份证查询账户列表
+		List<AccountListEntity> listCon = null;
+		//List<AccountListEntity> listCon = account.getAccountByIDICCID(encrypIDICCID);
+
+		S8020AccountOutDTO outDTO = new S8020AccountOutDTO();
+		outDTO.setListAccount(listCon);
+		outDTO.setAccountLen(listCon.size());
+
+		log.error("-> 8020Account_out" + outDTO.toJson());
+		return outDTO;
+	}
+
+	@Override
+	public OutDTO getBankOrCheck(InDTO inParam) {
+
+		List<BankEntity> bankList = new ArrayList<BankEntity>();
+		long lCheckPrepay = 0;
+
+		S8020BankCheckInDTO inDto = (S8020BankCheckInDTO) inParam;
+		log.error("-> 8020Bank_in" + inDto.getMbean());
+
+		String sCheckFlag = inDto.getCheckFlag();
+
+		if ("N".equals(sCheckFlag)) {
+			/* 获取银行信息 */
+			if (StringUtils.isEmptyOrNull(inDto.getBankCode())
+					&& StringUtils.isEmptyOrNull(inDto.getBankName())) {
+				log.error("------>请输入银行代码或名称");
+				throw new BusiException(AcctMgrError.getErrorCode("8020",
+						"00001"), " 输入参数错误:请输入银行代码或名称");
+			}
+
+			ChngroupRelEntity groupRelEntity = group.getRegionDistinct(inDto.getGroupId(), "3", inDto.getProvinceId());
+			
+			bankList = base.getBankInfo(groupRelEntity.getParentGroupId(), inDto.getProvinceId(), inDto.getBankCode(), inDto.getBankName());
+
+		} else if ("Y".equals(sCheckFlag)) {
+
+			/* 获取支票余额 */
+			if (StringUtils.isEmptyOrNull(inDto.getCheckNo())) {
+				log.error("------>请输入支票代码");
+				throw new BusiException(AcctMgrError.getErrorCode("8020",
+						"00004"), " 输入参数错误:请输入支票代码!");
+			}
+			log.debug("--JJJ>" + inDto.getBankCode() + "," + inDto.getCheckNo());
+			lCheckPrepay = cheque.getCheckPrepay(inDto.getBankCode(),
+					inDto.getCheckNo());
+		}
+
+		S8020BankCheckOutDTO outDto = new S8020BankCheckOutDTO();
+		outDto.setCheckPrepay(lCheckPrepay);
+		outDto.setBankList(bankList);
+		outDto.setBankLen(bankList.size());
+
+		log.error("-> 8020Bank_out" + outDto.toJson());
+		return outDto;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.sitech.acctmgr.inter.pay.I8020Ao#init(com.sitech.jcfx.dt.in.InDTO)
+	 */
+	@Override
+	public OutDTO init(InDTO inParam) {
+
+		S8020InitInDTO inDTO = (S8020InitInDTO) inParam;
+		log.error("------8020Init_in：" + inDTO.getMbean());
+		long contractNo = inDTO.getContractNo();
+
+		Map<String, Object> inMapTmp = null;
+		Map<String, Object> outMapTmp = null;
+
+		// 二级账户与支付账户在同一个库列表
+		List<AccountPayedEntity> relOutList = new ArrayList<AccountPayedEntity>();
+		// 二级账户与支付账户不在同一库列表
+		List<Map<String, Object>> otherRelOutList = new ArrayList<Map<String, Object>>();
+
+		long allTotal = 0; // 支付账户合计应支付金额
+		long prepayFee = 0; // 支付账户预存
+		long allDelayFee = 0;
+
+		// 获取支付账户所在库标签
+		PubDbrouteConfEntity dbrouteConfEntity = control.getConOrUserDb("2", contractNo);
+		String curDbFlag = dbrouteConfEntity.getPartId();
+
+		// 获取省内一点支付账户代付二级账户列表
+		List<CsAccountRelEntity> listRelCon = account.getAccountRelList(contractNo,null, "1");
+
+		for (CsAccountRelEntity accountRelEntity : listRelCon) {
+
+			long relContractNo = accountRelEntity.getContractNo();
+			long payValue = accountRelEntity.getPayValue();
+			String acctRelType = accountRelEntity.getAcctRelType();
+
+			log.info("------>init 处理支付账户[" + contractNo + "]下的被支付账户["
+					+ relContractNo + "]");
+
+			// 获取被支付账户
+			PubDbrouteConfEntity dbrouteConfEntity2 = control.getConOrUserDb("2", relContractNo);
+			String relDbFlag = dbrouteConfEntity2.getPartId();
+
+			if (curDbFlag.equals(relDbFlag)) { // 支付账户和被支付账户在同一个库,直接转账
+
+				ContractInfoEntity relConEntity = account.getConInfo(relContractNo);
+				GroupchgInfoEntity chgGroupInfo = group.getChgGroup(null, null,contractNo);
+				relConEntity.setGroupId(chgGroupInfo.getGroupId());
+				String relGroupId = chgGroupInfo.getGroupId();
+
+				// 查询账户地市归属信息
+				ChngroupRelEntity groupEntity = group.getRegionDistinct(
+						relConEntity.getGroupId(), "2", inDTO.getProvinceId());
+				String relRegionCode = groupEntity.getRegionCode();
+
+				// 获取被支付账户默认用户基本信息
+				UserInfoEntity userEntity = user.getUserEntity(null, null,relContractNo, true);
+				UserBrandEntity userBrand = user.getUserBrandRel(userEntity.getIdNo());
+				String relPhoneNo = userEntity.getPhoneNo();
+				long relIdNo = userEntity.getIdNo();
+				String relBrandId = userBrand.getBrandId();
+
+				// 被支付账户预存（非专款总预存）
+				outMapTmp = balance.getConMsgFee(relContractNo);
+				long relPrepay = getLongValue(outMapTmp, "PREPAY_FEE");
+				// 查询被支付账户欠费、滞纳金
+				outMapTmp = oweBill.getOweFeeInfo(relContractNo);
+				long relOweFee = getLongValue(outMapTmp, "OWE_FEE");
+				long relDelayFee = getLongValue(outMapTmp, "DELAY_FEE");
+
+				String payName = "";
+				long relFixFee = 0; // 支付金额
+
+				// 判断支付方式
+				if (PayBusiConst.ACCT_REL_TYPE_FIX.equals(acctRelType)) { // 定额交费
+
+					payName = "定额交费";
+					relFixFee = payValue;
+				}
+				if (PayBusiConst.ACCT_REL_TYPE_ALL.equals(acctRelType)) { // 全额交费
+
+					payName = "全额交费";
+					relFixFee = relOweFee + relDelayFee;
+					if (relPrepay > relFixFee) {
+						relFixFee = 0;
+					} else {
+						relFixFee = relFixFee - relPrepay;
+					}
+					// 全额缴费的滞纳金才会优惠
+					allDelayFee = allDelayFee + relDelayFee;
+				}
+				allTotal = allTotal + relFixFee;
+
+				Map<String, Object> relOutMap = new HashMap<String, Object>();
+				safeAddToMap(relOutMap, "CONTRACT_NO", relContractNo);
+				safeAddToMap(relOutMap, "PREPAY_PAYED", relPrepay); // 预存
+				safeAddToMap(relOutMap, "TOTAL_OWE", relOweFee); // 欠费
+				safeAddToMap(relOutMap, "PAY_NAME", payName); // 缴费方式
+				safeAddToMap(relOutMap, "FIX_FEE", relFixFee); // 支付金额
+				safeAddToMap(relOutMap, "SUM_DELAYFEE", relDelayFee); // 滞纳金
+				safeAddToMap(relOutMap, "CONTRACT_NAME",
+						relConEntity.getBlurContractName()); // 账户名称
+				safeAddToMap(relOutMap, "REGION_CODE", relRegionCode); // 账户名称
+				safeAddToMap(relOutMap, "PHONE_NO", relPhoneNo);
+				safeAddToMap(relOutMap, "ID_NO", relIdNo);
+				safeAddToMap(relOutMap, "BRAND_ID", relBrandId);
+				safeAddToMap(relOutMap, "GROUP_ID", relGroupId);
+				String jsonRel = JSON.toJSONString(relOutMap);
+
+				relOutList.add(JSON.parseObject(jsonRel,
+						AccountPayedEntity.class));
+
+			} else { // 支付账户和被支付账户在不同一个库,把被支付账户传出
+
+				Map<String, Object> relInMap = new HashMap<String, Object>();
+				safeAddToMap(relInMap, "REL_CONTRACT_NO", relContractNo);
+				safeAddToMap(relInMap, "PAY_VALUE", payValue);
+				safeAddToMap(relInMap, "ACCT_REL_TYPE", acctRelType);
+				otherRelOutList.add(relInMap);
+			}
+		}
+
+		// 查询支付账户预存
+		outMapTmp = balance.getConMsgFee(contractNo);
+		prepayFee = getLongValue(outMapTmp, "PREPAY_FEE");
+
+		S8020InitOutDTO outDTO = new S8020InitOutDTO();
+		outDTO.setPrepayFee(prepayFee);
+		outDTO.setAllTotal(allTotal);
+		outDTO.setAllDelayfee(allDelayFee);
+		outDTO.setListContract(relOutList);
+		outDTO.setContractLen(relOutList.size());
+		outDTO.setListOtherCon(otherRelOutList);
+		outDTO.setOtherContractLen(otherRelOutList.size());
+
+		log.error("------> 8020Init_out：" + outDTO.toJson());
+
+		return outDTO;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.sitech.acctmgr.inter.pay.I8020Ao#cfm(com.sitech.jcfx.dt.in.InDTO)
+	 */
+	@Override
+	public OutDTO cfm(InDTO inParam) {
+
+		S8020CfmInDTO inDto = (S8020CfmInDTO) inParam;
+		if (StringUtils.isEmptyOrNull(inDto.getGroupId())) {
+			LoginEntity loginEntity = login.getLoginInfo(inDto.getLoginNo(), inDto.getProvinceId());
+			inDto.setGroupId(loginEntity.getGroupId());
+		}
+
+		log.error("------8020Cfm_in：" + inDto.getMbean());
+
+		Map<String, Object> inMapTmp = null;
+		String opType = "SNYDZF";
+
+		String contractSelstr = inDto.getContractSelstr();
+		String payMethod;
+		if (PayBusiConst.PAY_TYPE_CHECK.equals(inDto.getPayType())) {
+			payMethod = PayBusiConst.PAY_METHOD_CHECK;
+		} else {
+			payMethod = PayBusiConst.PAY_METHOD_DEFAULT;
+		}
+
+		// 取当前账务日期
+		String sCurTime = control.getSysDate().get("CUR_TIME").toString();
+		String sCurYm = sCurTime.substring(0, 6);
+		int totalDate = Integer.parseInt(sCurTime.substring(0, 8));
+
+		/*
+		 * 缴费确认必要校验
+		 */
+		cfmCheck(inDto.getOpCode(), inDto.getPayMoney());
+
+		String phoneNo = getPayPhone(inDto.getContractNo());
+		long contractNo = inDto.getContractNo();
+
+		// 3、获取缴费确认需要基本资料
+		PayUserBaseEntity payUserBase = getCfmBaseInfo(phoneNo, contractNo, inDto.getProvinceId());
+		payUserBase.setPhoneFlag(false);
+
+		long paySn = control.getSequence("SEQ_PSY_SN");
+		PayBookEntity bookIn = new PayBookEntity();
+		bookIn.setPaySn(paySn);
+		bookIn.setTotalDate(totalDate);
+		bookIn.setPayPath(PayBusiConst.OWNPATH);
+		bookIn.setPayMethod(payMethod);
+		bookIn.setPayType(inDto.getPayType());
+		bookIn.setPayFee(inDto.getPayMoney());
+		bookIn.setStatus("0");
+		bookIn.setBeginTime(sCurTime);
+		bookIn.setPrintFlag("");
+		bookIn.setYearMonth(Long.parseLong(sCurYm));
+		bookIn.setLoginNo(inDto.getLoginNo());
+		bookIn.setGroupId(inDto.getGroupId());
+		bookIn.setOpCode(inDto.getOpCode());
+		bookIn.setOpNote(inDto.getPayNote());
+
+		// 给支付账户增加预存
+		payManage.saveInBook(inDto.getHeader(), payUserBase, bookIn);
+
+		// 4.入payment表
+		record.savePayMent(payUserBase, bookIn);
+
+		if (PayBusiConst.PAY_TYPE_CHECK.equals(inDto.getPayType())) {
+			// 扣除支票金额，记录支票记录表
+			ChequeEntity cheque1 = new ChequeEntity(inDto.getBankCode(),
+					inDto.getCheckNo());
+			cheque.doReduceCheck(cheque1, bookIn);
+		}
+
+		// 记录营业员操作日志
+		LoginOprEntity loginOprEn = new LoginOprEntity();
+		loginOprEn.setLoginNo(inDto.getLoginNo());
+		loginOprEn.setLoginGroup(inDto.getGroupId());
+		loginOprEn.setLoginSn(paySn);
+		loginOprEn.setIdNo(payUserBase.getIdNo());
+		loginOprEn.setPhoneNo(phoneNo);
+		loginOprEn.setBrandId(payUserBase.getBrandId());
+		loginOprEn.setTotalDate(totalDate);
+		loginOprEn.setPayType(inDto.getPayType());
+		loginOprEn.setPayFee(inDto.getPayMoney());
+		loginOprEn.setOpCode(inDto.getOpCode());
+		loginOprEn.setRemark(inDto.getPayNote());
+		record.saveLoginOpr(loginOprEn);
+
+		// 获取支付账户所在库标签
+		PubDbrouteConfEntity dbRouteEntity = control.getConOrUserDb("2",
+				contractNo);
+		String curDbFlag = dbRouteEntity.getPartId();
+
+		// 构建发送消息列表
+		List<Map<String, Object>> sendInList = new ArrayList<Map<String, Object>>();
+
+		// 遍历被支付账户，给被支付账户转账
+		String relRrouteValue = "";
+		List<AccountPayedEntity> listRelCon = inDto.getConSelList();
+		for (AccountPayedEntity relMap : listRelCon) {
+
+			long relTransFee = relMap.getFixFee();
+
+			PayUserBaseEntity relUserInBase = new PayUserBaseEntity();
+			relUserInBase.setIdNo(relMap.getIdNo());
+			relUserInBase.setPhoneNo(relMap.getPhoneNo());
+			relUserInBase.setContractNo(relMap.getContractNo());
+			relUserInBase.setBrandId(relMap.getBrandId());
+			relUserInBase.setUserGroupId(relMap.getGroupId());
+
+			// 查询账户余额、预存款信息
+			OutFeeData outFee = reFee.getConRemainFee(contractNo);
+			long remainFee = outFee.getRemainFee();
+
+			if (remainFee <= 0) {
+				log.info("------> 支付账户余额为0, 转0元触发冲销 " + contractNo);
+				remainFee = 0;
+			}
+
+			log.info("------> 处理支付账户[" + contractNo + "]下的被支付账户["
+					+ relUserInBase.getContractNo() + "]");
+			log.info("------> 判断支付账户[" + contractNo + "]和勾选的被支付账户["
+					+ relUserInBase.getContractNo() + "]是否在同一个库");
+			log.info("------>lRelContractNo：" + relUserInBase.getContractNo()
+					+ " , lRelTransFee=" + relTransFee);
+			log.info("------>curPrepay：" + remainFee + " , relTransFee="
+					+ relTransFee);
+
+			// 支付账户余额和转账金额比较: 支付账户余额不足，转账金额=支付账户余额
+			if (remainFee < relTransFee) {
+				relTransFee = remainFee;
+			}
+			log.info("------> relTransFee_final =" + relTransFee);
+
+			String sTranF = String.format("%.2f", (double) relTransFee / 100);
+			String transNote = "一点支付" + contractNo + "给"
+					+ relUserInBase.getContractNo() + "转账" + sTranF + "元";
+
+			// 获取支付账户所在库标签
+			PubDbrouteConfEntity dbRouteEntity2 = control.getConOrUserDb("2",
+					payUserBase.getContractNo());
+			String destDbFlag = dbRouteEntity2.getPartId();
+
+			/* 入账实体设值 */
+			PayBookEntity relbookIn = new PayBookEntity();
+			relbookIn.setBeginTime(sCurTime);
+			relbookIn.setForeignSn(String.valueOf(paySn));
+			relbookIn.setPayFee(relTransFee);
+			relbookIn.setPayMethod(payMethod);
+			relbookIn.setPayPath(PayBusiConst.OWNPATH);
+			relbookIn.setTotalDate(totalDate);
+			relbookIn.setYearMonth(Long.parseLong(sCurYm));
+			relbookIn.setGroupId(inDto.getGroupId());
+			relbookIn.setLoginNo(inDto.getLoginNo());
+			relbookIn.setOpCode(inDto.getOpCode());
+			relbookIn.setOpNote(transNote);
+
+			if (curDbFlag.equals(destDbFlag)) {
+				log.info("------>destcfm_in 被支付账户和支付账户在同一个库");
+
+				if (relTransFee > 0) { // 大于0 直接转账
+
+					Map<String, Object> inTransCfmMap = new HashMap<String, Object>();
+					safeAddToMap(inTransCfmMap, "Header", inDto.getHeader());
+					safeAddToMap(inTransCfmMap, "TRANS_IN", relUserInBase); // 转入账户基本信息
+					safeAddToMap(inTransCfmMap, "TRANS_OUT", payUserBase); // 转出账户基本信息
+					safeAddToMap(inTransCfmMap, "BOOK_IN", relbookIn); // 入账实体
+					safeAddToMap(inTransCfmMap, "OP_TYPE", opType); // 转账类型
+					/* 转账 */
+					long transSn = payManage.transBalance(inTransCfmMap);
+
+				} else if (relTransFee == 0) { // 给转入账户0缴费，触发冲销 打发票
+
+					relbookIn.setPaySn(control.getSequence("SEQ_PAY_SN"));
+					// 给支付账户增加预存
+					payManage.saveInBook(inDto.getHeader(), relUserInBase,
+							relbookIn);
+
+					// 4.入payment表
+					record.savePayMent(relUserInBase, bookIn);
+
+					// 记录转账记录表
+					inMapTmp = new HashMap<String, Object>();
+					inMapTmp.put("OP_TYPE", opType);
+					balance.saveTrasfeeInfo(relUserInBase, payUserBase,
+							relbookIn, inMapTmp);
+
+					// 同步报表payment
+					List<Map<String, Object>> keysList = new ArrayList<Map<String, Object>>();
+
+					Map<String, Object> paymentKey = new HashMap<String, Object>();
+					paymentKey.put("YEAR_MONTH", sCurYm);
+					paymentKey
+							.put("CONTRACT_NO", relUserInBase.getContractNo());
+					paymentKey.put("PAY_SN", relbookIn.getPaySn());
+					paymentKey.put("ID_NO", relUserInBase.getIdNo());
+					paymentKey.put("PAY_TYPE", relbookIn.getPayType());
+					paymentKey.put("TABLE_NAME", "BAL_PAYMENT_INFO");
+					paymentKey.put("UPDATE_TYPE", "I");
+					keysList.add(paymentKey);
+
+					Map<String, Object> reportMap = new HashMap<String, Object>();
+					reportMap.put("ACTION_ID", "1001");
+					reportMap.put("KEYS_LIST", keysList);
+					reportMap.put("LOGIN_SN", relbookIn.getPaySn());
+					reportMap.put("OP_CODE", relbookIn.getOpCode());
+					reportMap.put("LOGIN_NO", relbookIn.getLoginNo());
+					log.info("------> reportMap_tot=" + reportMap.entrySet());
+					// preOrder.sendReportDataList(inDTO.getHeader(),reportMap);
+
+					// 同步报表 transfee
+					keysList = new ArrayList<Map<String, Object>>();
+
+					Map<String, Object> snKey = new HashMap<String, Object>();
+					snKey.put("TO_CHAR(OP_TIME,'YYYYMM')", sCurYm);
+					snKey.put("TRANS_SN", relbookIn.getPaySn());
+					snKey.put("TABLE_NAME", "BAL_TRANSFEE_INFO");
+					snKey.put("UPDATE_TYPE", "I");
+					keysList.add(snKey);
+
+					reportMap = new HashMap<String, Object>();
+					reportMap.put("ACTION_ID", "1007");
+					reportMap.put("KEYS_LIST", keysList);
+					reportMap.put("LOGIN_SN", relbookIn.getPaySn());
+					reportMap.put("OP_CODE", relbookIn.getOpCode());
+					reportMap.put("LOGIN_NO", relbookIn.getLoginNo());
+					// preOrder.sendReportDataList( inDTO.getHeader(),
+					// reportMap);
+				}
+
+				// 冲销
+				inMapTmp = new HashMap<String, Object>();
+				inMapTmp.put("Header", inDto.getHeader());
+				inMapTmp.put("PAY_SN", relbookIn.getPaySn());
+				inMapTmp.put("CONTRACT_NO", relUserInBase.getContractNo());
+				inMapTmp.put("LOGIN_NO", inDto.getLoginNo());
+				inMapTmp.put("GROUP_ID", inDto.getGroupId());
+				inMapTmp.put("OP_CODE", inDto.getOpCode());
+				inMapTmp.put("PAY_PATH", PayBusiConst.OWNPATH);
+				inMapTmp.put("DELAY_FAVOUR_RATE", inDto.getDelayRate());
+				writeOffer.doWriteOff(inMapTmp);
+
+			} else {
+				log.info("------>destcfm_not_in 被支付账户和支付账户不在同一个库");
+
+				// 支付账户当前库做转出动作
+				ITransType transType = (ITransType) JCFContext
+						.getBean("Account");
+				List<Map<String, Object>> outBookList = payManage.transOut(
+						inDto.getHeader(), relUserInBase, relbookIn, transType);
+
+				// 记录转账记录表
+				inMapTmp = new HashMap<String, Object>();
+				inMapTmp.put("OP_TYPE", opType);
+				balance.saveTrasfeeInfo(relUserInBase, payUserBase, relbookIn,
+						inMapTmp);
+
+				// bal_transfee_info同步报表库(只在当前库同步报表库)
+				List<Map<String, Object>> datatList = new ArrayList<Map<String, Object>>();
+				Map<String, Object> header = inDto.getHeader();
+
+				Map<String, Object> snKey = new HashMap<String, Object>();
+				snKey.put("TO_CHAR(OP_TIME,'YYYYMM')", sCurYm);
+				snKey.put("TRANS_SN", relbookIn.getPaySn());
+				snKey.put("TABLE_NAME", "BAL_TRANSFEE_INFO");
+				snKey.put("UPDATE_TYPE", "I");
+				datatList.add(snKey);
+
+				Map<String, Object> reportMap = new HashMap<String, Object>();
+				reportMap.put("ACTION_ID", "1007");
+				reportMap.put("KEYS_LIST", datatList);
+				reportMap.put("LOGIN_SN", relbookIn.getPaySn());
+				reportMap.put("OP_CODE", inDto.getOpCode());
+				reportMap.put("LOGIN_NO", inDto.getLoginNo());
+				// preOrder.sendReportDataList( header , reportMap);
+
+				// 向CRM发送营业日报(当前库发送)
+				inMapTmp = new HashMap<String, Object>();
+				inMapTmp.put("PAY_SN", relbookIn.getPaySn());
+				inMapTmp.put("LOGIN_NO", inDto.getLoginNo());
+				inMapTmp.put("GROUP_ID", inDto.getGroupId());
+				inMapTmp.put("OP_CODE", inDto.getOpCode());
+				inMapTmp.put("BACK_FLAG", "0");
+				inMapTmp.put("OLD_ACCEPT", relbookIn.getPaySn());
+				inMapTmp.put("OP_TIME", sCurTime);
+				inMapTmp.put("OP_NOTE", transNote);
+				/*
+				 * 8020跨库转账：1条流水发送2次日报, 跨度正记录增加节点COMMON.FEEEXP_FLAG=1；
+				 * 负记录不增加COMMON.FEEEXP_FLAG=1 inMapTmp.put( "FEEEXP_FLAG" , "k"
+				 * );
+				 */
+				// preOrder.pSendBusiDaily(inMapTmp);
+
+				// 转入
+				log.info("------>构建转入账本,默认转入账户为转出账户转出后返回的账本List");
+
+				List<Map<String, Object>> inBookList = new ArrayList<Map<String, Object>>();
+
+				if (relTransFee > 0) {
+					// 非0元,转出列表拼凑
+					for (Map<String, Object> outbookMap : outBookList) {
+						Map<String, Object> inBookMap = new HashMap<String, Object>();
+						inBookMap.put("PAY_TYPE", outbookMap.get("PAY_TYPE"));
+						inBookMap
+								.put("CHANGEIN_FEE", outbookMap.get("PAY_FEE"));
+						inBookMap.put("BEGIN_TIME", sCurTime);
+						inBookList.add(inBookMap);
+					}
+				} else if (relTransFee == 0) {
+					// 0元
+					Map<String, Object> inBookMap = new HashMap<String, Object>();
+					inBookMap.put("PAY_TYPE", inDto.getPayType());
+					inBookMap.put("CHANGEIN_FEE", 0);
+					inBookMap.put("BEGIN_TIME", sCurTime);
+					inBookList.add(inBookMap);
+				}
+
+				// 拼凑给被支付账户缴费的消息列表
+				inMapTmp = new HashMap<String, Object>();
+				inMapTmp.put("Header", inDto.getHeader());
+				inMapTmp.put("TRANS_IN", relUserInBase);
+				inMapTmp.put("BOOK_IN", relbookIn);
+				inMapTmp.put("TRANSIN_LIST", inBookList);
+				sendInList.add(inMapTmp);
+
+				relRrouteValue = String.valueOf(relUserInBase.getContractNo());
+				// 跨库发送长度配置：每100条发送以此
+				int sendLen = Integer.parseInt(control.getPubCodeValue(2204,
+						"SEND_LEN", null));
+				log.info("-------> sendLen = " + sendLen);
+				if (sendInList.size() == sendLen) {
+
+					log.info("sendInList_final =" + sendInList.toString());
+					String sendDB = "";
+					if (curDbFlag.equals("A")) {
+						sendDB = "B1";
+					} else if (curDbFlag.equals("B")) {
+						sendDB = "A1";
+					}
+
+					MBean sendBean = new MBean();
+					sendBean.setRoute("12", relRrouteValue);
+					Map<String, Object> sendheader = sendBean.getHeader();
+					sendheader.put("DB_ID", sendDB);
+					sendBean.setHeader(sendheader);
+					sendBean.setBody("BUSI_CODE", "ASYSNYDZF");
+					sendBean.setBody("OPR_INFO.LOGIN_NO", inDto.getLoginNo());
+					sendBean.setBody("OPR_INFO.GROUP_ID", inDto.getGroupId());
+					sendBean.setBody("OPR_INFO.OP_CODE", inDto.getOpCode());
+					sendBean.setBody("BUSI_INFO.LIST_SEND", sendInList);
+					sendBean.setBody("BUSI_INFO.PAY_SN", paySn);
+					sendBean.setBody("BUSI_INFO.PHONE_NO", phoneNo);
+					sendBean.setBody("BUSI_INFO.ID_NO", payUserBase.getIdNo());
+					sendBean.setBody("BUSI_INFO.CONTRACT_NO", contractNo);
+					log.error("---->sendBean_in=" + sendBean);
+					// InDTO sendInDto =
+					// parseInDTO(sendBean,S8020SendCfmInDTO.class);
+					// sendInCfm(sendInDto);
+
+					Map<String, Object> payMap = new HashMap<String, Object>();
+					safeAddToMap(payMap, "LOGIN_ACCEPT", paySn);
+					safeAddToMap(payMap, "BUSIID_NO", contractNo);
+					safeAddToMap(payMap, "LOGIN_NO", inDto.getLoginNo());
+					safeAddToMap(payMap, "OP_CODE", inDto.getOpCode());
+					safeAddToMap(payMap, "OWNER_FLAG", "3");
+					safeAddToMap(payMap, "ORDER_ID", "20000");// 工单模板号
+					safeAddToMap(payMap, "ODR_CONT", sendBean);
+					log.info("------>调用发送消息中间件接口opPubOdrSndInter begin: "
+							+ payMap.toString());
+					boolean sendFlag = true;
+					//boolean sendFlag = busiMsgSnd.opPubOdrSndInter(payMap); // 向消息中间件发送消息
+					log.info("------>调用发送消息中间件接口opPubOdrSndInter end!");
+
+					if (sendFlag) {
+						log.info("------>发送消息异步给被支付账户转账成功[" + contractNo + "]");
+					} else {
+						throw new BaseException(AcctMgrError.getErrorCode(
+								"8020", "00005"), "省内一点支付发消息给被支付账户转账失败["
+								+ contractNo + "]");
+					}
+
+					// 每100条发送，然后清空sendInList;剩余同意发送一次
+					sendInList = new ArrayList<Map<String, Object>>();
+				}
+
+			}
+
+			//支付账户转出日志
+			LoginOprEntity LoginOprEn2 = new LoginOprEntity();
+			LoginOprEn2.setLoginNo(inDto.getLoginNo());
+			LoginOprEn2.setLoginGroup(inDto.getGroupId());
+			LoginOprEn2.setLoginSn(relbookIn.getPaySn());
+			LoginOprEn2.setIdNo(relUserInBase.getIdNo());
+			LoginOprEn2.setPhoneNo(relUserInBase.getPhoneNo());
+			LoginOprEn2.setBrandId(relUserInBase.getBrandId());
+			LoginOprEn2.setTotalDate(totalDate);
+			LoginOprEn2.setPayType(inDto.getPayType());
+			LoginOprEn2.setPayFee((-1)*relbookIn.getPayFee());
+			LoginOprEn2.setOpCode(inDto.getOpCode());
+			LoginOprEn2.setRemark(inDto.getPayNote());
+			record.saveLoginOpr(LoginOprEn2);
+
+			//二级账户转入日志
+			LoginOprEntity relLoginOprEn = new LoginOprEntity();
+			relLoginOprEn.setLoginNo(inDto.getLoginNo());
+			relLoginOprEn.setLoginGroup(inDto.getGroupId());
+			relLoginOprEn.setLoginSn(relbookIn.getPaySn());
+			relLoginOprEn.setIdNo(relUserInBase.getIdNo());
+			relLoginOprEn.setPhoneNo(relUserInBase.getPhoneNo());
+			relLoginOprEn.setBrandId(relUserInBase.getBrandId());
+			relLoginOprEn.setTotalDate(totalDate);
+			relLoginOprEn.setPayType(inDto.getPayType());
+			relLoginOprEn.setPayFee(relbookIn.getPayFee());
+			relLoginOprEn.setOpCode(inDto.getOpCode());
+			relLoginOprEn.setRemark(inDto.getPayNote());
+			record.saveLoginOpr(relLoginOprEn);
+			
+			log.error("---->给dest库账户转账结束 " + relUserInBase.getContractNo());
+		}
+		log.error("---->遍历被支付账户结束");
+
+		// 发送消息给另一个库的二级账户缴费
+		if (sendInList != null && sendInList.size() > 0) {
+			log.info("sendInList_final =" + sendInList.toString());
+			String sendDB = "";
+			if (curDbFlag.equals("A")) {
+				sendDB = "B1";
+			} else if (curDbFlag.equals("B")) {
+				sendDB = "A1";
+			}
+
+			MBean sendBean = new MBean();
+			sendBean.setRoute("12", relRrouteValue);
+			Map<String, Object> sendheader = sendBean.getHeader();
+			sendheader.put("DB_ID", sendDB);
+			sendBean.setHeader(sendheader);
+			sendBean.setBody("BUSI_CODE", "ASYSNYDZF");
+			sendBean.setBody("OPR_INFO.LOGIN_NO", inDto.getLoginNo());
+			sendBean.setBody("OPR_INFO.GROUP_ID", inDto.getGroupId());
+			sendBean.setBody("OPR_INFO.OP_CODE", inDto.getOpCode());
+			sendBean.setBody("BUSI_INFO.LIST_SEND", sendInList);
+			sendBean.setBody("BUSI_INFO.PAY_SN", paySn);
+			sendBean.setBody("BUSI_INFO.PHONE_NO", phoneNo);
+			sendBean.setBody("BUSI_INFO.ID_NO", payUserBase.getIdNo());
+			sendBean.setBody("BUSI_INFO.CONTRACT_NO", contractNo);
+			log.error("---->sendBean_in=" + sendBean);
+			// InDTO sendInDto =
+			// parseInDTO(sendBean,S8020SendCfmInDTO.class);
+			// sendInCfm(sendInDto);
+
+			Map<String, Object> payMap = new HashMap<String, Object>();
+			safeAddToMap(payMap, "LOGIN_ACCEPT", paySn);
+			safeAddToMap(payMap, "BUSIID_NO", contractNo);
+			safeAddToMap(payMap, "LOGIN_NO", inDto.getLoginNo());
+			safeAddToMap(payMap, "OP_CODE", inDto.getOpCode());
+			safeAddToMap(payMap, "OWNER_FLAG", "3");
+			safeAddToMap(payMap, "ORDER_ID", "20000");// 工单模板号
+			safeAddToMap(payMap, "ODR_CONT", sendBean);
+			log.info("------>调用发送消息中间件接口opPubOdrSndInter begin: "
+					+ payMap.toString());
+			boolean sendFlag = true;
+			//boolean sendFlag = busiMsgSnd.opPubOdrSndInter(payMap); // 向消息中间件发送消息
+			log.info("------>调用发送消息中间件接口opPubOdrSndInter end!");
+
+			if (sendFlag) {
+				log.info("------>发送消息异步给被支付账户转账成功[" + contractNo + "]");
+			} else {
+				throw new BaseException(AcctMgrError.getErrorCode(
+						"8020", "00005"), "省内一点支付发消息给被支付账户转账失败["
+						+ contractNo + "]");
+			}
+
+			// 每100条发送，然后清空sendInList;剩余同意发送一次
+			sendInList = new ArrayList<Map<String, Object>>();
+		}
+
+		List<Map<String, Object>> keysList = new ArrayList<Map<String, Object>>(); // 同步报表库数据List
+		Map<String, Object> paymentKey = null;
+
+		// 向其他系统同步数据（目前：CRM营业日报、BOSS报表、统一接触）
+		paymentKey = new HashMap<String, Object>();
+		paymentKey.put("YEAR_MONTH", sCurTime);
+		paymentKey.put("CONTRACT_NO", contractNo);
+		paymentKey.put("PAY_SN", paySn);
+		paymentKey.put("ID_NO", payUserBase.getIdNo());
+		paymentKey.put("PAY_TYPE", inDto.getPayType());
+		paymentKey.put("TABLE_NAME", "BAL_PAYMENT_INFO");
+		paymentKey.put("UPDATE_TYPE", "I");
+		keysList.add(paymentKey);
+
+		inMapTmp = new HashMap<String, Object>();
+		inMapTmp.put("PAY_SN", paySn);
+		inMapTmp.put("LOGIN_NO", inDto.getLoginNo());
+		inMapTmp.put("GROUP_ID", inDto.getGroupId());
+		inMapTmp.put("OP_CODE", inDto.getOpCode());
+		inMapTmp.put("PHONE_NO", phoneNo);
+		inMapTmp.put("BRAND_ID", payUserBase.getBrandId());
+		inMapTmp.put("BACK_FLAG", "0");
+		inMapTmp.put("OLD_ACCEPT", paySn);
+		inMapTmp.put("OP_TIME", sCurTime);
+		inMapTmp.put("OP_NOTE", inDto.getPayNote());
+		inMapTmp.put("ACTION_ID", "1001");
+		inMapTmp.put("KEYS_LIST", keysList);
+		inMapTmp.put("REGION_ID", payUserBase.getRegionId());
+		inMapTmp.put("CUST_ID_TYPE", "3"); // 0客户ID;1-服务号码;2-用户ID;3-账户ID
+		inMapTmp.put("CUST_ID_VALUE", String.valueOf(contractNo));
+		inMapTmp.put("Header", inDto.getHeader());
+		preOrder.sendData2(inMapTmp);
+
+		S8020CfmOutDTO outDTO = new S8020CfmOutDTO();
+		outDTO.setPayAccept(paySn);
+		log.error("------> 8020Cfm_out：" + outDTO.toJson());
+		return outDTO;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.sitech.acctmgr.inter.pay.I8020Ao#getRegionId(com.sitech.jcfx.dt.in
+	 * .InDTO)
+	 */
+	@Override
+	public OutDTO getRegionId(InDTO inParam) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 名称：缴费确认必有校验
+	 * 
+	 * @param opCode
+	 * @param payMoney
+	 */
+	protected void cfmCheck(String opCode, long payMoney) {
+
+		/* 缴费限额 */
+		long payLimitFee = control.getLimitFee(opCode, 0L, "SNYDZF");
+		if (payMoney > payLimitFee) {
+
+			log.info("省内一点支付账户缴费 [ " + payMoney / 100 + " ]元，超过限额 [ "
+					+ payLimitFee / 100 + " ]元！");
+			throw new BusiException(AcctMgrError.getErrorCode(opCode, "00002"),
+					"省内一点支付账户缴费[ " + payMoney / 100 + " ]元，超过限额 [ "
+							+ payLimitFee / 100 + " ]元！");
+		}
+	}
+
+	/**
+	 * 功能：获取缴费号码, 通用规则，获取默认用户
+	 */
+	protected String getPayPhone(Long contractNo) {
+
+		UserInfoEntity userEntity = user.getUserEntity(null, null, contractNo,true);
+
+		return userEntity.getPhoneNo();
+	}
+
+	private PayUserBaseEntity getCfmBaseInfo(String phoneNo, long contractNo, String provinceId) {
+
+		// Map<String, Object> userMap = null;
+		UserInfoEntity userInfo = null;
+		String brandId = "XX";
+		long idNo = 0;
+		if (!phoneNo.equals("99999999999")) {
+
+			userInfo = user.getUserInfo(phoneNo);
+			idNo = userInfo.getIdNo();
+			brandId = userInfo.getBrandId();
+		}
+
+		// 取账户归属
+		GroupchgInfoEntity groupChgEntity = group.getChgGroup(null, null,
+				contractNo);
+
+		// 缴费用户归属地市
+		ChngroupRelEntity groupEntity = group.getRegionDistinct(
+				groupChgEntity.getGroupId(), "2", provinceId);
+		String regionId = groupEntity.getRegionCode();
+
+		PayUserBaseEntity payUserBase = new PayUserBaseEntity();
+		payUserBase.setIdNo(idNo);
+		payUserBase.setPhoneNo(phoneNo);
+		payUserBase.setContractNo(contractNo);
+		payUserBase.setUserGroupId(groupChgEntity.getGroupId());
+		payUserBase.setRegionId(regionId);
+		payUserBase.setBrandId(brandId);
+
+		return payUserBase;
+	}
+
+	public IAccount getAccount() {
+		return account;
+	}
+
+	public void setAccount(IAccount account) {
+		this.account = account;
+	}
+
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public ILogin getLogin() {
+		return login;
+	}
+
+	public void setLogin(ILogin login) {
+		this.login = login;
+	}
+
+	public IControl getControl() {
+		return control;
+	}
+
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+	public ICheque getCheque() {
+		return cheque;
+	}
+
+	public void setCheque(ICheque cheque) {
+		this.cheque = cheque;
+	}
+
+	public IOweBill getOweBill() {
+		return oweBill;
+	}
+
+	public void setOweBill(IOweBill oweBill) {
+		this.oweBill = oweBill;
+	}
+
+	public IBalance getBalance() {
+		return balance;
+	}
+
+	public void setBalance(IBalance balance) {
+		this.balance = balance;
+	}
+
+	public IRecord getRecord() {
+		return record;
+	}
+
+	public void setRecord(IRecord record) {
+		this.record = record;
+	}
+
+	public IGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	public IPayManage getPayManage() {
+		return payManage;
+	}
+
+	public void setPayManage(IPayManage payManage) {
+		this.payManage = payManage;
+	}
+
+	public IRemainFee getReFee() {
+		return reFee;
+	}
+
+	public void setReFee(IRemainFee reFee) {
+		this.reFee = reFee;
+	}
+
+	public IWriteOffer getWriteOffer() {
+		return writeOffer;
+	}
+
+	public void setWriteOffer(IWriteOffer writeOffer) {
+		this.writeOffer = writeOffer;
+	}
+
+	public IPreOrder getPreOrder() {
+		return preOrder;
+	}
+
+	public void setPreOrder(IPreOrder preOrder) {
+		this.preOrder = preOrder;
+	}
+
+	public IBase getBase() {
+		return base;
+	}
+
+	public void setBase(IBase base) {
+		this.base = base;
+	}
+
+}

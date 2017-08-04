@@ -1,0 +1,23 @@
+f1104_1.jsp:      		String sqlStr = "select trim(MODE_CODE), MODE_NAME from sBillModeCode where REGION_CODE='"+regionCode+"' AND MODE_TYPE='d' and rownum<500 order by MODE_CODE";
+f1104_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1104_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1104_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1104_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1106_1.jsp:      		String sqlStr = "select trim(MODE_CODE), MODE_NAME from sBillModeCode where REGION_CODE='"+regionCode+"' AND MODE_TYPE='d'  and rownum<500 order by MODE_CODE";
+f1106_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1106_1.jsp.bak:      		String sqlStr = "select trim(MODE_CODE), MODE_NAME from sBillModeCode where REGION_CODE='"+regionCode+"' AND MODE_TYPE='d'  and rownum<500 order by MODE_CODE";
+f1106_1.jsp.bak:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1114_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1114_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1114_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1114_1.jsp.bak:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1114_1.jsp.bak:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1114_1.jsp.bak:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1116_1.jsp:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+f1116_1.jsp.bak:             +" from cBillBaDepend a, sInnetCode  b, sbillmodecode c "
+pubAdditiveBill.jsp:                    " sBillModeCode b,sBillModeType c where a.REGION_CODE = b.REGION_CODE" + 
+pubAdditiveBill.jsp:                    " sBillModeCode b,sBillModeType c where a.REGION_CODE = b.REGION_CODE" + 
+pubAdditiveBill_1104.jsp:			  " sBillModeCode b,sBillModeType c where a.REGION_CODE = b.REGION_CODE" + 
+pubAdditiveBill_1104.jsp:         sqlStr="select MODE_TYPE,TYPE_NAME,MODE_code,MODE_NAME,max(CHOICED_FLAG),max_open from (select b.MODE_TYPE,c.TYPE_NAME,a.MODE_code,b.MODE_NAME,'2' as CHOICED_FLAG,c.max_open from sBillPackCode a,sBillModecode b,sBillModeType c where a.region_code=b.region_code and a.mode_code=b.mode_code and b.REGION_CODE = c.REGION_CODE and b.MODE_TYPE = c.MODE_TYPE and a.mach_code='"+machineCode+"' union select b.MODE_TYPE,c.TYPE_NAME,a.ADD_MODE,b.MODE_NAME,a.CHOICED_FLAG,c.MAX_OPEN from cBillBaDepend a ,sBillModeCode b,sBillModeType c where a.REGION_CODE = b.REGION_CODE and a.REGION_CODE = '"+regionCode+"' and a.DISTRICT_CODE ='"+districtCode+"' and a.MODE_CODE = '"+modeCode+"' and a.ADD_MODE = b.MODE_CODE and b.REGION_CODE = c.REGION_CODE and b.MODE_TYPE = c.MODE_TYPE) group by MODE_TYPE,TYPE_NAME,MODE_code,MODE_NAME,max_open order by mode_type,mode_code";
+pubAdditiveBill_1104.jsp:			" sBillModeCode b,sBillModeType c where a.REGION_CODE = b.REGION_CODE" + 
+pubBillChg.jsp:				           " cBillBADepend a,sbillmodecode b where " + 

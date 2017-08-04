@@ -1,0 +1,292 @@
+package com.sitech.acctmgr.test.atom.impl.detail;
+
+import com.sitech.acctmgr.atom.dto.detail.*;
+import com.sitech.acctmgr.inter.detail.IDetail;
+import com.sitech.acctmgr.test.junit.ArgumentBuilder;
+import com.sitech.acctmgr.test.junit.BaseTestCase;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by wangyla on 2016/7/12.
+ */
+public class SDetailTest extends BaseTestCase{
+    private IDetail bean;
+
+    @Before
+    public void setUp() throws Exception {
+        bean = (IDetail) getBean("detailSvc");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        bean = null;
+    }
+
+    private String getArgStringForChannelQuery() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+        busiMap.put("PHONE_NO", "13555417757");
+        busiMap.put("QUERY_TYPE", "90");
+        busiMap.put("QUERY_FLAG", "0");//0:时间段， 1：帐务月
+        busiMap.put("BEGIN_TIME", "20170401");
+        busiMap.put("END_TIME", "20170523");
+        busiMap.put("YEAR_MONTH", "201701");
+        busiMap.put("PASSWORD", "");
+
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "newweb");
+        oprMap.put("OP_CODE", "8142");
+        oprMap.put("GROUP_ID", "10031");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+
+    @Test
+    public void testChannelQuery() throws Exception {
+        String inStr = this.getArgStringForChannelQuery();
+        InDTO inDTO = parseInDTO(inStr, SDetailChannelQueryInDTO.class);
+
+        OutDTO outDTO = bean.channelQuery(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+
+    private String getArgStringForDetailQuery() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+        busiMap.put("PHONE_NO", "13836315079"); //15204680148
+        busiMap.put("QUERY_TYPE", "95");
+        busiMap.put("QUERY_FLAG", "1");
+        busiMap.put("BEGIN_TIME", "20161001064926");
+        busiMap.put("END_TIME", "20161030064926");
+        busiMap.put("YEAR_MONTH", "201610");
+        busiMap.put("CHARGING_ID", "8339FA0C"); //8BB364F3
+        busiMap.put("RESV", "2000000002"); //2000000002
+
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "aan70W");
+        oprMap.put("OP_CODE", "0000");
+        oprMap.put("GROUP_ID", "13464");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+    @Test
+    public void testDetailQuery() throws Exception {
+        String inStr = this.getArgStringForDetailQuery();
+        InDTO inDTO = parseInDTO(inStr, SDetailDetailQueryInDTO.class);
+
+        OutDTO outDTO = bean.detailQuery(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+
+    private String getArgStringForRawQuery() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+        busiMap.put("PHONE_NO", "13836392766"); //18346251999
+//        busiMap.put("PHONE_NO", "18345692297");
+        busiMap.put("QUERY_TYPE", "103");
+        busiMap.put("QUERY_FLAG", "1");
+        busiMap.put("BEGIN_TIME", "20170101");
+        busiMap.put("END_TIME", "20170601");
+        busiMap.put("YEAR_MONTH", "201704");
+        busiMap.put("IS_PAGE", "N");
+        busiMap.put("PAGE_NO", "2");
+        busiMap.put("PAGE_SIZE", "3");
+
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "aan70W");
+        oprMap.put("OP_CODE", "0000");
+        oprMap.put("GROUP_ID", "13436");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+
+    @Test
+    public void testRawQuery() throws Exception {
+        String inStr = this.getArgStringForRawQuery();
+        InDTO inDTO = parseInDTO(inStr, SDetailRawQueryInDTO.class);
+
+        OutDTO outDTO = bean.rawQuery(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+
+    private String getArgStringForQuery() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+        busiMap.put("PHONE_NO", "13836315079");
+        busiMap.put("QUERY_TYPE", "78");
+        busiMap.put("QUERY_FLAG", "1");//0:时间段， 1：帐务月
+        busiMap.put("BEGIN_TIME", "");
+        busiMap.put("END_TIME", "");
+        busiMap.put("YEAR_MONTH", "201702");
+        busiMap.put("PASSWORD", "");
+
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "ceaaa3");
+        oprMap.put("OP_CODE", "8142");
+        oprMap.put("GROUP_ID", "10477");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+
+    @Test
+    public void testQuery() throws Exception {
+        String inStr = this.getArgStringForQuery();
+        InDTO inDTO = parseInDTO(inStr, SDetailQueryInDTO.class);
+
+        OutDTO outDTO = bean.query(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+
+    private String getArgStringForDynamicRawQuery() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+        busiMap.put("PHONE_NO", "13555417757");
+//        busiMap.put("PHONE_NO", "18345692297");
+        busiMap.put("QUERY_TYPE", "104");
+        busiMap.put("QUERY_FLAG", "1");
+        busiMap.put("YEAR_MONTH", "201701");
+        busiMap.put("IS_PAGE", "Y");
+        busiMap.put("PAGE_NO", "2");
+        busiMap.put("PAGE_SIZE", "3");
+
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "aan70W");
+        oprMap.put("OP_CODE", "8122");
+        oprMap.put("GROUP_ID", "13436");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+
+    @Test
+    public void testDynamicRawQuery() throws Exception {
+        String inStr = this.getArgStringForDynamicRawQuery();
+        InDTO inDTO = parseInDTO(inStr, SDetailDynamicRawQueryInDTO.class);
+
+        OutDTO outDTO = bean.dynamicRawQuery(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+
+    private String getArgStringForCityQuery() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+//        busiMap.put("PHONE_NO", "13944161239");
+        busiMap.put("PHONE_NO", "13836392766");
+        busiMap.put("QUERY_TYPE", "71");
+        busiMap.put("QUERY_FLAG", "1");
+        busiMap.put("BEGIN_TIME", "20170101");
+        busiMap.put("END_TIME", "20170614");
+        busiMap.put("YEAR_MONTH", "201609");
+        busiMap.put("OPR_TYPE", "0");
+        busiMap.put("POWER_LEVEL", "1");
+        busiMap.put("ORDER_NO", "0");
+        busiMap.put("REASON", "");
+        busiMap.put("DYNAMIC_PASSWD", "000000");
+        busiMap.put("CONTACT_PHONE", "");
+        busiMap.put("IS_PAGE", "Y");
+        busiMap.put("PAGE_NO", "2");
+        busiMap.put("PAGE_SIZE", "3");
+
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "aan70W");
+        oprMap.put("OP_CODE", "8117");
+        oprMap.put("GROUP_ID", "13436");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+
+    @Test
+    public void testCityQuery() throws Exception {
+        String inStr = this.getArgStringForCityQuery();
+        InDTO inDTO = parseInDTO(inStr, SDetailCityQueryInDTO.class);
+
+        OutDTO outDTO = bean.cityQuery(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+
+    private String getArgStringForSpQuery() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+        busiMap.put("PHONE_NO", "13514563841");
+        busiMap.put("QUERY_TYPE", "833");
+        busiMap.put("QUERY_FLAG", "1");//0:时间段， 1：帐务月
+        busiMap.put("BEGIN_TIME", "");
+        busiMap.put("END_TIME", "");
+        busiMap.put("YEAR_MONTH", "201704");
+
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "aan70W");
+        oprMap.put("OP_CODE", "8113");
+        oprMap.put("GROUP_ID", "13436");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+
+    @Test
+    public void testSpQuery() throws Exception {
+        String inStr = this.getArgStringForSpQuery();
+        InDTO inDTO = parseInDTO(inStr, SDetailSpQueryInDTO.class);
+
+        OutDTO outDTO = bean.spQuery(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+
+    private String getArgStringForSmsStats() {
+        ArgumentBuilder builder = new ArgumentBuilder();
+        Map<String, Object> busiMap = new HashMap<>();
+        busiMap.put("PHONE_NO", "15774635771");
+        builder.setBusiargs(busiMap);
+
+        Map<String, Object> oprMap = new HashMap<>();
+        oprMap.put("LOGIN_NO", "aan70W");
+        oprMap.put("OP_CODE", "0000");
+        oprMap.put("GROUP_ID", "13436");
+        builder.setOperargs(oprMap);
+
+        return builder.toString();
+    }
+
+    @Test
+    public void testSmsStats() throws Exception {
+        String inStr = this.getArgStringForSmsStats();
+        InDTO inDTO = parseInDTO(inStr, SDetailSmsStatsInDTO.class);
+
+        OutDTO outDTO = bean.smsStats(inDTO);
+
+        System.out.println(outDTO.toJson());
+    }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bs_bank_dict">
+
+    <typeAlias type="com.sitech.acctmgr.atom.domains.base.BankEntity" alias="bankEntity"/>
+
+    <resultMap id="bankEntity" class="bankEntity">
+        <result property="bankCode" column="BANK_CODE"/>
+        <result property="bankName" column="BANK_NAME"/>
+    </resultMap>
+
+    <select id="qryByGroupId" parameterClass="Map" resultMap="bankEntity">
+        SELECT BANK_CODE,BANK_NAME
+        FROM BS_BANK_DICT
+        WHERE GROUP_ID = #GROUP_ID#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="BANK_CODE">
+                AND A.BANK_CODE = #BANK_CODE#
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY BANK_CODE
+    </select>
+
+    <!-- BS_BANK_DICT group_id是区县的group_id  -->
+    <select id="qBankInfo" parameterClass="Map" resultMap="bankEntity">
+        SELECT A.BANK_CODE, A.BANK_NAME
+        FROM BS_BANK_DICT A, BS_CHNGROUP_REL B
+        WHERE A.GROUP_ID = B.PARENT_GROUP_ID
+        AND B.GROUP_ID= #GROUP_ID#
+        AND B.PARENT_LEVEL = 3
+        AND B.PROVINCE_ID= #PROVINCE_ID#
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="BLUR_BANK_CODE">
+                AND A.BANK_CODE LIKE '%'|| #BLUR_BANK_CODE#||'%'
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BLUR_BANK_NAME">
+                AND A.BANK_NAME LIKE '%' ||#BLUR_BANK_NAME# ||'%'
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="BANK_CODE">
+                AND A.BANK_CODE = #BANK_CODE#
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY BANK_CODE
+    </select>
+</sqlMap>

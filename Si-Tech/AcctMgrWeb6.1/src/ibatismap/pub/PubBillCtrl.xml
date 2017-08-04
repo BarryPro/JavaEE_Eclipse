@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="pub_bill_ctrl">
+  <typeAlias alias="PubBillCtrl" type="com.sitech.acctmgr.atom.domains.pub.PubBillCtrlEntity"/>
+  <select id="qPubBillCtrl" parameterClass="Map" resultClass="PubBillCtrl">  
+	SELECT BILL_FLAG billFlag, QRY_FLAG qryFlag, STOP_FLAG stopFlag, WRTOFF_FLAG wrtoffFlag FROM PUB_BILL_CTRL 
+  </select>
+    
+</sqlMap>

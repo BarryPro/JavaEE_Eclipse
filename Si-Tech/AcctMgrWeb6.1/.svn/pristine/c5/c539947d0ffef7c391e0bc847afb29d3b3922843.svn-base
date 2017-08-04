@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="act_item_conf">
+    <typeAlias alias="BillItemEnt" type="com.sitech.acctmgr.atom.domains.bill.BillItemEntity"/>
+    <typeAlias alias="ItemEnt" type="com.sitech.acctmgr.atom.domains.bill.ItemEntity"/>
+
+    <select id="qItemNameByItemCode" parameterClass="Map" resultClass="BillItemEnt">
+        SELECT
+        ACCT_ITEM_CODE as acctItemCode,
+        TRIM(ITEM_NAME) as itemName,
+        ACCT_ITEM_ATTR as acctItemAttr,
+        NEW_TAX_RATE as newTaxRate
+        FROM ACT_ITEM_CONF
+        WHERE 1=1 
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="ACCT_ITEM_CODE">
+                AND ACCT_ITEM_CODE= #ACCT_ITEM_CODE#
+            </isNotEmpty>
+        </dynamic>
+        
+    </select>
+
+    <select id="qAdjItemList"  parameterClass="Map" resultClass="ItemEnt">
+        SELECT ACCT_ITEM_CODE as itemCode,ACCT_ITEM_CODE||'--'||ITEM_NAME as itemName
+        FROM ACT_ITEM_CONF
+        WHERE ROWNUM<![CDATA[ < ]]>699
+        UNION ALL
+        SELECT ACCT_ITEM_CODE as itemCode,ACCT_ITEM_CODE||'--'||ITEM_NAME  as itemName
+        FROM ACT_ITEM_CONF
+        WHERE ACCT_ITEM_CODE='XY4000q001'
+        ORDER BY itemCode
+    </select>
+    
+      <select id="qItemByBrandId"  parameterClass="Map" resultClass="ItemEnt">
+		SELECT ACCT_ITEM_CODE as itemCode,ACCT_ITEM_CODE||'--'||ITEM_NAME as itemName
+		FROM ACT_ITEM_CONF
+        WHERE 1=1
+         <dynamic prepend="">
+            <isNotEmpty prepend="" property="BRAND_ID">
+                  AND DECODE(SUBSTR(ACCT_ITEM_ATTR,7,1),'1','kd','2','ke','3','kf','4','kg') =#BRAND_ID#   
+        		  ORDER BY  itemCode
+            </isNotEmpty>
+        </dynamic>
+  </select>
+  
+</sqlMap>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+		PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+		
+		
+	<sqlMap namespace="ct_taxpayer_info">
+	
+	<typeAlias alias="TaxPayerInfo" type="com.sitech.acctmgr.atom.domains.cust.TaxPayerInfo"/>
+	<!-- 查询增值税纳税人信息 -->
+	<select id="qTaxPayerInfo" resultClass="TaxPayerInfo" parameterClass="Map">
+		SELECT CUST_ID custId,TAXPAYER_ID taxpayerId, BANK_NAME bankName, UNIT_NAME unitName, ADDRESS address, 
+		PHONE_NO phoneNo, BANK_ACCOUNT bankAccount
+		FROM CT_TAXPAYER_INFO
+		WHERE TAXPAYER_FLAG='Y'
+		<dynamic prepend="">
+			<isNotEmpty prepend="" property="CUST_ID">
+				AND CUST_ID=#CUST_ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="TAX_PAYER_ID">
+				AND TAXPAYER_ID=#TAX_PAYER_ID#
+			</isNotEmpty>
+		</dynamic>
+		
+	</select>
+	</sqlMap>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- 实体层基类 抽象类，不能实例化 -->
+	<bean id="baseBusi" class="com.sitech.acctmgr.common.BaseBusi"
+		abstract="true">
+		<property name="baseDao" ref="baseDao" />
+	</bean>
+
+	<bean id="odrLineContDAOAppEnt" class="com.sitech.acctmgr.app.odrBlob.OdrLineContDAO"
+		parent="baseBusi" />
+	<bean id="MsgDAOAppEnt" class="com.sitech.acctmgr.app.msgodrsend.MsgSendDAO"
+		parent="baseBusi" />
+	<bean id="MsgSendEnt" class="com.sitech.acctmgr.app.msgodrsend.MsgSend"
+		parent="baseBusi">
+		<property name="odrLineContDAO" ref="odrLineContDAOAppEnt" />
+		<property name="msgSendDAO" ref="MsgDAOAppEnt" />
+	</bean>
+
+	<!-- BOSS 消息发送 bean 加Svc让spring管理事务 -->
+	<bean id="MsgSendThrd" class="com.sitech.acctmgr.app.msgodrsend.MsgSendThread"
+		scope="prototype">
+		<property name="msgSend" ref="MsgSendEnt" />
+	</bean>
+
+	<bean id="MsgSendJob" class="com.sitech.acctmgr.app.msgodrsend.MsgSendJob" />
+
+	<!-- 定义调用对象和调用对象的方法 -->
+	<bean id="jobtask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject">
+			<ref bean="MsgSendJob" />
+		</property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+			<value>dealMessage</value>
+		</property>
+		<!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 定义触发时间 -->
+	<bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtask" />
+		</property>
+		<!-- cron表达式 -->
+		<property name="cronExpression">
+			<value>0/10 * * * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+	<bean id="startQuartz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="doTime" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

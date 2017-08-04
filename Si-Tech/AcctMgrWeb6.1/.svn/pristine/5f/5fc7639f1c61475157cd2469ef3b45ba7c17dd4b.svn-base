@@ -1,0 +1,111 @@
+package com.sitech.acctmgr.atom.impl.free;
+
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.query.FreeMinBill;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.free.SYearFreeQueryInDTO;
+import com.sitech.acctmgr.atom.dto.free.SYearFreeQueryOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IBillAccount;
+import com.sitech.acctmgr.atom.entity.inter.IFreeDisplayer;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.inter.free.IYearFree;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.collections.MapUtils.getLongValue;
+import static org.apache.commons.collections.MapUtils.getString;
+
+/**
+ * Created by wangyla on 2016/7/22.
+ */
+@ParamTypes({@ParamType(c = SYearFreeQueryInDTO.class, m = "query", oc = SYearFreeQueryOutDTO.class)})
+public class SYearFree extends AcctMgrBaseService implements IYearFree {
+
+    private IUser user;
+    private IFreeDisplayer freeDisplayer;
+    private IBillAccount billAccount;
+    private IGroup group;
+
+    @Override
+    public OutDTO query(InDTO inParam) {
+        SYearFreeQueryInDTO inDTO = (SYearFreeQueryInDTO) inParam;
+        log.debug("inDto=" + inDTO.getMbean());
+
+        String phoneNo = inDTO.getPhoneNo();
+        UserInfoEntity userInfo = user.getUserEntityByPhoneNo(phoneNo, true);
+        long idNo = userInfo.getIdNo();
+        String userGroupId = userInfo.getGroupId();
+
+        ChngroupRelEntity regionInfo = group.getRegionDistinct(userGroupId, "2", inDTO.getProvinceId());
+        String regionCode = regionInfo.getRegionCode();
+        //S1: 获取包年费用信息
+        Map<String, Object> billCodeMap = billAccount.getYearFeeInfo(idNo, regionCode);
+        long favour1 = getLongValue(billCodeMap, "FAVOUR1"); /*包年总费用*/
+        String effDate = getString(billCodeMap, "EFF_DATE");
+        String expDate = getString(billCodeMap, "EXP_DATE");
+
+        long usedFavour = billAccount.getYearUsedFee(idNo);
+
+        //S2：获取包年优惠信息
+        List<FreeMinBill> freeList = freeDisplayer.getFreeDetailList(phoneNo, DateUtils.getCurYm(), "0");
+        Map<String, Long> freeMap = freeDisplayer.getFreeTotalMap(freeList);
+
+        SYearFreeQueryOutDTO outDTO = new SYearFreeQueryOutDTO();
+        outDTO.setTotalFee(favour1);
+        outDTO.setUsedFee(usedFavour);
+        outDTO.setRemainFee(favour1 - usedFavour);
+        outDTO.setEffDate(effDate);
+        outDTO.setExpDate(expDate);
+
+        outDTO.setSmsTotal(freeMap.get("SMS_TOTAL"));
+        outDTO.setSmsUsed(freeMap.get("SMS_USED"));
+        outDTO.setSmsRemain(freeMap.get("SMS_REMAIN"));
+        outDTO.setTimeTotal(freeMap.get("VOICE_TOTAL"));
+        outDTO.setTimeUsed(freeMap.get("VOICE_USED"));
+        outDTO.setTimeRemain(freeMap.get("VOICE_REMAIN"));
+
+        log.debug("outDto=" + outDTO.toJson());
+        return outDTO;
+
+    }
+
+    public IUser getUser() {
+        return user;
+    }
+
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public IFreeDisplayer getFreeDisplayer() {
+        return freeDisplayer;
+    }
+
+    public void setFreeDisplayer(IFreeDisplayer freeDisplayer) {
+        this.freeDisplayer = freeDisplayer;
+    }
+
+    public IBillAccount getBillAccount() {
+        return billAccount;
+    }
+
+    public void setBillAccount(IBillAccount billAccount) {
+        this.billAccount = billAccount;
+    }
+
+    public IGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(IGroup group) {
+        this.group = group;
+    }
+}

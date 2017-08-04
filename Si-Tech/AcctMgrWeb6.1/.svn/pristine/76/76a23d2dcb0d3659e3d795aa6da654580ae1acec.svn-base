@@ -1,0 +1,18 @@
+package com.sitech.acctmgr.atom.impl.invoice;
+
+import com.sitech.acctmgr.inter.invoice.IEleInvoice;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+
+public class SEleInvoice implements IEleInvoice {
+
+	@Override
+	public OutDTO tetherDataAfterApply(InDTO inParam) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		return null;
+	}
+
+}

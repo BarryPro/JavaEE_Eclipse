@@ -1,0 +1,112 @@
+PMUserBaseInfo.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1ss" retmsg="retMsg1ss" outnum="1">			
+PMUserBaseInfo.jsp:	</wtc:service>	
+PMUserBaseInfo.jsp:	<wtc:service name="sMarkMsgQry" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="16">
+PMUserBaseInfo.jsp:	</wtc:service>
+PMUserBaseInfo.jsp:    <wtc:service name="TlsPubSelCrm" outnum="1" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">	
+PMUserBaseInfo.jsp: 	</wtc:service>
+PMUserBaseInfo.jsp:	    <wtc:service name="TlsPubSelBoss" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">	
+PMUserBaseInfo.jsp:	 	</wtc:service>
+PMUserBaseInfo.jsp:				<wtc:service name="sGetUserMsgNew" routerKey="region" 
+PMUserBaseInfo.jsp:				</wtc:service>
+ajaxCk1270PrInfo.jsp:		<wtc:service name="sVpmnQry" routerKey="region" routerValue="<%=regionCode%>"
+ajaxCk1270PrInfo.jsp:		</wtc:service>
+ajaxGetEPf.jsp:    <wtc:service name="sGetDetailCode" outnum="9" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+ajaxGetEPf.jsp:		</wtc:service>
+ajaxQueryPPp.jsp:    <wtc:service name="sDynSqlCfm" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+ajaxQueryPPp.jsp:		</wtc:service>
+ajaxRetMsg.jsp:		 	<wtc:service name="sPubSelectNew" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsg.jsp:			</wtc:service>
+ajaxRetMsg.jsp:				 	<wtc:service name="sPubSelectNew" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsg.jsp:					</wtc:service>
+ajaxRetMsg.jsp:		 	<wtc:service name="sPubSelectNew" routerKey="vIdNo" routerValue="<%=servId%>" outnum="1" >
+ajaxRetMsg.jsp:			</wtc:service>
+ajaxRetMsg.jsp:		 	<wtc:service name="sVpmnQry" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsg.jsp:			</wtc:service>
+ajaxRetMsg.jsp:    <wtc:service name="sGetAlertMsg" outnum="5" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+ajaxRetMsg.jsp:		</wtc:service>
+ajaxRetMsgVpmn.jsp:		 	<wtc:service name="sVpmnQry" routerKey="phone" routerValue="<%=strPhoneNo%>" outnum="1" >
+ajaxRetMsgVpmn.jsp:			</wtc:service>
+ajax_getOfferType.jsp:    	<wtc:service name="sOfferTypeQry" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="3">			
+ajax_getOfferType.jsp:		  </wtc:service>	
+ajax_getOfferType.jsp:		<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+ajax_getOfferType.jsp:		</wtc:service>
+ajax_isChangeTime.jsp:<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+ajax_isChangeTime.jsp:   </wtc:service>
+ajax_jdugeAreaHidden.jsp:	<wtc:service name="sOfferAttrCheck" routerKey="regionCode" routerValue="<%=regCode%>" retcode="retCode" retmsg="retMsg" outnum="3">
+ajax_jdugeAreaHidden.jsp:	</wtc:service>
+ajax_qryModelByMacNo.jsp:<wtc:service name="s1256Init" outnum="80">
+ajax_qryModelByMacNo.jsp:</wtc:service>
+changeProduceConfirm.jsp:	<wtc:service name="sDynSqlCfm" outnum="1">
+changeProduceConfirm.jsp:</wtc:service>	
+checkAttrTypeAndWlan.jsp:<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="1">			
+checkAttrTypeAndWlan.jsp:		</wtc:service>
+checkAttrTypeAndWlan.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode2" retmsg="retMsg2" outnum="1">			
+checkAttrTypeAndWlan.jsp:		</wtc:service>
+checke177.jsp:			<wtc:service name="sProdNotice" routerKey="region" routerValue="<%=regionCode%>" outnum="11" retmsg="msg2" retcode="code2">
+checke177.jsp:    	</wtc:service>
+checkeAddAndQuit.jsp:			<wtc:service name="sProdNotice" routerKey="region" routerValue="<%=regionCode%>" outnum="11" retmsg="msg2" retcode="code2">
+checkeAddAndQuit.jsp:    	</wtc:service>
+chkWlan.jsp:<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" 
+chkWlan.jsp:	</wtc:service>
+chkWlan.jsp:			<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode2" retmsg="retMsg2" outnum="1">			
+chkWlan.jsp:				</wtc:service>
+f1272_sWLWOffCheck.jsp:		<wtc:service name="<%=serverName%>" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+f1272_sWLWOffCheck.jsp:		</wtc:service>
+fe092_sWLWOffCheck.jsp:		<wtc:service name="<%=serverName%>" outnum="2" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+fe092_sWLWOffCheck.jsp:		</wtc:service>
+getMemberId.jsp:<wtc:service name="sDynSqlCfm" outnum="3">
+getMemberId.jsp:</wtc:service>
+getPrintInfo_Ajax.jsp:		<wtc:service name="s1270NoteNew" routerKey="region" routerValue="<%=regionCode%>" outnum="7" >
+getPrintInfo_Ajax.jsp:		</wtc:service>
+getPrintInfo_Ajax.jsp:	<wtc:service name="s1270Must" routerKey="region" routerValue="<%=regionCode%>" outnum="18" >
+getPrintInfo_Ajax.jsp:	</wtc:service>
+getPrintInfo_Ajax.jsp:	<wtc:service name="sModeBindDet" routerKey="region" routerValue="<%=regionCode%>" outnum="6" >
+getPrintInfo_Ajax.jsp:	</wtc:service>
+offerMigu139.jsp:<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="1">			
+offerMigu139.jsp:		</wtc:service>
+offerMigu139.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode2" retmsg="retMsg2" outnum="1">			
+offerMigu139.jsp:		</wtc:service>
+offerMigu139.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode3" retmsg="retMsg3" outnum="1">			
+offerMigu139.jsp:		</wtc:service>
+offerMigu139.jsp:	<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode4" retmsg="retMsg4" outnum="1">			
+offerMigu139.jsp:		</wtc:service>
+offerReplace6.jsp:<wtc:service name="sDynSqlCfm" outnum="1">
+offerReplace6.jsp:</wtc:service>	
+produceChgShow.jsp:			<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+produceChgShow.jsp:    	</wtc:service>
+produceChgShow.jsp:    	<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+produceChgShow.jsp:    	</wtc:service>
+product_show_ajax.jsp:			<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="1">
+product_show_ajax.jsp:    	</wtc:service>
+qp01Cfm.jsp:  	<wtc:service name="se301Cfm" outnum="100" retmsg="e301Msg" retcode="e301Code" routerKey="region" routerValue="<%=regionCode%>">
+qp01Cfm.jsp:	</wtc:service>
+qp01Main.jsp:    <wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="1"> 
+qp01Main.jsp:    </wtc:service>  
+qp01Main.jsp:    <wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCodeW" retmsg="retMsgW" outnum="1"> 
+qp01Main.jsp:    </wtc:service>  
+qp01Main.jsp:<wtc:service name="sPubSelect" routerKey="phone" routerValue="<%=phoneNo%>" retCode="retC1"  retMsg="retM1" outnum="4" >
+qp01Main.jsp:</wtc:service>
+qp01Main.jsp:<wtc:service name="sPubSelect" routerKey="phone" routerValue="<%=phoneNo%>" retCode="retC2"  retMsg="retM2" outnum="1" >
+qp01Main.jsp:</wtc:service>
+qp01Main.jsp:	<wtc:service name="se301Check" outnum="1" retmsg="checkMsg" retcode="checkCode" routerKey="region" routerValue="<%=regionCode%>">
+qp01Main.jsp:	</wtc:service>
+qp01Main.jsp:  <wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+qp01Main.jsp:  </wtc:service>
+qryAttrFlagHvMsg.jsp:<wtc:service name="sDynSqlCfm" routerKey="region" routerValue="<%=regionCode%>" outnum="3">
+qryAttrFlagHvMsg.jsp:   </wtc:service>
+qryMainOfferRoleInfo.jsp:			<wtc:service name="sOfferTypeQry" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode1" retmsg="retMsg1" outnum="2">			
+qryMainOfferRoleInfo.jsp:			</wtc:service>	
+qryMainOfferRoleInfo.jsp:			<wtc:service name="sPubSelect"  retCode="retCode1"  retMsg="retMsg1" outnum="2" >
+qryMainOfferRoleInfo.jsp:			</wtc:service>
+qryRealOfferId.jsp:<wtc:service name="sPubSelect"  retCode="retCode"  retMsg="retMsg" outnum="2" >
+qryRealOfferId.jsp:</wtc:service>
+queryEXTStatus.jsp:		<wtc:service name="TlsPubSelCrm" routerKey="region" routerValue="<%=regCode%>" retcode="retCode1ss" retmsg="retMsg1ss" outnum="1">			
+queryEXTStatus.jsp:		</wtc:service>	
+s9113Cfm_Wlan.jsp:	<wtc:service name="sWLANOrderCfm" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="2">			
+s9113Cfm_Wlan.jsp:	</wtc:service>
+select_mulit_rpc.jsp:	<wtc:service name="sCrmDefSqlSel" routerKey="region" routerValue="<%=regionCode%>" retcode="retCode" retmsg="retMsg" outnum="<%=recv_number%>">
+select_mulit_rpc.jsp:	</wtc:service>
+showGlbQryMem.jsp:<wtc:service name="s3257QryMem" outnum="4" retmsg="msg" retcode="code" routerKey="region" routerValue="<%=regionCode%>">
+showGlbQryMem.jsp:</wtc:service>
+showGroup.jsp:	<wtc:service name="sDynSqlCfm" outnum="3">
+showGroup.jsp:	</wtc:service>

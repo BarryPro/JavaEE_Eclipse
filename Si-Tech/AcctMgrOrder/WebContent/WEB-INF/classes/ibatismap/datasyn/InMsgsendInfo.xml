@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgsend_info">
+  
+  <select id="qCount"  parameterClass="Map" resultClass="java.lang.Integer">  
+    SELECT nvl(count(1), 0) COUNT
+      FROM IN_MSGSEND_INFO
+     WHERE TOPIC_ID = #TOPIC_ID#
+       AND DATA_SOURCE = #DATA_SRC#
+       AND mod(BUSIID_NO, #THRD_NUM#) = #CURR_NUM#
+       AND rownum <![CDATA[ <= ]]> 2
+  </select>
+  
+  <select id="qCountByTopic" parameterClass="Map" resultClass="java.util.HashMap">  
+    SELECT nvl(count(1), 0) COUNT, TOPIC_ID ,DATA_SOURCE, #SUFFIX# SUFFIX 
+    FROM  IN_MSGSEND_INFO 
+    WHERE 1=1 
+    GROUP BY TOPIC_ID, DATA_SOURCE 
+    ORDER BY COUNT DESC 
+  </select>
+  
+  <delete id="dDatabyAccept" parameterClass="Map">
+    DELETE FROM IN_MSGSEND_INFO 
+    WHERE TOPIC_ID=#TOPIC_ID# 
+    AND LOGIN_ACCEPT=#LOGIN_ACCEPT# 
+    AND CREATE_ACCEPT=#CREATE_ACCEPT#
+  </delete>
+  
+<!-- BLOB 操作方式处理 -->  
+<typeAlias alias="OdrLineClass" type="com.sitech.acctmgr.app.odrBlob.OdrLineContVO"/>
+ <resultMap id="OdrLineEnt" class="OdrLineClass">
+  <result property="gsTopicId"   column="TOPIC_ID"/>
+  <result property="gbContent"   column="CONTENT" jdbcType="BLOB"/>
+  <result property="gsOpCode"    column="OP_CODE"/>
+  <result property="gsDataSrc"   column="DATA_SOURCE"/>
+  <result property="gsBusiidNo"  column="BUSIID_NO"/>
+  <result property="gsBusiidType" column="BUSIID_TYPE"/>
+  <result property="gsLoginAct"  column="LOGIN_ACCEPT"/>
+  <result property="glCreatAct"  column="CREATE_ACCEPT"/>
+  <result property="gsLoginNo"   column="LOGIN_NO"/>
+ </resultMap>
+
+  <!-- <insert id="insertOdrCont" parameterClass="OdrLineEnt">
+    INSERT INTO IN_MSGSEND_INFO (CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, 
+        CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO, OP_TIME)
+    VALUES (#glCreatAct#, #gsDataSrc#, #gsBusiidNo#, #gsBusiidType#, #gsTopicId#, 
+        #gbContent:BLOB#, #gsLoginAct#, #gsOpCode#, #gsLoginNo#, SYSDATE)
+  </insert> -->
+
+  <select id="queryOdrCont" parameterClass="Map" resultMap="OdrLineEnt">
+    SELECT CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID,
+           CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO, to_char(op_time,'YYYYMM') OP_TIME_YM
+           <!-- , #SUFFIX# SUFFIX -->  
+      FROM IN_MSGSEND_INFO 
+     WHERE TOPIC_ID = #TOPIC_ID#
+     AND DATA_SOURCE = #DATA_SOURCE#
+     AND ROWNUM <![CDATA[ <= ]]> 20 
+     ORDER BY OP_TIME, LOGIN_ACCEPT
+  </select>
+  
+  <select id="queryThrdCont" parameterClass="Map" resultMap="OdrLineEnt">
+    SELECT CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID,
+           CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO, to_char(op_time,'YYYYMM') OP_TIME_YM
+           <!-- , #SUFFIX# SUFFIX --> 
+      FROM IN_MSGSEND_INFO 
+     WHERE TOPIC_ID = #TOPIC_ID# 
+     AND DATA_SOURCE = #DATA_SRC#
+     AND mod(BUSIID_NO, #THRD_NUM#) = #CURR_NUM#
+     AND ROWNUM <![CDATA[ <= ]]> 20
+     ORDER BY OP_TIME, LOGIN_ACCEPT
+  </select>
+  
+  <!-- <![CDATA[ <= ]]> 1000  -->  
+
+    <!-- add dsp sql by zhangjp  -->
+    <update id="updateByDsp" parameterClass="Map" >
+        update IN_MSGSEND_INFO
+        set DSP_STATUS = #DSP_STATUS#, DSP_UPDATE_TIME = TO_DATE(#DSP_UPDATE_TIME#,'YYYY-MM-DD HH24:MI:SS'), DSP_ACCEPT = #DSP_ACCEPT#, DSP_POSITION = #DSP_POSITION#
+        WHERE TOPIC_ID = #TOPIC_ID# AND mod(BUSIID_NO, #TOTAL_NUM#) = #TASK_NUM# AND ROWNUM <![CDATA[ <= ]]> 20
+    </update>
+
+    <select id="queryMsgList" parameterClass="Map" resultMap="OdrLineEnt">
+        SELECT CREATE_ACCEPT, DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID,
+        CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO, to_char(op_time,'YYYYMM') OP_TIME_YM
+        <!-- , #SUFFIX# SUFFIX -->
+        FROM IN_MSGSEND_INFO
+        WHERE TOPIC_ID = #TOPIC_ID#
+        AND DSP_STATUS = #DSP_STATUS#
+        AND DSP_ACCEPT = #DSP_ACCEPT#
+        AND DSP_POSITION = #DSP_POSITION#
+        ORDER BY OP_TIME, LOGIN_ACCEPT
+    </select>
+
+
+</sqlMap>

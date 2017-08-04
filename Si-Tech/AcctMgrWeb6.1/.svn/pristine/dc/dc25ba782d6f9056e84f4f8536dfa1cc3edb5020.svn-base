@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 不用上线生产，JUNITS测试用 : 按照JCF jar包中ReadMe.txt文件 -->
+<!--     <bean id="logCaller" class="com.sitech.jcfx.log.e2e.LogCaller">
+        <property name="logNames">
+            <list>
+                <value>AccFlumeLog</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="AccFlumeLog" class="com.sitech.acctmgr.common.AccFlumeLog"/> -->
+
+    <!-- 账单类业务实体类  -->
+    <bean id="oweBillEnt" class="com.sitech.acctmgr.atom.busi.query.OweBill" parent="baseBusi">
+        <property name="control" ref="controlEnt"/>
+        <property name="delay" ref="delayEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+    <!-- 余额查询业务实体类 -->
+    <bean id="remainFeeEnt" class="com.sitech.acctmgr.atom.busi.query.RemainFee" parent="baseBusi">
+        <property name="record" ref="recordEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="writeOffer" ref="writeOfferEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="delay" ref="delayEnt"/>
+        <property name="oweBill" ref="oweBillEnt"/>
+    </bean>
+
+    <!-- 冲销类: 包括冲销、虚拟划拨业务 -->
+    <bean id="writeOfferEnt" class="com.sitech.acctmgr.atom.busi.pay.WriteOffer" parent="baseBusi">
+        <property name="control" ref="controlEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="delay" ref="delayEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="busiMsgsnd" ref="BusiOdrBcEnt" />
+    </bean>
+
+    <!-- 账本类: 包括入账、退费、转账等业务 -->
+    <bean id="payManageEnt" class="com.sitech.acctmgr.atom.busi.pay.PayManage" parent="baseBusi">
+        <property name="group" ref="groupEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="writeOffer" ref="writeOfferEnt"/>
+        <property name="bill" ref="billEnt"/>
+        <property name="agent" ref="agentEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="payBackLimit" ref="paybakLimitEnt"/>
+        <property name="preOrder" ref="preOrderEnt"/>
+        <property name="svcOrder" ref="SvcOrderEnt" />
+        <property name="cheque" ref="chequeEnt" />
+        <property name="invoice" ref="invoiceEnt" />
+    </bean>
+
+    <!-- 开机类 -->
+    <bean id="payOpenerEnt" class="com.sitech.acctmgr.atom.busi.pay.PayOpener" parent="baseBusi">
+        <property name="user" ref="userEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="svcOrder" ref="SvcOrderEnt" />
+    </bean>
+
+    <!-- 向CRM发送各类工单，调用内部接口封装类 -->
+    <bean id="preOrderEnt" class="com.sitech.acctmgr.atom.busi.pay.PreOrder" parent="baseBusi">
+        <property name="control" ref="controlEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="busiOrderBc" ref="BusiOdrBcEnt" />
+        <property name="dataSyn" ref="DataSynEnt" />
+    </bean>
+
+    <bean id="gsonBuilder" class="com.google.gson.GsonBuilder"/>
+
+    <!-- 转账工厂实体 -->
+    <bean id="transFactoryEnt" class="com.sitech.acctmgr.atom.busi.pay.trans.TransFactory"/>
+
+    <!-- 在网账户转账实体 -->
+    <bean id="TransAccountEnt" class="com.sitech.acctmgr.atom.busi.pay.trans.TransAccount" parent="baseBusi">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="payManage" ref="payManageEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="agent" ref="agentEnt"/>
+        <property name="shortMessage" ref="ShortMessageEnt" />
+    </bean>
+    
+    <!-- 集团账户转账实体  -->
+    <bean id="TransAccountGrp" class="com.sitech.acctmgr.atom.busi.pay.trans.TransAccountGrp" parent="baseBusi">
+    	<property name="remainFee" ref="remainFeeEnt"/>
+    	<property name="record" ref="recordEnt"/>
+    	<property name="user" ref="userEnt"/>
+    	<property name="balance" ref="balanceEnt"/> 
+    	<property name="agent" ref="agentEnt"/>
+    </bean>
+
+    <!-- 离网账户转账实体 -->
+    <bean id="TransAccountEntDead" class="com.sitech.acctmgr.atom.busi.pay.trans.TransAccountDead" parent="baseBusi">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="agent" ref="agentEnt"/>
+        <property name="shortMessage" ref="ShortMessageEnt" />
+    </bean>
+    
+    <!-- 非实名制离网账户转账实体 -->
+    <bean id="NotRealTransDead" class="com.sitech.acctmgr.atom.busi.pay.trans.NotRealTrans" parent="baseBusi">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="agent" ref="agentEnt"/>
+    </bean>
+
+    <!-- 空中充值拆机在网账户转账实体 -->
+    <bean id="AirPayAccount" class="com.sitech.acctmgr.atom.busi.pay.hlj.TransAirPayAccountClose" parent="TransAccountEnt">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="agent" ref="agentEnt"/>
+        <property name="payManage" ref="payManageEnt" />
+    </bean>
+
+    <!-- 空中充值拆机离网账户转账实体 -->
+    <bean id="AirPayAccountDead" class="com.sitech.acctmgr.atom.busi.pay.hlj.TransAirPayAccountCloseDead"
+          parent="baseBusi">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="agent" ref="agentEnt"/>
+    </bean>
+    
+    <!-- 后台账户转账实体 -->
+    <bean id="TransAccountRel" class="com.sitech.acctmgr.atom.busi.pay.trans.TransAccountRel"
+    		parent="TransAccountEnt">
+    
+    </bean>
+    
+     <!-- 专款转账实体 -->
+    <bean id="TransSpecial" class="com.sitech.acctmgr.atom.busi.pay.hlj.TransSpecial"
+    		parent="TransAccountEnt">
+    
+    </bean>
+
+	<!-- 集团产品转账转账实体 -->
+	<bean id="GrpProduct" class="com.sitech.acctmgr.atom.busi.pay.hlj.TransGrpProduct"
+		  parent="TransAccountEnt">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="payManage" ref="payManageEnt" />
+        <property name="control" ref="controlEnt" />
+        <property name="account" ref="accountEnt" />
+        <property name="agent" ref="agentEnt" />
+        <property name="user" ref="userEnt"/>
+	</bean>
+	
+	<!-- 空中充值转账实体 -->
+	<bean id="KcAgentTrans" class="com.sitech.acctmgr.atom.busi.pay.hlj.TransKcAgent" parent="baseBusi">
+        <property name="remainFee" ref="remainFeeEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="user" ref="userEnt"/>
+	</bean>
+	
+	
+
+	<!-- 发票业务实体 -->
+    <bean id="printDataXMLEnt" class="com.sitech.acctmgr.atom.busi.invoice.PrintDataXML" parent="baseBusi">
+        <property name="invoice" ref="invoiceEnt"/>
+         <property name="control" ref="controlEnt"/>
+    </bean>
+
+    <bean id="PreInvHeaderEnt" class="com.sitech.acctmgr.atom.busi.invoice.PreInvHeader" parent="baseBusi">
+        <property name="invoice" ref="invoiceEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="cust" ref="custEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="reFee" ref="remainFeeEnt"/>
+        <property name="base" ref="baseEnt"/>
+        <property name="login" ref="loginEnt"></property>
+    </bean>
+
+    <bean id="InvFeeEnt" class="com.sitech.acctmgr.atom.busi.invoice.InvFee" parent="baseBusi">
+        <property name="bill" ref="billEnt"/>
+        <property name="invoice" ref="invoiceEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="adj" ref="adjEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="reFee" ref="remainFeeEnt"/>
+        <property name="account" ref="accountEnt"/>
+        <property name="group" ref="groupEnt"/>
+    </bean>
+    
+    <!-- add by liuhl_bj 20161031 -->
+    <bean id="invPrintEnt" class="com.sitech.acctmgr.atom.busi.invoice.InvPrint" >
+    	<property name="preInvHeader" ref="PreInvHeaderEnt" />
+    	<property name="invoice" ref="invoiceEnt"/>
+    	<property name="invFee" ref="InvFeeEnt"/>
+    	<property name="control" ref="controlEnt"/>
+    	<property name="printDataXML" ref="printDataXMLEnt"/>
+    	 <property name="record" ref="recordEnt"/>
+    	 <property name="user" ref="userEnt"/>
+    	 <property name="account" ref="accountEnt"/>
+    	 <property name="eleInvoice" ref="eleInvoiceEnt"/>
+    </bean>
+    
+    <bean id="eleInvoiceEnt" class="com.sitech.acctmgr.atom.busi.invoice.ElecInvoice">
+    	<property name="control" ref="controlEnt"/>
+    	<property name="busiMsgSnd" ref="BusiOdrBcEnt" />
+    	<property name="shortMessage" ref="ShortMessageEnt" />
+    </bean>
+
+
+    <!-- 补收业务实体 -->
+    <bean id="adjCommonEnt" class="com.sitech.acctmgr.atom.busi.adj.AdjCommon" parent="baseBusi">
+        <property name="bill" ref="billEnt"/>
+        <property name="adj" ref="adjEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="prod" ref="prodEnt"/>
+        <property name="balance" ref="balanceEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="writeOffer" ref="writeOfferEnt"/>
+        <property name="preOrder" ref="preOrderEnt" />
+    </bean>
+
+    <bean id="paybakLimitEnt" class="com.sitech.acctmgr.atom.busi.pay.hlj.PaybackLimitHLJ" parent="baseBusi">
+        <property name="login" ref="loginEnt"/>
+        <property name="group" ref="groupEnt"/>
+        <property name="control" ref="controlEnt"/>
+        <property name="record" ref="recordEnt"/>
+        <property name="logincheck" ref="loginCheckCompEnt"/>
+        <property name="user" ref="userEnt"/>
+        <property name="account" ref="accountEnt"/>
+    </bean>
+
+    <bean id="payDoInterEnt" class="com.sitech.acctmgr.atom.busi.pay.PayDoInter" parent="baseBusi">
+        <property name="s8000" ref="8000Ent"/>
+        <property name="s8056" ref="8056Ent"/>
+    </bean>
+
+    <!-- 缴费实体 -->
+    <bean id="8000Ent" class="com.sitech.acctmgr.atom.impl.hlj.pay.S8000HLJ">
+		<property name="login" ref="loginEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="cust" ref="custEnt" />
+		<property name="agent" ref="agentEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="payManage" ref="payManageEnt" />
+		<property name="writeOffer" ref="writeOfferEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="payOpener" ref="payOpenerEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="bill" ref="billEnt" />
+		<property name="invoice" ref="invoiceEnt" />
+		<property name="shortMsg" ref="shortMsgEnt" />
+		<property name="cheque" ref="chequeEnt" />
+		<property name="credit" ref="creditEnt"/>
+		<property name="shortMessage" ref="ShortMessageEnt" />
+    </bean>
+
+	<!-- 冲正实体 -->
+	<bean id="8056Ent" class="com.sitech.acctmgr.atom.impl.hlj.pay.S8056HLJ">
+		<property name="balance" ref="balanceEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="cust" ref="custEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="payManage" ref="payManageEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+		<property name="user" ref="userEnt" />
+	</bean>
+	
+	<bean id="collOrderEnt" class="com.sitech.acctmgr.atom.busi.collection.CollOrder" parent="baseBusi">
+        <property name="account" ref="accountEnt" />
+        <property name="control" ref="controlEnt" />
+        <property name="group" ref="groupEnt" />
+        <property name="base" ref="baseEnt"/>
+        <property name="bill" ref="billEnt"/>
+    </bean>
+
+    <bean id="collCodeEnt" class="com.sitech.acctmgr.atom.busi.collection.CollCode"  parent="baseBusi">
+        <property name="control" ref="controlEnt"/>
+    </bean>
+
+	<!-- 一点支付后台自动转账实体 -->
+	<bean id="YDZFAutoTransEnt" class="com.sitech.acctmgr.atom.busi.pay.hlj.YDZFAutoTrans">
+		<property name="control" ref="controlEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="payOpener" ref="payOpenerEnt" />
+		<property name="writeOffer" ref="writeOfferEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="delay" ref="delayEnt" />
+		<property name="payManage" ref="payManageEnt" />
+		<property name="transFactory" ref="transFactoryEnt" />
+	</bean>
+	
+	<bean id="AutopayTransEnt" class="com.sitech.acctmgr.atom.busi.pay.hlj.AutopayTrans">
+		<property name="transFactory" ref="transFactoryEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="payManage" ref="payManageEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="login" ref="loginEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="bill" ref="billEnt"/>
+		<property name="record" ref="recordEnt" />
+	</bean>
+
+    <bean id="volumeEnt" class="com.sitech.acctmgr.atom.busi.volume.Volume" parent="baseBusi"/>
+</beans>

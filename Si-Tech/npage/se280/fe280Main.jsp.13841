@@ -1,0 +1,1187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%
+/********************
+ version v3.0
+开发商: si-tech
+********************/
+%>
+<%@ page contentType="text/html; charset=GBK" %>
+<%@ include file="/npage/include/public_title_name.jsp" %>
+<%@ page import="com.sitech.boss.pub.util.Encrypt"%>
+<%@ include file="../../npage/bill/getMaxAccept.jsp" %>
+<%
+		response.setHeader("Pragma","No-Cache"); 
+		response.setHeader("Cache-Control","No-Cache");
+		response.setDateHeader("Expires", 0); 
+    //sale_type = 43
+ 		String opCode = request.getParameter("opCode");
+ 		String opName = request.getParameter("opName");
+ 		String familyCode = request.getParameter("familyCode");
+ 		String familyName = request.getParameter("familyName");
+ 		String belongGroupId = request.getParameter("belongGroupId");
+ 		String parentPhone = request.getParameter("parentPhone");
+ 		String regionCode= (String)session.getAttribute("regCode");
+ 		String work_no = (String)session.getAttribute("workNo");
+ 		String password = (String)session.getAttribute("password");
+ 		String cccTime=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new java.util.Date());
+ 		System.out.println("----- fe280Main.jsp ----" + opCode + opName);
+ 		String printName = "";
+ 		if("e281".equals(opCode)){
+ 			printName = "幸福家庭签约送礼";
+ 		}else if("e282".equals(opCode)){
+ 			printName = "幸福家庭成员业务订购";
+ 		}
+ 		/* 免密码权限，后期权限收回时，还需要修改 */
+		String[][]  temfavStr = (String[][])session.getAttribute("favInfo");
+		String[] favStr=new String[temfavStr.length];
+		for(int i=0;i<favStr.length;i++){
+			favStr[i]=temfavStr[i][0].trim();
+		}
+		boolean pwrf=false;
+		if(WtcUtil.haveStr(favStr,"a272")){
+			pwrf=true;
+		}
+ 		String printAccept="";
+%>
+	<wtc:sequence name="TlsPubSelCrm" key="sMaxSysAccept" routerKey="region" 
+		 routerValue="<%=regionCode%>"  id="seq"/>
+<%
+		printAccept = seq;
+%>
+		<wtc:service name="sFamSelCheck" routerKey="region" routerValue="<%=regionCode%>" 
+			retmsg="msg0" retcode="code0" outnum="7">
+			<wtc:param value="<%=printAccept%>"/>
+			<wtc:param value="01"/>
+			<wtc:param value="<%=opCode%>"/>
+			<wtc:param value="<%=work_no%>"/>
+			<wtc:param value="<%=password%>"/>
+			<wtc:param value="<%=parentPhone%>"/>
+			<wtc:param value=""/>
+			<wtc:param value="2"/>
+			<wtc:param value="<%=familyCode%>"/>
+		</wtc:service>
+		<wtc:array id="result0" scope="end" />
+<%
+	if(!code0.equals("000000")){
+		System.out.println("----- fe280Main.jsp ---- 查询出错" + code0 + msg0);
+%>
+			<script language="JavaScript">
+				rdShowMessageDialog("没有查询到家庭角色信息" + "<%=code0%>" + "<%=msg0%>");
+				window.location="fe280.jsp?activePhone=<%=parentPhone%>";
+			</script>
+<%
+	}
+	
+	String[][] familyMemberList = new String[][]{};
+	String prodCode = "";
+	if(opCode.equals("e282")){
+		/* 成员加入 需要调用服务查询家庭已有成员信息 */
+%>
+		<wtc:service name="sFamSelCheck" routerKey="region" routerValue="<%=regionCode%>" 
+			retmsg="msg1" retcode="code1" outnum="9">
+			<wtc:param value="<%=printAccept%>"/>
+			<wtc:param value="01"/>
+			<wtc:param value="<%=opCode%>"/>
+			<wtc:param value="<%=work_no%>"/>
+			<wtc:param value="<%=password%>"/>
+			<wtc:param value="<%=parentPhone%>"/>
+			<wtc:param value=""/>
+			<wtc:param value="3"/>
+			<wtc:param value="<%=familyCode%>"/>
+		</wtc:service>
+		<wtc:array id="result1" scope="end" />
+<%
+		System.out.println("========== ningtn ====" + code1 + " | " + result1.length);
+		if("000000".equals(code1)){
+			familyMemberList = result1;
+			for(int i = 0; i < familyMemberList.length; i++){
+				if(familyMemberList[i][1].equals("M")){
+					prodCode = familyMemberList[i][8];
+				}
+			}
+		}else{
+%>
+			<script language="JavaScript">
+				rdShowMessageDialog("没有查询到家庭角色信息" + "<%=code1%>" + "<%=msg1%>");
+				window.location="fe280.jsp?activePhone=<%=parentPhone%>";
+			</script>
+<%
+		}
+	}
+%>
+<html>
+<head>
+	<title>家庭产品变更</title>
+	<script language="javascript" type="text/javascript" src="/njs/plugins/My97DatePicker/WdatePicker.js"></script>
+	<script language="javascript" type="text/javascript" src="json2.js"></script>
+	<script language="javascript" type="text/javascript" src="fe280PubScript.js"></script>
+	<script language="javascript">
+		
+		var familyRoleList = new FamRoleList();
+		var memberPhoneList = new Array(); //成员角色
+		function nextStep(subButton){
+			/* 按钮延迟 */
+			$(subButton).attr("disabled","true");
+			/* 事后提醒 */
+			getAfterPrompt();
+			familyRoleList = changeObjSeq(familyRoleList);
+			familyRoleList.setCreate_accept("<%=printAccept%>");
+			familyRoleList.setChnsource("01");
+			familyRoleList.setopCode("<%=opCode%>");
+			familyRoleList.setLoginNo("<%=work_no%>");
+			familyRoleList.setPassword("<%=password%>");
+			familyRoleList.setPhone_no_master("<%=parentPhone%>")
+			familyRoleList.setOp_note("<%=work_no%>" + "做" + "<%=opName%>" + "操作");
+			familyRoleList.setProd_code($("#familyProdInfo").val());
+			familyRoleList.setFamily_code("<%=familyCode%>");
+			familyRoleList.setPay_money($("#prepayFeeHide").val());
+			
+			var myJSONText = JSON.stringify(familyRoleList,function(key,value){
+				return value;
+				});
+			//var submitstr = myJSONText.replace(/\"/g,"");
+			//alert(myJSONText);
+			$("#myJSONText").val(myJSONText);
+			printCommit('<%=opCode%>');
+		}
+		function goBack(){
+			location="fe280.jsp?activePhone=<%=parentPhone%>";
+		}
+		function changeObjSeq(familyRoleList){
+			/* 获取配置的角色顺序 */
+			var familyroleListObj = $("input[id^='memRoleId_']");
+			var familyRoleListSmt = new FamRoleList();
+			var temp;
+			var loopFlag = true;
+			$.each(familyroleListObj,function(i,n){
+				loopFlag = true;
+				while(loopFlag){
+					temp = getObjByFamilyrole(n.value);
+					if(temp != false){
+						familyRoleListSmt.addFamRole(temp);
+						loopFlag = true;
+					}else{
+						loopFlag = false;
+					}
+				}
+			});
+			return familyRoleListSmt;
+		}
+		function getObjByFamilyrole(familyRoleId){
+			var famRole;
+			for(var i = 0; i < familyRoleList.getLength(); i++){
+				if(familyRoleList.getFamRole(i).getMembId() == familyRoleId){
+					famRole = familyRoleList.getFamRole(i);
+					familyRoleList.deleteFamRole(i);
+					return famRole;
+				}
+			}
+			return false;
+		}
+		function getNote(){
+			var returnStr = "";
+			var opCode = "<%=opCode%>";
+			var roleObj;
+			
+			if(opCode == "e281"){
+				returnStr += "1、业务当月生效；话费未返还完前不能办理预销业务；2、活动有效期内退订业务需补交话机款，另收取活动剩余预存款的30%作为违约金；3、固话拆包使用时将自动变更为30元月租TD资费套餐，可到营业厅还原资费，当月办理次月生效。4、必选成员退出家庭仅由家长办理，按照营销活动违约收取费用；5、风险免责及固话注册优惠区方法详见网站公告。" + "|";
+				for(var i = 0; i < familyRoleList.getLength(); i++){
+					roleObj = familyRoleList.getFamRole(i);
+					if(roleObj.getMembId() == "70001"){
+						$("#homeEasyPhoneHide").val(roleObj.getPhone());
+					}
+				}
+				/*
+				returnStr += "1、办理业务当月生效；话费未返还完前不能办理预销业务；" + "|";
+				returnStr += "2、活动有效期内客户退订业务需补交话机款，公司另收取活动剩余预存话费的30%作为违约金；" + "|";
+				returnStr += "3、固话拆包使用时将自动变更为30元月租TD无线座机资费，可到营业厅办理还原资费，当月办理次月生效。" + "|";
+				
+				for(var i = 0; i < familyRoleList.getLength(); i++){
+					roleObj = familyRoleList.getFamRole(i);
+					if(roleObj.getMembId() == "70001"){
+						$("#homeEasyPhoneHide").val(roleObj.getPhone());
+					//	returnStr += "4、固话号码不能单独退定宜居通业务，且与必选成员都不能做成员退出。必选成员退出需家长办理；可选人员可单独办理退出家庭；" + "|";
+					//	returnStr += "5、业务冲正时，要收取15元业务功能费;" + "|";
+					//	returnStr += "6、风险免责及固话注册优惠区方法详见网站公告。" + "|";
+					}
+				}
+				*/
+				returnStr += "特别提示：集团客户VPMN网内资费的优先级高于您将办理的幸福家庭资费" + "|";
+			}else if(opCode == "e282"){
+				returnStr += "1、您加入幸福家庭套餐当月生效。" + "|";
+				returnStr += "2、家庭成员必须归属同一地市。" + "|";
+				returnStr += "3、家庭成员的月功能费由家庭成员手机号码自行支付。" + "|";
+			}
+			return returnStr;
+		}
+		
+		function addRole(rowNum){
+			/* 家庭产品信息 */
+			/* 根据家庭产品，角色，获得增加此角色所需业务操作。
+					主资费变更、可选资费变更、营销案、SP业务  组合。
+			*/
+			var famProdInfoObj = $("#familyProdInfo");
+			if(famProdInfoObj.val() == ""){
+				rdShowMessageDialog("请选择家庭产品");
+				return false;
+			}
+			/* 家庭角色 */
+			var famRoleObj = $("#familyrole_" + rowNum);
+			var famRoleNameObj = $("#familyroleName_" + rowNum);
+			var famMembObj = $("#memRoleId_" + rowNum);
+			var famPryTypeObj = $("#payType_"+rowNum);
+			/* 角色标识 */
+			var memRoleIdObj = $("#memRoleId_" + rowNum);
+			$("#operRoleId").val(famRoleObj.val());
+			$("#operRoleName").val(famRoleNameObj.val());
+			$("#operMemberId").val(famMembObj.val());
+			$("#operPayType").val(famPryTypeObj.val());
+			/* 查询该角色需要的业务类别及执行顺序 */
+			var getdataPacket = new AJAXPacket("getBusi.jsp","正在获得数据，请稍候......");
+			getdataPacket.data.add("opCode","<%=opCode%>");
+			getdataPacket.data.add("parentPhone","<%=parentPhone%>");
+			getdataPacket.data.add("famCode","<%=familyCode%>");
+			getdataPacket.data.add("prodCode",famProdInfoObj.val());
+			getdataPacket.data.add("famRole",famRoleObj.val());
+			getdataPacket.data.add("memRoleId",memRoleIdObj.val());
+			core.ajax.sendPacket(getdataPacket,doAddRoleBack);
+			getdataPacket = null;
+		}
+		function doAddRoleBack(packet){
+			var retCode = packet.data.findValueByName("retcode");
+			var retMsg = packet.data.findValueByName("retmsg");
+			var result = packet.data.findValueByName("result");
+			if(retCode != "000000"){
+				rdShowMessageDialog("查询业务类别错误" + retCode + ":" + retMsg);
+				clearBusiContent();
+				return false;
+			}else{
+				var famRole = packet.data.findValueByName("famRole");
+				var memRoleId = packet.data.findValueByName("memRoleId");
+				var prodCode = packet.data.findValueByName("prodCode");
+				$("#signFamRoleFlag").val(famRole);
+				if(famRole == "M"){
+					/*如果是家长的话，就不用手动填写操作手机号码和密码*/
+					var phoneNoObj = $("#phoneNo");
+					phoneNoObj.val("<%=parentPhone%>");
+					phoneNoObj.attr("readonly","readonly");
+					$("#pwdContent").hide();
+				}
+				$("#signMembRoleId").val(memRoleId);
+				$.each(result,function(i,n){
+					//alert(n[0]);
+					ctrlAddBtn('d');
+					if(n[0] == "MO"){
+						/* MO 代表	主资费变更 */
+						$("#signMOFlag").val("1");
+						getOffer(memRoleId,prodCode,famRole,"MO");
+					}else if(n[0] == "AO"){
+						/* AO 代表	可选资费变更 */
+						$("#signAOFlag").val("1");
+						getOffer(memRoleId,prodCode,famRole,"AO");
+					}else if(n[0] == "SP"){
+						/* SP 代表	数据业务 */
+						getSP(memRoleId,prodCode,famRole,"SP")
+					}else if(n[0] == "YX"){
+						/* YX 代表	营销案 */
+						$("#signMarketFlag").val("1");
+						getYX(memRoleId,prodCode,famRole,"YX")
+					}
+				});
+			}
+		}
+		function getSP(memRoleId,prodCode,famRole,busiType){
+			if("70001" == memRoleId){
+				/* 宜居通 */
+				$("#signHomeEasyFlag").val("1");
+				var getdataPacket = new AJAXPacket("getHomeEasy.jsp","请稍后...");
+				getdataPacket.data.add("opCode","<%=opCode%>");
+				getdataPacket.data.add("parentPhone","<%=parentPhone%>");
+				getdataPacket.data.add("famCode","<%=familyCode%>");
+				getdataPacket.data.add("prodCode",prodCode);
+				getdataPacket.data.add("famRole",famRole);
+				getdataPacket.data.add("memRoleId",memRoleId);
+				getdataPacket.data.add("busiType",busiType);
+				core.ajax.sendPacketHtml(getdataPacket,doGetHtml);
+				getdataPacket =null;
+			}else if("70002" == memRoleId){
+				/* 亲情通 */
+				$("#signKinshipFlag").val("1");
+				var getdataPacket = new AJAXPacket("getKinship.jsp","请稍后...");
+				getdataPacket.data.add("opCode","<%=opCode%>");
+				getdataPacket.data.add("parentPhone","<%=parentPhone%>");
+				getdataPacket.data.add("famCode","<%=familyCode%>");
+				getdataPacket.data.add("prodCode",prodCode);
+				getdataPacket.data.add("famRole",famRole);
+				getdataPacket.data.add("memRoleId",memRoleId);
+				getdataPacket.data.add("busiType",busiType);
+				core.ajax.sendPacketHtml(getdataPacket,doGetHtml);
+				getdataPacket =null;
+			}
+		}
+		function getYX(memRoleId,prodCode,famRole,busiType){
+			/* 营销案需要校验IMEI码，添加按钮置灰 */
+			var checkAndAddObj = $("#checkAndAdd");
+			checkAndAddObj.attr("disabled","true");
+			var getdataPacket = new AJAXPacket("getMarketing.jsp","请稍后...");
+			getdataPacket.data.add("opCode","<%=opCode%>");
+			getdataPacket.data.add("parentPhone","<%=parentPhone%>");
+			getdataPacket.data.add("famCode","<%=familyCode%>");
+			getdataPacket.data.add("prodCode",prodCode);
+			getdataPacket.data.add("famRole",famRole);
+			getdataPacket.data.add("memRoleId",memRoleId);
+			getdataPacket.data.add("busiType",busiType);
+			core.ajax.sendPacketHtml(getdataPacket,doGetHtml);
+			getdataPacket =null;
+		}
+		function getOffer(memRoleId,prodCode,famRole,busiType){
+			/* 资费变更类，创建业务受理信息 */
+			var getdataPacket = new AJAXPacket("getOfferContent.jsp","请稍后...");
+			getdataPacket.data.add("opCode","<%=opCode%>");
+			getdataPacket.data.add("parentPhone","<%=parentPhone%>");
+			getdataPacket.data.add("famCode","<%=familyCode%>");
+			getdataPacket.data.add("prodCode",prodCode);
+			getdataPacket.data.add("famRole",famRole);
+			getdataPacket.data.add("memRoleId",memRoleId);
+			getdataPacket.data.add("busiType",busiType);
+			core.ajax.sendPacketHtml(getdataPacket,doGetHtml);
+			getdataPacket =null;
+		}
+		function doGetHtml(data){
+			//alert(data);
+			$("#busiAccept").append(data);
+			$("#busiAcceptContent").show();
+		}
+		function addRoleToSelected(){
+			var tempOfferCode = $('#mainOffer').val();
+			/* 校验 */
+			if(!checkBusiness()){
+				return false;
+			}
+			var phoneNoVal = $("#phoneNo").val().trim();
+			/* 判断此手机号码是否已经在js中增加 */
+			if(checkPhoneInList(phoneNoVal)){
+				rdShowMessageDialog("您已经添加过此号码");
+				clearBusiContent();
+				ctrlFamRoleTab();
+				return false;
+			}
+			/* 添加角色到已选区域 */
+			/* new一个新的角色，为角色属性赋值，手机号码、角色代码、角色名称 */
+			/* 为角色增加业务(目前只写了资费变更类) */
+			var famRole = new FamRole();
+			famRole.setPhone(phoneNoVal);
+			famRole.setRoleId($("#operRoleId").val());
+			famRole.setRoleName($("#operRoleName").val());
+			famRole.setMembId($("#operMemberId").val());
+			famRole.setPay_type($("#operPayType").val());
+			var tempOperMemberId = $("#operMemberId").val();
+			famRole = createBusiness(famRole);
+			addSelectedList(famRole);
+			ctrlFamRoleTab();
+			/*
+			for(var i = 0; i < famRole.getLength(); i++){
+				alert(famRole.getBusiness(i));
+				alert(famRole.getBusiness(i).getBusinessId());
+				alert(famRole.getBusiness(i).getOfferId());
+			}
+			*/
+			/* 清业务受理区 */
+			clearBusiContent();
+			
+			/*liujian add */
+			if(tempOperMemberId == '70001') {
+					setOffer(tempOfferCode);
+			}
+		}
+		
+		/*liujian 设置免填单中打印的资费,只在增加宜居通家长时调用*/
+		function setOffer(code) {
+			for(var i=0,len =mainOfferArray.length;i<len;i++) {
+				var obj = mainOfferArray[i];
+				if(obj.code && obj.code == code) {
+					$("#mainOfferName").val(obj.name);
+					$("#mainOfferComment").val(obj.comment);
+				}
+			} 
+		}
+		function checkPhoneInList(phoneNo){
+			/* 判断手机号码是否在list中 */
+			var famRoleObj;
+			for(var i = 0; i < familyRoleList.length; i++){
+				famRoleObj = familyRoleList.getFamRole(i);
+				if(phoneNo == famRoleObj.getPhone()){
+					return true;
+				}
+			}
+			return false;
+		}
+		function addSelectedList(famRole){
+			/* 为已选角色对象区增加角色 */
+			familyRoleList.addFamRole(famRole);
+			
+			var insertHtmlStr = "";
+			insertHtmlStr += "<tr><td>";
+			insertHtmlStr += famRole.getPhone();
+			insertHtmlStr += "</td><td>";
+			insertHtmlStr += famRole.getRoleName();
+			insertHtmlStr += "</td><td><input type=\"button\" value='删除' name='delRole' class='b_text' onclick='delRoleFromList(this)' /></td></tr>";
+			$("#selectedRoleListTb").append(insertHtmlStr);
+		}
+		function delRoleFromList(obj){
+			var trObj = $(obj).parents("tr");
+			var phoneNo = trObj.find("td").html();
+			/* 从javascript对象中删除临时数据 */
+			var famRoleObj;
+			for(var i = 0; i < familyRoleList.getLength(); i++){
+				famRoleObj = familyRoleList.getFamRole(i);
+				if(phoneNo == famRoleObj.getPhone()){
+					/* 针对宜居通特殊对待，删除保存的固话信息 */
+					if(famRoleObj.getMembId() == "70001"){
+						$("#homeEasyHide").val("0");
+						$("#brandAndResHide").val("");
+						$("#imeiHide").val("");
+						$("#prepayFeeHide").val("");
+					}
+					/* 家长，还得删除资费 */
+					if(famRoleObj.getRoleId() == "M"){
+						$("#mainOfferComment").val("");
+						$("#minorOfferComment").val("");
+						$("#mainOfferName").val("");
+						$("#minorOfferName").val("");
+					}
+					familyRoleList.deleteFamRole(i);
+				}
+			}
+			/* 从列表中删除号码 */
+			$(obj).parents("tr").remove();
+			ctrlFamRoleTab();
+			clearBusiContent();
+		}
+		function createBusiness(famRoleObj){
+			/* 为成员拼接业务 */
+			/* 根据已有的业务，分别拼接 */
+			if($("#signMOFlag").val() == "1"){
+				/* 拼接上主资费MO */
+				famRoleObj = createMO(famRoleObj);
+			}
+			if($("#signAOFlag").val() == "1"){
+				/* 拼接上可选资费AO */
+				famRoleObj = createAO(famRoleObj);
+			}
+			if($("#signMarketFlag").val() == "1"){
+				/* 拼接上营销案 */
+				famRoleObj = createMarket(famRoleObj);
+			}
+			if($("#signHomeEasyFlag").val() == "1"){
+				/* 拼接上宜居通SP业务 由于SP业务几乎都不同所以只能分开写 */
+				famRoleObj = createHomeEasy(famRoleObj);
+			}
+			if($("#signKinshipFlag").val() == "1"){
+				/* 拼接上亲情通SP业务 */
+				famRoleObj = createKinShip(famRoleObj);
+			}
+			return famRoleObj;
+		}
+		function createMO(famRoleObj){
+			/* 	为角色创建属性 
+					主资费变更和可选资费变更可用，因为比较固定
+					businessId 标识是 主资费(MO) 还是 可选资费(AO)
+					offerId 标识资费代码
+			*/
+			$.each($("input[id^='complex_MO']:checked"),function(i,n){
+				var offerIdVal = n.value;
+				var business = new Business();
+				var businessIdStr = "#complex_busiid_" + i;
+				var businessId = $(businessIdStr).val();
+				var offerComment = $("#offerComment_" + i).val();
+				var offerName = $("#offerName_" + i).val();
+				var actionFlag = $("#action_" + i).val();
+				if(actionFlag == "pubCreateFam"){
+					$("#mainOfferComment").val(offerComment);
+					$("#mainOfferName").val(offerName);
+				}else{
+					$("#minorOfferComment").val(offerComment);
+					$("#minorOfferName").val(offerName);
+				}
+				business.setBusinessId(businessId);
+				business.setBusitype("MO");
+				business.setOfferId(offerIdVal);
+				famRoleObj.addBusiness(business);
+			});
+			return famRoleObj;
+		}
+		function createAO(famRoleObj){
+			/* 	为角色创建属性 
+					主资费变更和可选资费变更可用，因为比较固定
+					businessId 标识是 主资费(MO) 还是 可选资费(AO)
+					offerId 标识资费代码
+			*/
+			$.each($("input[id^='complex_AO']:checked"),function(i,n){
+				var offerIdVal = n.value;
+				var businessIdStr = "#complex_busiid_" + i;
+				var businessId = $(businessIdStr).val();
+				var business = new Business();
+				business.setBusinessId(businessId);
+				business.setBusitype("AO");
+				business.setOfferId(offerIdVal);
+				famRoleObj.addBusiness(business);
+				var offerComment = $("#offerComment_" + i).val();
+				var offerName = $("#offerName_" + i).val();
+				var actionFlag = $("#action_" + i).val();
+				if(actionFlag == "pubCreateFam"){
+					$("#mainOfferComment").val(offerComment);
+					$("#mainOfferName").val(offerName);
+				}else{
+					$("#minorOfferComment").val(offerComment);
+					$("#minorOfferName").val(offerName);
+				}
+			});
+			return famRoleObj;
+		}
+		function createHomeEasy(famRoleObj){
+			var business = new Business();
+			business.setBusinessId($("#homeEasyBusiId").val());
+			business.setBusitype("SP");
+			business.setOper("06");
+			famRoleObj.addBusiness(business);
+			return famRoleObj;
+		}
+		function createKinShip(famRoleObj){
+			var business = new Business();
+			business.setBusinessId($("#kinShipBusiId").val());
+			business.setBusitype("SP");
+			business.setOper("06");
+			business.setOfferId($("#propOfferId").val().trim());
+			business.setBeginTime($("#kinShipBeginTime").val().trim());
+			business.setEndTime($("#kinShipEndTime").val().trim());
+			business.setPropName($("#propName").val().trim());
+			business.setPropSex($("input[name='propSex']:checked").val().trim());
+			business.setPropBirthday($("#propBirthday").val().trim());
+			business.setPropCardNo($("#prodCardNo").val().trim());
+			business.setPropDistrict($("#propDistrict").val().trim());
+			business.setPropAddress($("#propAddress").val().trim());
+			business.setPropTelephone($("#propTelephone").val().trim());
+			business.setUserAccounts($("#userAccounts").val().trim());
+			business.setPropCommunity($("#propCommunity").val().trim());
+			famRoleObj.addBusiness(business);
+			return famRoleObj;
+		}
+		function createMarket(famRoleObj){
+			var business = new Business();
+			business.setBusitype("YX");
+			business.setBusinessId($("#marketingBusiId").val());
+			business.setOper("06");
+			business.setSale_type($("#marketSaleType").val());
+			var sale_flag ;
+			if($("#saleFlag").attr("checked")){
+				sale_flag = "1";
+			}else{
+				sale_flag = "0";
+			}
+			business.setSale_flag(sale_flag);
+			business.setSale_code($("#market").val());
+			business.setImei($("#IMEINo").val());
+			business.setBrand_name($("#brand").val());
+			business.setRes_name($("#res").val());
+			business.setPrepay_fee($("#prepayFee").val());
+			business.setConsume_term($("#consumeTerm").val());
+			business.setOfferId($("#mainOffer").val());
+			famRoleObj.addBusiness(business);
+			/* 营销案创建时，拼接上免填单和发票的信息 */
+			$("#homeEasyHide").val("1");
+			$("#brandAndResHide").val($("#brand  option:selected").text() + $("#res  option:selected").text());
+			$("#imeiHide").val($("#IMEINo").val());
+			$("#prepayFeeHide").val($("#prepayFee").val());
+			return famRoleObj;
+		}
+		
+		function ctrlAddBtn(flag){
+			/* 控制家庭角色信息区一堆添加按钮，可用不可用 */
+			if(flag == "d"){
+				/* 置成disabled */
+				$("input[name^='addRole']").attr("disabled","true");
+			}else if(flag == "u"){
+				/* 去掉disabled */
+				$("input[name^='addRole']").removeAttr("disabled");
+			}
+		}
+		function clearBusiContent(){
+			/* 清空业务受理区 */
+			$("#phoneNo").val("");
+			$("#phoneNo").removeAttr("readonly");
+			$("#pwdContent").show();
+			$("input[name='phonePwd']").val("");
+			$("#operRoleId").val("");
+			$("#operRoleName").val("");
+			$("#operMemberId").val("");
+			$("#operPayType").val("");
+			$("#busiAccept").html("");
+			$("#busiAcceptContent").hide();
+			$("input[name^='sign']").val("0");
+			$("#checkAndAdd").removeAttr("disabled");
+			/* 如果有校验提示信息，隐藏 */
+			$.each($(":text"),function(i,n){
+				hiddenTip(n);
+			});
+		}
+		function cancleAdd(){
+			ctrlFamRoleTab();
+			clearBusiContent();
+		}
+		function ctrlFamRoleTab(){
+			/* 控制家庭角色信息部分 */
+			/*需要控制已经添加数量，已添加数量应该大于等于角色最小数量，小于等于角色最大数量
+			*当已添加数量等于角色最大数时，添加按钮置灰
+			*当已添加数量小于角色最大数时，添加按钮可用
+			*角色数量判断，应写单独函数，提交校验时也可用。
+			*提交时会校验成员添加数量是否在规定范围内。
+			*/
+			var resule0Obj = $("input[id^='memRoleId_']");
+			/* 控制确定按钮 1代表可以点击，0代表置灰不可点击 */
+			var confirmBtnStr = "1";
+			var confirmBtnObj = $("#confirm");
+			$.each(resule0Obj,function(i,n){
+				var ctrlBtnStr = "#addRole" + i;
+				var selectedMemNum = getSelectedMembNum(n.value)
+				var addedMemberNum = 0;
+				var selectedMemStr = "#selectedMem_"+i;
+				addedMemberNum = parseInt($(selectedMemStr).val()) + parseInt(selectedMemNum);
+				$("#familyRoleTab tr:eq(" + ( i + 1 ) + ") td:eq(3)").html("" + addedMemberNum);
+				var ctrlFlag = checkMemberNo(n.value,addedMemberNum);
+				if(ctrlFlag == "1"){
+					/*不可以添加，按钮置灰*/
+					$(ctrlBtnStr).attr("disabled","true");
+				}else if(ctrlFlag == "0"){
+					/* 可以继续添加 */
+					$(ctrlBtnStr).removeAttr("disabled");
+				}else if(ctrlFlag == "-1"){
+					/* 可以继续添加 */
+					$(ctrlBtnStr).removeAttr("disabled");
+					confirmBtnStr = "0";
+				}
+			});
+			if(confirmBtnStr == "1" && familyRoleList.getLength() != "0"){
+				confirmBtnObj.removeAttr("disabled");
+			}else {
+				confirmBtnObj.attr("disabled","true");
+			}
+		}
+		function checkBusiness(){
+			var phoneNoVal = $("#phoneNo").val().trim();
+			if(phoneNoVal == ""){
+				rdShowMessageDialog("请输入操作手机号码");
+				return false;
+			}
+			
+			var busiAcceptContentObjs = $("#busiAcceptContent :text");
+			var acceptCheckFlag = true;
+			$.each(busiAcceptContentObjs,function(i,n){
+				if(!checkElement(n)){
+					acceptCheckFlag = false;
+					return false;
+				}
+			});
+			var busiAcceptSelectObjs = $("#busiAcceptContent select");
+			$.each(busiAcceptSelectObjs,function(i,n){
+				if($(n).val() == ""){
+					rdShowMessageDialog("请选择" + $(n).attr("v_name"));
+					acceptCheckFlag = false;
+					return false;
+				}
+			});
+			if(!acceptCheckFlag){
+				return acceptCheckFlag;
+			}
+			/* 做密码校验  */
+			if("<%=pwrf%>" == "false" && "M" != $("#signFamRoleFlag").val()){
+				/*如果没有免密码权限，并且不是家长，必须输入密码并且校验密码*/
+				var userPsw = $("input[name='phonePwd']").val();
+				if(userPsw == ""){
+					rdShowMessageDialog("请输入操作手机密码");
+					return false;
+				}
+				var checkPwd_Packet = new AJAXPacket("/npage/public/pubCheckPwd.jsp","正在进行密码校验，请稍候......");
+				checkPwd_Packet.data.add("custType","01");				//01:手机号码 02 客户密码校验 03帐户密码校验
+				checkPwd_Packet.data.add("phoneNo",phoneNoVal);	//移动号码,客户id,帐户id
+				checkPwd_Packet.data.add("custPaswd",userPsw);//用户/客户/帐户密码
+				checkPwd_Packet.data.add("idType","");				//en 密码为密文，其它情况 密码为明文
+				checkPwd_Packet.data.add("idNum","");					//传空
+				checkPwd_Packet.data.add("loginNo","<%=work_no%>");		//工号
+				core.ajax.sendPacket(checkPwd_Packet, doCheckPwd);
+				checkPwd_Packet=null;
+				if($("#signPswFlag").val() == "0"){
+					return false;
+				}
+			}
+			getPubCheck(phoneNoVal,"<%=opCode%>","<%=familyCode%>",$("#signMembRoleId").val());
+			var checkObj = $("#checkFlag");
+			if(checkObj.val() == "0"){
+				/* 不允许继续执行 */
+				return false;
+			}
+			return true;
+		}
+		function doCheckPwd(packet) {
+				var retResult = packet.data.findValueByName("retResult");
+				var msg = packet.data.findValueByName("msg");
+				if (retResult != "000000") {
+					/* 密码校验标识 0失败   1成功 */
+					$("#signPswFlag").val("0");
+					rdShowMessageDialog(msg);
+				}else{
+					$("#signPswFlag").val("1");
+				}
+		}
+		function getPubCheck(phoneNo,opcode,famCode,memberRoleId){
+			var getdataPacket = new AJAXPacket("fe280PubCheck.jsp","正在获得数据，请稍候......");
+			getdataPacket.data.add("parentPhone",phoneNo);
+			getdataPacket.data.add("opCode",opcode);
+			getdataPacket.data.add("famCode",famCode);
+			getdataPacket.data.add("memberRoleId",memberRoleId);
+			getdataPacket.data.add("checkType","0");
+			core.ajax.sendPacket(getdataPacket,doPubCheckBack);
+			getdataPacket = null;
+		}
+		function doPubCheckBack(packet){
+			retCode = packet.data.findValueByName("retcode");
+			retMsg = packet.data.findValueByName("retmsg");
+			var checkObj = $("#checkFlag");
+			if(retCode != "000000"){
+				checkObj.val("0");
+				rdShowMessageDialog(retMsg,0);
+		  	return false;
+			}else{
+				checkObj.val("1");
+			}
+		}
+		function checkMemberNo(memberId,selectedMemNum){
+			/* 	根据memberId判断已经选择成员数量与配置的家庭成员数量关系*/
+			/* 	1 已添加成员等于最大值，即不可继续增加了 */
+			/* 	0 已添加成员小于最大值大于等于最小值，即可以继续增加 */
+			/* 	-1 已添加成员小于最小值，即必须继续增加 */
+			/* 	获取已经选择的成员数量 */
+			var resule0Obj = $("input[id^='memRoleId_']");
+			var rowNum;
+			$.each(resule0Obj,function(i,n){
+				if(memberId == n.value){
+					rowNum = i;
+				}
+			});
+			rowNum = rowNum + 1;
+			/*	获取配置的家庭成员数量最大值*/
+			var membMaxNum = $("#familyRoleTab tr:eq("+rowNum+") td:eq(1)").html();
+			/*	获取配置的家庭成员数量最小值*/
+			var membMinNum = $("#familyRoleTab tr:eq("+rowNum+") td:eq(2)").html();
+			if(selectedMemNum == membMaxNum){
+				return 1;
+			}
+			if(selectedMemNum < membMaxNum && selectedMemNum >= membMinNum){
+				return 0;
+			}
+			if(selectedMemNum < membMinNum){
+				return -1;
+			}
+		}
+		function getSelectedMembNum(memberId){
+			/* 	获取已经选择的成员数量 */
+			var selectedMemNum = 0;
+			var famRoleObj;
+			for (var i = 0; i < familyRoleList.getLength(); i++){
+				famRoleObj = familyRoleList.getFamRole(i);
+				if(memberId == famRoleObj.getMembId()){
+					selectedMemNum++;
+				}
+			}
+			return selectedMemNum;
+		}
+		function changeProd(){
+			familyRoleList = new FamRoleList();
+			$("#selectedRoleListTb").html("");
+			ctrlFamRoleTab();
+			clearBusiContent(); 
+		}
+		function changeBrand(saleType){
+			/* 重新输入imei码并且做校验*/
+			$("#IMEINo").val("").removeAttr("readonly");
+			var checkAndAddObj = $("#checkAndAdd");
+			checkAndAddObj.attr("disabled","true");
+			
+			var brandVal = $("#brand").val();
+			var getdataPacket = new AJAXPacket("getRes.jsp","请稍后...");
+			getdataPacket.data.add("brand",brandVal);
+			getdataPacket.data.add("saleType",saleType);
+			core.ajax.sendPacketHtml(getdataPacket,doBrandHtml);
+			getdataPacket =null;
+			getPhoneSale(saleType);
+			//changeMarketing(saleType);
+			//liujian  主资费清空
+			mainOfferArray = [];
+		}
+		function changeRes(saleType){
+			/* 重新输入imei码并且做校验*/
+			$("#IMEINo").val("").removeAttr("readonly");
+			var checkAndAddObj = $("#checkAndAdd");
+			checkAndAddObj.attr("disabled","true");
+			getPhoneSale(saleType);
+			changeMarketing(saleType);
+		}
+		function getPhoneSale(saleType){
+			var brandVal = $("#brand").val();
+			var resVal = $("#res").val();
+			var getdataPacket = new AJAXPacket("getPhoneSale.jsp","请稍后...");
+			getdataPacket.data.add("brandCode",brandVal);
+			getdataPacket.data.add("typeCode",resVal);
+			getdataPacket.data.add("saleType",saleType);
+			core.ajax.sendPacketHtml(getdataPacket,doSaleHtml);
+			getdataPacket =null;
+		}
+		function doSaleHtml(data){
+			$("#market").html(data);
+		}
+		function getMainOffer(saleCode,saleType){
+			//liujian  主资费清空
+			mainOfferArray = [];
+			var getdataPacket = new AJAXPacket("getMainOffer.jsp","请稍后...");
+		//	getdataPacket.data.add("saleCode",saleCode);
+		//	getdataPacket.data.add("saleType",saleType);
+		//	alert('prodCode=' + $('#familyProdInfo').val());
+			
+			getdataPacket.data.add("opCode","<%=opCode%>");
+			getdataPacket.data.add("parentPhone","<%=parentPhone%>");
+			getdataPacket.data.add("famCode","<%=familyCode%>");
+			getdataPacket.data.add("prodCode",$('#familyProdInfo').val());
+			
+			core.ajax.sendPacketHtml(getdataPacket,doMainOfferHtml);
+			getdataPacket =null;
+		}
+		function doMainOfferHtml(data){
+			$("#mainOffer").html(data);
+		}
+		function changeMarketing(saleType){
+			var marketObj = $("#market");
+			var prepayFee = marketObj.find("option[value='" + marketObj.val() + "']").attr("prepayfee")
+			var consume = marketObj.find("option[value='" + marketObj.val() + "']").attr("consume");
+			var saleCode = marketObj.val();
+			getMainOffer(saleCode,saleType);
+			if(typeof(prepayFee) == "undefined"){
+				prepayFee = "";
+			}
+			if(typeof(consume) == "undefined"){
+				consume = "";
+			}
+			$("#prepayFee").val(prepayFee);
+			$("#consumeTerm").val(consume);
+		}
+		function doBrandHtml(data){
+			$("#res").html(data);
+		}
+		function getAccount(){
+			var accountObj = $("#userAccounts");
+			if(accountObj.val().trim() == ""){
+				accountObj.val($("#phoneNo").val());
+			}
+		}
+		function checkimeino(){
+			var imeiNoObj = $("#IMEINo");
+			var checkAndAddObj = $("#checkAndAdd");
+			if (imeiNoObj.val().length == 0) {
+				rdShowMessageDialog("IMEI号码不能为空，请重新输入 !!");
+				imeiNoObj[0].focus();
+				checkAndAddObj.attr("disabled","true");
+				return false;
+			} 
+		     
+			var IMEINo = imeiNoObj.val();
+			var agent_code = $("#brand").val();
+			var phone_type = $("#res").val();
+			var opcode = "<%=opCode%>";
+			
+			var myPacket = new AJAXPacket("../s1141/queryimei.jsp","正在校验IMEI信息，请稍候......");
+			myPacket.data.add("imei_no",IMEINo);
+			myPacket.data.add("brand_code",agent_code);
+			myPacket.data.add("style_code",phone_type);
+			myPacket.data.add("retType","0");
+			myPacket.data.add("opcode",opcode);
+			core.ajax.sendPacket(myPacket,doCheckImeiBack);
+			myPacket =null; 
+		    
+		}
+		function doCheckImeiBack(packet){
+			errorCode = packet.data.findValueByName("errorCode");
+			errorMsg =  packet.data.findValueByName("errorMsg");
+			retType = packet.data.findValueByName("retType");
+			var retResult=packet.data.findValueByName("retResult");
+			var imeiNoObj = $("#IMEINo");
+			var checkAndAddObj = $("#checkAndAdd");
+			if(retResult == "000000"){
+					rdShowMessageDialog("IMEI号校验成功1！");
+					imeiNoObj.attr("readonly","true");
+					checkAndAddObj.removeAttr("disabled");
+					return ;
+
+			}else if(retResult == "000001"){
+					rdShowMessageDialog("IMEI号校验成功2！");
+					imeiNoObj.attr("readonly","true");
+					checkAndAddObj.removeAttr("disabled");
+					return ;
+
+			}else if(retResult == "000003"){
+					rdShowMessageDialog("IMEI号不在营业员归属营业厅或IMEI号与业务办理机型不符！");
+					checkAndAddObj.attr("disabled","true");
+					return false;
+			}else{
+					rdShowMessageDialog("IMEI号不存在或者已经使用！");
+					checkAndAddObj.attr("disabled","true");
+					return false;
+			}
+		}
+		function doPubGetInfoBack(packet){
+			var retCode = packet.data.findValueByName("retcode");
+			var retMsg = packet.data.findValueByName("retmsg");
+			var custName = packet.data.findValueByName("custName");
+			var smName = packet.data.findValueByName("smName");
+			$("#custName").val(custName);
+			$("#smName").val(smName);
+			$("#parentCustName").val(custName);
+		}
+		$(document).ready(function(){
+			/* 设置样式 */
+			if("<%=opCode%>" == "e282"){
+				$("#familyMemberList").show();
+				$("#famMembListContent").show();
+				var prodCode = "<%=prodCode%>";
+				$("#familyProdInfo option[value='" + prodCode + "']").attr("selected","selected");
+				$("#familyProdInfo").attr("disabled","true")
+			}
+			
+			var getdataPacket = new AJAXPacket("pubGetCustInfo.jsp","正在获得数据，请稍候......");
+			getdataPacket.data.add("phoneNo","<%=parentPhone%>");
+			core.ajax.sendPacket(getdataPacket,doPubGetInfoBack,true);
+			getdataPacket = null;
+			
+			ctrlFamRoleTab();
+		});
+	</script>
+</head>
+<body>
+<form action="" method="post" name="form1">
+		<%@ include file="/npage/include/header.jsp" %>
+		<%@ include file="/npage/common/pwd_comm.jsp" %>
+	<div class="title">
+		<div id="title_zi">家庭产品变更</div>
+	</div>
+	<table cellspacing="0">
+		<tr>
+			<td class="blue">家庭产品信息</td>
+			<td>
+				<select id="familyProdInfo" name="familyProdInfo" onchange="changeProd()">
+					<option value ="">--请选择--</option>
+					<wtc:qoption name="TlsPubSelCrm" outnum="2">
+						<wtc:sql>
+							SELECT prod_code, prod_name
+							  FROM sfamilyprodinfo
+							 WHERE family_code = '?' AND GROUP_ID = '?'
+						</wtc:sql>
+						<wtc:param value="<%=familyCode%>"/>
+						<wtc:param value="<%=belongGroupId%>"/>
+					</wtc:qoption>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<div class="title" id="famMembListContent" style="display:none;">
+		<div id="title_zi">家庭现有成员列表</div>
+	</div>
+	<table id="familyMemberList" style="display:none;">
+		<tr>
+			<th>家庭代码</th>
+			<th>家庭名称</th>
+			<th>手机号码</th>
+			<th>角色名称</th>
+			<th>生效时间</th>
+			<th>失效时间</th>
+		</tr>
+		<%
+			if("e282".equals(opCode)){
+				for(int i = 0; i < familyMemberList.length; i++){
+					System.out.println("---------------liujian---------------familyMemberList=" + familyMemberList.length);
+		%>
+		<tr id="row_0">
+			<input type="hidden" name="memberRoleId_<%=i%>" id="memberRoleId_<%=i%>" value="<%=familyMemberList[i][0]%>"/>
+			<input type="hidden" name="phoneNo_<%=i%>" id="phoneNo_<%=i%>" value="<%=familyMemberList[i][3]%>"/>
+			<input type="hidden" id="showfamilyRole_<%=i%>" name="showfamilyRole_<%=i%>" value="<%=familyMemberList[i][1]%>" />
+			<input type="hidden" id="memberRoleName_<%=i%>" name="memberRoleName_<%=i%>" value="<%=familyMemberList[i][2]%>" />
+			<input type="hidden" id="showpayType_<%=i%>" name="showpayType_<%=i%>" value="<%=familyMemberList[i][6]%>" />
+			<script>
+				/*
+				//liujian e282需求变更，只要当前添加的号码
+				var memeberRoleId = "<%=familyMemberList[i][0]%>";
+				if(memeberRoleId == '70002' || memeberRoleId == '70004') {
+					memberPhoneList.push("<%=familyMemberList[i][3]%>");
+				}
+				*/
+			</script>
+			<td><%=familyCode%></td>
+			<td><%=familyName%></td>
+			<td><%=familyMemberList[i][3]%></td>
+			<td><%=familyMemberList[i][2]%></td>
+			<td><%=familyMemberList[i][4]%></td>
+			<td><%=familyMemberList[i][5]%></td>
+		</tr>
+		<%
+				}
+			}
+		%>
+	</table>
+	<div id="items">
+		<div class="item-col2 col-1">
+			<div class="title" >
+				<div id="title_zi">家庭角色信息</div>
+			</div>	
+			<table cellspacing="0" id="familyRoleTab">
+				<tr>
+					<th>角色名称</th>
+					<th>角色最大数量</th>
+					<th>角色最小数量</th>
+					<th>已添加数量</th>
+					<th>付费方式</th>
+					<th>操作</th>
+				</tr>
+				<%
+				for(int i = 0; i < result0.length; i++){
+				%>
+				<tr>
+					<input type="hidden" id="rolerow_<%=i%>" value="<%=i%>" />
+					<input type="hidden" id="familyrole_<%=i%>" value="<%=result0[i][1]%>" />
+					<input type="hidden" id="familyroleName_<%=i%>" value="<%=result0[i][2]%>" />
+					<input type="hidden" id="memRoleId_<%=i%>" value="<%=result0[i][0]%>" />
+					<input type="hidden" id="payType_<%=i%>" value="<%=result0[i][5]%>" />
+					<input type="hidden" id="selectedMem_<%=i%>" value="<%=result0[i][6]%>" />
+					<td><%=result0[i][2]%></td>
+					<td><%=result0[i][3]%></td>
+					<td><%=result0[i][4]%></td>
+					<td>
+						<%=result0[i][6]%>
+					</td>
+					<td><%=result0[i][5]%></td>
+					<td>
+						<input type="button" name="addRole<%=i%>" id="addRole<%=i%>" 
+						 value="添加" class="b_text" onclick="addRole(<%=i%>)" />
+					</td>
+				</tr>
+				<%
+				}
+				%>
+			</table>
+		</div>
+		
+		<div class="item-row2 col-2">
+			<div class="title" >
+				<div id="title_zi">已选角色区</div>
+			</div>	
+			<table cellspacing="0" id="addRoleTab">
+				<tr>
+					<th width="25%">手机号码</th>
+					<th>角色名称</th>
+					<th>操作</th>
+				</tr>
+				<tbody id="selectedRoleListTb">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- 业务受理区 -->
+	<div id="busiAcceptContent" style="display:none;"> 
+		<div class="title" >
+			<div id="title_zi">业务受理区</div>
+		</div>	
+		<table>
+			<tr>
+				<td class="blue" width="15%">成员手机号码</td>
+				<td width="15%">
+					<input type="text" id="phoneNo" name="phoneNo" maxlength="11" v_type="mobphone" v_must="1" onblur = "checkElement(this)" />
+					<font class="orange">*</font>
+					<input type="hidden" id="operRoleId" name="operRoleId" />
+					<input type="hidden" id="operRoleName" name="operRoleName" />
+					<input type="hidden" id="operMemberId" name="operMemberId" />
+					<input type="hidden" id="operPayType" name="operPayType" />
+				</td>
+				<td class="blue" width="20%">密码</td>
+				<td colspan="2" >
+					<span id="pwdContent">
+						<jsp:include page="/npage/common/pwd_1.jsp">
+							<jsp:param name="width1" value="16%"/>
+							<jsp:param name="width2" value="34%"/>
+							<jsp:param name="pname" value="phonePwd"/>
+							<jsp:param name="pwd" value=""/>
+						</jsp:include>
+					</span>
+				</td>
+			</tr>
+			<tbody id="busiAccept">
+			</tbody>
+			<tr>
+				<td colspan="5">
+					<div align="center"> 
+						<input type="button" class="b_foot_long" value="校验&添加成员" 
+						 onclick="addRoleToSelected()" id="checkAndAdd" name="checkAndAdd" />
+						<input type="button" name="cancle" class="b_foot" value="取消" onclick="cancleAdd()" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<input type="hidden" id="signFamRoleFlag" name="signFamRoleFlag" />
+	<input type="hidden" id="signPswFlag" name="signPswFlag" />
+	<input type="hidden" id="signMOFlag" name="signMOFlag" />
+	<input type="hidden" id="signAOFlag" name="signAOFlag" />
+	<input type="hidden" id="signHomeEasyFlag" name="signHomeEasyFlag" />
+	<input type="hidden" id="signKinshipFlag" name="signKinshipFlag" />
+	<input type="hidden" id="signMarketFlag" name="signMarketFlag" />
+	<input type="hidden" id="signMembRoleId" name="signMembRoleId" />
+	<!-- 业务受理区 end -->
+	<input type="hidden" name="opCode" id="opCode" value="<%=opCode%>" />
+	<input type="hidden" name="opName" id="opName" value="<%=opName%>" />
+	<input type="hidden" id="printAccept" name="printAccept" value="<%=printAccept%>" />
+	<input type="hidden" id="parentPhone" name="parentPhone" value="<%=parentPhone%>" />
+	<input type="hidden" id="parentCustName" name="parentCustName" value="" />
+	<input type="hidden" id="operPhoneNo" name="operPhoneNo" value="<%=parentPhone%>" />
+	<input type="hidden" id="myJSONText" name="myJSONText" />
+	<input type="hidden" name="checkFlag" id="checkFlag" />
+	<input type="hidden" name="custName" id="custName" />
+	<input type="hidden" name="smName" id="smName" />
+	<input type="hidden" name="homeEasyHide" id="homeEasyHide" value="0" />
+	<input type="hidden" name="brandAndResHide" id="brandAndResHide" />
+	<input type="hidden" name="homeEasyPhoneHide" id="homeEasyPhoneHide" />
+	<input type="hidden" name="imeiHide" id="imeiHide" />
+	<input type="hidden" name="prepayFeeHide" id="prepayFeeHide" />
+	<input type="hidden" name="reqContextPath" id="reqContextPath" value="<%=request.getContextPath()%>" />
+	<input type="hidden" name="mainOfferName" id="mainOfferName" value="" />
+	<input type="hidden" name="minorOfferName" id="minorOfferName" value="" />
+	<input type="hidden" name="mainOfferComment" id="mainOfferComment" value="" />
+	<input type="hidden" name="minorOfferComment" id="minorOfferComment" value="" />
+	<input type="hidden" name="familyName" id="familyName" value="<%=familyName%>" />
+	<input type="hidden" name="printName" id="printName" value="<%=printName%>" />
+	<input type="hidden" name="cccTime" id="cccTime" value="<%=cccTime%>" />
+	<table>
+		<tr > 
+			<td id="footer"> <div align="center"> 
+			<input name="confirm" id="confirm" type="button" class="b_foot" 
+			 value="确认" onClick="nextStep(this)" disabled />
+			&nbsp; 
+			<input name="reset" type="reset" class="b_foot" value="清除" onclick="changeProd()" />
+			&nbsp; 
+			<input name="reset" type="button" class="b_foot" value="返回" onclick="goBack()" />
+			&nbsp; 
+			<input name="back" onClick="removeCurrentTab();" type="button" class="b_foot" value="关闭" />
+			&nbsp; </div>
+			</td>
+		</tr>
+	</table>
+	<%@ include file="/npage/include/footer.jsp" %> 
+</form>
+<%@ include file="/npage/include/pubLightBox.jsp" %>
+</body>
+</html>

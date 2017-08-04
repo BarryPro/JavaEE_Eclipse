@@ -1,0 +1,109 @@
+package com.sitech.acctmgr.atom.domains.free;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+import java.io.Serializable;
+
+/**
+ * Created by wangyla on 2017/6/7.
+ */
+public class FreeDetailLv2InEntity implements Serializable {
+
+    @JSONField(name = "name")
+    @ParamDesc(path = "name", cons = ConsType.CT001, type = "string", len = "256", desc = "二级资源名称", memo = "")
+    private String prcName;
+
+    @JSONField(name = "Amount")
+    @ParamDesc(path = "Amount", cons = ConsType.CT001, type = "string", len = "12", desc = "资源总量", memo = "")
+    private String busiCode;
+
+    @JSONField(name = "Used")
+    @ParamDesc(path = "Used", cons = ConsType.CT001, type = "string", len = "12", desc = "资源已使用量", memo = "")
+    private String used;
+
+    @JSONField(name = "Remain")
+    @ParamDesc(path = "Remain", cons = ConsType.CT001, type = "string", len = "12", desc = "资源剩余量", memo = "")
+    private String remain;
+
+    @JSONField(name = "Unit")
+    @ParamDesc(path = "Unit", cons = ConsType.CT001, type = "string", len = "2", desc = "资源单位", memo = "01：分钟；02：条数；03：KB")
+    private String unit;
+
+    @JSONField(name = "IsCarryOver")
+    @ParamDesc(path = "IsCarryOver", cons = ConsType.CT001, type = "string", len = "1", desc = "是否属于结余资源", memo = "0:结转资源；1:非结转资源")
+    private String carryFlag;
+
+    @JSONField(name = "BillMonth")
+    @ParamDesc(path = "BillMonth", cons = ConsType.CT001, type = "string", len = "6", desc = "资源所属账期月份", memo = "当iSCarryOver取值为0时填写；")
+    private String billMonth;
+
+    @JSONField(name = "ExpireTime")
+    @ParamDesc(path = "ExpireTime", cons = ConsType.CT001, type = "string", len = "14", desc = "资源信息失效时间", memo = "格式：yyyyMMddHHmmss")
+    private String expireTime;
+
+    public String getPrcName() {
+        return prcName;
+    }
+
+    public void setPrcName(String prcName) {
+        this.prcName = prcName;
+    }
+
+    public String getBusiCode() {
+        return busiCode;
+    }
+
+    public void setBusiCode(String busiCode) {
+        this.busiCode = busiCode;
+    }
+
+    public String getUsed() {
+        return used;
+    }
+
+    public void setUsed(String used) {
+        this.used = used;
+    }
+
+    public String getRemain() {
+        return remain;
+    }
+
+    public void setRemain(String remain) {
+        this.remain = remain;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getCarryFlag() {
+        return carryFlag;
+    }
+
+    public void setCarryFlag(String carryFlag) {
+        this.carryFlag = carryFlag;
+    }
+
+    public String getBillMonth() {
+        return billMonth;
+    }
+
+    public void setBillMonth(String billMonth) {
+        this.billMonth = billMonth;
+    }
+
+    public String getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(String expireTime) {
+        this.expireTime = expireTime;
+    }
+}

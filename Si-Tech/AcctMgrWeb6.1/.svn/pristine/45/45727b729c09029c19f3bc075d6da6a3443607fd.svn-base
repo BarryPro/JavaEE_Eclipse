@@ -1,0 +1,763 @@
+package com.sitech.acctmgr.atom.busi.invoice;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+
+import com.alibaba.fastjson.JSON;
+import com.sitech.ac.rdc.re.api.common.util.MBean;
+import com.sitech.acctmgr.atom.busi.intface.IBusiMsgSnd;
+import com.sitech.acctmgr.atom.busi.invoice.inter.IInvFee;
+import com.sitech.acctmgr.atom.busi.invoice.inter.ITaxInvoFlow;
+import com.sitech.acctmgr.atom.domains.invoice.BalInvprintInfoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvCondEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoTotalEntity;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IInvoice;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.BaseBusi;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.util.DateUtil;
+
+/**
+ *
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author
+ * @version 1.0
+ */
+@SuppressWarnings("all")
+public class TaxInvoFlow extends BaseBusi implements ITaxInvoFlow {
+
+	private IInvoice invoice;
+	private IInvFee invFee;
+	private IBusiMsgSnd busiMsgSend;
+	private IControl control;
+
+	public TaxInvoFlow() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 调教申请时接口
+	 */
+	@Override
+	public void appPrtBOSSInvo(Map<String, Object> inParam, List<TaxInvoEntity> taxInvList, List<InvCondEntity> invCondList) {
+		Map<String, Object> outParam;
+		long auditSn = 0;
+		int printArray = 1;
+		Map<String, Object> inTemp = new HashMap<String, Object>();
+		// inTemp.put("SEQ_NAME", "SEQ_SYSTEM_SN");
+		// outParam = (Map<String, Object>) baseDao.queryForObject("dual.qSequenceInter", inTemp);
+		// auditSn = Long.valueOf(outParam.get("NEXTVAL").toString());
+		auditSn = control.getSequence("SEQ_SYSTEM_SN");
+		String invCode = "00000";
+		String invNo = "00000";
+		String printType = "0";
+		int optseq = 1;
+		int beginMonth = 0;
+		int endMonth = 0;
+		double tmp_taxRate = 0.00;
+
+		Map<String, Object> rateMap = new HashMap<String, Object>();
+		for (TaxInvoEntity invInfo : taxInvList) {
+
+			long printSn = 0;
+			long orderSn = 0;
+			if (invInfo.getOrderSn() > 0) {
+				orderSn = invInfo.getOrderSn();
+			} else {
+				orderSn = auditSn;
+			}
+
+			inTemp = new HashMap<String, Object>();
+			// inTemp.put("SEQ_NAME", "SEQ_SYSTEM_SN");
+
+			// 取打印流水
+			// outParam = (Map<String, Object>) baseDao.queryForObject("dual.qSequenceInter", inTemp);
+			printSn = control.getSequence("SEQ_SYSTEM_SN");
+
+			// ***********************发票审批表 begin**********************//
+			inTemp = new HashMap<String, Object>();
+			inTemp.put("AUDIT_SN", auditSn);
+			inTemp.put("ORDER_SN", orderSn);
+			inTemp.put("PRINT_SN", printSn);
+			inTemp.put("PRINT_NUM", 1);
+			inTemp.put("DATA_SOURCE", inParam.get("DATA_SOURCE"));
+			inTemp.put("PHONE_NO", inParam.get("PHONE_NO").toString());
+			inTemp.put("CUST_ID", MapUtils.getLong(inParam, "CUST_ID"));// 购方发票的cust_id
+			inTemp.put("STATE", MapUtils.getString(inParam, "STATE", "0"));// 应该传0
+			inTemp.put("PRINT_TYPE", printType);
+			inTemp.put("INV_TYPE", MapUtils.getString(inParam, "INV_TYPE", "0"));
+			inTemp.put("INV_CODE", invCode);
+			inTemp.put("INV_NO", invNo);
+			inTemp.put("TCM_CODE", "0");
+			inTemp.put("LOGIN_NO", MapUtils.getString(inParam, "LOGIN_NO"));
+			inTemp.put("REPORT_TO", MapUtils.getString(inParam, "REPORT_TO"));// 开票工号
+			inTemp.put("AUDIT_NO", "");
+			inTemp.put("TAXPAYER_ID", MapUtils.getString(inParam, "TAXPAYER_ID"));// 纳税人识别号
+			inTemp.put("UNIT_NAME", MapUtils.getString(inParam, "UNIT_NAME"));// 纳税人名称
+			inTemp.put("FLOW_ID", 2);
+			inTemp.put("ORDER_INFO", invInfo.getOrderInfo());// 订单信息
+
+			// 红色发票专用字段
+			if ("1".equals(inTemp.get("INV_TYPE"))) {
+				inTemp.put("REDINV_CAUSE", inParam.get("REDINV_CAUSE"));
+				inTemp.put("REDINV_ORDERNO", inParam.get("REDINV_ORDERNO"));
+				inTemp.put("REDINV_REMARK", inParam.get("REDINV_REMARK"));
+				inTemp.put("ORDER_SN_REL", inParam.get("ORDER_SN_REL"));
+			}
+
+			// CRM备注字段，一般17%有此数据
+			if ("CRM".equals(inTemp.get("DATA_SOURCE"))) {
+				inTemp.put("REDINV_CRMREMARK", invInfo.getRemark() == null ? "" : invInfo.getRemark().trim());
+			}
+
+			log.info("+++++inTemp++++=" + inTemp);
+			invoice.inTaxInvAudit(inTemp);
+			// ***********************发票审批表 end**********************//
+			inTemp.put("PRINT_ARRAY", 1);
+			inTemp.put("ID_NO", 0);
+			inTemp.put("CONTRACT_NO", 0);
+			inTemp.put("INV_REL_NO", invNo);
+			inTemp.put("INV_REL_CODE", invCode);
+
+			inTemp.put("TOTAL_FEE", invInfo.getInvcInitFee());
+			inTemp.put("TAX_RATE", invInfo.getTaxRate());
+
+			inTemp.put("TAX_FEE", invInfo.getTaxFee() * 100);
+			inTemp.put("PRINT_FEE", invInfo.getTotalFee());
+			inTemp.put("PRINT_NUM", 1);
+
+			inTemp.put("GROUP_ID", inParam.get("GROUP_ID"));
+			inTemp.put("OP_CODE", inParam.get("OP_CODE"));
+			inTemp.put("REMARK", "");
+			inTemp.put("PRINT_SEQ", optseq);
+			inTemp.put("BEGIN_YMD", invInfo.getBeginMonth());
+			inTemp.put("END_YMD", invInfo.getEndMonth());
+			// 增值业务费用
+			inTemp.put("ADDTAX_NAME", invInfo.getAddtaxShowName());
+			inTemp.put("ADDTAX_NUM", invInfo.getAddtaxAmount());
+			inTemp.put("ADDTAX_PRICE", invInfo.getAddtaxPrice());
+			inTemp.put("ADDTAX_FEE", invInfo.getAddtaxPrice());
+			inTemp.put("ADDTAX_TAXFEE", invInfo.getAddtaxFee() * 100);//
+			// 折扣折让费用
+			inTemp.put("DISCOUNT_NAME", invInfo.getDiscodeShowName());
+			inTemp.put("DISCOUNT_NUM", invInfo.getDiscodeAmount());
+			inTemp.put("DISCOUNT_PRICE", invInfo.getDiscodePrice());
+			inTemp.put("DISCOUNT_FEE", invInfo.getDiscodePrice());
+			inTemp.put("DISCOUNT_TAXFEE", invInfo.getDiscodeFee() * 100);
+
+			beginMonth = invInfo.getBeginMonth();
+			endMonth = invInfo.getEndMonth();
+			tmp_taxRate = invInfo.getTaxRate();
+			log.debug("tmp_taxRate======" + tmp_taxRate);
+			//
+			rateMap.put(String.valueOf(tmp_taxRate), tmp_taxRate);
+			// **********插入发票总表 begin************//
+			// invoice.insInvPrint(inTemp);
+			// ******插入发票总 end ********************************//
+			optseq++;
+		}
+
+		if ("BOSS".equals((String) inParam.get("DATA_SOURCE"))) {
+			/** 修改冲销表print_flag **/
+			rateMap.put("1", 1.00);// 增加1.00的冲销,数据库存放的是1，此处需要确认一下。
+			// 遍历map信息,所有说率的6,11,1
+			for (String key : rateMap.keySet()) {
+				int tmpbeginMonth = beginMonth;
+				int tmpendMonth = endMonth;
+				// 一点支付
+				if (invCondList != null && invCondList.size() > 0 && (1 == ValueUtils.intValue(inParam.get("BUSIFLAG")))) {
+					while (tmpbeginMonth <= tmpendMonth) {
+						for (InvCondEntity con : invCondList) {
+							log.info("......update beginMonth[" + tmpbeginMonth + "],rate[" + ((Double) rateMap.get(key)).doubleValue() + "]"
+									+ "wirteoffdata start....");
+							invFee.upTaxInvoFlag(con.getContractNo(), tmpbeginMonth, "3", ((Double) rateMap.get(key)).doubleValue(), "0", auditSn);
+							log.info("......update beginMonth[" + tmpbeginMonth + "],rate[" + ((Double) rateMap.get(key)).doubleValue() + "]"
+									+ "wirteoffdata end....");
+						}
+						tmpbeginMonth = DateUtils.addMonth(tmpbeginMonth, 1);
+					}
+				} else {
+					while (tmpbeginMonth <= tmpendMonth) {
+						log.info("......update beginMonth[" + tmpbeginMonth + "],rate[" + ((Double) rateMap.get(key)).doubleValue() + "]"
+								+ "wirteoffdata start....");
+						String contractNoStr = (String) inParam.get("CONTRACT_NO");
+						String[] contractNoArray = contractNoStr.split(",");
+						List<BalInvprintInfoEntity> balInvprintList = new ArrayList<BalInvprintInfoEntity>();
+						for (String contractNo : contractNoArray) {
+							List<TaxInvoEntity> taxInvListTmp = invFee.getAddTaxFee(ValueUtils.longValue(contractNo), tmpbeginMonth);
+							for (TaxInvoEntity taxInv : taxInvListTmp) {
+								BalInvprintInfoEntity balInvPrintInfo = new BalInvprintInfoEntity();
+								balInvPrintInfo.setPrintSn(auditSn);
+								balInvPrintInfo.setPrintArray(printArray);
+								balInvPrintInfo.setContractNo(ValueUtils.longValue(contractNo));
+								balInvPrintInfo.setCustId(ValueUtils.longValue(inParam.get("CUST_ID")));
+								balInvPrintInfo.setIdNo(0l);
+								balInvPrintInfo.setState("0");
+								balInvPrintInfo.setInvType("MM5002");
+								balInvPrintInfo.setTotalFee(taxInv.getAddtaxFee());
+								balInvPrintInfo.setTaxRate(taxInv.getTaxRate());
+								balInvPrintInfo.setTaxFee(taxInv.getTaxFee());
+								balInvPrintInfo.setPrintFee(taxInv.getTotalFee());
+								balInvPrintInfo.setLoginNo(inParam.get("LOGIN_NO").toString());
+								balInvPrintInfo.setGroupId(inParam.get("GROUP_ID").toString());
+								balInvPrintInfo.setOpCode(inParam.get("OP_CODE").toString());
+								balInvPrintInfo.setTotalDate(DateUtils.getCurDay());
+								balInvPrintInfo.setRemark("增值税发票打印");
+								balInvPrintInfo.setPrintSeq(1);
+								balInvPrintInfo.setBeginYmd(tmpbeginMonth+"");
+								balInvPrintInfo.setEndYmd(tmpendMonth + "");
+								balInvprintList.add(balInvPrintInfo);
+
+								printArray += 1;
+							}
+							
+							invFee.upTaxInvoFlag(ValueUtils.longValue(contractNo), tmpbeginMonth, "3",
+									((Double) rateMap.get(key)).doubleValue(), "0", auditSn);
+							log.info("......update beginMonth[" + tmpbeginMonth + "],rate[" + ((Double) rateMap.get(key)).doubleValue() + "]"
+									+ "wirteoffdata end....");
+						}
+						// 入bal_invprint_info表
+						invoice.iBalInvprintInfo(balInvprintList);
+						tmpbeginMonth = DateUtils.addMonth(tmpbeginMonth, 1);
+					}
+				}
+
+			}
+			// 一点支付发票业务工单
+			if (invCondList != null && invCondList.size() > 0 && (1 == ValueUtils.intValue(inParam.get("BUSIFLAG")))) {
+				List<Map<String, Object>> rateList = new ArrayList<Map<String, Object>>();
+				for (String key : rateMap.keySet()) {
+					double taxrates = ((Double) rateMap.get(key)).doubleValue();
+					Map<String, Object> ratetmpMap = new HashMap<String, Object>();
+					MapUtils.safeAddToMap(ratetmpMap, "TAX_RATE", taxrates);
+					rateList.add(ratetmpMap);
+				}
+				this.sendOneInvOrder(rateList, beginMonth, endMonth, 1, auditSn, 0L, "3", invCondList, MapUtils.getLongValue(inParam, "CONTRACT_NO"),
+						MapUtils.getString(inParam, "LOGIN_NO"), MapUtils.getString(inParam, "PHONE_NO"), "发票申请",
+						MapUtils.getString(inParam, "GROUP_ID"), MapUtils.getString(inParam, "DB_ID"));
+			}
+
+		}
+
+		// **crm发送业务工单**/
+		if ("CRM".equals((String) inParam.get("DATA_SOURCE"))) {
+			inParam.put("CRMBUSITYPE", "02");
+			sendBusiInfo(inTemp);
+		}
+		// 给审批人发送短信
+		MBean inMessage = new MBean();
+		String flag = control.getPubCodeValue(2011, "DXFS", "0");
+		inMessage.addBody("TEMPLATE_ID", "311100824801");
+		inMessage.addBody("PHONE_NO", inParam.get("AUDIT_PHONE_NO"));
+		inMessage.addBody("LOGIN_NO", inParam.get("LOGIN_NO"));
+		inMessage.addBody("OP_CODE", inParam.get("OP_CODE"));
+		inMessage.addBody("CHECK_FLAG", true);
+
+		Map<String, Object> mapTmp = new HashMap<String, Object>();
+		mapTmp.put("msg_content2", auditSn);
+		inMessage.addBody("DATA", mapTmp);
+
+		if (flag.equals("0")) {
+			inMessage.addBody("SEND_FLAG", 0);
+		} else if (flag.equals("1")) {
+			inMessage.addBody("SEND_FLAG", 1);
+		} else if (flag.equals("2")) {
+			return;
+		}
+
+		log.info("发送短信内容：" + inMessage.toString());
+		// shortMessage.sendSmsMsg(inMessage, 1);
+	}
+
+	/**
+	 * 发送异步消息to订单管理
+	 */
+	private void sendBusiInfo(Map<String, Object> inTemp) {
+		String remark = "";
+		switch (Integer.parseInt((String) inTemp.get("OP_CODE"))) {
+		case 8248:
+			remark = "增值税发票生成接口";
+			break;
+		case 8247:
+			remark = "增值税发票变更接口";
+			break;
+		default:
+			break;
+		}
+		sendBusiInfo(inTemp, "0000", (String) inTemp.get("OP_CODE"), DateUtil.format(new Date(), "yyyymmddhhmmss"), remark,
+				(String) inTemp.get("CRMBUSITYPE"));
+	}
+
+	private void sendBusiInfo(Map<String, Object> inTemp, String busiCode, String opCode, String createTime, String remark, String busiType) {
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		inMap.put("ORDER_ID", "10010");
+		Map<String, Object> header = new HashMap<String, Object>();
+		MapUtils.safeAddToMap(header, "DB_ID", MapUtils.getString(inTemp, "DB_ID"));
+		inMap.put("HEADER", header);
+		inMap.put("BUSI_CODE", busiCode);
+		inMap.put("LOGIN_NO", inTemp.get("LOGIN_NO"));
+		inMap.put("OP_CODE", opCode);
+		inMap.put("LOGIN_ACCEPT", inTemp.get("AUDIT_SN"));
+		inMap.put("CREATE_TIME", createTime);
+		inMap.put("BUSIID_NO", inTemp.get("PHONE_NO"));
+		inMap.put("REMARK", remark);
+		sendCrmOrder(inTemp, busiType, inMap, (String) inMap.get("OP_CODE"));
+
+	}
+
+	private void sendCrmOrder(Map<String, Object> inTemp, String busiType, Map<String, Object> inMap, String opCode) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("SERVICE_NO", inTemp.get("PHONE_NO"));
+		dataMap.put("DJH", "" + inTemp.get("AUDIT_SN"));
+		dataMap.put("BUSI_TYPE", busiType);
+		switch (Integer.parseInt(opCode)) {
+		case 8248:
+			String orderInfo = (String) inTemp.get("ORDER_INFO");
+			String[] orderinfos = orderInfo.split(",");
+			if (orderinfos != null && orderinfos.length > 0) {
+				List<Map<String, Object>> orderList = new ArrayList<Map<String, Object>>();
+				for (int i = 0; i < orderinfos.length; i++) {
+					Map<String, Object> dMap = new HashMap<String, Object>();
+					dMap.put("ORDER_ID", orderinfos[i]);
+					orderList.add(dMap);
+				}
+				dataMap.put("FEE_LIST", orderList);
+			}
+			break;
+		case 8247:
+			dataMap.put("STATE", inTemp.get("CRMSTATE"));
+			break;
+		default:
+			break;
+		}
+		String jsonStr = JSON.toJSONString(dataMap);
+		inMap.put("DATA_CONT", jsonStr);
+		log.debug("inMap====" + inMap);
+		log.debug("调用发送消息中间件接口opPubOdrSndInter begin: ");
+		busiMsgSend.opPubOdrSndInter(inMap);
+		log.debug("调用发送消息中间件接口opPubOdrSndInter end!");
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see com.sitech.acctmgr.atom.busi.invoice.inter.ITaxInvoFlow#appPrtCRMInvo(java.util.Map) */
+	@Override
+	public void appPrtCRMInvo(Map<String, Object> inParam) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void appDISInvo(Map<String, Object> inParam) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void appRedInvo(Map<String, Object> inParam) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected String getPrintType() {
+		return "0";
+	}
+
+
+	@Override
+	public void auditCfm(int yearMon, long orderSn, String state) {
+		invoice.upAuditInvoState(orderSn, yearMon, state);
+
+	}
+
+
+
+	@Override
+	public List<TaxInvoTotalEntity> qtaxInvosubTotal(Map<String, Object> inParam) {
+		List<Map<String, Object>> invoInfoTmp = baseDao.queryForList("bal_invaudit_info.qPrintTotalSubInfo", inParam);
+		List<TaxInvoTotalEntity> invoInfo = new ArrayList<TaxInvoTotalEntity>();
+
+		for (Map<String, Object> invMap : invoInfoTmp) {
+			String jsonStr = JSON.toJSONString(invMap);
+			invoInfo.add(JSON.parseObject(jsonStr, TaxInvoTotalEntity.class));
+		}
+		return invoInfo;
+
+	}
+
+	@Override
+	public void dataRestCfm(Map<String, Object> inParam) {
+		long dataRestCfmStime = System.currentTimeMillis();
+		long auditsnrel = 0;
+		String phoneNO = "";
+		String domain = "";
+		String opCode = "";
+		Map<String, Object> invMap = (HashMap<String, Object>) baseDao.queryForObject("bal_invaudit_info.qInvInfoByAuditFirst", inParam);
+		if (invMap != null && invMap.size() > 0) {
+			phoneNO = (String) invMap.get("PHONE_NO");
+			domain = (String) invMap.get("DATA_SOURCE");
+			auditsnrel = ValueUtils.longValue(invMap.get("AUDIT_SN_REL"));
+			opCode = MapUtils.getString(invMap, "OP_CODE", "0000");
+		}
+		if (!("8248".equals(opCode) || "8272".equals(opCode))) {
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "02026"), "数据重置-取opCod信息异常");
+		}
+		if (StringUtils.isEmpty(phoneNO)) {
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "02025"), "数据重置-取服务号码信息异常");
+		}
+		// 提交审核
+		if ("BOSS".equals(domain)) {
+			inParam.put("STATE", "3");// 数据重置:状态3代表数据重置
+			inParam.put("FLOW_ID", "8");
+			long startTime = System.currentTimeMillis();
+			log.error("++++++dataRestCfm_startTime[" + startTime + "]" + "+++++");
+			// 作废流水
+			baseDao.update("bal_invprint_info.upAuditFlag", inParam);
+			if (auditsnrel > 0) {
+				log.info("++++++++++++BOSS原audit_sn=" + auditsnrel + "+++++++++修改状态成功!");
+				inParam.put("AUDIT_SN", auditsnrel);
+				// 原蓝发票流水
+				baseDao.update("bal_invprint_info.upAuditFlag", inParam);
+			}
+			long endTime = System.currentTimeMillis();
+			log.error("++++++dataRestCfm_endTime[" + endTime + "]" + "+++++");
+			log.error("++++++dataRestCfm_invelTime[" + (endTime - startTime) + "]" + "+++++");
+
+			// 数据重置步骤2：把冲销表print_flag调回0
+			int tmpbeginMonth = Integer.parseInt((String) inParam.get("BEGIN_YM"));
+			int tmpendMonth = Integer.parseInt((String) inParam.get("END_YM"));
+			while (tmpbeginMonth <= tmpendMonth) {
+				if ("8248".equals(opCode))
+					invFee.upTaxInvoFlag(MapUtils.getLongValue(inParam, "CONTRACT_NO"), tmpbeginMonth, "0", 0.00, "3",
+							ValueUtils.longValue(inParam.get("AUDIT_SN")));
+				else if ("8272".equals(opCode))
+					invFee.upTaxOnePonitInvoFlag(MapUtils.getLongValue(inParam, "CONTRACT_NO"), tmpbeginMonth, "0", 0.00, "3",
+							ValueUtils.longValue(inParam.get("AUDIT_SN")));
+
+				tmpbeginMonth = Integer.parseInt(DateUtil.toStringPlusMonths("" + tmpbeginMonth, +1, "yyyyMM"));
+			}
+			if ("8272".equals(opCode)) {
+				log.error("-------->一点支付发票异步调用业务工单异步调用业务工单++++++++++++++");
+				this.sendOneInvOrder(null, Integer.parseInt((String) inParam.get("BEGIN_YM")), Integer.parseInt((String) inParam.get("END_YM")), 2,
+						0L, ValueUtils.longValue(inParam.get("AUDIT_SN")), "0", null, MapUtils.getLongValue(inParam, "CONTRACT_NO"),
+						MapUtils.getString(inParam, "LOGIN_NO"), phoneNO, "发票作废", MapUtils.getString(inParam, "GROUP_ID"),
+						MapUtils.getString(inParam, "DB_ID"));
+			}
+		} else if ("CRM".equals(domain)) {
+			inParam.put("STATE", "3");// 数据重置:状态3代表数据重置
+			inParam.put("FLOW_ID", "8");
+			// 作废流水
+			baseDao.update("bal_invprint_info.upAuditFlag", inParam);
+			if (auditsnrel > 0) {
+				log.info("++++++++++++CRM原audit_sn=" + auditsnrel + "+++++++++修改状态成功!");
+				// 原蓝发票流水
+				inParam.put("AUDIT_SN", auditsnrel);
+				baseDao.update("bal_invprint_info.upAuditFlag", inParam);
+			}
+			inParam.put("PHONE_NO", phoneNO);
+			inParam.put("CRMSTATE", "R");
+			inParam.put("CRMBUSITYPE", "01");
+			inParam.put("OP_CODE", "8247");
+			sendBusiInfo(inParam);
+		} else {
+			throw new BusiException(AcctMgrError.getErrorCode("8247", "01115"), "此发票归属不存在！");
+		}
+		long dataRestCfmEtime = System.currentTimeMillis();
+		log.error("++++dataRestCfm_FunTime[" + (dataRestCfmEtime - dataRestCfmStime) + "]" + "+++++");
+	}
+
+	@Override
+	public void disabledInvReq(Map<String, Object> inParam) {
+		// 判断是否为当月的，如果不是当月的增值税发票不允许打印
+		Map<String, Object> cntMap = (Map<String, Object>) baseDao.queryForObject("bal_invaudit_info.qCanPrint", inParam);
+		if (ValueUtils.intValue(cntMap.get("CNT")) == 0) {
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "00007"), "只能作废的当月的发票，请冲红！");
+		}
+		// 获取此流水详细信息
+		Map<String, Object> invMap = (HashMap<String, Object>) baseDao.queryForObject("bal_invaudit_info.qdisabledInvAuditsn", inParam);
+		if (invMap != null && invMap.size() > 0) {
+			long auditsnrel = ValueUtils.longValue(invMap.get("AUDIT_SN"));
+			if (auditsnrel != 0) {
+				throw new BusiException(AcctMgrError.getErrorCode("8247", "02014"), "作废发票已申请，不可重复申请！");
+			}
+		}
+		Map<String, Object> outParam;
+		long auditSn = 0;
+		Map<String, Object> inTemp = new HashMap<String, Object>();
+		inTemp.put("SEQ_NAME", "SEQ_SYSTEM_SN");
+		outParam = (Map<String, Object>) baseDao.queryForObject("dual.qSequenceInter", inTemp);
+		auditSn = Long.valueOf(outParam.get("NEXTVAL").toString());
+		inTemp.put("AUDIT_SN", auditSn);
+		inTemp.put("AUDIT_OLDSN", inParam.get("AUDIT_SN"));
+		inTemp.put("LOGIN_NO", inParam.get("LOGIN_NO"));
+		inTemp.put("STATE", 0);
+		inTemp.put("INV_TYPE", 2);
+		inTemp.put("REPORT_TO", inParam.get("REPORT_TO"));
+		inTemp.put("DEAL_NO", inParam.get("REPORT_TO"));
+		inTemp.put("FLOW_ID", 2);
+		baseDao.insert("bal_invaudit_info.disabledInvReq", inTemp);
+	}
+
+	/**
+	 * 红色发票申请
+	 */
+	@Override
+	public void redInvReq(Map<String, Object> inParam) {
+
+		List<Map<String, Object>> redlist = baseDao.queryForList("bal_invaudit_info.qRedInvQry", inParam);
+		if (redlist != null && redlist.size() > 0) {
+
+			// inParam.put("STATE", "0");
+			inParam.put("INV_TYPE", "1");
+			inParam.put("DEAL_NO", (String) inParam.get("REPORT_TO"));
+			inParam.put("FLOW_ID", "2");
+
+			long newauditSn = 0;
+			Map<String, Object> inTemp = new HashMap<String, Object>();
+			inTemp.put("SEQ_NAME", "SEQ_SYSTEM_SN");
+			Map<String, Object> outParam = (Map<String, Object>) baseDao.queryForObject("dual.qSequenceInter", inTemp);
+			newauditSn = Long.valueOf(outParam.get("NEXTVAL").toString());
+			inParam.put("NEW_AUDITSN", newauditSn);
+			for (Map<String, Object> redMap : redlist) {
+				// long oldauditSn =Long.parseLong((String)redMap.get("AUDIT_SN"));
+				long oldorderSn = ValueUtils.longValue(redMap.get("ORDER_SN"));
+				long oldprintSn = ValueUtils.longValue(redMap.get("PRINT_SN"));
+				// 计算红字发票费折让金额,税额为毫
+				long addtaxinvPrice = ValueUtils.longValue(redMap.get("ADDTAX_PRICE"));
+				long addtaxinvFee = ValueUtils.longValue(redMap.get("ADDTAX_FEE"));
+				long addtaxinvTaxfee = ValueUtils.longValue(redMap.get("ADDTAX_TAXFEE"));
+				long discountPrice = ValueUtils.longValue(redMap.get("DISCOUNT_PRICE"));
+				long discountFee = ValueUtils.longValue(redMap.get("DISCOUNT_FEE"));
+				long discountTaxFee = ValueUtils.longValue(redMap.get("DISCOUNT_TAXFEE"));
+				String discountName = (String) redMap.get("DISCOUNT_NAME");
+
+				long newAddtaxinvPrice;
+				long newAddtaxinvFee;
+				long newAddtaxinvTaxfee;
+				if (discountName != null && !"".equals(discountName.trim())) {
+					newAddtaxinvPrice = addtaxinvPrice + discountPrice;
+					newAddtaxinvFee = addtaxinvFee + discountFee;
+					newAddtaxinvTaxfee = addtaxinvTaxfee + discountTaxFee;
+				} else {
+					newAddtaxinvPrice = addtaxinvPrice;
+					newAddtaxinvFee = addtaxinvFee;
+					newAddtaxinvTaxfee = addtaxinvTaxfee;
+				}
+				//
+				Map<String, Object> printoutParam = (Map<String, Object>) baseDao.queryForObject("dual.qSequenceInter", inTemp);
+				long newprintSn = Long.valueOf(printoutParam.get("NEXTVAL").toString());
+				inParam.put("OLDORDERSN", oldorderSn);
+				inParam.put("OLDPRINTSN", oldprintSn);
+				inParam.put("NEWPIRNTSN", newprintSn);
+				inParam.put("NEWADDTAXINVPRICE", newAddtaxinvPrice * -1);
+				inParam.put("NEWADDTAXINVFEE", newAddtaxinvFee * -1);
+				inParam.put("NEWADDTAXINVTAXFEE", newAddtaxinvTaxfee * -1);
+
+				inParam.put("STATE", "0");
+				// 同步审批表
+				baseDao.insert("bal_invaudit_info.redinvSynAuditInfo", inParam);
+				// 同步发票表
+				baseDao.insert("bal_invaudit_info.redinvSyntTaxInvInfo", inParam);
+			}
+		}
+	}
+
+	@Override
+	public void redInvCfm(long printSn, String redNo, String state) {
+
+		Map<String, Object> inParam = new HashMap<String, Object>();
+		MapUtils.safeAddToMap(inParam, "PRINT_SN", printSn);
+		if (redNo != null && !"".equals(redNo) && redNo.length() > 0) {
+			MapUtils.safeAddToMap(inParam, "REDINV_ORDERNO", redNo);
+		}
+		MapUtils.safeAddToMap(inParam, "STATE", "0");
+		MapUtils.safeAddToMap(inParam, "AUDIT_SN", 0);
+		MapUtils.safeAddToMap(inParam, "ORDER_SN", 0);
+
+		baseDao.update("bal_invaudit_info.uPrintedByOrder", inParam);
+	}
+
+	@Override
+	public void OneInvRqSyn(Map<String, Object> invMap) {
+
+		List<InvCondEntity> conListTmp = (List<InvCondEntity>) invMap.get("CONLISTTMP");
+		if (conListTmp == null || conListTmp.size() == 0)
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "13003"), "账号列表异常");
+
+		List<Map<String, Object>> taxrateList = (List<Map<String, Object>>) invMap.get("TAX_RATE_LIST");
+		if (taxrateList != null && taxrateList.size() > 0) {
+			String taxList = "";
+			for (Map<String, Object> taxMap : taxrateList) {
+				taxList += taxMap.get("TAX_RATE") + ",";
+			}
+			taxList = taxList.substring(0, taxList.length() - 1);
+			invMap.put("TAX_RATE_LIST", taxList);
+		}
+		log.error("OneInvSyn_invMap--------------------------->" + invMap);
+		int beginMon = MapUtils.getIntValue(invMap, "BEGIN_MON");
+		int endMon = MapUtils.getIntValue(invMap, "END_MON");
+		while (beginMon <= endMon) {
+			uSynOnePonitInvoRqFlag(invMap, beginMon);
+			beginMon = Integer.parseInt(DateUtil.toStringPlusMonths("" + beginMon, +1, "yyyyMM"));
+		}
+	}
+
+	private void uSynOnePonitInvoRqFlag(Map<String, Object> invMap, int billCycle) {
+
+		List<InvCondEntity> conListTmp = (List<InvCondEntity>) invMap.get("CONLISTTMP");
+		int curYm = Integer.parseInt(DateUtil.format(new Date(), "yyyyMM"));
+		int billCycleTemp = curYm;
+		MapUtils.safeAddToMap(invMap, "NATURAL_MONTH", billCycle);
+		while (billCycleTemp >= billCycle) {
+			long startTime = System.currentTimeMillis();
+			invMap.put("SUFFIX", billCycleTemp);
+			// .......循环账号更新 start
+			for (InvCondEntity env : conListTmp) {
+				invMap.put("TMPCONTRACTNO", env.getContractNo());
+				baseDao.update("bal_writeoff_info.usynOnePonitInvTax", invMap);
+			}
+			// .......循环账号更新 end
+			billCycleTemp = Integer.parseInt(DateUtil.toStringPlusMonths("" + billCycleTemp, -1, "yyyyMM"));
+			long endTime = System.currentTimeMillis();
+			log.error("+++++++++++++++++++uSynOnePonitInvoFlag_update_writeoff_" + billCycleTemp + ",billCycleTemp_" + billCycleTemp + ":inverTime["
+					+ (endTime - startTime) + "]" + "+++++");
+		}
+		log.error("------------>uSynOnePonitInvoFlag,billCycle[" + billCycle + "]------>finish");
+	}
+
+	@Override
+	public void OneInvResetSyn(Map<String, Object> invMap) {
+
+		int beginMon = MapUtils.getIntValue(invMap, "BEGIN_MON");
+		int endMon = MapUtils.getIntValue(invMap, "END_MON");
+		String contractNo = MapUtils.getString(invMap, "CONTRACT_NO");
+		if ("".equals(contractNo) || contractNo == null) {
+			log.error("OneInvResetSyn------------->没有总账号");
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "12002"), "没有总账号");
+		}
+		long printSn = MapUtils.getLong(invMap, "OLD_PRINT_SN");
+		if (printSn == 0) {
+			log.error("OneInvResetSyn------------->冲销发票流水异常");
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "12003"), "冲销发票流水异常");
+		}
+		while (beginMon <= endMon) {
+			uSynOnePonitInvoResetFlag(invMap, beginMon);
+			beginMon = Integer.parseInt(DateUtil.toStringPlusMonths("" + beginMon, +1, "yyyyMM"));
+		}
+	}
+
+	private void uSynOnePonitInvoResetFlag(Map<String, Object> invMap, int billCycle) {
+
+		int curYm = Integer.parseInt(DateUtil.format(new Date(), "yyyyMM"));
+		int billCycleTemp = curYm;
+		MapUtils.safeAddToMap(invMap, "NATURAL_MONTH", billCycle);
+		while (billCycleTemp >= billCycle) {
+			long startTime = System.currentTimeMillis();
+			invMap.put("SUFFIX", billCycleTemp);
+			baseDao.update("bal_writeoff_info.usynOnePonitInvRestTax", invMap);
+			billCycleTemp = Integer.parseInt(DateUtil.toStringPlusMonths("" + billCycleTemp, -1, "yyyyMM"));
+			long endTime = System.currentTimeMillis();
+			log.error("+++++++++++++++++++uSynOnePonitInvoResetFlag_update_writeoff_" + billCycleTemp + ",billCycleTemp_" + billCycleTemp
+					+ ":inverTime[" + (endTime - startTime) + "]" + "+++++");
+		}
+		log.error("------------>uSynOnePonitInvoResetFlag,billCycle[" + billCycle + "]------>finish");
+	}
+
+	private void sendOneInvOrder(List<Map<String, Object>> rateList, int beginMon, int endMon, int opFlag, long printSn, long oldPrintSn,
+			String printFlag, List<InvCondEntity> conList, long contractNo, String loginno, String Phoneno, String remark, String groupId,
+			String DB_ID) {
+
+		String opCode = "8247";
+		if (printSn != 0)
+			opCode = "8272";
+		Map<String, Object> header = new HashMap<String, Object>();
+		MapUtils.safeAddToMap(header, "DB_ID", DB_ID);
+		MBean sendBusi = new MBean();
+		sendBusi.setHeader(header);
+		sendBusi.setBody("OPR_INFO.LOGIN_NO", loginno);
+		sendBusi.setBody("OPR_INFO.OP_CODE", opCode);
+		sendBusi.setBody("OPR_INFO.GROUP_ID", groupId);
+		if (rateList != null)
+			sendBusi.setBody("BUSI_INFO.TAXRATE_LIST", rateList);
+
+		sendBusi.setBody("BUSI_INFO.BEGIN_MON", "" + beginMon);
+		sendBusi.setBody("BUSI_INFO.END_MON", "" + endMon);
+		sendBusi.setBody("BUSI_INFO.OP_FLAG", "" + opFlag);
+		sendBusi.setBody("BUSI_INFO.PRINT_SN", "" + printSn);
+		sendBusi.setBody("BUSI_INFO.OLD_PRINT_SN", "" + oldPrintSn);
+		sendBusi.setBody("BUSI_INFO.PRINT_FLAG", printFlag);
+		sendBusi.setBody("BUSI_INFO.BUSI_CODE", "YDZFFPTB");
+		if (conList != null)
+			sendBusi.setBody("BUSI_INFO.CONTRACT_LIST", conList);
+
+		sendBusi.setBody("BUSI_INFO.CONTRACT_NO", "" + contractNo);
+		Map<String, Object> bbMap = new HashMap<String, Object>();
+		bbMap.put("LOGIN_ACCEPT", printSn == 0 ? oldPrintSn : printSn);
+		bbMap.put("BUSIID_NO", printSn == 0 ? oldPrintSn : printSn);
+		bbMap.put("LOGIN_NO", loginno);
+		bbMap.put("OP_CODE", opCode);
+		bbMap.put("OWNER_FLAG", "1");
+		bbMap.put("ORDER_ID", "20000");
+		bbMap.put("ODR_CONT", sendBusi);
+
+		log.error("--------->sendOneInvOrders_inMap------>" + bbMap);
+		busiMsgSend.opPubOdrSndInter(bbMap);
+		log.error("--------->sendOneInvOrders_inMap finish------>" + bbMap);
+	}
+
+	public IInvoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(IInvoice invoice) {
+		this.invoice = invoice;
+	}
+
+	public IInvFee getInvFee() {
+		return invFee;
+	}
+
+	public void setInvFee(IInvFee invFee) {
+		this.invFee = invFee;
+	}
+
+	public IBusiMsgSnd getBusiMsgSend() {
+		return busiMsgSend;
+	}
+
+	public void setBusiMsgSend(IBusiMsgSnd busiMsgSend) {
+		this.busiMsgSend = busiMsgSend;
+	}
+
+	public IControl getControl() {
+		return control;
+	}
+
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+
+}

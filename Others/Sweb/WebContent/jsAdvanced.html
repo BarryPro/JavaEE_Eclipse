@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Advanced</title>
+<style type="text/css">
+	body{
+		background-color: grey;
+	}
+</style>
+<script type="text/javascript">
+	/*function ok(){
+		for(var i= 0;i<arguments.length;i++){
+			alert(arguments[i]);
+		}
+	}*/
+	
+	/*window.onload=function(){//加载就运行
+		var func = window.prompt("请输入函数体","");
+		var x = window.prompt("请输入x值","");
+		var y = window.prompt("请输入y值","");
+		var f = new Function("x","y",func);//x和y相当于类的两个参数
+		f(x,y);//调用函数体（此时的函数体就相当于f对象）
+	}*/
+	/*window.onload=function(){
+		function otherfun(x,y,z){//定义一个是把函数体当做参数的函数
+			x(y,z);
+		}
+		var f = function(arg1,arg2){//匿名函数
+			alert(arg1+"-------"+arg2);
+		}
+		otherfun(f,"hello","belong");
+		otherfun(function(arg1,arg2){
+			alert(arg1+">>>>>>"+arg2);
+		},"java","android");
+	}*/
+	/*window.onload=function(){
+		function outer(x){//模仿java中的静态常量(用函数套函数的方式来实现静态常量)
+			return function(y){
+				return x*y;			
+			}
+		}
+		var result = outer(3);
+		alert(result(2));
+		alert(result(5));
+	}*/
+	/*function Fun(name,age,sex){//新建对象（其实就是函数（本质没有类只有函数）只是形式上像类）
+		var sex = sex;//定义私有成员变量（在外面不能调用）
+		this.name = name;//定义内部成员变量
+		this.age = age;
+		this.color = "red";
+		this.result=function(x){//定义成员方法
+			return this.name+"-"+this.age+"-"+this.color+"-"+x+"-"+sex;
+		}
+	}
+	var t = new Fun("belong","23","m");
+	alert(t.result("53"));
+	alert(t.sex);//未定义（私有不能被访问）
+	//添加新的成员方法（js没有继承）
+	Fun.prototype.getName = function(){
+		return this.name;
+	}
+	Fun.prototype.add = "555";
+	alert(t.getName());
+	alert(t.add);*/
+	/*window.onload = function(){
+		String.prototype.belong = function(){//可以定义js本身自带的类（可以修改本身自带的类）
+			alert('hello');
+		}
+		var s = "rr";
+		s.belong();
+	}*/
+	window.onload=function(){
+		function Fun(){//新建对象（其实就是函数（本质没有类只有函数）只是形式上像类）
+			this.sex = "nan";//定义私有成员变量（在外面不能调用）
+			this.color = "red";
+			this.result=function(x){//定义成员方法
+				return this.color+"-"+x+"-"+this.sex;
+			}
+		}
+		function Fun2(){
+			this.dog="狗";
+		}
+		function AA(){//声明一个空类
+			Fun.apply(this, arguments);//实现继承唯一的
+			Fun2.apply(this,arguments);
+			this.func=function(){
+				alert(this.dog);				
+				return this.result("123");
+			}
+		}
+		AA.prototype={
+			name:"belong",//定义属性
+			age:"23",//定义属性
+			setName:function(name){//定义方法
+				this.name = name;
+			},
+			getName:function(){
+				return this.name;
+			},
+			setAge:function(age){
+				this.age = age;
+			},
+			getAge:function(){
+				return this.age;
+			},
+			print:function(){//自定义方法
+				alert(this.getName())
+				alert(this.getAge());
+			}
+		}		
+		var a = new AA();
+		alert(a.getName())
+		alert(a.getAge());
+		a.setName("helong");
+		a.setAge("100");
+		a.print();
+		alert(a.func());
+		
+	}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,574 @@
+package com.sitech.acctmgr.atom.impl.feeqry;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sitech.acctmgr.atom.busi.query.inter.IRemainFee;
+import com.sitech.acctmgr.atom.domains.account.ContractInfoEntity;
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.fee.OutFeeData;
+import com.sitech.acctmgr.atom.domains.pub.PubCodeDictEntity;
+import com.sitech.acctmgr.atom.domains.query.PrcIdTransEntity;
+import com.sitech.acctmgr.atom.domains.record.LoginOprEntity;
+import com.sitech.acctmgr.atom.domains.user.UserExpireEntity;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.domains.user.UserPrcEntity;
+import com.sitech.acctmgr.atom.dto.feeqry.SJtPrepayInitInDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SJtPrepayInitOutDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SKdLimitInDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SKdLimitOutDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SKdRemainInDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SKdRemainOutDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SQry1500OutDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SQry1500VwOutDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SQryBroadBandFeeInDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SQryBroadBandFeeOutDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SRemainFeeInitInDTO;
+import com.sitech.acctmgr.atom.dto.feeqry.SRemainFeeInitOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IAccount;
+import com.sitech.acctmgr.atom.entity.inter.IBalance;
+import com.sitech.acctmgr.atom.entity.inter.IBill;
+import com.sitech.acctmgr.atom.entity.inter.IBillAccount;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.IProd;
+import com.sitech.acctmgr.atom.entity.inter.IRecord;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrBaseService;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.inter.feeqry.IRemainFeeQry;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+import com.sitech.jcfx.util.DateUtil;
+
+@ParamTypes({ 
+	@ParamType(m = "query", c = SRemainFeeInitInDTO.class, oc = SRemainFeeInitOutDTO.class),
+	@ParamType(m = "qry1500", c = SRemainFeeInitInDTO.class, oc = SQry1500OutDTO.class),
+	@ParamType(m = "qry1500Vw", c = SRemainFeeInitInDTO.class, oc = SQry1500VwOutDTO.class),
+	@ParamType(m = "jtQuery", c = SJtPrepayInitInDTO.class, oc = SJtPrepayInitOutDTO.class),
+	@ParamType(m = "qryBroadBandFee", c = SQryBroadBandFeeInDTO.class, oc = SQryBroadBandFeeOutDTO.class),
+	@ParamType(m = "qryKdRemain", c = SKdRemainInDTO.class, oc = SKdRemainOutDTO.class),
+	@ParamType(m = "qryKdLimit", c = SKdLimitInDTO.class, oc = SKdLimitOutDTO.class)
+})
+public class SRemainFeeQry extends AcctMgrBaseService implements IRemainFeeQry{
+
+	protected IBalance balance;
+	protected IControl control;
+	protected IRecord record;
+	protected IUser user;
+	protected IBill bill;
+	protected IRemainFee remainFee;
+	protected IAccount account;
+	protected IBillAccount billAccount;
+	protected IGroup group;
+	protected IProd prod;
+	@Override
+	public OutDTO query(InDTO inParam) {
+		// TODO Auto-generated method stub
+		SRemainFeeInitInDTO inDto= (SRemainFeeInitInDTO)inParam;
+		String phoneNo = inDto.getPhoneNo();
+		
+		//TODO 查询代理商账号
+		long contractNo =0;
+		ContractInfoEntity cie = account.getAgtInfo(phoneNo);
+		contractNo = cie.getContractNo();
+		
+		//查询账户余额
+		long prepayFee =balance.getAcctBookSum(contractNo, "0");
+		
+		//取操作流水
+		long loginAccept = control.getSequence("SEQ_SYSTEM_SN");
+		
+		//入操作记录表
+		LoginOprEntity loe = new LoginOprEntity();
+		loe.setLoginSn(loginAccept);
+		loe.setLoginNo(inDto.getLoginNo());
+		loe.setLoginGroup(inDto.getGroupId());
+		loe.setTotalDate(Long.parseLong(DateUtil.format(new Date(), "yyyyMMdd")));
+		loe.setIdNo(0);
+		loe.setPhoneNo(phoneNo);
+		loe.setBrandId("00");
+		loe.setPayType("0");
+		loe.setPayFee(0);
+		loe.setOpCode("xxxx");
+		loe.setRemark("代理商余额查询");
+		record.saveLoginOpr(loe);
+		
+		//TODO 给代理商发短信
+		
+		SRemainFeeInitOutDTO outDto = new SRemainFeeInitOutDTO();
+		outDto.setPrepayFee(prepayFee);
+		outDto.setPhoneNo(phoneNo);
+		outDto.setLoginAccept(loginAccept);
+		return outDto;
+	}
+	
+	@Override
+	public OutDTO qry1500(InDTO inParam) {
+		// TODO Auto-generated method stub
+		Map<String,Object> inMap = new HashMap<String,Object>();
+		Map<String,Object> outMap = new HashMap<String,Object>();
+		
+		SRemainFeeInitInDTO inDto= (SRemainFeeInitInDTO)inParam;
+		String phoneNo = inDto.getPhoneNo();
+		
+		String expireTime="0";
+		UserInfoEntity uie = user.getUserInfo(phoneNo);
+		long contractNo = uie.getContractNo();
+		long idNo = uie.getIdNo();
+		
+		UserExpireEntity uee = user.getUserExpireInfo(idNo);
+		if(uee!=null){
+			expireTime = uee.getExpireTime();
+		}		
+		
+		//取专款预存
+		inMap.put("CONTRACT_NO", contractNo);
+		inMap.put("SPECIAL_FLAG", "0");
+		long specialFee = balance.getAcctBookSumByMap(inMap);
+		
+		//取普通预存
+		inMap.put("CONTRACT_NO", contractNo);
+		inMap.put("SPECIAL_FLAG", "1");
+		long commonFee = balance.getAcctBookSumByMap(inMap);
+		
+		//取往月欠费
+		Map<String, Long> oweMap = new HashMap<>();
+		oweMap = bill.getSumUnpayInfo(contractNo, null, null);
+		long oweFee = oweMap.get("OWE_FEE");
+		
+		//取预存
+		long prepayFee = balance.getAcctBookSum(contractNo, null);
+		
+		//取余额、未出帐话费
+		OutFeeData ofd = remainFee.getConRemainFee(contractNo);
+		long curBalance = ofd.getRemainFee();
+		long unBillFee = ofd.getUnbillFee();
+		
+		SQry1500OutDTO outDto = new SQry1500OutDTO();
+		outDto.setCommonFee(commonFee);
+		outDto.setCurBalance(curBalance);
+		outDto.setExpireTime(expireTime);
+		outDto.setOweFee(oweFee);
+		outDto.setPrepayFee(prepayFee);
+		outDto.setSpecialFee(specialFee);
+		outDto.setUnBillFee(unBillFee);
+		
+		return outDto;
+	}
+	
+	@Override
+	public OutDTO qry1500Vw(InDTO inParam) {
+		Map<String,Object> inMap = new HashMap<String,Object>();
+		Map<String,Object> outMap = new HashMap<String,Object>();
+		
+		SRemainFeeInitInDTO inDto= (SRemainFeeInitInDTO)inParam;
+		String phoneNo = inDto.getPhoneNo();
+		
+		UserInfoEntity uie = user.getUserInfo(phoneNo);
+		long contractNo = uie.getContractNo();
+		long idNo = uie.getIdNo();	
+		
+		//取预存
+		long prepayFee = 0;
+		prepayFee = balance.getAcctBookSum(contractNo, null);
+		
+		//取余额、未出帐话费		
+		long unBillFee=0;
+		long specialFee=0;
+		long commonFee=0;
+		long remainfee=0;
+		OutFeeData ofd = remainFee.getConRemainFee(contractNo);	
+		unBillFee = ofd.getUnbillFee();
+		specialFee = ofd.getSepcialFee();
+		remainfee = ofd.getRemainFee();
+		commonFee = remainfee - specialFee;
+		
+		//TODO 取底线金额
+		long hasLowest =0;
+		long loweOwe = 0;
+		
+		SQry1500VwOutDTO outDto = new SQry1500VwOutDTO();
+		outDto.setCommonFee(commonFee);
+		outDto.setCurBalance(remainfee);
+		outDto.setHasLowe(hasLowest);
+		outDto.setLoweOwe(loweOwe);
+		outDto.setPrepayFee(prepayFee);
+		outDto.setSpecialFee(specialFee);
+		outDto.setUnBillFee(unBillFee);		
+		return outDto;
+	}
+	
+	@Override
+	public OutDTO jtQuery(InDTO inParam) {
+		SJtPrepayInitInDTO inDto= (SJtPrepayInitInDTO)inParam;
+		long contractNo = Long.parseLong(inDto.getContractNo());
+		
+		ContractInfoEntity cie = account.getConInfo(contractNo);
+		String accountType = cie.getAccountType();
+		if(!accountType.equals("1")){
+			throw new BusiException(AcctMgrError.getErrorCode("0000","00035"), "集团产品账号不存在["+contractNo+"]!");
+		}
+		
+		//查询账户余额
+		long prepayFee =balance.getAcctBookSum(contractNo, "0");
+		
+		SJtPrepayInitOutDTO outDto = new SJtPrepayInitOutDTO();
+		outDto.setPrepayFee(prepayFee);
+		return outDto;
+	}
+	
+	@Override
+	public OutDTO qryBroadBandFee(InDTO inParam) {
+		Map<String,Object> inMap = new HashMap<String,Object>();
+		SQryBroadBandFeeInDTO inDto = (SQryBroadBandFeeInDTO)inParam;
+		String phoneNo = inDto.getPhoneNo();
+		
+		if(!user.isBroadbandPhone(phoneNo)) {
+			throw new BusiException(AcctMgrError.getErrorCode("8008","00011"), "该宽带服务号不存在!");
+		}
+		
+		UserInfoEntity uie = user.getUserInfo(phoneNo);
+		long contractNo = uie.getContractNo();
+		long idNo = uie.getIdNo();
+		String groupId = uie.getGroupId();
+		
+		//取用户地市
+		ChngroupRelEntity crge = group.getRegionDistinct(groupId, "2", inDto.getProvinceId());
+		String regionCode = crge.getRegionCode();
+		
+		//取用户主资费
+		UserPrcEntity upe = prod.getUserPrcidInfo(idNo);
+		String prcId = upe.getProdPrcid();
+		
+		//获取整月的固费
+		long monthFee = 0;
+		monthFee=billAccount.getBroadBandFee(regionCode, prcId);
+		
+		//获取宽带包年专款预存
+		long specialFee = 0;
+		long codeClass = 1109;
+		List<PubCodeDictEntity> pubCodeList = control.getPubCodeList(codeClass, "", "", "");
+		for (PubCodeDictEntity pubCode : pubCodeList) {
+			String payType = pubCode.getCodeId();
+			long prepayFee = balance.getAcctBookSum(contractNo, payType);
+			specialFee = specialFee+prepayFee;
+		}
+		
+		//获取宽带普通预存
+		inMap.put("CONTRACT_NO", contractNo);
+		inMap.put("SPECIAL_FLAG", "1");
+		long commonFee = balance.getAcctBookSumByMap(inMap);
+		
+		long prepayFee = 0;
+		if(specialFee>0) {
+			if(specialFee>=monthFee) {
+				prepayFee = commonFee;
+			}else {
+				prepayFee = commonFee-(monthFee-specialFee);
+			}
+		}else {
+			prepayFee = commonFee - monthFee;
+		}
+		
+		SQryBroadBandFeeOutDTO outDto = new SQryBroadBandFeeOutDTO();
+		outDto.setPrepayFee(prepayFee);
+		return outDto;
+	}
+	
+	public OutDTO qryKdRemain(InDTO inParam) {
+		
+		SKdRemainInDTO inDto = (SKdRemainInDTO)inParam;
+		String phoneNo = inDto.getPhoneNo();
+		String payType = inDto.getPayType();
+		String prcId = inDto.getPrcId();
+		
+		UserInfoEntity uie = user.getUserInfo(phoneNo);
+		long contractNo = uie.getContractNo();
+		String groupId = uie.getGroupId();
+		
+		//取用户地市
+		ChngroupRelEntity cgre = group.getRegionDistinct(groupId, "2", inDto.getProvinceId());
+		String regionCode = cgre.getRegionCode();
+		
+		//判断是否存在IQ帐本
+		long iqPrepay = balance.getAcctBookSum(contractNo, "IQ");
+		if(iqPrepay>0) {
+			payType = "IQ";
+		}
+		
+		//取当月应收费用
+		long totalMonthFee = 0;
+		List<PrcIdTransEntity> prcDetailList = new ArrayList<PrcIdTransEntity>();
+		prcDetailList = billAccount.getDetailCodeList(prcId, "1,9,c,d");
+		if(prcDetailList.size()==0) {
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20013"), "资费类型不允许办理!");
+		}
+		for(PrcIdTransEntity pite:prcDetailList) {
+			long monthFee = 0;
+			String detailType = pite.getDetailType();
+			String detailCode = pite.getDetailCode();
+			Map<String, Object> outMap = billAccount.getMonthCodeInfo(regionCode, detailCode);
+			if(outMap!=null) {
+				 Double dmonthFee = Double.parseDouble(outMap.get("MONTH_FEE").toString())*100;
+				 monthFee = dmonthFee.longValue();
+				 log.info("monthFee==="+monthFee);
+			}
+			totalMonthFee = totalMonthFee+monthFee;
+		}
+		
+		//取用户可用非专款
+		Map<String,Object> inMap = new HashMap<String,Object>();
+		inMap.put("CONTRACT_NO", contractNo);
+		inMap.put("PAY_ATTR4", "0");
+		inMap.put("SPECIAL_FLAG", "1");
+		long commonPrepayFee = balance.getAcctSumCurBalance(inMap);
+		
+		//取用户可用专款费用
+		long sepcialPrepay = balance.getAcctBookSum(contractNo, payType);
+		
+		/*剩余包年专款+可用预存 < 0*/
+		if(sepcialPrepay+commonPrepayFee-totalMonthFee<0) {
+			long mustFee = sepcialPrepay+commonPrepayFee-totalMonthFee;
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20012"), "用户预存不足["+mustFee+"]");
+		}
+		
+		SKdRemainOutDTO outDto = new SKdRemainOutDTO();
+		outDto.setCommonAvailable(commonPrepayFee);
+		outDto.setSpecialRemain(sepcialPrepay-totalMonthFee);
+		outDto.setPayType(payType);
+		return outDto;
+		
+	}
+	
+	public OutDTO qryKdLimit(InDTO inParam) {
+		
+		SKdLimitInDTO inDto = (SKdLimitInDTO)inParam;
+		String phoneNo = inDto.getPhoneNo();
+		String payType = inDto.getPayType();
+		String prcId = inDto.getPrcId();
+		long yearFee = inDto.getYearFee();
+		
+		UserInfoEntity uie = user.getUserInfo(phoneNo);
+		long idNo = uie.getIdNo();
+		long contractNo = uie.getContractNo();
+		String groupId = uie.getGroupId();
+		String runCode = uie.getRunCode();
+		String brandCode = uie.getBrandId();
+		
+		//取用户和工号地市
+		ChngroupRelEntity ucgre = group.getRegionDistinct(groupId, "2", inDto.getProvinceId());
+		String userRegion = ucgre.getRegionCode();
+		
+		ChngroupRelEntity lcgre = group.getRegionDistinct(inDto.getGroupId(), "2", inDto.getProvinceId());
+		String loginRegion = lcgre.getRegionCode();
+		
+		//用户没有生效的专款 也报错
+		long sepcialPrepay = balance.getAcctBookSum(contractNo, payType);
+		if(sepcialPrepay==0) {
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20014"), "用户专款未生效!");
+		}
+		
+		//判断是否在包年信息表里，待定
+		
+		
+		/* 1 宽带用户状态为A才可以办理。
+	       2 不允许跨地市办理(客服工号允许跨地市) */
+		if(!userRegion.equals(loginRegion)&&!runCode.equals("A")) {
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20014"), "不允许跨地市操作!");
+		}
+		
+		/*3 只允许kd--中国移动铁通宽带、ke--哈！宽带、kf--移动宽带、kg--移动宽带（合作）品牌办理。*/
+		String brandId = brandCode.substring(4, 6);
+		if(!brandId.equals("kd")&&!brandId.equals("ke")&&!brandId.equals("kf")&&!brandId.equals("kg")){
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20014"), "用户["+phoneNo+"]"+"品牌["+brandId+"]不允许办理!");
+		}
+		
+		 /*4 只允许宽带包年(资费类型为YnKB)(不包含预约生效和预约失效)用户才可以办理。
+		   5 用户预存不足，请限制，尽量提前限制。校验规则为：剩余包年专款+可用预存 < 新宽带包年费用，则报错
+		 */
+		//取当月应收费用
+		long totalMonthFee = 0;
+		List<PrcIdTransEntity> prcDetailList = new ArrayList<PrcIdTransEntity>();
+		prcDetailList = billAccount.getDetailCodeList(prcId, "1,9,c,d");
+		if(prcDetailList.size()==0) {
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20013"), "资费类型不允许办理!");
+		}
+		for(PrcIdTransEntity pite:prcDetailList) {
+			long monthFee = 0;
+			String detailType = pite.getDetailType();
+			String detailCode = pite.getDetailCode();
+			Map<String, Object> outMap = billAccount.getMonthCodeInfo(userRegion, detailCode);
+			if(outMap!=null) {
+				 Double dmonthFee = Double.parseDouble(outMap.get("MONTH_FEE").toString())*100;
+				 monthFee = dmonthFee.longValue();
+				 log.info("monthFee==="+monthFee);
+			}
+			totalMonthFee = totalMonthFee+monthFee;
+		}
+		
+		//取用户可用非专款
+		Map<String,Object> inMap = new HashMap<String,Object>();
+		inMap.put("CONTRACT_NO", contractNo);
+		inMap.put("PAY_ATTR4", "0");
+		inMap.put("SPECIAL_FLAG", "1");
+		long commonPrepayFee = balance.getAcctSumCurBalance(inMap);
+		
+		/*剩余包年专款+可用预存 < 0*/
+		if(sepcialPrepay+commonPrepayFee-totalMonthFee<0) {
+			long mustFee = sepcialPrepay+commonPrepayFee-totalMonthFee;
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20014"), "用户预存不足["+mustFee+"]");
+		}
+		
+		int cnt = billAccount.judgeRollMonthBill(idNo);
+		if(cnt>0) {
+			throw new BusiException(AcctMgrError.getErrorCode("0000","20014"), "滚动月包年用户不允许办理!");
+		}
+		
+		SKdLimitOutDTO outDto = new SKdLimitOutDTO();
+		return outDto;
+		
+	}
+	
+	/**
+	 * @return the balance
+	 */
+	public IBalance getBalance() {
+		return balance;
+	}
+	/**
+	 * @param balance the balance to set
+	 */
+	public void setBalance(IBalance balance) {
+		this.balance = balance;
+	}
+	/**
+	 * @return the control
+	 */
+	public IControl getControl() {
+		return control;
+	}
+	/**
+	 * @param control the control to set
+	 */
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+	/**
+	 * @return the record
+	 */
+	public IRecord getRecord() {
+		return record;
+	}
+	/**
+	 * @param record the record to set
+	 */
+	public void setRecord(IRecord record) {
+		this.record = record;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public IUser getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the bill
+	 */
+	public IBill getBill() {
+		return bill;
+	}
+
+	/**
+	 * @param bill the bill to set
+	 */
+	public void setBill(IBill bill) {
+		this.bill = bill;
+	}
+
+	/**
+	 * @return the remainFee
+	 */
+	public IRemainFee getRemainFee() {
+		return remainFee;
+	}
+
+	/**
+	 * @param remainFee the remainFee to set
+	 */
+	public void setRemainFee(IRemainFee remainFee) {
+		this.remainFee = remainFee;
+	}
+
+	/**
+	 * @return the account
+	 */
+	public IAccount getAccount() {
+		return account;
+	}
+
+	/**
+	 * @param account the account to set
+	 */
+	public void setAccount(IAccount account) {
+		this.account = account;
+	}
+
+	/**
+	 * @return the billAccount
+	 */
+	public IBillAccount getBillAccount() {
+		return billAccount;
+	}
+
+	/**
+	 * @param billAccount the billAccount to set
+	 */
+	public void setBillAccount(IBillAccount billAccount) {
+		this.billAccount = billAccount;
+	}
+
+	/**
+	 * @return the group
+	 */
+	public IGroup getGroup() {
+		return group;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	/**
+	 * @return the prod
+	 */
+	public IProd getProd() {
+		return prod;
+	}
+
+	/**
+	 * @param prod the prod to set
+	 */
+	public void setProd(IProd prod) {
+		this.prod = prod;
+	}
+	
+}

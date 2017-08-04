@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ct_cust_info">
+    <typeAlias alias="CtCustInfo" type="com.sitech.acctmgr.atom.domains.cust.CustInfoEntity"/>
+    <select id="qCustInfo" parameterClass="Map" resultClass="CtCustInfo">
+        SELECT CUST_ID custId,
+        CUST_NAME custName,
+        ID_ADDRESS idAddress,
+        ID_ICCID idIccid,
+        CUST_CD custCd,
+        SUBSTR(TRIM(CUST_NAME), 0, 1) custLastName,
+        CUST_ADDRESS custAddress,
+        GROUP_ID groupId,
+        CUST_LEVEL custLevel,
+        ID_TYPE idType,
+        TRUE_FLAG trueFlag,
+        TYPE_CODE typeCode,
+        to_char(ID_VALIDDATE,'YYYYMMDD') idValiddate
+        FROM CT_CUST_INFO WHERE 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="CUST_ID">
+                CUST_ID = #CUST_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ID_ICCID">
+                ID_ICCID = #ID_ICCID#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+</sqlMap>

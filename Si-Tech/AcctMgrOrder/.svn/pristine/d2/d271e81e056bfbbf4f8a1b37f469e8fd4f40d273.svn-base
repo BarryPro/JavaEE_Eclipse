@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_msgrcv_info">
+  
+  <select id="qCountByTopic" parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT nvl(count(1), 0) COUNT 
+	FROM  IN_MSGRCV_INFO
+	WHERE TOPIC_ID=#TOPIC_ID#
+  </select>
+    
+  <select id="qDataByTopic" parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, CONTENT, LOGIN_ACCEPT, OP_CODE, LOGIN_NO 
+	FROM  IN_MSGRCV_INFO
+	WHERE TOPIC_ID=#TOPIC_ID#
+	ORDER BY OP_TIME 
+  </select>
+
+  <insert id="iDatabyCatch" parameterClass="Map">
+	INSERT INTO IN_MSGRCV_INFO (DATA_SOURCE, BUSIID_NO, BUSIID_TYPE, TOPIC_ID, CONTENT, LOGIN_ACCEPT, OP_TIME, OP_CODE, LOGIN_NO)
+	VALUES (#DATA_SOURCE#, #BUSIID_NO#, #BUSIID_TYPE#, #TOPIC_ID#, #CONTENT#, #LOGIN_ACCEPT#, SYSDATE, #OP_CODE#, #LOGIN_NO#)
+  </insert>
+  
+  <delete id="dDatabyAccept" parameterClass="Map">
+	DELETE FROM IN_MSGRCV_INFO 
+	WHERE TOPIC_ID=#TOPIC_ID# 
+	AND LOGIN_ACCEPT=#LOGIN_ACCEPT# 
+  </delete>
+  
+</sqlMap>

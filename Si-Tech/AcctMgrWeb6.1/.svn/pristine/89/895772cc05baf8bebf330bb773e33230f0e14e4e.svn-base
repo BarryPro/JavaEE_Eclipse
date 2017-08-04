@@ -1,0 +1,518 @@
+package com.sitech.acctmgr.atom.impl.invoice;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSON;
+import com.sitech.acctmgr.atom.domains.invoice.OrderInfoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.OrderTaxInfoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxAcctInfo;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubCodeDictEntity;
+import com.sitech.acctmgr.atom.dto.invoice.S8248OrderInfoCompQryOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248QryAcctNoOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248QrySecCompConOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248QrySecConCompInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248QrySecConOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248SubConInvcCompInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248SubConInvcCompOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248SubConInvcOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248TaxInvoCompCfmBossInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248TaxInvoCompCfmBossOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248TaxInvoCompQryAcctNoInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248TaxInvoCompQryAcctNoOutDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248TaxInvoCompQryInvoInDTO;
+import com.sitech.acctmgr.atom.dto.invoice.S8248TaxInvoCompQryInvoOutDTO;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.dto.CommonOutDTO;
+import com.sitech.acctmgr.common.utils.InvoiceUtil;
+import com.sitech.acctmgr.inter.invoice.I8248TaxInvo;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.MBean;
+import com.sitech.jcfx.dt.in.InDTO;
+import com.sitech.jcfx.dt.out.OutDTO;
+import com.sitech.jcfx.service.client.ServiceUtil;
+
+/**
+ *
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author wangxind
+ * @version 1.0
+ */
+@ParamTypes({ @ParamType(c = S8248TaxInvoCompQryAcctNoInDTO.class, m = "qryAcctNo", oc = S8248TaxInvoCompQryAcctNoOutDTO.class),
+		@ParamType(c = S8248TaxInvoCompQryInvoInDTO.class, m = "qryInvo", oc = S8248TaxInvoCompQryInvoOutDTO.class),
+		@ParamType(c = S8248TaxInvoCompCfmBossInDTO.class, m = "cfmBoss", oc = S8248TaxInvoCompCfmBossOutDTO.class),
+		@ParamType(c = S8248QrySecConCompInDTO.class, m = "qryAcctNoRel", oc = S8248QrySecCompConOutDTO.class),
+		@ParamType(c = S8248SubConInvcCompInDTO.class, m = "getSubConInvc", oc = S8248SubConInvcCompOutDTO.class) })
+public class S8248TaxInvoComp implements I8248TaxInvo {
+
+	protected Logger log = LoggerFactory.getLogger(this.getClass());
+	private final double addTaxRate = 0.06;
+	// 11税率
+	private final double telTaxRate = 0.11;
+
+	private final double crmTaxRate = 0.17;
+	private IControl control;
+
+	@Override
+	public OutDTO qryAcctNo(InDTO inParam) {
+
+		S8248TaxInvoCompQryAcctNoInDTO inArg = (S8248TaxInvoCompQryAcctNoInDTO) inParam;
+		S8248TaxInvoCompQryAcctNoOutDTO outArg = new S8248TaxInvoCompQryAcctNoOutDTO();
+
+		String sPhoneNo = inArg.getPhoneNo();
+
+		String outStr = "";
+		/* 依次查询大区 */
+		String interfaceName = "com_sitech_acctmgr_inter_invoice_I8248TaxInvoAoSvc_qryAcctNo";
+		/* 入参报文 */
+		MBean inPubInfo = new MBean();
+		inPubInfo.setHeader(inArg.getHeader());
+		inPubInfo.addBody("BUSI_INFO.PHONE_NO", sPhoneNo);
+		inPubInfo.addBody("BUSI_INFO.QRY_TYPE", "" + inArg.getQryType());
+		inPubInfo.addBody("BUSI_INFO.BEGIN_YM", inArg.getBeginYm() + "");
+		inPubInfo.addBody("BUSI_INFO.END_YM", inArg.getEndYm() + "");
+		inPubInfo.addBody("BUSI_INFO.CONTRACT_NO", "" + inArg.getContractNo());
+		inPubInfo.addBody("BUSI_INFO.TAX_PAYER_ID", "" + inArg.getTaxPayerId());
+		inPubInfo.addBody("OPR_INFO.GROUP_ID", inArg.getGroupId());
+		inPubInfo.addBody("OPR_INFO.LOGIN_NO", inArg.getLoginNo());
+		inPubInfo.addBody("OPR_INFO.OP_CODE", inArg.getOpCode());
+
+		outStr = ServiceUtil.callService(interfaceName, inPubInfo);
+
+		MBean mb = new MBean(outStr);
+		String jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+
+		S8248QryAcctNoOutDTO qryout = JSON.parseObject(jsonStr, S8248QryAcctNoOutDTO.class);// new S8248QryAcctNoOutDTO(outStr);
+
+		List<TaxAcctInfo> acctInfo = qryout.getAcctInfo();
+
+		/* 判断账户数 */
+		if (acctInfo.size() == 0) {
+			throw new BusiException(AcctMgrError.getErrorCode("8000", "01014"), "没有具有资质的付费关系账户！");
+		}
+
+		outArg.setAcctInfo(acctInfo);
+
+		return outArg;
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see com.sitech.acctmgr.inter.invoice.I8248TaxInvo#qryInvo(com.sitech.jcfx.dt.in.InDTO) */
+	@Override
+	public OutDTO qryInvo(InDTO inParam) {
+
+		S8248TaxInvoCompQryInvoInDTO inArg = (S8248TaxInvoCompQryInvoInDTO) inParam;
+		S8248TaxInvoCompQryInvoOutDTO outArg = new S8248TaxInvoCompQryInvoOutDTO();
+		int domain = inArg.getDomain();
+		switch (domain) {
+		case 1:
+			// BOSS业务
+			String outStr = "";
+			String interfaceName = "com_sitech_acctmgr_inter_invoice_I8248TaxInvoAoSvc_qryInvo";
+			// String interfaceNameOne = "com_sitech_acctmgr_inter_invoice_I8248TaxInvoAoSvc_qryInvNoForOnePay";
+			MBean inPubInfo = new MBean();
+			inPubInfo.setHeader(inArg.getHeader());
+			inPubInfo.addBody("BUSI_INFO.BEGIN_MON", "" + inArg.getBeginMon());
+			inPubInfo.addBody("BUSI_INFO.END_MON", "" + inArg.getEndMon());
+			inPubInfo.setBody("BUSI_INFO.CONTRACT_NO", "" + inArg.getContractNo());
+			inPubInfo.addBody("OPR_INFO.GROUP_ID", inArg.getGroupId());
+			inPubInfo.addBody("OPR_INFO.LOGIN_NO", inArg.getLoginNo());
+			inPubInfo.addBody("OPR_INFO.OP_CODE", inArg.getOpCode());
+			outStr = ServiceUtil.callService(interfaceName, inPubInfo);
+			MBean mb = new MBean(outStr);
+			String jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+			outArg = (S8248TaxInvoCompQryInvoOutDTO) JSON.parseObject(jsonStr, S8248TaxInvoCompQryInvoOutDTO.class);
+			break;
+		case 2:
+			// Crm接口1
+			S8248OrderInfoCompQryOutDTO crmInfo = null;
+			String crminterfaceName = "com_sitech_crm_order_inter_service_billManageService_queryOrdInvc";
+			MBean crminPubInfo = new MBean();
+			crminPubInfo.setHeader(inArg.getHeader());
+			crminPubInfo.addBody("SERVICE_NO", inArg.getPhoneNo());
+			crminPubInfo.addBody("CUST_ID", "");
+			crminPubInfo.addBody("ID_ICCID", "");
+			crminPubInfo.addBody("START_TIME", inArg.getBeginMon());
+			crminPubInfo.addBody("END_TIME", inArg.getEndMon());
+			// log.info("crminPubInfo==="+crminPubInfo);
+			String crmoutStr = ServiceUtil.callService(crminterfaceName, crminPubInfo);
+			// String crmoutStr =
+			// "{    \"ROOT\": {        \"BODY\": {            \"OUT_DATA\": {                \"ORDER_INFO\": [                    {                        \"OP_CODE\": \"4602\",                        \"TAX_LIST\": [                            {                                \"FEE_CODE\": \"Y200\",                                \"MADE_PRICE\": \"0\",                                \"RESOURCE_UNIT\": \"\",                                \"FEE_CODE_SEQ\": \"0\",                                \"RESOURCE_NUM\": \"\",                                \"TAX_FEE\": \"1100\",                                \"RESOURCE_NAME\": \"\",                                \"SHOULD_PAY\": 3800,                                \"RESOURCE_MODEL\": \"\",                                \"TAX_SHOULD\": \"0\",                                \"FEE_TYPE\": \"0\",                                \"BUY_PRICE\": \"0\",                                \"MORE_FEE\": \"0\",                                \"TAX_RATE\": \"0.06\",                                \"FEE_ACCEPT\": \"L15081200000199\"                            }                        ],                        \"ORDER_ID\": \"O15081200000189\",                        \"SUFFIX\": \"201501\",                        \"OP_NAME\": \"营销执行\",                        \"SERVICE_NO\": \"18743490114\"                    }                ]            },            \"RETURN_CODE\": \"0\",            \"RETURN_MSG\": \"OK\",            \"USER_MSG\": \"OK\",            \"DETAIL_MSG\": \"OK\",            \"PROMPT_MSG\": \"OK\"        }    }}";
+			// Log.info("crmoutStr================"+crmoutStr);
+			MBean crmmb = new MBean(crmoutStr);
+			String crmjsonStr = JSON.toJSONString(crmmb.getBodyObject("OUT_DATA"));
+			// Log.info("crmjsonStr========="+crmjsonStr);
+			crmInfo = JSON.parseObject(crmjsonStr, S8248OrderInfoCompQryOutDTO.class);
+
+			// 获取名称
+			// interfaceName = "com_sitech_acctmgr_inter_adj_IPubCodeAoSvc_getPubInfo";
+			// inPubInfo = new MBean();
+			// inPubInfo.setHeader(inArg.getHeader());
+			// inPubInfo.addBody("BUSI_INFO.CODE_CLASS", "105");
+			// outStr = ServiceUtil.callService(interfaceName, inPubInfo);
+			// mb = new MBean(outStr);
+			// jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+			// SPubCodeOutDTO pubdto = JSON.parseObject(jsonStr, SPubCodeOutDTO.class);// new S8248QryAcctNoOutDTO(outStr);
+			// List<Map<String, Object>> pudlist = pubdto.getListBackType();
+			List<PubCodeDictEntity> pubCodeList = control.getPubCodeList(105l, "", "", "");
+			outArg = (S8248TaxInvoCompQryInvoOutDTO) getCrmOrderInfo(crmInfo, inArg.getBeginMon(), inArg.getEndMon(), pubCodeList, 10000000);
+			break;
+		default:
+			break;
+		}
+		return outArg;
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see com.sitech.acctmgr.inter.invoice.I8248TaxInvo#cfmBoss(com.sitech.jcfx.dt.in.InDTO) */
+	@Override
+	public OutDTO cfmBoss(InDTO inParam) {
+
+		S8248TaxInvoCompCfmBossInDTO inArg = (S8248TaxInvoCompCfmBossInDTO) inParam;
+		S8248TaxInvoCompCfmBossOutDTO outArg = new S8248TaxInvoCompCfmBossOutDTO();
+
+		return null;
+	}
+
+	@Override
+	public OutDTO qryCrmQry(InDTO inParam) {
+
+		return null;
+
+	}
+
+	/**
+	 * 一点支付发票：获取发票抬头以及二级账号
+	 */
+	@Override
+	public OutDTO qryAcctNoRel(InDTO inParam) {
+
+		S8248QrySecConCompInDTO inArg = (S8248QrySecConCompInDTO) inParam;
+		S8248QrySecCompConOutDTO outArg = new S8248QrySecCompConOutDTO();
+		List<TaxAcctInfo> relConList = new ArrayList<TaxAcctInfo>();
+		String dbId = StringUtils.castToString(inArg.getHeader().get("DB_ID"));
+		String outStr = "";
+		/* 一次查询大区 */
+		String interfaceName = "com_sitech_acctmgr_inter_invoice_I8248TaxInvoAoSvc_qrySecCon";
+		/* 入参报文 */
+		MBean inPubInfo = new MBean();
+		inPubInfo.setHeader(inArg.getHeader());
+		inPubInfo.addBody("BUSI_INFO.CONTRACT_NO", "" + inArg.getContractNo());
+		inPubInfo.addBody("BUSI_INFO.OP_FLAG", "" + inArg.getOpFlag());
+		log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "input----->" + inPubInfo);
+		outStr = ServiceUtil.callService(interfaceName, inPubInfo);
+		log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "output----->" + outStr);
+		MBean mb = new MBean(outStr);
+		String jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+		S8248QrySecConOutDTO relout = JSON.parseObject(jsonStr, S8248QrySecConOutDTO.class);
+		if (relout.getRelConList() != null && relout.getRelConList().size() > 0)
+			relConList.addAll(relout.getRelConList());
+
+		// 垮库
+		if (inArg.getAcrossFlag() == 1) {
+			String kuFlag = "";
+			if (dbId.equals("A1") || dbId.equals("A2")) {
+				kuFlag = "20";
+			} else {
+				kuFlag = "10";
+			}
+			log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "input----->" + inPubInfo);
+			outStr = ServiceUtil.callService(interfaceName, inPubInfo, "16", kuFlag);
+			log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "output----->" + outStr);
+			mb = new MBean(outStr);
+			jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+			relout = JSON.parseObject(jsonStr, S8248QrySecConOutDTO.class);
+			if (relout != null && relout.getRelConList() != null && relout.getRelConList().size() > 0)
+				relConList.addAll(relout.getRelConList());
+		}
+		outArg.setRelConList(relConList);
+		outArg.setCount(relConList.size());
+		return outArg;
+	}
+
+	/**
+	 * 一点支付发票：查询二级账目项发票费用
+	 */
+	@Override
+	public OutDTO getSubConInvc(InDTO inParam) {
+
+		S8248SubConInvcCompInDTO inArg = (S8248SubConInvcCompInDTO) inParam;
+		List<TaxInvoEntity> relConList = new ArrayList<TaxInvoEntity>();
+		String dbId = StringUtils.castToString(inArg.getHeader().get("DB_ID"));
+		String outStr = "";
+		long cfValue = 0;
+		/* 一次查询大区 */
+		String interfaceName = "com_sitech_acctmgr_inter_invoice_I8248TaxInvoAoSvc_getSubConInvc";
+		/* 入参报文 */
+		MBean inPubInfo = new MBean();
+		inPubInfo.setHeader(inArg.getHeader());
+		inPubInfo.addBody("BUSI_INFO.CONTRACT_NO", "" + inArg.getContractNo());
+		inPubInfo.addBody("BUSI_INFO.BEGIN_MON", "" + inArg.getBeginMon());
+		inPubInfo.addBody("BUSI_INFO.END_MON", "" + inArg.getEndMon());
+		inPubInfo.addBody("BUSI_INFO.ACCT_LIST", inArg.getInvCondList());
+		inPubInfo.addBody("BUSI_INFO.GROUP_ID", inArg.getGroupId());
+		log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "input----->" + inPubInfo);
+		outStr = ServiceUtil.callService(interfaceName, inPubInfo);
+		log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "output----->" + outStr);
+		MBean mb = new MBean(outStr);
+		String jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+		S8248SubConInvcOutDTO relout = JSON.parseObject(jsonStr, S8248SubConInvcOutDTO.class);
+		if (relout != null && relout.getInvFeeCfval() <= 0) {
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "01100"), "拆分阀值未设置！");
+		}
+		cfValue = relout.getInvFeeCfval();
+		if (relout != null && relout.getInvFeeInfo() != null && relout.getInvFeeInfo().size() > 0) {
+			relConList.addAll(relout.getInvFeeInfo());
+		}
+
+		// -----A大区*******垮库**********
+		if (inArg.getAcrossFlag() == 1) {
+			String kuFlag = "";
+			if (dbId.equals("A1") || dbId.equals("A2")) {
+				kuFlag = "20";
+			} else {
+				kuFlag = "10";
+			}
+			log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "input----->" + inPubInfo);
+			outStr = ServiceUtil.callService(interfaceName, inPubInfo, "16", kuFlag);
+			log.error("contractno=" + inArg.getContractNo() + "_" + interfaceName + "output----->" + outStr);
+			mb = new MBean(outStr);
+			jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+			relout = JSON.parseObject(jsonStr, S8248SubConInvcOutDTO.class);
+			if (relout != null && relout.getInvFeeInfo() != null && relout.getInvFeeInfo().size() > 0) {
+				relConList.addAll(relout.getInvFeeInfo());
+				if (relout.getInvFeeCfval() >= 0 && cfValue == 0) {
+					cfValue = relout.getInvFeeCfval();
+				}
+			}
+		}
+
+		// 获取名称
+		// interfaceName = "com_sitech_acctmgr_inter_adj_IPubCodeAoSvc_getPubInfo";
+		// inPubInfo = new MBean();
+		// inPubInfo.setHeader(inArg.getHeader());
+		// inPubInfo.addBody("BUSI_INFO.CODE_CLASS", "105");
+		// outStr = ServiceUtil.callService(interfaceName, inPubInfo);
+		// mb = new MBean(outStr);
+		// jsonStr = JSON.toJSONString(mb.getBodyObject("OUT_DATA"));
+		// SPubCodeOutDTO pubdto = JSON.parseObject(jsonStr, SPubCodeOutDTO.class);// new S8248QryAcctNoOutDTO(outStr);
+		List<PubCodeDictEntity> pubList = control.getPubCodeList(105l, "", "", "");
+		// =++boss 进行拆分处理 start ++
+		return getBossInvInfo(relConList, pubList, cfValue, inArg.getBeginMon(), inArg.getEndMon());
+		// =++boss 进行拆分处理 end ++
+	}
+
+	/**
+	 * 数据整合，发票拆分操作-CRM处理
+	 * 
+	 * @param
+	 * @return
+	 */
+	public CommonOutDTO getCrmOrderInfo(S8248OrderInfoCompQryOutDTO crmdto, int iBeginMon, int iEndMon, List<PubCodeDictEntity> pudlist, long cfValue) {
+		S8248TaxInvoCompQryInvoOutDTO outDto = new S8248TaxInvoCompQryInvoOutDTO();
+		if (crmdto == null)
+			return null;
+		List<TaxInvoEntity> invFeeList = new ArrayList<TaxInvoEntity>();
+		TaxInvoEntity addtaxEny = null;
+		TaxInvoEntity teltaxEny = null;
+		TaxInvoEntity crmTaxEny = null;
+		String orderInfo = "";
+		// 购机款
+		long buyPrice = 0;
+		// 成本价
+		long madePrice = 0;
+
+		for (OrderInfoEntity order : crmdto.getOrderInfo()) {
+			orderInfo += order.getOrderId() + ",";
+			List<OrderTaxInfoEntity> orderTaxList = order.getOrderTaxList();
+
+			for (OrderTaxInfoEntity taxinfo : orderTaxList) {
+
+				if (taxinfo.getTaxRate() == this.addTaxRate) {
+					if (addtaxEny == null) {
+						addtaxEny = new TaxInvoEntity();
+						addtaxEny.setBeginMonth(iBeginMon);
+						addtaxEny.setEndMonth(iEndMon);
+						addtaxEny.setFeeName("增值业务费");
+						addtaxEny.setTaxRate(this.addTaxRate);
+						addtaxEny.setPrintFlag("0");
+					}
+					addtaxEny.setTaxFee(addtaxEny.getTaxFee() + taxinfo.getTaxFee());
+					addtaxEny.setFavrateFee(0);
+					addtaxEny.setFavrateTaxFee(0);
+
+					addtaxEny.setInvcInitFee(addtaxEny.getInvcInitFee() + taxinfo.getTaxShould());
+					addtaxEny.setTotalFee(addtaxEny.getTotalFee() + taxinfo.getTaxShould());
+
+				} else if (taxinfo.getTaxRate() == this.telTaxRate) {
+					if (teltaxEny == null) {
+						teltaxEny = new TaxInvoEntity();
+						teltaxEny.setBeginMonth(iBeginMon);
+						teltaxEny.setEndMonth(iEndMon);
+						teltaxEny.setFeeName("基础通信费");
+						teltaxEny.setTaxRate(this.telTaxRate);
+						teltaxEny.setPrintFlag("0");
+					}
+					teltaxEny.setTaxFee(teltaxEny.getTaxFee() + taxinfo.getTaxFee());
+					teltaxEny.setFavrateFee(0);
+					teltaxEny.setFavrateTaxFee(0);
+					teltaxEny.setInvcInitFee(teltaxEny.getInvcInitFee() + taxinfo.getTaxShould());
+					teltaxEny.setTotalFee(teltaxEny.getTotalFee() + taxinfo.getTaxShould());
+
+				} else if (taxinfo.getTaxRate() == this.crmTaxRate) {
+					if (crmTaxEny == null) {
+						crmTaxEny = new TaxInvoEntity();
+						crmTaxEny.setBeginMonth(iBeginMon);
+						crmTaxEny.setEndMonth(iEndMon);
+						crmTaxEny.setFeeName("终端销售费");
+						crmTaxEny.setTaxRate(this.crmTaxRate);
+						crmTaxEny.setPrintFlag("0");
+					}
+					crmTaxEny.setTaxFee(crmTaxEny.getTaxFee() + taxinfo.getTaxFee());
+					crmTaxEny.setFavrateFee(0);
+					crmTaxEny.setFavrateTaxFee(0);
+					crmTaxEny.setInvcInitFee(crmTaxEny.getInvcInitFee() + taxinfo.getTaxShould());
+					crmTaxEny.setTotalFee(crmTaxEny.getTotalFee() + taxinfo.getTaxShould());
+					// 计算crm备注信息，成本价，购机款
+					buyPrice += taxinfo.getBuyPrice();
+					madePrice += taxinfo.getMadePrice();
+
+				}
+			}
+
+		}
+		if (!"".equals(orderInfo)) {
+			orderInfo = orderInfo.substring(0, orderInfo.length() - 1);
+		}
+		if (addtaxEny != null) {
+			addtaxEny.setOrderInfo(orderInfo);
+			invFeeList.add(addtaxEny);
+		}
+		if (teltaxEny != null) {
+			teltaxEny.setOrderInfo(orderInfo);
+			invFeeList.add(teltaxEny);
+		}
+		if (crmTaxEny != null) {
+			crmTaxEny.setOrderInfo(orderInfo);
+			if (buyPrice >= 0 && madePrice >= 0) {
+				long minprice = buyPrice - madePrice;
+				double remarkPrice = minprice * 0.17 - (minprice * (0.6 / 1.11 * 0.11 + 0.4 / 1.06 * 0.06));
+				// long remarkPrice = 313;
+				crmTaxEny.setRemark("移动业务收入-终端补贴增值税 " + new BigDecimal(remarkPrice / 100.00).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
+						+ "金额");
+			}
+			invFeeList.add(crmTaxEny);
+		}
+		invFeeList = InvoiceUtil.getSepraFeeInfo(invFeeList, pudlist, cfValue);
+		// outDto.setInvFeeCnt(invFeeList == null ? 0 : invFeeList.size());
+		// outDto.setInvFeeInfo(invFeeList);
+
+		return outDto;
+	}
+
+	/**
+	 * 数据整合，发票拆分操作-BOSS一点支付发票处理
+	 * 
+	 * @param
+	 * @return
+	 */
+	public CommonOutDTO getBossInvInfo(List<TaxInvoEntity> invFeeList, List<PubCodeDictEntity> pubList, long cfValue, int iBeginMon, int iEndMon) {
+
+		List<TaxInvoEntity> invFeeTotalList = new ArrayList<TaxInvoEntity>();
+
+		if (invFeeList != null && invFeeList.size() > 0) {
+			TaxInvoEntity addtaxEny = null;
+			TaxInvoEntity teltaxEny = null;
+			for (TaxInvoEntity invcVo : invFeeList) {
+				if (invcVo.getTaxRate() == this.addTaxRate) {
+					if (addtaxEny == null) {
+						addtaxEny = new TaxInvoEntity();
+						addtaxEny.setBeginMonth(iBeginMon);
+						addtaxEny.setEndMonth(iEndMon);
+						addtaxEny.setFeeName("增值业务费");
+						addtaxEny.setTaxRate(this.addTaxRate);
+						addtaxEny.setPrintFlag("0");
+					}
+					addtaxEny.setTaxFee(addtaxEny.getTaxFee() + invcVo.getTaxFee());
+					addtaxEny.setFavrateFee(addtaxEny.getFavrateFee() + invcVo.getFavrateFee());
+					addtaxEny.setFavrateTaxFee(addtaxEny.getFavrateTaxFee() + invcVo.getFavrateFee());
+					addtaxEny.setInvcInitFee(addtaxEny.getInvcInitFee() + invcVo.getInvcInitFee());
+					addtaxEny.setTotalFee(addtaxEny.getTotalFee() + invcVo.getTotalFee());
+
+				} else if (invcVo.getTaxRate() == this.telTaxRate) {
+					if (teltaxEny == null) {
+						teltaxEny = new TaxInvoEntity();
+						teltaxEny.setBeginMonth(iBeginMon);
+						teltaxEny.setEndMonth(iEndMon);
+						teltaxEny.setFeeName("基础通信费");
+						teltaxEny.setTaxRate(this.telTaxRate);
+						teltaxEny.setPrintFlag("0");
+					}
+					teltaxEny.setTaxFee(teltaxEny.getTaxFee() + invcVo.getTaxFee());
+					teltaxEny.setFavrateFee(teltaxEny.getFavrateFee() + invcVo.getFavrateFee());
+					teltaxEny.setFavrateTaxFee(teltaxEny.getFavrateTaxFee() + invcVo.getFavrateFee());
+					teltaxEny.setInvcInitFee(teltaxEny.getInvcInitFee() + invcVo.getInvcInitFee());
+					teltaxEny.setTotalFee(teltaxEny.getTotalFee() + invcVo.getTotalFee());
+
+				}
+			}
+			if (addtaxEny != null) {
+				if (addtaxEny.getTaxFee() > 0)
+					addtaxEny.setTaxFee(new BigDecimal(addtaxEny.getTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP).longValue());
+				if (addtaxEny.getFavrateTaxFee() > 0)
+					addtaxEny.setFavrateTaxFee(new BigDecimal(addtaxEny.getFavrateTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP)
+							.longValue());
+				invFeeTotalList.add(addtaxEny);
+			}
+			if (teltaxEny != null) {
+				if (teltaxEny.getTaxFee() > 0)
+					teltaxEny.setTaxFee(new BigDecimal(teltaxEny.getTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP).longValue());
+				if (teltaxEny.getFavrateTaxFee() > 0)
+					teltaxEny.setFavrateTaxFee(new BigDecimal(teltaxEny.getFavrateTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP)
+							.longValue());
+				invFeeTotalList.add(teltaxEny);
+			}
+		}
+		log.info("before_invFeeTotalList====" + invFeeTotalList);
+		invFeeTotalList = InvoiceUtil.getSepraFeeInfo(invFeeTotalList, pubList, cfValue);
+		log.info("after_invFeeTotalList====" + invFeeTotalList);
+		S8248SubConInvcCompOutDTO outArg = new S8248SubConInvcCompOutDTO();
+		// =++boss 进行拆分处理++
+		outArg.setInvFeeInfo(invFeeTotalList);
+		outArg.setInvFeeCnt(invFeeTotalList.size());
+		return outArg;
+
+	}
+
+	public IControl getControl() {
+		return control;
+	}
+
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+}

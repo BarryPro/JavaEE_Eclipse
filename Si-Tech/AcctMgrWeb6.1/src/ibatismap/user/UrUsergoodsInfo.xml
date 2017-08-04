@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ur_usergoods_info">
+
+    <select id="qCntByPrcId" parameterClass="Map" resultClass="java.lang.Integer">
+        select
+        count(1) from ur_usergoods_info
+        where id_no = #ID_NO#
+        <dynamic prepend="">
+            <isNotEmpty prepend="AND" property="PRC_IDS">
+                PRC_ID IN
+                <iterate open="(" close=")" property="PRC_IDS" conjunction="," prepend="">
+                    #PRC_IDS[]#
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+        and sysdate between eff_date and exp_date
+    </select>
+
+    <resultMap id="UserPrcEntity" class="com.sitech.acctmgr.atom.domains.user.UserPrcEntity">
+        <result property="idNo" column="ID_NO"/>
+        <result property="prodPrcid" column="PRC_ID"/>
+        <result property="prodPrcName" column="PRC_NAME"/>
+        <result property="prcType" column="PRC_TYPE"/>
+        <result property="prcClass" column="PRC_CLASS"/>
+        <result property="effDate" column="EFF_DATE"/>
+        <result property="expDate" column="EXP_DATE"/>
+        <result property="stateDate" column="STATE_DATE"/>
+        <result property="expFlag" column="EXP_FLAG"/>
+        <result property="halfFlag" column="HALF_FLAG"/>
+        <result property="loginNo" column="LOGIN_NO"/>
+        <result property="prcDesc" column="GOODS_PRC_DESC"/>
+        <result property="loginAccept" column="LOGIN_ACCEPT"/>
+        <result property="goodsMainFlag" column="GOODS_MAIN_FLAG"/>
+
+    </resultMap>
+
+    <select id="qUserprcInfo" parameterClass="Map" resultMap="UserPrcEntity">
+        SELECT A.PRC_ID,B.PRC_NAME, A.ID_NO, A.LOGIN_NO,
+        B.PRC_TYPE,
+        B.PRC_CLASS,
+        TO_CHAR(A.EFF_DATE,'YYYYMMDDHH24MISS') EFF_DATE,
+        TO_CHAR(A.EXP_DATE,'YYYYMMDDHH24MISS') EXP_DATE,
+        TO_CHAR(A.STATE_DATE,'YYYYMMDDHH24MISS') STATE_DATE,
+        B.GOODS_PRC_DESC,
+        A.LOGIN_ACCEPT ,
+        A.GOODS_MAIN_FLAG,
+        DECODE(SIGN(A.EXP_DATE - SYSDATE), 1, '有效', -1, '已取消', '归档') AS EXP_FLAG,
+        CASE
+        WHEN A.EFF_DATE >=TO_DATE(TO_CHAR(SYSDATE,'YYYYMM') || '16000000', 'YYYYMMDDHH24MISS') THEN 1 ELSE 0 END AS
+        HALF_FLAG
+        FROM UR_USERGOODS_INFO A,PD_GOODSPRC_DICT B
+        WHERE A.ID_NO = #ID_NO#
+        AND A.PRC_ID = B.PRC_ID
+        <dynamic prepend="">
+            <isNotEmpty prepend="" property="GOODS_MAIN_FLAG">
+                AND A.GOODS_MAIN_FLAG = #GOODS_MAIN_FLAG#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="PRC_TYPE">
+                AND B.PRC_TYPE = #PRC_TYPE#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="PRC_ID">
+                AND A.PRC_ID = #PRC_ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="CUR_VALID">
+                AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+            </isNotEmpty>
+            <isNotEmpty prepend="" property="VALID">
+                AND SYSDATE &lt; A.EXP_DATE
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY B.PRC_TYPE, A.EFF_DATE
+    </select>
+
+    <!--liuhl TODO 请核对品牌的业务含义 -->
+    <typeAlias alias="UserPdPrcInfo" type="com.sitech.acctmgr.atom.domains.prod.UserPdPrcInfoEntity"/>
+    <select id="getUserPrcInfo" parameterClass="Map" resultClass="UserPdPrcInfo">
+        SELECT B.PRC_ID prodPrcId,
+        B.PRC_NAME prodPrcName,
+        TO_CHAR(A.EFF_DATE, 'YYYYMMDDHH24MISS') effDate,
+        TO_CHAR(A.EXP_DATE, 'YYYYMMDDHH24MISS') expDate,
+        A.DEVELOP_LOGIN loginNo,
+        B.GOODS_PRC_DESC prcDesc,
+        C.BRAND_ID brandId,
+        A.LOGIN_ACCEPT loginAccept
+        FROM UR_USERGOODS_INFO A, PD_GOODSPRC_DICT B, PD_BRAND_DICT C
+        WHERE A.PRC_ID=B.PRC_ID
+        AND B.BRAND_ID=C.BRAND_ID
+        AND B.PRC_TYPE= '0'
+        AND A.ID_NO = #ID_NO#
+        <dynamic prepend="">
+            <isNotEmpty property="ON_FLAG">
+                AND SYSDATE    <![CDATA[ < ]]> A.EXP_DATE
+            </isNotEmpty>
+        </dynamic>
+        ORDER BY A.EFF_DATE DESC
+    </select>
+
+    <!-- add by liuhl_bj 20161010 查询资费明细 -->
+    <typeAlias alias="UserPdPrcDetailInfo" type="com.sitech.acctmgr.atom.domains.prod.UserPdPrcDetailInfoEntity"/>
+    <select id="getUserPrcDetailInfo" parameterClass="Map" resultClass="UserPdPrcDetailInfo">
+		select TO_CHAR(A.PRC_ID) prodPrcid,
+		B.PRC_NAME prcName,
+		TO_CHAR(A.EFF_DATE, 'YYYY/MM/DD HH24:MI:SS') beginTime,
+		TO_CHAR(A.EXP_DATE, 'YYYY/MM/DD HH24:MI:SS') endTime,
+		A.DEVELOP_LOGIN	loginNo,
+		TO_CHAR(LOGIN_ACCEPT) loginAccept
+		from UR_USERGOODS_INFO A,
+		PD_GOODSPRC_DICT B
+		where A.ID_NO = #ID_NO#
+		 and a.prc_id=b.prc_id
+		and ((A.EFF_DATE <![CDATA[>=]]> TO_DATE(#BEGIN_TIME#, 'YYYYMMDD HH24:MI:SS') 
+		AND A.EXP_DATE <![CDATA[<=]]> TO_DATE(#END_TIME#, 'YYYYMMDD HH24:MI:SS')) OR
+		(A.EXP_DATE > SYSDATE AND B.PRC_TYPE != 0))
+	</select>
+
+    <select id="qGroupGoodsInfo" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT A.GOODS_ID GOODS_ID,NVL(GOODS_NAME,'未知') GOODS_NAME
+        FROM   UR_USERGOODS_INFO A,PD_GOODS_DICT B
+        WHERE  A.ID_NO=#ID_NO#
+        AND    A.GOODS_MAIN_FLAG='0'
+        AND    SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+        AND    A.GOODS_ID=B.GOODS_ID(+)
+    </select>
+
+    <select id="qUserGprsPrcList" parameterClass="long" resultClass="java.lang.String">
+        SELECT A.NOTES
+        FROM PD_TRANSPRODPRC A, UR_USERGOODS_INFO B
+        WHERE     A.PRC_ID = B.PRC_ID
+        AND B.ID_NO = #ID_NO:LONG#
+        AND SYSDATE BETWEEN B.EFF_DATE AND B.EXP_DATE
+        AND EXISTS
+        (SELECT 1
+        FROM (SELECT A.DETAIL_CODE, A.PRICING_PLAN_ID
+        FROM PRICING_COMBINE A,
+        DBBILLOCS.T_PP_BILLPRCPLAN_P B
+        WHERE     A.DETAIL_CODE = B.BILLPRCID
+        AND A.DETAIL_TYPE = '0'
+        AND B.BILLPRCSUBTYPE = 'gg'
+        AND ( (B.QUERY_FLAG_NEW = '1'
+        AND SYSDATE >= B.CHANGE_DATE)
+        OR (B.QUERY_FLAG = '1'
+        AND SYSDATE <![CDATA[ < ]]> B.CHANGE_DATE))) B
+        WHERE A.PRICING_PLAN_ID = B.PRICING_PLAN_ID)
+    </select>
+
+    <select id="qryPacketPrcInfo" parameterClass="Map" resultClass="UserPdPrcDetailInfo">
+		select
+		a.prc_id prodPrcid,
+		b.PRC_NAME prcName,
+		to_char(a.eff_date,'YYYYMMDD') beginTime,
+		to_Char(a.exp_date,'YYYYMMDD') endTime
+		from UR_USERGOODS_INFO a,PD_GOODSPRC_DICT b
+		where a.id_no=#ID_NO#
+		and a.prc_id=b.prc_id(+)
+		and b.PRC_CLASS = 'YnP010'
+		AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+	</select>
+
+    <!-- 查询月租信息 -->
+    <select id="qMonthInfo" resultClass="java.util.HashMap" parameterClass="Map">
+        SELECT A.ID_NO, B.ATTR_ID, B.DEFAULT_VALUE,TO_CHAR(A.EFF_DATE,'YYYYMM') EFF_DATE
+        FROM UR_USERGOODS_INFO A, PD_GOODSPRCATTR_DICT B, PD_GOODSPRC_DICT C
+        WHERE A.PRC_ID = B.PRC_ID
+        AND A.PRC_ID = C.PRC_ID
+        AND C.PRC_ID=B.PRC_ID
+        AND A.ID_NO = #ID_NO#
+        <dynamic prepend="">
+            <isNotEmpty property="PRC_CLASS" prepend="">
+                AND C.PRC_CLASS IN
+                <iterate conjunction="," close=")" open="(" prepend="" property="PRC_CLASS">
+                    #PRC_CLASS[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty property="ATTR_ID" prepend="">
+                AND B.ATTR_ID IN
+                <iterate conjunction="," close=")" open="(" prepend="" property="ATTR_ID">
+                    #ATTR_ID[]#
+                </iterate>
+
+            </isNotEmpty>
+        </dynamic>
+        AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+    </select>
+
+    <select id="qryFavCnt" parameterClass="Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM UR_USERGOODS_INFO A, PUB_CODEDEF_DICT B
+        WHERE A.ID_NO = #ID_NO#
+        AND A.PRC_ID = B.CODE_ID
+        AND B.STATUS = #STATUS#
+        AND SYSDATE BETWEEN A.EFF_DATE AND A.EXP_DATE
+    </select>
+
+    <select id="qryPrcValidInfo" parameterClass="Map" resultClass="java.util.HashMap">
+        SELECT TO_CHAR(MIN(EFF_DATE),'YYYYMMDDHH24MISS') AS EFF_DATE,
+        TO_CHAR(MAX(EXP_DATE),'YYYYMMDDHH24MISS') AS EXP_DATE
+        FROM UR_USERGOODS_INFO
+        WHERE GOODSINS_ID = #GOODSINS_ID#
+        AND SYSDATE BETWEEN EFF_DATE AND EXP_DATE
+    </select>
+
+</sqlMap>

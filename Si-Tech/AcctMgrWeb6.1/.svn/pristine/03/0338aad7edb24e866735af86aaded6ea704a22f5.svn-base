@@ -1,0 +1,141 @@
+  
+/**   
+ * File：InvcCollPrintEntity.java   
+ *   
+ * Version：   
+ * Date：2015-7-27     
+ * Copyright Clarify:   
+ *   
+ */
+    
+package com.sitech.acctmgr.atom.domains.invoice;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+
+  
+/**
+ * @Description: 托收发票打印实体
+ * @author: wangyla
+ * @version:
+ * @createTime: 2015-7-27 下午1:41:50
+ */
+
+public class InvcCollPrintEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@JSONField(name="PRINT_DATE")
+	@ParamDesc(path = "PRINT_DATE", cons = ConsType.CT001, type = "string", len = "8", desc = "发票打印日期", memo = "yyyyMMdd")
+	private String printDate;
+	
+	@JSONField(name="OP_CODE")
+	@ParamDesc(path = "OP_CODE", cons = ConsType.CT001, type = "string", len = "4", desc = "模块代码", memo = "托收发票：8226")
+	private String opCode;
+	
+	@JSONField(name="LOGIN_NO")
+	@ParamDesc(path = "LOGIN_NO", cons = ConsType.CT001, type = "string", len = "6", desc = "打印工号", memo = "")
+	private String loginNo;
+	
+	@JSONField(name="GROUP_ID")
+	@ParamDesc(path = "GROUP_ID", cons = ConsType.CT001, type = "string", len = "10", desc = "工号归属机构代码", memo = "")
+	private String groupId;
+	
+	@JSONField(name="INVC_NUM")
+	@ParamDesc(path = "INVC_NUM", cons = ConsType.CT001, type = "int", len = "4", desc = "发票打印张数", memo = "")
+	private int invcNum;
+	
+	@JSONField(name="INVC_TYPE")
+	@ParamDesc(path = "INVC_TYPE", cons = ConsType.CT001, type = "string", len = "10", desc = "发票类型", memo = "托收发票：MM4001")
+	private String invcType;
+	
+	@JSONField(name="PRINT_SN")
+	@ParamDesc(path = "PRINT_SN", cons = ConsType.CT001, type = "long", len = "20", desc = "发票打印流水", memo = "")
+	private long printSn;
+	
+	@JSONField(name="INVC_FEE_LIST")
+	@ParamDesc(path = "INVC_FEE_LIST", cons = ConsType.PLUS, type = "complex", len = "", desc = "发票打印数据列表", memo = "")
+	private List<InvcCollEntity> invFeeList;
+	
+	@JSONField(name="INVC_RES_LIST")
+	@ParamDesc(path = "INVC_RES_LIST", cons = ConsType.PLUS, type = "complex", len = "", desc = "占用发票资源列表", memo = "")
+	private List<InvNoOccupyEntity> invNoList;
+
+	public String getPrintDate() {
+		return printDate;
+	}
+
+	public void setPrintDate(String printDate) {
+		this.printDate = printDate;
+	}
+
+	public String getOpCode() {
+		return opCode;
+	}
+
+	public void setOpCode(String opCode) {
+		this.opCode = opCode;
+	}
+
+	public String getLoginNo() {
+		return loginNo;
+	}
+
+	public void setLoginNo(String loginNo) {
+		this.loginNo = loginNo;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	public int getInvcNum() {
+		return invcNum;
+	}
+
+	public void setInvcNum(int invcNum) {
+		this.invcNum = invcNum;
+	}
+
+	public String getInvcType() {
+		return invcType;
+	}
+
+	public void setInvcType(String invcType) {
+		this.invcType = invcType;
+	}
+
+	public long getPrintSn() {
+		return printSn;
+	}
+
+	public void setPrintSn(long printSn) {
+		this.printSn = printSn;
+	}
+
+	public List<InvcCollEntity> getInvFeeList() {
+		return invFeeList;
+	}
+
+	public void setInvFeeList(List<InvcCollEntity> invFeeList) {
+		this.invFeeList = invFeeList;
+	}
+
+	public List<InvNoOccupyEntity> getInvNoList() {
+		return invNoList;
+	}
+
+	public void setInvNoList(List<InvNoOccupyEntity> invNoList) {
+		this.invNoList = invNoList;
+	}
+}

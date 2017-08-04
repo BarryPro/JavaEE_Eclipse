@@ -1,0 +1,7 @@
+package com.sitech.acctmgr.atom.busi.intface.midware;
+
+public class MidWareProducer extends MidWare {
+
+	
+	
+}

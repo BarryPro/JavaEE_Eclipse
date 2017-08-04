@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BAL_PRINTMODELCFG_DICT">
+
+  <select id="qModelByModelId"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT PRINT_MODEL_ID,MODEL_DATA FROM BAL_PRINTMODELCFG_DICT WHERE  1=1
+     <dynamic prepend="">
+    	<isNotEmpty prepend="AND" property="PRINT_MODEL_ID">
+    	PRINT_MODEL_ID=#PRINT_MODEL_ID#
+    	</isNotEmpty>
+    </dynamic>
+  </select>
+
+</sqlMap>

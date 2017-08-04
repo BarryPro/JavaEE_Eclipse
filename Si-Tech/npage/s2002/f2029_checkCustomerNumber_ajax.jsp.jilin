@@ -1,0 +1,40 @@
+<%@ page contentType= "text/html;charset=gb2312" %>
+<%@ taglib uri="/WEB-INF/wtc.tld" prefix="wtc" %>
+<%
+    String workName = (String)session.getAttribute("workName");
+    String ipAddr = (String)session.getAttribute("ipAddr");
+    String orgCode = (String)session.getAttribute("orgCode");
+    String regionCode = orgCode.substring(0,2);
+    String retFlag = "0";
+    String CustomerNumber =request.getParameter("sCustomerNumber");//EC集团客户编码
+    String querySql="select customer_id,custmoter_ec_id from dcustomerinfo where customer_id ='"+CustomerNumber+"'";    
+    if(!regionCode.equals("00")){
+    	querySql = querySql + " and region_code = '"+regionCode+"'";
+    }
+    System.out.println(">>>"+querySql);
+    String retValue1="";
+    String retValue2="";
+%>
+
+<wtc:pubselect name="sPubSelect" outnum="2">
+<wtc:sql><%=querySql%></wtc:sql>
+</wtc:pubselect>
+<wtc:array id="result" scope="end"/>
+<%
+		     if(result.length==1){
+		       retFlag = "0";
+		       retValue1=result[0][0];
+		       retValue2=result[0][1];
+		     }else if(result.length==0){
+		     	 //System.out.println("rows.length1:"+result.length);
+         	 retFlag = "1";
+         }else{
+         	 //System.out.println("rows.length2:"+result.length);
+		   		 retFlag = "2";
+		     }
+%>
+var response = new AJAXPacket();
+response.data.add("retFlag","<%=retFlag.trim()%>");
+response.data.add("retValue1","<%=retValue1%>");
+response.data.add("retValue2","<%=retValue2%>");
+core.ajax.receivePacket(response);

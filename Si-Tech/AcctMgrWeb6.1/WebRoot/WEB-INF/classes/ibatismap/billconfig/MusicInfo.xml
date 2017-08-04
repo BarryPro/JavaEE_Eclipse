@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="music_info">
+    <select id="qryMusicName" parameterClass="Map" resultClass="java.lang.String">
+        SELECT NVL(TRIM(MUSIC_NAME), ' ') AS MUSIC_NAME
+        FROM MUSIC_INFO
+        WHERE OPER_CODE = #OPER_CODE#
+        AND COPYRIGHT_CODE = #COPYRIGHT_CODE#
+        AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN EFF_DATE AND EXP_DATE
+    </select>
+</sqlMap>

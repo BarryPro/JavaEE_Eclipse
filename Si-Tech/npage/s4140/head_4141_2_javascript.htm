@@ -1,0 +1,28 @@
+<%
+/********************
+ * version v2.0
+ * 开发商: si-tech
+ * update by zhangshuaia @ 2009-08-05
+ ********************/
+%>
+<script language=javascript>
+ 
+onload=function()
+{
+	document.all.confirm.focus();
+	var phoneno = document.all.phoneno.value;
+	var op_code = document.all.op_code.value;
+	self.status="";
+	//document.qryOprInfoFrame.location = "f4141_2_getSpInfo.jsp?phone_no="+phoneno+"&op_code"+op_code;
+}
+
+function printCommit()
+{	
+	getAfterPrompt();
+	f4141_2.submit();
+}
+
+function backreturn(){
+	window.location="../s4140/f4141.jsp?opCode=4141&opName=投诉退费";
+}
+</script>

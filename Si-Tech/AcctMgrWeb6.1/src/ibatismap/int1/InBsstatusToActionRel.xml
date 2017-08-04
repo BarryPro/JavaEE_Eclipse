@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_bsstatustoaction_rel">
+  
+ <cacheModel id="svccfg_cache" type="LRU" readOnly="true">
+  <flushInterval hours="24"/>
+  <!-- 
+  <flushOnExecute statement="in_msgsend_cache.insertCmsFile"/>
+  <flushOnExecute statement="in_msgsend_cache.updateCmsFile"/>
+  <flushOnExecute statement="in_msgsend_cache.deleteCmsFile"/>
+   -->
+  <property name="reference-type" value="WEAK"/>
+ </cacheModel>
+    
+  <select id="qMainSubActionBySvcIdStatus" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap" cacheModel="svccfg_cache">  
+	SELECT SVC_OFFER_ID,MAINSVC_ACTION MAIN_ACTION_ID,
+	       decode(#CHECK_STATUS#,'Z',#IN_SVC_ACTION#,SUBSVC_ACTION) SUB_ACTION_ID,ORDER_PRIORITY 
+	FROM   IN_BSSTATUSTOACTION_REL
+	WHERE  STATUS=#CHECK_STATUS#
+	AND    SVC_ID=#MAIN_SVC_ID#
+	AND    SVC_TYPE='M'
+  </select>
+  
+  <select id="qBossRunCode" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT count(*) CNT 
+	FROM   IN_BSSTATUSTOACTION_REL
+	WHERE  STATUS=#REAL_RUN_CODE#
+  </select>
+  
+  <select id="qMainActionSendFlag" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">  
+	SELECT count(*) CNT
+    FROM UR_USERGROUPMBR_INFO A, UR_USERGROUP_INFO B
+    WHERE A.GROUP_ID = B.GROUP_ID
+   AND B.GROUP_TYPE = 'D00005'
+   AND A.OBJECT_ID = #ID_NO#
+   AND A.EXP_DATE > SYSDATE 
+   AND A.STATE = 'A'   
+  </select>
+  
+</sqlMap>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="bal_invdet_info">
+	
+	<insert id="insInvPrint"  parameterClass="Map">
+		insert into BAL_INVDET_INFO(PRINT_SN,PHONE_NO,ID_NO,CONTRACT_NO,SHOW_NAME,LOGIN_NO,GROUP_ID,OP_CODE,OP_TIME) 
+		values(#PRINT_SN:LONG#,#PHONE_NO#,#ID_NO:LONG#,#CONTRACT_NO:LONG#,#SHOW_NAME#,#LOGIN_NO#,#GROUP_ID#,#OP_CODE#,SYSDATE)
+	</insert>
+	
+	<select id="qCntByPrintSn"  parameterClass="Map" resultClass="java.util.HashMap">
+		select COUNT(1) CNT from bal_invdet_info where print_sn=#PRINT_SN:LONG# AND TO_CHAR(OP_TIME,'YYYYMM')=#YEAR_MONTH#
+	</select>
+	
+	<typeAlias alias="xmlDataBlob" type="com.sitech.acctmgr.atom.domains.PrintDataBlob"/>
+	<resultMap id="xmlDataBlobEntry" class="xmlDataBlob">
+		<result property="printContent" column="PRINT_DATA" jdbcType="BLOB" />
+		<result property="printSn" column="PRINT_SN" />
+		<result property="yearMonth" column="YEAR_MONTH" />
+	</resultMap>
+	
+	<update id="upXMLByPrintSn"  parameterClass="xmlDataBlob">
+    	update bal_invdet_info set PRINT_DATA=#printContent:BLOB# where PRINT_SN=#printSn:LONG# AND TO_CHAR(OP_TIME,'YYYYMM')=#yearMonth#
+    </update>
+
+
+	<select id="qNoteInfo" parameterClass="Map" resultClass="java.util.HashMap">
+		select PRINT_SN AS PAY_SN,
+		PHONE_NO,
+		CONTRACT_NO,
+		SHOW_NAME,
+		TO_CHAR(OP_TIME, 'YYYYMMDD') AS TOTAL_DATE,
+		PRINT_DATA
+		from bal_invdet_info
+		where phone_no = #PHONE_NO#
+		and to_char(op_time, 'YYYYMM') = #YEAR_MONTH#
+		AND OP_CODE = #OP_CODE#
+	</select>
+
+
+	
+	
+</sqlMap>

@@ -1,0 +1,20 @@
+#
+LOGIN_PDOM=1
+
+#shouquan kaiguan: 0 guan; 1:kai
+AUTHER_PDOM=0
+
+#shouquan
+#jilin 220000
+PROVINCE_ID=220000
+APPROVE_TYPE=YYY
+
+##channel_des
+11_CHANNEL=11
+06_CHANNEL=11
+
+#FWKT J->A CallServer Flag 1:Call 0:Not Call
+FWKT_JTOA_CALLSERVER=1
+FWKT_CALLSERV_OPTYPE=2
+
+ESB_WEBSERVICE_URL=http://10.110.26.27:51000/esbWS/services/

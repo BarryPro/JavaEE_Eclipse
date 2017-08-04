@@ -1,0 +1,161 @@
+package com.sitech.acctmgr.atom.dto.query;
+
+import java.util.List;
+
+import com.sitech.acctmgr.atom.domains.bill.BadBillEntity;
+import com.sitech.acctmgr.atom.domains.bill.BillDetailEntity;
+import com.sitech.acctmgr.common.dto.CommonOutDTO;
+import com.sitech.jcfx.anno.ConsType;
+import com.sitech.jcfx.anno.ParamDesc;
+import com.sitech.jcfx.dt.MBean;
+
+/**
+ *
+ * <p>
+ * Title: 陈死账查询出参DTO
+ * </p>
+ * <p>
+ * Description: 陈死账查询出参DTO，封装出参情况
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: SI-TECH
+ * </p>
+ * 
+ * @author xiongjy
+ * @version 1.0
+ */
+public class S8109OutDTO extends CommonOutDTO {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6395318669641105500L;
+
+	@ParamDesc(path="PHONE_NO",cons=ConsType.CT001,type="String",len="40",desc="服务号码",memo="略")
+	protected String phoneNo;
+	@ParamDesc(path="TYPE_NAME",cons=ConsType.CT001,type="String",len="40",desc="客户性质",memo="略")
+	protected String custTypeName;
+	@ParamDesc(path="OWE_FEE",cons=ConsType.CT001,type="long",len="18",desc="欠费",memo="略")
+	protected long oweFee;
+	@ParamDesc(path="OWE_MONTH",cons=ConsType.CT001,type="int",len="6",desc="欠费月数",memo="略")
+	protected int oweMonth;
+	@ParamDesc(path="PAYED_FEE",cons=ConsType.CT001,type="long",len="18",desc="已缴费",memo="略")
+	protected long payedFee;
+	@ParamDesc(path="BILL_LIST",cons=ConsType.QUES,type="compx",len="1",desc="账单列表",memo="略")
+	private List<BillDetailEntity> outList = null;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sitech.jcfx.dt.out.OutDTO#encode()
+	 */
+	@Override
+	public MBean encode() {
+		MBean result = super.encode();
+		result.setRoot(getPathByProperName("phoneNo"), phoneNo);
+		result.setRoot(getPathByProperName("custTypeName"), custTypeName);
+		result.setRoot(getPathByProperName("oweFee"), oweFee);
+		result.setRoot(getPathByProperName("oweMonth"), oweMonth);
+		result.setRoot(getPathByProperName("payedFee"), payedFee);
+		result.setRoot(getPathByProperName("outList"), outList);
+		log.info(result.toString());
+		return result;
+	}
+
+	/**
+	 * @return the outList
+	 */
+
+	/**
+	 * @return the phoneNo
+	 */
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	/**
+	 * @param phoneNo
+	 *            the phoneNo to set
+	 */
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	/**
+	 * @return the custTypeName
+	 */
+	public String getCustTypeName() {
+		return custTypeName;
+	}
+
+	/**
+	 * @param custTypeName
+	 *            the custTypeName to set
+	 */
+	public void setCustTypeName(String custTypeName) {
+		this.custTypeName = custTypeName;
+	}
+
+	/**
+	 * @return the oweFee
+	 */
+	public long getOweFee() {
+		return oweFee;
+	}
+
+	/**
+	 * @param oweFee
+	 *            the oweFee to set
+	 */
+	public void setOweFee(long oweFee) {
+		this.oweFee = oweFee;
+	}
+
+	/**
+	 * @return the oweMonth
+	 */
+	public int getOweMonth() {
+		return oweMonth;
+	}
+
+	/**
+	 * @param oweMonth
+	 *            the oweMonth to set
+	 */
+	public void setOweMonth(int oweMonth) {
+		this.oweMonth = oweMonth;
+	}
+
+	/**
+	 * @return the payedFee
+	 */
+	public long getPayedFee() {
+		return payedFee;
+	}
+
+	/**
+	 * @param payedFee
+	 *            the payedFee to set
+	 */
+	public void setPayedFee(long payedFee) {
+		this.payedFee = payedFee;
+	}
+
+	/**
+	 * @return the outList
+	 */
+	public List<BillDetailEntity> getOutList() {
+		return outList;
+	}
+
+	/**
+	 * @param outList the outList to set
+	 */
+	public void setOutList(List<BillDetailEntity> outList) {
+		this.outList = outList;
+	}
+
+}

@@ -1,0 +1,168 @@
+package com.sitech.acctmgr.atom.impl.hlj.pay;
+
+
+import com.sitech.acctmgr.atom.busi.query.inter.IRemainFee;
+import com.sitech.acctmgr.atom.domains.user.UserInfoEntity;
+import com.sitech.acctmgr.atom.dto.pay.*;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.atom.impl.pay.S8056;
+import com.sitech.acctmgr.common.constant.PayBusiConst;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.acctmgrint.atom.busi.intface.IShortMessage;
+import com.sitech.jcfx.anno.ParamType;
+import com.sitech.jcfx.anno.ParamTypes;
+import com.sitech.jcfx.dt.MBean;
+import com.sitech.jcfx.util.DateUtil;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+
+/**
+ *
+ * <p>Title: 缴费冲正吉林服务  </p>
+ * <p>Description: 主要写缴费冲正吉林的个性化业务逻辑   </p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: SI-TECH </p>
+ * @author qiaolin
+ * @version 1.0
+ */
+
+@ParamTypes({ 
+	@ParamType(c = SgetPaySnInDTO.class, oc = S8056GetSnInfoOutDTO.class, m = "getSnInfo"),//定义
+	@ParamType(c = S8056InitInDTO.class, oc =S8056InitOutDTO.class, m = "init"),//定义
+	@ParamType(c = S8056CfmInDTO.class, oc = S8056CfmOutDTO.class, m = "cfm"),
+	@ParamType(c = S8056ForeignInDTO.class, oc = S8056ForeignOutDTO.class, m = "foreign"),
+	@ParamType(c = S8056GrpTrnsBankInDTO.class, oc = S8056GrpTrnsBankOutDTO.class, m = "grpTrnsBank"),
+	@ParamType(c = S8056checkInDTO.class, oc = S8056checkOutDTO.class, m = "check")
+	})
+public class S8056HLJ extends S8056  {
+	
+	private IShortMessage shortMessage;
+
+	/* (non-Javadoc)
+	 * @see com.sitech.acctmgr.atom.impl.pay.S8056#sendPayMsg(java.util.Map)
+	 */
+	/**
+	 *名称：缴费冲正发送短信 <br/>
+	 *@param PAY_PATH
+	 *@param PHONE_NO
+	 *@param PAY_CODE
+	 *@param LOGIN_NO
+	 *@param GROUP_ID	: 工号group_id
+	 *@param OP_CODE
+	 *
+	 *功能简述： 		<br/>
+	 */
+	protected void sendPayMsg(Map<String, Object> inParam) {
+
+		IControl	control = getControl();
+		IGroup		group = getGroup();
+		IUser		user = getUser();
+		IRemainFee	reFee = getRemainFee();
+		
+		String loginNo = inParam.get("LOGIN_NO").toString();
+		String phoneNo = inParam.get("PHONE_NO").toString();
+		
+		/*取当前年月和当前时间*/
+		String sCurTime = DateUtil.format(new Date(), "yyyyMMddHHmmss");
+		
+		//通过配置OP_CODES来控制不发送短信
+		String notOpCode = control.getPubCodeValue(2102, "OP_CODE", null);
+		if(-1 != notOpCode.indexOf(inParam.get("OP_CODE").toString())){
+			return;
+		}
+		
+		if(phoneNo.substring(0, 2).equals("20")){
+			
+			log.debug("物联网号码，不下发短信");
+			return;
+		}
+		
+		UserInfoEntity userInfo = user.getUserInfo(phoneNo);
+		
+		//一些品牌不发送短信
+		String notBrand = control.getPubCodeValue(2103, "BRAND_ID", null);
+		if(-1 != notBrand.indexOf(userInfo.getBrandId())){
+			
+			log.debug("该品牌不发送短信");
+			return;
+		}
+		
+		if(loginNo.equals("newweb")){
+			log.debug("newweb 不发送短信");
+			return;
+		}
+		
+		MBean inMessage = new MBean();
+		
+		inMessage.addBody("PHONE_NO", inParam.get("PHONE_NO"));
+		inMessage.addBody("LOGIN_NO", loginNo);
+		inMessage.addBody("OP_CODE", inParam.get("OP_CODE"));
+		inMessage.addBody("CHECK_FLAG", true);
+		
+		Map<String, Object> mapTmp = new HashMap<String, Object>();
+		
+		String sPayPath = inParam.get("PAY_PATH").toString();
+		if (sPayPath.equals(PayBusiConst.CARDPATH) && loginNo.equals("ssssss")) { //1.为二卡合一的用户作冲正时发送短信
+
+			/*
+			 * 默认短信BOSS_0163:充值失败，充值卡还可使用，请重新充值，谢谢！${sms_release}
+			 */
+			inMessage.addBody("TEMPLATE_ID", "311200805601");
+			inMessage.addBody("DATA", mapTmp);
+		}else if(sPayPath.equals(PayBusiConst.BAKN_PATH) && loginNo.substring(0, 5).equals("~~~~~")){	//银行
+			
+			/*
+			 * 默认短信BOSS_0045:尊敬的${sm_name}品牌客户，您通过银行交纳移动话费已冲正，冲正金额为${pay_money}元。${sms_release}
+			 */
+			mapTmp.put("sm_name", userInfo.getBrandName());
+			mapTmp.put("pay_money", (-1)*ValueUtils.transFenToYuan(inParam.get("SUM_BACKFEE")));
+			
+			inMessage.addBody("TEMPLATE_ID", "311200805602");
+			inMessage.addBody("DATA", mapTmp);
+		}else{				//其它渠道
+			
+			/*
+			 * 默认短信BOSS_0022:尊敬的${sm_name}品牌客户，缴费冲正成功，本次退费金额为${pay_money}元。${sms_release}
+			 */
+			mapTmp.put("sm_name", userInfo.getBrandName());
+			mapTmp.put("pay_money", (-1)*ValueUtils.transFenToYuan(inParam.get("SUM_BACKFEE")));
+			
+			inMessage.addBody("TEMPLATE_ID", "311200805603");
+			inMessage.addBody("DATA", mapTmp);
+		}
+
+		String flag = control.getPubCodeValue(2011, "DXFS", null); //0:直接发送 1:插入短信接口临时表 2：外系统有问题，直接不发送短信
+		if (flag.equals("0")) {
+			inMessage.addBody("SEND_FLAG", 0);
+		} else if (flag.equals("1")) {
+			inMessage.addBody("SEND_FLAG", 1);
+		} else if (flag.equals("2")) {
+			return;
+		}
+		log.info("发送短信内容：" + inMessage.toString());
+		shortMessage.sendSmsMsg(inMessage, 1);
+
+	}
+
+	/**
+	 * @return the shortMessage
+	 */
+	public IShortMessage getShortMessage() {
+		return shortMessage;
+	}
+
+	/**
+	 * @param shortMessage the shortMessage to set
+	 */
+	public void setShortMessage(IShortMessage shortMessage) {
+		this.shortMessage = shortMessage;
+	}
+
+	
+	
+}

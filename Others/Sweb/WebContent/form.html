@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form</title>
+
+<style type="text/css">
+	body{
+		background: gray;	
+	}
+
+</style>
+</head>
+<body>
+	<div>
+		<form>
+		<!-- 控件都是以 “/” 结尾的 -->
+		<!-- text 文本框 -->
+		姓名：<input type="text" name="username" value="请输入用户名"/><br>
+		<!-- password 密码框 -->
+		密码：<input type="password" name="pwd" /><br>
+		<!-- radio 点选框 -->
+		男<input type="radio" name="sex" value="m"/>
+		女<input type="radio" name="sex" value="f"><br>
+		<!-- checkbox 复选框 -->
+		你喜欢的明星:
+		<input type="checkbox" name="intersting" value="a"/>anglebaby
+		<input type="checkbox" name="intersting" value="z"/>赵丽颖
+		<input type="checkbox" name="intersting" value="t"/>唐嫣
+		<input type="checkbox" name="intersting" value="y"/>杨幂<br>
+		<!-- select  optgroup option下拉框 -->
+		你所在的城市:
+		<select name="city">
+			<optgroup label="东北">
+				<option value="hr">哈尔滨</option>
+				<option value="jx" selected="selected">鸡西</option>
+				<option value="jm">佳木斯</option>
+				<option value="qq">齐齐哈尔</option>
+			</optgroup>	
+			<optgroup label="南方">
+				<option value="sh">上海</option>
+				<option value="hz">杭州</option>
+				<option value="sy">三亚</option>
+				<option value="xg">香港</option>
+			</optgroup>		
+		</select><br>
+		照片：
+		<!-- 文件选择 -->
+		<input type="file" name="pic"/><br>
+		简历：
+		<!-- 文本区 -->
+		<textarea rows= "20" cols="20"></textarea><br>
+		<!-- submit 提交按钮  value就是按钮的名称-->
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="submit" value="提交"><br>
+		<!-- reset 重置按钮 -->
+		<input type="reset" value="重置"/>
+		<!-- button 纯按钮 -->
+		<input type="button" value="纯按钮"/>
+		<!-- image 图片按钮 -->
+		<input type="image" src="chrome.jpg"/>
+		</form>	
+	</div>
+</body>
+</html>

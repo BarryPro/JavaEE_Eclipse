@@ -1,0 +1,1253 @@
+package com.sitech.acctmgr.atom.busi.invoice;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.sitech.acctmgr.atom.busi.invoice.inter.IInvFee;
+import com.sitech.acctmgr.atom.busi.pay.inter.IWriteOffer;
+import com.sitech.acctmgr.atom.busi.query.inter.IRemainFee;
+import com.sitech.acctmgr.atom.domains.balance.ReturnFeeEntity;
+import com.sitech.acctmgr.atom.domains.balance.TransFeeEntity;
+import com.sitech.acctmgr.atom.domains.base.ChngroupRelEntity;
+import com.sitech.acctmgr.atom.domains.bill.BillEntity;
+import com.sitech.acctmgr.atom.domains.bill.UnBillData;
+import com.sitech.acctmgr.atom.domains.bill.UnbillEntity;
+import com.sitech.acctmgr.atom.domains.invoice.BalInvprintInfoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.InvCondEntity;
+import com.sitech.acctmgr.atom.domains.invoice.MealEntity;
+import com.sitech.acctmgr.atom.domains.invoice.MonthInvoiceDispEntity;
+import com.sitech.acctmgr.atom.domains.invoice.PreInvoiceDispEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoEntity;
+import com.sitech.acctmgr.atom.domains.invoice.TaxInvoiceFeeEntity;
+import com.sitech.acctmgr.atom.domains.pay.PayMentEntity;
+import com.sitech.acctmgr.atom.domains.pub.PubCodeDictEntity;
+import com.sitech.acctmgr.atom.entity.inter.IAccount;
+import com.sitech.acctmgr.atom.entity.inter.IAdj;
+import com.sitech.acctmgr.atom.entity.inter.IBalance;
+import com.sitech.acctmgr.atom.entity.inter.IBill;
+import com.sitech.acctmgr.atom.entity.inter.IControl;
+import com.sitech.acctmgr.atom.entity.inter.IGroup;
+import com.sitech.acctmgr.atom.entity.inter.IInvoice;
+import com.sitech.acctmgr.atom.entity.inter.IRecord;
+import com.sitech.acctmgr.atom.entity.inter.IUser;
+import com.sitech.acctmgr.common.AcctMgrError;
+import com.sitech.acctmgr.common.BaseBusi;
+import com.sitech.acctmgr.common.constant.CommonConst;
+import com.sitech.acctmgr.common.utils.DateUtils;
+import com.sitech.acctmgr.common.utils.InvoiceUtil;
+import com.sitech.acctmgr.common.utils.ValueUtils;
+import com.sitech.common.utils.StringUtils;
+import com.sitech.jcf.core.exception.BusiException;
+import com.sitech.jcfx.util.DateUtil;
+
+/**
+ * 名称：发票展示上跟费用有关的信息
+ * 
+ * @author fanck
+ *
+ */
+@SuppressWarnings({ "unchecked", "unused" })
+public class InvFee extends BaseBusi implements IInvFee {
+
+	private IBill bill;
+	protected IInvoice invoice;
+	protected IBalance balance;
+	protected IRecord record;
+	protected IAccount account;
+	protected IControl control;
+	protected IAdj adj;
+	protected IUser user;
+	private IRemainFee reFee;
+	private IGroup group;
+	protected UnBillData unBillData;
+	protected IWriteOffer writeOffer;
+
+	// 6税率
+	private final double addTaxRate = 0.06;
+	// 11税率
+	private final double telTaxRate = 0.11;
+
+	@Override
+	public PreInvoiceDispEntity getPreInvoiceFee(Map<String, Object> inParam) {
+		long balanceFee = 0;
+		long unbillFee = 0;
+		long remainFee = 0;
+		long billFee = 0;
+		long delayFee = 0;
+		long cashMoney = 0;
+		long checkMoney = 0;
+		long posMoney = 0;
+		long printFee = 0;
+		String checkNo = "";
+		int yearMonth = 0;
+
+		int userFlag = ValueUtils.intValue(inParam.get("USER_FLAG").toString());
+		// String opCode = inParam.get("OP_CODE").toString();
+		long paySn = ValueUtils.longValue(inParam.get("PAY_SN"));
+		int billCycle = ValueUtils.intValue(inParam.get("BILL_CYCLE"));
+
+		// 根据流水获取缴费信息
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		inMap.put("PAY_SN", paySn);
+		inMap.put("SUFFIX", billCycle);
+		inMap.put("CONTRACT_NO", inParam.get("CONTRACT_NO"));
+		inMap.put("ACCPERT_PAYTYPE", "zhixing");
+		log.debug("查询缴费信息的入参：" + inMap);
+		List<PayMentEntity> paymentList = record.getPayMentList(inMap);
+		log.debug("查询缴费记录：" + paymentList);
+		if (paymentList.size() == 0 || paymentList == null) {
+			throw new BusiException(AcctMgrError.getErrorCode("0000", "70001"), "未查询到相关的缴费记录!");
+		}
+		// PayMentEntity payment = new PayMentEntity();
+		for (PayMentEntity payment : paymentList) {
+			printFee += payment.getPayFee();
+
+			if (payment.getPayMethod().equals("9")) {
+				checkMoney += payment.getPayFee();
+				// 查询支票号码
+				inMap.put("PAY_SN", paySn);
+				Map<String, Object> checkMap = (Map<String, Object>) baseDao.queryForObject("bal_checkopr_recd.qryCheckNo", inMap);
+				if (checkMap != null) {
+					checkNo = checkMap.get("CHECK_NO").toString();
+				}
+
+			} else if (payment.getPayMethod().equals("0")) {
+				cashMoney += payment.getPayFee();
+			} else if (payment.getPayMethod().equals("W")) {
+				posMoney += payment.getPayFee();
+				// 查询pos机缴费信息
+				yearMonth = payment.getYearMonth();
+			}
+		}
+
+		if (userFlag == CommonConst.IN_NET) {
+			log.debug("查询在网用户的费用信息");
+			// 查询话费余额，未出帐话费，当前可用余额
+
+			long contractNo = ValueUtils.longValue(inParam.get("CONTRACT_NO").toString());
+			log.debug(inParam.get("CONTRACT_NO").toString() + "查询话费时的账号：" + contractNo);
+			long idNo = 0;
+			if (inParam.get("ID_NO") != null && ValueUtils.longValue(inParam.get("ID_NO")) > 0) {
+				ValueUtils.longValue(inParam.get("ID_NO"));
+			}
+			long prepay = balance.getAcctBookSum(contractNo, "");
+			UnbillEntity unbillEntity = bill.getUnbillFee(contractNo, idNo, CommonConst.UNBILL_TYPE_BILL_TOT);
+			unbillFee = unbillEntity.getUnBillFee();
+			// 获取欠费信息
+			Map<String, Long> oweMap = bill.getSumUnpayInfo(contractNo, idNo, 0);
+			long oweFee = oweMap.get("OWE_FEE");
+			balanceFee = prepay - oweFee > 0 ? prepay - oweFee : 0;
+			remainFee = balanceFee - unbillFee > 0 ? balanceFee - unbillFee : 0;
+			// OutFeeData outFee = remainFee.getConRemainFee(contractNo);
+		} else {
+			// 获取冲销的账单和滞纳金
+			inMap = new HashMap<String, Object>();
+			inMap.put("PAY_SN", paySn);
+			inMap.put("YEAR_MONTH", billCycle);
+			Map<String, Object> outFeeMap = balance.getWriteFeeByPaySn(inMap);
+			billFee = ValueUtils.longValue(outFeeMap.get("OUT_FEE"));
+			delayFee = ValueUtils.longValue(outFeeMap.get("DELAY_FEE"));
+		}
+
+		PreInvoiceDispEntity preInvoiceDisp = new PreInvoiceDispEntity();
+		preInvoiceDisp.setBalanceFee(balanceFee);
+		preInvoiceDisp.setBillFee(billFee);
+		preInvoiceDisp.setCashMoney(cashMoney);
+		preInvoiceDisp.setCheckMoney(checkMoney);
+		preInvoiceDisp.setDelayFee(delayFee);
+		preInvoiceDisp.setPosMoney(posMoney);
+		preInvoiceDisp.setPrintFee(printFee);
+		preInvoiceDisp.setRemainFee(remainFee);
+		preInvoiceDisp.setRemark(paymentList.get(0).getRemark());
+		preInvoiceDisp.setUnbillFee(unbillFee);
+		preInvoiceDisp.setBillCycle(billCycle);
+		preInvoiceDisp.setCheckNo(checkNo);
+		preInvoiceDisp.setPayDate(paymentList.get(0).getTotalDate());
+		preInvoiceDisp.setOpName(paymentList.get(0).getFunctionName());
+		preInvoiceDisp.setOpCode(paymentList.get(0).getOpCode());
+		return preInvoiceDisp;
+	}
+
+	@Override
+	public final List<Map<String, Object>> qryWritoffInfo(int billCycle, long paySn, long contractNo, long idNo) {
+		List<Map<String, Object>> outList = new ArrayList<Map<String, Object>>();
+		Map<String, Object> inMap = new HashMap<String, Object>();
+
+		// 从支出表中获得冲销流水
+		inMap.put("YEAR_MONTH", billCycle);
+		inMap.put("PAY_SN", paySn);
+
+		List<Map<String, Object>> payOutList = qryPayOut(billCycle, paySn);
+		for (Map<String, Object> payOut : payOutList) {
+			int billCycleTmp = Integer.parseInt(payOut.get("BILL_CYCLE").toString());
+			long wrtOffSn = Long.parseLong(payOut.get("WRTOFF_SN").toString());
+			long balanceId = Long.parseLong(payOut.get("BALANCE_ID").toString());
+			// 根据冲销流水和账期获取冲销记录
+			inMap.put("SUFFIX", billCycleTmp);
+			inMap.put("WRTOFF_SN", wrtOffSn);
+			inMap.put("BALANCE_ID", balanceId);
+			Map<String, Object> wrtOffMap = balance.getWrtoffList(inMap);
+			log.debug(wrtOffMap + ">>>>>>>>>>>>>>>>>");
+			if (wrtOffMap.get("WRITEOFF_LIST") != null) {
+				List<Map<String, Object>> wrtOffList = (List<Map<String, Object>>) wrtOffMap.get("WRITEOFF_LIST");
+				outList.addAll(wrtOffList);
+			}
+
+		}
+
+		return outList;
+
+	}
+
+	@Override
+	// 由于在更新冲销记录的时候，需要使用bill_id，所以返回bill_id
+	public Map<String, Object> getMonthInvoiceFee(Map<String, Object> inParam) {
+		// 根据账务日期查询冲销的账单金额
+		int billCycle = ValueUtils.intValue(inParam.get("BILL_CYCLE"));
+
+		long totalPrinted = 0l;// 总的已打印发票金额
+		long systemPrint = 0;// 系统充值账本冲销的账单金额
+		long cardPrint = 0;// 卡类账本冲销的账单金额
+		long prepayPrinted = 0l;// 预存款已出具发票金额
+		long cardPrinted = 0l;// 卡类已出具发票金额
+		long systemPrinted = 0l;// 系统充值已出具发票金额
+		long billFeeTotal = 0l;// 通信服务费
+		long discountFee = 0l;// 销售折扣
+		long mealFee = 0l;// 合约套餐费
+		long otherPrinted = 0l;// 其他已出具发票金额
+		long totalprint = 0;// 合计
+		long printFee = 0;// 发票金额
+		long monthPrinted = 0;// 已打印月结发票
+		Map<String, Object> inMap = new HashMap<String, Object>();
+
+		// 判断是否打印过月结发票
+		boolean isPrintMonthInv = invoice.isPrintMonthInvoice(ValueUtils.intValue(inParam.get("BILL_CYCLE")),
+				ValueUtils.longValue(inParam.get("CONTRACT_NO")), billCycle);
+		if (isPrintMonthInv) {
+			throw new BusiException(AcctMgrError.getErrorCode("8224", "00001"), "已打印过月结发票或增值税发票");
+		}
+
+		// 查询合约套餐的pay_type
+		List<String> mealPayTypeList = new ArrayList<String>();
+		if (StringUtils.isNotEmptyOrNull(inParam.get("MEAL_LIST"))) {
+
+			List<MealEntity> mealList = (List<MealEntity>) inParam.get("MEAL_LIST");
+			for (MealEntity mealEntity : mealList) {
+				// 判断是否已经打印了预存发票
+				String foreignSn = mealEntity.getHyAccept();
+				List<ReturnFeeEntity> returnFeeList = balance.getReturnFeeInfo(ValueUtils.longValue(inParam.get("CONTRACT_NO")), foreignSn, "1");
+				a: for (ReturnFeeEntity returnFee : returnFeeList) {
+					// 判断是否打印过预存发票，由于割接前的打印发票的数据不在bal_writeoff中记录，所以根据foreign_sn查询bal_invprint_info表中的记录
+					int beginTime = ValueUtils.intValue(returnFee.getBeginTime());
+					String printSn = returnFee.getForeginSn();
+					Map<String, Object> invoiceMap = new HashMap<String, Object>();
+					invoiceMap.put("PRINT_SN", printSn);
+					for (int ym = beginTime; ym <= DateUtils.getCurYm(); ym = DateUtils.addMonth(ym, 1)) {
+						invoiceMap.put("SUFFIX", ym + "");
+						BalInvprintInfoEntity invoiceEntity = invoice.qryInvoiceInfo(inParam);
+						if (invoiceEntity != null) {
+							continue a;
+						}
+					}
+					mealPayTypeList.add(returnFee.getPayType());
+				}
+			}
+		}
+
+		List<Map<String, Object>> payTypeMapList = balance.getGiftPayType();
+		// 话费红包充值也不允许打印发票
+		long codeClass = 1108;
+		List<PubCodeDictEntity> pubCodeList = control.getPubCodeList(codeClass, "", "", "");
+		List<String> payTypeList = new ArrayList<>();
+		for (Map<String, Object> payTypeMap : payTypeMapList) {
+			payTypeList.add(payTypeMap.get("PAY_TYPE").toString());
+		}
+		for (PubCodeDictEntity pubCode : pubCodeList) {
+			payTypeList.add(pubCode.getCodeId());
+		}
+		List<BillEntity> billList = new ArrayList<BillEntity>();
+		List<Long> billIdList = new ArrayList<Long>();
+		BillEntity billEntity = new BillEntity();
+		inMap.put("CONTRACT_NO", inParam.get("CONTRACT_NO"));
+		inMap.put("BILL_CYCLE", inParam.get("BILL_CYCLE"));
+		inMap.put("STATUS", "0");
+		inMap.put("BILL_DAY", 9000);
+		List<Map<String, Object>> writeoffList = new ArrayList<Map<String, Object>>();
+		Set<Long> balanceSet = new HashSet<Long>();
+		for (int yearMonth = billCycle; yearMonth <= DateUtils.getCurYm(); yearMonth = DateUtils.addMonth(yearMonth, 1)) {
+			// 从冲销表中查询冲销的账单，冲销的账单如果已经打印过，获取账单id
+			inMap.put("SUFFIX", yearMonth);
+			List<Map<String, Object>> writeOffListTmp = bill.getWriteInfo(inMap);
+			log.debug("冲销记录为：" + writeOffListTmp);
+
+			for (Map<String, Object> writeOff : writeOffListTmp) {
+				balanceSet.add(ValueUtils.longValue(writeOff.get("BALANCE_ID")));
+				long payFee = ValueUtils.longValue(writeOff.get("PAY_FEE"));
+				// billFeeTotal += payFee;
+				String payType = writeOff.get("PAY_TYPE").toString();
+				int printFlag = ValueUtils.intValue(writeOff.get("PRINT_FLAG"));
+				if (payTypeList.contains(payType) && printFlag != 2) {
+
+					systemPrint += payFee;
+				}
+				if (payType.equals("d") && printFlag != 2) {
+					cardPrint += payFee;
+				}
+				if (mealPayTypeList.contains(payType) && printFlag != 2) {
+					mealFee += payFee;
+				}
+				if (printFlag == 2) {
+					totalPrinted += payFee;
+					if (payTypeList.contains(payType)) {
+						systemPrinted += payFee;
+					}
+					if (payType.equals("d")) {
+						cardPrinted += payFee;
+					}
+				}
+				// 由于老系统冲销记录表中不会标记状态，所以从bal_invprint_info表中查询是否打印过记录，如果打印过，不予许打印
+				if (printFlag == 1 || printFlag == 3) {
+					throw new BusiException(AcctMgrError.getErrorCode("8224", "00001"), "已打印过月结发票或增值税发票");
+				}
+			}
+		}
+		// 根据balance_id判断该账本是否还有余额
+		List<Long> paySnList = new ArrayList<Long>();
+		for (long balanceId : balanceSet) {
+			Map<String, Object> balanceMap = new HashMap<String, Object>();
+			balanceMap.put("BALANCE_ID", balanceId);
+			Map<String, Object> outMap = (Map<String, Object>) baseDao.queryForObject("bal_acctbook_info.qByBalanceId", balanceMap);
+			long curBalance = 0;
+			if (outMap != null) {
+				curBalance = ValueUtils.longValue(outMap.get("CUR_BALANCE"));
+			}
+
+			if (curBalance > 0) {
+				// 查询pay_sn
+				paySnList.add(ValueUtils.longValue(outMap.get("PAY_SN")));
+			}
+		}
+		cardPrinted += cardPrint;
+		systemPrinted += systemPrint;
+		totalPrinted = totalPrinted + cardPrint + systemPrint;
+		// 预存已出具发票金额
+		prepayPrinted = totalPrinted - cardPrinted - systemPrinted;
+
+		// 查询总金额和优惠金额
+		inMap = new HashMap<>();
+		inMap.put("CONTRACT_NO", inParam.get("CONTRACT_NO"));
+		inMap.put("BILL_CYCLE", billCycle);
+		inMap.put("BUSHOU", "y");
+		Map<String, Long> payMap = bill.getSumPayedInfo(inMap);
+		discountFee = ValueUtils.longValue(payMap.get("FAVOUR_FEE"));
+		billFeeTotal = ValueUtils.longValue(payMap.get("SHOULD_PAY"));
+		totalprint = billFeeTotal - discountFee - systemPrint - cardPrint;
+		printFee = totalprint - totalPrinted;
+		if (printFee < 0) {
+			printFee = 0;
+		}
+
+		MonthInvoiceDispEntity monthInvoDisp = new MonthInvoiceDispEntity();
+
+		monthInvoDisp.setCommuniteFee(billFeeTotal);
+		monthInvoDisp.setDiscountFee(discountFee);
+		monthInvoDisp.setMealFee(mealFee);
+		monthInvoDisp.setTotalFee(totalprint);
+
+		monthInvoDisp.setPrintedFee(totalPrinted);
+		monthInvoDisp.setPrePrintedFee(prepayPrinted);
+		monthInvoDisp.setCardPrintedFee(cardPrinted);
+		monthInvoDisp.setSysPayPrintedFee(systemPrinted);
+		monthInvoDisp.setOtherPrintFee(otherPrinted);
+		monthInvoDisp.setBillCycle(billCycle);
+
+		monthInvoDisp.setPrintFee(printFee);
+		Map<String, Object> outMap = new HashMap<String, Object>();
+		outMap.put("MONTH_INVOICE_DISP", monthInvoDisp);
+		outMap.put("BILL_ID_LIST", billIdList);
+		outMap.put("PAY_SN_LIST", paySnList);
+		return outMap;
+	}
+
+	/* 此方法根据pay_sn查询账本支出表 */
+	protected List<Map<String, Object>> qryPayOut(int iNaturalMon, long lPaySn) {
+
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		Map<String, Object> inParam = new HashMap<String, Object>();
+		Map<String, Object> mOutTemp = null;
+		Map<String, Object> payOutMap = null;
+		List<Map<String, Object>> payOutList = null;
+		String suffix = "";
+		int iBillCycleTemp = 0;
+		int iCurYm = 0;
+		long lWrtoffSn = 0;
+		long lBalanceId = 0;
+		iCurYm = DateUtils.getCurYm();
+		iBillCycleTemp = iNaturalMon;
+		Set<Long> balanceIdSet = new HashSet<Long>();
+
+		inParam.put("CODE_CLASS", 108);
+		PubCodeDictEntity pucodeEnt = (PubCodeDictEntity) baseDao.queryForObject("pub_codedef_dict.qVision", inParam);
+		int billYM = ValueUtils.intValue(pucodeEnt.getCodeValue());
+
+		while (iBillCycleTemp >= billYM) {
+
+			// balanceIdSet = new HashSet<Long>();
+			inParam = new HashMap<String, Object>();
+			// suffix = "" + iBillCycleTemp;
+			inParam.put("SUFFIX", iBillCycleTemp);
+			inParam.put("PAY_SN", lPaySn);
+			/** 查询来源表 **/
+			List<Map<String, Object>> resultList2 = (List<Map<String, Object>>) baseDao
+					.queryForList("bal_booksource_info.qBalanceidByPaySn", inParam);
+
+			if (resultList2.size() > 0) {
+				for (Map<String, Object> resulmap2 : resultList2) {
+					if (!balanceIdSet.contains(ValueUtils.longValue(resulmap2.get("BALANCE_ID")))) {
+						balanceIdSet.add(ValueUtils.longValue(resulmap2.get("BALANCE_ID")));
+					}
+				}
+				break;
+			}
+			iBillCycleTemp = Integer.parseInt(DateUtil.toStringPlusMonths("" + iBillCycleTemp, -1, "yyyyMM"));
+		}
+
+		/** 循环每个balance_id **/
+		Iterator<Long> itr = balanceIdSet.iterator();
+		while (itr.hasNext()) {
+			/** 3.查出账本支出的月份和支出流水 **/
+			lBalanceId = itr.next();
+
+			List<Map<String, Object>> wrtList = invoice.qryPayOutWithBalanceByPayFee(iBillCycleTemp, lBalanceId, ValueUtils.longValue(0));
+
+			for (Map<String, Object> writMap : wrtList) {
+				long wrtoffSn = ValueUtils.longValue(writMap.get("WRTOFF_SN"));
+				long balanceIdTmp = ValueUtils.longValue(writMap.get("BALANCE_ID"));
+				int billCycle = ValueUtils.intValue(writMap.get("BILL_CYCLE"));
+				payOutMap = new HashMap<String, Object>();
+
+				payOutMap.put("WRTOFF_SN", wrtoffSn);
+				payOutMap.put("BALANCE_ID", balanceIdTmp);
+				payOutMap.put("BILL_CYCLE", billCycle);
+
+				result.add(payOutMap);
+			}
+
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<TaxInvoiceFeeEntity> getTaxInvoFeeTotalForTaxPrint(List<TaxInvoiceFeeEntity> invoiceFeeDetailList) {
+		// List<TaxInvoiceFeeEntity> invoiceFeeDetailList = getTaxInvoFeeDetail(contractStr, beginYm, endYm);
+		List<TaxInvoiceFeeEntity> invoiceFeeTotalList = new ArrayList<TaxInvoiceFeeEntity>();
+		TaxInvoiceFeeEntity taxInvoice61 = new TaxInvoiceFeeEntity();// 0.06税率的非折扣折让
+		TaxInvoiceFeeEntity taxInvoice62 = new TaxInvoiceFeeEntity();// 0.06税率的折扣折让
+		TaxInvoiceFeeEntity taxInvoice111 = new TaxInvoiceFeeEntity();// 0.11税率的非折扣折让
+		TaxInvoiceFeeEntity taxInvoice112 = new TaxInvoiceFeeEntity();// 0.11税率的折扣折让
+
+		// 税率为0.06的变量
+		long taxFee6 = 0;
+		long discountTaxFee6 = 0;
+
+		long write6 = 0;
+		long discountWrite6 = 0;
+
+		// 税率为0.11的变量
+		long taxFee11 = 0;
+		long discountTaxFee11 = 0;
+
+		long write11 = 0;
+		long discountWrite11 = 0;
+
+
+		List<Map<String, Object>> payTypeMapList = balance.getGiftPayType();
+		List<String> payTypeList = new ArrayList<String>();
+		for (Map<String, Object> payTypeMap : payTypeMapList) {
+			payTypeList.add(payTypeMap.get("PAY_TYPE").toString());
+		}
+		log.debug("冲销列表：" + invoiceFeeDetailList);
+		for (TaxInvoiceFeeEntity invoiceDetail : invoiceFeeDetailList) {
+			// log.debug(invoiceDetail);
+			if (payTypeList.contains(invoiceDetail.getPayType())) {
+				// 折扣折让的
+				if (Double.parseDouble(invoiceDetail.getTaxRate()) == 0.06) {
+					discountWrite6 -= invoiceDetail.getWriteFee();
+					discountTaxFee6 = ValueUtils.longValue(discountTaxFee6) - ValueUtils.longValue(invoiceDetail.getTaxFee());
+					write6 += invoiceDetail.getWriteFee();
+					taxFee6 = ValueUtils.longValue(taxFee6) + ValueUtils.longValue(invoiceDetail.getTaxFee());
+				}
+				if (Double.parseDouble(invoiceDetail.getTaxRate()) == 0.11) {
+					discountWrite11 -= invoiceDetail.getWriteFee();
+					discountTaxFee11 = ValueUtils.longValue(discountTaxFee11) - ValueUtils.longValue(invoiceDetail.getTaxFee());
+					write11 += invoiceDetail.getWriteFee();
+					taxFee11 = ValueUtils.longValue(taxFee11) + ValueUtils.longValue(invoiceDetail.getTaxFee());
+				}
+				// 黑龙江没有找到tax_rate=1的数据，如果有的话再补充
+				if (Double.parseDouble(invoiceDetail.getTaxRate()) == 1) {
+
+				}
+			} else {
+				// 折扣折让的
+				if (Double.parseDouble(invoiceDetail.getTaxRate()) == 0.06) {
+					write6 += invoiceDetail.getWriteFee();
+					taxFee6 = ValueUtils.longValue(taxFee6) + ValueUtils.longValue(invoiceDetail.getTaxFee());
+				}
+				if (Double.parseDouble(invoiceDetail.getTaxRate()) == 0.11) {
+					write11 += invoiceDetail.getWriteFee();
+					taxFee11 = ValueUtils.longValue(taxFee11) + ValueUtils.longValue(invoiceDetail.getTaxFee());
+				}
+				// 黑龙江没有找到tax_rate=1的数据，如果有的话再补充
+				if (Double.parseDouble(invoiceDetail.getTaxRate()) == 1) {
+
+				}
+			}
+		}
+		// // 获取商品名称
+		// long codeClass = 105;
+		if (write11 > 0) {
+			// 获取商品名称
+			String groupId = "0";
+			String codeId = "0.11";
+			// String codeValue = control.getPubCodeValue(codeClass, codeId, groupId);
+			taxInvoice111.setGoodsName("基础通信费");
+			taxInvoice111.setGoodsNum("1");
+			taxInvoice111.setGoodsPrice((new BigDecimal(write11 - ValueUtils.longValue(taxFee11) / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP)
+					.longValue()) + "");
+			taxInvoice111.setInvoiceFee((new BigDecimal(write11 - ValueUtils.longValue(taxFee11) / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP)
+					.longValue()) + "");
+			taxInvoice111.setTaxRate("0.11");
+			taxInvoice111.setTaxFee(new BigDecimal(taxFee11 / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP).longValue() + "" + "");
+			invoiceFeeTotalList.add(taxInvoice111);
+		}
+		if (write6 > 0) {
+			// 获取商品名称
+			String groupId = "0";
+			// String codeId = "0.06";
+			// String codeValue = control.getPubCodeValue(codeClass, codeId, groupId);
+			taxInvoice61.setGoodsName("增值业务费");
+			taxInvoice61.setGoodsNum("1");
+			taxInvoice61.setGoodsPrice((new BigDecimal(write6 - ValueUtils.longValue(taxFee6) / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP)
+					.longValue()) + "");
+			taxInvoice61.setInvoiceFee((new BigDecimal(write6 - ValueUtils.longValue(taxFee6) / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP)
+					.longValue()) + "");
+			taxInvoice61.setTaxRate("0.06");
+			taxInvoice61.setTaxFee(new BigDecimal(taxFee6 / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP).longValue() + "");
+			invoiceFeeTotalList.add(taxInvoice61);
+		}
+		if (discountWrite11 < 0) {
+			// 获取商品名称
+			String groupId = "1";
+			// String codeId = "0.11";
+			// String codeValue = control.getPubCodeValue(codeClass, codeId, groupId);
+			log.debug("折扣金额：" + discountWrite11 + "    冲销金额：" + write11);
+			String discountRate = discountRate((0 - discountWrite11), write11, 3);
+			log.debug("discountRate:" + discountRate);
+			taxInvoice112.setGoodsName("折扣(" + discountRate + ")");
+			taxInvoice112.setGoodsNum("1");
+			taxInvoice112.setGoodsPrice((new BigDecimal(discountWrite11 - ValueUtils.longValue(discountTaxFee11) / 100.0).setScale(0,
+					BigDecimal.ROUND_HALF_UP).longValue()) + "");
+			taxInvoice112.setInvoiceFee((new BigDecimal(discountWrite11 - ValueUtils.longValue(discountTaxFee11) / 100.0).setScale(0,
+					BigDecimal.ROUND_HALF_UP).longValue()) + "");
+			taxInvoice112.setTaxRate("0.11");
+			taxInvoice112.setTaxFee(new BigDecimal(discountTaxFee11 / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP).longValue() + "");
+			invoiceFeeTotalList.add(taxInvoice112);
+		}
+		if (discountWrite6 < 0) {
+			// 获取商品名称
+			String discountRate = discountRate((0 - discountWrite6), write6, 3);
+			taxInvoice62.setGoodsName("折扣(" + discountRate + ")");
+			taxInvoice62.setGoodsNum("1");
+			taxInvoice62.setGoodsPrice((new BigDecimal(discountWrite6 - ValueUtils.longValue(discountTaxFee6) / 100.0).setScale(0,
+					BigDecimal.ROUND_HALF_UP).longValue()) + "");
+			taxInvoice62.setInvoiceFee((new BigDecimal(discountWrite6 - ValueUtils.longValue(discountTaxFee6) / 100.0).setScale(0,
+					BigDecimal.ROUND_HALF_UP).longValue()) + "");
+			taxInvoice62.setTaxRate("0.06");
+			taxInvoice62.setTaxFee(new BigDecimal(discountWrite6 / 100.0).setScale(0, BigDecimal.ROUND_HALF_UP).longValue() + "");
+			invoiceFeeTotalList.add(taxInvoice62);
+		}
+
+		return invoiceFeeTotalList;
+	}
+
+	@Override
+	public List<TaxInvoiceFeeEntity> getTaxInvoFeeTotalForInvPrint(List<TaxInvoiceFeeEntity> invoiceFeeDetailList) {
+		// List<TaxInvoiceFeeEntity> invoiceFeeDetailList = getTaxInvoFeeDetail(contractStr, beginYm, endYm);
+		// String[] contractArray = contractStr.split(",");
+		List<Map<String, Object>> payTypeMapList = balance.getGiftPayType();
+		List<String> payTypeList = new ArrayList<String>();
+		for (Map<String, Object> payTypeMap : payTypeMapList) {
+			payTypeList.add(payTypeMap.get("PAY_TYPE").toString());
+		}
+		List<TaxInvoiceFeeEntity> taxInvTotal = new ArrayList<TaxInvoiceFeeEntity>();
+		int flag = 0;// 一个标志，1表示没有
+		log.debug("明细：" + invoiceFeeDetailList);
+		// 按账号分类
+		Map<Long, List<TaxInvoiceFeeEntity>> contractMap = new HashMap<Long, List<TaxInvoiceFeeEntity>>();
+		for (TaxInvoiceFeeEntity invoiceDetail : invoiceFeeDetailList) {
+			if (payTypeList.contains(invoiceDetail.getPayType())) {
+				continue;
+			}
+			flag = 0;// 一个标志，1表示没有
+			if (contractMap != null) {
+				for (long key : contractMap.keySet()) {
+					if (key == invoiceDetail.getContractNo()) {
+						contractMap.get(key).add(invoiceDetail);
+						flag = 1;
+						break;
+					}
+				}
+			}
+			if (contractMap == null || flag == 0) {
+				List<TaxInvoiceFeeEntity> taxInvoiceList = new ArrayList<TaxInvoiceFeeEntity>();
+				taxInvoiceList.add(invoiceDetail);
+				contractMap.put(invoiceDetail.getContractNo(), taxInvoiceList);
+			}
+		}
+		log.debug("按照账户分类之后的map：" + contractMap);
+		// 再按照账期把账户的分类
+		for (long key : contractMap.keySet()) {
+			List<TaxInvoiceFeeEntity> invoiceFeeList = contractMap.get(key);
+			Map<Integer, List<TaxInvoiceFeeEntity>> billMap = new HashMap<Integer, List<TaxInvoiceFeeEntity>>();
+			for (TaxInvoiceFeeEntity invoiceDetail : invoiceFeeList) {
+				flag = 0;
+				if (billMap != null) {
+					for (int billkey : billMap.keySet()) {
+						if (billkey == invoiceDetail.getBillCycle()) {
+							billMap.get(billkey).add(invoiceDetail);
+							flag = 1;
+							break;
+						}
+					}
+				}
+				if (billMap == null || flag == 0) {
+					List<TaxInvoiceFeeEntity> taxInvoiceList = new ArrayList<TaxInvoiceFeeEntity>();
+					taxInvoiceList.add(invoiceDetail);
+					billMap.put(invoiceDetail.getBillCycle(), taxInvoiceList);
+				}
+			}
+			log.debug("按照账户，账期，分类之后的map：" + billMap);
+			for (int billKey : billMap.keySet()) {
+				TaxInvoiceFeeEntity taxInvoiceFee = new TaxInvoiceFeeEntity();
+				taxInvoiceFee.setBillCycle(billKey);
+				taxInvoiceFee.setContractNo(key);
+				long taxFee = 0;
+				long wrtFee = 0;
+				List<TaxInvoiceFeeEntity> taxInvoiceFeeList = billMap.get(billKey);
+				for (TaxInvoiceFeeEntity taxInvoiceFeeEntity : taxInvoiceFeeList) {
+					taxFee = ValueUtils.longValue(taxInvoiceFeeEntity.getTaxFee()) + taxFee;
+					wrtFee = taxInvoiceFeeEntity.getWriteFee() + wrtFee;
+				}
+				taxInvoiceFee.setTaxFee(taxFee + "");
+				taxInvoiceFee.setWriteFee(wrtFee);
+				taxInvTotal.add(taxInvoiceFee);
+			}
+			// for (int billCycle : billMap.keySet()) {
+			// List<TaxInvoiceFeeEntity> rateInvoiceFeeList = billMap.get(billCycle);
+			// Map<String, List<TaxInvoiceFeeEntity>> rateMap = new HashMap<String, List<TaxInvoiceFeeEntity>>();
+			// for (TaxInvoiceFeeEntity invoiceDetail : rateInvoiceFeeList) {
+			// flag = 0;
+			// if (rateMap != null) {
+			// for (String rateRate : rateMap.keySet()) {
+			// if (rateRate.equals(invoiceDetail.getTaxRate())) {
+			// rateMap.get(rateRate).add(invoiceDetail);
+			// flag = 1;
+			// break;
+			// }
+			// }
+			// }
+			// if (rateMap == null || flag == 0) {
+			// List<TaxInvoiceFeeEntity> taxInvoiceList = new ArrayList<TaxInvoiceFeeEntity>();
+			// taxInvoiceList.add(invoiceDetail);
+			// rateMap.put(invoiceDetail.getTaxRate(), taxInvoiceList);
+			// }
+			// }
+			// log.debug("按照账户，账期，税率分类之后的map：" + rateMap);
+			// for (String rateKey : rateMap.keySet()) {
+			// TaxInvoiceFeeEntity taxInvoiceFee=new TaxInvoiceFeeEntity();
+			// taxInvoiceFee.setBillCycle(billCycle);
+			// taxInvoiceFee.setContractNo(key);
+			// taxInvoiceFee.setTaxRate(rateKey);
+			// long taxFee=0;
+			// long wrtFee=0;
+			// List<TaxInvoiceFeeEntity> taxInvoiceFeeList = rateMap.get(rateKey);
+			// for (TaxInvoiceFeeEntity taxInvoiceFeeEntity : taxInvoiceFeeList) {
+			// taxFee = ValueUtils.longValue(taxInvoiceFee.getTaxFee()) + taxFee;
+			// wrtFee = taxInvoiceFee.getWriteFee() + wrtFee;
+			// }
+			// taxInvoiceFee.setTaxFee(taxFee + "");
+			// taxInvoiceFee.setWriteFee(wrtFee);
+			// taxInvTotal.add(taxInvoiceFee);
+			// }
+			// }
+		}
+		log.debug("按照账户，账期，税率分类之后的list：" + taxInvTotal);
+		return taxInvTotal;
+	}
+	
+	@Override
+	public List<TaxInvoiceFeeEntity> getTaxInvoFeeDetail(List<TransFeeEntity> transFeeList, int beginYm, int endYm) {
+
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		List<TaxInvoiceFeeEntity> taxInvList = new ArrayList<TaxInvoiceFeeEntity>();
+		
+		int curYm=DateUtils.getCurYm();
+		for (TransFeeEntity transFee : transFeeList) {
+			long paySn = transFee.getTransSn();
+			long contractNo = transFee.getContractnoIn();
+			int suffix = transFee.getTotalDate() / 100;
+			// 根据流水账户时间获取账本ID
+			inMap = new HashMap<String, Object>();
+			inMap.put("PAY_SN", paySn);
+			inMap.put("SUFFIX", suffix);
+			inMap.put("CONTRACT_NO", contractNo);
+			Map<String, Object> sourceMap = (Map<String, Object>) baseDao.queryForObject("bal_booksource_info.qBookSourceByPaySn", inMap);
+			// 根据账本ID获取冲销的账单
+			inMap = new HashMap<String, Object>();
+			inMap.put("CONTRACT_NO", contractNo);
+			inMap.put("BALANCE_ID", sourceMap.get("BALANCE_ID"));
+			for (int ym = suffix; ym <= curYm; ym = DateUtils.addMonth(ym, 1)) {
+				List<Map<String, Object>> writeoffList = new ArrayList<Map<String, Object>>();
+				inMap.put("YEAR_MONTH", ym);
+				for (int naturalMonth = beginYm; naturalMonth < endYm; naturalMonth = DateUtils.addMonth(naturalMonth, 1)) {
+					inMap.put("NATURAL_MONTH", naturalMonth);
+					writeoffList = baseDao.queryForList("bal_writeoff_yyyymm.qTaxFeeForWriteOff", inMap);
+					for (Map<String, Object> writeoff : writeoffList) {
+						TaxInvoiceFeeEntity taxInvoiceFee = new TaxInvoiceFeeEntity();
+						taxInvoiceFee.setContractNo(ValueUtils.longValue(writeoff.get("CONTRACT_NO")));
+						taxInvoiceFee.setBillCycle(ValueUtils.intValue(writeoff.get("BILL_CYCLE")));
+						taxInvoiceFee.setWriteFee(ValueUtils.longValue(writeoff.get("WRITE_FEE")));
+						taxInvoiceFee.setPayType(writeoff.get("PAY_TYPE").toString());
+						taxInvoiceFee.setTaxFee(writeoff.get("TAX_FEE").toString());
+						taxInvoiceFee.setTaxRate(writeoff.get("TAX_RATE").toString());
+						taxInvList.add(taxInvoiceFee);
+					}
+				}
+			}
+		}
+		return taxInvList;
+	}
+
+	@Override
+	public List<TaxInvoiceFeeEntity> getTaxInvoFeeDetail(String contractStr, int beginYm, int endYm) {
+		String[] contractNoArray = contractStr.split(",");
+		int curMon = DateUtils.getCurYm();
+		Map<String, Object> inMap = new HashMap<String, Object>();
+		List<TaxInvoiceFeeEntity> taxInvoiceList = new ArrayList<TaxInvoiceFeeEntity>();
+		List<Map<String, Object>> outWriteoff = new ArrayList<Map<String, Object>>();
+		for (String contractNo : contractNoArray) {
+			inMap = new HashMap<String, Object>();
+			inMap.put("CONTRACT_NO", ValueUtils.longValue(contractNo));
+			for (int billCycle = beginYm; billCycle <= endYm; billCycle = DateUtils.addMonth(billCycle, 1)) {
+				inMap.put("NATURAL_MONTH", billCycle);
+				for (int yearMonth = billCycle; yearMonth <= curMon; yearMonth = DateUtils.addMonth(yearMonth, 1)) {
+					inMap.put("YEAR_MONTH", yearMonth);
+					List<Map<String, Object>> outWriteoffTmp = baseDao.queryForList("bal_writeoff_yyyymm.qTaxFeeForWriteOff", inMap);
+					outWriteoff.addAll(outWriteoffTmp);
+				}
+			}
+		}
+		for (Map<String, Object> writeoff : outWriteoff) {
+			TaxInvoiceFeeEntity taxInvoiceFee = new TaxInvoiceFeeEntity();
+			taxInvoiceFee.setContractNo(ValueUtils.longValue(writeoff.get("CONTRACT_NO")));
+			taxInvoiceFee.setBillCycle(ValueUtils.intValue(writeoff.get("BILL_CYCLE")));
+			taxInvoiceFee.setWriteFee(ValueUtils.longValue(writeoff.get("WRITE_FEE")));
+			taxInvoiceFee.setPayType(writeoff.get("PAY_TYPE").toString());
+			taxInvoiceFee.setTaxFee(writeoff.get("TAX_FEE").toString());
+			taxInvoiceFee.setTaxRate(writeoff.get("TAX_RATE").toString());
+			taxInvoiceList.add(taxInvoiceFee);
+		}
+		return taxInvoiceList;
+	}
+
+	@Override
+	public List<TaxInvoEntity> getTaxInvoFee(String contractNoStr, int beginMon, int endMon, String groupId) {
+		List<TaxInvoEntity> invFeeList = new ArrayList<TaxInvoEntity>();
+		List<TaxInvoEntity> invFeeTotalList = new ArrayList<TaxInvoEntity>();
+		// int naturalMon = beginMon;
+		String[] contractArray = contractNoStr.split(",");
+		for (String contractNo : contractArray) {
+			for (int naturalMon = beginMon; naturalMon <= endMon; naturalMon = DateUtils.addMonth(naturalMon, 1)) {
+				// 判断是否已经打印过增值税发票或者月结发票
+
+				/* 查询费用 */
+				List<TaxInvoEntity> invFeeListTemp = getAddTaxFee(ValueUtils.longValue(contractNo), naturalMon);
+
+				if (invFeeListTemp == null || invFeeListTemp.size() == 0) {
+					/* 找下个月 */
+					continue;
+				}
+				log.info("iNaturalMon=" + naturalMon + ",invFeeListTemp=" + invFeeListTemp);
+
+				invFeeList.addAll(invFeeListTemp);
+
+			}
+		}
+
+		// 对总发票进行过滤，然后拆分
+		if (invFeeList != null && invFeeList.size() > 0) {
+			TaxInvoEntity addtaxEny = null;
+			TaxInvoEntity teltaxEny = null;
+			for (TaxInvoEntity invcVo : invFeeList) {
+				if (invcVo.getTaxRate() == this.addTaxRate) {
+					if (addtaxEny == null) {
+						addtaxEny = new TaxInvoEntity();
+						addtaxEny.setBeginMonth(beginMon);
+						addtaxEny.setEndMonth(endMon);
+						addtaxEny.setFeeName("增值业务费");
+						addtaxEny.setTaxRate(this.addTaxRate);
+						addtaxEny.setPrintFlag("0");
+					}
+
+					addtaxEny.setTaxFee(addtaxEny.getTaxFee() + invcVo.getTaxFee());
+					addtaxEny.setFavrateFee(addtaxEny.getFavrateFee() + invcVo.getFavrateFee());
+					addtaxEny.setFavrateTaxFee(addtaxEny.getFavrateTaxFee() + invcVo.getFavrateFee());
+					addtaxEny.setInvcInitFee(addtaxEny.getInvcInitFee() + invcVo.getInvcInitFee());
+					addtaxEny.setTotalFee(addtaxEny.getTotalFee() + invcVo.getTotalFee());
+
+				} else if (invcVo.getTaxRate() == this.telTaxRate) {
+					if (teltaxEny == null) {
+						teltaxEny = new TaxInvoEntity();
+						teltaxEny.setBeginMonth(beginMon);
+						teltaxEny.setEndMonth(endMon);
+						teltaxEny.setFeeName("基础通信费");
+						teltaxEny.setTaxRate(this.telTaxRate);
+						teltaxEny.setPrintFlag("0");
+					}
+					teltaxEny.setTaxFee(teltaxEny.getTaxFee() + invcVo.getTaxFee());
+					teltaxEny.setFavrateFee(teltaxEny.getFavrateFee() + invcVo.getFavrateFee());
+					teltaxEny.setFavrateTaxFee(teltaxEny.getFavrateTaxFee() + invcVo.getFavrateFee());
+					teltaxEny.setInvcInitFee(teltaxEny.getInvcInitFee() + invcVo.getInvcInitFee());
+					teltaxEny.setTotalFee(teltaxEny.getTotalFee() + invcVo.getTotalFee());
+
+				}
+			}
+			if (addtaxEny != null) {
+				if (addtaxEny.getTaxFee() > 0)
+					addtaxEny.setTaxFee(new BigDecimal(addtaxEny.getTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP).longValue());// 转换为分
+				if (addtaxEny.getFavrateTaxFee() > 0)
+					addtaxEny.setFavrateTaxFee(new BigDecimal(addtaxEny.getFavrateTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP)
+							.longValue());// 转换为分
+				invFeeTotalList.add(addtaxEny);
+			}
+			if (teltaxEny != null) {
+				if (teltaxEny.getTaxFee() > 0)
+					teltaxEny.setTaxFee(new BigDecimal(teltaxEny.getTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP).longValue());
+				if (teltaxEny.getFavrateTaxFee() > 0)
+					teltaxEny.setFavrateTaxFee(new BigDecimal(teltaxEny.getFavrateTaxFee() / 100.00).setScale(0, BigDecimal.ROUND_HALF_UP)
+							.longValue());
+				invFeeTotalList.add(teltaxEny);
+			}
+		}
+		log.info("before_invFeeTotalList====" + invFeeTotalList);
+		/*-----------此处对6,11 发票进行最后拆分操作-------------*/
+		Map<String, Object> inParamMap = new HashMap<String, Object>();
+		// inParamMap.put("CODE_CLASS", 105);
+		long codeClass = 105;
+		List<PubCodeDictEntity> pubCodeList = control.getPubCodeList(codeClass, "", "", "");
+		// ********此处增加阀值配置获取操作 start*****/
+		long cfValue = 0;
+
+		String Rengroupid = "";
+		ChngroupRelEntity chnGroupRel = group.getRegionDistinct(groupId, "2", "230000");
+		if (chnGroupRel != null) {
+			Rengroupid = chnGroupRel.getParentGroupId();
+		}
+		if (Rengroupid == null || "".equals(Rengroupid)) {
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "01014"), "查询地市信息异常！");
+		}
+		// 查询增值税阀值
+		inParamMap.clear();
+		inParamMap.put("CODE_CLASS", 1011);
+		inParamMap.put("GROUP_ID", Rengroupid);
+		cfValue = ValueUtils.longValue(control.getPubCodeValue(1011, "", Rengroupid));
+
+		if (cfValue <= 0) {
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "01013"), "拆分阀值为空！");
+		}
+		// ********此处增加阀值配置获取操作 end*****/
+		invFeeTotalList = InvoiceUtil.getSepraFeeInfo(invFeeTotalList, pubCodeList, cfValue);
+		log.info("after_invFeeTotalList====" + invFeeTotalList);
+		return invFeeTotalList;
+	}
+
+	/**
+	 * 功能:查询冲销账单，按照税率分开
+	 * 
+	 * @param contractNo
+	 * @param naturalMon
+	 * @return
+	 */
+	@Override
+	public List<TaxInvoEntity> getAddTaxFee(long contractNo, int naturalMon) {
+
+		Map<String, Object> inParam = new HashMap<String, Object>();
+		int curMon = DateUtils.getCurYm();
+
+		inParam.put("CONTRACT_NO", contractNo);
+		inParam.put("NATURAL_MONTH", naturalMon);
+
+		int billCycle = naturalMon;
+
+		// 6%
+		long atInvTotalFee = 0;
+		long atInvTaxFee = 0;
+		long atInvDisTotalFee = 0;
+		long atInvDistaxFee = 0;
+
+		long atTotalFee = 0;
+
+		// 11%
+		long dcInvTotalFee = 0;
+		long dcInvTaxFee = 0;
+		long dcInvDisTotalFee = 0;
+		long dcInvDistaxFee = 0;
+
+		long dcTotalFee = 0;
+
+		boolean creatAtInvFlag = false;
+		boolean creatDcInvFlag = false;
+		double addtaxrate = 0.06;
+		double discodetaxrate = 0.11;
+		List<Map<String, Object>> payTypeMapList = balance.getGiftPayType();
+		List<String> payTypeList = new ArrayList<String>();
+		for (Map<String, Object> payTypeMap : payTypeMapList) {
+			payTypeList.add(payTypeMap.get("PAY_TYPE").toString());
+		}
+		log.debug("payTypeList>>>>>>>>>" + payTypeList);
+
+		Map<String, Object> indeRaParam = new HashMap<String, Object>();
+		indeRaParam.put("CODE_CLASS", ValueUtils.longValue(106));
+		indeRaParam.put("CODE_ID", "0.06");
+
+		// 获取45，55 拆分信息
+		List<Map<String, Object>> deRaList = (List<Map<String, Object>>) baseDao.queryForList("pub_codedef_dict.qVision", indeRaParam);
+
+		/** 查询当月以及之后月份冲销数据 **/
+		for (int yearMonth = naturalMon; yearMonth <= curMon; yearMonth = DateUtils.addMonth(yearMonth, 1)) {
+
+			inParam.put("YEAR_MONTH", yearMonth);
+			/* 查询核减费用 */
+			List<Map<String, Object>> outWriteoff = baseDao.queryForList("bal_writeoff_yyyymm.qTaxFeeForWriteOff", inParam);
+			/* 不存在核销费用 */
+			if (outWriteoff.size() == 0) {
+				continue;
+			}
+
+			for (Map<String, Object> wrtoffFee : outWriteoff) {
+				String sPayType = wrtoffFee.get("PAY_TYPE").toString();
+				long lWriteFee = ValueUtils.longValue(wrtoffFee.get("WRITE_FEE").toString());
+				double dWrtTaxRate = Double.parseDouble(wrtoffFee.get("TAX_RATE").toString());
+				long wtrTaxFee = ValueUtils.longValue(wrtoffFee.get("TAX_FEE").toString());// 单位是毫,核销税额
+
+				if (addtaxrate == dWrtTaxRate) {
+					creatAtInvFlag = true;
+					if (payTypeList.contains(sPayType)) {
+						atInvDisTotalFee = atInvDisTotalFee + lWriteFee;
+						atInvDistaxFee = atInvDistaxFee + wtrTaxFee;
+						atTotalFee += lWriteFee;
+					} else {
+						atInvTotalFee = atInvTotalFee + lWriteFee;
+						atInvTaxFee = atInvTaxFee + wtrTaxFee;
+						atTotalFee += lWriteFee;
+					}
+
+				} else if (discodetaxrate == dWrtTaxRate) {
+					creatDcInvFlag = true;
+
+					if (payTypeList.contains(sPayType)) {
+						dcInvDisTotalFee = dcInvDisTotalFee + lWriteFee;
+						dcInvDistaxFee = dcInvDistaxFee + wtrTaxFee;
+						dcTotalFee += lWriteFee;
+
+					} else {
+						log.info("dcInvTotalFee=" + dcInvTotalFee + ",lWriteFee=" + lWriteFee);
+						dcInvTotalFee = dcInvTotalFee + lWriteFee;
+						dcInvTaxFee = dcInvTaxFee + wtrTaxFee;
+						dcTotalFee += lWriteFee;
+					}
+
+				} else if (1 == dWrtTaxRate) {
+					creatAtInvFlag = true;
+					creatDcInvFlag = true;
+					for (Map<String, Object> deRaMap : deRaList) {// 只有0.06
+						double dDelayTRate = Double.parseDouble(deRaMap.get("CODE_VALUE").toString());
+						double dDelayFRate = Double.parseDouble(deRaMap.get("CODE_ID").toString());
+						long tmplWriteFee6 = new BigDecimal(lWriteFee * dDelayTRate).setScale(0, BigDecimal.ROUND_HALF_UP).longValue();
+						long tmpwtrTaxFee6 = new BigDecimal((tmplWriteFee6 / 1.06) * 6).setScale(0, BigDecimal.ROUND_HALF_UP).longValue();
+						long tmplWriteFee11 = lWriteFee - tmplWriteFee6;
+						long tmpwtrTaxFee11 = new BigDecimal((tmplWriteFee11 / 1.11) * 11).setScale(0, BigDecimal.ROUND_HALF_UP).longValue();
+
+						// ************6
+						if (payTypeList.contains(sPayType)) {
+							atInvDisTotalFee = atInvDisTotalFee + tmplWriteFee6;
+							atInvDistaxFee = atInvDistaxFee + tmpwtrTaxFee6;
+							atTotalFee += tmplWriteFee6;
+						} else {
+							atInvTotalFee = atInvTotalFee + tmplWriteFee6;
+							atInvTaxFee = atInvTaxFee + tmpwtrTaxFee6;
+							atTotalFee += tmplWriteFee6;
+						}
+						if (payTypeList.contains(sPayType)) {
+							dcInvDisTotalFee = dcInvDisTotalFee + tmplWriteFee11;
+							dcInvDistaxFee = dcInvDistaxFee + tmpwtrTaxFee11;
+							dcTotalFee += tmplWriteFee11;
+						} else {
+							log.info("dcInvTotalFee=" + dcInvTotalFee + ",lWriteFee=" + tmplWriteFee11);
+							dcInvTotalFee = dcInvTotalFee + tmplWriteFee11;
+							dcInvTaxFee = dcInvTaxFee + tmpwtrTaxFee11;
+							dcTotalFee += tmplWriteFee11;
+						}
+
+					}
+				}
+
+			}
+		}
+		List<TaxInvoEntity> feeInfo = new ArrayList<TaxInvoEntity>();
+		if (creatAtInvFlag) {
+			TaxInvoEntity addtax = new TaxInvoEntity();
+			addtax.setTotalFee(atInvTotalFee);
+			addtax.setTaxFee(atInvTaxFee);
+			addtax.setFavrateFee(atInvDisTotalFee);
+			addtax.setFavrateTaxFee(atInvDistaxFee);
+			addtax.setTaxRate(addtaxrate);
+			addtax.setInvcInitFee(atTotalFee);
+			feeInfo.add(addtax);
+			log.info("6%_invc_addtax=" + addtax);
+		}
+		if (creatDcInvFlag) {
+			TaxInvoEntity dctax = new TaxInvoEntity();
+			dctax.setTotalFee(dcInvTotalFee);
+			dctax.setTaxFee(dcInvTaxFee);
+			dctax.setFavrateFee(dcInvDisTotalFee);
+			dctax.setFavrateTaxFee(dcInvDistaxFee);
+			dctax.setTaxRate(discodetaxrate);
+			dctax.setInvcInitFee(dcTotalFee);
+			feeInfo.add(dctax);
+			log.info("11%_invc_dctax=" + dctax);
+		}
+
+		return feeInfo;
+	}
+
+	@Override
+	public List<TaxInvoEntity> getTotalTaxInvoFee(List<InvCondEntity> contractNoList, int iBeginMon, int iEndMon, String groupId) {
+
+		List<TaxInvoEntity> invFeeList = new ArrayList<TaxInvoEntity>();
+		List<TaxInvoEntity> invFeeTotalList = new ArrayList<TaxInvoEntity>();
+		int iNaturalMon = iBeginMon;
+		while (iNaturalMon <= iEndMon) {
+			for (InvCondEntity con : contractNoList) {
+				if (con.getContractNo() == 0)
+					continue;
+				/* 查询费用 */
+				List<TaxInvoEntity> invFeeListTemp = getAddTaxFee(con.getContractNo(), iNaturalMon);
+
+				log.info("iNaturalMon=" + iNaturalMon + ",invFeeListTemp=" + invFeeListTemp);
+				if (invFeeListTemp != null && invFeeListTemp.size() != 0) {
+					invFeeList.addAll(invFeeListTemp);
+				}
+
+			}
+			iNaturalMon = DateUtils.addDays(iNaturalMon, 1);
+		}
+
+		return invFeeList;
+	}
+
+	@Override
+	public void upTaxInvoFlag(long contractNo, int billCycle, String printFlag, double taxRate, String oldPirntFlag, long printSn) {
+
+		if (printSn == 0)
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "02013"), "取增值税发票冲销流水异常！");
+		if (contractNo == 0)
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "02014"), "取账号异常！");
+		/* 从后往前查找，知道找到账期 */
+		int curYm = DateUtils.getCurYm();
+		int billCycleTemp = curYm;
+		Map<String, Object> inParam = new HashMap<String, Object>();
+
+		if (Integer.parseInt(oldPirntFlag) == 3) {
+			inParam.put("INVPRINT_SN", printSn);// 重置发票
+			inParam.put("PRINT_SN", 0);// fanck 要求重置为0
+		} else if (Integer.parseInt(oldPirntFlag) == 0) {
+			inParam.put("PRINT_SN", printSn);// 申请发票
+		} else {
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "03013"), "修改冲销记录验证异常！");
+		}
+		inParam.put("PRINT_FLAG", printFlag);
+		inParam.put("NATURAL_MONTH", billCycle);
+		inParam.put("CONTRACT_NO", contractNo);
+		inParam.put("TAX_RATE", taxRate);
+		inParam.put("ZERO_PRINTFLAG", oldPirntFlag);
+
+		while (billCycleTemp >= billCycle) {
+			long startTime = System.currentTimeMillis();
+			inParam.put("SUFFIX", billCycleTemp);
+			balance.upWriteOffPrintTaxFlag(inParam);
+			billCycleTemp = DateUtils.addMonth(billCycleTemp, -1);
+			long endTime = System.currentTimeMillis();
+			log.error("+++update_writeoff_" + billCycleTemp + ",billCycleTemp_" + billCycleTemp + ":inverTime[" + (endTime - startTime) + "]"
+					+ "+++++");
+		}
+	}
+
+	@Override
+	public long getCfValue(String groupId) {
+
+		long cfValue = 0;
+		Map<String, Object> inParam = new HashMap<String, Object>();
+		String Rengroupid = "";
+		ChngroupRelEntity chngroupRel = group.getRegionDistinct(groupId, "2", "23000");
+		if (chngroupRel != null) {
+			Rengroupid = chngroupRel.getParentGroupId();
+		}
+		inParam.clear();
+		inParam.put("CODE_CLASS", 1011);
+		inParam.put("GROUP_ID", Rengroupid);
+		Map<String, Object> outTemp = (Map<String, Object>) baseDao.queryForObject("pub_codedef_dict.qVision", inParam);
+		if (outTemp != null)
+			cfValue = ValueUtils.longValue(outTemp.get("CODE_VALUE"));
+		return cfValue;
+	}
+
+	@Override
+	public void upTaxOnePonitInvoFlag(long contractNo, int billCycle, String printFlag, double taxRate, String oldPirntFlag, long printSn) {
+
+		if (printSn == 0)
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "02113"), "取一点支付增值税发票冲销流水异常！");
+		if (contractNo == 0)
+			throw new BusiException(AcctMgrError.getErrorCode("8248", "02114"), "取一点支付增值税发票账号异常！");
+		int curYm = Integer.parseInt(DateUtil.format(new Date(), "yyyyMM"));
+		int billCycleTemp = curYm;
+		Map<String, Object> inParam = new HashMap<String, Object>();
+		inParam.put("PRINT_FLAG", printFlag);
+		inParam.put("NEWPRINT_SN", 0);
+		inParam.put("CONTRACT_NO", contractNo);
+		inParam.put("OLDINVPRINT_SN", printSn);
+		inParam.put("NATURAL_MONTH", billCycle);
+		inParam.put("PRINT_FLAG_OLD", oldPirntFlag);
+		while (billCycleTemp >= billCycle) {
+			long startTime = System.currentTimeMillis();
+			inParam.put("SUFFIX", billCycleTemp);
+			balance.uPrintOnePonitInvFlag(inParam);
+			billCycleTemp = Integer.parseInt(DateUtil.toStringPlusMonths("" + billCycleTemp, -1, "yyyyMM"));
+			long endTime = System.currentTimeMillis();
+			log.error("+++update_writeoff_" + billCycleTemp + ",billCycleTemp_" + billCycleTemp + ":inverTime[" + (endTime - startTime) + "]"
+					+ "+++++");
+		}
+	}
+
+	private String discountRate(long v1, long v2, int scale) {
+		float i = (float)v1/v2;
+		DecimalFormat df = new DecimalFormat("##.000%");
+		String j = df.format(i);
+		return j;
+	}
+	public IBill getBill() {
+		return bill;
+	}
+
+	public void setBill(IBill bill) {
+		this.bill = bill;
+	}
+
+	public IInvoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(IInvoice invoice) {
+		this.invoice = invoice;
+	}
+
+	public IBalance getBalance() {
+		return balance;
+	}
+
+	public void setBalance(IBalance balance) {
+		this.balance = balance;
+	}
+
+	public IRecord getRecord() {
+		return record;
+	}
+
+	public void setRecord(IRecord record) {
+		this.record = record;
+	}
+
+	public IAccount getAccount() {
+		return account;
+	}
+
+	public void setAccount(IAccount account) {
+		this.account = account;
+	}
+
+	public IControl getControl() {
+		return control;
+	}
+
+	public void setControl(IControl control) {
+		this.control = control;
+	}
+
+	public IAdj getAdj() {
+		return adj;
+	}
+
+	public void setAdj(IAdj adj) {
+		this.adj = adj;
+	}
+
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
+	}
+
+	public IRemainFee getReFee() {
+		return reFee;
+	}
+
+	public void setReFee(IRemainFee reFee) {
+		this.reFee = reFee;
+	}
+
+	public IGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(IGroup group) {
+		this.group = group;
+	}
+
+	public UnBillData getUnBillData() {
+		return unBillData;
+	}
+
+	public void setUnBillData(UnBillData unBillData) {
+		this.unBillData = unBillData;
+	}
+
+	public IWriteOffer getWriteOffer() {
+		return writeOffer;
+	}
+
+	public void setWriteOffer(IWriteOffer writeOffer) {
+		this.writeOffer = writeOffer;
+	}
+
+}

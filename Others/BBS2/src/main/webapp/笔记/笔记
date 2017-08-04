@@ -1,0 +1,57 @@
+一、VO层
+PageBean {//用于存放分页的信息
+1.curpage 当前页（curpage-1）*pagenum，pagenum
+//用于显示当前页的帖子数
+2.maxpage 最大页数（用于显示一共分了多少页）
+3.rowperpage每页的贴子数
+4.maxrowcount总帖子数
+5.data《article》帖子的信息arraylist类型
+}
+Article{
+1.id 帖子的id号用与删除帖子用
+2.rootid 用于标记是主贴还是回帖
+3.title 帖子的标题
+4.content 帖子内容 LONGTEXT（clob）
+5.userid 帖子是谁发的
+}
+BBSUser{
+1.id用户的id
+2.username 用户的名字
+3.password 用户的密码
+4.pic 用户上传的的图片 LONGBLOB（blob）
+5.pagenum 用户自定义每页显示的帖子的数量
+}
+二、DAO层
+BBSUserDAO{
+	//登录方法返回一个登陆后的用户此用户用于全		//局信息共享信息
+	public BBSUser login(BBSUser user);
+	//注册方法 把前段用户填好的注册单传到后端
+	public boolean register(BBSUser user);
+	//通过用户id来得到用户上传的图片因为是		//LONGBLOB类型所以要转换成字节数组来进行		//传输
+	public byte[] getPic(int id);
+	//通过用户的id来找的用户的pagenum 用参		//数来进行修改pagenum
+	public boolean editPagenum（int pagenum			，int userid）
+}
+ArticleDAO{
+	//通过传入的的userid来确定用户的默认页数	//、通过curpage来确定要分的页数最后的分页	//信息由PageBean类来进行存储
+	public PageBean queryArticleByPage			(int curpage，int userid);
+	//通过用户发的帖子id来进行删帖（要删除主贴	//(id)和从贴(rootid)）
+	public boolean delArticle(int id);
+	//前段用户通过填写Article表单把灌水的信息	//传到后端通过Article传如数据库
+	public boolean insertArticle(Article a);
+	//通过主帖id来找到主帖 ArrayList存的都是从贴
+	public Arraylist<Article> queryReply(int rootid);
+	//找到主帖的标题来当回帖的主标题 返回值就是标题
+	public String queryTitleById(int rootid);
+}
+UserControl{
+1.登录：要在数据库中验证是否是数据库已注册的用户
+BBSUser user = service.login(BBSUser user);返回一个登陆成功的用户
+是否保存cookie 调用response.addCookie()来保存cookie
+request.getSession().setAttribute("user",user)；供全局的信息共享
+最后转到显示页中转ArticleControl？action=query&curpage=1&userid=user.id ->show.jsp
+2.注册：难点就是用户上传图片要怎么存取
+前段提供一个方法来判断是二进制流还是键直对儿
+isMultipartContent()是键直对
+
+}

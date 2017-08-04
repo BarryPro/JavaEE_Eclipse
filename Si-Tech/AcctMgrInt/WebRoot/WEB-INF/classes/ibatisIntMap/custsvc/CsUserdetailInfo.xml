@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="cs_userdetail_info_INT">
+    
+  <select id="qRunCodePhoneNoByIdNo" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap">
+    SELECT RUN_CODE CUR_RUN_CODE,TO_CHAR(RUN_TIME,'yyyymmddhh24miss') CUR_RUN_TIME , decode(b.ACCESS_TYPE, '002','Y', 'N') VOLTE_FLAG
+    FROM   CS_USERDETAIL_INFO a, UR_USER_INFO b  
+    WHERE  a.ID_NO = b.ID_NO and a.ID_NO=#ID_NO#
+  </select>
+
+  <update id="uRunCodeByIdNo" parameterClass="Map">
+    UPDATE CS_USERDETAIL_INFO SET 
+    OLD_RUN=RUN_CODE,
+    RUN_CODE=#REAL_RUN_CODE#,
+    RUN_TIME=TO_DATE(#BOSS_NEW_TIME#,'YYYYMMDDHH24MISS'),
+    OP_CODE=#OPT_CODE#,
+    LOGIN_NO=#LOGIN_NO#,
+    OP_TIME=sysdate
+    WHERE ID_NO=#ID_NO#
+  </update>
+</sqlMap>

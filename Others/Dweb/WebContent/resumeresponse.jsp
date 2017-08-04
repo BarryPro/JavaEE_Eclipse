@@ -1,0 +1,92 @@
+<%@page import="javax.servlet.jsp.tagext.TryCatchFinally"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Resume</title>
+</head>
+<body>
+	<b>用户名：</b>
+	<%=
+		//得到文本框的内容通过name
+		request.getParameter("username")
+	%>
+	<br>
+	<b>密码：</b>
+	<%=
+		//得到文本框的内容通过name
+		request.getParameter("pwd")
+	%>
+	<br>
+	<b>确认密码：</b>
+	<%=
+		//得到文本框的内容通过name
+		request.getParameter("pwd1")
+	%>
+	<br>
+	<b>性别：</b>
+	<%=
+		request.getParameter("sex")
+	%>
+	<br>
+	<b>出生日期：</b>
+	<%=
+		request.getParameter("year")
+	%>
+	<b>年</b>
+	<%=
+		request.getParameter("month")
+	%>
+	<b>月</b>
+	<%=
+		request.getParameter("day")
+	%>
+	<b>日</b>
+	<br>
+	<b>爱好：</b>
+	<%
+		//得到复选框的内容通过name得到
+		String []interest = request.getParameterValues("interest");
+		try{
+			for (int i = 0; i < interest.length; i++) {
+				out.print(i != interest.length - 1 ? (interest[i] + "、") : interest[i]);
+			}
+		} catch (Exception e) {
+			e.getMessage();
+		}
+	%>
+	<br>
+	<b>理想薪资：</b>
+	<%=
+		request.getParameter("wage")
+	%>
+	<br>
+	<b>毕业院校：</b>
+	<%=
+		request.getParameter("school")
+	%>
+	<br>
+	<b>专业：</b>
+	<%=
+		request.getParameter("profession")
+	%>
+	<br>
+	<b>家庭住址：</b>
+	<%=
+		request.getParameter("address")
+	%>
+	<br>
+	<b>电子邮件：</b>
+	<%=
+		request.getParameter("email")
+	%>
+	<br>
+	<b>个人简历：</b>
+	<%=
+			request.getParameter("txta")
+	%>
+	<br>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="in_bssvc_attrgroup_rel_INT">
+    
+ <cacheModel id="svccfg_cache" type="LRU" readOnly="true">
+  <flushInterval hours="24"/>
+  <!-- 
+  <flushOnExecute statement="in_msgsend_cache.insertCmsFile"/>
+  <flushOnExecute statement="in_msgsend_cache.updateCmsFile"/>
+  <flushOnExecute statement="in_msgsend_cache.deleteCmsFile"/>
+   -->
+  <property name="reference-type" value="WEAK"/>
+ </cacheModel>
+
+  <select id="qGrpAttrInfoBySvcId" maxRows="1000"  parameterClass="Map" resultClass="java.util.HashMap" cacheModel="svccfg_cache">  
+	SELECT GRP_TYPE,
+	        ATTR_VALUE,
+	        ATTR_NAME,
+	        ATTR_NEW_VALUE,
+	        VALUE_NULL_FLAG,
+	        NODE_NULL_FLAG,
+	        DEFAULE_VALUE
+	  FROM IN_BSSVC_ATTRGROUP_REL A, IN_BSGROUPATTR_REL B
+	 WHERE A.SVC_ID=#SVC_ID#
+	   AND A.ACTION_ID=#MAIN_ACTION_ID#
+	   AND A.SVC_TYPE=#SVC_TYPE#
+	   AND A.ATTR_GRP_ID=B.ATTR_GRP_ID
+	   AND B.VALUE_NULL_FLAG='N'
+	 ORDER BY ATTR_SEQ
+  </select>
+
+</sqlMap>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="bal_grpuserrel_his">
+	
+	<insert id="insert" parameterClass="Map">
+        INSERT INTO bal_grpuserrel_his (UNIT_ID , UNIT_NAME , GRP_PHONE_NO, GRP_CONTRACT_NO,LOGIN_ACCPET , OP_TIME , LOGIN_NO ,GROUP_ID, UPDATE_TIME)
+        select UNIT_ID , UNIT_NAME , GRP_PHONE_NO, GRP_CONTRACT_NO,#LOGIN_ACCPET#, OP_TIME , LOGIN_NO ,GROUP_ID,sysdate
+        from bal_grpuser_rel
+        where unit_id=#UNIT_ID#
+        <dynamic prepend="">
+			<isNotEmpty prepend="AND" property="CONTRACT_NO">
+				grp_contract_no =#CONTRACT_NO#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PHONE_NO">
+				grp_phone_no =#PHONE_NO#
+			</isNotEmpty>
+		</dynamic>
+    </insert>
+    
+</sqlMap>

@@ -1,0 +1,607 @@
+","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade][2000053610][ElapsedTime :12]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"14","ROUTE_VALUE":"csgj12"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*564827","CHANNEL_ID":"11","PARENT_CALL_ID":"941C227CA0CF241048C5A268C35BB062","POOL_ID":"2"},"BODY":{"OUT_DATA":{"AVG_SCORE":5},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000053610={value=5}}]
+pages
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*514494
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"87BE66632D9325E2EE2016692D709604","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*514494"}}}
+========================
+ element(2000048256) has error parent element
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+basePath=/
+pages
+webservices
+过滤参数：2900
+过滤参数：14
+过滤参数：login_no
+op_code:null,trace_id:11*20170614093341*null*csgj12*267626
+[com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade][2000053610]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"OP_CODE":"2900"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"93E7A5E2432DDA764982E4A45A85D174","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"14","ROUTE_VALUE":"csgj12"},"TRACE_ID":"11*20170614093341*null*csgj12*267626"}}}
+========================
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*514494","CHANNEL_ID":"11","PARENT_CALL_ID":"D71443178891D02394D1137971E530D1","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+active_type
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+11*20170614093341*null*csgj12*564827~!~DCBCF4FA444FC0374B325D085B4A8025~!~1A25639729423DF09D6DA439ACEE1313~!~~!~CRM6/page/npage/acctmgr/s8107/f8107.html~!~A001~!~~!~~!~2017-06-1409:33:41.912~!~2017-06-1409:33:42.044~!~10.149.74.21~!~10100~!~10.149.85.96~!~~!~~!~csgj12~!~~!~~!~~!~null~!~~!~~!~
+logBuilder:=================http://10.149.74.21:80/page/page.df
+=================================加载pages.info 数据=================================
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*767093
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"CA0FCE96B59427000313F2BC036A6DA5","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*767093"}}}
+========================
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade][2000053610][ElapsedTime :12]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"14","ROUTE_VALUE":"csgj12"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*267626","CHANNEL_ID":"11","PARENT_CALL_ID":"315DD586048C2A81962829A3AC656D22","POOL_ID":"2"},"BODY":{"OUT_DATA":{"AVG_SCORE":5},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000053610={value=5}}]
+pages
+pages
+=================================加载pages.info 数据=================================
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*767093","CHANNEL_ID":"11","PARENT_CALL_ID":"C0A2FD5D50815F903045CB934A981BA1","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+path==============CRM6/page/npage/acctmgr/s8107/f8107.html
+查询业务入口出错：java.net.MalformedURLException: no protocol: null/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getAllOpCodeUrl
+===============================isEntrance before
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+=================================加载pages.info 数据=================================
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+basePath=/
+active_type
+11*20170614093341*null*csgj12*267626~!~27EAFB872CE28C25C3DE659FB51964A3~!~93E7A5E2432DDA764982E4A45A85D174~!~~!~CRM6/page/npage/acctmgr/s8107/f8107.html~!~A001~!~~!~~!~2017-06-1409:33:41.948~!~2017-06-1409:33:42.076~!~10.149.74.21~!~10100~!~10.149.85.96~!~~!~~!~csgj12~!~~!~~!~~!~null~!~~!~~!~
+logBuilder:=================http://10.149.74.21:80/page/page.df
+pages
+active_type
+=================================加载pages.info 数据=================================
+static_element_attr
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+active_type
+pages
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*514494
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"87BE66632D9325E2EE2016692D709604","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*514494"}}}
+========================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*514494","CHANNEL_ID":"11","PARENT_CALL_ID":"A0CE63B6328BD5A136F0CE688F07F432","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+pages
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*488176
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"640BCFDDE22718DF17AA451D56EAEEF7","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*488176"}}}
+========================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :14]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*488176","CHANNEL_ID":"11","PARENT_CALL_ID":"C451AD4DAFD8DF7B1CFBB8EEA1D15DB3","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+ element(2000048256) has error parent element
+=================================加载pages.info 数据=================================
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+过滤参数：opCode
+过滤参数：100
+basePath=/
+op_code:null,trace_id:11*20170614093341*null*csgj12*267626
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"27EAFB872CE28C25C3DE659FB51964A3","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*267626"}}}
+========================
+webservices
+过滤参数：2900
+过滤参数：14
+过滤参数：login_no
+op_code:null,trace_id:11*20170614093341*null*csgj12*961545
+[com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade][2000053610]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"OP_CODE":"2900"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"B8714EE8F94F880037EC9123870DFEE1","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"14","ROUTE_VALUE":"csgj12"},"TRACE_ID":"11*20170614093341*null*csgj12*961545"}}}
+========================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :14]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*267626","CHANNEL_ID":"11","PARENT_CALL_ID":"035D6CD3E1B926D7C752811B96CE0064","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_opgrade_IOpGradeSvc_qryFuncGrade][2000053610][ElapsedTime :14]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"14","ROUTE_VALUE":"csgj12"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*961545","CHANNEL_ID":"11","PARENT_CALL_ID":"613A8D512CD9329D539DCEC35B7B3CC5","POOL_ID":"2"},"BODY":{"OUT_DATA":{"AVG_SCORE":5},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000053610={value=5}}]
+pages
+=================================加载pages.info 数据=================================
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*767093
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"CA0FCE96B59427000313F2BC036A6DA5","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*767093"}}}
+========================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*767093","CHANNEL_ID":"11","PARENT_CALL_ID":"40801C4C38F852DB4D52EA8045850B83","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+ element(2000048256) has error parent element
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+active_type
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*564827
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"DCBCF4FA444FC0374B325D085B4A8025","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*564827"}}}
+========================
+11*20170614093341*null*csgj12*961545~!~45586EF6B4067DA2F212018F974879BB~!~B8714EE8F94F880037EC9123870DFEE1~!~~!~CRM6/page/npage/acctmgr/s8107/f8107.html~!~A001~!~~!~~!~2017-06-1409:33:42.062~!~2017-06-1409:33:42.188~!~10.149.74.21~!~10100~!~10.149.85.96~!~~!~~!~csgj12~!~~!~~!~~!~null~!~~!~~!~
+logBuilder:=================http://10.149.74.21:80/page/page.df
+pages
+=================================加载pages.info 数据=================================
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*564827","CHANNEL_ID":"11","PARENT_CALL_ID":"E36BC5ACCB7E52C111E4D19F0A51805D","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+=================================加载pages.info 数据=================================
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*267626
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"27EAFB872CE28C25C3DE659FB51964A3","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*267626"}}}
+========================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*267626","CHANNEL_ID":"11","PARENT_CALL_ID":"56A5F0F27511864FCA55A8362374ACFA","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+ element(2000048256) has error parent element
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*488176
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"640BCFDDE22718DF17AA451D56EAEEF7","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*488176"}}}
+========================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*488176","CHANNEL_ID":"11","PARENT_CALL_ID":"ED7045E19E389E6D93CF5510EF4CAD4B","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*564827
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"DCBCF4FA444FC0374B325D085B4A8025","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*564827"}}}
+========================
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*564827","CHANNEL_ID":"11","PARENT_CALL_ID":"12630A5DBFD7ABE83D4F80C360AD859D","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+ element(2000048256) has error parent element
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*961545
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"45586EF6B4067DA2F212018F974879BB","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*961545"}}}
+========================
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :13]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*961545","CHANNEL_ID":"11","PARENT_CALL_ID":"E2F3CE15606DF6ED38DF84AF4A60AF9E","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+=================================加载pages.info 数据=================================
+pages
+进入Reload方法...
+刷新页面局部：pageId=1895 ;reload_element_id=2000072256
+ element(2000048256) has error parent element
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/include/header.html
+webservices
+过滤参数：opCode
+过滤参数：100
+op_code:null,trace_id:11*20170614093341*null*csgj12*961545
+[com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode
+
+[ClientIp:10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"FUNCTION_CODE":"8107","SYSTEM_CODE":"100"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"45586EF6B4067DA2F212018F974879BB","POOL_ID":"1","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093341*null*csgj12*961545"}}}
+========================
+
+[ClientIp: 10.149.85.96][com_sitech_basemng_atom_inter_s2923_IPopedomMngSvc_getParFuncByOpcode][2000072256][ElapsedTime :14]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093341*null*csgj12*961545","CHANNEL_ID":"11","PARENT_CALL_ID":"A1427E68A996E2C41603477E508BB717","POOL_ID":"1"},"BODY":{"OUT_DATA":{"LOGINROLE_LIST":[{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":0,"PARENT_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":1,"PARENT_CODE":"18008","FUNCTION_NAME":"账务业务查询","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":2,"PARENT_CODE":"18000","FUNCTION_NAME":"账务管理","SYSTEM_CODE":"100","PROVINCE_ID":"230000"},{"FUNCTION_CODE":"8107","ARRANGE_LEVEL":3,"PARENT_CODE":"99999","FUNCTION_NAME":"功能权限","SYSTEM_CODE":"100","PROVINCE_ID":"230000"}]},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{11111111=[{2000072256={html={"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}, {2000072256={html={"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}}}], 2000072256={html=[{"ARRANGE_LEVEL":0,"FUNCTION_CODE":"8107","FUNCTION_NAME":"费用综合信息查询","PARENT_CODE":"8107","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":1,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务业务查询","PARENT_CODE":"18008","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":2,"FUNCTION_CODE":"8107","FUNCTION_NAME":"账务管理","PARENT_CODE":"18000","PROVINCE_ID":"230000","SYSTEM_CODE":"100"},{"ARRANGE_LEVEL":3,"FUNCTION_CODE":"8107","FUNCTION_NAME":"功能权限","PARENT_CODE":"99999","PROVINCE_ID":"230000","SYSTEM_CODE":"100"}]}}]
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div name=\"path\" id=\"2000072256\" class=\"none\">\n [{\"ARRANGE_LEVEL\":0,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"费用综合信息查询\",\"PARENT_CODE\":\"8107\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":1,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务业务查询\",\"PARENT_CODE\":\"18008\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":2,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"账务管理\",\"PARENT_CODE\":\"18000\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"},{\"ARRANGE_LEVEL\":3,\"FUNCTION_CODE\":\"8107\",\"FUNCTION_NAME\":\"功能权限\",\"PARENT_CODE\":\"99999\",\"PROVINCE_ID\":\"230000\",\"SYSTEM_CODE\":\"100\"}]\n<\/div>","data":null,"displayType":"3","elementId":"2000072256","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":2000997,"createTime":"2015-08-21T00:00:00","execFlag":1,"id":2008443,"info":"var pathStr = $(\"#2000072256\").html();\n    var pathList = eval('(' + pathStr + ')');\n    var path = \"\";\n    for(var i = pathList.length-2; i>=0; i--){\n        if(i==0){\n            path += pathList[i].FUNCTION_CODE + \"-\" + pathList[i].FUNCTION_NAME;\n        }else{\n            path += pathList[i].FUNCTION_NAME + \" > \";\n        }\n    }\n    $(\"#2000072261\").html(path);\n$(\"#2000072256\").remove();","modifyTime":"2015-08-21T00:00:00","order":2,"status":"OK","type":6}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+==========session创建：vE-kPB7SrIBeOX1fbEgEAJY9h_1MtTpzywWPnIvZoCC1mLXZdud8!-1302136792!1497404022482  IP:10.149.31.11
+==========session创建：k0mkPB-JX1cTUK-g-FxLsJrMOSNmPIaingkPf01TkTjNxb3pahBm!-1302136792!1497404022665  IP:10.149.31.12
+=================================加载pages.info 数据=================================
+pages
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093301*null*csgj12*267154
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"F86B8A58777541747D5B8D77A8600A09","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093301*null*csgj12*267154"}}}
+========================
+=================================加载pages.info 数据=================================
+pages
+=================================加载pages.info 数据=================================
+pages
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093301*null*csgj12*546841
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"4D6BC8CAA3A1527A9671469F60635C7D","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093301*null*csgj12*546841"}}}
+========================
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093301*null*csgj12*261926
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"09D72ACC98CB83D7B09D17176A5C47D2","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093301*null*csgj12*261926"}}}
+========================
+=================================加载pages.info 数据=================================
+pages
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093302*null*csgj12*360342
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"0D0EE2EE202427DF1F32FF2859438E52","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093302*null*csgj12*360342"}}}
+========================
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665][ElapsedTime :264]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093301*null*csgj12*267154","CHANNEL_ID":"11","PARENT_CALL_ID":"78C8B174695910C03039AA02E5E90B92","POOL_ID":"2"},"BODY":{"OUT_DATA":{"REMAIN_FEE":46010,"PREPAY_FEE":46010,"UN_PREPAY_FEE":8700,"LIMIT_OWE":0,"CREDIT_CLASS":"一星","OWE_FEE":0,"PROD_PRC_NAME":"4G飞享轻松卡8元基础套餐","REGION_NAME":"牡丹江","EXPIRE_TIME":"2099/12/31","CUST_NAME":"","CONTRACT_NAME":"相**","PAY_NAME":"现金","RUN_NAME":"正常","USER_GRADE_NAME":"","UNBILL_FEE":0,"MONTH_UNBILL":0,"CONTRACT_NO":230370002012444703,"DEAD_OWE":0,"ID_NO":0,"OPEN_FLAG":"","OPEN_MONTH":"","OPEN_TIME":"2003/12/09","OPEN_TIME_FOR":"","DEAD_INNET_TIME":"","DEAD_RUN_TIME":"","PHONE_NO":"13946317515","UNIT_ID":0,"CUST_ID":0,"CUST_LEVEL":"","UNIT_NAME":"","STAFF_LOGIN_NAME":"","STAFF_LOGIN":"","PRODUCT_NAME":""},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000026849={text=230370002012444703}, 2000026866={text=现金}, 2000026850={text=相**}, 2000026853={text=46010}, 2000026852={text=0}, 2000026855={text=牡丹江}, 2000026854={text=0}, 2000026873={text=正常}, 2000057843={text=87.00}, 2000026875={text=一星}, 2000026880={text=2099/12/31}, 2000026881={text=4G飞享轻松卡8元基础套餐}, 2000026879={text=2003/12/09}}]
+active_type
+active_type
+active_type
+active_type
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665][ElapsedTime :139]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093301*null*csgj12*261926","CHANNEL_ID":"11","PARENT_CALL_ID":"44B0A9A1F23BC25F8C2CD9FAA68DDB39","POOL_ID":"2"},"BODY":{"OUT_DATA":{"REMAIN_FEE":46010,"PREPAY_FEE":46010,"UN_PREPAY_FEE":8700,"LIMIT_OWE":0,"CREDIT_CLASS":"一星","OWE_FEE":0,"PROD_PRC_NAME":"4G飞享轻松卡8元基础套餐","REGION_NAME":"牡丹江","EXPIRE_TIME":"2099/12/31","CUST_NAME":"","CONTRACT_NAME":"相**","PAY_NAME":"现金","RUN_NAME":"正常","USER_GRADE_NAME":"","UNBILL_FEE":0,"MONTH_UNBILL":0,"CONTRACT_NO":230370002012444703,"DEAD_OWE":0,"ID_NO":0,"OPEN_FLAG":"","OPEN_MONTH":"","OPEN_TIME":"2003/12/09","OPEN_TIME_FOR":"","DEAD_INNET_TIME":"","DEAD_RUN_TIME":"","PHONE_NO":"13946317515","UNIT_ID":0,"CUST_ID":0,"CUST_LEVEL":"","UNIT_NAME":"","STAFF_LOGIN_NAME":"","STAFF_LOGIN":"","PRODUCT_NAME":""},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000026849={text=230370002012444703}, 2000026866={text=现金}, 2000026850={text=相**}, 2000026853={text=46010}, 2000026852={text=0}, 2000026855={text=牡丹江}, 2000026854={text=0}, 2000026873={text=正常}, 2000057843={text=87.00}, 2000026875={text=一星}, 2000026880={text=2099/12/31}, 2000026881={text=4G飞享轻松卡8元基础套餐}, 2000026879={text=2003/12/09}}]
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div class=\"ued-panel mgt-15\" name=\"div_query\" id=\"2000026665\"> \n <h3 class=\"fs-14 lh-25\"> 费用综合信息 <\/h3> \n <div class=\"ued-content\"> \n  <div class=\"pdt-10 pdb-10 pdl-10 pdr-10\"> \n   <div class=\"pdt-10 pdb-10 pdl-10 pdr-10 bgcolor-8\" style=\"border:1px solid #f0f0f0;\"> \n    <table class=\"ued-table-noborder\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"> \n     <tbody> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户号码： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NO\" id=\"2000026849\">230370002012444703<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户名称： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NAME\" id=\"2000026850\">相**<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 付费方式： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"PAY_NAME\" id=\"2000026866\">现金<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未出账话费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UNBILL_FEE\" id=\"2000026852\">0<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 当前余额： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REMAIN_FEE\" id=\"2000026853\">46010<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 本月消费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"MONTH_UNBILL\" id=\"2000026854\">0<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未生效预存： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UN_PREPAY_FEE\" id=\"2000057843\">87.00<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 归属地： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REGION_NAME\" id=\"2000026855\">牡丹江<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract1\" id=\"2000026872\"> <span> 运行状态： <\/span> <\/td> \n       <td class=\"color-4\" name=\"RUN_NAME\" id=\"2000026873\">正常<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract3\" id=\"2000026874\"> <span> 用户星级： <\/span> <\/td> \n       <td class=\"color-4\" name=\"USER_GRADE_NAME\" id=\"2000026875\">一星<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract7\" id=\"2000026882\"> <span> 入网时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"OPEN_TIME_FOR\" id=\"2000026879\">2003\/12\/09<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract8\" id=\"2000026883\"> <span> 有效期时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"EXPIRE_TIME\" id=\"2000026880\">2099\/12\/31<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract9\" id=\"2000026884\"> <span> 套餐类型名称： <\/span> <\/td> \n       <td class=\"color-4\" name=\"PROD_PRC_NAME\" id=\"2000026881\" colspan=\"5\">4G飞享轻松卡8元基础套餐<\/td> \n      <\/tr> \n     <\/tbody> \n    <\/table> \n   <\/div> \n  <\/div> \n <\/div> \n<\/div>","data":null,"displayType":"3","elementId":"2000026665","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":"\n$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n","flag":"1","forType":"1","hasNextDeal":null,"jscode":"onload_static_19710~!~onload_static_19755~!~onload_static_19756~!~onload_static_19757","nextDeals":[{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066655,"info":"","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":0},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":1,"id":3066656,"info":"$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());","modifyTime":"2017-05-13T17:32:46","order":2,"status":null,"type":6},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066657,"info":"$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":6}],"pageId":null,"statusCode":null,"successFunc":"\n$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());\n","url":null,"varObj":null}
+active_type
+=================================加载pages.info 数据=================================
+active_type
+pages
+active_type
+active_type
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div class=\"ued-panel mgt-15\" name=\"div_query\" id=\"2000026665\"> \n <h3 class=\"fs-14 lh-25\"> 费用综合信息 <\/h3> \n <div class=\"ued-content\"> \n  <div class=\"pdt-10 pdb-10 pdl-10 pdr-10\"> \n   <div class=\"pdt-10 pdb-10 pdl-10 pdr-10 bgcolor-8\" style=\"border:1px solid #f0f0f0;\"> \n    <table class=\"ued-table-noborder\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"> \n     <tbody> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户号码： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NO\" id=\"2000026849\">230370002012444703<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户名称： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NAME\" id=\"2000026850\">相**<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 付费方式： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"PAY_NAME\" id=\"2000026866\">现金<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未出账话费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UNBILL_FEE\" id=\"2000026852\">0<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 当前余额： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REMAIN_FEE\" id=\"2000026853\">46010<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 本月消费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"MONTH_UNBILL\" id=\"2000026854\">0<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未生效预存： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UN_PREPAY_FEE\" id=\"2000057843\">87.00<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 归属地： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REGION_NAME\" id=\"2000026855\">牡丹江<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract1\" id=\"2000026872\"> <span> 运行状态： <\/span> <\/td> \n       <td class=\"color-4\" name=\"RUN_NAME\" id=\"2000026873\">正常<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract3\" id=\"2000026874\"> <span> 用户星级： <\/span> <\/td> \n       <td class=\"color-4\" name=\"USER_GRADE_NAME\" id=\"2000026875\">一星<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract7\" id=\"2000026882\"> <span> 入网时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"OPEN_TIME_FOR\" id=\"2000026879\">2003\/12\/09<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract8\" id=\"2000026883\"> <span> 有效期时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"EXPIRE_TIME\" id=\"2000026880\">2099\/12\/31<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract9\" id=\"2000026884\"> <span> 套餐类型名称： <\/span> <\/td> \n       <td class=\"color-4\" name=\"PROD_PRC_NAME\" id=\"2000026881\" colspan=\"5\">4G飞享轻松卡8元基础套餐<\/td> \n      <\/tr> \n     <\/tbody> \n    <\/table> \n   <\/div> \n  <\/div> \n <\/div> \n<\/div>","data":null,"displayType":"3","elementId":"2000026665","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":"\n$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n","flag":"1","forType":"1","hasNextDeal":null,"jscode":"onload_static_19710~!~onload_static_19755~!~onload_static_19756~!~onload_static_19757","nextDeals":[{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066655,"info":"","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":0},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":1,"id":3066656,"info":"$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());","modifyTime":"2017-05-13T17:32:46","order":2,"status":null,"type":6},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066657,"info":"$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":6}],"pageId":null,"statusCode":null,"successFunc":"\n$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());\n","url":null,"varObj":null}
+=================================加载pages.info 数据=================================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665][ElapsedTime :192]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093301*null*csgj12*546841","CHANNEL_ID":"11","PARENT_CALL_ID":"A40BD51F123AC4A206DA5495F6B66195","POOL_ID":"2"},"BODY":{"OUT_DATA":{"REMAIN_FEE":46010,"PREPAY_FEE":46010,"UN_PREPAY_FEE":8700,"LIMIT_OWE":0,"CREDIT_CLASS":"一星","OWE_FEE":0,"PROD_PRC_NAME":"4G飞享轻松卡8元基础套餐","REGION_NAME":"牡丹江","EXPIRE_TIME":"2099/12/31","CUST_NAME":"","CONTRACT_NAME":"相**","PAY_NAME":"现金","RUN_NAME":"正常","USER_GRADE_NAME":"","UNBILL_FEE":0,"MONTH_UNBILL":0,"CONTRACT_NO":230370002012444703,"DEAD_OWE":0,"ID_NO":0,"OPEN_FLAG":"","OPEN_MONTH":"","OPEN_TIME":"2003/12/09","OPEN_TIME_FOR":"","DEAD_INNET_TIME":"","DEAD_RUN_TIME":"","PHONE_NO":"13946317515","UNIT_ID":0,"CUST_ID":0,"CUST_LEVEL":"","UNIT_NAME":"","STAFF_LOGIN_NAME":"","STAFF_LOGIN":"","PRODUCT_NAME":""},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000026849={text=230370002012444703}, 2000026866={text=现金}, 2000026850={text=相**}, 2000026853={text=46010}, 2000026852={text=0}, 2000026855={text=牡丹江}, 2000026854={text=0}, 2000026873={text=正常}, 2000057843={text=87.00}, 2000026875={text=一星}, 2000026880={text=2099/12/31}, 2000026881={text=4G飞享轻松卡8元基础套餐}, 2000026879={text=2003/12/09}}]
+active_type
+active_type
+active_type
+active_type
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div class=\"ued-panel mgt-15\" name=\"div_query\" id=\"2000026665\"> \n <h3 class=\"fs-14 lh-25\"> 费用综合信息 <\/h3> \n <div class=\"ued-content\"> \n  <div class=\"pdt-10 pdb-10 pdl-10 pdr-10\"> \n   <div class=\"pdt-10 pdb-10 pdl-10 pdr-10 bgcolor-8\" style=\"border:1px solid #f0f0f0;\"> \n    <table class=\"ued-table-noborder\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"> \n     <tbody> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户号码： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NO\" id=\"2000026849\">230370002012444703<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户名称： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NAME\" id=\"2000026850\">相**<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 付费方式： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"PAY_NAME\" id=\"2000026866\">现金<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未出账话费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UNBILL_FEE\" id=\"2000026852\">0<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 当前余额： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REMAIN_FEE\" id=\"2000026853\">46010<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 本月消费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"MONTH_UNBILL\" id=\"2000026854\">0<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未生效预存： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UN_PREPAY_FEE\" id=\"2000057843\">87.00<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 归属地： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REGION_NAME\" id=\"2000026855\">牡丹江<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract1\" id=\"2000026872\"> <span> 运行状态： <\/span> <\/td> \n       <td class=\"color-4\" name=\"RUN_NAME\" id=\"2000026873\">正常<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract3\" id=\"2000026874\"> <span> 用户星级： <\/span> <\/td> \n       <td class=\"color-4\" name=\"USER_GRADE_NAME\" id=\"2000026875\">一星<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract7\" id=\"2000026882\"> <span> 入网时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"OPEN_TIME_FOR\" id=\"2000026879\">2003\/12\/09<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract8\" id=\"2000026883\"> <span> 有效期时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"EXPIRE_TIME\" id=\"2000026880\">2099\/12\/31<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract9\" id=\"2000026884\"> <span> 套餐类型名称： <\/span> <\/td> \n       <td class=\"color-4\" name=\"PROD_PRC_NAME\" id=\"2000026881\" colspan=\"5\">4G飞享轻松卡8元基础套餐<\/td> \n      <\/tr> \n     <\/tbody> \n    <\/table> \n   <\/div> \n  <\/div> \n <\/div> \n<\/div>","data":null,"displayType":"3","elementId":"2000026665","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":"\n$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n","flag":"1","forType":"1","hasNextDeal":null,"jscode":"onload_static_19710~!~onload_static_19755~!~onload_static_19756~!~onload_static_19757","nextDeals":[{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066655,"info":"","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":0},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":1,"id":3066656,"info":"$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());","modifyTime":"2017-05-13T17:32:46","order":2,"status":null,"type":6},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066657,"info":"$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":6}],"pageId":null,"statusCode":null,"successFunc":"\n$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());\n","url":null,"varObj":null}
+=================================加载pages.info 数据=================================
+=================================加载pages.info 数据=================================
+=================================加载pages.info 数据=================================
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093301*null*csgj12*267154
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"F86B8A58777541747D5B8D77A8600A09","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093301*null*csgj12*267154"}}}
+========================
+pages
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093301*null*csgj12*261926
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"09D72ACC98CB83D7B09D17176A5C47D2","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093301*null*csgj12*261926"}}}
+========================
+=================================加载pages.info 数据=================================
+pages
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093301*null*csgj12*206206
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"BAABC664FC4D13897A6241A54448E1FC","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093301*null*csgj12*206206"}}}
+========================
+pages
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026614
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：group_id
+过滤参数：input_phoneNo
+op_code:null,trace_id:11*20170614093318*null*csgj12*485871
+[com_sitech_acctmgr_inter_acctmng_IConUserRelSvc_queryOnLine]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_acctmng_IConUserRelSvc_queryOnLine
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_acctmng_IConUserRelSvc_queryOnLine][2000026614]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"PHONE_NO":"13836356959"},"OPR_INFO":{"GROUP_ID":"10033"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"F48D9975E3BAAC32843B7F385C8A0F96","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093318*null*csgj12*485871"}}}
+========================
+pages
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093301*null*csgj12*546841
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"4D6BC8CAA3A1527A9671469F60635C7D","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093301*null*csgj12*546841"}}}
+========================
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026614
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665][ElapsedTime :166]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093302*null*csgj12*360342","CHANNEL_ID":"11","PARENT_CALL_ID":"592268E06877A52B8974421492D034C4","POOL_ID":"2"},"BODY":{"OUT_DATA":{"REMAIN_FEE":46010,"PREPAY_FEE":46010,"UN_PREPAY_FEE":8700,"LIMIT_OWE":0,"CREDIT_CLASS":"一星","OWE_FEE":0,"PROD_PRC_NAME":"4G飞享轻松卡8元基础套餐","REGION_NAME":"牡丹江","EXPIRE_TIME":"2099/12/31","CUST_NAME":"","CONTRACT_NAME":"相**","PAY_NAME":"现金","RUN_NAME":"正常","USER_GRADE_NAME":"","UNBILL_FEE":0,"MONTH_UNBILL":0,"CONTRACT_NO":230370002012444703,"DEAD_OWE":0,"ID_NO":0,"OPEN_FLAG":"","OPEN_MONTH":"","OPEN_TIME":"2003/12/09","OPEN_TIME_FOR":"","DEAD_INNET_TIME":"","DEAD_RUN_TIME":"","PHONE_NO":"13946317515","UNIT_ID":0,"CUST_ID":0,"CUST_LEVEL":"","UNIT_NAME":"","STAFF_LOGIN_NAME":"","STAFF_LOGIN":"","PRODUCT_NAME":""},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000026849={text=230370002012444703}, 2000026866={text=紡ble id：2000026615
+active_type
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div class=\"ued-panel tab-style mgt-15\" name=\"div_select_contract\" id=\"2000026614\"> \n <div class=\"clearfix bgcolor-8\" style=\"border: 1px solid #e9e9e9;\"> \n  <h3 class=\"fs-14 lh-25\" style=\"border:none;\"> 账户选择 <\/h3> \n <\/div> \n <div class=\"ued-content\"> \n  <div class=\"pdt-10 pdb-10 pdl-10 pdr-10\"> \n   <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" class=\"ued-table\" name=\"table_select_contract\" id=\"2000026615\" singleflag=\"ceac1a73\"> \n    <tbody class=\"bgcolor-8\"> \n     <tr> \n      <th> 账户号码 <\/th> \n      <th class=\"ued-table\"> 账户名称 <\/th> \n      <th> 账户类型 <\/th> \n      <th> 账务关系 <\/th> \n      <th> 状态 <\/th> \n      <th> 生效时间 <\/th> \n      <th> 失效时间 <\/th> \n      <th> 操作 <\/th> \n     <\/tr>  \n     <tr copy_sign=\"0\"> \n      <td name=\"td_selcon_contractNo\" protoid=\"2000026605\" __index=\"0\">230310002011298153<\/td> \n      <td name=\"td_selcon_contractName\" protoid=\"2000026606\" __index=\"0\">0V***<\/td> \n      <td name=\"td_selcon_contractType\" protoid=\"2000026607\" __index=\"0\">个人帐户<\/td> \n      <td name=\"td_selcon_billOrder\" protoid=\"2000026608\" __index=\"0\">默认帐户<\/td> \n      <td name=\"td_selcon_status\" protoid=\"2000026609\" __index=\"0\">生效<\/td> \n      <td name=\"td_selcon_fieldTime1\" protoid=\"2000026610\" __index=\"0\">20030218<\/td> \n      <td name=\"td_selcon_fieldTime2\" protoid=\"2000026611\" __index=\"0\">20200101<\/td> \n      <td __index=\"0\"> <button class=\"ued-button-radius ued-button-1 mgl-10 mgr-10 bgcolor-5\" type=\"button\" name=\"selbut\" style=\"border-color: #9dcb2d;\" protoid=\"2000026613\" __index=\"0\" value=\"230310002011298153\"> 选择 <\/button> <\/td> \n     <\/tr>\n    <\/tbody> \n   <\/table> \n   <input type=\"hidden\" name=\"hidden_cnt\" id=\"2000026634\"> \n  <\/div> \n <\/div> \n<\/div>","data":null,"displayType":"3","elementId":"2000026614","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":3006817,"createTime":"2016-10-26T00:00:00","execFlag":2,"id":3042043,"info":"","modifyTime":"2016-10-26T00:00:00","order":1,"status":"OK","type":0}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+=================================加载pages.info 数据=================================
+pages
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_acctmng_IConUserRelSvc_queryOnLine][2000026614][ElapsedTime :34]请求结果：{"ROOT":{"HEADER":{"DB_ID":"","ENV_ID":"","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093318*null*csgj12*128623","CHANNEL_ID":"11","PARENT_CALL_ID":"5862D484172A51A98355815883934F86","POOL_ID":"2"},"BODY":{"OUT_DATA":{"CON_LIST":[{"CONTRACTATT_NAME":"个人帐户","CONTRACT_NAME":"0V***","CONTRACT_NO":230310002011298153,"CUST_ID":0,"EFF_DATE":"20030218","EXP_DATE":"20200101","ID_NO":230310002011298153,"ORDER_NAME":"默认帐户","OWE_FEE":0,"PAY_NAME":"现金","PREPAY_FEE":0,"REMAIN_FEE":0,"STATUS_NAME":"生效","UNBILL_FEE":0}],"CNT":1},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000026607={text=个人帐户}, 2000026606={text=0V***}, 2000026605={text=230310002011298153}, 2000026613={value=230310002011298153}, 2000026610={text=20030218}, 2000026611={text=20200101}, 2000026608={text=默认帐户}, 2000026609={text=生效}}]
+构建列表table id：2000026615
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026665
+active_type
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div class=\"ued-panel tab-style mgt-15\" name=\"div_select_contract\" id=\"2000026614\"> \n <div class=\"clearfix bgcolor-8\" style=\"border: 1px solid #e9e9e9;\"> \n  <h3 class=\"fs-14 lh-25\" style=\"border:none;\"> 账户选择 <\/h3> \n <\/div> \n <div class=\"ued-content\"> \n  <div class=\"pdt-10 pdb-10 pdl-10 pdr-10\"> \n   <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" class=\"ued-table\" name=\"table_select_contract\" id=\"2000026615\" singleflag=\"e6dbc40c\"> \n    <tbody class=\"bgcolor-8\"> \n     <tr> \n      <th> 账户号码 <\/th> \n      <th class=\"ued-table\"> 账户名称 <\/th> \n      <th> 账户类型 <\/th> \n      <th> 账务关系 <\/th> \n      <th> 状态 <\/th> \n      <th> 生效时间 <\/th> \n      <th> 失效时间 <\/th> \n      <th> 操作 <\/th> \n     <\/tr>  \n     <tr copy_sign=\"0\"> \n      <td name=\"td_selcon_contractNo\" protoid=\"2000026605\" __index=\"0\">230310002011298153<\/td> \n      <td name=\"td_selcon_contractName\" protoid=\"2000026606\" __index=\"0\">0V***<\/td> \n      <td name=\"td_selcon_contractType\" protoid=\"2000026607\" __index=\"0\">个人帐户<\/td> \n      <td name=\"td_selcon_billOrder\" protoid=\"2000026608\" __index=\"0\">默认帐户<\/td> \n      <td name=\"td_selcon_status\" protoid=\"2000026609\" __index=\"0\">生效<\/td> \n      <td name=\"td_selcon_fieldTime1\" protoid=\"2000026610\" __index=\"0\">20030218<\/td> \n      <td name=\"td_selcon_fieldTime2\" protoid=\"2000026611\" __index=\"0\">20200101<\/td> \n      <td __index=\"0\"> <button class=\"ued-button-radius ued-button-1 mgl-10 mgr-10 bgcolor-5\" type=\"button\" name=\"selbut\" style=\"border-color: #9dcb2d;\" protoid=\"2000026613\" __index=\"0\" value=\"230310002011298153\"> 选择 <\/button> <\/td> \n     <\/tr>\n    <\/tbody> \n   <\/table> \n   <input type=\"hidden\" name=\"hidden_cnt\" id=\"2000026634\"> \n  <\/div> \n <\/div> \n<\/div>","data":null,"displayType":"3","elementId":"2000026614","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":null,"flag":"1","forType":"1","hasNextDeal":null,"jscode":"","nextDeals":[{"backendActionID":3006817,"createTime":"2016-10-26T00:00:00","execFlag":2,"id":3042043,"info":"","modifyTime":"2016-10-26T00:00:00","order":1,"status":"OK","type":0}],"pageId":null,"statusCode":null,"successFunc":null,"url":null,"varObj":null}
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+=================================加载pages.info 数据=================================
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665][ElapsedTime :156]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093301*null*csgj12*267154","CHANNEL_ID":"11","PARENT_CALL_ID":"715F20C3C4108B5AC05839B7C8A1321E","POOL_ID":"2"},"BODY":{"OUT_DATA":{"REMAIN_FEE":46010,"PREPAY_FEE":46010,"UN_PREPAY_FEE":8700,"LIMIT_OWE":0,"CREDIT_CLASS":"一星","OWE_FEE":0,"PROD_PRC_NAME":"4G飞享轻松卡8元基础套餐","REGION_NAME":"牡丹江","EXPIRE_TIME":"2099/12/31","CUST_NAME":"","CONTRACT_NAME":"相**","PAY_NAME":"现金","RUN_NAME":"正常","USER_GRADE_NAME":"","UNBILL_FEE":0,"MONTH_UNBILL":0,"CONTRACT_NO":230370002012444703,"DEAD_OWE":0,"ID_NO":0,"OPEN_FLAG":"","OPEN_MONTH":"","OPEN_TIME":"2003/12/09","OPEN_TIME_FOR":"","DEAD_INNET_TIME":"","DEAD_RUN_TIME":"","PHONE_NO":"13946317515","UNIT_ID":0,"CUST_ID":0,"CUST_LEVEL":"","UNIT_NAME":"","STAFF_LOGIN_NAME":"","STAFF_LOGIN":"","PRODUCT_NAME":""},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000026849={text=230370002012444703}, 2000026866={text=现金}, 2000026850={text=相**}, 2000026853={text=46010}, 2000026852={text=0}, 2000026855={text=牡丹江}, 2000026854={text=0}, 2000026873={text=正常}, 2000057843={text=87.00}, 2000026875={text=一星}, 2000026880={text=2099/12/31}, 2000026881={text=4G飞享轻松卡8元基础套餐}, 2000026879={text=2003/12/09}}]
+过滤参数：8107
+过滤参数：group_id
+过滤参数：login_no
+过滤参数：province_id
+过滤参数：input_phoneNo
+过滤参数：input_contractNo
+过滤参数：netValue
+过滤参数：12
+过滤参数：input_contractNo
+op_code:null,trace_id:11*20170614093302*null*csgj12*360342
+[com_sitech_acctmgr_inter_feeqry_I8107Svc_query]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_feeqry_I8107Svc_query
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"CONTRACT_NO":"230370002012444703","PHONE_NO":"13946317515","USER_FLAG":"0"},"OPR_INFO":{"GROUP_ID":"10033","LOGIN_NO":"csgj12","OP_CODE":"8107","PROVINCE_ID":"230000"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"0D0EE2EE202427DF1F32FF2859438E52","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"TRACE_ID":"11*20170614093302*null*csgj12*360342"}}}
+========================
+active_type
+active_type
+active_type
+active_type
+pages
+到达Reload方法结尾;result={"afterFill":null,"beforeFill":null,"bindServiceType":0,"busiRuleList":null,"containerId":null,"containerId_copy":null,"content":"<div class=\"ued-panel mgt-15\" name=\"div_query\" id=\"2000026665\"> \n <h3 class=\"fs-14 lh-25\"> 费用综合信息 <\/h3> \n <div class=\"ued-content\"> \n  <div class=\"pdt-10 pdb-10 pdl-10 pdr-10\"> \n   <div class=\"pdt-10 pdb-10 pdl-10 pdr-10 bgcolor-8\" style=\"border:1px solid #f0f0f0;\"> \n    <table class=\"ued-table-noborder\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"> \n     <tbody> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户号码： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NO\" id=\"2000026849\">230370002012444703<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 账户名称： <\/span> <\/td> \n       <td class=\"lh-2\" width=\"20%\"> <span class=\"color-4\" name=\"CONTRACT_NAME\" id=\"2000026850\">相**<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 付费方式： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"PAY_NAME\" id=\"2000026866\">现金<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未出账话费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UNBILL_FEE\" id=\"2000026852\">0<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 当前余额： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REMAIN_FEE\" id=\"2000026853\">46010<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 本月消费： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"MONTH_UNBILL\" id=\"2000026854\">0<\/span> <\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 未生效预存： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"UN_PREPAY_FEE\" id=\"2000057843\">87.00<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\"> <span> 归属地： <\/span> <\/td> \n       <td class=\"lh-2\"> <span class=\"color-4\" name=\"REGION_NAME\" id=\"2000026855\">牡丹江<\/span> <\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract1\" id=\"2000026872\"> <span> 运行状态： <\/span> <\/td> \n       <td class=\"color-4\" name=\"RUN_NAME\" id=\"2000026873\">正常<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract3\" id=\"2000026874\"> <span> 用户星级： <\/span> <\/td> \n       <td class=\"color-4\" name=\"USER_GRADE_NAME\" id=\"2000026875\">一星<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract7\" id=\"2000026882\"> <span> 入网时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"OPEN_TIME_FOR\" id=\"2000026879\">2003\/12\/09<\/td> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract8\" id=\"2000026883\"> <span> 有效期时间： <\/span> <\/td> \n       <td class=\"color-4\" name=\"EXPIRE_TIME\" id=\"2000026880\">2099\/12\/31<\/td> \n      <\/tr> \n      <tr> \n       <td class=\"tr lh-2\" width=\"100\" name=\"td_no_contract9\" id=\"2000026884\"> <span> 套餐类型名称： <\/span> <\/td> \n       <td class=\"color-4\" name=\"PROD_PRC_NAME\" id=\"2000026881\" colspan=\"5\">4G飞享轻松卡8元基础套餐<\/td> \n      <\/tr> \n     <\/tbody> \n    <\/table> \n   <\/div> \n  <\/div> \n <\/div> \n<\/div>","data":null,"displayType":"3","elementId":"2000026665","errorElementId":null,"errorMsg":null,"errorMsgMore":"","failFunc":"\n$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n","flag":"1","forType":"1","hasNextDeal":null,"jscode":"onload_static_19710~!~onload_static_19755~!~onload_static_19756~!~onload_static_19757","nextDeals":[{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066655,"info":"","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":0},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":1,"id":3066656,"info":"$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());","modifyTime":"2017-05-13T17:32:46","order":2,"status":null,"type":6},{"backendActionID":21193,"createTime":"2017-05-13T17:32:46","execFlag":2,"id":3066657,"info":"$(\"#2000026665\").hide();\n$(\"#2000026679\").hide();\n$(\"#2000026705\").hide();\n$(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");","modifyTime":"2017-05-13T17:32:46","order":1,"status":null,"type":6}],"pageId":null,"statusCode":null,"successFunc":"\n$('#2000026614').hide();\n$(\"#300168309\").trigger(\"click\");\nvar glo_type_a = $(\"#2000082336\").val();\n\/\/alert(\"glo_type_a is :\"+glo_type_a);\n\nif(glo_type_a.indexOf(\"b\") < 0 || glo_type_a.indexOf(\"c\") < 0 ){\n   var strType = glo_type_a + \"a\";\n   \/\/alert(\"strType:\"+strType);\n   $(\"#2000082336\").val(strType);\n}else{\n   $(\"#2000026623\").removeClass(\"color-8 bgcolor-8\").removeAttr(\"disabled\");\n}\n\/\/alert(\"glo_type:\"+$(\"#2000082336\").val());\n","url":null,"varObj":null}
+=================================加载pages.info 数据=================================
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026614
+添加document至缓存...
+key:/web/dform/applications/data/projects/CRM6/page/npage/acctmgr/s8107/f8107.html
+webservices
+过滤参数：group_id
+过滤参数：input_phoneNo
+op_code:null,trace_id:11*20170614093318*null*csgj12*485871
+[com_sitech_acctmgr_inter_acctmng_IConUserRelSvc_queryOnLine]服务地址：http://10.149.31.102:51000/esbWS/rest/com_sitech_acctmgr_inter_acctmng_IConUserRelSvc_queryOnLine
+
+[ClientIp:10.149.85.96][com_sitech_acctmgr_inter_acctmng_IConUserRelSvc_queryOnLine][2000026614]请求报文： {"ROOT":{"BODY":{"BUSI_INFO":{"PHONE_NO":"13836356959"},"OPR_INFO":{"GROUP_ID":"10033"}},"HEADER":{"CHANNEL_ID":"11","DB_ID":"","ENV_ID":"","KEEP_LIVE":"10.149.85.96","PARENT_CALL_ID":"F48D9975E3BAAC32843B7F385C8A0F96","POOL_ID":"2","ROUTING":{"ROUTE_KEY":"","ROUTE_VALUE":""},"TRACE_ID":"11*20170614093318*null*csgj12*485871"}}}
+========================
+pages
+=================================加载pages.info 数据=================================
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665][ElapsedTime :164]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093301*null*csgj12*261926","CHANNEL_ID":"11","PARENT_CALL_ID":"47ABBB699CA2E99675E26738E6B05FA0","POOL_ID":"2"},"BODY":{"OUT_DATA":{"REMAIN_FEE":46010,"PREPAY_FEE":46010,"UN_PREPAY_FEE":8700,"LIMIT_OWE":0,"CREDIT_CLASS":"一星","OWE_FEE":0,"PROD_PRC_NAME":"4G飞享轻松卡8元基础套餐","REGION_NAME":"牡丹江","EXPIRE_TIME":"2099/12/31","CUST_NAME":"","CONTRACT_NAME":"相**","PAY_NAME":"现金","RUN_NAME":"正常","USER_GRADE_NAME":"","UNBILL_FEE":0,"MONTH_UNBILL":0,"CONTRACT_NO":230370002012444703,"DEAD_OWE":0,"ID_NO":0,"OPEN_FLAG":"","OPEN_MONTH":"","OPEN_TIME":"2003/12/09","OPEN_TIME_FOR":"","DEAD_INNET_TIME":"","DEAD_RUN_TIME":"","PHONE_NO":"13946317515","UNIT_ID":0,"CUST_ID":0,"CUST_LEVEL":"","UNIT_NAME":"","STAFF_LOGIN_NAME":"","STAFF_LOGIN":"","PRODUCT_NAME":""},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}
+===================
+[{2000026849={text=230370002012444703}, 2000026866={text=现金}, 2000026850={text=相**}, 2000026853={text=46010}, 2000026852={text=0}, 2000026855={text=牡丹江}, 2000026854={text=0}, 2000026873={text=正常}, 2000057843={text=87.00}, 2000026875={text=一星}, 2000026880={text=2099/12/31}, 2000026881={text=4G飞享轻松卡8元基础套餐}, 2000026879={text=2003/12/09}}]
+进入Reload方法...
+刷新页面局部：pageId=3114 ;reload_element_id=2000026614
+active_type
+active_type
+active_type
+active_type
+
+[ClientIp: 10.149.85.96][com_sitech_acctmgr_inter_feeqry_I8107Svc_query][2000026665][ElapsedTime :146]请求结果：{"ROOT":{"HEADER":{"DB_ID":"B1","ENV_ID":"","ROUTING":{"ROUTE_KEY":"12","ROUTE_VALUE":"230370002012444703"},"KEEP_LIVE":"10.149.85.96","TRACE_ID":"11*20170614093301*null*csgj12*206206","CHANNEL_ID":"11","PARENT_CALL_ID":"BBE9A77B49ECD84B8DB812A4B1978444","POOL_ID":"2"},"BODY":{"OUT_DATA":{"REMAIN_FEE":46010,"PREPAY_FEE":46010,"UN_PREPAY_FEE":8700,"LIMIT_OWE":0,"CREDIT_CLASS":"一星","OWE_FEE":0,"PROD_PRC_NAME":"4G飞享轻松卡8元基础套餐","REGION_NAME":"牡丹江","EXPIRE_TIME":"2099/12/31","CUST_NAME":"","CONTRACT_NAME":"相**","PAY_NAME":"现金","RUN_NAME":"正常","USER_GRADE_NAME":"","UNBILL_FEE":0,"MONTH_UNBILL":0,"CONTRACT_NO":230370002012444703,"DEAD_OWE":0,"ID_NO":0,"OPEN_FLAG":"","OPEN_MONTH":"","OPEN_TIME":"2003/12/09","OPEN_TIME_FOR":"","DEAD_INNET_TIME":"","DEAD_RUN_TIME":"","PHONE_NO":"13946317515","UNIT_ID":0,"CUST_ID":0,"CUST_LEVEL":"","UNIT_NAME":"","STAFF_LOGIN_NAME":"","STAFF_LOGIN":"","PRODUCT_NAME":""},"RETURN_CODE":"0","RETURN_MSG":"OK","USER_MSG":"OK","DETAIL_MSG":"OK","PROMPT_MSG":"OK","RUN_IP":"10.149.75.24"}}}^C

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="dnyCreditOprSvc" class="com.sitech.acctmgr.atom.impl.cct.SDnyCreditOpr">
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="credit" ref="creditEnt" />
+		<property name="user" ref="userEnt" />
+		<property name="group" ref="groupEnt" />
+	</bean>
+
+	<bean id="creditSvc" class="com.sitech.acctmgr.atom.impl.cct.SCredit">
+		<property name="user" ref="userEnt" />
+		<property name="credit" ref="creditEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+		<!-- 信用度查询，页面使用 -->
+	<bean id="8157Svc" class="com.sitech.acctmgr.atom.impl.cct.S8157">
+		<property name="user" ref="userEnt" />
+		<property name="balance" ref="balanceEnt" />
+		<property name="bill" ref="billEnt" />
+		<property name="credit" ref="creditEnt" />
+		<property name="cust" ref="custEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="preOrder" ref="preOrderEnt" />
+		<property name="remainFee" ref="remainFeeEnt" />
+	</bean>
+	
+	<bean id="8258Svc" class="com.sitech.acctmgr.atom.impl.cct.S8258">
+		<property name="user" ref="userEnt" />
+		<property name="cust" ref="custEnt" />
+		<property name="group" ref="groupEnt" />
+		<property name="credit" ref="creditEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+		<property name="account" ref="accountEnt" />
+		<property name="prod" ref="prodEnt" />
+		<property name="bill" ref="billEnt" />
+		<property name="billAccount" ref="billAccountEnt" />
+	</bean>
+	
+	<bean id="2312Svc" class="com.sitech.acctmgr.atom.impl.cct.S2312">
+		<property name="group" ref="groupEnt" />
+		<property name="credit" ref="creditEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+	
+	<bean id="2315Svc" class="com.sitech.acctmgr.atom.impl.cct.S2315">
+		<property name="group" ref="groupEnt" />
+		<property name="credit" ref="creditEnt" />
+		<property name="control" ref="controlEnt" />
+		<property name="record" ref="recordEnt" />
+	</bean>
+
+</beans>

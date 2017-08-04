@@ -1,0 +1,31 @@
+package com.sitech.acctmgr.test.atom.busi.inter;
+
+import org.junit.Test;
+import com.sitech.acctmgr.common.IntControl;
+import com.sitech.acctmgr.test.junit.BaseTestCase;
+
+public class EncryptAndDecryptTest extends BaseTestCase {
+
+	@Test
+	public void testEncryptAndDecryptTest() {
+
+		System.out.println("-----------konglj test testEncryptAndDecryptTest stt---------");
+		String cust_name = IntControl.pubEncryptData("++1cXI/A==", 1);		
+		String address   = IntControl.pubEncryptData("++vKrB1sqhy8TGvcrQzPq2q8f4veK3xb3W0NK4o86vyq7Su9fp", 1);
+		String id_iccid  = IntControl.pubEncryptData("++NDExNDgxMTk5MzEwMjQ2OTEw", 1);
+		String pwd       = "";
+		try {
+			pwd = IntControl.pubEncryptData("5c6fbbe650015feeNTS", 1);
+		} catch (Exception e) {
+			pwd = IntControl.pubNomalEncryptData("5c6fbbe650015feeNTS", 1, 0);
+		}
+		System.out.println("cust_nmae="+cust_name);
+		System.out.println("--address="+address);
+		System.out.println("-id_iccid="+id_iccid);
+		System.out.println("------pwd="+pwd);
+		
+		System.out.println("-----------konglj test testEncryptAndDecryptTest end---------");
+		
+	}
+
+}
