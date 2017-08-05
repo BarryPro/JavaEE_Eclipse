@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.belong.dao.VideoUrlConfigMapper">
+    <resultMap id="BaseResultMap" type="com.belong.model.VideoUrlConfig">
+        <id column="VIDEO_HREF" property="videoHref" jdbcType="VARCHAR"/>
+        <result column="VIDEO_TITLE" property="videoTitle" jdbcType="VARCHAR"/>
+        <result column="VIDEO_RATING" property="videoRating" jdbcType="VARCHAR"/>
+        <result column="VIDEO_IMG" property="videoImg" jdbcType="VARCHAR"/>
+        <result column="OP_TIME" property="opTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addVideo" parameterType="map">
+      insert into video_url_config (VIDEO_HREF, VIDEO_TITLE, VIDEO_RATING,
+        VIDEO_IMG, OP_TIME)
+      values (#{videoHref,jdbcType=VARCHAR}, #{videoTitle,jdbcType=VARCHAR}, #{videoRating,jdbcType=VARCHAR},
+        #{videoImg,jdbcType=VARCHAR}, now())
+    </insert>
+
+    <select id="getVideo" resultMap="BaseResultMap">
+        select * from video_url_config_view
+    </select>
+
+    <select id="getVideoPage" statementType="CALLABLE"
+            parameterType="map"
+            resultMap="BaseResultMap">
+        <![CDATA[
+
+          call pro_paging(
+            #{classify_name , mode=IN ,jdbcType=VARCHAR},
+	        #{current_page ,mode=IN ,jdbcType=INTEGER},
+	        #{total_row , mode=OUT ,jdbcType=INTEGER},
+	        #{total_page ,mode=OUT ,jdbcType=INTEGER}
+          )
+
+        ]]>
+    </select>
+
+</mapper>

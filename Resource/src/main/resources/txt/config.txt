@@ -1,0 +1,4 @@
+#用于访问定位
+position=0
+#用于存储网站的字符集
+charset=utf-8

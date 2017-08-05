@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.belong.dao.VideoTypeConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.belong.model.VideoTypeConfig" >
+    <result column="VIDEO_NO" property="videoNo" jdbcType="VARCHAR" />
+    <result column="VIDEO_TYPE" property="videoType" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="map" >
+    insert into video_type_config (VIDEO_NO, VIDEO_TYPE,OP_TIME)
+    values (#{videoNo,jdbcType=VARCHAR}, #{videoType,jdbcType=VARCHAR},now())
+  </insert>
+
+  <select id="selectConfig" resultType="java.lang.String">
+    SELECT VIDEO_NO FROM video_type_config;
+  </select>
+
+  <select id="selectCate" resultType="java.lang.String">
+    SELECT VIDEO_NO FROM video_type_config_cate;
+  </select>
+
+  <select id="selectUrls" resultType="java.lang.String">
+    SELECT VIDEO_NO FROM video_type_config_urls;
+  </select>
+</mapper>

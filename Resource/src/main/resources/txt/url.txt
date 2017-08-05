@@ -1,0 +1,8 @@
+80s=http://www.80s.tw
+parse=http://tool.xd547.com
+99vv1=http://www.99vv1.com
+uc=http://news.uc.cn
+toutiao=http://www.toutiao.com
+5jhp=http://www.5jhp.com
+fanhao123=http://www.fanhao123.org
+tellme=https://tellme.pw/avmoo

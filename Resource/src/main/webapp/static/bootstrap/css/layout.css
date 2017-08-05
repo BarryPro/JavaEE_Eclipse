@@ -1,0 +1,220 @@
+.search-table {
+    position: relative;
+    margin: 0 auto;
+    width: 50%;
+    height: inherit;
+}
+
+.logo-table {
+    width: 20%;
+    position: fixed;
+}
+
+.login-table {
+    width: 30%;
+    text-align: right;
+}
+
+.search input {
+    width: 100%;
+    height: 40px;
+    padding-left: 15px;
+    border: 3px solid #439eb8;
+}
+
+.search-tr {
+    padding-top: 15px;
+}
+
+/*逗号*/
+.search input, .search button {
+    /*去掉外框*/
+    outline: none;
+    /*透明设置（相对的）*/
+    background: transparent;
+}
+
+.search button {
+    border: none;
+    height: 40px;
+    width: 42px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.search input:focus {
+    border-color: #93c763;
+}
+
+.search_context input {
+    width: 100%;
+    height: 40px;
+    border: 3px solid #439eb8;
+}
+
+.top-area .top-table {
+    position: fixed;
+    width: 100%;
+    background-color: #293134;
+    padding-top: 10px;
+    color: #ffffff;
+}
+
+.menu-area {
+    position: fixed;
+    width: 16%;
+    height: 90%;
+    background-color: #293134;
+    margin-right: 15px;
+    color: #ffffff;
+    padding-top: 10px;
+    border-radius: 8px;
+}
+.menu-area span{
+    padding-left: 15px;
+    cursor: pointer;
+}
+
+.menu-area ul{
+     /*设置列表的样式为无*/
+     list-style-type: none;
+}
+
+.menu-area ul li{
+    padding-bottom: 15px;
+}
+
+.label-div {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.label-div span{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.display-area {
+    margin-left: 18%;
+    display: flex;
+    width: 1500px;
+    height: 80%;
+}
+
+.other-area {
+    position: fixed;
+    bottom: 0px;
+    background-color: #293134;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.display-area-group {
+    /*弹性盒子布局*/
+    display: flex;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+
+}
+
+.setting-area {
+    position: fixed;
+    right: 0px;
+    background-color: #293134;
+    width: 18%;
+    padding: 15px;
+    color: whitesmoke;
+    border-radius: 8px 0px 0px 8px;
+}
+
+.setting-area span{
+    padding: 5px;
+}
+
+.video-window{
+    position: fixed;
+    top: 65px;
+    right: 30%;
+    left: 30%;
+    background-color: #0b0b16;
+    text-align: center;
+}
+
+
+.video-player{
+    width: 640px;
+    height: 360px;
+    border-style: none;
+}
+
+.info-area{
+    position: fixed;
+    width: 30%;
+    height: 90%;
+    right: 0px;
+    top: 65px;
+    background-color: #293134;
+    border-radius: 8px 0 0 8px;
+}
+.chart-area{
+    position: absolute;
+    padding: 5px;
+    background-color: white;
+    width: 275px;
+    height: 200px;
+    bottom: 10px;
+    left: 15px;
+}
+
+.chart-area .chart-size{
+    width: 100%;
+    height: 100%;
+}
+
+.display-img{
+    position: fixed;
+    top: 20%;
+    bottom: 30%;
+    left: 30%;
+    right: 30%;
+}
+
+.video-view{
+    text-align: center;
+    margin: 6px;
+    height: 230px;
+    width: 130px;
+}
+
+.span-title span{
+    text-align: center;
+    word-break: break-all;
+    word-wrap:break-word
+}
+
+.img-size{
+    width: 117px;
+}
+
+.display-setting{
+    display: flex;
+    /* 设置自动换行*/
+    flex-wrap: wrap;
+    width: 95%;
+    margin-left: 50px;
+}
+
+.display-page{
+    position: absolute;
+    margin: 10px;
+    bottom: 20px;
+    left: 50%;
+}
+body {
+    background-color: whitesmoke;
+}

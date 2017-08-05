@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.belong.dao.VideoDetailInfoMapper">
+    <resultMap id="BaseResultMap" type="com.belong.model.VideoDetailInfo">
+        <id column="VIDEO_HREF" jdbcType="VARCHAR" property="videoHref"/>
+        <result column="VIDEO_PIC" jdbcType="VARCHAR" property="videoPic"/>
+        <result column="OP_TIME" jdbcType="VARCHAR" property="opTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.belong.model.VideoDetailInfo">
+        <result column="VIDEO_INFO" jdbcType="LONGVARBINARY" property="videoInfo"/>
+    </resultMap>
+
+    <insert id="addVideoDetail" parameterType="map">
+    insert into video_detail_info (VIDEO_HREF, VIDEO_PIC, OP_TIME, 
+      VIDEO_INFO)
+    values (#{videoHref,jdbcType=VARCHAR}, #{videoPic,jdbcType=VARCHAR}, now(),
+      #{videoInfo,jdbcType=LONGVARBINARY})
+  </insert>
+</mapper>

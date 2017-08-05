@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.belong.dao.ClassifyDetailConfigMapper">
+  <resultMap id="BaseResultMap" type="com.belong.model.ClassifyDetailConfig">
+    <id column="TYPE_DTLHREF" jdbcType="VARCHAR" property="typeDtlhref" />
+    <result column="TYPE_DTLNAME" jdbcType="VARCHAR" property="typeDtlname" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="OP_TIME" jdbcType="TIMESTAMP" property="opTime" />
+    <result column="pager" jdbcType="VARCHAR" property="pager" />
+  </resultMap>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from classify_detail_config_view
+    </select>
+    <insert id="addDetailClassify" parameterType="map">
+        insert into classify_detail_config(TYPE_DTLHREF,TYPE_DTLNAME,TYPE_NAME,pager,OP_TIME)
+        values(#{typeDtlhref,jdbcType=VARCHAR}, #{typeDtlname,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR},
+        #{pager,jdbcType=VARCHAR},now())
+    </insert>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.belong.dao.VideoRecMapper">
+    <resultMap id="BaseResultMap" type="com.belong.model.VideoRec">
+        <id column="VIDEO_SRC" property="videoSrc" jdbcType="VARCHAR"/>
+        <result column="VIDEO_NAME" property="videoName" jdbcType="VARCHAR"/>
+        <result column="VIDEO_PIC" property="videoPic" jdbcType="VARCHAR"/>
+        <result column="VIDEO_TYPE" property="videoType" jdbcType="VARCHAR"/>
+        <result column="TYPE_NO" property="typeNo" jdbcType="VARCHAR"/>
+        <result column="OP_TIME" property="opTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="addRec" parameterType="map">
+      insert into video_rec (VIDEO_SRC, VIDEO_NAME, VIDEO_PIC, VIDEO_TYPE, OP_TIME)
+      values (#{videoSrc,jdbcType=VARCHAR}, #{videoName,jdbcType=VARCHAR},
+      #{videoPic,jdbcType=VARCHAR}, #{videoType,jdbcType=VARCHAR},now())
+    </insert>
+
+</mapper>

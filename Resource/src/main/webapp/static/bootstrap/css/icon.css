@@ -1,0 +1,125 @@
+.logo-B:before {
+    content: "\f15a";
+    font-family: FontAwesome;
+    font-size: 35px;
+    padding-bottom: 0px;
+    color: deepskyblue;
+}
+
+.logo:before {
+    content: "\f282\f154\f26a\f20b";
+    font-family: FontAwesome;
+    font-size: 20px;
+    margin-bottom: 0px;
+    color: yellow;
+}
+
+.logo-G:before {
+    content: "\f0d5";
+    font-family: FontAwesome;
+    font-size: 35px;
+    margin-bottom: 0px;
+    color: #1ece2d;
+}
+
+.search button:before {
+    content: "\f002";
+    font-family: FontAwesome;
+    font-size: 20px;
+    color: #439eb8;
+}
+
+.movie:before {
+    content: "\f008";
+    font-family: FontAwesome;
+}
+.home:before {
+    content: "\f015";
+    font-family: FontAwesome;
+}
+.tv:before {
+    content: "\f26c";
+    font-family: FontAwesome;
+}
+.codiepie:before {
+    content: "\f284";
+    font-family: FontAwesome;
+}
+.diamond:before {
+    content: "\f219";
+    font-family: FontAwesome;
+}
+.music:before {
+    content: "\f001";
+    font-family: FontAwesome;
+}
+.video:before {
+    content: "\f1c8";
+    font-family: FontAwesome;
+}
+.caret-:before {
+    content: "\f150";
+    font-family: FontAwesome;
+}
+.fire:before {
+    content: "\f06d";
+    font-family: FontAwesome;
+}
+.map-signs:before {
+    content: "\f277";
+    font-family: FontAwesome;
+}
+
+.user-area:after {
+    content: "\f007";
+    font-family: FontAwesome;
+    width: 20%;
+}
+
+.message-area:after {
+    content: "\f27a";
+    font-family: FontAwesome;
+    width: 20%;
+}
+
+.settings:after {
+    content: "\f013";
+    font-family: FontAwesome;
+}
+
+.email-area:after{
+    content: "\f05a";
+    font-family: FontAwesome;
+}
+
+
+.video-window span:before{
+    content: "\f00d";
+    font-family: FontAwesome;
+    position: absolute;
+    top:0;
+    right: 0px;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.setting-btn:before {
+    position: fixed;
+    content: "\f013";
+    right: 0px;
+    font-family: FontAwesome;
+    background-color: #293134;
+    color: white;
+    padding: 5px;
+    border-radius: 5px 0px 0px 5px;
+}
+.setting-h5:before{
+    content: "\f013";
+    font-family: FontAwesome;
+}
+
+.theme:before{
+    content: "\f0c9";
+    font-family: FontAwesome;
+}

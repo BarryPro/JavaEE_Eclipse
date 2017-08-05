@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.belong.dao.ClassifyConfigMapper">
+  <resultMap id="BaseResultMap" type="com.belong.model.ClassifyConfig">
+    <id column="TYPE_HREF" jdbcType="VARCHAR" property="typeHref" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="OP_TIME" jdbcType="TIMESTAMP" property="opTime" />
+    <result column="pager" jdbcType="VARCHAR" property="pager" />
+  </resultMap>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from classify_config_view
+    </select>
+    <insert id="addClassify" parameterType="map">
+        insert into classify_config (TYPE_HREF, TYPE_NAME, PAGER, OP_TIME)
+        values (#{typeHref,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR},#{pager,jdbcType=INTEGER},now())
+    </insert>
+    <select id="selectClassify" resultMap="BaseResultMap">
+        SELECT * from classify_config_view WHERE PAGER != '0'
+    </select>
+</mapper>
