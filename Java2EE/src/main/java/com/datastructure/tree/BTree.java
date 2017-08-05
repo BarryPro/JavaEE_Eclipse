@@ -76,16 +76,12 @@ public class BTree<K, V>
       
     /** 
      * 在B树节点中搜索给定键值的返回结果。 
-     * <p/>  
-     * 该结果有两部分组成。第一部分表示此次查找是否成功， 
-     * 如果查找成功，第二部分表示给定键值在B树节点中的位置， 
-     * 如果查找失败，第二部分表示给定键值应该插入的位置。 
      */  
     private static class SearchResult<V>  
     {  
-        private boolean exist;  
-        private int index;  
-        private V value;  
+        private boolean exist; //查找是否成功
+        private int index; //表示给定键值在B树节点中的位置
+        private V value; //查找的对应的值
           
         public SearchResult(boolean exist, int index)  
         {  
@@ -390,7 +386,8 @@ public class BTree<K, V>
     /** B树的根节点 */  
     private BTreeNode<K, V> root;  
     /** 根据B树的定义，B树的每个非根节点的关键字数n满足(t - 1) <= n <= (2t - 1) */  
-    private int t = DEFAULT_T;  
+    private int t = DEFAULT_T; 
+    // 用于控制节点的“分裂”与“合并”
     /** 非根节点中最小的键值数 */  
     private int minKeySize = t - 1;  
     /** 非根节点中最大的键值数 */  
