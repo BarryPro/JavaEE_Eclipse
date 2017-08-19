@@ -1,46 +1,41 @@
 package org.crazyit.viewer;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
-import javax.swing.JButton;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
- * Ö÷½çÃæ¶ÔÏó
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class ViewerFrame extends JFrame {
-	// ÉèÖÃ¶ÁÍ¼ÇøµÄ¿íºÍ¸ß
+	// ï¿½ï¿½ï¿½Ã¶ï¿½Í¼ï¿½ï¿½ï¿½Ä¿ï¿½Í¸ï¿½
 	private int width = 800;
 	private int height = 600;
-	// ÓÃÒ»¸öJLabel·ÅÖÃÍ¼Æ¬
+	// ï¿½ï¿½Ò»ï¿½ï¿½JLabelï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	JLabel label = new JLabel();
 	ViewerService service = ViewerService.getInstance();
 
-	// ¼Ó¸ø²Ëµ¥µÄÊÂ¼þ¼àÌýÆ÷
+	// ï¿½Ó¸ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ActionListener menuListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			service.menuDo(ViewerFrame.this, e.getActionCommand());
@@ -48,38 +43,38 @@ public class ViewerFrame extends JFrame {
 	};
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public ViewerFrame() {
 		super();
-		// ³õÊ¼»¯Õâ¸öJFrame
+		// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½JFrame
 		init();
 	}
 
 	/**
-	 * ³õÊ¼»¯
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	public void init() {
-		// ÉèÖÃ±êÌâ
-		this.setTitle("¿´Í¼³ÌÐò");
-		// ÉèÖÃ´óÐ¡
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½
+		this.setTitle("ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½Ã´ï¿½Ð¡
 		this.setPreferredSize(new Dimension(width, height));
-		// ´´½¨²Ëµ¥
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½
 		createMenuBar();
-		// ´´½¨¹¤¾ßÀ¸
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JPanel toolBar = createToolPanel();
-		// °Ñ¹¤¾ßÀ¸ºÍ¶ÁÍ¼Çø¼Óµ½JFrameÀïÃæ
+		// ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½Í¼ï¿½ï¿½ï¿½Óµï¿½JFrameï¿½ï¿½ï¿½ï¿½
 		this.add(toolBar, BorderLayout.NORTH);
 		this.add(new JScrollPane(label), BorderLayout.CENTER);
-		// ÉèÖÃÎª¿É¼û
+		// ï¿½ï¿½ï¿½ï¿½Îªï¿½É¼ï¿½
 		this.setVisible(true);
 		this.pack();
 	}
 
 	/**
-	 * »ñÈ¡JLabel
+	 * ï¿½ï¿½È¡JLabel
 	 * 
 	 * @return JLabel
 	 */
@@ -88,20 +83,20 @@ public class ViewerFrame extends JFrame {
 	}
 
 	/**
-	 * ´´½¨¹¤¾ßÀ¸
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
 	public JPanel createToolPanel() {
-		// ´´½¨Ò»¸öJPanel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanel
 		JPanel panel = new JPanel();
-		// ´´½¨Ò»¸ö±êÌâÎª"¹¤¾ß"µÄ¹¤¾ßÀ¸
-		JToolBar toolBar = new JToolBar("¹¤¾ß");
-		// ÉèÖÃÎª²»¿ÉÍÏ¶¯
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª"ï¿½ï¿½ï¿½ï¿½"ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½
+		JToolBar toolBar = new JToolBar("ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
 		toolBar.setFloatable(false);
-		// ÉèÖÃ²¼¾Ö·½Ê½
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö·ï¿½Ê½
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		// ¹¤¾ßÊý×é
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String[] toolarr = { "org.crazyit.viewer.action.OpenAction", 
 				"org.crazyit.viewer.action.LastAction", 
 				"org.crazyit.viewer.action.NextAction", 
@@ -110,50 +105,50 @@ public class ViewerFrame extends JFrame {
 		for (int i = 0; i < toolarr.length; i++) {
 			ViewerAction action = new ViewerAction(new ImageIcon("img/"
 					+ toolarr[i] + ".gif"), toolarr[i], this);
-			// ÒÔÍ¼±ê´´½¨Ò»¸öÐÂµÄbutton
+			// ï¿½ï¿½Í¼ï¿½ê´´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½button
 			JButton button = new JButton(action);
-			// °Ñbutton¼Óµ½¹¤¾ßÀ¸ÖÐ
+			// ï¿½ï¿½buttonï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			toolBar.add(button);
 		}
 		panel.add(toolBar);
-		// ·µ»Ø
+		// ï¿½ï¿½ï¿½ï¿½
 		return panel;
 	}
 
 	/**
-	 * ´´½¨²Ëµ¥À¸
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	public void createMenuBar() {
-		// ´´½¨Ò»¸öJMenuBar·ÅÖÃ²Ëµ¥
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JMenuBarï¿½ï¿½ï¿½Ã²Ëµï¿½
 		JMenuBar menuBar = new JMenuBar();
-		// ²Ëµ¥ÎÄ×ÖÊý×é£¬ÒÔÏÂÃæµÄmenuItemArrÒ»Ò»¶ÔÓ¦
-		String[] menuArr = { "ÎÄ¼þ(F)", "¹¤¾ß(T)", "°ïÖú(H)" };
-		// ²Ëµ¥ÏîÎÄ×ÖÊý×é
-		String[][] menuItemArr = { { "´ò¿ª(O)", "-", "ÍË³ö(X)" },
-				{ "·Å´ó(M)", "ËõÐ¡(O)", "-", "ÉÏÒ»¸ö(X)", "ÏÂÒ»¸ö(P)" }, { "°ïÖúÖ÷Ìâ", "¹ØÓÚ" } };
-		// ±éÀúmenuArrÓëmenuItemArrÈ¥´´½¨²Ëµ¥
+		// ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½menuItemArrÒ»Ò»ï¿½ï¿½Ó¦
+		String[] menuArr = { "ï¿½Ä¼ï¿½(F)", "ï¿½ï¿½ï¿½ï¿½(T)", "ï¿½ï¿½ï¿½ï¿½(H)" };
+		// ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		String[][] menuItemArr = { { "ï¿½ï¿½(O)", "-", "ï¿½Ë³ï¿½(X)" },
+				{ "ï¿½Å´ï¿½(M)", "ï¿½ï¿½Ð¡(O)", "-", "ï¿½ï¿½Ò»ï¿½ï¿½(X)", "ï¿½ï¿½Ò»ï¿½ï¿½(P)" }, { "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½" } };
+		// ï¿½ï¿½ï¿½ï¿½menuArrï¿½ï¿½menuItemArrÈ¥ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½
 		for (int i = 0; i < menuArr.length; i++) {
-			// ÐÂ½¨Ò»¸öJMenu²Ëµ¥
+			// ï¿½Â½ï¿½Ò»ï¿½ï¿½JMenuï¿½Ëµï¿½
 			JMenu menu = new JMenu(menuArr[i]);
 			for (int j = 0; j < menuItemArr[i].length; j++) {
-				// Èç¹ûmenuItemArr[i][j]µÈÓÚ"-"
+				// ï¿½ï¿½ï¿½menuItemArr[i][j]ï¿½ï¿½ï¿½ï¿½"-"
 				if (menuItemArr[i][j].equals("-")) {
-					// ÉèÖÃ²Ëµ¥·Ö¸ô
+					// ï¿½ï¿½ï¿½Ã²Ëµï¿½ï¿½Ö¸ï¿½
 					menu.addSeparator();
 				} else {
-					// ÐÂ½¨Ò»¸öJMenuItem²Ëµ¥Ïî
+					// ï¿½Â½ï¿½Ò»ï¿½ï¿½JMenuItemï¿½Ëµï¿½ï¿½ï¿½
 					JMenuItem menuItem = new JMenuItem(menuItemArr[i][j]);
 					menuItem.addActionListener(menuListener);
-					// °Ñ²Ëµ¥Ïî¼Óµ½JMenu²Ëµ¥ÀïÃæ
+					// ï¿½Ñ²Ëµï¿½ï¿½ï¿½Óµï¿½JMenuï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
 					menu.add(menuItem);
 				}
 			}
-			// °Ñ²Ëµ¥¼Óµ½JMenuBarÉÏ
+			// ï¿½Ñ²Ëµï¿½ï¿½Óµï¿½JMenuBarï¿½ï¿½
 			menuBar.add(menu);
 		}
-		// ÉèÖÃJMenubar
+		// ï¿½ï¿½ï¿½ï¿½JMenubar
 		this.setJMenuBar(menuBar);
 	}
 }

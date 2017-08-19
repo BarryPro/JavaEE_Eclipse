@@ -1,21 +1,17 @@
 package org.crazyit.image.tool;
 
-import org.crazyit.image.ImageFrame;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Robot;
-import java.awt.Color;
 import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Robot;
 import java.awt.event.MouseEvent;
 
 /**
- * Ê°É«Æ÷
+ * Ê°É«ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -34,7 +30,7 @@ public class ColorPickedTool extends AbstractTool {
 	}
 
 	/**
-	 * °´ÏÂÊó±ê
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -47,8 +43,8 @@ public class ColorPickedTool extends AbstractTool {
 				setPressX(e.getX());
 				setPressY(e.getY());
 				/**
-				 * ÉèÖÃÑÕÉ« getRGB()·µ»ØÄ¬ÈÏ sRGB ColorModel ÖÐ±íÊ¾ÑÕÉ«µÄ RGB Öµ 24-31 Î»±íÊ¾
-				 * alpha£¬16-23 Î»±íÊ¾ºìÉ«£¬ 8-15 Î»±íÊ¾ÂÌÉ«£¬0-7 Î»±íÊ¾À¶É«
+				 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É« getRGB()ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ sRGB ColorModel ï¿½Ð±ï¿½Ê¾ï¿½ï¿½É«ï¿½ï¿½ RGB Öµ 24-31 Î»ï¿½ï¿½Ê¾
+				 * alphaï¿½ï¿½16-23 Î»ï¿½ï¿½Ê¾ï¿½ï¿½É«ï¿½ï¿½ 8-15 Î»ï¿½ï¿½Ê¾ï¿½ï¿½É«ï¿½ï¿½0-7 Î»ï¿½ï¿½Ê¾ï¿½ï¿½É«
 				 */
 				int rgb = getFrame().getBufferedImage().getRGB(e.getX(),
 						e.getY());
@@ -58,11 +54,11 @@ public class ColorPickedTool extends AbstractTool {
 				int int16 = (int) Math.pow(2, 16);
 				// Ç°24Î»
 				int int24 = (int) Math.pow(2, 24);
-				// ·Ö±ðÈ¡0-7Î»,8-15Î»,16-23Î»
+				// ï¿½Ö±ï¿½È¡0-7Î»,8-15Î»,16-23Î»
 				int r = (rgb & (int24 - int16)) >> 16;
 				int g = (rgb & (int16 - int8)) >> 8;
 				int b = (rgb & (int8 - 1));
-				// ÉèÖÃÑÕÉ«
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 				AbstractTool.color = new Color(r, g, b);
 			} else {
 				try {
@@ -72,7 +68,7 @@ public class ColorPickedTool extends AbstractTool {
 					ae.printStackTrace();
 				}
 			}
-			// ÉèÖÃÄ¿Ç°ÏÔÊ¾µÄÑÕÉ«
+			// ï¿½ï¿½ï¿½ï¿½Ä¿Ç°ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½É«
 			getFrame().getCurrentColorPanel().setBackground(AbstractTool.color);
 		}
 	}

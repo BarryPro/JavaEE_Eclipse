@@ -2,17 +2,12 @@ package org.crazyit.book.service.impl;
 
 import java.util.Collection;
 
-import org.crazyit.book.dao.TypeDao;
-import org.crazyit.book.dao.impl.TypeDaoImpl;
-import org.crazyit.book.service.TypeService;
-import org.crazyit.book.vo.Type;
-
 /**
- * 书本种类业务实现类
+ * 锟介本锟斤拷锟斤拷业锟斤拷实锟斤拷锟斤拷
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>网站: <a href="http://www.crazyit.org">疯狂Java联盟</a>
+ * <br/>锟斤拷站: <a href="http://www.crazyit.org">锟斤拷锟絁ava锟斤拷锟斤拷</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */

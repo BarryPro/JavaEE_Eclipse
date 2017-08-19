@@ -1,16 +1,11 @@
 package org.crazyit.book.service.impl;
 
-import org.crazyit.book.commons.BusinessException;
-import org.crazyit.book.dao.UserDao;
-import org.crazyit.book.service.UserService;
-import org.crazyit.book.vo.User;
-
 /**
- * ÓÃ»§ÒµÎñÊµÏÖÀà
+ * ï¿½Ã»ï¿½Òµï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -25,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	public void login(String name, String password) {
 		User user = userDao.getUser(name, password);
 		if (user == null) {
-			throw new BusinessException("ÓÃ»§ÃûÃÜÂë´íÎó");
+			throw new BusinessException("ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 

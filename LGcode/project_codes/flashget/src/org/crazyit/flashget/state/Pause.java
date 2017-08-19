@@ -2,9 +2,7 @@ package org.crazyit.flashget.state;
 
 import javax.swing.ImageIcon;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.util.ImageUtil;
+import flashget.src.org.crazyit.flashget.ContextHolder;
 
 public class Pause extends AbstractState {
 	
@@ -20,7 +18,7 @@ public class Pause extends AbstractState {
 
 	@Override
 	public void init(Resource resource) {
-		//×ÊÔ´ÔÝÍ£ºóÈ¡ÏûÈÎÎñ
+		//ï¿½ï¿½Ô´ï¿½ï¿½Í£ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ContextHolder.dh.stopTimer(resource);
 	}
 

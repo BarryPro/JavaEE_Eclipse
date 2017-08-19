@@ -3,31 +3,27 @@ package org.crazyit.book.dao.impl;
 import java.sql.ResultSet;
 import java.util.Collection;
 
-import org.crazyit.book.commons.DataUtil;
-import org.crazyit.book.jdbc.JDBCExecutor;
-import org.crazyit.book.vo.ValueObject;
-
 /**
- * ¸÷¸öDAOµÄ»ùÀà
+ * ï¿½ï¿½ï¿½ï¿½DAOï¿½Ä»ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class CommonDaoImpl {
-	//·µ»ØJDBCExecutor¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½JDBCExecutorï¿½ï¿½ï¿½ï¿½
 	public JDBCExecutor getJDBCExecutor() {
 		return JDBCExecutor.getJDBCExecutor();
 	}
 	
-	//¸ù¾Ý²ÎÊýµÄSQL, ´æ·Å½á¹ûµÄ¼¯ºÏ¶ÔÏó, ºÍ¾ßÌåµÄÊý¾Ý¿âÓ³Éä¶ÔÏó·µ»ØÒ»¸ö¼¯ºÏ
+	//ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½SQL, ï¿½ï¿½Å½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½, ï¿½Í¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½Ó³ï¿½ï¿½ï¿½ï¿½ó·µ»ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Collection getDatas(String sql, Collection<ValueObject> result, 
 			Class clazz) {
-		//Ö´ÐÐSQL·µ»ØResultSet¶ÔÏó
+		//Ö´ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ResultSetï¿½ï¿½ï¿½ï¿½
 		ResultSet rs = getJDBCExecutor().executeQuery(sql);
-		//¶ÔResultSet½øÐÐ·â×°²¢·µ»Ø¼¯ºÏ
+		//ï¿½ï¿½ResultSetï¿½ï¿½ï¿½Ð·ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
 		return DataUtil.getDatas(result, rs, clazz);
 	}
 }

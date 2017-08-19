@@ -9,23 +9,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JWindow;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.state.Downloading;
-import org.crazyit.flashget.util.ImageUtil;
-
 /**
- * Ðü¸¡´°¿Ú
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -33,18 +26,18 @@ public class SuspendWindow extends JWindow {
 
 	private BufferedImage img = ImageUtil.getImage(ImageUtil.SUSPEND_IMAGE_PATH);
 	
-	//Êó±êÔÚÐü¸¡´°ÖÐµÄ×ø±ê
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 	private int x;
 	private int y;
 	
 	private JPopupMenu popupMenu = new JPopupMenu();
 	
-	private JMenuItem openItem = new JMenuItem("´ò¿ª/¹Ø±Õ", ImageUtil.SUSPEND_OPEN_IAMGE);
-	private JMenuItem newItem = new JMenuItem("ÐÂ½¨ÏÂÔØÈÎÎñ", ImageUtil.SUSPEND_NEW_IAMGE);
-	private JMenuItem startItem = new JMenuItem("¿ªÊ¼È«²¿ÈÎÎñ", ImageUtil.SUSPEND_START_IAMGE);
-	private JMenuItem pauseItem = new JMenuItem("ÔÝÍ£È«²¿ÈÎÎñ", ImageUtil.SUSPEND_PAUSE_IAMGE);
-	private JMenuItem removeItem = new JMenuItem("É¾³ýÍê³ÉÈÎÎñ", ImageUtil.SUSPEND_REMOVE_IAMGE);
-	private JMenuItem quitItem = new JMenuItem("ÍË³ö", ImageUtil.SUSPEND_QUIT_IAMGE);
+	private JMenuItem openItem = new JMenuItem("ï¿½ï¿½/ï¿½Ø±ï¿½", ImageUtil.SUSPEND_OPEN_IAMGE);
+	private JMenuItem newItem = new JMenuItem("ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", ImageUtil.SUSPEND_NEW_IAMGE);
+	private JMenuItem startItem = new JMenuItem("ï¿½ï¿½Ê¼È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", ImageUtil.SUSPEND_START_IAMGE);
+	private JMenuItem pauseItem = new JMenuItem("ï¿½ï¿½Í£È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", ImageUtil.SUSPEND_PAUSE_IAMGE);
+	private JMenuItem removeItem = new JMenuItem("É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", ImageUtil.SUSPEND_REMOVE_IAMGE);
+	private JMenuItem quitItem = new JMenuItem("ï¿½Ë³ï¿½", ImageUtil.SUSPEND_QUIT_IAMGE);
 	
 	private MainFrame mainFrame;
 	
@@ -111,7 +104,7 @@ public class SuspendWindow extends JWindow {
 	private void initListeners() {
 		this.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) {
-	            //»ñµÃµ±Ç°Êó±êÔÚÆÁÄ»ÖÐµÄ×ø±ê
+	            //ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 	            int xScreen = e.getXOnScreen();
 	            int yScreen = e.getYOnScreen();
 	            setLocation(xScreen - x, yScreen - y);

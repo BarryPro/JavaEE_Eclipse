@@ -1,70 +1,70 @@
 package org.crazyit.foxmail.system;
 
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.ui.MailContext;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
 
 /**
- * тз╠╬╣ьо╣мЁжп╢╕юМсй╪Ч╣д╫с©з
+ * О©╫з╠О©╫О©╫О©╫о╣мЁО©╫п╢О©╫О©╫О©╫О©╫й╪О©╫О©╫д╫с©О©╫
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>мЬу╬: <a href="http://www.crazyit.org">╥Х©ЯJavaа╙цк</a>
+ * <br/>О©╫О©╫у╬: <a href="http://www.crazyit.org">О©╫О©╫О©╫JavaО©╫О©╫О©╫О©╫</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface SystemHandler {
 
 	/**
-	 * и╬ЁЩр╩╥Бсй╪Ч(╥е╣╫╩ьйуу╬)
+	 * и╬О©╫О©╫р╩О©╫О©╫О©╫й╪О©╫(О©╫е╣О©╫О©╫О©╫О©╫О©╫у╬)
 	 * @param mail
-	 * @param ctx ╦Ы╬щиообнд╣ц╣╫оЮ╧ь╣дд©б╪
+	 * @param ctx О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╣ц╣О©╫О©╫О©╫ь╣О©╫д©б╪
 	 */
 	void delete(Mail mail, MailContext ctx);
 	
 	/**
-	 * ╫╚сй╪Ч╠ё╢Фжаря╥╒км
+	 * О©╫О©╫О©╫й╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫я╥О©╫О©╫О©╫
 	 * @param mail
-	 * @param ctx ╦Ы╬щиообнд╣ц╣╫оЮ╧ь╣дд©б╪
+	 * @param ctx О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╣ц╣О©╫О©╫О©╫ь╣О©╫д©б╪
 	 */
 	void saveSent(Mail mail, MailContext ctx);
 	
 	/**
-	 * ╫╚сй╪Ч╠ё╢Фжа╥╒╪ЧоД
+	 * О©╫О©╫О©╫й╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	 * @param mail
-	 * @param ctx ╦Ы╬щиообнд╣ц╣╫оЮ╧ь╣дд©б╪
+	 * @param ctx О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╣ц╣О©╫О©╫О©╫ь╣О©╫д©б╪
 	 */
 	void saveOutBox(Mail mail, MailContext ctx);
 	
 	/**
-	 * ╠ё╢Фжа╡щ╦ЕоД
+	 * О©╫О©╫О©╫О©╫О©╫О©╫О©╫щ╦О©╫О©╫О©╫
 	 * @param mail
-	 * @param ctx ╦Ы╬щиообнд╣ц╣╫оЮ╧ь╣дд©б╪
+	 * @param ctx О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╣ц╣О©╫О©╫О©╫ь╣О©╫д©б╪
 	 */
 	void saveDraftBox(Mail mail, MailContext ctx);
 	
 	/**
-	 * Ё╧╣ви╬ЁЩсй╪Ч
+	 * О©╫О©╫О©╫О©╫и╬О©╫О©╫О©╫й╪О©╫
 	 * @param mail
-	 * @param ctx ╦Ы╬щиообнд╣ц╣╫оЮ╧ь╣дд©б╪
+	 * @param ctx О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╣ц╣О©╫О©╫О©╫ь╣О©╫д©б╪
 	 */
 	void realDelete(Mail mail, MailContext ctx);
 	
 	/**
-	 * ╠ё╢Ф╫ЬInBoxд©б╪
+	 * О©╫О©╫О©╫О©╫О©╫InBoxд©б╪
 	 * @param mail
 	 * @param ctx
 	 */
 	void saveInBox(Mail mail, MailContext ctx);
 	
 	/**
-	 * ╠ё╢Фр╩╥Бсй╪Чё╛╦цсй╪Чря╬╜╢Фтзсз╠╬╣ь╣дд©б╪жп
+	 * О©╫О©╫О©╫О©╫р╩О©╫О©╫О©╫й╪О©╫О©╫О©╫О©╫О©╫О©╫й╪О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫з╠О©╫О©╫ь╣О©╫д©б╪О©╫О©╫
 	 * @param mail
 	 * @param ctx
 	 */
 	void saveMail(Mail mail, MailContext ctx);
 	
 	/**
-	 * ╫╚тзю╛╩ЬоДжп╣дсй╪Ч╩╧т╜
+	 * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫п╣О©╫О©╫й╪О©╫О©╫О©╫т╜
 	 * @param mail
 	 * @param ctx
 	 */

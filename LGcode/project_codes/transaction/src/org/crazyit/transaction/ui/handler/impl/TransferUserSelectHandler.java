@@ -1,10 +1,10 @@
 package org.crazyit.transaction.ui.handler.impl;
 
-import org.crazyit.transaction.ui.dialog.TransferTransactionDialog;
-import org.crazyit.transaction.ui.handler.UserSelectHandler;
+import transaction.src.org.crazyit.transaction.ui.dialog.TransferTransactionDialog;
+import transaction.src.org.crazyit.transaction.ui.handler.UserSelectHandler;
 
 public class TransferUserSelectHandler implements UserSelectHandler {
-	//×ª·¢ÊÂÎñµÄ´¦Àí´°¿Ú
+	//×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½
 	private TransferTransactionDialog dialog;
 	public TransferUserSelectHandler(TransferTransactionDialog dialog) {
 		this.dialog = dialog;

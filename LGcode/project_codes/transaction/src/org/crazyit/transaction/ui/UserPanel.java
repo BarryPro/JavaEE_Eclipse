@@ -12,34 +12,31 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.ui.dialog.AddUserDialog;
-import org.crazyit.transaction.ui.table.UserTable;
-import org.crazyit.transaction.ui.table.UserTableModel;
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.ui.dialog.AddUserDialog;
+import transaction.src.org.crazyit.transaction.ui.table.UserTableModel;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 public class UserPanel extends BasePanel {
 	
 	private JScrollPane tableScrollPane;
 	
-	//Êý¾ÝÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private UserTable dataTable;
 	private UserTableModel tableModel;
 	
-	//²Ù×÷ÇøÓò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Box handleBox = Box.createVerticalBox();
 	
-	//²éÑ¯
+	//ï¿½ï¿½Ñ¯
 	private Box queryBox = Box.createHorizontalBox();
-	private JLabel userNameLabel = new JLabel("ÓÃ»§ÐÕÃû: ");
+	private JLabel userNameLabel = new JLabel("ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField realName = new JTextField(10);
-	private JButton queryButton = new JButton("²éÑ¯");
+	private JButton queryButton = new JButton("ï¿½ï¿½Ñ¯");
 	
-	//²Ù×÷
+	//ï¿½ï¿½ï¿½ï¿½
 	private Box operateBox = Box.createHorizontalBox();
-	private JButton newButton = new JButton("ÐÂ½¨ÓÃ»§");
-	private JButton deleteButton = new JButton("É¾³ýÓÃ»§");
+	private JButton newButton = new JButton("ï¿½Â½ï¿½ï¿½Ã»ï¿½");
+	private JButton deleteButton = new JButton("É¾ï¿½ï¿½ï¿½Ã»ï¿½");
 	
 	private AddUserDialog addUserDialog;
 	
@@ -78,7 +75,7 @@ public class UserPanel extends BasePanel {
 		});
 	}
 	
-	//²éÑ¯·½·¨
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	private void query() {
 		String realName = this.realName.getText();
 		List<User> users = ApplicationContext.userService.query(realName);
@@ -86,19 +83,19 @@ public class UserPanel extends BasePanel {
 		this.dataTable.updateUI();
 	}
 	
-	//µã»÷´ò¿ªÌí¼ÓÓÃ»§µÄ¶Ô»°¿ò´¥·¢µÄ·½·¨
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ä¶Ô»ï¿½ï¿½ò´¥·ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	private void addUser() {
 		this.addUserDialog.setVisible(true);
 	}
 	
-	//É¾³ýÓÃ»§
+	//É¾ï¿½ï¿½ï¿½Ã»ï¿½
 	private void deleteUser() {
 		String userId = ViewUtil.getSelectValue(this.dataTable, "id");
 		if (userId == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÐèÒª²Ù×÷µÄÓÃ»§", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½", this);
 			return;
 		}
-		int result = ViewUtil.showConfirm("ÊÇ·ñÒªÉ¾³ý?", this);
+		int result = ViewUtil.showConfirm("ï¿½Ç·ï¿½ÒªÉ¾ï¿½ï¿½?", this);
 		if (result == 0) {
 			try {
 				ApplicationContext.userService.delete(userId);
@@ -109,7 +106,7 @@ public class UserPanel extends BasePanel {
 		}
 	}
 	
-	//´´½¨ÊÂÎñÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private void createTable() {
 		this.tableModel = new UserTableModel();
 		this.dataTable = new UserTable(this.tableModel);
@@ -117,7 +114,7 @@ public class UserPanel extends BasePanel {
 		this.tableScrollPane = new JScrollPane(this.dataTable);
 	}
 	
-	//´´½¨²Ù×÷ÇøÓòBox
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 	private void createOperateBox() {
 		this.operateBox.add(this.newButton);
 		this.operateBox.add(Box.createHorizontalStrut(30));
@@ -125,14 +122,14 @@ public class UserPanel extends BasePanel {
 		this.handleBox.add(this.operateBox);
 	}
 	
-	//ÊµÏÖ¸¸ÀàµÄ³éÏó·½·¨, ¶ÁÈ¡Êý¾Ý
+	//Êµï¿½Ö¸ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ó·½·ï¿½, ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	public void readData() {
 		List<User> users = ApplicationContext.userService.getUsers();
 		this.tableModel.setDatas(users);
 		this.dataTable.updateUI();
 	}
 
-	//´´½¨²éÑ¯ÇøÓò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	private void createQueryBox() {
 		this.queryBox.add(Box.createHorizontalStrut(100));
 		this.queryBox.add(this.userNameLabel);

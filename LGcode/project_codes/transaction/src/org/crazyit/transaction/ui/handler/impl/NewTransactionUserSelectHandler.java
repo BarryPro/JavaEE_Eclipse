@@ -1,16 +1,16 @@
 package org.crazyit.transaction.ui.handler.impl;
 
-import org.crazyit.transaction.ui.dialog.NewTransactionDialog;
-import org.crazyit.transaction.ui.handler.UserSelectHandler;
+import transaction.src.org.crazyit.transaction.ui.dialog.NewTransactionDialog;
+import transaction.src.org.crazyit.transaction.ui.handler.UserSelectHandler;
 
 public class NewTransactionUserSelectHandler implements UserSelectHandler {
-	//ÐÂ½¨ÊÂÎñµÄ´°¿Ú
+	//ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
 	private NewTransactionDialog newDialog;
 	public NewTransactionUserSelectHandler(NewTransactionDialog newDialog) {
 		this.newDialog = newDialog;
 	}
 	public void confirm(String userId, String realName) {
-		//¸Ä±äÐÂÔö´°¿ÚµÄ´¦ÀíÈËÎÄ±¾¿òµÄÖµ
+		//ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½Öµ
 		this.newDialog.getHandlerField().setText(realName);
 		this.newDialog.getHandlerIdField().setText(userId);
 	}

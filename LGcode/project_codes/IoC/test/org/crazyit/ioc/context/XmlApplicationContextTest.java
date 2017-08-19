@@ -1,10 +1,10 @@
 package org.crazyit.ioc.context;
 
+import IoC.main.org.crazyit.ioc.context.XmlApplicationContext;
+import IoC.test.org.crazyit.ioc.context.object.XmlApplicationContextObject1;
+import IoC.test.org.crazyit.ioc.context.object.XmlApplicationContextObject2;
+import IoC.test.org.crazyit.ioc.context.object.XmlApplicationContextObject3;
 import junit.framework.TestCase;
-
-import org.crazyit.ioc.context.object.XmlApplicationContextObject1;
-import org.crazyit.ioc.context.object.XmlApplicationContextObject2;
-import org.crazyit.ioc.context.object.XmlApplicationContextObject3;
 
 public class XmlApplicationContextTest extends TestCase {
 
@@ -19,17 +19,17 @@ public class XmlApplicationContextTest extends TestCase {
 	}
 
 	public void testGetBean() {
-		//ÄÃµ½µÚÒ»¸ö, Ê¹ÓÃÎÞ²Î¹¹ÔìÆ÷´´½¨
+		//ï¿½Ãµï¿½ï¿½ï¿½Ò»ï¿½ï¿½, Ê¹ï¿½ï¿½ï¿½Þ²Î¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		XmlApplicationContextObject1 obj1 = (XmlApplicationContextObject1)ctx.getBean("test1");
 		assertNotNull(obj1);
 	}
 	
 	public void testSingleton() {
-		//test1ÊÇµ¥Ì¬bean
+		//test1ï¿½Çµï¿½Ì¬bean
 		XmlApplicationContextObject1 obj1 = (XmlApplicationContextObject1)ctx.getBean("test1");
 		XmlApplicationContextObject1 obj2 = (XmlApplicationContextObject1)ctx.getBean("test1");
 		assertEquals(obj1, obj2);
-		//test3²»ÊÇµ¥Ì¬bean
+		//test3ï¿½ï¿½ï¿½Çµï¿½Ì¬bean
 		XmlApplicationContextObject1 obj3 = (XmlApplicationContextObject1)ctx.getBean("test3");
 		XmlApplicationContextObject1 obj4 = (XmlApplicationContextObject1)ctx.getBean("test3");
 		assertFalse(obj3.equals(obj4));
@@ -37,7 +37,7 @@ public class XmlApplicationContextTest extends TestCase {
 	
 	public void testConstructInjection() {
 		XmlApplicationContextObject1 obj1 = (XmlApplicationContextObject1)ctx.getBean("test1");
-		//ÄÃµ½µÚ¶þ¸ö, Ê¹ÓÃ¶à²ÎÊý¹¹ÔìÆ÷´´½¨
+		//ï¿½Ãµï¿½ï¿½Ú¶ï¿½ï¿½ï¿½, Ê¹ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		XmlApplicationContextObject2 obj2 = (XmlApplicationContextObject2)ctx.getBean("test2");
 		assertNotNull(obj2);
 		assertEquals(obj2.getName(), "yangenxiong");
@@ -46,7 +46,7 @@ public class XmlApplicationContextTest extends TestCase {
 	}
 	
 	/*
-	 * ²âÊÔ×Ô¶¯×°Åä
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½×°ï¿½ï¿½
 	 */
 	public void testAutowire() {
 		
@@ -59,7 +59,7 @@ public class XmlApplicationContextTest extends TestCase {
 	}
 	
 	/*
-	 * ²âÊÔÊÇ·ñ°üº¬¸Ãbean
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bean
 	 */
 	public void testContainsBean() {
 		boolean result = ctx.containsBean("test1");
@@ -71,10 +71,10 @@ public class XmlApplicationContextTest extends TestCase {
 	}
 	
 	/*
-	 * ²âÊÔÑÓ³Ù¼ÓÔØ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ó³Ù¼ï¿½ï¿½ï¿½
 	 */
 	public void testLazyInit() {
-		//test5ÊÇÑÓ³Ù¼ÓÔØµÄ, Ã»ÓÐµ÷ÓÃ¹ýgetBean·½·¨, ÄÇÃ´ÈÝÆ÷ÖÐ¾Í²»»á´´½¨Õâ¸öbean
+		//test5ï¿½ï¿½ï¿½Ó³Ù¼ï¿½ï¿½Øµï¿½, Ã»ï¿½Ðµï¿½ï¿½Ã¹ï¿½getBeanï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½Ð¾Í²ï¿½ï¿½á´´ï¿½ï¿½ï¿½ï¿½ï¿½bean
 		Object obj = ctx.getBeanIgnoreCreate("test5");
 		assertNull(obj);
 		System.out.println(obj);
@@ -84,7 +84,7 @@ public class XmlApplicationContextTest extends TestCase {
 	}
 	
 	/*
-	 * ²âÊÔÉèÖµ×¢Èë
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ×¢ï¿½ï¿½
 	 */
 	public void testSetProperties() {
 		XmlApplicationContextObject3 obj1 = (XmlApplicationContextObject3)ctx.getBean("test6");

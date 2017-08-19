@@ -3,34 +3,32 @@ package org.crazyit.book.service;
 import java.util.Collection;
 import java.util.Date;
 
-import org.crazyit.book.vo.InRecord;
-
 /**
- * Èë¿â¼ÇÂ¼ÒµÎñ½Ó¿Ú
+ * ï¿½ï¿½ï¿½ï¿½Â¼Òµï¿½ï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface InRecordService {
 
 	/**
-	 * ±£´æÒ»ÌõÈë¿â¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
 	 * @param r
 	 */
 	void save(InRecord r);
 	
 	/**
-	 * ¸ù¾ÝÈÕÆÚ²éÕÒ¶ÔÓ¦µÄÈë¿â¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½Ò¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
 	 * @param date
 	 * @return
 	 */
 	Collection<InRecord> getAll(Date date);
 	
 	/**
-	 * ¸ù¾Ýid»ñµÃÈë¿â¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
 	 * @param id
 	 * @return
 	 */

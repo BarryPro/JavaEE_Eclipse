@@ -4,37 +4,35 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
-import org.crazyit.flashget.object.Resource;
-
 /**
- * ÏÂÔØÈÎÎñµÄ×´Ì¬½Ó¿Ú 
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ó¿ï¿½ 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface TaskState extends Serializable {
 
 	/**
-	 * ·µ»Ø¸Ã×´Ì¬ÏÂµÄÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½Ø¸ï¿½×´Ì¬ï¿½Âµï¿½Í¼Æ¬
 	 * @return
 	 */
 	ImageIcon getIcon();
 	
 	/**
-	 * ·µ»Ø×´Ì¬µÄ×Ö·û´®
+	 * ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	String getState();
 	
 	/**
-	 * ¸Ã×´Ì¬³õÊ¼»¯Ö´ÐÐµÄ·½·¨
+	 * ï¿½ï¿½×´Ì¬ï¿½ï¿½Ê¼ï¿½ï¿½Ö´ï¿½ÐµÄ·ï¿½ï¿½ï¿½
 	 */
 	void init(Resource resource);
 	
 	/**
-	 * ¸Ã×´Ì¬½áÊøÊ±Ö´ÐÐµÄ·½·¨
+	 * ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½Ê±Ö´ï¿½ÐµÄ·ï¿½ï¿½ï¿½
 	 */
 	void destory(Resource resouse);
 }

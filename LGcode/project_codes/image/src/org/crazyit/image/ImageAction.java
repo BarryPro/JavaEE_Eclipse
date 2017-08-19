@@ -1,20 +1,22 @@
 package org.crazyit.image;
 
-import org.crazyit.image.ImageFrame;
-import org.crazyit.image.tool.*;
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+import image.src.org.crazyit.image.tool.AbstractTool;
+import image.src.org.crazyit.image.tool.ToolFactory;
+
 /**
- * °´¼ü´¦ÀíÀà
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -26,54 +28,54 @@ public class ImageAction extends AbstractAction {
 	private JPanel colorPanel = null;
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param icon
-	 *            ImageIcon Í¼±ê
+	 *            ImageIcon Í¼ï¿½ï¿½
 	 * @param name
-	 *            Ãû×Ö
+	 *            ï¿½ï¿½ï¿½ï¿½
 	 * @param frame
 	 *            ImageFrame
 	 */
 	public ImageAction(Color color, JPanel colorPanel) {
-		// µ÷ÓÃ¸¸¹¹ÔìÆ÷
+		// ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		super();
 		this.color = color;
 		this.colorPanel = colorPanel;
 	}
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param icon
-	 *            ImageIcon Í¼±ê
+	 *            ImageIcon Í¼ï¿½ï¿½
 	 * @param name
-	 *            Ãû×Ö
+	 *            ï¿½ï¿½ï¿½ï¿½
 	 * @param frame
 	 *            ImageFrame
 	 */
 	public ImageAction(ImageIcon icon, String name, ImageFrame frame) {
-		// µ÷ÓÃ¸¸¹¹ÔìÆ÷
+		// ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		super("", icon);
 		this.name = name;
 		this.frame = frame;
 	}
 
 	/**
-	 * ÖØÐ´void actionPerformed( ActionEvent e )·½·¨
+	 * ï¿½ï¿½Ð´void actionPerformed( ActionEvent e )ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            ActionEvent
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// ÉèÖÃtool
+		// ï¿½ï¿½ï¿½ï¿½tool
 		tool = name != "" ? ToolFactory.getToolInstance(frame, name) : tool;
 		if (tool != null) {
-			// ÉèÖÃÕýÔÚÊ¹ÓÃµÄtool
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½tool
 			frame.setTool(tool);
 		}
 		if (color != null) {
-			// ÉèÖÃÕýÔÚÊ¹ÓÃµÄÑÕÉ«
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½É«
 			AbstractTool.color = color;
 			colorPanel.setBackground(color);
 		}

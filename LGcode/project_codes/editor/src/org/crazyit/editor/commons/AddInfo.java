@@ -1,26 +1,26 @@
 package org.crazyit.editor.commons;
 
-import org.crazyit.editor.EditorFrame;
-import org.crazyit.editor.handler.add.AddHandler;
+import editor.src.org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.handler.add.AddHandler;
 
 /**
- * Ìí¼ÓµÄĞÅÏ¢¶ÔÏó
+ * ï¿½ï¿½Óµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class AddInfo {
 
-	//×Ö·û´®, ÔÚĞÂÔö½çÃæµÄtextÇ°ÏÔÊ¾, ÀıÈç: ÎÄ¼şÃû³Æ
+	//ï¿½Ö·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½textÇ°ï¿½ï¿½Ê¾, ï¿½ï¿½ï¿½ï¿½: ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String info;
 	
-	//ÊÜĞÂÔö²Ù×÷Ó°ÏìµÄÖ÷frame
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½frame
 	private EditorFrame editorFrame;
 	
-	//ĞÂÔöÍêºóµÄ´¦ÀíÀà
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½
 	private AddHandler handler;
 	
 	public AddInfo(String info, EditorFrame editorFrame, AddHandler handler) {

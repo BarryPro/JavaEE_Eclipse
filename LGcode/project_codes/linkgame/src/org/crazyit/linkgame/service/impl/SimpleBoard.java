@@ -3,16 +3,15 @@ package org.crazyit.linkgame.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.linkgame.commons.GameConfiguration;
-import org.crazyit.linkgame.commons.Piece;
-import org.crazyit.linkgame.service.AbstractBoard;
+import linkgame.src.org.crazyit.linkgame.commons.GameConfiguration;
+import linkgame.src.org.crazyit.linkgame.service.AbstractBoard;
 
 /**
- * ´´½¨ÊúÐÎµÄÓÎÏ·ÇøÓò
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -23,11 +22,11 @@ public class SimpleBoard extends AbstractBoard {
 		List<Piece> notNullPieces = new ArrayList<Piece>();
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].length; j++) {
-				// ¼ÓÈëÅÐ¶Ï, ·ûºÏÒ»¶¨Ìõ¼þ²ÅÈ¥¹¹ÔìPiece¶ÔÏó, ²¢¼Óµ½¼¯ºÏÖÐ
-				if (i % 2 == 0) {// Èç¹ûxÄÜ±»2Õû³ý, ¼´µ¥ÊýÁÐ²»»á´´½¨Æå×Ó
-					// ÏÈ¹¹ÔìÒ»¸öPiece¶ÔÏó, Ö»ÉèÖÃÊý×éÖÐµÄÎ»ÖÃÎªi, j£¬ÆäËûÖµ²»ÉèÖÃ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½, ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				if (i % 2 == 0) {// ï¿½ï¿½ï¿½xï¿½Ü±ï¿½2ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½á´´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					// ï¿½È¹ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½, Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Î»ï¿½ï¿½Îªi, jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					Piece piece = new Piece(i, j);
-					// Ìí¼Óµ½·Ç¿ÕPiece¶ÔÏóµÄ¼¯ºÏÖÐ
+					// ï¿½ï¿½Óµï¿½ï¿½Ç¿ï¿½Pieceï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 					notNullPieces.add(piece);
 				}
 			}

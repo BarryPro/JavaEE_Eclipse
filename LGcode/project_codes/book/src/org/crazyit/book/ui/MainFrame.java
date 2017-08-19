@@ -11,37 +11,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 
-import org.crazyit.book.dao.BookDao;
-import org.crazyit.book.dao.BookInRecordDao;
-import org.crazyit.book.dao.BookSaleRecordDao;
-import org.crazyit.book.dao.ConcernDao;
-import org.crazyit.book.dao.InRecordDao;
-import org.crazyit.book.dao.SaleRecordDao;
-import org.crazyit.book.dao.TypeDao;
-import org.crazyit.book.dao.impl.BookDaoImpl;
-import org.crazyit.book.dao.impl.BookInRecordDaoImpl;
-import org.crazyit.book.dao.impl.BookSaleRecordDaoImpl;
-import org.crazyit.book.dao.impl.ConcernDaoImpl;
-import org.crazyit.book.dao.impl.InRecordDaoImpl;
-import org.crazyit.book.dao.impl.SaleRecordDaoImpl;
-import org.crazyit.book.dao.impl.TypeDaoImpl;
-import org.crazyit.book.service.BookService;
-import org.crazyit.book.service.ConcernService;
-import org.crazyit.book.service.InRecordService;
-import org.crazyit.book.service.SaleRecordService;
-import org.crazyit.book.service.TypeService;
-import org.crazyit.book.service.impl.BookServiceImpl;
-import org.crazyit.book.service.impl.ConcernServiceImpl;
-import org.crazyit.book.service.impl.InRecordServiceImpl;
-import org.crazyit.book.service.impl.SaleRecordServiceImpl;
-import org.crazyit.book.service.impl.TypeServiceImpl;
-
 /**
- * Ö÷½çÃæµÄJFrame
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JFrame
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -59,7 +34,7 @@ public class MainFrame extends JFrame{
 	
 	CommonPanel currentPanel;
 	
-	//ÒµÎñ½Ó¿Ú
+	//Òµï¿½ï¿½Ó¿ï¿½
 	TypeService typeService;
 	
 	ConcernService concernService;
@@ -70,19 +45,19 @@ public class MainFrame extends JFrame{
 	
 	InRecordService inRecordService;
 	
-	private Action sale = new AbstractAction("ÏúÊÛ¹ÜÀí", new ImageIcon("images/sale.gif")) {
+	private Action sale = new AbstractAction("ï¿½ï¿½ï¿½Û¹ï¿½ï¿½ï¿½", new ImageIcon("images/sale.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(salePanel);
 		}
 	};
 	
-	private Action repertory = new AbstractAction("¿â´æ¹ÜÀí", new ImageIcon("images/repertory.gif")) {
+	private Action repertory = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/repertory.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(repertoryPanel);
 		}
 	};
 
-	private Action book = new AbstractAction("Êé±¾¹ÜÀí", new ImageIcon("images/book.gif")) {
+	private Action book = new AbstractAction("ï¿½é±¾ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/book.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(bookPanel);
 			bookPanel.initImage();
@@ -90,13 +65,13 @@ public class MainFrame extends JFrame{
 		}
 	};
 	
-	private Action type = new AbstractAction("ÖÖÀà¹ÜÀí", new ImageIcon("images/type.gif")) {
+	private Action type = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/type.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(typePanel);
 		}
 	};
 	
-	private Action concern = new AbstractAction("³ö°æÉç¹ÜÀí", new ImageIcon("images/concern.gif")) {
+	private Action concern = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/concern.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(concernPanel);
 		}
@@ -127,43 +102,43 @@ public class MainFrame extends JFrame{
 		menu.add(type).setAccelerator(KeyStroke.getKeyStroke('T', InputEvent.CTRL_MASK));
 		menu.add(concern).setAccelerator(KeyStroke.getKeyStroke('T', InputEvent.CTRL_MASK));
 		
-		//ÈÃ½çÃæ×÷ÎªµÚÒ»ÏÔÊ¾½çÃæ
+		//ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ò»ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
 		this.salePanel = new SalePanel(this.bookService, this.saleRecordService);
 		this.add(salePanel);
 		this.currentPanel = salePanel;
-		//³õÊ¼»¯ÏúÊÛ½çÃæµÄÊý¾Ý
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Û½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.salePanel.initData();
 		
-		//³õÊ¼»¯¿â´æ¹ÜÀí½çÃæ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		repertoryPanel = new RepertoryPanel(this.inRecordService, this.bookService);
-		//³õÊ¼»¯Êé±¾¹ÜÀí½çÃæ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bookPanel = new BookPanel(this.bookService, this.typeService, 
 				this.concernService);
-		//³õÊ¼»¯³ö°æÉç¹ÜÀí½çÃæ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		concernPanel = new ConcernPanel(this.concernService);
-		//³õÊ¼»¯ÖÖÀà¹ÜÀí½çÃæ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		typePanel = new TypePanel(this.typeService);
 		
 		this.setJMenuBar(menuBar);
-		this.setTitle("Í¼Êé½ø´æÏú¹ÜÀíÏµÍ³");
+		this.setTitle("Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setVisible(true);
 	}
 	
-	//ÇÐ»»¸÷¸ö½çÃæ
+	//ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void changePanel(CommonPanel commonPanel) {
-		//ÒÆ³ýµ±Ç°ÏÔÊ¾µÄJPanel
+		//ï¿½Æ³ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ê¾ï¿½ï¿½JPanel
 		this.remove(currentPanel);
-		//Ìí¼ÓÐèÒªÏÔÊ¾µÄJPanel
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê¾ï¿½ï¿½JPanel
 		this.add(commonPanel);
-		//ÉèÖÃµ±Ç°µÄJPanel
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½JPanel
 		this.currentPanel = commonPanel;
 		this.repaint();
 		this.setVisible(true);
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		commonPanel.setViewDatas();
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		commonPanel.clear();
 	}
 	

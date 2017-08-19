@@ -2,12 +2,10 @@ package org.crazyit.transaction.service;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.Role;
-
 public interface RoleService {
 
 	/**
-	 * ²éÕÒÈ«²¿µÄ½ÇÉ«
+	 * ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½Ä½ï¿½É«
 	 * @return
 	 */
 	List<Role> getRoles();

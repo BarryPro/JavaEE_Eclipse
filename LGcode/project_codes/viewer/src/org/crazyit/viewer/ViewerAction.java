@@ -1,21 +1,17 @@
 package org.crazyit.viewer;
 
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import org.crazyit.viewer.action.Action;
-
 /**
- * ¹¤¾ßÀ¸µÄActionÀà
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Actionï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -23,35 +19,35 @@ public class ViewerAction extends AbstractAction {
 	private String actionName = "";
 	private ViewerFrame frame = null;
 	
-	//Õâ¸ö¹¤¾ßÀ¸µÄAbstractActionËù¶ÔÓ¦µÄorg.crazyit.viewer.action°üµÄÄ³¸öActionÊµÈ«
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AbstractActionï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½org.crazyit.viewer.actionï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ActionÊµÈ«
 	private Action action = null;
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 */
 	public ViewerAction() {
-		// µ÷ÓÃ¸¸¹¹ÔìÆ÷
+		// ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		super();
 	}
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param icon
-	 *            ImageIcon Í¼±ê
+	 *            ImageIcon Í¼ï¿½ï¿½
 	 * @param name
 	 *            String
 	 */
 	public ViewerAction(ImageIcon icon, String actionName, ViewerFrame frame) {
-		// µ÷ÓÃ¸¸¹¹ÔìÆ÷
+		// ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		super("", icon);
 		this.actionName = actionName;
 		this.frame = frame;
 	}
 
 	/**
-	 * ÖØÐ´void actionPerformed( ActionEvent e )·½·¨
+	 * ï¿½ï¿½Ð´void actionPerformed( ActionEvent e )ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            ActionEvent
@@ -59,19 +55,19 @@ public class ViewerAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		ViewerService service = ViewerService.getInstance();
 		Action action = getAction(this.actionName);
-		//µ÷ÓÃActionµÄexecute·½·¨
+		//ï¿½ï¿½ï¿½ï¿½Actionï¿½ï¿½executeï¿½ï¿½ï¿½ï¿½
 		action.execute(service, frame);
 	}
 	
 	/**
-	 * Í¨¹ýactionNameµÃµ½¸ÃÀàµÄÊµÀý
+	 * Í¨ï¿½ï¿½actionNameï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 	 * @param actionName
 	 * @return
 	 */
 	private Action getAction(String actionName) {
 		try {
 			if (this.action == null) {
-				//´´½¨ActionÊµÀý
+				//ï¿½ï¿½ï¿½ï¿½ActionÊµï¿½ï¿½
 				Action action = (Action)Class.forName(actionName).newInstance();
 				this.action = action;
 			}

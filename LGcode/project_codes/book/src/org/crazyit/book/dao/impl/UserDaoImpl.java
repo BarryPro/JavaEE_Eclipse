@@ -3,15 +3,12 @@ package org.crazyit.book.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.book.dao.UserDao;
-import org.crazyit.book.vo.User;
-
 /**
- * ÓÃ»§DAOÊµÏÖÀà
+ * ï¿½Ã»ï¿½DAOÊµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */

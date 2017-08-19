@@ -1,30 +1,28 @@
 package org.crazyit.foxmail.ui;
 
-import java.awt.Color;
-
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableModel;
 
 /**
- * ÓÊ¼þÁÐ±í¶ÔÏó
+ * ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class MailListTable extends JTable {
 	public MailListTable(TableModel dm) {
 		super(dm);
-		//Ö»ÄÜÑ¡ÔñÒ»ÐÐ
+		//Ö»ï¿½ï¿½Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½
 		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		//È¥µô±í¸ñµÄÏß
+		//È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setShowHorizontalLines(false);
 		setShowVerticalLines(false);
 	}
-	//ÈÃÁÐ±í²»¿É±à¼­
+	//ï¿½ï¿½ï¿½Ð±ï¿½ï¿½É±à¼­
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}

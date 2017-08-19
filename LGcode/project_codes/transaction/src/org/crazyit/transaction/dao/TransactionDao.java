@@ -2,12 +2,12 @@ package org.crazyit.transaction.dao;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.model.Transaction;
 
 public interface TransactionDao {
 
 	/**
-	 * ¸ù¾İ´¦ÀíÈËIDÓëÊÂÎñ×´Ì¬²éÕÒÊÂÎñ
+	 * ï¿½ï¿½ï¿½İ´ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param state
 	 * @param userId
 	 * @return
@@ -15,13 +15,13 @@ public interface TransactionDao {
 	List<Transaction> findHandlerTransactions(String state, String userId);
 	
 	/**
-	 * ±£´æÊÂÎñ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param t
 	 */
 	void save(Transaction t);
 	
 	/**
-	 * ¸ù¾İ·¢ÆğÈËIDÓëÊÂÎñ×´Ì¬²éÕÒÊÂÎñ
+	 * ï¿½ï¿½ï¿½İ·ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param state
 	 * @param userId
 	 * @return
@@ -29,45 +29,45 @@ public interface TransactionDao {
 	List<Transaction> findInitiatorTransactions(String state, String userId);
 	
 	/**
-	 * ´ß°ìÊÂÎñ
+	 * ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 */
 	void hurry(String id);
 	
 	/**
-	 * ½«ÊÂÎñÖÃÎªÎŞĞ§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ğ§
 	 * @param id
 	 */
 	void invalid(String id);
 		
 	/**
-	 * ¸ù¾İID²éÕÒÊÂÎñ
+	 * ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */
 	Transaction find(String id);
 	
 	/**
-	 * ½«ÊÂÎñ×´Ì¬¸Ä±äÎªÔİÊ±²»×ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ä±ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 */
 	void forAWhile(String id);
 	
 	/**
-	 * ½«ÊÂÎñ×´Ì¬¸Ä±äÎª²»×ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ä±ï¿½Îªï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 */
 	void notToDo(String id);
 	
 	/**
-	 * ½«ÊÂÎñ×´Ì¬¸Ä±äÎªÍê³É
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ä±ï¿½Îªï¿½ï¿½ï¿½
 	 * @param id
-	 * @param date Íê³ÉÈÕÆÚ
+	 * @param date ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	void finish(String id, String date);
 	
 	/**
-	 *  ¸Ä±äÊÂÎñµÄ´¦ÀíÈË
+	 *  ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param currentHandlerId
 	 * @param preHandlerId
 	 * @param transactionId

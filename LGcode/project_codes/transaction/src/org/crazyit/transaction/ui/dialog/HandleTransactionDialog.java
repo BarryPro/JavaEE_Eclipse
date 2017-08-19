@@ -14,42 +14,40 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.crazyit.transaction.model.Comment;
-import org.crazyit.transaction.model.Transaction;
-import org.crazyit.transaction.ui.MyTransactionPanel;
-import org.crazyit.transaction.ui.handler.TransactionHandler;
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.ui.MyTransactionPanel;
+import transaction.src.org.crazyit.transaction.ui.handler.TransactionHandler;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 /**
- * ´¦ÀíÊÂÎñ½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class HandleTransactionDialog extends JDialog {
 
-	//±êÌâ
-	private JLabel titleLabel = new JLabel("±êÌâ: ");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel titleLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField title = new JTextField(10);
 	//ID
 	private JTextField transationId = new JTextField();
 	
-	//ÄÚÈÝ
+	//ï¿½ï¿½ï¿½ï¿½
 	
-	private JLabel contentLabel = new JLabel("ËµÃ÷: ");
+	private JLabel contentLabel = new JLabel("Ëµï¿½ï¿½: ");
 	private JTextArea content = new JTextArea(10, 40);
 	private JScrollPane contentPane = new JScrollPane(content);
 	
-	//°´Å¥
-	private JButton confirmButton = new JButton("´¦Àí");
-	private JButton cancelButton = new JButton("È¡Ïû");
+	//ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("ï¿½ï¿½ï¿½ï¿½");
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
 	
 	private Transaction t;
 	
-	//ÊÂÎñ´¦ÀíÀà
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private TransactionHandler handler;
 	
 	private MyTransactionPanel myPanel;
@@ -58,19 +56,19 @@ public class HandleTransactionDialog extends JDialog {
 		this.myPanel = myPanel;
 		this.title.setEditable(false);
 		this.transationId.setVisible(false);
-		//±êÌâ
+		//ï¿½ï¿½ï¿½ï¿½
 		Box titleBox = Box.createHorizontalBox();
 		titleBox.add(Box.createHorizontalStrut(30));
 		titleBox.add(this.titleLabel);
 		titleBox.add(this.title);
 		titleBox.add(Box.createHorizontalStrut(30));
-		//ÄÚÈÝ
+		//ï¿½ï¿½ï¿½ï¿½
 		Box contentBox = Box.createHorizontalBox();
 		contentBox.add(Box.createHorizontalStrut(30));
 		contentBox.add(this.contentLabel);
 		contentBox.add(this.contentPane);
 		contentBox.add(Box.createHorizontalStrut(30));
-		//°´Å¥
+		//ï¿½ï¿½Å¥
 		Box buttonBox = Box.createHorizontalBox();
 		buttonBox.add(this.confirmButton);
 		buttonBox.add(Box.createHorizontalStrut(40));
@@ -87,18 +85,18 @@ public class HandleTransactionDialog extends JDialog {
 		this.add(mainBox);	
 		this.pack();
 		this.setResizable(false);
-		this.setTitle("´¦ÀíÊÂÎñ");
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation((int)screen.getWidth()/4, (int)screen.getHeight()/5);
 		initListeners();
 	}
 	
-	//ÈÃÍâ½çÈ¥ÉèÖÃÊÂÎñ´¦ÀíÀà
+	//ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void setHandler(TransactionHandler handler) {
 		this.handler = handler;
 	}
 	
-	//ÈÃÍâ½çÉèÖÃÏàÓ¦µÄÊÂÎñ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void setTransaction(Transaction t) {
 		this.t = t;
 	}
@@ -112,7 +110,7 @@ public class HandleTransactionDialog extends JDialog {
 		}
 	}
 
-	//³õÊ¼»¯°´Å¥¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
 		this.confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -126,7 +124,7 @@ public class HandleTransactionDialog extends JDialog {
 		});
 	}
 	
-	//È·¶¨½øÐÐÊÂÎñ´¦Àí
+	//È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void confirm() {
 		Comment comment = new Comment();
 		comment.setCM_CONTENT(this.content.getText());
@@ -134,9 +132,9 @@ public class HandleTransactionDialog extends JDialog {
 		comment.setTRANSACTION_ID(this.transationId.getText());
 		comment.setUSER_ID(ApplicationContext.loginUser.getID());
 		try {
-			//´¦ÀíÆÀÂÛÓëÉèÖÃÊÂÎñ×´Ì¬
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 			this.handler.handler(comment);
-			//Ë¢ÐÂ½çÃæÁÐ±í
+			//Ë¢ï¿½Â½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 			this.myPanel.readData();
 			this.setVisible(false);
 		} catch (Exception e) {

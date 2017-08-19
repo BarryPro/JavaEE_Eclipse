@@ -2,20 +2,12 @@ package org.crazyit.book.service.impl;
 
 import java.util.Collection;
 
-import org.crazyit.book.dao.BookDao;
-import org.crazyit.book.dao.ConcernDao;
-import org.crazyit.book.dao.TypeDao;
-import org.crazyit.book.service.BookService;
-import org.crazyit.book.vo.Book;
-import org.crazyit.book.vo.Concern;
-import org.crazyit.book.vo.Type;
-
 /**
- * Êé±¾ÒµÎñÊµÏÖÀà
+ * ï¿½é±¾Òµï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -36,9 +28,9 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Book get(String id) {
 		Book book = bookDao.find(id);
-		//²éÕÒÊé¶ÔÓ¦µÄÖÖÀà
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Type type = typeDao.find(book.getTYPE_ID_FK());
-		//²éÕÒÊéµÄ³ö°æÉç
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½
 		Concern concern = concernDao.find(book.getPUB_ID_FK());
 		book.setType(type);
 		book.setConcern(concern);
@@ -48,17 +40,17 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Collection<Book> getAll() {
 		Collection<Book> result = bookDao.findAll();
-		//µ÷ÓÃsetAssociate·½·¨ÉèÖÃ¹ØÁªµÄÁ½¸ö¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½setAssociateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		return setAssociate(result);
 	}
 	
-	//ÉèÖÃ¹ØÏµ¶ÔÏó
+	//ï¿½ï¿½ï¿½Ã¹ï¿½Ïµï¿½ï¿½ï¿½ï¿½
 	private Collection<Book> setAssociate(Collection<Book> result) {
-		//±éÀú½á¹û¼¯ºÏ£¬ÉèÖÃÃ¿Ò»¸öÊéµÄ¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 		for (Book book : result) {
-			//²éÕÒ³ö¶ÔÓ¦µÄÖÖÀà£¬ÔÙÎªÊéÉèÖÃÖÖÀà¶ÔÏó
+			//ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			book.setType(typeDao.find(book.getTYPE_ID_FK()));
-			//²éÕÒ³ö¶ÔÓ¦µÄ³ö°æÉç£¬ÔÙÎªÊéÉèÖÃ³ö°æÉç¶ÔÏó
+			//ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ó¦ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ç£¬ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			book.setConcern(concernDao.find(book.getPUB_ID_FK()));
 		}
 		return result;

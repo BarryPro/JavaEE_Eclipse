@@ -1,7 +1,5 @@
 package org.crazyit.ioc.context;
 
-import java.io.File;
-import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,56 +8,54 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.crazyit.ioc.context.exception.BeanCreateException;
-import org.crazyit.ioc.xml.DocumentHolder;
-import org.crazyit.ioc.xml.ElementLoader;
-import org.crazyit.ioc.xml.ElementLoaderImpl;
-import org.crazyit.ioc.xml.ElementReader;
-import org.crazyit.ioc.xml.ElementReaderImpl;
-import org.crazyit.ioc.xml.XmlDocumentHolder;
-import org.crazyit.ioc.xml.autowire.Autowire;
-import org.crazyit.ioc.xml.autowire.ByNameAutowire;
-import org.crazyit.ioc.xml.autowire.NoAutowire;
-import org.crazyit.ioc.xml.construct.DataElement;
-import org.crazyit.ioc.xml.construct.RefElement;
-import org.crazyit.ioc.xml.construct.ValueElement;
-import org.crazyit.ioc.xml.property.PropertyElement;
-import org.dom4j.Document;
-import org.dom4j.Element;
+import IoC.main.org.crazyit.ioc.context.exception.BeanCreateException;
+import IoC.main.org.crazyit.ioc.xml.DocumentHolder;
+import IoC.main.org.crazyit.ioc.xml.ElementLoader;
+import IoC.main.org.crazyit.ioc.xml.ElementLoaderImpl;
+import IoC.main.org.crazyit.ioc.xml.ElementReader;
+import IoC.main.org.crazyit.ioc.xml.ElementReaderImpl;
+import IoC.main.org.crazyit.ioc.xml.XmlDocumentHolder;
+import IoC.main.org.crazyit.ioc.xml.autowire.Autowire;
+import IoC.main.org.crazyit.ioc.xml.autowire.ByNameAutowire;
+import IoC.main.org.crazyit.ioc.xml.autowire.NoAutowire;
+import IoC.main.org.crazyit.ioc.xml.construct.DataElement;
+import IoC.main.org.crazyit.ioc.xml.construct.RefElement;
+import IoC.main.org.crazyit.ioc.xml.construct.ValueElement;
+import IoC.main.org.crazyit.ioc.xml.property.PropertyElement;
 
 /**
- * IoCÈÝÆ÷³éÏóÀà
+ * IoCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public abstract class AbstractApplicationContext implements ApplicationContext {
 
-	//ÔªËØ¼ÓÔØ¶ÔÏó
+	//Ôªï¿½Ø¼ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
 	protected ElementLoader elementLoader = new ElementLoaderImpl();
 	
-	//ÎÄµµ³ÖÓÐ¶ÔÏó
+	//ï¿½Äµï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½
 	protected DocumentHolder documentHolder = new XmlDocumentHolder();
 	
-	//»º´æµÄbeans
+	//ï¿½ï¿½ï¿½ï¿½ï¿½beans
 	protected Map<String, Object> beans = new HashMap<String, Object>();
 	
-	//ÊôÐÔ´¦ÀíÀà
+	//ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½
 	protected PropertyHandler propertyHandler = new PropertyHandlerImpl();
 	
-	//´´½¨bean¶ÔÏóµÄ½Ó¿Ú
+	//ï¿½ï¿½ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½Ä½Ó¿ï¿½
 	protected BeanCreator beanCreator = new BeanCreatorImpl();
 	
-	//ElementÔªËØ¶ÁÈ¡Àà
+	//ElementÔªï¿½Ø¶ï¿½È¡ï¿½ï¿½
 	protected ElementReader elementReader = new ElementReaderImpl();
 	
 	
 	
 	/**
-	 * ¶ÁÈ¡xmlÎÄ¼þ, ½«¸÷¸öÔªËØ»º´æ
+	 * ï¿½ï¿½È¡xmlï¿½Ä¼ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø»ï¿½ï¿½ï¿½
 	 * @param xmlPaths
 	 */
 	protected void setUpElements(String[] xmlPaths) {
@@ -77,18 +73,18 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	}
 	
 	/**
-	 * ´´½¨ËùÓÐµÄbeanÊµÀý, ÑÓ³Ù¼ÓÔØµÄ²»´´½¨
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½beanÊµï¿½ï¿½, ï¿½Ó³Ù¼ï¿½ï¿½ØµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	protected void createBeans() {
 		Collection<Element> elements = elementLoader.getElements();
 		for (Element e : elements) {
 			boolean lazy = elementReader.isLazy(e);
-			//Èç¹û²»ÊÇÑÓ³Ù¼ÓÔØ, ÔÙÅÐ¶ÏÊÇ·ñµ¥Ì¬
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³Ù¼ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Ì¬
 			if (!lazy) {
 				String id = e.attributeValue("id");
 				Object bean = this.getBean(id);
 				if (bean == null) {
-					//´¦µ¥bean, Èç¹ûÊÇµ¥Ì¬µÄ, ¼Óµ½»º´æÖÐ, ·Çµ¥Ì¬Ôò²»´´½¨
+					//ï¿½ï¿½ï¿½ï¿½bean, ï¿½ï¿½ï¿½ï¿½Çµï¿½Ì¬ï¿½ï¿½, ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Çµï¿½Ì¬ï¿½ò²»´ï¿½ï¿½ï¿½
 					handleSingleton(id);
 				}
 			}
@@ -96,21 +92,21 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	}
 	
 	/**
-	 * ´¦Àíbean, Èç¹ûÊÇµ¥Ì¬µÄ, Ôò¼Óµ½mapÖÐ, ·Çµ¥Ì¬, Ôò´´½¨·µ»Ø
+	 * ï¿½ï¿½ï¿½ï¿½bean, ï¿½ï¿½ï¿½ï¿½Çµï¿½Ì¬ï¿½ï¿½, ï¿½ï¿½Óµï¿½mapï¿½ï¿½, ï¿½Çµï¿½Ì¬, ï¿½ò´´½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */
 	protected Object handleSingleton(String id) {
 		Object bean = createBean(id);;
 		if (isSingleton(id)) {
-			//µ¥Ì¬µÄ»°, ·Åµ½mapÖÐ
+			//ï¿½ï¿½Ì¬ï¿½Ä»ï¿½, ï¿½Åµï¿½mapï¿½ï¿½
 			this.beans.put(id, bean);
 		}
 		return bean;
 	}
 	
 	/**
-	 * ´´½¨Ò»¸öbeanÊµÀý, Èç¹ûÕÒ²»µ½¸Ãbean¶ÔÓ¦µÄÅäÖÃÎÄ¼þµÄElement¶ÔÏó, Å×³öÒì³£
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½beanÊµï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½beanï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Elementï¿½ï¿½ï¿½ï¿½, ï¿½×³ï¿½ï¿½ì³£
 	 * @param id
 	 * @return
 	 */
@@ -118,42 +114,42 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		Element e = elementLoader.getElement(id);
 		if (e == null) throw new BeanCreateException("element not found " + id);
 		Object result = instance(e);
-		System.out.println("´´½¨bean: " + id);
-		System.out.println("¸ÃbeanµÄ¶ÔÏóÊÇ: " + result);
-		//ÉèÖµ×¢Èë, ÏÈÅÐ¶ÏÊÇ·ñ×Ô¶¯×°Åä
+		System.out.println("ï¿½ï¿½ï¿½ï¿½bean: " + id);
+		System.out.println("ï¿½ï¿½beanï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½: " + result);
+		//ï¿½ï¿½Öµ×¢ï¿½ï¿½, ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ô¶ï¿½×°ï¿½ï¿½
 		Autowire autowire = elementReader.getAutowire(e);
 		if (autowire instanceof ByNameAutowire) {
-			//Ê¹ÓÃÃû³Æ×Ô¶¯×°Åä
+			//Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½×°ï¿½ï¿½
 			autowireByName(result);
 		} else if (autowire instanceof NoAutowire) {
-			//²»×Ô¶¯×°Åä, Í¨¹ý<property>ÊôÐÔ
+			//ï¿½ï¿½ï¿½Ô¶ï¿½×°ï¿½ï¿½, Í¨ï¿½ï¿½<property>ï¿½ï¿½ï¿½ï¿½
 			setterInject(result, e);
 		}
 		return result;
 	}
 	
 	/**
-	 * ÊµÀý»¯Ò»¸öbean, Èç¹û¸ÃbeanµÄÅäÖÃÓÐconstructor-argÔªËØ, ÄÇÃ´Ê¹ÓÃ´ø²ÎÊýµÄ¹¹ÔìÆ÷
+	 * Êµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½bean, ï¿½ï¿½ï¿½ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½constructor-argÔªï¿½ï¿½, ï¿½ï¿½Ã´Ê¹ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param e
 	 * @return
 	 */
 	protected Object instance(Element e) {
 		String className = elementReader.getAttribute(e, "class");
-		//µÃµ½bean½ÚµãÏÂÃæµÄconstructor-arg½Úµã
+		//ï¿½Ãµï¿½beanï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½constructor-argï¿½Úµï¿½
 		List<Element> constructorElements = elementReader.getConstructorElements(e);
-		//ÅÐ¶ÏÊ¹ÓÃÊ²Ã´¹¹ÔìÆ÷½øÐÐ´´½¨(ÅÐ¶Ï±ê×¼ÎªbeanÔªËØÏÂÊÇ·ñÓÐconstructor-arg×ÓÔªËØ)
+		//ï¿½Ð¶ï¿½Ê¹ï¿½ï¿½Ê²Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½(ï¿½Ð¶Ï±ï¿½×¼ÎªbeanÔªï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½constructor-argï¿½ï¿½Ôªï¿½ï¿½)
 		if (constructorElements.size() == 0) {
-			//Ã»ÓÐconstructor-arg×ÓÔªËØ, Ê¹ÓÃÎÞ²Î¹¹ÔìÆ÷
+			//Ã»ï¿½ï¿½constructor-argï¿½ï¿½Ôªï¿½ï¿½, Ê¹ï¿½ï¿½ï¿½Þ²Î¹ï¿½ï¿½ï¿½ï¿½ï¿½
 			return beanCreator.createBeanUseDefaultConstruct(className);
 		} else {
-			//ÓÐconstructor-arg×ÓÔªËØ, Ê¹ÓÃÓÐ²ÎÊý¹¹ÔìÆ÷, ¹¹Ôì×¢Èë²ÎÊý
+			//ï¿½ï¿½constructor-argï¿½ï¿½Ôªï¿½ï¿½, Ê¹ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½
 			List<Object> args = getConstructArgs(e);
 			return beanCreator.createBeanUseDefineConstruce(className, args);
 		}
 	}
 		
 	/**
-	 * Í¨¹ýpropertyÔªËØÎª²ÎÊýobjÉèÖÃÊôÐÔ
+	 * Í¨ï¿½ï¿½propertyÔªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½objï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param obj
 	 * @param e
 	 */
@@ -164,7 +160,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	}
 	
 	/**
-	 * ÒÔmapµÄÐÎÊ½µÃµ½ÐèÒª×¢ÈëµÄ²ÎÊý¶ÔÏó, keyÎªsetter·½·¨Ãû(²»Òªset), valueÎª²ÎÊý¶ÔÏó
+	 * ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½Ê½ï¿½Ãµï¿½ï¿½ï¿½Òª×¢ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, keyÎªsetterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Òªset), valueÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param properties
 	 * @return
 	 */
@@ -173,7 +169,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		for (PropertyElement p : properties) {
 			DataElement de = p.getDataElement();
 			if (de instanceof RefElement) {
-				//´ÓÈÝÆ÷ÖÐµÃµ½beanµÄÊµÀý, ÔÙÉèÖÃÈëmapÖÐ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÃµï¿½beanï¿½ï¿½Êµï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½
 				result.put(p.getName(), this.getBean((String)de.getValue()));
 			} else if (de instanceof ValueElement) {
 				result.put(p.getName(), de.getValue());
@@ -183,7 +179,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	}
 	
 	/**
-	 * µÃµ½Ò»¸öbeanÀïÃæÅäÖÃµÄ¹¹Ôì²ÎÊý
+	 * ï¿½Ãµï¿½Ò»ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param e
 	 * @return
 	 */
@@ -195,7 +191,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 				d = (ValueElement)d;
 				result.add(d.getValue());
 			} else if (d instanceof RefElement) {
-				//Èç¹ûÊÇÒýÓÃÔªËØ, ÔòÖ±½Óµ÷getBeanÈ¥»ñÈ¡(»ñÈ¡²»µ½Ôò´´½¨)
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½, ï¿½ï¿½Ö±ï¿½Óµï¿½getBeanÈ¥ï¿½ï¿½È¡(ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ò´´½ï¿½)
 				d = (RefElement)d;
 				String refId = (String)d.getValue();
 				result.add(this.getBean(refId));
@@ -205,46 +201,46 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	}
 	
 	/**
-	 * ×Ô¶¯×°ÅäÒ»¸ö¶ÔÏó, µÃµ½¸ÃbeanµÄËùÓÐsetter·½·¨, ÔÙ´ÓÈÝÆ÷ÖÐ²éÕÒ¶ÔÓ¦µÄbean
-	 * ÀýÈç, Èç¹ûbeanÖÐÓÐÒ»¸ösetSchool(School)·½·¨, ÄÇÃ´¾ÍÈ¥²éÃû×ÖÎªschoolµÄbean, 
-	 * ÔÙµ÷ÓÃsetSchool·½·¨ÉèÈë¶ÔÏóÖÐ
+	 * ï¿½Ô¶ï¿½×°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ãµï¿½ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½, ï¿½Ù´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½Ò¶ï¿½Ó¦ï¿½ï¿½bean
+	 * ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½setSchool(School)ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ã´ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªschoolï¿½ï¿½bean, 
+	 * ï¿½Ùµï¿½ï¿½ï¿½setSchoolï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param obj
 	 */
 	protected void autowireByName(Object obj) {
 		Map<String, Method> methods = propertyHandler.getSetterMethodsMap(obj);
 		for (String s : methods.keySet()) {
-			//µÃµ½¶ÔÓ¦µÄbeanÔªËØ
+			//ï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½beanÔªï¿½ï¿½
 			Element e = elementLoader.getElement(s);
-			//Ã»ÓÐ¶ÔÓ¦µÄÔªËØÅäÖÃ, ¼ÌÐøÑ­»·
+			//Ã»ï¿½Ð¶ï¿½Ó¦ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 			if (e == null) continue;
-			//µ÷ÓÃgetBean·½·¨·µ»Øbean
+			//ï¿½ï¿½ï¿½ï¿½getBeanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bean
 			Object bean = this.getBean(s);
-			//Ö´ÐÐ¶ÔÏóµÄsetter·½·¨
+			//Ö´ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½
 			Method method = methods.get(s);
 			propertyHandler.executeMethod(obj, bean, method);
 		}
 	}
 	
 	public boolean containsBean(String id) {
-		//µ÷ÓÃElementLoader¶ÔÏó, ¸ù¾ÝidµÃµ½¶ÔÓ¦µÄElement¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½ElementLoaderï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½idï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Elementï¿½ï¿½ï¿½ï¿½
 		Element e = elementLoader.getElement(id);
 		return (e == null) ? false : true;
 	}
 
 	public Object getBean(String id) {
 		Object bean = this.beans.get(id);
-		//Èç¹û»ñÈ¡²»µ½¸Ãbean, Ôò´´½¨
+		//ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bean, ï¿½ò´´½ï¿½
 		if (bean == null) {
-			//ÅÐ¶Ï´¦Àíµ¥Ì¬»òÕß·Çµ¥Ì¬µÄbean
+			//ï¿½Ð¶Ï´ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ß·Çµï¿½Ì¬ï¿½ï¿½bean
 			bean = handleSingleton(id);
 		}
 		return bean;
 	}
 
 	public boolean isSingleton(String id) {
-		//Ê¹ÓÃElementLoader·½·¨»ñµÃ¶ÔÓ¦µÄElement
+		//Ê¹ï¿½ï¿½ElementLoaderï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½Ó¦ï¿½ï¿½Element
 		Element e = elementLoader.getElement(id);
-		//Ê¹ÓÃElementReaderÅÐ¶ÏÊÇ·ñÎªµ¥Ì¬
+		//Ê¹ï¿½ï¿½ElementReaderï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½Ì¬
 		return elementReader.isSingleton(e);
 	}
 

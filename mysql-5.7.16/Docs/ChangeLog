@@ -1,0 +1,51 @@
+commit 901c8cbd555c2a94218e2fc64a966b58b39932f4
+Author: Robert Golebiowski <robert.golebiowski@oracle.com>
+Date:   Tue Sep 27 11:21:02 2016 +0200
+
+    Merge branch 'mysql-5.6' into mysql-5.7
+    
+    (cherry picked from commit 710bafee9de1c11577242d694f74f5fa38df3a88)
+
+commit f52c41910ac67cd28a52d6e9ffd0aad8fe0a2ff9
+Author: Robert Golebiowski <robert.golebiowski@oracle.com>
+Date:   Wed Aug 24 15:21:26 2016 +0200
+
+    Bug #24512715 AUTH_SEC.MYSQL_SSL_RSA_SETUP FAILS CONSISTENTLY ON HUDSON
+    Fix provided by YASSL. Upgrading YASSL to version 2.4.0.
+    
+    (cherry picked from commit 840ca33cf4f61677c125a86b0b09aef6db3578bc)
+
+commit 8e508bdd6f4e9a5b16bd060d2f8afc15878f7962
+Author: Arun Kuruvila <arun.kuruvila@oracle.com>
+Date:   Wed Sep 28 16:05:37 2016 +0530
+
+    Merge branch 'mysql-5.6' into mysql-5.7
+    
+    (cherry picked from commit ec0bec6a5c2e50bb02f80295c00dfadf8a8d2e23)
+
+commit eedc12e462dc7eb65be24c4cf987f45305567dcf
+Merge: 19dcf4f 97f03bb
+Author: Hery Ramilison <hery.ramilison@oracle.com>
+Date:   Mon Sep 26 13:20:56 2016 +0200
+
+    Merge branch 'mysql-5.7.15-release' into mysql-5.7.16-release
+
+commit 19dcf4f8bfdfdd7b8997e0b39b7c31bf15ab62e0
+Merge: 161fde5 4809c9b
+Author: Balasubramanian Kandasamy <balasubramanian.kandasamy@oracle.com>
+Date:   Mon Aug 8 15:23:04 2016 +0530
+
+    Raise version number after cloning 5.7.15
+
+commit 4809c9b03e4c45cbc3a001f21ae57eb20606022c
+Merge: e945f3b6 5b0fd61
+Author: Balasubramanian Kandasamy <balasubramanian.kandasamy@oracle.com>
+Date:   Mon Aug 8 15:18:39 2016 +0530
+
+    Raise version number after cloning 5.6.33
+
+commit 5b0fd618e5b8155c4533f51cb6cf3b460aee8463
+Author: Balasubramanian Kandasamy <balasubramanian.kandasamy@oracle.com>
+Date:   Mon Aug 8 15:15:17 2016 +0530
+
+    Raise version number after cloning 5.5.52

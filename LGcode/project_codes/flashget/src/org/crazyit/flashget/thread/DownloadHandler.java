@@ -8,11 +8,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.DownloadContext;
-import org.crazyit.flashget.object.Part;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.state.Finished;
+import flashget.src.org.crazyit.flashget.DownloadContext;
+import flashget.src.org.crazyit.flashget.state.Finished;
 
 public class DownloadHandler {
 	
@@ -27,30 +24,30 @@ public class DownloadHandler {
 	
 	public void doDownload(Resource r) {
 		try {
-			//ÉèÖÃÏÂÔØÈÕÆÚ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (r.getDownloadDate() == null) r.setDownloadDate(new Date());
 			r.setState(DownloadContext.CONNECTION);
-			//¼ÆËã³öÃ¿Ò»¿éµÄ´óĞ¡
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½Ä´ï¿½Ğ¡
 			int partLength = r.getSize() / r.getThreadSize() + 1;
-			//Ê±¼ä¼ÆËãÈÎÎñ
+			//Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			CountTimeTask timeTask = new CountTimeTask(r);
 			Timer timer = new Timer();
 			timer.schedule(timeTask, 0, 1000);
-			//½«Timer¶ÔÏó·Åµ½MapÖĞ, keyÎª¸Ã×ÊÔ´µÄid
+			//ï¿½ï¿½Timerï¿½ï¿½ï¿½ï¿½Åµï¿½Mapï¿½ï¿½, keyÎªï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½id
 			timers.put(r.getId(), timer);
 			for (int i = 0; i < r.getThreadSize(); i++) {
 				int length = partLength;
-				//Èç¹ûÊÇ×îºóÒ»¿é, ÔòÊ¹ÓÃ×ÜÊıÀ´¼õÈ¥Ç°Ãæ¿éµÄ×ÜºÍ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½, ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Üºï¿½
 				if (i == (r.getThreadSize() - 1)) {
 					length = r.getSize() - i * partLength;
 				}
-				//´´½¨¸÷¸öPart¶ÔÏó
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Partï¿½ï¿½ï¿½ï¿½
 				Part p = new Part((i * partLength), length, 0);
 				r.getParts().add(p);
 				RandomAccessFile rav = new RandomAccessFile(r.getFilePath() + 
 						File.separator + p.getPartName(), "rw");
 				DownloadThread t = new DownloadThread(r, rav, p);
-				//ÉèÖÃÏß³ÌÓÅÏÈ¼¶
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½È¼ï¿½
 				t.setPriority(6);
 				t.start();
 			}
@@ -66,7 +63,7 @@ public class DownloadHandler {
 			CountTimeTask timeTask = new CountTimeTask(r);
 			Timer timer = new Timer();
 			timer.schedule(timeTask, 0, 1000);
-			//½«Timer¶ÔÏó·Åµ½MapÖĞ, keyÎª¸Ã×ÊÔ´µÄid
+			//ï¿½ï¿½Timerï¿½ï¿½ï¿½ï¿½Åµï¿½Mapï¿½ï¿½, keyÎªï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½id
 			timers.put(r.getId(), timer);
 			for (int i = 0; i < r.getParts().size(); i++) {
 				Part p = r.getParts().get(i);
@@ -81,7 +78,7 @@ public class DownloadHandler {
 		}
 	}
 	
-	//¼ÆËãÊ±¼äÈÎÎñ
+	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	class CountTimeTask extends TimerTask {
 		private Resource r;
 		public CountTimeTask(Resource r) {

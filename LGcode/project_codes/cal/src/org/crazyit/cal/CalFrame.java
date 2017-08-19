@@ -1,52 +1,51 @@
 package org.crazyit.cal;
 
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.Color;
-import javax.swing.JPanel;
-import java.util.Arrays;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.ActionEvent;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
- * ½çÃæ¶ÔÏó
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class CalFrame extends JFrame {
-	// ÏÔÊ¾¼ÆËã½á¹ûµÄtextField
+	// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½textField
 	private JTextField textField = null;
-	// ÓÃÒ»¸öÊý×é±£´æMC,MR,MS,M+µÈ²Ù×÷·û
+	// ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½é±£ï¿½ï¿½MC,MR,MS,M+ï¿½È²ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String[] mOp = { "MC", "MR", "MS", "M+" };
-	// ÓÃÒ»¸öÊý×é±£´æ½á¹û²Ù×÷·û
+	// ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½é±£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String[] rOp = { "Back", "CE", "C" };
-	// ÓÃÒ»¸öÊý×é±£´æÊý×ÖÓëÆäËü²Ù×÷·û
+	// ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½é±£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String[] nOp = { "7", "8", "9", "/", "sqrt", "4", "5", "6", "*",
 			"%", "1", "2", "3", "-", "1/x", "0", "+/-", ".", "+", "=" };
-	// M²Ù×÷±êÖ¾°´Å¥
+	// Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Å¥
 	private JButton button = null;
-	// ÒµÎñÂß¼­Àà
+	// Òµï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½
 	private CalService service = new CalService();
-	// ¶¨Òå¼àÌýÆ÷
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private ActionListener actionListener = null;
-	// ÉèÖÃpanelµÄ¿í
+	// ï¿½ï¿½ï¿½ï¿½panelï¿½Ä¿ï¿½
 	private final int PRE_WIDTH = 360;
-	// ÉèÖÃpanelµÄ¸ß
+	// ï¿½ï¿½ï¿½ï¿½panelï¿½Ä¸ï¿½
 	private final int PRE_HEIGHT = 250;
 
 	/**
-	 * Ä¬ÈÏ¹¹ÔìÆ÷
+	 * Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public CalFrame() {
 		super();
@@ -54,55 +53,55 @@ public class CalFrame extends JFrame {
 	}
 
 	/**
-	 * ³õÊ¼»¯½çÃæ
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	private void initialize() {
-		// ÉèÖÃ´°¿ÚµÄ±êÌâ
-		this.setTitle("¼ÆËãÆ÷");
-		// ÉèÖÃ²¼¾Ö¹ÜÀíÆ÷
+		// ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ÚµÄ±ï¿½ï¿½ï¿½
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½
 		// this.setLayout( new BorderLayout(10,1) );
-		// ÉèÖÃÎª²»¿É¸Ä±ä´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½É¸Ä±ï¿½ï¿½Ð¡
 		this.setResizable(false);
-		// Ôö¼Ó¼ÆËãÊäÈë¿ò
+		// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout(10, 1));
 		panel.add(getTextField(), BorderLayout.NORTH);
 		panel.setPreferredSize(new Dimension(PRE_WIDTH, PRE_HEIGHT));
-		// Ôö¼Ó×ó±ß´æ´¢²Ù×÷¼ü
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß´æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JButton[] mButton = getMButton();
-		// ÐÂ½¨Ò»¸öpanel£¬ÓÃÓÚ·ÅÖÃ°´Å¥
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½panelï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Ã°ï¿½Å¥
 		JPanel panel1 = new JPanel();
-		// ÉèÖÃ²¼¾Ö¹ÜÀíÆ÷
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½
 		panel1.setLayout(new GridLayout(5, 1, 0, 5));
-		// µü´úÔö¼Ó°´Å¥
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½Å¥
 		for (JButton b : mButton) {
 			panel1.add(b);
 		}
-		// Ôö¼Ó½á¹û²Ù×÷¼ü
+		// ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JButton[] rButton = getRButton();
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new BorderLayout(1, 5));
-		// ÐÂ½¨Ò»¸öpanel£¬ÓÃÓÚ·ÅÖÃ°´Å¥
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½panelï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Ã°ï¿½Å¥
 		JPanel panel21 = new JPanel();
-		// ÉèÖÃ²¼¾Ö¹ÜÀíÆ÷
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½
 		panel21.setLayout(new GridLayout(1, 3, 3, 3));
-		// µü´úÔö¼Ó°´Å¥
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½Å¥
 		for (JButton b : rButton) {
 			panel21.add(b);
 		}
-		// Ôö¼ÓÊý×ÖÓëÆäËüÔËËã·û
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JButton[] nButton = getNButton();
-		// ÐÂ½¨Ò»¸öpanel£¬ÓÃÓÚ·ÅÖÃ°´Å¥
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½panelï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Ã°ï¿½Å¥
 		JPanel panel22 = new JPanel();
-		// ÉèÖÃ²¼¾Ö¹ÜÀíÆ÷
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½
 		panel22.setLayout(new GridLayout(4, 5, 3, 5));
-		// µü´úÔö¼Ó°´Å¥
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½Å¥
 		for (JButton b : nButton) {
 			panel22.add(b);
 		}
-		// °ÑÐÂÔö¼ÓµÄÃæ°å¼Óµ½frame
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Óµï¿½frame
 		panel2.add(panel21, BorderLayout.NORTH);
 		panel2.add(panel22, BorderLayout.CENTER);
 		panel.add(panel1, BorderLayout.WEST);
@@ -111,7 +110,7 @@ public class CalFrame extends JFrame {
 	}
 
 	/**
-	 * Õâ¸ö·½·¨ÓÃÀ´»ñÈ¡¼àÌýÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return ActionListener
 	 */
@@ -119,7 +118,7 @@ public class CalFrame extends JFrame {
 		if (actionListener == null) {
 			actionListener = new ActionListener() {
 				/**
-				 * ÊµÏÖ½Ó¿ÚÖÐµÄactionPerformed·½·¨
+				 * Êµï¿½Ö½Ó¿ï¿½ï¿½Ðµï¿½actionPerformedï¿½ï¿½ï¿½ï¿½
 				 * 
 				 * @param e
 				 *            ActionEvent
@@ -129,18 +128,18 @@ public class CalFrame extends JFrame {
 					String cmd = e.getActionCommand();
 					String result = null;
 					try {
-						// ¼ÆËã²Ù×÷½á¹û
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						result = service.callMethod(cmd, textField.getText());
 					} catch (Exception e1) {
 						System.out.println(e1.getMessage());
 					}
-					// ´¦ÀíbuttonµÄ±ê¼Ç
+					// ï¿½ï¿½ï¿½ï¿½buttonï¿½Ä±ï¿½ï¿½
 					if (cmd.indexOf("MC") == 0) {
 						button.setText("");
 					} else if (cmd.indexOf("M") == 0 && service.getStore() > 0) {
 						button.setText("M");
 					}
-					// ÉèÖÃ¼ÆËã½á¹û
+					// ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½
 					if (result != null) {
 						textField.setText(result);
 					}
@@ -156,43 +155,43 @@ public class CalFrame extends JFrame {
 	 */
 	private JButton getButton() {
 		if (button == null) {
-			// ÉèÖÃÄ¬ÈÏÖµÎª0
+			// ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ÖµÎª0
 			button = new JButton();
 		}
 		return button;
 	}
 
 	/**
-	 * Õâ¸ö·½·¨³õÊ¼»¯ÊäÈë¿ò
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return javax.swing.JTextField
 	 */
 	private JTextField getTextField() {
 		if (textField == null) {
-			// ÉèÖÃÄ¬ÈÏÖµÎª0
+			// ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ÖµÎª0
 			textField = new JTextField("0");
-			// ÉèÖÃÎª²»¿É±à¼­
+			// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½É±à¼­
 			textField.setEditable(false);
-			// ÉèÖÃ±³¾°Îª°×É«
+			// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½Îªï¿½ï¿½É«
 			textField.setBackground(Color.white);
 		}
 		return textField;
 	}
 
 	/**
-	 * ´Ë·½·¨»ñµÃ¼ÆËãÆ÷µÄ´æ´¢²Ù×÷¼ü
+	 * ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * @return ±£´æJButtonµÄÊý×é
+	 * @return ï¿½ï¿½ï¿½ï¿½JButtonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private JButton[] getMButton() {
 		JButton[] result = new JButton[mOp.length + 1];
 		result[0] = getButton();
 		for (int i = 0; i < this.mOp.length; i++) {
-			// ÐÂ½¨°´Å¥
+			// ï¿½Â½ï¿½ï¿½ï¿½Å¥
 			JButton b = new JButton(this.mOp[i]);
-			// Îª°´Å¥Ôö¼ÓÊÂ¼þ
+			// Îªï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 			b.addActionListener(getActionListener());
-			// ÉèÖÃ°´Å¥ÑÕÉ«
+			// ï¿½ï¿½ï¿½Ã°ï¿½Å¥ï¿½ï¿½É«
 			b.setForeground(Color.red);
 			result[i + 1] = b;
 		}
@@ -200,18 +199,18 @@ public class CalFrame extends JFrame {
 	}
 
 	/**
-	 * ´Ë·½·¨»ñµÃ¼ÆËãÆ÷µÄ½á¹û²Ù×÷¼ü
+	 * ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * @return ±£´æJButtonµÄÊý×é
+	 * @return ï¿½ï¿½ï¿½ï¿½JButtonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private JButton[] getRButton() {
 		JButton[] result = new JButton[rOp.length];
 		for (int i = 0; i < this.rOp.length; i++) {
-			// ÐÂ½¨°´Å¥
+			// ï¿½Â½ï¿½ï¿½ï¿½Å¥
 			JButton b = new JButton(this.rOp[i]);
-			// Îª°´Å¥Ôö¼ÓÊÂ¼þ
+			// Îªï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 			b.addActionListener(getActionListener());
-			// ÉèÖÃ°´Å¥ÑÕÉ«
+			// ï¿½ï¿½ï¿½Ã°ï¿½Å¥ï¿½ï¿½É«
 			b.setForeground(Color.red);
 			result[i] = b;
 		}
@@ -219,22 +218,22 @@ public class CalFrame extends JFrame {
 	}
 
 	/**
-	 * ´Ë·½·¨»ñµÃ¼ÆËãÆ÷µÄÆäËü²Ù×÷¼ü
+	 * ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * @return ±£´æJButtonµÄÊý×é
+	 * @return ï¿½ï¿½ï¿½ï¿½JButtonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private JButton[] getNButton() {
-		// Õâ¸öÊý×é±£´æÐèÒªÉèÖÃÎªºìÉ«µÄ²Ù×÷·û
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é±£ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É«ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½
 		String[] redButton = { "/", "*", "-", "+", "=" };
 		JButton[] result = new JButton[nOp.length];
 		for (int i = 0; i < this.nOp.length; i++) {
-			// ÐÂ½¨°´Å¥
+			// ï¿½Â½ï¿½ï¿½ï¿½Å¥
 			JButton b = new JButton(this.nOp[i]);
-			// Îª°´Å¥Ôö¼ÓÊÂ¼þ
+			// Îªï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 			b.addActionListener(getActionListener());
-			// ¶ÔredButtonÅÅÐò£¬²Å¿ÉÒÔÊ¹ÓÃbinarySearch·½·¨
+			// ï¿½ï¿½redButtonï¿½ï¿½ï¿½ò£¬²Å¿ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½binarySearchï¿½ï¿½ï¿½ï¿½
 			Arrays.sort(redButton);
-			// Èç¹û²Ù×÷·ûÔÚredButton³öÏÖ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½redButtonï¿½ï¿½ï¿½ï¿½
 			if (Arrays.binarySearch(redButton, nOp[i]) >= 0) {
 				b.setForeground(Color.red);
 			} else {

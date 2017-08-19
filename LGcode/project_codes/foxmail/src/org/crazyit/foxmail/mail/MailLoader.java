@@ -2,23 +2,23 @@ package org.crazyit.foxmail.mail;
 
 import java.util.List;
 
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.ui.MailContext;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
 
 /**
- * ¶ÁÈ¡ÓÊ¼şĞÅÏ¢µÄ½Ó¿Ú
+ * ï¿½ï¿½È¡ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢ï¿½Ä½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface MailLoader {
 	
 	/**
-	 * µÃµ½INBOXµÄËùÓĞÓÊ¼ş
-	 * @param ctx ÓÊÏäµÄÉÏÏÂÎÄ
+	 * ï¿½Ãµï¿½INBOXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½
+	 * @param ctx ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	List<Mail> getMessages(MailContext ctx);

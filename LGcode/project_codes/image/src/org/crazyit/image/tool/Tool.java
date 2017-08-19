@@ -1,21 +1,19 @@
 package org.crazyit.image.tool;
 
 import java.awt.event.MouseEvent;
-import java.awt.Graphics;
-import java.awt.Color;
 
 /**
- * ËùÓÐ¹¤¾ßµÄ½Ó¿Ú
+ * ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ßµÄ½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface Tool {
-	// ¹¤¾ßÀàÐÍ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static final String ARROW_TOOL = "ArrowTool";
 	public static final String PENCIL_TOOL = "PencilTool";
 	public static final String BRUSH_TOOL = "BrushTool";
@@ -30,7 +28,7 @@ public interface Tool {
 	public static final String COLORPICKED_TOOL = "ColorPickedTool";
 
 	/**
-	 * ÍÏ¶¯Êó±ê
+	 * ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -41,7 +39,7 @@ public interface Tool {
 	public void mouseDragged(MouseEvent e);
 
 	/**
-	 * ÒÆ¶¯Êó±ê
+	 * ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -50,7 +48,7 @@ public interface Tool {
 	public void mouseMoved(MouseEvent e);
 
 	/**
-	 * ËÉ¿ªÊó±ê
+	 * ï¿½É¿ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -59,7 +57,7 @@ public interface Tool {
 	public void mouseReleased(MouseEvent e);
 
 	/**
-	 * °´ÏÂÊó±ê
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -68,7 +66,7 @@ public interface Tool {
 	public void mousePressed(MouseEvent e);
 
 	/**
-	 * µã»÷
+	 * ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent

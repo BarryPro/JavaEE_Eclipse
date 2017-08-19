@@ -1,16 +1,15 @@
 package org.crazyit.image.tool;
 
-import org.crazyit.image.ImageFrame;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
- * »º´æ¹¤¾ßµÄ¹¤³§¶ÔÏó
+ * ï¿½ï¿½ï¿½æ¹¤ï¿½ßµÄ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -19,11 +18,11 @@ public class ToolFactory {
 	private static Map<String, Tool> toolMap = null;
 
 	/**
-	 * »ñÈ¡¹¤¾ßÀàÊµÀý
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 	 * 
 	 * @param type
-	 *            String ¹¤¾ßÀàÐÍ
-	 * @return Tool ·µ»Ø¹¤¾ßÀàÊµÀý
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @return Tool ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 	 */
 	public static Tool getToolInstance(ImageFrame frame, String type) {
 		if (toolMap == null) {

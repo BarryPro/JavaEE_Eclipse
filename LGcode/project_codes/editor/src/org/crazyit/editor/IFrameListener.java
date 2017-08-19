@@ -4,14 +4,14 @@ import javax.swing.JInternalFrame;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import org.crazyit.editor.commons.EditFile;
+import editor.src.org.crazyit.editor.commons.EditFile;
 
 /**
- * ´°¿Ú¼àÌýÆ÷
+ * ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -30,13 +30,13 @@ public class IFrameListener extends InternalFrameAdapter {
 	}
 
 	public void internalFrameClosing(InternalFrameEvent e) {
-		//»ñÈ¡µ±Ç°¹Ø±Õ²Ù×÷Ëù¶ÔÓ¦µÄJInternalFrame
+		//ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½Ø±Õ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½JInternalFrame
 		JInternalFrame iframe = (JInternalFrame)e.getSource();
-		//»ñÈ¡µ±Ç°²Ù×÷µÄÎÄ¼þ
+		//ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		EditFile editFile = editorFrame.getCurrentFile();
-		//Ñ¯ÎÊÊÇ·ñÒª±£´æ
+		//Ñ¯ï¿½ï¿½ï¿½Ç·ï¿½Òªï¿½ï¿½ï¿½ï¿½
 		editorFrame.askSave(editFile); 
-		//¹Ø±Õµ±Ç°µÄiframe
+		//ï¿½Ø±Õµï¿½Ç°ï¿½ï¿½iframe
 		editorFrame.closeIFrame(iframe);
 	}
 }

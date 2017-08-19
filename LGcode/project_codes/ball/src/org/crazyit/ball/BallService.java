@@ -1,37 +1,37 @@
 package org.crazyit.ball;
 
-import java.awt.event.KeyEvent;
-import java.awt.Image;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 /**
- * ´¦ÀíÓÎÏ·Âß¼­µÄ¶ÔÏó
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ß¼ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class BallService {
-	// ¶¨ÒåÒ»¸öStick(µµ°å)
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Stick(ï¿½ï¿½ï¿½ï¿½)
 	private Stick stick = null;
-	// ¶¨ÒåÒ»¸öµ¯Çò
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Ball ball = null;
-	// ¶¨ÒåÒ»¸öÓÎÏ·½áÊøÍ¼Æ¬
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	private BallComponent gameOver = null;
-	// ¶¨ÒåÒ»¸öÓ®ÁËÓÎÏ·µÄÍ¼Æ¬
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ó®ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Í¼Æ¬
 	private BallComponent won = null;
-	// ¶¨ÒåÒ»¸ö×©¿éÍ¼Æ¬Êý×é
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½×©ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 	private Brick[][] bricks = null;
 	private int width;
 	private int height;
 	BallFrame ballFrame = null;
 
 	/**
-	 * Ë½ÓÐ¿Õ¹¹ÔìÆ÷
+	 * Ë½ï¿½Ð¿Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private BallService() {
 		super();
@@ -40,29 +40,29 @@ public class BallService {
 	/**
 	 * 
 	 * @param frame
-	 *            JFrame JFrameÊµÀý
+	 *            JFrame JFrameÊµï¿½ï¿½
 	 * @param width
-	 *            int ¿í
+	 *            int ï¿½ï¿½
 	 * @param height
-	 *            int ¸ß
+	 *            int ï¿½ï¿½
 	 * @return BallService
 	 */
 	public BallService(BallFrame frame, int width, int height)
 			throws IOException {
-		// ³õÊ¼»¯±äÁ¿
+		// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.width = width;
 		this.height = height;
 		this.ballFrame = frame;
-		// ´´½¨Ò»¸öStick(µµ°å)ÊµÀý
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Stick(ï¿½ï¿½ï¿½ï¿½)Êµï¿½ï¿½
 		stick = new Stick(width, height, "img/stick.jpg");
-		// ´´½¨Ò»¸öµ¯ÇòµÄÊµÀý
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 		ball = new Ball(width, height, stick.getImage().getHeight(null),
 				"img/ball.gif");
-		// ÓÎÏ·½áÊøÍ¼Æ¬
+		// ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 		gameOver = new BallComponent("img/over.gif");
 		// Ó®Í¼Æ¬
 		won = new BallComponent("img/win.gif");
-		// ×©¿éÍ¼Æ¬Êý×é
+		// ×©ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 		bricks = createBrickArr("img/brick.gif", 11, 6);
 	}
 
@@ -72,40 +72,40 @@ public class BallService {
 	 * @return void
 	 */
 	public void run() {
-		// µ¯Çò×ø±ê¸Ä±ä
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
 		setBallPos();
-		// µÀ¾ß×ø±ê¸Ä¸Ä±ä
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸Ä±ï¿½
 		setMagicPos();
 	}
 
 	/**
-	 * ÉèÖÃµµ°åÍ¼Æ¬µÄÎ»ÖÃ
+	 * ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Î»ï¿½ï¿½
 	 * 
 	 * @param ke
-	 *            KeyEvent ¼üÅÌÊÂ¼þ
+	 *            KeyEvent ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	 * @return void
 	 */
 	public void setStickPos(KeyEvent ke) {
-		// °Ñµ¯ÇòµÄÔË¶¯×´Ì¬ÉèÎªtrue
+		// ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½×´Ì¬ï¿½ï¿½Îªtrue
 		ball.setStarted(true);
-		// Èç¹ûÊÇ×ó·½Ïò¼ü
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
 			if (stick.getX() - stick.SPEED > 0) {
-				// x×ø±êÏò×óÒÆ¶¯
+				// xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 				stick.setX(stick.getX() - stick.SPEED);
 			}
 		}
-		// Èç¹ûÊÇÓÒ·½Ïò¼ü
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ï¿½
 		if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
 			if (stick.getX() + stick.SPEED < width - stick.getPreWidth()) {
-				// x×ø±êÏòÓÒÒÆ¶¯
+				// xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 				stick.setX(stick.getX() + stick.SPEED);
 				// ballFrame.getBallGame().reStart( ballFrame );
 			}
 		}
-		// Èç¹ûÊÇF2¼ü
+		// ï¿½ï¿½ï¿½ï¿½ï¿½F2ï¿½ï¿½
 		if (ke.getKeyCode() == KeyEvent.VK_F2) {
-			// ³õÊ¼»¯ballFrame
+			// ï¿½ï¿½Ê¼ï¿½ï¿½ballFrame
 			try {
 				ballFrame.initialize();
 			} catch (IOException e) {
@@ -115,53 +115,53 @@ public class BallService {
 	}
 
 	/**
-	 * ÉèÖÃÐ¡ÇòÍ¼Æ¬µÄÎ»ÖÃ
+	 * ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Î»ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	public void setBallPos() {
-		// ÕýÊýµÄÊý¶È
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int absSpeedX = Math.abs(ball.getSpeedX());
 		int absSpeedY = Math.abs(ball.getSpeedY());
-		// Èç¹ûÓÎÏ·ÒÑ¾­¿ªÊ¼¶øÇÒÃ»ÓÐ½áÊø
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½Ñ¾ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð½ï¿½ï¿½ï¿½
 		if (ball.isStarted()) {
-			// Èç¹ûÐ¡ÇòÅöµ½×ó±ß½ç
+			// ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½
 			if (ball.getX() - absSpeedX < 0) {
-				// ÖØÐÂÉèÖÃx×ø±ê
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 				ball.setX(ball.getImage().getWidth(null));
-				// °Ñx·½ÏòµÄËÙ¶ÈÉèÎª·´·½Ïò
+				// ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				ball.setSpeedX(-ball.getSpeedX());
 			}
-			// Èç¹ûÐ¡ÇòÅöµ½ÓÒ±ß½ç
+			// ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ß½ï¿½
 			if (ball.getX() + absSpeedX > width
 					- ball.getImage().getWidth(null)) {
-				// ÖØÐÂÉèÖÃx×ø±ê
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 				ball.setX(width - ball.getImage().getWidth(null) * 2);
-				// °Ñx·½ÏòµÄËÙ¶ÈÉèÎª·´·½Ïò
+				// ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				ball.setSpeedX(-ball.getSpeedX());
 			}
-			// Èç¹ûÐ¡ÇòÅöµ½ÉÏ±ß½ç
+			// ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ß½ï¿½
 			if (ball.getY() - absSpeedY < 0) {
-				// ÖØÐÂÉèÖÃy×ø±ê
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 				ball.setY(ball.getImage().getWidth(null));
-				// °Ñy·½ÏòµÄËÙ¶ÈÉèÎª·´·½Ïò
+				// ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				ball.setSpeedY(-ball.getSpeedY());
 			}
-			// Èç¹ûÐ¡ÇòÅöµ½ÏÂ±ß½ç
+			// ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â±ß½ï¿½
 			if (ball.getY() + absSpeedY > height
 					- stick.getImage().getHeight(null)) {
-				// Èç¹ûÐ¡ÇòÓëµµ°åÓÐÅö×²
+				// ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ëµµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²
 				if (isHitStick(ball)) {
-					// ÖØÐÂÉèÖÃy×ø±ê
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 					ball.setY(height - ball.getImage().getHeight(null) * 2);
-					// °Ñy·½ÏòµÄËÙ¶ÈÉèÎª·´·½Ïò
+					// ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					ball.setSpeedY(-ball.getSpeedY());
 				}
 			}
-			// Óë×©¿éÅö×²ºóµÄÔË¶¯
+			// ï¿½ï¿½×©ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 			for (int i = bricks.length - 1; i > -1; i--) {
 				for (int j = bricks[i].length - 1; j > -1; j--) {
-					// Èç¹ûÐ¡ÇòÓë×©¿éÓÐÅö×²
+					// ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½×©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²
 					if (isHitBrick(bricks[i][j])) {
 						if (ball.getSpeedY() > 0) {
 							ball.setSpeedY(-ball.getSpeedY());
@@ -169,22 +169,22 @@ public class BallService {
 					}
 				}
 			}
-			// ½áÊøÓÎÏ·
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·
 			if (ball.getY() > height) {
 				ball.setStop(true);
 			}
 
-			// ÉèÖÃx×ø±ê
+			// ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 			ball.setX(ball.getX() - (int) (Math.random() * 2)
 					- ball.getSpeedX());
-			// ÉèÖÃy×ø±ê
+			// ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 			ball.setY(ball.getY() - (int) (Math.random() * 2)
 					- ball.getSpeedY());
 		}
 	}
 
 	/**
-	 * Ð¡ÇòÓë×©¿éÊÇ·ñÓÐÅö×²
+	 * Ð¡ï¿½ï¿½ï¿½ï¿½×©ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½×²
 	 * 
 	 * @return boolean
 	 */
@@ -192,21 +192,21 @@ public class BallService {
 		if (brick.isDisable()) {
 			return false;
 		}
-		// ballµÄÔ²ÐÄx×ø±ê
+		// ballï¿½ï¿½Ô²ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 		double ballX = ball.getX() + ball.getImage().getWidth(null) / 2;
-		// ballµÄÔ²ÐÄy×ø±ê
+		// ballï¿½ï¿½Ô²ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 		double ballY = ball.getY() + ball.getImage().getHeight(null) / 2;
-		// brickµÄÖÐÐÄx×ø±ê
+		// brickï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 		double brickX = brick.getX() + brick.getImage().getWidth(null) / 2;
-		// brickµÄÖÐÐÄy×ø±ê
+		// brickï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 		double brickY = brick.getY() + brick.getImage().getHeight(null) / 2;
-		// Á½¸ö×ø±êµãµÄ¾àÀë
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½
 		double distance = Math.sqrt(Math.pow(ballX - brickX, 2)
 				+ Math.pow(ballY - brickY, 2));
-		// Èç¹ûÁ½¸öÍ¼ÐÎÖØµþ£¬·µ»Øtrue;
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½true;
 		if (distance < (ball.getImage().getWidth(null) + brick.getImage()
 				.getWidth(null)) / 2) {
-			// Ê¹brickÎÞÐ§
+			// Ê¹brickï¿½ï¿½Ð§
 			brick.setDisable(true);
 			return true;
 
@@ -215,16 +215,16 @@ public class BallService {
 	}
 
 	/**
-	 * BallComponentÊÇ·ñÓëµµ°åÓÐÅö×²
+	 * BallComponentï¿½Ç·ï¿½ï¿½ëµµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²
 	 * 
 	 * @param image
-	 *            BallComponent Í¼Ïñ
+	 *            BallComponent Í¼ï¿½ï¿½
 	 * @return boolean
 	 */
 	public boolean isHitStick(BallComponent bc) {
-		// »ñÈ¡Í¼Æ¬¶ÔÏó
+		// ï¿½ï¿½È¡Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 		Image tempImage = bc.getImage();
-		// Èç¹ûÓëµµ°åÓÐÅö×²
+		// ï¿½ï¿½ï¿½ï¿½ëµµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²
 		if (bc.getX() + tempImage.getWidth(null) > stick.getX()
 				&& bc.getX() < stick.getX() + stick.getPreWidth()
 				&& bc.getY() + tempImage.getHeight(null) > stick.getY()) {
@@ -234,21 +234,21 @@ public class BallService {
 	}
 
 	/**
-	 * ÉèÖÃµÀ¾ßµÄÎ»ÖÃ
+	 * ï¿½ï¿½ï¿½Ãµï¿½ï¿½ßµï¿½Î»ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	public void setMagicPos() {
 		for (int i = 0; i < bricks.length; i++) {
 			for (int j = 0; j < bricks[i].length; j++) {
-				// »ñÈ¡magic
+				// ï¿½ï¿½È¡magic
 				Magic magic = bricks[i][j].getMagic();
 				if (magic != null) {
-					// Èç¹ûÕâ¸öbrickµÄ×´Ì¬ÊÇÎÞÐ§µÄ
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½brickï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½
 					if (bricks[i][j].isDisable() && magic.getY() < height) {
-						// ÉèÖÃmagicµÄy×ø±êÏòÏÂÔö¼Ó
+						// ï¿½ï¿½ï¿½ï¿½magicï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						magic.setY(magic.getY() + magic.getSpeed());
-						// ÉèÖÃµµ°åµÄ¿í¶È
+						// ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
 						setStickWidth(magic);
 
 					}
@@ -258,26 +258,26 @@ public class BallService {
 	}
 
 	/**
-	 * ÉèÖÃµµ°åµÄ³¤¶È
+	 * ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
 	 * 
 	 * @param magic
-	 *            Magic µÀ¾ß
+	 *            Magic ï¿½ï¿½ï¿½ï¿½
 	 * @return void
 	 */
 	public void setStickWidth(Magic magic) {
 		if (isHitStick(magic)) {
-			// µÀ¾ßµÄ×÷ÓÃ
+			// ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½
 			magic.magicDo(stick);
 		}
 	}
 
 	/**
-	 * ÅÐ¶ÏÊÇ·ñÓ®ÁË
+	 * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Ó®ï¿½ï¿½
 	 * 
 	 * @return boolean
 	 */
 	public boolean isWon() {
-		// Èç¹ûÏûÁËÈ«²¿×©¿é£¬ÔòÎªÓ®
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½×©ï¿½é£¬ï¿½ï¿½ÎªÓ®
 		for (int i = 0; i < bricks.length; i++) {
 			for (int j = 0; j < bricks[i].length; j++) {
 				if (!bricks[i][j].isDisable()) {
@@ -289,10 +289,10 @@ public class BallService {
 	}
 
 	/**
-	 * ´´½¨Ò»¸öÀàÐÍÎªBrickµÄÊý×é
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªBrickï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param path
-	 *            String Í¼ÏñÂ·¾¶
+	 *            String Í¼ï¿½ï¿½Â·ï¿½ï¿½
 	 * @param xSize
 	 *            int
 	 * @param ySize
@@ -301,30 +301,30 @@ public class BallService {
 	 */
 	public Brick[][] createBrickArr(String path, int xSize, int ySize)
 			throws IOException {
-		// ´´½¨Ò»¸öBrick[][]
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Brick[][]
 		Brick[][] bricks = new Brick[xSize][ySize];
 		int x = 0;
 		int y = 0;
 		int random = 0;
 		int imageSize = 28;
 		boolean isDisable = false;
-		// µü´ú³õÊ¼»¯Êý×é
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for (int i = 0; i < xSize; i++) {
 			for (int j = 0; j < ySize; j++) {
-				// ´´½¨Ò»¸öÐÂµÄ×©¿é
+				// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½×©ï¿½ï¿½
 				random = (int) (Math.random() * 3);
 				x = i * imageSize;
 				y = j * imageSize;
-				// Ò»¶¨»úÂÊÃ»ÓÐ×©¿é
+				// Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½×©ï¿½ï¿½
 				isDisable = Math.random() > 0.8 ? true : false;
 				if (isDisable) {
 					random = 0;
 				}
 				Brick brick = new Brick(path, random, x, y);
 				brick.setDisable(isDisable);
-				// ÉèÖÃx×ø±ê
+				// ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 				brick.setX(x);
-				// ÉèÖÃy×ø±ê
+				// ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 				brick.setY(y);
 				bricks[i][j] = brick;
 			}
@@ -333,37 +333,37 @@ public class BallService {
 	}
 
 	/**
-	 * »­Í¼
+	 * ï¿½ï¿½Í¼
 	 * 
 	 * @param g
-	 *            Graphics ÓÃÀ´»­Í¼µÄ¶ÔÏó
+	 *            Graphics ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ä¶ï¿½ï¿½ï¿½
 	 * @return void
 	 */
 	public void draw(Graphics g) {
-		// Èç¹ûÓ®ÁË
+		// ï¿½ï¿½ï¿½Ó®ï¿½ï¿½
 		if (isWon()) {
-			// »æÖÆÓ®µÄÍ¼Æ¬
+			// ï¿½ï¿½ï¿½ï¿½Ó®ï¿½ï¿½Í¼Æ¬
 			g.drawImage(won.getImage(), won.getX(), won.getY(), width,
 					height - 10, null);
 		} else if (ball.isStop()) {
-			// »æÖÆÓÎÏ·½áÊøÍ¼Ïñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 			g.drawImage(gameOver.getImage(), gameOver.getX(), gameOver.getY(),
 					width, height - 10, null);
 		} else {
-			// Çå³ýÔ­À´µÄÍ¼Ïñ
+			// ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 			g.clearRect(0, 0, width, height);
-			// »æÖÆµµ°åÍ¼Ïñ
+			// ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 			g.drawImage(stick.getImage(), stick.getX(), stick.getY(), stick
 					.getPreWidth(), stick.getImage().getHeight(null), null);
-			// »æÖÆµ¯ÇòÍ¼Ïñ
+			// ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 			g.drawImage(ball.getImage(), ball.getX(), ball.getY(), null);
-			// µü´ú»æÖÆ×©¿éÍ¼Ïñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×©ï¿½ï¿½Í¼ï¿½ï¿½
 			for (int i = 0; i < bricks.length; i++) {
 				for (int j = 0; j < bricks[i].length; j++) {
 					BallComponent magic = bricks[i][j].getMagic();
-					// Èç¹ûÕâ¸ö×©¿éÍ¼Ïñ¶ÔÏñÊÇÓÐÐ§µÄ
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×©ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½
 					if (!bricks[i][j].isDisable()) {
-						// ÀïÃæµÄÊý×Ö1Îª×©¿éÍ¼Ïñ¼äµÄ¼äÏ¶
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1Îª×©ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¼ï¿½Ï¶
 						g.drawImage(bricks[i][j].getImage(), bricks[i][j]
 								.getX(), bricks[i][j].getY(), bricks[i][j]
 								.getImage().getWidth(null) - 1, bricks[i][j]

@@ -6,15 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.crazyit.ioc.context.exception.BeanCreateException;
-import org.crazyit.ioc.context.exception.PropertyException;
+import IoC.main.org.crazyit.ioc.context.exception.BeanCreateException;
 
 /**
- * ÊôÐÔ´¦ÀíÊµÏÖÀà
+ * ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -42,14 +41,14 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	}
 	
 	/**
-	 * ·½·¨¼¯ºÏÖÐÑ°ÕÒ²ÎÊýÀàÐÍÊÇinterfacesÆäÖÐÒ»¸öµÄ·½·¨
-	 * @param argClass ²ÎÊýÀàÐÍ
-	 * @param methods ·½·¨¼¯ºÏ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½interfacesï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
+	 * @param argClass ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param methods ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private Method findMethod(Class argClass, List<Method> methods) {
 		for (Method m : methods) {
-			//ÅÐ¶Ï²ÎÊýÀàÐÍÓë·½·¨µÄ²ÎÊýÀàÐÍÊÇ·ñÒ»ÖÂ
+			//ï¿½Ð¶Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë·½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ò»ï¿½ï¿½
 			if (isMethodArgs(m, argClass)) {
 				return m;
 			}
@@ -58,7 +57,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	}
 	
 	/**
-	 * ÅÐ¶Ï²ÎÊýÀàÐÍ(argClass)ÊÇ·ñÊÇ¸Ã·½·¨(m)µÄ²ÎÊýÀàÐÍ
+	 * ï¿½Ð¶Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(argClass)ï¿½Ç·ï¿½ï¿½Ç¸Ã·ï¿½ï¿½ï¿½(m)ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param m
 	 * @param argClass
 	 * @return
@@ -67,7 +66,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 		Class[] c = m.getParameterTypes();
 		if (c.length == 1) {
 			try {
-				//½«²ÎÊýÀàÐÍ(argClass)Óë·½·¨ÖÐµÄ²ÎÊýÀàÐÍ½øÐÐÇ¿ÖÆ×ª»», ²»Å×Òì³£·µ»Ø¸ÃMethod
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(argClass)ï¿½ë·½ï¿½ï¿½ï¿½ÐµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½×ªï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½Ø¸ï¿½Method
 				argClass.asSubclass(c[0]);
 				return true;
 			} catch (ClassCastException e) {
@@ -78,7 +77,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	}
 	
 	/**
-	 * ¸ù¾Ý·½·¨ÃûºÍ²ÎÊýÀàÐÍµÃµ½·½·¨, Èç¹ûÃ»ÓÐ¸Ã·½·¨·µ»Ønull
+	 * ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍµÃµï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½Ð¸Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½null
 	 * @param objClass
 	 * @param methodName
 	 * @param argClass
@@ -95,15 +94,15 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	
 	private Method getSetterMethod(Class objClass, String methodName, 
 			Class argClass) throws NoSuchMethodException {
-		//Ê¹ÓÃÔ­ÀàÐÍ»ñµÃ·½·¨, Èç¹ûÃ»ÓÐÕÒµ½¸Ã·½·¨, ÔòµÃµ½null
+		//Ê¹ï¿½ï¿½Ô­ï¿½ï¿½ï¿½Í»ï¿½Ã·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½Ã·ï¿½ï¿½ï¿½, ï¿½ï¿½Ãµï¿½null
 		Method argClassMethod = getMethod(objClass, methodName, argClass);
-		//Èç¹ûÕÒ²»µ½Ô­ÀàÐÍµÄ·½·¨, ÔòÕÒ¸ÃÀàÐÍËùÊµÏÖµÄ½Ó¿Ú
+		//ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ÍµÄ·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ò¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ÖµÄ½Ó¿ï¿½
 		if (argClassMethod == null) {
-			//µÃµ½ËùÓÐÃû×ÖÎªmethodNameµÄ·½·¨
+			//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªmethodNameï¿½Ä·ï¿½ï¿½ï¿½
 			List<Method> methods = getMethods(objClass, methodName);
 			Method method = findMethod(argClass, methods);
 			if (method == null) {
-				//ÕÒ²»µ½ÈÎºÎ·½·¨
+				//ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ÎºÎ·ï¿½ï¿½ï¿½
 				throw new NoSuchMethodException(methodName);
 			}
 			return method;
@@ -113,7 +112,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	}
 	
 	/**
-	 * µÃµ½ËùÓÐÃû×ÖÎªmethodName²¢ÇÒÖ»ÓÐÒ»¸ö²ÎÊýµÄ·½·¨
+	 * ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªmethodNameï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	 * @param objClass
 	 * @param methodName
 	 * @return
@@ -122,7 +121,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 		List<Method> result = new ArrayList<Method>();
 		for (Method m : objClass.getMethods()) {
 			if (m.getName().equals(methodName)) {
-				//µÃµ½·½·¨µÄËùÓÐ²ÎÊý, Èç¹ûÖ»ÓÐÒ»¸ö²ÎÊý, ÔòÌí¼Óµ½¼¯ºÏÖÐ
+				//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				Class[] c = m.getParameterTypes();
 				if (c.length == 1) {
 					result.add(m);
@@ -156,11 +155,11 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	
 	public void executeMethod(Object object, Object argBean, Method method) {
 		try {
-			//»ñÈ¡·½·¨µÄ²ÎÊýÀàÐÍ
+			//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Class[] parameterTypes = method.getParameterTypes();
-			//Èç¹û²ÎÊýÊýÁ¿²»Îª1£¬Ôò²»Ö´ÐÐ¸Ã·½·¨
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª1ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð¸Ã·ï¿½ï¿½ï¿½
 			if (parameterTypes.length == 1) {
-				//Èç¹û²ÎÊýÀàÐÍ²»Ò»Ñù, Ôò²»Ö´ÐÐ·½·¨
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í²ï¿½Ò»ï¿½ï¿½, ï¿½ï¿½Ö´ï¿½Ð·ï¿½ï¿½ï¿½
 				if (isMethodArgs(method, parameterTypes[0])) {
 					method.invoke(object, argBean);
 				}
@@ -171,7 +170,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	}
 
 	/**
-	 * ½«setter·½·¨»¹Ô­, setName×÷Îª²ÎÊý, µÃµ½name
+	 * ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­, setNameï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½, ï¿½Ãµï¿½name
 	 * @param methodName
 	 * @return
 	 */
@@ -183,7 +182,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	}
 
 	/**
-	 * »ñµÃÒ»¸öObjectµÄclass
+	 * ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Objectï¿½ï¿½class
 	 * @param obj
 	 * @return
 	 */
@@ -218,7 +217,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 //	}
 	
 	/**
-	 * ·µ»ØÒ»¸öÊôÐÔµÄsetter·½·¨
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½setterï¿½ï¿½ï¿½ï¿½
 	 * @param propertyName
 	 * @return
 	 */
@@ -227,7 +226,7 @@ public class PropertyHandlerImpl implements PropertyHandler {
 	}
 	
 	/**
-	 * ½«²ÎÊýsµÄÊ××ÖÄ¸±äÎª´óÐ´
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Îªï¿½ï¿½Ð´
 	 * @param key
 	 * @return
 	 */

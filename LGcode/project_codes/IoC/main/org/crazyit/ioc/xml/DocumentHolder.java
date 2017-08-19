@@ -1,20 +1,18 @@
 package org.crazyit.ioc.xml;
 
-import org.dom4j.Document;
-
 /**
- * нд╣╣╤тоСЁжспуъ, н╛╩╓╦В╦ЖеДжцнд╪Ч╣д╤тоС
+ * О©╫д╣О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, н╛О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫д╤О©╫О©╫О©╫
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>мЬу╬: <a href="http://www.crazyit.org">╥Х©ЯJavaа╙цк</a>
+ * <br/>О©╫О©╫у╬: <a href="http://www.crazyit.org">О©╫О©╫О©╫JavaО©╫О©╫О©╫О©╫</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface DocumentHolder {
 	
 	/**
-	 * ╦Ы╬щнд╪Ч╣дб╥╬╤╥╣╩ьнд╣╣╤тоС
+	 * О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫б╥О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╣О©╫О©╫О©╫О©╫О©╫
 	 * @param filePath
 	 * @return
 	 */

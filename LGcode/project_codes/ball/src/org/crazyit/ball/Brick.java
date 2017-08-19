@@ -1,29 +1,28 @@
 package org.crazyit.ball;
 
-import java.awt.Image;
 import java.io.IOException;
 
 /**
- * ×©¿éÀà
+ * ×©ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class Brick extends BallComponent {
 
-	// ¶¨ÒåµÀ¾ß
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Magic magic = null;
-	// ¶¨ÒåÒ»¸öboolean±äÁ¿ÉèÖÃ±¾ÀàÊÇ·ñÓÐÐ§
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½booleanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ð§
 	private boolean disable = false;
 	public static final int MAGIC_LONG_TYPE = 1;
 	public static final int MAGIC_SHORT_TYPE = 2;
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
@@ -41,7 +40,7 @@ public class Brick extends BallComponent {
 	}
 
 	/**
-	 * ÉèÖÃ±¾ÀàÓÐÃ»ÓÐÐ§
+	 * ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ð§
 	 * 
 	 * @param disable
 	 *            boolean
@@ -52,16 +51,16 @@ public class Brick extends BallComponent {
 	}
 
 	/**
-	 * ²é¿´±¾ÀàÓÐÃ»ÓÐÐ§
+	 * ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ð§
 	 * 
-	 * @return boolean ÊÇ·ñÓÐÐ§
+	 * @return boolean ï¿½Ç·ï¿½ï¿½ï¿½Ð§
 	 */
 	public boolean isDisable() {
 		return this.disable;
 	}
 
 	/**
-	 * »ñÈ¡µÀ¾ß
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return String magic
 	 */
@@ -70,7 +69,7 @@ public class Brick extends BallComponent {
 	}
 
 	/**
-	 * ÉèÖÃµÀ¾ß
+	 * ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½
 	 * 
 	 * @return String magic
 	 */

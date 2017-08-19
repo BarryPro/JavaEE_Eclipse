@@ -1,109 +1,106 @@
 package org.crazyit.linkgame.listener;
 
 import java.awt.event.MouseEvent;
-import javax.swing.event.MouseInputAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import javax.swing.JLabel;
 
-import org.crazyit.linkgame.commons.LinkInfo;
-import org.crazyit.linkgame.commons.Piece;
-import org.crazyit.linkgame.service.GameService;
-import org.crazyit.linkgame.utils.ImageUtil;
-import org.crazyit.linkgame.view.GamePanel;
+import javax.swing.JLabel;
+import javax.swing.event.MouseInputAdapter;
+
+import linkgame.src.org.crazyit.linkgame.commons.LinkInfo;
+import linkgame.src.org.crazyit.linkgame.service.GameService;
 
 /**
- * ÓÎÏ·ÇøÓò(GamePanel)¼àÌıÆ÷
+ * ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½(GamePanel)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class GameListener extends MouseInputAdapter {
-	// ´¦ÀíÓÎÏ·µÄÂß¼­½Ó¿Ú
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ß¼ï¿½ï¿½Ó¿ï¿½
 	private GameService gameService;
 
-	// ´ú±íÒÑ¾­±»Ñ¡µÄPiece¼¯ºÏ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½
 	private List<Piece> selects;
 
-	// Õâ¸ö¼àÌıÆ÷Ëù¼àÌı²¢ĞèÒª´¦ÀíµÄ¶ÔÏó
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 	private GamePanel gamePanel;
 
 	private JLabel gradeLabel;
 
-	// ÉèÖÃÈÎÎñ¶ÔÏó
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private BeginListener beginListener;
 
 	public GameListener(GameService gameService, GamePanel gamePanel,
 			JLabel gradeLabel, BeginListener beginListener) {
-		// ÔÚ±¾Àà¹¹ÔìÊ±¾ÍÎªÕâÁ½¸ö¶ÔÏóÉèÖµ
+		// ï¿½Ú±ï¿½ï¿½à¹¹ï¿½ï¿½Ê±ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 		this.gameService = gameService;
 		this.gamePanel = gamePanel;
-		// ±¾Àà¹¹ÔìÊ±³õÊ¼»¯Ñ¡ÔñµÄPiece¼¯ºÏ
+		// ï¿½ï¿½ï¿½à¹¹ï¿½ï¿½Ê±ï¿½ï¿½Ê¼ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½
 		this.selects = new ArrayList<Piece>();
 		this.gradeLabel = gradeLabel;
 		this.beginListener = beginListener;
 	}
 
-	// ÖØĞ´MouseInputAdapterÀàµÄmousePressed·½·¨, ±íÊ¾Êó±ê°´ÏÂÊ±µÄ¶¯×÷
+	// ï¿½ï¿½Ğ´MouseInputAdapterï¿½ï¿½ï¿½mousePressedï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê¾ï¿½ï¿½ê°´ï¿½ï¿½Ê±ï¿½Ä¶ï¿½ï¿½ï¿½
 	public void mousePressed(MouseEvent event) {
 		if (gamePanel.getOverImage() != null) {
-			// ÓÎÏ·ÒÑ¾­Ê¤Àû
+			// ï¿½ï¿½Ï·ï¿½Ñ¾ï¿½Ê¤ï¿½ï¿½
 			return;
 		}
-		// »ñÈ¡GameServiceImplÖĞµÄÆåÅÌÊı×é
+		// ï¿½ï¿½È¡GameServiceImplï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Piece[][] pieces = gameService.getPieces();
 
-		// »ñÈ¡Êó±êµÄx×ø±ê
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 		int mouseX = event.getX();
-		// »ñÈ¡Êó±êµÄy×ø±ê
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 		int mouseY = event.getY();
-		// »ñÈ¡µ±Ç°Ñ¡ÔñµÄPiece¶ÔÏó
+		// ï¿½ï¿½È¡ï¿½ï¿½Ç°Ñ¡ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½
 		Piece currentPiece = gameService.findPiece(mouseX, mouseY);
-		// Èç¹ûÃ»ÓĞÑ¡ÖĞÈÎºÎPiece¶ÔÏó(¼´Êó±êµã»÷µÄµØ·½Ã»ÓĞÆå×Ó), ²»ÔÙÍùÏÂÖ´ĞĞ
+		// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îºï¿½Pieceï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄµØ·ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
 		if (currentPiece == null)
 			return;
-		// ÈÃGamePanel¶ÔÏóÉèÖÃÑ¡ÔñµÄÆåÅÌ¶ÔÏó
+		// ï¿½ï¿½GamePanelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½
 		gamePanel.setSelectPiece(currentPiece);
-		// ±íÊ¾Ö®Ç°Ã»ÓĞÑ¡ÖĞÈÎºÎÒ»¸öPiece
+		// ï¿½ï¿½Ê¾Ö®Ç°Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½Piece
 		if (this.selects.size() == 0) {
-			// ½«µ±Ç°µÄPiece¶ÔÏó·Åµ½Õâ¸ö¼¯ºÏÖĞ, ÖØĞÂ½«GamePanel»æÖÆ, ²¢²»ÔÙÍùÏÂÖ´ĞĞ
+			// ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Â½ï¿½GamePanelï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
 			this.selects.add(currentPiece);
 			gamePanel.repaint();
 			return;
 		}
-		// ±íÊ¾Ö®Ç°ÒÑ¾­Ñ¡ÔñÁËÒ»¸ö
+		// ï¿½ï¿½Ê¾Ö®Ç°ï¿½Ñ¾ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		if (this.selects.size() == 1) {
-			// ¿ÉÒÔ½«Ö®Ç°Ñ¡ÔñµÄÒ»¸öPiece¶ÔÏóÄÃ»Ø
+			// ï¿½ï¿½ï¿½Ô½ï¿½Ö®Ç°Ñ¡ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 			Piece prePiece = this.selects.get(0);
-			// ÔÚÕâÀï¾ÍÒª¶ÔcurrentPieceºÍprePiece½øĞĞÅĞ¶Ï²¢½øĞĞÁ¬½Ó
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½currentPieceï¿½ï¿½prePieceï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			LinkInfo linkInfo = this.gameService.link(prePiece, currentPiece);
-			// Á½¸öPiece²»¿ÉÁ¬,
+			// ï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
 			if (linkInfo == null) {
-				// Èç¹û²»³É¹¦Á¬½Ó, ¾ÍÒª½«Ö®Ç°Ñ¡ÔñµÄÒ»¸öPiece´Ó¼¯ºÏÖĞÉ¾³ı, ÔÙ°Ñ±¾´ÎÑ¡ÔñµÄPiece¼Óµ½¼¯ºÏÖĞ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Òªï¿½ï¿½Ö®Ç°Ñ¡ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Pieceï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½, ï¿½Ù°Ñ±ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Pieceï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				this.selects.remove(0);
 				this.selects.add(currentPiece);
 			} else {
-				// ËüÃÇ¿ÉÒÔÏàÁ¬, ÈÃGamePanel´¦ÀíLinkInfo
+				// ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½GamePanelï¿½ï¿½ï¿½ï¿½LinkInfo
 				gamePanel.setLinkInfo(linkInfo);
-				// È¥µôÑ¡ÔñÍ¼±ê
+				// È¥ï¿½ï¿½Ñ¡ï¿½ï¿½Í¼ï¿½ï¿½
 				gamePanel.setSelectPiece(null);
-				// ÉèÖÃ·ÖÊı
+				// ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½
 				long grade = gameService.countGrade();
 				gradeLabel.setText(String.valueOf(grade));
-				// ½«Á½¸öPiece¶ÔÏó´ÓÊı×éÖĞÉ¾³ı
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½
 				pieces[prePiece.getIndexX()][prePiece.getIndexY()] = null;
 				pieces[currentPiece.getIndexX()][currentPiece.getIndexY()] = null;
-				this.selects.remove(0);// Çå¿Õ¼¯ºÏ
-				// ÅĞ¶ÏÆåÅÌÖĞÊÇ·ñ»¹ÓĞÆå×Ó, Èç¹ûÃ»ÓĞ, ÓÎÏ·Ê¤Àû
+				this.selects.remove(0);// ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½
+				// ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½ï¿½, ï¿½ï¿½Ï·Ê¤ï¿½ï¿½
 				if (!gameService.hasPieces(pieces)) {
-					// ½«ÓÎÏ·ÉèÎªÊ¤Àû, ²¢ÏÔÊ¾Í¼Æ¬
+					// ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ÎªÊ¤ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ê¾Í¼Æ¬
 					gamePanel
 							.setOverImage(ImageUtil.getImage("images/win.gif"));
-					// È¡ÏûÈÎÎñ
+					// È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					this.beginListener.getTimer().cancel();
 				}
 			}

@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.object.Resource;
+import flashget.src.org.crazyit.flashget.ContextHolder;
 
 public class DownloadTableModel extends DefaultTableModel {
 	
@@ -13,14 +12,14 @@ public class DownloadTableModel extends DefaultTableModel {
 	
 	public final static String ID_COLUMN = "id";
 	public final static String STATE_COLUMN = "×´Ì¬";
-	public final static String FILE_NAME_COLUMN = "ÎÄ¼þÃû³Æ";
-	public final static String FILE_SIZE_COLUMN = "ÎÄ¼þ´óÐ¡";
-//	public final static String DOWNLOAD_DATE_COLUMN = "ÏÂÔØÈÕÆÚ";
-	public final static String PLAN_COLUMN = "½ø¶È";
-	public final static String SPEED_COLUMN = "ÏÂÔØËÙ¶È";
-	public final static String HAS_DOWN_COLUMN = "ÒÑÏÂÔØ";
-	public final static String COST_TIME_COLUMN = "ÒÑÓÃÊ±¼ä";
-	public final static String SPARE_TIME_COLUMN = "Ê£ÓàÊ±¼ä";
+	public final static String FILE_NAME_COLUMN = "ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½";
+	public final static String FILE_SIZE_COLUMN = "ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡";
+//	public final static String DOWNLOAD_DATE_COLUMN = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
+	public final static String PLAN_COLUMN = "ï¿½ï¿½ï¿½ï¿½";
+	public final static String SPEED_COLUMN = "ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½";
+	public final static String HAS_DOWN_COLUMN = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
+	public final static String COST_TIME_COLUMN = "ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½";
+	public final static String SPARE_TIME_COLUMN = "Ê£ï¿½ï¿½Ê±ï¿½ï¿½";
 	
 	private static final String[] columnNames = {
 		ID_COLUMN,
@@ -82,9 +81,9 @@ public class DownloadTableModel extends DefaultTableModel {
 		} else if (columnName.equals(HAS_DOWN_COLUMN)) {
 			return r.getCurrentLength() / 1024;
 		} else if (columnName.equals(COST_TIME_COLUMN)) {
-			return r.getCostTime() + " Ãë";
+			return r.getCostTime() + " ï¿½ï¿½";
 		} else if (columnName.equals(SPARE_TIME_COLUMN)) {
-			return r.getSpareTime() + " Ãë";
+			return r.getSpareTime() + " ï¿½ï¿½";
 		} else if (columnName.equals(ID_COLUMN)) {
 			return r.getId();
 		}

@@ -3,16 +3,15 @@ package org.crazyit.linkgame.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.linkgame.commons.GameConfiguration;
-import org.crazyit.linkgame.commons.Piece;
-import org.crazyit.linkgame.service.AbstractBoard;
+import linkgame.src.org.crazyit.linkgame.commons.GameConfiguration;
+import linkgame.src.org.crazyit.linkgame.service.AbstractBoard;
 
 /**
- * ´´½¨·½ÐÎµÄÓÎÏ·ÇøÓò
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -23,9 +22,9 @@ public class SquareBoard extends AbstractBoard {
 		List<Piece> notNullPieces = new ArrayList<Piece>();
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].length; j++) {
-				// ÏÈ¹¹ÔìÒ»¸öPiece¶ÔÏó, Ö»ÉèÖÃÊý×éÖÐµÄÎ»ÖÃÎªi, j£¬ÆäËûÖµ²»ÉèÖÃ
+				// ï¿½È¹ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½, Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Î»ï¿½ï¿½Îªi, jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				Piece piece = new Piece(i, j);
-				// Ìí¼Óµ½·Ç¿ÕPiece¶ÔÏóµÄ¼¯ºÏÖÐ
+				// ï¿½ï¿½Óµï¿½ï¿½Ç¿ï¿½Pieceï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 				notNullPieces.add(piece);
 			}
 		}

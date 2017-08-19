@@ -2,8 +2,6 @@ package org.crazyit.flashget.state;
 
 import javax.swing.ImageIcon;
 
-import org.crazyit.flashget.util.ImageUtil;
-
 public class Connecting extends AbstractState {
 
 	@Override

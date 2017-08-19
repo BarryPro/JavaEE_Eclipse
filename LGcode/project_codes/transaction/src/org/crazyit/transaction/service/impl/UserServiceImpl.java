@@ -2,13 +2,7 @@ package org.crazyit.transaction.service.impl;
 
 import java.util.List;
 
-import org.crazyit.transaction.dao.RoleDao;
-import org.crazyit.transaction.dao.UserDao;
-import org.crazyit.transaction.model.Role;
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.service.BusinessException;
-import org.crazyit.transaction.service.UserService;
-import org.crazyit.transaction.util.ApplicationContext;
+import transaction.src.org.crazyit.transaction.dao.RoleDao;
 
 public class UserServiceImpl implements UserService {
 
@@ -23,8 +17,8 @@ public class UserServiceImpl implements UserService {
 	
 	public void login(String userName, String passwd) {
 		User user = this.userDao.findUser(userName, passwd);
-		//Ã»ÓĞÕÒµ½ÓÃ»§, Å×³öÒì³£
-		if (user == null) throw new BusinessException("ÓÃ»§ÃûÃÜÂë´íÎó");
+		//Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½Ã»ï¿½, ï¿½×³ï¿½ï¿½ì³£
+		if (user == null) throw new BusinessException("ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		Role role = this.roleDao.find(user.getROLE_ID());
 		user.setRole(role);
 		ApplicationContext.loginUser = user;
@@ -40,24 +34,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/*
-	 * Ìí¼ÓÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @see org.crazyit.transaction.service.UserService#addUser(org.crazyit.transaction.model.User)
 	 */
 	public void addUser(User user) {
-		//¸ù¾İĞÂµÄÓÃ»§ÃûÈ¥²éÕÒ, ÅĞ¶ÏÊÇ·ñ´æÔÚÏàÍ¬ÓÃ»§ÃûµÄÓÃ»§
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ã»ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½, ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 		User u = this.userDao.findUser(user.getUSER_NAME());
-		if (u != null) throw new BusinessException("¸ÃÓÃ»§ÃûÒÑ¾­´æÔÚ");
+		if (u != null) throw new BusinessException("ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½");
 		this.userDao.save(user);
 	}
 
 	/*
-	 * É¾³ıÓÃ»§, ½«ÓÃ»§µÄIS_DELETEÊôĞÔÉèÎª1
+	 * É¾ï¿½ï¿½ï¿½Ã»ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½IS_DELETEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª1
 	 * @see org.crazyit.transaction.service.UserService#delete(java.lang.String)
 	 */
 	public void delete(String id) {
-		//×îºóÒ»¸öÓÃ»§²»ÄÜÉ¾³ı
+		//ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½
 		if (this.userDao.getUserCount() <= 1) {
-			throw new BusinessException("×îºóÒ»¸öÓÃ»§²»ÄÜÉ¾³ı");
+			throw new BusinessException("ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½");
 		}
 		this.userDao.delete(id);
 	}

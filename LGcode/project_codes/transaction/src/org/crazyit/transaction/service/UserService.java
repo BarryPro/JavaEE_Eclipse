@@ -2,37 +2,35 @@ package org.crazyit.transaction.service;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.User;
-
 public interface UserService {
 
 	/**
-	 * ÓÃ»§µÇÂ¼
+	 * ï¿½Ã»ï¿½ï¿½ï¿½Â¼
 	 * @param userName
 	 * @param passwd
 	 */
 	void login(String userName, String passwd);
 	
 	/**
-	 * ·µ»ØÈ«²¿µÄÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @return
 	 */
 	List<User> getUsers();
 	
 	/**
-	 * Ìí¼ÓÒ»¸öÓÃ»§
+	 * ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param user
 	 */
 	void addUser(User user);
 	
 	/**
-	 * É¾³ýÓÃ»§
+	 * É¾ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param id
 	 */
 	void delete(String id);
 	
 	/**
-	 * ²éÑ¯ÓÃ»§
+	 * ï¿½ï¿½Ñ¯ï¿½Ã»ï¿½
 	 * @param realName
 	 * @return
 	 */

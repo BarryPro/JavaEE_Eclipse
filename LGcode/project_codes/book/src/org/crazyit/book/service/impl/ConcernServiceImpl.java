@@ -2,16 +2,12 @@ package org.crazyit.book.service.impl;
 
 import java.util.Collection;
 
-import org.crazyit.book.dao.ConcernDao;
-import org.crazyit.book.service.ConcernService;
-import org.crazyit.book.vo.Concern;
-
 /**
- * ³ö°æÉçÒµÎñÊµÏÖÀà
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -41,9 +37,9 @@ public class ConcernServiceImpl implements ConcernService {
 
 	@Override
 	public Concern update(Concern c) {
-		//µ÷ÓÃDAO·½·¨ÐÞ¸Ä¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½DAOï¿½ï¿½ï¿½ï¿½ï¿½Þ¸Ä¶ï¿½ï¿½ï¿½
 		String id = dao.update(c);
-		//ÖØÐÂ²éÕÒ¸Ã¶ÔÏó
+		//ï¿½ï¿½ï¿½Â²ï¿½ï¿½Ò¸Ã¶ï¿½ï¿½ï¿½
 		return find(id);
 	}
 

@@ -1,14 +1,13 @@
 package org.crazyit.editor.tree;
 
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 
 /**
- * ÏîÄ¿Ê÷µÄModel¶ÔÏó
+ * ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Modelï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -19,19 +18,19 @@ public class ProjectTreeModel extends DefaultTreeModel {
 	}
 
 	public void reload(ProjectTreeNode node, TreeCreator creator) {
-		//»ñÈ¡node½ÚµãµÄ¸¸½Úµã
+		//ï¿½ï¿½È¡nodeï¿½Úµï¿½Ä¸ï¿½ï¿½Úµï¿½
 		ProjectTreeNode parent = (ProjectTreeNode)node.getParent();
-		//¸¸½ÚµãÎªnull£¬·µ»Ø£¬²»ÐèÒªreload
+		//ï¿½ï¿½ï¿½Úµï¿½Îªnullï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½Òªreload
 		if (parent == null) return;
-		//»ñÈ¡node½ÚµãÔÚ¸¸½ÚµãµÄË÷Òý
+		//ï¿½ï¿½È¡nodeï¿½Úµï¿½ï¿½Ú¸ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int index = parent.getIndex(node);
-		//ÏÈ×°node½Úµã´ÓparentÖÐÉ¾³ý
+		//ï¿½ï¿½×°nodeï¿½Úµï¿½ï¿½parentï¿½ï¿½É¾ï¿½ï¿½
 		parent.remove(index);
-		//ÔÙÍ¨¹ýTreeCreator»ñÈ¡ÐÂµÄ½Úµã
+		//ï¿½ï¿½Í¨ï¿½ï¿½TreeCreatorï¿½ï¿½È¡ï¿½ÂµÄ½Úµï¿½
 		node = creator.createNode(node.getFile());
-		//Ìí¼Óµ½¸¸½ÚµãÖÐ
+		//ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½
 		parent.insert(node, index);
-		//µ÷ÓÃDefaultTreeModelµÄreload·½·¨
+		//ï¿½ï¿½ï¿½ï¿½DefaultTreeModelï¿½ï¿½reloadï¿½ï¿½ï¿½ï¿½
 		super.reload(node);
 	}
 

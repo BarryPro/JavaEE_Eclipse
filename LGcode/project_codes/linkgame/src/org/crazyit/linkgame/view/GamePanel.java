@@ -1,38 +1,35 @@
 package org.crazyit.linkgame.view;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.List;
+
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import org.crazyit.linkgame.commons.LinkInfo;
-import org.crazyit.linkgame.commons.Piece;
-import org.crazyit.linkgame.commons.Point;
-import org.crazyit.linkgame.service.GameService;
-import org.crazyit.linkgame.utils.ImageUtil;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.util.List;
-import java.awt.image.BufferedImage;
+import linkgame.src.org.crazyit.linkgame.commons.LinkInfo;
+import linkgame.src.org.crazyit.linkgame.service.GameService;
 
 /**
- * ÓÎÏ·ÇøÓò½çÃæ¶ÔÏó
+ * ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class GamePanel extends JPanel {
 	private GameService gameService;
 
-	// GamePanelÖĞ×î¶àÖ»ÏÔÊ¾Ò»¸öÒÑ¾­±»Ñ¡ÖĞµÄÆå×Ó
+	// GamePanelï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ê¾Ò»ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ñ¡ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½
 	private Piece selectPiece;
 
-	// Á¬½ÓĞÅÏ¢¶ÔÏó
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 	private LinkInfo linkInfo;
 
-	// ÓÎÏ·½áÊøÊ±ºòÏÔÊ¾µÄÍ¼Æ¬
+	// ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Í¼Æ¬
 	private BufferedImage overImage;
 
 	public void setLinkInfo(LinkInfo linkInfo) {
@@ -40,11 +37,11 @@ public class GamePanel extends JPanel {
 	}
 
 	public GamePanel(GameService gameService) {
-		// ÉèÖÃÕâ¸öJPanelµÄ±³¾°ÑÕÉ«
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		this.setBackground(new Color(55, 77, 118));
-		// ÉèÖÃÕâ¸öJPanelµÄ±ß¿òÑùÊ½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä±ß¿ï¿½ï¿½ï¿½Ê½
 		this.setBorder(new EtchedBorder());
-		// ÓÃÓÚÔÚ¹¹Ôì±¾¶ÔÏóÊ±ÉèÖÃGameService
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½ï¿½ì±¾ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½GameService
 		this.gameService = gameService;
 	}
 
@@ -61,22 +58,22 @@ public class GamePanel extends JPanel {
 	}
 
 	public void paint(Graphics g) {
-		// »­±³¾°Í¼£¬´ÓGamePanel(ÆåÅÌ)µÄ0, 0¿ªÊ¼»­£¬»­ÂúÕû¸öGamePanel
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½GamePanel(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½0, 0ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GamePanel
 		g.drawImage(ImageUtil.getImage("images/background.gif"), 0, 0,
 				getWidth(), getHeight(), null);
-		// Í¨¹ıgameService»ñµÃpiecesÊı×é¶ÔÏó
+		// Í¨ï¿½ï¿½gameServiceï¿½ï¿½ï¿½piecesï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Piece[][] pieces = gameService.getPieces();
-		// ¸ù¾İÕâ¸öÊı×éÀ´»­Õâ¸ö×é¼ş
-		// Èç¹ûpiecesÃ»ÓĞ³õÊ¼»¯£¬¾Í²»Òª½øĞĞÏÂÃæµÄĞĞÎª
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½piecesÃ»ï¿½Ğ³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Í²ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª
 		if (pieces != null) {
-			// ¶ÔÕâ¸ö¶şÎ¬Êı×é½øĞĞ±éÀú
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½
 			for (int i = 0; i < pieces.length; i++) {
 				for (int j = 0; j < pieces[i].length; j++) {
-					// Èç¹û¶¨Î»µ½Õâ¸ö¶şÎ¬Êı×éµÄÄ³¸öÖµ²»Îª¿Õ£¬ÄÇÃ´½«Õâ¸ö¶ÔÏóµÄÍ¼Æ¬»­³öÀ´
+					// ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Öµï¿½ï¿½Îªï¿½Õ£ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					if (pieces[i][j] != null) {
-						// µÃµ½Õâ¸öPiece¶ÔÏó
+						// ï¿½Ãµï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½
 						Piece piece = pieces[i][j];
-						// µ÷ÓÃGraphicsÀàµÄdrawImage·½·¨»­Í¼£¬´ÓpieceµÄ¿ªÊ¼×ø±ê¿ªÊ¼»­
+						// ï¿½ï¿½ï¿½ï¿½Graphicsï¿½ï¿½ï¿½drawImageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½pieceï¿½Ä¿ï¿½Ê¼ï¿½ï¿½ï¿½ê¿ªÊ¼ï¿½ï¿½
 						g.drawImage(piece.getImage(), piece.getBeginX(), piece
 								.getBeginY(), null);
 					}
@@ -84,19 +81,19 @@ public class GamePanel extends JPanel {
 			}
 		}
 		if (this.selectPiece != null) {
-			// µ±Ç°ÓĞÆå×Ó±»Ñ¡ÖĞ, »æÖÆÑ¡ÔñµÄÍ¼Æ¬
+			// ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ó±ï¿½Ñ¡ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Í¼Æ¬
 			g.drawImage(ImageUtil.getImage("images/selected.gif"),
 					this.selectPiece.getBeginX(), this.selectPiece.getBeginY(),
 					null);
 		}
-		// Èç¹ûµ±Ç°¶ÔÏóÖĞÓĞlinkInfo¶ÔÏó, ¼´Á¬½ÓĞÅÏ¢
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½linkInfoï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		if (this.linkInfo != null) {
-			// ÔİÊ±²»Ìá¹©´¦Àí
+			// ï¿½ï¿½Ê±ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½ï¿½
 			drawLine(this.linkInfo, g);
-			// ´¦ÀíÍêºóÇå¿ÕlinkInfo¶ÔÏó
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½linkInfoï¿½ï¿½ï¿½ï¿½
 			this.linkInfo = null;
 		}
-		// Èç¹ûoverImage²»Îª¿Õ, Ôò±íÊ¾ÓÎÏ·ÒÑ¾­Ê¤Àû»òÕßÊ§°Ü
+		// ï¿½ï¿½ï¿½overImageï¿½ï¿½Îªï¿½ï¿½, ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ï·ï¿½Ñ¾ï¿½Ê¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
 		if (this.overImage != null) {
 			g.drawImage(this.overImage, 0, 0, null);
 		}

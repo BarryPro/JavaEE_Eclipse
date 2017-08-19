@@ -1,28 +1,25 @@
 package org.crazyit.linkgame.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.io.File;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.List;
 
-import org.crazyit.linkgame.commons.GameConfiguration;
-import org.crazyit.linkgame.commons.Piece;
-import org.crazyit.linkgame.utils.ImageUtil;
+import linkgame.src.org.crazyit.linkgame.commons.GameConfiguration;
 
 /**
- * ÓÎÏ·ÇøÓòµÄ³éÏóÀà
+ * ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public abstract class AbstractBoard {
-	// ÔÚÆåÅÌ¶ÔÏóÖÐ¼ÇÂ¼Ã¿ÕÅÍ¼Æ¬µÄ¿í
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Â¼Ã¿ï¿½ï¿½Í¼Æ¬ï¿½Ä¿ï¿½
 	private int commonImageWidth;
 
-	// ÔÚÆåÅÌ¶ÔÏóÖÐ¼ÇÂ¼Ã¿ÕÅÍ¼Æ¬µÄ¸ß
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Â¼Ã¿ï¿½ï¿½Í¼Æ¬ï¿½Ä¸ï¿½
 	private int commonImageHeight;
 
 	public int getCommonImageWidth() {
@@ -33,42 +30,42 @@ public abstract class AbstractBoard {
 		return this.commonImageHeight;
 	}
 
-	// ½¨Á¢Ò»¸ö³éÏó·½·¨, ÈÃ×ÓÀàÈ¥ÊµÏÖ
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ó·½·ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥Êµï¿½ï¿½
 	protected abstract List<Piece> createPieces(GameConfiguration config,
 			Piece[][] pieces);
 
 	public Piece[][] create(GameConfiguration config) {
-		// ´´½¨½á¹ûÊý×é
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Piece[][] pieces = new Piece[config.getXSize()][config.getYSize()];
-		// ·µ»Ø·Ç¿ÕµÄPiece¼¯ºÏ, ¸Ã¼¯ºÏÓÉ×ÓÀàÈ¥´´½¨
+		// ï¿½ï¿½ï¿½Ø·Ç¿Õµï¿½Pieceï¿½ï¿½ï¿½ï¿½, ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½
 		List<Piece> notNullPieces = createPieces(config, pieces);
-		// ¸ù¾Ý·Ç¿ÕPiece¶ÔÏóµÄ¼¯ºÏµÄ´óÐ¡À´È¡Í¼Æ¬
+		// ï¿½ï¿½ï¿½Ý·Ç¿ï¿½Pieceï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ÏµÄ´ï¿½Ð¡ï¿½ï¿½È¡Í¼Æ¬
 		List<BufferedImage> playImages = getPlayImages(notNullPieces.size());
 		int imageWidth = playImages.get(0).getWidth();
 		int imageHeight = playImages.get(0).getHeight();
-		// ½«µÚÒ»ÕÅÍ¼Æ¬µÄ¿íºÍ¸ßÉè½ø±¾¶ÔÏó, ÓÉÓÚÔ¼¶¨ÁËÃ¿ÕÅÍ¼Æ¬µÄ´óÐ¡±ØÐëÒ»ÖÂ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½Ä¿ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Í¼Æ¬ï¿½Ä´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		this.commonImageWidth = imageWidth;
 		this.commonImageHeight = imageHeight;
-		// ±éÀú·Ç¿ÕµÄPiece¼¯ºÏ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿Õµï¿½Pieceï¿½ï¿½ï¿½ï¿½
 		for (int i = 0; i < notNullPieces.size(); i++) {
-			// ÄÃµ½ÉÏÃæ´´½¨µÄ·Ç¿ÕPieceºó, ÔÙÖØÐÂ¹¹ÔìÒ»¸öPiece¶ÔÏó, ÓÃÓÚ·Å½øÊý×éÖÐ
+			// ï¿½Ãµï¿½ï¿½ï¿½ï¿½æ´´ï¿½ï¿½ï¿½Ä·Ç¿ï¿½Pieceï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ú·Å½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Piece piece1 = notNullPieces.get(i);
-			// »ñÈ¡piece1µÄindexX(ÔÚÊý×éÖÐÒ»Î¬µÄÖµ)
+			// ï¿½ï¿½È¡piece1ï¿½ï¿½indexX(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Î¬ï¿½ï¿½Öµ)
 			int indexX = piece1.getIndexX();
-			// »ñÈ¡piece1µÄindexY(ÔÚÊý×éÖÐ¶þÎ¬µÄÖµ)
+			// ï¿½ï¿½È¡piece1ï¿½ï¿½indexY(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½Î¬ï¿½ï¿½Öµ)
 			int indexY = piece1.getIndexY();
-			// ÒÔpiece1µÄindexXºÍindexYÀ´ÖØÐÂ¹¹½¨Ò»¸öPiece, ²¢½«Õâ¸öÐÂµÄPiece¶ÔÏó·Åµ½Êý×éÖÐ
+			// ï¿½ï¿½piece1ï¿½ï¿½indexXï¿½ï¿½indexYï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Piece, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Pieceï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Piece piece2 = new Piece(indexX * imageWidth
 					+ config.getBeginImageX(), indexY * imageHeight
 					+ config.getBeginImageY(), indexX, indexY, playImages
 					.get(i));
-			// ½«piece2·Åµ½Êý×éÖÐ
+			// ï¿½ï¿½piece2ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			pieces[indexX][indexY] = piece2;
 		}
 		return pieces;
 	}
 
-	// »ñÈ¡sizeÕÅÍ¼Æ¬
+	// ï¿½ï¿½È¡sizeï¿½ï¿½Í¼Æ¬
 	public List<BufferedImage> getPlayImages(int size) {
 		return ImageUtil.getPlayImages(new File("images/pieces"), size);
 	}

@@ -13,22 +13,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-import org.crazyit.transaction.model.Transaction;
-import org.crazyit.transaction.model.TransactionState;
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.ui.dialog.NewTransactionDialog;
-import org.crazyit.transaction.ui.dialog.ViewTransactionDialog;
-import org.crazyit.transaction.ui.table.State;
-import org.crazyit.transaction.ui.table.TransactionTable;
-import org.crazyit.transaction.ui.table.TransactionTableModel;
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.model.TransactionState;
+import transaction.src.org.crazyit.transaction.ui.dialog.NewTransactionDialog;
+import transaction.src.org.crazyit.transaction.ui.dialog.ViewTransactionDialog;
+import transaction.src.org.crazyit.transaction.ui.table.TransactionTable;
+import transaction.src.org.crazyit.transaction.ui.table.TransactionTableModel;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 /**
- * ÊÂÎñ¹ÜÀí½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -36,31 +33,31 @@ public class TransactionManagePanel extends BasePanel {
 	
 	private JScrollPane tableScrollPane;
 	
-	//Êý¾ÝÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private TransactionTable dataTable;
 	private TransactionTableModel tableModel;
 	
-	//²Ù×÷ÇøÓò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Box handleBox = Box.createVerticalBox();
 	
-	//²éÑ¯
+	//ï¿½ï¿½Ñ¯
 	private Box queryBox = Box.createHorizontalBox();
 	private JLabel stateLabel = new JLabel("×´Ì¬: ");
 	private JComboBox stateSelect = new JComboBox();
-	private JButton queryButton = new JButton("²éÑ¯");
+	private JButton queryButton = new JButton("ï¿½ï¿½Ñ¯");
 	
-	//²Ù×÷
+	//ï¿½ï¿½ï¿½ï¿½
 	private Box operateBox = Box.createHorizontalBox();
-	private JButton newButton = new JButton("ÐÂ½¨ÊÂÎñ");
-	private JButton hurryButton = new JButton("´ß°ì");
-	private JButton invalidButton = new JButton("ÖÃÎªÎÞÐ§");
+	private JButton newButton = new JButton("ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	private JButton hurryButton = new JButton("ï¿½ß°ï¿½");
+	private JButton invalidButton = new JButton("ï¿½ï¿½Îªï¿½ï¿½Ð§");
 	
 	private NewTransactionDialog newTransactionDialog;
 	
-	//¼ÇÂ¼µ±Ç°½çÃæ×´Ì¬(ÊÂÎñ×´Ì¬)
+	//ï¿½ï¿½Â¼ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½×´Ì¬(ï¿½ï¿½ï¿½ï¿½×´Ì¬)
 	private String currentState = TransactionState.PROCESSING;
 	
-	//²é¿´ÊÂÎñ½çÃæ
+	//ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private ViewTransactionDialog vtDialog;
 	
 	public TransactionManagePanel() {
@@ -81,7 +78,7 @@ public class TransactionManagePanel extends BasePanel {
 		initListeners();
 	}
 	
-	//´´½¨ÊÂÎñÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private void createTable() {
 		this.tableModel = new TransactionTableModel();
 		this.dataTable = new TransactionTable(this.tableModel);
@@ -118,7 +115,7 @@ public class TransactionManagePanel extends BasePanel {
 		});
 	}
 	
-	//²é¿´ÊÂÎñ
+	//ï¿½é¿´ï¿½ï¿½ï¿½ï¿½
 	private void view() {
 		String id = ViewUtil.getSelectValue(this.dataTable, "id");
 		Transaction t = ApplicationContext.transactionService.view(id);
@@ -126,11 +123,11 @@ public class TransactionManagePanel extends BasePanel {
 		this.vtDialog.setVisible(true);
 	}
 	
-	//´ß°ìÊÂÎñ
+	//ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void hurry() {
 		String id = ViewUtil.getSelectValue(this.dataTable, "id");
 		if (id == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÐèÒª´ß°ìµÄÊÂÎñ", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", this);
 			return;
 		}
 		try {
@@ -141,11 +138,11 @@ public class TransactionManagePanel extends BasePanel {
 		}
 	}
 	
-	//½«ÊÂÎñÖÃÎªÎÞÐ§
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ð§
 	private void invalid() {
 		String id = ViewUtil.getSelectValue(this.dataTable, "id");
 		if (id == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÐèÒª²Ù×÷µÄÊÂÎñ", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", this);
 			return;
 		}
 		try {
@@ -156,17 +153,17 @@ public class TransactionManagePanel extends BasePanel {
 		}
 	}
 	
-	//²éÑ¯
+	//ï¿½ï¿½Ñ¯
 	private void query() {
 		State state = (State)this.stateSelect.getSelectedItem();
 		this.currentState = state.getValue();
 		readData();
 	}
 	
-	//´´½¨²Ù×÷Box
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 	private void createOperateBox() {
 		this.operateBox.add(Box.createHorizontalStrut(220));
-		this.operateBox.add(new JLabel("Ñ¡Ôñ²Ù×÷: "));
+		this.operateBox.add(new JLabel("Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½: "));
 		this.operateBox.add(Box.createHorizontalStrut(40));
 		this.operateBox.add(this.newButton);
 		this.operateBox.add(Box.createHorizontalStrut(40));
@@ -176,7 +173,7 @@ public class TransactionManagePanel extends BasePanel {
 		this.operateBox.add(Box.createHorizontalStrut(220));
 	}
 	
-	//´ÓÊý¾Ý¿âÖÐ¶ÁÈ¡Êý¾Ý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ð¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	private List<Transaction> getDatas() {
 		User loginUser = ApplicationContext.loginUser;
 		List<Transaction> datas = ApplicationContext.transactionService
@@ -184,14 +181,14 @@ public class TransactionManagePanel extends BasePanel {
 		return datas;
 	}
 	
-	//ÊÂÎñ¹ÜÀí½çÃæ¶ÁÈ¡Êý¾Ý, ÊµÏÖ¸¸ÀàµÄ³éÏó·½·¨
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½, Êµï¿½Ö¸ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ó·½·ï¿½
 	public void readData() {
 		List<Transaction> datas = getDatas();
 		this.tableModel.setDatas(datas);
 		this.dataTable.updateUI();
 	}
 	
-	//´´½¨²éÑ¯ÇøÓò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	private void createQueryBox() {
 		this.stateSelect.addItem(State.PROCESS_STATE);
 		this.stateSelect.addItem(State.FINISHED_STATE);

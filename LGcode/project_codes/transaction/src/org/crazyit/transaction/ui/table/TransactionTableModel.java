@@ -5,13 +5,13 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
-import org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.model.Transaction;
 
 /**
- * ÊÂÎñÁÐ±íµÄTableModel
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½TableModel
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -21,19 +21,19 @@ public class TransactionTableModel extends DefaultTableModel {
 	
 	public final static String TS_STATE = "×´Ì¬";
 	
-	public final static String TS_TITLE = "±êÌâ";
+	public final static String TS_TITLE = "ï¿½ï¿½ï¿½ï¿½";
 	
-	public final static String TS_CONTENT = "ÄÚÈÝ";
+	public final static String TS_CONTENT = "ï¿½ï¿½ï¿½ï¿½";
 	
-	public final static String TS_TARGETDATE = "Ä¿±êÍê³ÉÊ±¼ä";
+	public final static String TS_TARGETDATE = "Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½";
 	
-	public final static String TS_CREATEDATE = "´´½¨ÈÕÆÚ";
+	public final static String TS_CREATEDATE = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 	
-	public final static String INITIATOR = "·¢ÆðÈË";
+	public final static String INITIATOR = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 	
-	public final static String TS_FACTDATE = "Êµ¼ÊÍê³ÉÊ±¼ä";
+	public final static String TS_FACTDATE = "Êµï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½";
 	
-	public final static String CURRENT_HANDLER = "µ±Ç°´¦ÀíÈË";
+	public final static String CURRENT_HANDLER = "ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 	
 	private List<Transaction> datas;
 		
@@ -105,7 +105,7 @@ public class TransactionTableModel extends DefaultTableModel {
 	}
 	
 	/**
-	 * ·µ»ØÊÂÎñ×´Ì¬¶ÔÓ¦µÄÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½Ó¦ï¿½ï¿½Í¼Æ¬
 	 * @param state
 	 * @return
 	 */

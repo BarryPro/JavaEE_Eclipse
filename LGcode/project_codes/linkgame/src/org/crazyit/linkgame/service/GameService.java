@@ -1,67 +1,64 @@
 package org.crazyit.linkgame.service;
 
-import javax.swing.JLabel;
-
-import org.crazyit.linkgame.commons.LinkInfo;
-import org.crazyit.linkgame.commons.Piece;
+import linkgame.src.org.crazyit.linkgame.commons.LinkInfo;
 
 
 /**
- * 游戏逻辑接口
+ * 锟斤拷戏锟竭硷拷锟接匡拷
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>网站: <a href="http://www.crazyit.org">疯狂Java联盟</a>
+ * <br/>锟斤拷站: <a href="http://www.crazyit.org">锟斤拷锟絁ava锟斤拷锟斤拷</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface GameService {
 	/**
-	 * 定义一个接口方法, 用于返回一个二维数组
+	 * 锟斤拷锟斤拷一锟斤拷锟接口凤拷锟斤拷, 锟斤拷锟节凤拷锟斤拷一锟斤拷锟斤拷维锟斤拷锟斤拷
 	 * 
-	 * @return 存放棋子对象的二维数组
+	 * @return 锟斤拷锟斤拷锟斤拷佣锟斤拷锟侥讹拷维锟斤拷锟斤拷
 	 */
 	Piece[][] getPieces();
 
 	/**
-	 * 定义一个开始方法，用于游戏的开始
+	 * 锟斤拷锟斤拷一锟斤拷锟斤拷始锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷戏锟侥匡拷始
 	 * 
 	 */
 	void start();
 
 	/**
-	 * 根据鼠标的x坐标和y坐标, 查找出一个Piece对象
+	 * 锟斤拷锟斤拷锟斤拷锟斤拷x锟斤拷锟斤拷锟統锟斤拷锟斤拷, 锟斤拷锟揭筹拷一锟斤拷Piece锟斤拷锟斤拷
 	 * 
 	 * @param mouseX
-	 *            鼠标点击的x坐标
+	 *            锟斤拷锟斤拷锟斤拷锟絰锟斤拷锟斤拷
 	 * @param mouseY
-	 *            鼠标点击的y坐标
-	 * @return 返回一个对应的Piece对象, 没有返回null
+	 *            锟斤拷锟斤拷锟斤拷锟統锟斤拷锟斤拷
+	 * @return 锟斤拷锟斤拷一锟斤拷锟斤拷应锟斤拷Piece锟斤拷锟斤拷, 没锟叫凤拷锟斤拷null
 	 */
 	Piece findPiece(int mouseX, int mouseY);
 
 	/**
-	 * 连接两个Piece对象, 可以连接, 返回LinkInfo对象
+	 * 锟斤拷锟斤拷锟斤拷锟斤拷Piece锟斤拷锟斤拷, 锟斤拷锟斤拷锟斤拷锟斤拷, 锟斤拷锟斤拷LinkInfo锟斤拷锟斤拷
 	 * 
 	 * @param p1
-	 *            第一个Piece对象
+	 *            锟斤拷一锟斤拷Piece锟斤拷锟斤拷
 	 * @param p2
-	 *            第二个Piece对象
-	 * @return 返回一个LinkInfo对象, 如果两个Piece不可以连接, 返回null
+	 *            锟节讹拷锟斤拷Piece锟斤拷锟斤拷
+	 * @return 锟斤拷锟斤拷一锟斤拷LinkInfo锟斤拷锟斤拷, 锟斤拷锟斤拷锟斤拷锟絇iece锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷, 锟斤拷锟斤拷null
 	 */
 	LinkInfo link(Piece p1, Piece p2);
 
 	/**
-	 * 计算当前游戏的分数
+	 * 锟斤拷锟姐当前锟斤拷戏锟侥凤拷锟斤拷
 	 * 
-	 * @return 返回当前分数
+	 * @return 锟斤拷锟截碉拷前锟斤拷锟斤拷
 	 */
 	long countGrade();
 
 	/**
-	 * 判断参数pieces中是否还存在Piece对象
+	 * 锟叫断诧拷锟斤拷pieces锟斤拷锟角否还达拷锟斤拷Piece锟斤拷锟斤拷
 	 * 
-	 * @return 还有Piece对象返回true, 没有返回false
+	 * @return 锟斤拷锟斤拷Piece锟斤拷锟襟返伙拷true, 没锟叫凤拷锟斤拷false
 	 */
 	boolean hasPieces(Piece[][] pieces);
 }

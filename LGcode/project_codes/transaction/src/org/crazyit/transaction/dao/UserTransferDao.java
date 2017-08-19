@@ -2,26 +2,26 @@ package org.crazyit.transaction.dao;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.UserTransfer;
+import transaction.src.org.crazyit.transaction.model.UserTransfer;
 
 /**
- * ÊÂÎñ×ª·¢¼ÇÂ¼
+ * ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Â¼
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface UserTransferDao {
 
 	/**
-	 * ±£´æÒ»Ìõ×ª·¢¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Â¼
 	 * @param ut
 	 */
 	void save(UserTransfer ut);
 	
 	/**
-	 * ²éÕÒÓÃ»§½øÐÐ×ª·¢²Ù×÷µÄ×ª·¢¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Â¼
 	 * @param userId
 	 * @return
 	 */

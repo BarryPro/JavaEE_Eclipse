@@ -1,15 +1,13 @@
 package org.crazyit.ioc.context;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import IoC.main.org.crazyit.ioc.context.BeanCreator;
+import IoC.main.org.crazyit.ioc.context.BeanCreatorImpl;
+import IoC.test.org.crazyit.ioc.context.object.BeanCreatorObject1;
+import IoC.test.org.crazyit.ioc.context.object.BeanCreatorObject2;
 import junit.framework.TestCase;
-
-import org.crazyit.ioc.context.object.BeanCreatorObject1;
-import org.crazyit.ioc.context.object.BeanCreatorObject2;
-import org.crazyit.ioc.context.object.interfaces.Implement;
-import org.crazyit.ioc.context.object.interfaces.TestImplement;
 
 public class BeanCreatorTest extends TestCase {
 
@@ -26,7 +24,7 @@ public class BeanCreatorTest extends TestCase {
 	}
 	
 	public void testCreateBeanUseDefaultConstruct() {
-		//ÎÞ²ÎÊý¹¹ÔìÆ÷´´½¨ÊµÀý
+		//ï¿½Þ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 		String className = "org.crazyit.ioc.context.object.BeanCreatorObject1";
 		BeanCreatorObject1 obj = (BeanCreatorObject1)
 		creator.createBeanUseDefaultConstruct(className);
@@ -36,7 +34,7 @@ public class BeanCreatorTest extends TestCase {
 		System.out.println(obj);
 		System.out.println(obj.getName());
 		System.out.println(obj.getValue());
-		//²âÊÔÕÒ²»µ½¸ÃÀà
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		className = "abc";
 		Exception ex = null;
 		try {
@@ -49,7 +47,7 @@ public class BeanCreatorTest extends TestCase {
 	}
 	
 	public void testCreateBeanUseDefineConstruce() {
-		//ÓÐ²ÎÊý¹¹ÔìÆ÷´´½¨ÊµÀý
+		//ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 		String className = "org.crazyit.ioc.context.object.BeanCreatorObject2";
 		List<Object> args = new ArrayList<Object>();
 		args.add("yangenxiong");
@@ -61,7 +59,7 @@ public class BeanCreatorTest extends TestCase {
 		assertEquals(obj.getValue(), "crazyit");
 		System.out.println(obj.getName());
 		System.out.println(obj.getValue());
-		//²âÊÔ²ÎÊýÀàÐÍ²»·ûºÏ
+		//ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½ï¿½
 		args.removeAll(args);
 		args.add(new Integer(1));
 		args.add(new Long(1000));

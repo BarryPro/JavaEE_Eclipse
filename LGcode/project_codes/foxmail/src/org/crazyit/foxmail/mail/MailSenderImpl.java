@@ -3,29 +3,27 @@ package org.crazyit.foxmail.mail;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.Address;
 import javax.mail.BodyPart;
-import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 
-import org.crazyit.foxmail.exception.SendMailException;
-import org.crazyit.foxmail.object.FileObject;
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.ui.MailContext;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeBodyPart;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeMultipart;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
+
+import foxmail.src.org.crazyit.foxmail.exception.SendMailException;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
+import sun.rmi.transport.Transport;
 
 /**
- * ÓÊ¼ş·¢ËÍÊµÏÖÀà
+ * ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -36,44 +34,44 @@ public class MailSenderImpl implements MailSender {
 		try {
 			Session session = ctx.getSession();
 			Message mailMessage = new MimeMessage(session);
-			//ÉèÖÃ·¢¼şÈËµØÖ·
+			//ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ö·
 			Address from = new InternetAddress(ctx.getUser() + " <" + ctx.getAccount() + ">");
 			mailMessage.setFrom(from);
-			//ÉèÖÃËùÓĞÊÕ¼şÈËµÄµØÖ·
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ËµÄµï¿½Ö·
 			Address[] to = getAddress(mail.getReceivers());
 			mailMessage.setRecipients(Message.RecipientType.TO, to);
-			//ÉèÖÃ³­ËÍÈËµØÖ·
+			//ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ö·
 			Address[] cc = getAddress(mail.getCcs());
 			mailMessage.setRecipients(Message.RecipientType.CC, cc);
-			//ÉèÖÃÖ÷Ìâ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			mailMessage.setSubject(mail.getSubject());
-			//·¢ËÍÈÕÆÚ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			mailMessage.setSentDate(new Date());
-			//¹¹½¨Õû·âÓÊ¼şµÄÈİÆ÷
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Multipart main = new MimeMultipart();
-			//ÕıÎÄµÄbody
+			//ï¿½ï¿½ï¿½Äµï¿½body
 			BodyPart body = new MimeBodyPart();
 			body.setContent(mail.getContent(), "text/html; charset=utf-8");
 			main.addBodyPart(body);
-			//´¦Àí¸½¼ş
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			for (FileObject f : mail.getFiles()) {
-				//Ã¿¸ö¸½¼şµÄbody
+				//Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½body
 				MimeBodyPart fileBody = new MimeBodyPart();
 				fileBody.attachFile(f.getFile());
-				//ÎªÎÄ¼şÃû½øĞĞ×ªÂë
+				//Îªï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
 				fileBody.setFileName(MimeUtility.encodeText(f.getSourceName()));
 				main.addBodyPart(fileBody);
 			}
-			//½«ÕıÎÄµÄMultipart¶ÔÏóÉèÈëMessageÖĞ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Multipartï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Messageï¿½ï¿½
 			mailMessage.setContent(main);
 			Transport.send(mailMessage);
 			return mail;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new SendMailException("·¢ËÍÓÊ¼ş´íÎó, Çë¼ì²éÓÊÏäÅäÖÃ¼°ÓÊ¼şµÄÏà¹ØĞÅÏ¢");
+			throw new SendMailException("ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢");
 		}
 	}
-	//»ñµÃËùÓĞµÄÊÕ¼şÈËµØÖ·»òÕß³­ËÍµÄµØÖ·
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½Õ¼ï¿½ï¿½Ëµï¿½Ö·ï¿½ï¿½ï¿½ß³ï¿½ï¿½ÍµÄµï¿½Ö·
 	private Address[] getAddress(List<String> addList) throws Exception {
 		Address[] result = new Address[addList.size()];
 		for (int i = 0; i < addList.size(); i++) {

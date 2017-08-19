@@ -30,160 +30,160 @@ import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.tree.TreePath;
 
-import org.crazyit.editor.commons.AddInfo;
-import org.crazyit.editor.commons.EditFile;
-import org.crazyit.editor.commons.WorkSpace;
-import org.crazyit.editor.handler.add.AddFileHandler;
-import org.crazyit.editor.handler.add.AddFolderHandler;
-import org.crazyit.editor.handler.add.AddProjectHandler;
-import org.crazyit.editor.handler.run.JavaRunHandler;
-import org.crazyit.editor.handler.save.SaveMediator;
-import org.crazyit.editor.handler.save.SaveMediatorConcrete;
-import org.crazyit.editor.tree.ProjectTreeModel;
-import org.crazyit.editor.tree.ProjectTreeNode;
-import org.crazyit.editor.tree.TreeCreator;
+import editor.src.org.crazyit.editor.commons.AddInfo;
+import editor.src.org.crazyit.editor.commons.EditFile;
+import editor.src.org.crazyit.editor.commons.WorkSpace;
+import editor.src.org.crazyit.editor.handler.add.AddFileHandler;
+import editor.src.org.crazyit.editor.handler.add.AddFolderHandler;
+import editor.src.org.crazyit.editor.handler.add.AddProjectHandler;
+import editor.src.org.crazyit.editor.handler.run.JavaRunHandler;
+import editor.src.org.crazyit.editor.handler.save.SaveMediator;
+import editor.src.org.crazyit.editor.handler.save.SaveMediatorConcrete;
+import editor.src.org.crazyit.editor.tree.ProjectTreeModel;
+import editor.src.org.crazyit.editor.tree.ProjectTreeNode;
+import editor.src.org.crazyit.editor.tree.TreeCreator;
 
 /**
- * ±à¼­½çÃæ
+ * ï¿½à¼­ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class EditorFrame extends JFrame {
 	
-	//¶àÎÄ¼þµÄtab±êÌâ
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½tabï¿½ï¿½ï¿½ï¿½
 	private JTabbedPane tabPane;
 	
-	//´æ·ÅtabPaneÓëdesk
+	//ï¿½ï¿½ï¿½tabPaneï¿½ï¿½desk
 	private Box box;
 	
-	//´´½¨Ò»¸ö¶àÎÄµµµÄ×ÀÃæÈÝÆ÷
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JDesktopPane desk;
 	
-	//ÓÃÓÚ·Ö¸ôÖ÷±à¼­ÇøºÍÐÅÏ¢ÏÔÊ¾ÇøµÄÈÝÆ÷
+	//ï¿½ï¿½ï¿½Ú·Ö¸ï¿½ï¿½ï¿½ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JSplitPane editorSplitPane;
 	
-	//¿ÉÒÔ¹ö¶¯µÄJScrollPane¶ÔÏó£¬ÓÃÓÚ·ÅinfoArea
+	//ï¿½ï¿½ï¿½Ô¹ï¿½ï¿½ï¿½ï¿½ï¿½JScrollPaneï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½infoArea
 	private JScrollPane infoPane;
 	
-	//ÓÃÓÚÏÔÊ¾ÐÅÏ¢µÄÎÄ±¾Óò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 	private JTextArea infoArea;
 	
-	//´æ·ÅÊ÷µÄ¿É¹ö¶¯ÈÝÆ÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JScrollPane treePane;
 	
-	//Õû¸ö½çÃæµÄ·Ö¸ô×é¼þµÄÈÝÆ÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JSplitPane mainSplitPane;
 	
-	//ÏîÄ¿Ê÷¶ÔÏó
+	//ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JTree tree;
 	
-	//²Ëµ¥À¸¶ÔÏó
+	//ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JMenuBar menuBar;
 	
-	//±à¼­²Ëµ¥¶ÔÏó
+	//ï¿½à¼­ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
 	private JMenu editMenu;
 	
-	//ÎÄ¼þ²Ëµ¥
+	//ï¿½Ä¼ï¿½ï¿½Ëµï¿½
 	private JMenu fileMenu;
 	
-	//¹¤¾ßÌõ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JToolBar toolBar;
 	
 	private WorkSpace workSpace;
 	
 	private TreeCreator treeCreator;
 	
-	//Ìí¼ÓµÄ½çÃæ
+	//ï¿½ï¿½ÓµÄ½ï¿½ï¿½ï¿½
 	private AddFrame addFrame;
 	
-	//ÎÄ¼þÑ¡ÔñÆ÷
+	//ï¿½Ä¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
 	private FileChooser fileChooser;
 	
-	//µ±Ç°ÕýÔÚ±à¼­µÄÎÄ¼þ¶ÔÏó
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ú±à¼­ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private EditFile currentFile;
 	
-	//´°¿Ú¼àÌýÆ÷
+	//ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private IFrameListener iframeListener;
 	
-	//´ò¿ªÎÄ¼þµÄ¼¯ºÏ
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 	private List<EditFile> openFiles = new ArrayList<EditFile>();
 
-	//ÖÐ½éÕß¶ÔÏó
+	//ï¿½Ð½ï¿½ï¿½ß¶ï¿½ï¿½ï¿½
 	private SaveMediator saveMediator;
 	
-	//ÔËÐÐclassÎÄ¼þµÄ´¦ÀíÀà
+	//ï¿½ï¿½ï¿½ï¿½classï¿½Ä¼ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JavaRunHandler runHandler;
 	
-	//ÐÂ½¨ÎÄ¼þµÄAction¶ÔÏó
-	private Action fileNew = new AbstractAction("ÐÂ½¨ÎÄ¼þ", new ImageIcon("images/newFile.gif")) {
+	//ï¿½Â½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action fileNew = new AbstractAction("ï¿½Â½ï¿½ï¿½Ä¼ï¿½", new ImageIcon("images/newFile.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			newFile();
 		}
 	};
-	//ÐÂ½¨Ä¿Â¼µÄAction¶ÔÏó
-	private Action folerNew = new AbstractAction("ÐÂ½¨Ä¿Â¼", new ImageIcon("images/newFile.gif")) {
+	//ï¿½Â½ï¿½Ä¿Â¼ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action folerNew = new AbstractAction("ï¿½Â½ï¿½Ä¿Â¼", new ImageIcon("images/newFile.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			newFolder();
 		}
 	};
-	//ÐÂ½¨ÏîÄ¿µÄAction¶ÔÏó
-	private Action projectNew = new AbstractAction("ÐÂ½¨ÏîÄ¿", new ImageIcon("images/newFile.gif")) {
+	//ï¿½Â½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action projectNew = new AbstractAction("ï¿½Â½ï¿½ï¿½ï¿½Ä¿", new ImageIcon("images/newFile.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			newProject();
 		}
 	};
-	//´ò¿ªÎÄ¼þµÄAction¶ÔÏó
-	private Action open = new AbstractAction("´ò     ¿ª", new ImageIcon("images/open.gif")) {
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action open = new AbstractAction("ï¿½ï¿½     ï¿½ï¿½", new ImageIcon("images/open.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			selectFile();
 		}
 	};
-	//±£´æÎÄ¼þµÄAction¶ÔÏó
-	private Action save = new AbstractAction("±£     ´æ", new ImageIcon("images/save.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action save = new AbstractAction("ï¿½ï¿½     ï¿½ï¿½", new ImageIcon("images/save.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			saveFile(getCurrentFile());
 		}
 	};
-	//Ë¢ÐÂÊ÷µÄAction¶ÔÏó
-	private Action refresh = new AbstractAction("Ë¢     ÐÂ", new ImageIcon("images/refresh.gif")) {
+	//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action refresh = new AbstractAction("Ë¢     ï¿½ï¿½", new ImageIcon("images/refresh.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			reloadNode(getSelectNode());
 		}
 	};
-	//ÔËÐÐÎÄ¼þµÄAction¶ÔÏó
-	private Action run = new AbstractAction("ÔË     ÐÐ", new ImageIcon("images/run.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action run = new AbstractAction("ï¿½ï¿½     ï¿½ï¿½", new ImageIcon("images/run.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			run();
 		}
 	};
-	//ÍË³öµÄAction¶ÔÏó
-	private Action exit = new AbstractAction("ÍË     ³ö") {
+	//ï¿½Ë³ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action exit = new AbstractAction("ï¿½ï¿½     ï¿½ï¿½") {
 		public void actionPerformed(ActionEvent e) {
-			System.exit(0);//Ö±½ÓÍË³ö
+			System.exit(0);//Ö±ï¿½ï¿½ï¿½Ë³ï¿½
 		}
 	};
-	//¸´ÖÆÎÄ±¾µÄAction¶ÔÏó
-	private Action copy = new AbstractAction("¸´     ÖÆ", new ImageIcon("images/copy.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action copy = new AbstractAction("ï¿½ï¿½     ï¿½ï¿½", new ImageIcon("images/copy.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			if (getCurrentFile() != null) {
 				getCurrentFile().getEditPane().copy();
 			}
 		}
 	};
-	//¼ôÇÐÎÄ±¾µÄAction¶ÔÏó
-	private Action cut = new AbstractAction("¼ô     ÇÐ", new ImageIcon("images/cut.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action cut = new AbstractAction("ï¿½ï¿½     ï¿½ï¿½", new ImageIcon("images/cut.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			if (getCurrentFile() != null) {
 				getCurrentFile().getEditPane().cut();
 			}
 		}
 	};
-	//Õ³ÌùÎÄ±¾µÄAction¶ÔÏó
-	private Action paste = new AbstractAction("Õ³     Ìù", new ImageIcon("images/paste.gif")) {
+	//Õ³ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Actionï¿½ï¿½ï¿½ï¿½
+	private Action paste = new AbstractAction("Õ³     ï¿½ï¿½", new ImageIcon("images/paste.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			if (getCurrentFile() != null) {
 				getCurrentFile().getEditPane().paste();
@@ -192,7 +192,7 @@ public class EditorFrame extends JFrame {
 	};
 	
 	public EditorFrame(String title, TreeCreator treeCreator) {
-		super(title); //ÉèÖÃ±êÌâ
+		super(title); //ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½
 		this.treeCreator = treeCreator;
 		this.iframeListener = new IFrameListener(this);
 		this.saveMediator = new SaveMediatorConcrete();
@@ -201,57 +201,57 @@ public class EditorFrame extends JFrame {
 	
 	public void initFrame(WorkSpace space) {
 		this.workSpace = space;
-		//ÉèÖÃ´°¿Ú¹Ø±Õ£¬ÍË³ö³ÌÐò
+		//ï¿½ï¿½ï¿½Ã´ï¿½ï¿½Ú¹Ø±Õ£ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//´´½¨Ö÷±à¼­ÇøµÄtabPane
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à¼­ï¿½ï¿½ï¿½ï¿½tabPane
 		tabPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT );
-		desk = new JDesktopPane();//´´½¨JDesktopPane¶ÔÏó
-		desk.setBackground(Color.GRAY);//ÉèÖÃdeskµÄ±³¾°ÑÕÉ«Îª»ÒÉ«
-		box = new Box(BoxLayout.Y_AXIS);//ÉèÖÃboxµÄ²¼¾Ö
+		desk = new JDesktopPane();//ï¿½ï¿½ï¿½ï¿½JDesktopPaneï¿½ï¿½ï¿½ï¿½
+		desk.setBackground(Color.GRAY);//ï¿½ï¿½ï¿½ï¿½deskï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
+		box = new Box(BoxLayout.Y_AXIS);//ï¿½ï¿½ï¿½ï¿½boxï¿½Ä²ï¿½ï¿½ï¿½
 		box.add(tabPane);
 		box.add(desk);
-		//´´½¨ÐÅÏ¢ÏÔÊ¾ÇøµÄÎÄ±¾Óò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 		infoArea = new JTextArea("", 5, 50);
-		//½«infoAreaÎÄ±¾Óò×÷Îª×é¼þ·Åµ½infoPaneÖÐ
+		//ï¿½ï¿½infoAreaï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Åµï¿½infoPaneï¿½ï¿½
 		infoPane = new JScrollPane(infoArea);
-		//ÉèÖÃÐÅÏ¢Çø²»¿É±à¼­
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½É±à¼­
 		infoArea.setEditable(false);
-		//´´½¨Õâ¸ö·Ö¸ô×é¼þµÄÈÝÆ÷£¬²¢½«box¶ÔÏóºÍinfoPane·ÅÖÃÆäÖÐ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½boxï¿½ï¿½ï¿½ï¿½ï¿½infoPaneï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		editorSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, box, infoPane);
 		editorSplitPane.setDividerSize(3);
 		editorSplitPane.setDividerLocation(500);
-		//´´½¨Ê÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		tree = treeCreator.createTree(this);
-		//´´½¨¿É¹ö¶¯µÄÈÝÆ÷¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		treePane = new JScrollPane(tree);
-		//´´½¨Ö÷½çÃæµÄJSplitPane£¬ºáÏò£¬×ó±ßÎªtreePane£¬ÓÒ±ßÎªeditorSplitPane
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JSplitPaneï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªtreePaneï¿½ï¿½ï¿½Ò±ï¿½ÎªeditorSplitPane
 		mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePane, 
 				editorSplitPane);
-		//ÉèÖÃ·Ö¸ôÌõµÄÎ»ÖÃ
+		//ï¿½ï¿½ï¿½Ã·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 		mainSplitPane.setDividerLocation(200);
-		//ÉèÖÃ·Ö¸ôÌõµÄ´ÖÏ¸
+		//ï¿½ï¿½ï¿½Ã·Ö¸ï¿½ï¿½ï¿½ï¿½Ä´ï¿½Ï¸
 		mainSplitPane.setDividerSize(3);
 		add(mainSplitPane);
 		
-		//´´½¨²Ëµ¥À¸¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		menuBar = new JMenuBar();
-		//´´½¨±à¼­²Ëµ¥¶ÔÏó
-		editMenu = new JMenu("±à¼­");
-		//´´½¨ÎÄ¼þ²Ëµ¥
-		fileMenu = new JMenu("ÎÄ¼þ");
-		//½«ÎÄ¼þ²Ëµ¥Ìí¼Óµ½²Ëµ¥À¸ÖÐ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½à¼­ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+		editMenu = new JMenu("ï¿½à¼­");
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ëµï¿½
+		fileMenu = new JMenu("ï¿½Ä¼ï¿½");
+		//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ëµï¿½ï¿½ï¿½Óµï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
 		menuBar.add(fileMenu);
-		//½«±à¼­²Ëµ¥Ìí¼Óµ½²Ëµ¥À¸ÖÐ
+		//ï¿½ï¿½ï¿½à¼­ï¿½Ëµï¿½ï¿½ï¿½Óµï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
 		menuBar.add(editMenu);
-		//ÉèÖÃJFrameµÄ²Ëµ¥À¸
+		//ï¿½ï¿½ï¿½ï¿½JFrameï¿½Ä²Ëµï¿½ï¿½ï¿½
 		setJMenuBar(menuBar);
 		
 		toolBar = new JToolBar();
-		toolBar.setFloatable(false);//ÉèÖÃ¹¤¾ßÀ¸²»¿ÉÒÆ¶¯
-		toolBar.setMargin(new Insets(0, 10, 5, 5));//ÉèÖÃ¹¤¾ßÀ¸µÄ±ß¾à
-		add(toolBar, BorderLayout.NORTH);//½«¹¤¾ßÀ¸Ìí¼Óµ½EditorFrameÖÐ
+		toolBar.setFloatable(false);//ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
+		toolBar.setMargin(new Insets(0, 10, 5, 5));//ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ß¾ï¿½
+		add(toolBar, BorderLayout.NORTH);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½EditorFrameï¿½ï¿½
 		
-		pack();//Ê¹JFrameµ÷Õû×î¼Ñ´óÐ¡
+		pack();//Ê¹JFrameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½Ð¡
 		addListeners();
 	}
 	
@@ -259,59 +259,59 @@ public class EditorFrame extends JFrame {
 		return treeCreator;
 	}
 	
-	//ÎªEditorFrameÖÐµÄ×é¼þÌí¼Ó¼àÌýÆ÷
+	//ÎªEditorFrameï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void addListeners() {
-		//ÐÂ½¨ÎÄ¼þµÄ¼àÌýÆ÷
+		//ï¿½Â½ï¿½ï¿½Ä¼ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		fileMenu.add(fileNew).setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_MASK));
-		//ÐÂ½¨Ä¿Â¼µÄ¼àÌýÆ÷
+		//ï¿½Â½ï¿½Ä¿Â¼ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		fileMenu.add(folerNew).setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.CTRL_MASK));
-		//ÐÂ½¨ÏîÄ¿µÄ¼àÌýÆ÷
+		//ï¿½Â½ï¿½ï¿½ï¿½Ä¿ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		fileMenu.add(projectNew).setAccelerator(KeyStroke.getKeyStroke('P', InputEvent.CTRL_MASK));
-		//´ò¿ª²Ëµ¥Ìí¼Ó¼àÌýÆ÷
+		//ï¿½ò¿ª²Ëµï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		fileMenu.add(open).setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_MASK));
-		//Îª±£´æ²Ëµ¥Ìí¼Ó¼àÌýÆ÷
+		//Îªï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		fileMenu.add(save).setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_MASK));
-		//ÎªË¢ÐÂ²Ëµ¥Ìí¼Ó¼àÌýÆ÷
+		//ÎªË¢ï¿½Â²Ëµï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		fileMenu.add(refresh).setAccelerator(KeyStroke.getKeyStroke("F5"));
-		//ÎªÔËÐÐ²Ëµ¥Ìí¼Ó¼àÌýÆ÷
+		//Îªï¿½ï¿½ï¿½Ð²Ëµï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		fileMenu.add(run).setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_MASK));
 		fileMenu.add(exit);
-		//Ìí¼Ó¸´ÖÆ¼àÌýÆ÷
+		//ï¿½ï¿½Ó¸ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		editMenu.add(copy).setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_MASK));
-		//Ìí¼Ó¼ôÇÐ¼àÌýÆ÷
+		//ï¿½ï¿½Ó¼ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		editMenu.add(cut).setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.CTRL_MASK));
-		//Ìí¼ÓÕ³Ìù¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½Õ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		editMenu.add(paste).setAccelerator(KeyStroke.getKeyStroke('V', InputEvent.CTRL_MASK));
 	
-		//Îª¹¤¾ßÌõÌí¼Ó¸÷¸ö²Ù×÷
-		toolBar.add(fileNew).setToolTipText("ÐÂ½¨ÎÄ¼þ");
-		toolBar.add(open).setToolTipText("´ò¿ª");
-		toolBar.add(save).setToolTipText("±£´æ");
-		toolBar.add(refresh).setToolTipText("Ë¢ÐÂ");
-		toolBar.add(run).setToolTipText("ÔËÐÐ");
-		toolBar.add(copy).setToolTipText("¸´ÖÆ");
-		toolBar.add(cut).setToolTipText("¼ôÇÐ");
-		toolBar.add(paste).setToolTipText("Õ³Ìù");
+		//Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		toolBar.add(fileNew).setToolTipText("ï¿½Â½ï¿½ï¿½Ä¼ï¿½");
+		toolBar.add(open).setToolTipText("ï¿½ï¿½");
+		toolBar.add(save).setToolTipText("ï¿½ï¿½ï¿½ï¿½");
+		toolBar.add(refresh).setToolTipText("Ë¢ï¿½ï¿½");
+		toolBar.add(run).setToolTipText("ï¿½ï¿½ï¿½ï¿½");
+		toolBar.add(copy).setToolTipText("ï¿½ï¿½ï¿½ï¿½");
+		toolBar.add(cut).setToolTipText("ï¿½ï¿½ï¿½ï¿½");
+		toolBar.add(paste).setToolTipText("Õ³ï¿½ï¿½");
 		
-		//ÎªtabPaneÌí¼Ó¼àÌýÆ÷
+		//ÎªtabPaneï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		tabPane.addChangeListener(new TabListener(this));
 	}
 	
-	//»ñÈ¡±à¼­Æ÷Ö÷½çÃæÏîÄ¿Ê÷ÖÐËùÑ¡ÖÐµÄ½Úµã
+	//ï¿½ï¿½È¡ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ÐµÄ½Úµï¿½
 	public ProjectTreeNode getSelectNode() {
-		//»ñµÃµ±Ç°Ê÷Ñ¡ÔñµÄ½ÚµãÔÚÊ÷ÖÐµÄÂ·¾¶
+		//ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½Ñ¡ï¿½ï¿½Ä½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Â·ï¿½ï¿½
 		TreePath path = tree.getSelectionPath();
-		//Èç¹ûµ±Ç°Ñ¡ÔñÁË½Úµã
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ñ¡ï¿½ï¿½ï¿½Ë½Úµï¿½
 		if (path != null) {
-			//´´½¨Ò»¸öProjectTreeNode¶ÔÏó²¢ÓÃÓÚ·µ»Ø
+			//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ProjectTreeNodeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½
 			ProjectTreeNode selectNode = (ProjectTreeNode)path.getLastPathComponent();
 			return selectNode;
 		}
-		//µ±Ç°Ã»ÓÐÑ¡Ôñ½Ú¾Í·µ»Ønull
+		//ï¿½ï¿½Ç°Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½Ú¾Í·ï¿½ï¿½ï¿½null
 		return null;
 	}
 	
-	//ÏÔÊ¾iframe¶ÔÏó
+	//ï¿½ï¿½Ê¾iframeï¿½ï¿½ï¿½ï¿½
 	public void showIFrame(JInternalFrame iframe) {
 		try {
 			iframe.setSelected(true);
@@ -320,24 +320,24 @@ public class EditorFrame extends JFrame {
 		}
 	}
 	
-	//´ò¿ªÎÄ¼þµÄ·½·¨
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	public void openFile(File file) {
 		if (currentFile != null) {
-			//Èç¹û²ÎÊýfileÊÇµ±Ç°ÕýÔÚ±à¼­µÄÎÄ¼þ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fileï¿½Çµï¿½Ç°ï¿½ï¿½ï¿½Ú±à¼­ï¿½ï¿½ï¿½Ä¼ï¿½
 			if (file.equals(currentFile.getFile())) return;
 		}
-		//ÔÚ´ò¿ªÎÄ¼þµÄ¼¯ºÏÖÐ²éÕÒ¸ÃÎÄ¼þ, ÔÙÅÐ¶Ï¸ÃÎÄ¼þÊÇ·ñÒÑ¾­´ò¿ª
+		//ï¿½Ú´ï¿½ï¿½Ä¼ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½Ò¸ï¿½ï¿½Ä¼ï¿½, ï¿½ï¿½ï¿½Ð¶Ï¸ï¿½ï¿½Ä¼ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½
 		EditFile openedFile = getOpenFile(file);
-		//Èç¹ûÎÄ¼þÒÑ¾­´ò¿ªÁË£¬µ÷ÓÃ´ò¿ª·½·¨£¨´ò¿ªÒÑ¾­ÔÚ±à¼­tabÒ³ÃæÖÐÏÔÊ¾µÄÎÄ¼þ£©
+		//ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½Ã´ò¿ª·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½Ú±à¼­tabÒ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		if (openedFile != null) {
 			openExistFile(openedFile, file);
 			return;
 		}
-		//´ò¿ªÐÂµÄÎÄ¼þ
+		//ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½
 		openNewFile(file);
 	}
 	
-	//´Ó±¾ÀàÖÐ¼ÇÂ¼ÒÑ¾­´ò¿ªµÄÎÄ¼þ¼¯ºÏÖÐµÃµ½Óë²ÎÊýfileÒ»ÑùµÄEditFile¶ÔÏó
+	//ï¿½Ó±ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Â¼ï¿½Ñ¾ï¿½ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÃµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fileÒ»ï¿½ï¿½ï¿½ï¿½EditFileï¿½ï¿½ï¿½ï¿½
 	private EditFile getOpenFile(File file) {
 		for (EditFile openFile : openFiles) {
 			if (openFile.getFile().equals(file)) return openFile;
@@ -345,15 +345,15 @@ public class EditorFrame extends JFrame {
 		return null;
 	}
 	
-	//¸ù¾Ý²ÎÊýfile»ñÈ¡¸Ãfile¶ÔÓ¦µÄtabÒ³ÖÐµÄË÷Òý
+	//ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½fileï¿½ï¿½È¡ï¿½ï¿½fileï¿½ï¿½Ó¦ï¿½ï¿½tabÒ³ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 	private int getFileIndex(File file) {
-		//Èç¹û´Ó´ò¿ªÎÄ¼þµÄ¼¯ºÏÖÐÕÒ²»µ½Óë²ÎÊýfile¶ÔÓ¦µÄEditFile¶ÔÏó£¬·µ»Ø-1
+		//ï¿½ï¿½ï¿½ï¿½Ó´ï¿½ï¿½Ä¼ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fileï¿½ï¿½Ó¦ï¿½ï¿½EditFileï¿½ï¿½ï¿½ó£¬·ï¿½ï¿½ï¿½-1
 		EditFile openFile = getEditFile(file);
 		if (openFile == null) return -1;
 		return getTabIndex(openFile.getIframe().getToolTipText());
 	}
 	
-	//ÔÚ´ò¿ªµÄÎÄ¼þÖÐ»ñµÃÎÄ¼þÊÇfileµÄEditFile¶ÔÏó
+	//ï¿½Ú´ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½Ð»ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½fileï¿½ï¿½EditFileï¿½ï¿½ï¿½ï¿½
 	private EditFile getEditFile(File file) {
 		for (EditFile openFile : openFiles) {
 			if (openFile.getFile().equals(file)) return openFile;
@@ -361,7 +361,7 @@ public class EditorFrame extends JFrame {
 		return null;
 	}
 	
-	//¸ù¾ÝtabÒ³ÖÐµÄtipsÕÒµ½Ëù¶ÔÓ¦µÄÔÚtabPaneµÄË÷Òý
+	//ï¿½ï¿½ï¿½ï¿½tabÒ³ï¿½Ðµï¿½tipsï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½tabPaneï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int getTabIndex(String tips) {
 		for (int i = 0; i < this.tabPane.getTabCount(); i++) {
 			if (this.tabPane.getToolTipTextAt(i).equals(tips)) return i;
@@ -369,41 +369,41 @@ public class EditorFrame extends JFrame {
 		return -1;
 	}
 	
-	//´ò¿ªÒÑ¾­´æÔÚµÄÎÄ¼þ£¨ÒÑ¾­ÔÚ±à¼­ÎÄ¼þ¼¯ºÏÖÐµÄÎÄ¼þ£©£¬openFiles¼¯ºÏÖÐµÄÎÄ¼þ
+	//ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½Ú±à¼­ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½openFilesï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ä¼ï¿½
 	public void openExistFile(EditFile openedFile, File willOpenFile) {
-		//½«tabÒ³±ä³Éµ±Ç°ËùÑ¡ÔñÎÄ¼þµÄË÷Òý
+		//ï¿½ï¿½tabÒ³ï¿½ï¿½Éµï¿½Ç°ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		tabPane.setSelectedIndex(getFileIndex(willOpenFile));
-		//ÏÔÊ¾iframe
+		//ï¿½ï¿½Ê¾iframe
 		showIFrame(openedFile.getIframe());
-		//ÉèÖÃµ±Ç°´ò¿ªÎÄ¼þ
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½Ä¼ï¿½
 		this.currentFile = openedFile;
-		//Ìí¼Óµ½µ±Ç°´ò¿ªµÄÎÄ¼þ¼¯ºÏÖÐ
+		//ï¿½ï¿½Óµï¿½ï¿½ï¿½Ç°ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.openFiles.add(openedFile);
 	}
 	
-	//´ò¿ªÒ»¸öÐÂÎÄ¼þ£¨¸ÃÎÄ¼þ²¢²»ÔÚ±à¼­ÁÐ±íÖÐ£©
+	//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú±à¼­ï¿½Ð±ï¿½ï¿½Ð£ï¿½
 	public void openNewFile(File file) {
-		//ÉèÖÃEditorFrameµÄ±êÌâÎª¸ÃÎÄ¼þµÄÈ«Â·¾¶
+		//ï¿½ï¿½ï¿½ï¿½EditorFrameï¿½Ä±ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È«Â·ï¿½ï¿½
 		setTitle(file.getAbsolutePath());
-		//´´½¨Ò»¸öJInternalFrame¶ÔÏó£¬titleÎªÎÄ¼þµÄ¾ø¶ÔÂ·¾¶
+		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JInternalFrameï¿½ï¿½ï¿½ï¿½titleÎªï¿½Ä¼ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 		JInternalFrame iframe = new JInternalFrame(file.getAbsolutePath(), true, true, true, true);
 		
-		//ÐÂ½¨Ò»¸öEditPane¶ÔÏó
+		//ï¿½Â½ï¿½Ò»ï¿½ï¿½EditPaneï¿½ï¿½ï¿½ï¿½
 		EditPane editPane = new EditPane(file);
 		
-		//ÎªEditPaneÌí¼Ó¼üÅÌ¼àÌýÆ÷
+		//ÎªEditPaneï¿½ï¿½Ó¼ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		editPane.getDocument().addDocumentListener(new EditDocumentListener(this));
 		iframe.add(new JScrollPane(editPane));
-		//ÎªJInternalFrameÌí¼Ó´°¿Ú¼àÌýÆ÷
+		//ÎªJInternalFrameï¿½ï¿½Ó´ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		iframe.addInternalFrameListener(this.iframeListener);
 		desk.add(iframe);
 		iframe.show();
 		iframe.reshape(0, 0, 400, 300);
 		tabPane.addTab(file.getName(), null, null, file.getAbsolutePath());
 		tabPane.setSelectedIndex(tabPane.getTabCount() - 1);
-		//ÉèÖÃµ±Ç°µÄÎÄ¼þ¶ÔÏó
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.currentFile = new EditFile(file, true, iframe, editPane);
-		//½«µ±Ç°µÄÎÄ¼þ¼Óµ½´ò¿ªµÄÎÄ¼þ¼¯ºÏÖÐ
+		//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Óµï¿½ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.openFiles.add(this.currentFile);
 	}
 	
@@ -411,31 +411,31 @@ public class EditorFrame extends JFrame {
 		fileChooser = new FileChooser(this);
 	}
 	
-	//ÐÂ½¨ÎÄ¼þµÄ·½·¨
+	//ï¿½Â½ï¿½ï¿½Ä¼ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	public void newFile() {
-		//µ±Ã»ÓÐÑ¡ÔñÒ»¸ö½Úµã¶øÐÂ½¨Ä¿Â¼µÄÊ±ºò£¬ÐèÒªÌáÐÑ
+		//ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Â½ï¿½Ä¿Â¼ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½
 		if (getSelectNode() == null) {
-			JOptionPane.showMessageDialog(this, "ÇëÑ¡ÔñÄ¿Â¼"); 
+			JOptionPane.showMessageDialog(this, "ï¿½ï¿½Ñ¡ï¿½ï¿½Ä¿Â¼"); 
 			return;
 		}
-		AddInfo info = new AddInfo("ÎÄ¼þÃû³Æ£º", this, new AddFileHandler());
+		AddInfo info = new AddInfo("ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Æ£ï¿½", this, new AddFileHandler());
 		showAddFrame(info);
 	}
-	//ÏÔÊ¾ÐÂÔöµÄ½çÃæ
+	//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½
 	private void showAddFrame(AddInfo info) {
-		//Ê¹EditorFrame±äÎª²»¿ÉÓÃ
+		//Ê¹EditorFrameï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setEnabled(false);
 		addFrame = new AddFrame(info);
 		addFrame.pack();
 		addFrame.setVisible(true);
 	}
 	
-	//Ë¢ÐÂÊ÷½Úµã
+	//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 	public void reloadNode(ProjectTreeNode selectNode) {
 		if (selectNode == null) return; 
-		//Ë¢ÐÂÊ÷µÄ½Úµã
+		//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Úµï¿½
 		ProjectTreeModel model = (ProjectTreeModel)getTree().getModel();
-		//ÖØÐÂ¼ÓÔØËùÑ¡ÔñµÄ½Úµã
+		//ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ä½Úµï¿½
 		model.reload(selectNode, treeCreator);
 	}
 	
@@ -447,30 +447,30 @@ public class EditorFrame extends JFrame {
 		return this.tree;
 	}
 	
-	//ÐÂ½¨Ä¿Â¼µÄ·½·¨
+	//ï¿½Â½ï¿½Ä¿Â¼ï¿½Ä·ï¿½ï¿½ï¿½
 	public void newFolder() {
-		//µ±Ã»ÓÐÑ¡ÔñÒ»¸ö½Úµã¶øÐÂ½¨Ä¿Â¼µÄÊ±ºò£¬ÐèÒªÌáÐÑ
+		//ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Â½ï¿½Ä¿Â¼ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½
 		if (getSelectNode() == null) {
-			JOptionPane.showMessageDialog(this, "ÇëÑ¡ÔñÄ¿Â¼"); 
+			JOptionPane.showMessageDialog(this, "ï¿½ï¿½Ñ¡ï¿½ï¿½Ä¿Â¼"); 
 			return;
 		}
-		AddInfo info = new AddInfo("Ä¿Â¼Ãû³Æ£º", this, new AddFolderHandler());
+		AddInfo info = new AddInfo("Ä¿Â¼ï¿½ï¿½ï¿½Æ£ï¿½", this, new AddFolderHandler());
 		showAddFrame(info);
 	}
 	
-	//ÐÂ½¨ÏîÄ¿µÄ·½·¨
+	//ï¿½Â½ï¿½ï¿½ï¿½Ä¿ï¿½Ä·ï¿½ï¿½ï¿½
 	public void newProject() {
-		AddInfo info = new AddInfo("ÏîÄ¿Ãû³Æ£º", this, new AddProjectHandler());
+		AddInfo info = new AddInfo("ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Æ£ï¿½", this, new AddProjectHandler());
 		showAddFrame(info);
 	}
 	
-	//ÖØÐÂÔÚtreePaneÖÐ¹¹ÔìÒ»´ÎÊ÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½treePaneï¿½Ð¹ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½
 	public void refreshTree(JTree newTree) {
-		//½«tree¶ÔÏó±äÎª²ÎÊýÖÐµÄnewTree
+		//ï¿½ï¿½treeï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½newTree
 		this.tree = newTree;
-		//ÈÃtreePane£¨·ÅÊ÷µÄÈÝÆ÷£©ÉèÖÃnewTreeÎªÐÂµÄÊÓÍ¼
+		//ï¿½ï¿½treePaneï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½newTreeÎªï¿½Âµï¿½ï¿½ï¿½Í¼
 		treePane.setViewportView(newTree);
-		//¸üÐÂ½çÃæ
+		//ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½
 		treePane.updateUI();
 	}
 
@@ -494,7 +494,7 @@ public class EditorFrame extends JFrame {
 		return tabPane;
 	}
 	
-	//¸ù¾ÝJInternalFrame±êÌâÕÒµ½JInternalFrame¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½JInternalFrameï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½JInternalFrameï¿½ï¿½ï¿½ï¿½
 	public JInternalFrame getIFrame(String title) {
 		JInternalFrame[] iframes = desk.getAllFrames();
 		for (JInternalFrame iframe : iframes) {
@@ -503,7 +503,7 @@ public class EditorFrame extends JFrame {
 		return null;
 	}
 	
-	//¸ù¾ÝJInternalFrameÔÚ´ò¿ªµÄÎÄ¼þ¼¯ºÏÖÐ»ñÈ¡ÏàÓ¦µÄÎÄ¼þ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½JInternalFrameï¿½Ú´ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public EditFile getEditFile(JInternalFrame iframe) {
 		for (EditFile openFile : openFiles) {
 			if (openFile.getIframe().equals(iframe)) return openFile;
@@ -511,68 +511,68 @@ public class EditorFrame extends JFrame {
 		return null;
 	}
 	
-	//Ñ¯ÎÊÊÇ·ñÒª±£´æ, ²ÎÊýÎª½«±»´ò¿ªµÄÎÄ¼þ
+	//Ñ¯ï¿½ï¿½ï¿½Ç·ï¿½Òªï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½
 	public void askSave(EditFile file) {
-		//¸Ã·ÝÎÄ¼þÐÞ¸Ä¹ýÃ»ÓÐ±£´æ
+		//ï¿½Ã·ï¿½ï¿½Ä¼ï¿½ï¿½Þ¸Ä¹ï¿½Ã»ï¿½Ð±ï¿½ï¿½ï¿½
 		if (!file.isSaved()) {
-			//µ¯³öÑ¯ÎÊ
-			int val = JOptionPane.showConfirmDialog(this, "ÊÇ·ñÒª±£´æ£¿", "Ñ¯ÎÊ", 
+			//ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½
+			int val = JOptionPane.showConfirmDialog(this, "ï¿½Ç·ï¿½Òªï¿½ï¿½ï¿½æ£¿", "Ñ¯ï¿½ï¿½", 
 					JOptionPane.YES_NO_OPTION);
-			//µã»÷ÁËÐèÒª±£´æ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½
 			if (JOptionPane.YES_OPTION == val) {
-				//µ÷ÓÃEditorFrameµÄ±£´æ·½·¨¶ÔÎÄ¼þ½øÐÐ±£´æ
+				//ï¿½ï¿½ï¿½ï¿½EditorFrameï¿½Ä±ï¿½ï¿½æ·½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½
 				saveFile(file);
 			}
 		}
 	}
 	
-	//ÓÃÓÚ±£´æµ±Ç°Ëù´ò¿ªµÄÎÄ¼þ
+	//ï¿½ï¿½ï¿½Ú±ï¿½ï¿½æµ±Ç°ï¿½ï¿½ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½
 	public void saveFile(EditFile file) {
 		if (file == null) return;
-		//µ÷ÓÃÖÐ½éÕß¶ÔÏóµÄ·½·¨È¥±£´æÎÄ¼þ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ß¶ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		String result = saveMediator.doSave(this);
-		//½«½á¹û·Åµ½ÐÅÏ¢ÏÔÊ¾ÇøµÄÎÄ±¾ÓòÖÐ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½
 		infoArea.setText(result);
-		//Ð´ÍêÎÄ¼þºó£¬ÉèÖÃµ±Ç°ÎÄ¼þµÄ±£´æ×´Ì¬Îªtrue£¬±íÊ¾ÒÑ¾­±£´æ
+		//Ð´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½Ä¼ï¿½ï¿½Ä±ï¿½ï¿½ï¿½×´Ì¬Îªtrueï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 		file.setSaved(true);
 	}
 	
-	//¹Ø±ÕÒ»¸ö´°¿Ú
+	//ï¿½Ø±ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void closeIFrame(JInternalFrame iframe) {
-		//»ñµÃµ±Ç°µÄÎÄ¼þ£¬¼´Òª¹Ø±ÕµÄÎÄ¼þ¶ÔÏó
+		//ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ø±Õµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		EditFile closeFile = getEditFile(iframe);
-		//ÉèÖÃ±¾ÀàÖÐµÄcurrentFileÊôÐÔ
+		//ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ðµï¿½currentFileï¿½ï¿½ï¿½ï¿½
 		afterClose(closeFile);
-		//»ñµÃ¸ÃiframeÔÚtabÒ³ÖÐ¶ÔÓ¦µÄË÷Òý
+		//ï¿½ï¿½Ã¸ï¿½iframeï¿½ï¿½tabÒ³ï¿½Ð¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int index = getTabIndex(iframe.getTitle());
-		//´ÓtabÒ³ÖÐÉ¾³ý
+		//ï¿½ï¿½tabÒ³ï¿½ï¿½É¾ï¿½ï¿½
 		getTabPane().remove(index);
-		//´Ó´ò¿ªµÄÎÄ¼þ¼¯ºÏÖÐÉ¾³ýÕâ¸ö¹Ø±ÕµÄÎÄ¼þ
+		//ï¿½Ó´ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±Õµï¿½ï¿½Ä¼ï¿½
 		openFiles.remove(closeFile);
 	}
 	
-	//µ±¹Ø±ÕÒ»·ÝÎÄ¼þºó£¬ÉèÖÃ±¾¶ÔÏóµÄcurrentFileÊôÐÔ
+	//ï¿½ï¿½ï¿½Ø±ï¿½Ò»ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½currentFileï¿½ï¿½ï¿½ï¿½
 	private void afterClose(EditFile closeFile) {
-		//»ñÈ¡¹Ø±ÕÎÄ¼þÔÚ´ò¿ªÎÄ¼þ¼¯ºÏÖÐµÄË÷Òý
+		//ï¿½ï¿½È¡ï¿½Ø±ï¿½ï¿½Ä¼ï¿½ï¿½Ú´ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 		int openFilesIndex = getEditFileIndex(closeFile);
-		//Èç¹û¸ÃÎÄ¼þÒÑ¾­ÊÇËùÓÐ´ò¿ªµÄÎÄ¼þµÄ×îºóÒ»·Ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		if (this.openFiles.size() == 1) {
 			this.currentFile = null;
-		} else {//Èç¹û»¹ÓÐÆäËûÎÄ¼þ£¬ÅÐ¶Ï¹Ø±ÕµÄÎÄ¼þÎ»ÖÃ
+		} else {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð¶Ï¹Ø±Õµï¿½ï¿½Ä¼ï¿½Î»ï¿½ï¿½
 			if (openFilesIndex == 0) {
-				//Èç¹û¹Ø±ÕµÄÎÄ¼þÊÇµÚÒ»·Ý£¬ÄÃ¼¯ºÏÖÐµÄµÚ¶þ·Ý
+				//ï¿½ï¿½ï¿½ï¿½Ø±Õµï¿½ï¿½Ä¼ï¿½ï¿½Çµï¿½Ò»ï¿½Ý£ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ÐµÄµÚ¶ï¿½ï¿½ï¿½
 				this.currentFile = openFiles.get(openFilesIndex + 1);
 			} else if (openFilesIndex == (openFiles.size() - 1)) {
-				//Èç¹û¹Ø±ÕµÄÊÇ×îºóÒ»·Ý£¬È¡µ¹ÊýµÚ¶þ·Ý
+				//ï¿½ï¿½ï¿½ï¿½Ø±Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ý£ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½
 				this.currentFile = openFiles.get(openFiles.size() - 2);
 			} else {
-				//²»ÊÇµÚÒ»·Ý£¬Ò²²»ÊÇ×îºóÒ»·Ý
+				//ï¿½ï¿½ï¿½Çµï¿½Ò»ï¿½Ý£ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 				this.currentFile = openFiles.get(openFilesIndex - 1);
 			}
 		}
 	}
 	
-	//»ñÈ¡editFileÔÚ´ò¿ªµÄÎÄ¼þ¼¯ºÏÖÐµÄË÷Òý
+	//ï¿½ï¿½È¡editFileï¿½Ú´ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 	private int getEditFileIndex(EditFile editFile) {
 		for (int i = 0; i < this.openFiles.size(); i++) {
 			if (openFiles.get(i).equals(editFile)) return i;
@@ -580,16 +580,16 @@ public class EditorFrame extends JFrame {
 		return -1;
 	}
 	
-	//·µ»ØÏîÄ¿Ê÷µ±Ç°ËùÑ¡ÖÐµÄ½ÚµãËùÊôµÄÏîÄ¿½Úµã¶ÔÓ¦µÄÄ¿Â¼
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ñ¡ï¿½ÐµÄ½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Úµï¿½ï¿½Ó¦ï¿½ï¿½Ä¿Â¼
 	public File getCurrentProject() {
-		//»ñÈ¡¸ù½Úµã(¹¤×÷¿Õ¼ä)
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Úµï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½)
 		ProjectTreeNode root = (ProjectTreeNode)getSelectNode().getRoot();
-		//»ñÈ¡¸ù½ÚµãÏÂµÄËùÓÐ×Ó½Úµã£¨¼´ÏîÄ¿½Úµã¼¯ºÏ£©
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Úµï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½Úµã£¨ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Úµã¼¯ï¿½Ï£ï¿½
 		List<ProjectTreeNode> projects = root.getChildren();
 		ProjectTreeNode selectNode = getSelectNode();
 		if (selectNode != null) {
 			for (ProjectTreeNode project : projects) {
-				//µ±Ç°ÏÈÖÐ½ÚµãÊÇ¸ÃprojectÏÂµÄ×Ó½Úµã
+				//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ð½Úµï¿½ï¿½Ç¸ï¿½projectï¿½Âµï¿½ï¿½Ó½Úµï¿½
 				if (selectNode.isNodeAncestor(project)) {
 					return project.getFile();
 				}
@@ -598,11 +598,11 @@ public class EditorFrame extends JFrame {
 		return null;
 	}
 	
-	//ÔËÐÐÎÄ¼þµÄ·½·¨
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	public void run() {
-		//ÔËÐÐÇ°ÏÈ±£´æ
+		//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½È±ï¿½ï¿½ï¿½
 		saveFile(getCurrentFile());
-		//½«½á¹ûÏÔÊ¾
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 		String result = runHandler.run(this);
 		infoArea.setText(result);
 	}
@@ -614,8 +614,8 @@ class FileChooser extends JFileChooser {
 	
 	
 	public FileChooser(EditorFrame editorFrame){
-		//µ÷ÓÃ¸¸ÀàµÄ¹¹ÔìÆ÷
-		//ÀûÓÃeditorFrameµÄ¹¤×÷¿Õ¼ä×÷ÎªÎÄ¼þÑ¡ÔñÆ÷´ò¿ªÊ±µÄÄ¬ÈÏÄ¿Â¼
+		//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½editorFrameï¿½Ä¹ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½Îªï¿½Ä¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ä¬ï¿½ï¿½Ä¿Â¼
 		super(editorFrame.getWorkSpace().getFolder());
 		this.editorFrame = editorFrame;
 		showOpenDialog(editorFrame);
@@ -623,7 +623,7 @@ class FileChooser extends JFileChooser {
 	
 	public void approveSelection() {
 		File file = getSelectedFile();
-		//ÉèÖÃÊ÷µ±Ç°Ñ¡ÔñµÄ½ÚµãÎªnull, ¼´Ê÷Ã»ÓÐ±»Ñ¡ÖÐ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ñ¡ï¿½ï¿½Ä½Úµï¿½Îªnull, ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð±ï¿½Ñ¡ï¿½ï¿½
 		this.editorFrame.getTree().setSelectionPath(null);
 		this.editorFrame.openFile(file);
 		super.approveSelection();

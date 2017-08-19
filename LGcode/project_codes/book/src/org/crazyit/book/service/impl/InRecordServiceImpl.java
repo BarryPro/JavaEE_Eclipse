@@ -4,21 +4,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Vector;
 
-import org.crazyit.book.commons.DateUtil;
-import org.crazyit.book.dao.BookDao;
-import org.crazyit.book.dao.BookInRecordDao;
-import org.crazyit.book.dao.InRecordDao;
-import org.crazyit.book.service.InRecordService;
-import org.crazyit.book.vo.Book;
-import org.crazyit.book.vo.BookInRecord;
-import org.crazyit.book.vo.InRecord;
-
 /**
- * Èë¿â¼ÇÂ¼ÒµÎñÊµÏÖÀà
+ * ï¿½ï¿½ï¿½ï¿½Â¼Òµï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -39,11 +30,11 @@ public class InRecordServiceImpl implements InRecordService {
 	
 	@Override
 	public Collection<InRecord> getAll(Date date) {
-		//µÃµ½ÏÂÒ»Ìì
+		//ï¿½Ãµï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		Date nextDate = DateUtil.getNextDate(date);
-		//µÃµ½½ñÌìµÄÈÕÆÚ, ¸ñÊ½Îªyyyy-MM-dd
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê½Îªyyyy-MM-dd
 		String today = DateUtil.getDateString(date);
-		//µÃµ½Ã÷ÌìµÄÈÕÆÚ, ¸ñÊ½Îªyyyy-MM-dd
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê½Îªyyyy-MM-dd
 		String tomorrow = DateUtil.getDateString(nextDate);
 		Collection<InRecord> records = inRecordDao.findByDate(today, tomorrow);
 		for (InRecord r : records) {
@@ -54,18 +45,18 @@ public class InRecordServiceImpl implements InRecordService {
 	
 	private InRecord processData(InRecord r) {
 		Collection<BookInRecord> birs = bookInRecordDao.findByInRecord(r.getID());
-		//ÉèÖÃ¼ÇÂ¼ÖÐµÄÃ¿Ò»±¾Êé
+		//ï¿½ï¿½ï¿½Ã¼ï¿½Â¼ï¿½Ðµï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½
 		setBook(birs);
-		//ÉèÖÃÈë¿â¼ÇÂ¼ÖÐµÄÊéµÄÈë¿â¼ÇÂ¼
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
 		r.setBookInRecords((Vector<BookInRecord>)birs);
-		//ÉèÖÃÊéÃû
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		r.setBookNames(getBookNames(birs));
-		//ÉèÖÃÊé×ÜÊý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		r.setAmount(getAmount(birs));
 		return r;
 	}
 	
-	//»ñÈ¡Ò»´ÎÈë¿â¼ÇÂ¼ÖÐËùÓÐÊé±¾µÄ½»Ò×Á¿
+	//ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private int getAmount(Collection<BookInRecord> birs) {
 		int result = 0;
 		for (BookInRecord br : birs) {
@@ -74,7 +65,7 @@ public class InRecordServiceImpl implements InRecordService {
 		return result;
 	}
 	
-	//ÉèÖÃ²ÎÊýÖÐµÄÃ¿Ò»¸öBookInRecordµÄbookÊôÐÔ
+	//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ã¿Ò»ï¿½ï¿½BookInRecordï¿½ï¿½bookï¿½ï¿½ï¿½ï¿½
 	private void setBook(Collection<BookInRecord> birs) {
 		for (BookInRecord bir : birs) {
 			Book book = bookDao.find(bir.getBOOK_ID_FK());
@@ -82,7 +73,7 @@ public class InRecordServiceImpl implements InRecordService {
 		}
 	}
 	
-	//»ñÈ¡Ò»´ÎÈë¿â¼ÇÂ¼ÖÐËùÓÐÊé±¾µÄÃû×Ö, ÒÔ¶ººÅ¸ô¿ª
+	//ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ô¶ï¿½ï¿½Å¸ï¿½ï¿½ï¿½
 	private String getBookNames(Collection<BookInRecord> birs) {
 		if (birs.size() == 0) return ""; 
 		StringBuffer result = new StringBuffer();
@@ -90,7 +81,7 @@ public class InRecordServiceImpl implements InRecordService {
 			Book book = br.getBook();
 			result.append(book.getBOOK_NAME() + ", ");
 		}
-		//È¥µô×îºóµÄ¶ººÅ²¢·µ»Ø
+		//È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½
 		return result.substring(0, result.lastIndexOf(","));
 	}
 
@@ -106,7 +97,7 @@ public class InRecordServiceImpl implements InRecordService {
 		for (BookInRecord br : r.getBookInRecords()) {
 			br.setT_IN_RECORD_ID_FK(id);
 			bookInRecordDao.save(br);
-			//ÐÞ¸ÄÊéµÄ¿â´æ
+			//ï¿½Þ¸ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
 			String bookId = br.getBook().getID();
 			Book b = bookDao.find(bookId);
 			b.setREPERTORY_SIZE(String.valueOf(Integer.valueOf(b.getREPERTORY_SIZE()) + Integer.valueOf(br.getIN_SUM())));

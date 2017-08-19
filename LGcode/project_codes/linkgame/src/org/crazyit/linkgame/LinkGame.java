@@ -1,195 +1,194 @@
 package org.crazyit.linkgame;
 
-import javax.swing.JFrame;
-import java.awt.Color;
-import javax.swing.JRootPane;
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.awt.Image;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.MouseInputAdapter;
 
-import org.crazyit.linkgame.commons.GameConfiguration;
-import org.crazyit.linkgame.listener.BeginListener;
-import org.crazyit.linkgame.listener.GameListener;
-import org.crazyit.linkgame.service.GameService;
-import org.crazyit.linkgame.service.impl.GameServiceImpl;
-import org.crazyit.linkgame.view.GamePanel;
-
-import java.awt.event.MouseEvent;
+import linkgame.src.org.crazyit.linkgame.commons.GameConfiguration;
+import linkgame.src.org.crazyit.linkgame.listener.BeginListener;
+import linkgame.src.org.crazyit.linkgame.listener.GameListener;
+import linkgame.src.org.crazyit.linkgame.service.GameService;
+import linkgame.src.org.crazyit.linkgame.service.impl.GameServiceImpl;
 
 /**
- * ÓÎÏ·Èë¿ÚÀà
+ * ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
- * @version 1.0 <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a> <br>
+ * @version 1.0 <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a> <br>
  *          Copyright (C), 2009-2010, yangenxiong <br>
  *          This program is protected by copyright laws.
  */
 public class LinkGame {
 	public static void main(String[] args) throws Exception {
-		// ÉèÖÃ´°¿ÚµÄ±êÌâ
-		JFrame frame = new JFrame("Á¬Á¬¿´");
-		// ÉèÖÃ¹Ø±Õ´°¿ÚµÄ¶¯×÷£¬ÍË³ö³ÌÐò¡£
+		// ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ÚµÄ±ï¿½ï¿½ï¿½
+		JFrame frame = new JFrame("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½Ã¹Ø±Õ´ï¿½ï¿½ÚµÄ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// ÉèÖÃ¿íºÍ¸ß
+		// ï¿½ï¿½ï¿½Ã¿ï¿½Í¸ï¿½
 		frame.setSize(830, 600);
-		// ÉèÖÃframeµÄÎ»ÖÃ
+		// ï¿½ï¿½ï¿½ï¿½frameï¿½ï¿½Î»ï¿½ï¿½
 		frame.setLocation(100, 50);
-		// ÉèÖÃ²»¿É¸Ä±ä´óÐ¡
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½É¸Ä±ï¿½ï¿½Ð¡
 		frame.setResizable(false);
-		// È¥µôÔ­À´´°¿Ú·ç¸ñ
+		// È¥ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½
 		frame.setUndecorated(true);
-		// ÉèÖÃ±êÌâÀ¸ÑùÊ½
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
 		frame.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 		frame.setLayout(new BorderLayout(5, 0));
 
-		// ´´½¨ÆåÅÌÒ»Î¬×î´óÖµÎª15£¬ ¶þÎ¬×î´óÖµÎª10µÄÓÎÏ·ÅäÖÃ, Ïû³ýÒ»´Î¼Ó10·Ö, ÓÎÏ·Ê±¼äÒ»°ÙÃë
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Î¬ï¿½ï¿½ï¿½ÖµÎª15ï¿½ï¿½ ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ÖµÎª10ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Î¼ï¿½10ï¿½ï¿½, ï¿½ï¿½Ï·Ê±ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½
 		final GameConfiguration config = new GameConfiguration(15, 10, 30, 30,
 				10, 150);
-		// Ê¹ÓÃÉÏÃæµÄGameConfiguration¶ÔÏó´´½¨Ò»¸öGameServiceµÄÊµÏÖÀà
+		// Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GameConfigurationï¿½ï¿½ï¿½ó´´½ï¿½Ò»ï¿½ï¿½GameServiceï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
 		final GameService gameService = new GameServiceImpl(config);
-		// ´´½¨Ò»¸öJPanel¶ÔÏó
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanelï¿½ï¿½ï¿½ï¿½
 		final GamePanel gamePanel = new GamePanel(gameService);
 
 		frame.add(gamePanel, BorderLayout.CENTER);
 
-		// ´´½¨Ò»¸öJPanel¶ÔÏó
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanelï¿½ï¿½ï¿½ï¿½
 		JPanel controlPanel = new JPanel();
-		// ÉèÖÃ±³¾°ÑÕÉ«
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		controlPanel.setBackground(new Color(127, 174, 252));
-		// ÉèÖÃ±ß¿òÑùÊ½
+		// ï¿½ï¿½ï¿½Ã±ß¿ï¿½ï¿½ï¿½Ê½
 		controlPanel.setBorder(new EtchedBorder());
-		// ´´½¨Ò»¸öBoxLayout¶ÔÏó£¬µÚÒ»¸ö²ÎÊýÎªÐèÒª²¼¾ÖµÄµÄÈÝÆ÷£¬µÚ¶þ¸ö²ÎÊýÎªÉèÖÃ´ÓÉÏÖÁÏÂ½øÐÐ²¼¾Ö
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½BoxLayoutï¿½ï¿½ï¿½ó£¬µï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Òªï¿½ï¿½ï¿½ÖµÄµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½
 		BoxLayout controlLayout = new BoxLayout(controlPanel, BoxLayout.Y_AXIS);
-		// ÉèÖÃcontrolPanelµÄ²¼¾ÖÎªBoxLayout
+		// ï¿½ï¿½ï¿½ï¿½controlPanelï¿½Ä²ï¿½ï¿½ï¿½ÎªBoxLayout
 		controlPanel.setLayout(controlLayout);
-		// ·ÅÔÚÖ÷½çÃæframeµÄEAST
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½frameï¿½ï¿½EAST
 		frame.add(controlPanel, BorderLayout.EAST);
 
-		// ´´½¨Ò»¸öJPanel, ÓÃÓÚ´æ·Å·è¿ñJavaÁªÃËµÄlogo
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanel, ï¿½ï¿½ï¿½Ú´ï¿½Å·ï¿½ï¿½Javaï¿½ï¿½ï¿½Ëµï¿½logo
 		JPanel crazyItLogoPanel = new JPanel();
-		// ÉèÖÃÕâ¸öJPanelµÄ±ß¿ò
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä±ß¿ï¿½
 		crazyItLogoPanel.setBorder(new EtchedBorder());
-		// ¶ÁÈ¡logoÍ¼Æ¬
+		// ï¿½ï¿½È¡logoÍ¼Æ¬
 		Image crazyItLogoImage = ImageIO
 				.read(new File("images/crazyItLogo.jpg"));
-		// ´´½¨Ò»¸öÒÔÉÏÃæ¶ÁÈ¡µÄÍ¼Æ¬Îª±³¾°µÄJLabel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Í¼Æ¬Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JLabel
 		JLabel crazyItLogoLable = new JLabel(new ImageIcon(crazyItLogoImage));
-		// ÉèÖÃJPanelµÄ±³¾°ÑÕÉ«
+		// ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		crazyItLogoPanel.setBackground(new Color(127, 174, 252));
-		// ½«ÉÏÃæµÄJLabel¼ÓÈëµ½JPanelÖÐ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JLabelï¿½ï¿½ï¿½ëµ½JPanelï¿½ï¿½
 		crazyItLogoPanel.add(crazyItLogoLable);
-		// ×îºó½«´æ·Å·è¿ñJavaÁªÃËlogoµÄJPanel·Åµ½¿ØÖÆÇøµÄÄÇ¸öJPanel(controlPanel)ÖÐ
+		// ï¿½ï¿½ó½«´ï¿½Å·ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½logoï¿½ï¿½JPanelï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½JPanel(controlPanel)ï¿½ï¿½
 		controlPanel.add(crazyItLogoPanel);
-		// ´´½¨¿Õ°×µÄJPanel
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Õ°×µï¿½JPanel
 		controlPanel.add(createBlankPanel());
 
-		// ÔÙÐÂ½¨Ò»¸ö×Ô¼ºµÄlogo
+		// ï¿½ï¿½ï¿½Â½ï¿½Ò»ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½logo
 		JPanel logoPanel = new JPanel();
-		// ÉèÖÃ±ß¿ò
+		// ï¿½ï¿½ï¿½Ã±ß¿ï¿½
 		logoPanel.setBorder(new EtchedBorder());
-		// ¶ÁÈ¡Í¼Æ¬
+		// ï¿½ï¿½È¡Í¼Æ¬
 		Image logoImage = ImageIO.read(new File("images/logo.gif"));
-		// ´´½¨Ò»¸öJLabel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JLabel
 		JLabel logoLable = new JLabel(new ImageIcon(logoImage));
-		// ÉèÖÃ±³¾°ÑÕÉ«
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		logoPanel.setBackground(new Color(127, 174, 252));
-		// ½«JLabel¼ÓÈëµ½JPanelÖÐ
+		// ï¿½ï¿½JLabelï¿½ï¿½ï¿½ëµ½JPanelï¿½ï¿½
 		logoPanel.add(logoLable);
-		// ¼Óµ½controlPanelÖÐ
+		// ï¿½Óµï¿½controlPanelï¿½ï¿½
 		controlPanel.add(logoPanel);
-		// ´´½¨¿Õ°×µÄJPanel
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Õ°×µï¿½JPanel
 		controlPanel.add(createBlankPanel());
 
-		// ´´½¨Ò»¸ö´æ·Å·ÖÊýÎÄ×ÖµÄJPanel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½JPanel
 		JPanel pointTextPanel = new JPanel();
-		// ÉèÖÃÕâ¸öJPanelµÄ±³¾°É«
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä±ï¿½ï¿½ï¿½É«
 		pointTextPanel.setBackground(new Color(169, 210, 254));
-		// ÉèÖÃÕâ¸öJPanelµÄ±ß¿ò
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä±ß¿ï¿½
 		pointTextPanel.setBorder(new EtchedBorder());
-		// ´´½¨Ò»¸öJLabelÓÃÓÚ·ÅÖÃ"·ÖÊý"Á½¸ö×Ö
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JLabelï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½"ï¿½ï¿½ï¿½ï¿½"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JLabel pointTextLabel = new JLabel();
-		// ÉèÖÃÕâ¸öJLabelµÄtextÎª"·ÖÊý", ÎªÁË¸üºÃ¿´, ÎÒÃÇÔÚ·ÖÊýÁ½¸ö×ÖÖ®¼ä¼ÓÈë¿Õ¸ñ
-		pointTextLabel.setText("·Ö            Êý");
-		// ½«JLabel¼ÓÈëµ½JPanelÖÐ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JLabelï¿½ï¿½textÎª"ï¿½ï¿½ï¿½ï¿½", Îªï¿½Ë¸ï¿½ï¿½Ã¿ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½Õ¸ï¿½
+		pointTextLabel.setText("ï¿½ï¿½            ï¿½ï¿½");
+		// ï¿½ï¿½JLabelï¿½ï¿½ï¿½ëµ½JPanelï¿½ï¿½
 		pointTextPanel.add(pointTextLabel);
-		// ½«´æ·Å·ÖÊýÎÄ×ÖµÄJPanel·Åµ½ÓÎÏ·¿ØÖÆÇøµÄJPanel(controlPanel)ÖÐ
+		// ï¿½ï¿½ï¿½ï¿½Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½JPanelï¿½Åµï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanel(controlPanel)ï¿½ï¿½
 		controlPanel.add(pointTextPanel);
 
-		// ´´½¨Ò»¸öJPanel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanel
 		JPanel pointPanel = new JPanel();
-		// ÉèÖÃ±ß¿ò
+		// ï¿½ï¿½ï¿½Ã±ß¿ï¿½
 		pointPanel.setBorder(new EtchedBorder());
-		// ÉèÖÃ±³¾°ÑÕÉ«
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		pointPanel.setBackground(new Color(208, 223, 255));
-		// ´´½¨Ò»¸öJLabel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JLabel
 		final JLabel pointLabel = new JLabel();
-		// ÉèÖÃ³õÊ¼ÎÄ×Ö
+		// ï¿½ï¿½ï¿½Ã³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 		pointLabel.setText("0");
-		// ½«JLabelÌí¼Óµ½JPanelÖÐ
+		// ï¿½ï¿½JLabelï¿½ï¿½Óµï¿½JPanelï¿½ï¿½
 		pointPanel.add(pointLabel);
-		// ¼ÓÈëµ½ÓÎÏ·¿ØÖÆÇøµÄJPanel(controlPanel)ÖÐ
+		// ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanel(controlPanel)ï¿½ï¿½
 		controlPanel.add(pointPanel);
-		// ´´½¨¿Õ°×µÄJPanel
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Õ°×µï¿½JPanel
 		controlPanel.add(createBlankPanel());
 
-		// Ê±¼ä¼ÆËã×ÖÌåµÄPanel
+		// Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Panel
 		JPanel timeTextPanel = new JPanel();
 		timeTextPanel.setBackground(new Color(169, 210, 254));
 		timeTextPanel.setBorder(new EtchedBorder());
-		JLabel timeTextLabel = new JLabel();// "·ÖÊý"Á½¸ö×Ö´æ·Å×ÖÌå
-		timeTextLabel.setText("Ê±            ¼ä");
+		JLabel timeTextLabel = new JLabel();// "ï¿½ï¿½ï¿½ï¿½"ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		timeTextLabel.setText("Ê±            ï¿½ï¿½");
 		timeTextPanel.add(timeTextLabel);
 		controlPanel.add(timeTextPanel);
 
-		// Ê±¼ä¼ÆËã
+		// Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
 		JPanel timePanel = new JPanel();
 		timePanel.setBorder(new EtchedBorder());
 		timePanel.setBackground(new Color(208, 223, 255));
-		JLabel timeLabel = new JLabel();// ·ÖÊý½á¹û´æ·Å
-		timeLabel.setText("0   Ãë");
+		JLabel timeLabel = new JLabel();// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		timeLabel.setText("0   ï¿½ï¿½");
 		timePanel.add(timeLabel);
 		controlPanel.add(timePanel);
-		// ´´½¨¿Õ°×µÄJPanel
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Õ°×µï¿½JPanel
 		controlPanel.add(createBlankPanel());
 
-		// ´´½¨Ò»¸ötimer
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½timer
 
-		// ÐÂ½¨Ò»¸ö·ÅÖÃbuttonµÄJPanel
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½buttonï¿½ï¿½JPanel
 		JPanel buttonsPanel = new JPanel();
-		// ÉèÖÃÕâ¸öJPanelµÄ²¼¾Ö·½·¨, ²ÉÓÃBoxLayout²¢½øÐÐ´Ó×óµ½ÓÒ½øÐÐ²¼¾Ö
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä²ï¿½ï¿½Ö·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½BoxLayoutï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-		// ÉèÖÃ±³¾°ÑÕÉ«
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		buttonsPanel.setBackground(new Color(127, 174, 252));
-		// ´´½¨¿ªÊ¼°´Å¥
-		JButton beginButton = new JButton("¿ª    Ê¼");
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Å¥
+		JButton beginButton = new JButton("ï¿½ï¿½    Ê¼");
 		buttonsPanel.add(beginButton);
-		// ÐÂ½¨Ò»¸öJLabelÓÃÓÚ¸ô¿ªÁ½¸ö°´Å¥, Ê¹ÓÃ½çÃæºÃ¿´µã
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½JLabelï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥, Ê¹ï¿½Ã½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½
 		JLabel blankLabel = new JLabel();
 		blankLabel.setText("     ");
 		buttonsPanel.add(blankLabel);
 
-		// ´´½¨Ò»¸ö¼àÌýÆ÷Àà
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		BeginListener beginListener = new BeginListener(gamePanel, gameService,
 				pointLabel, timeLabel, config);
-		// Ê¹ÓÃaddMouseListener·½·¨£¬¼ÓÈë¸Ã°´Å¥µÄÊó±ê¼àÌýÆ÷
+		// Ê¹ï¿½ï¿½addMouseListenerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		beginButton.addMouseListener(beginListener);
-		// ´´½¨ÓÎÏ·ÇøµÄ¼àÌýÆ÷Àà
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		GameListener gameListener = new GameListener(gameService, gamePanel,
 				pointLabel, beginListener);
-		// ÎªGamePanel¼ÓÈëÊó±ê¼àÌýÆ÷, ²¢½«beginListener´«Èë,ÓÃÓÚ»ñÈ¡ËüµÄtimerÊôÐÔ
+		// ÎªGamePanelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½beginListenerï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Ú»ï¿½È¡ï¿½ï¿½ï¿½ï¿½timerï¿½ï¿½ï¿½ï¿½
 		gamePanel.addMouseListener(gameListener);
 
-		// ´´½¨ÍË³ö°´Å¥
-		JButton exitButton = new JButton("ÍË    ³ö");
-		// ÎªÍË³ö²Ù×÷°´Å¥¼ÓÈëÊÂ¼þ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Å¥
+		JButton exitButton = new JButton("ï¿½ï¿½    ï¿½ï¿½");
+		// Îªï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 		exitButton.addMouseListener(new MouseInputAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
@@ -197,24 +196,24 @@ public class LinkGame {
 		});
 		buttonsPanel.add(exitButton);
 		controlPanel.add(buttonsPanel);
-		// ´´½¨¿Õ°×µÄJPanel
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Õ°×µï¿½JPanel
 		controlPanel.add(createBlankPanel());
 
-		frame.setVisible(true); // Ê¹´°¿Ú¿É¼û
+		frame.setVisible(true); // Ê¹ï¿½ï¿½ï¿½Ú¿É¼ï¿½
 	}
 
 	private static JPanel createBlankPanel() {
-		// ´´½¨Ò»¸öJPanel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanel
 		JPanel blankPanel = new JPanel();
-		// ÉèÖÃÕâ¸öJPanelµÄ±³¾°ÑÕÉ«(Óë¿ØÖÆÇøµÄJPanel(controlPanel)±³¾°ÑÕÉ«Ò»ÖÂ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É«(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanel(controlPanel)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Ò»ï¿½ï¿½
 		blankPanel.setBackground(new Color(127, 174, 252));
-		// ´´½¨Ò»¸öJLabel, ÓÃÓÚ´æ·Å¿Õ¸ñ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JLabel, ï¿½ï¿½ï¿½Ú´ï¿½Å¿Õ¸ï¿½
 		JLabel blankLabel = new JLabel();
-		// ÉèÖÃ×ÖÌåÎª¿Õ¸ñ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ¸ï¿½
 		blankLabel.setText("      ");
-		// ½«JLabelÌí¼Óµ½¿Õ°×µÄJPanelÖÐ
+		// ï¿½ï¿½JLabelï¿½ï¿½Óµï¿½ï¿½Õ°×µï¿½JPanelï¿½ï¿½
 		blankPanel.add(blankLabel);
-		// ·µ»ØÕâ¸öJPanel¶ÔÏó
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½ï¿½ï¿½ï¿½
 		return blankPanel;
 	}
 }

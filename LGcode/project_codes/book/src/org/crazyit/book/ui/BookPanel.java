@@ -27,21 +27,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.crazyit.book.commons.ImageUtil;
-import org.crazyit.book.commons.UploadException;
-import org.crazyit.book.service.BookService;
-import org.crazyit.book.service.ConcernService;
-import org.crazyit.book.service.TypeService;
-import org.crazyit.book.vo.Book;
-import org.crazyit.book.vo.Concern;
-import org.crazyit.book.vo.Type;
-
 /**
- * Êé±¾½çÃæ
+ * ï¿½é±¾ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -55,66 +46,66 @@ public class BookPanel extends CommonPanel {
 	
 	ConcernService concernService;
 	
-	//ÖÖÀàÏÂÀ­¿ò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JComboBox typeComboBox;
 	
-	//³ö°æÉçÏÂÀ­¿ò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JComboBox concernComboBox;
 	
-	//Êé±¾id
+	//ï¿½é±¾id
 	JTextField bookId;
 	
-	//Êé±¾Ãû³Æ
+	//ï¿½é±¾ï¿½ï¿½ï¿½ï¿½
 	JTextField bookName;
 	
-	//Êé±¾¼Û¸ñ
+	//ï¿½é±¾ï¿½Û¸ï¿½
 	JTextField price;
 	
-	//Êé±¾½éÉÜ
+	//ï¿½é±¾ï¿½ï¿½ï¿½ï¿½
 	JTextArea intro;
 	
 	JButton clearButton;
 	
 	JButton saveButton;
 	
-	//²éÑ¯ÖÐµÄÊé±¾Ãû³Æ
+	//ï¿½ï¿½Ñ¯ï¿½Ðµï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½
 	JTextField nameQueryTextField;
 	
-	//²éÑ¯°´Å¥
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½Å¥
 	JButton queryButton;
 	
-	//Í¼Æ¬ÉÏ´«°´Å¥
+	//Í¼Æ¬ï¿½Ï´ï¿½ï¿½ï¿½Å¥
 	JButton imageButton;
 	
-	//ÎÄ¼þÑ¡ÔñÆ÷
+	//ï¿½Ä¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
 	FileChooser chooser;
 	
-	//µ±Ç°½çÃæËùÏÔÊ¾µÄÍ¼Æ¬
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Í¼Æ¬
 	ImageIcon currentImage;
 	
-	//µ±Ç°½çÃæËùÏÔÊ¾Í¼Æ¬µÄÂ·¾¶
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Í¼Æ¬ï¿½ï¿½Â·ï¿½ï¿½
 	String currentImagePath;
 	
-	//ÏÔÊ¾Í¼Æ¬µÄJLabel
+	//ï¿½ï¿½Ê¾Í¼Æ¬ï¿½ï¿½JLabel
 	JLabel imageLabel;
 	
 	JTextField author;
 	
 	private final static String DEFAULT_File_Path = "upload/no_pic.gif";
 	
-	//²é¿´´óÍ¼µÄJFrame
+	//ï¿½é¿´ï¿½ï¿½Í¼ï¿½ï¿½JFrame
 	ImageFrame imageFrame;
 	
 	private void initColumns() {
 		this.columns = new Vector();
 		this.columns.add("id");
-		this.columns.add("Êé±¾Ãû³Æ");
-		this.columns.add("¼ò½é");
-		this.columns.add("×÷Õß");
-		this.columns.add("ËùÊôÖÖÀà");
-		this.columns.add("³ö°æÉç");
-		this.columns.add("¿â´æ");
-		this.columns.add("¼Û¸ñ");
+		this.columns.add("ï¿½é±¾ï¿½ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½Û¸ï¿½");
 	}
 	
 	public void initImage() {
@@ -131,7 +122,7 @@ public class BookPanel extends CommonPanel {
 		setViewDatas();
 		initColumns();
 		
-		//ÉèÖÃÁÐ±í
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		DefaultTableModel model = new DefaultTableModel(getDatas(), this.columns);
 		JTable table = new CommonJTable(model);
 		setJTable(table);
@@ -139,29 +130,29 @@ public class BookPanel extends CommonPanel {
 		JScrollPane upPane = new JScrollPane(table);
 		upPane.setPreferredSize(new Dimension(1000, 350));
 		
-		//ÉèÖÃÌí¼Ó, ÐÞ¸ÄµÄ½çÃæ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Þ¸ÄµÄ½ï¿½ï¿½ï¿½
 		JPanel downPane = new JPanel();
 		downPane.setLayout(new BoxLayout(downPane, BoxLayout.X_AXIS));
 
 		Box downBox1 = new Box(BoxLayout.X_AXIS);
-		//Ìí¼ÓidÒþ²ØÓò
+		//ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bookId = new JTextField(10);
 		bookId.setVisible(false);
 		downBox1.add(bookId);
-		//ÁÐ±íÏÂÃæµÄbox
-		downBox1.add(new JLabel("Êé±¾Ãû³Æ£º"));
+		//ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½box
+		downBox1.add(new JLabel("ï¿½é±¾ï¿½ï¿½ï¿½Æ£ï¿½"));
 		downBox1.add(Box.createHorizontalStrut(10));
 		bookName = new JTextField(10);
 		downBox1.add(bookName);
 		downBox1.add(Box.createHorizontalStrut(30));
 		
-		downBox1.add(new JLabel("¼Û¸ñ£º"));
+		downBox1.add(new JLabel("ï¿½Û¸ï¿½"));
 		downBox1.add(Box.createHorizontalStrut(10));
 		price = new JTextField(10);
 		downBox1.add(price);
 		downBox1.add(Box.createHorizontalStrut(30));
 		
-		downBox1.add(new JLabel("×÷Õß£º"));
+		downBox1.add(new JLabel("ï¿½ï¿½ï¿½ß£ï¿½"));
 		downBox1.add(Box.createHorizontalStrut(10));
 		author = new JTextField(10);
 		downBox1.add(author);
@@ -170,28 +161,28 @@ public class BookPanel extends CommonPanel {
 		/***************************************************/
 		Box downBox4 = new Box(BoxLayout.X_AXIS);
 
-		downBox4.add(new JLabel("ËùÊôÖÖÀà£º"));
+		downBox4.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à£º"));
 		downBox4.add(Box.createHorizontalStrut(10));
 		typeComboBox = new JComboBox();
 		addTypes();
 		downBox4.add(typeComboBox);
 		downBox4.add(Box.createHorizontalStrut(30));
 		
-		downBox4.add(new JLabel("³ö°æÉç£º"));
+		downBox4.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ç£º"));
 		concernComboBox = new JComboBox();
 		addConcerns();
 		downBox4.add(concernComboBox);
 		downBox4.add(Box.createHorizontalStrut(30));
 		
-		downBox4.add(new JLabel("Êé±¾Í¼Æ¬£º"));
+		downBox4.add(new JLabel("ï¿½é±¾Í¼Æ¬ï¿½ï¿½"));
 		this.chooser = new FileChooser(this);
-		this.imageButton = new JButton("ÇëÑ¡ÔñÎÄ¼þ");
+		this.imageButton = new JButton("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ä¼ï¿½");
 		downBox4.add(this.imageButton);
 		downBox4.add(Box.createHorizontalStrut(30));
 		
 		/*******************************************************/
 		Box downBox2 = new Box(BoxLayout.X_AXIS);
-		downBox2.add(new JLabel("Êé±¾¼ò½é£º"));
+		downBox2.add(new JLabel("ï¿½é±¾ï¿½ï¿½é£º"));
 		downBox2.add(Box.createHorizontalStrut(10));
 
 		intro = new JTextArea("", 5, 5);
@@ -202,11 +193,11 @@ public class BookPanel extends CommonPanel {
 		/*******************************************************/
 		Box downBox3 = new Box(BoxLayout.X_AXIS);
 		
-		saveButton = new JButton("±£´æ");
+		saveButton = new JButton("ï¿½ï¿½ï¿½ï¿½");
 		downBox3.add(saveButton);
 		downBox3.add(Box.createHorizontalStrut(30));
 		
-		clearButton = new JButton("Çå¿Õ");
+		clearButton = new JButton("ï¿½ï¿½ï¿½");
 		downBox3.add(clearButton);
 		downBox3.add(Box.createHorizontalStrut(30));
 		
@@ -234,51 +225,51 @@ public class BookPanel extends CommonPanel {
 		downPane.add(downLeftBox);
 		downPane.add(downRightBox);
 		
-		/*******************²éÑ¯******************/
+		/*******************ï¿½ï¿½Ñ¯******************/
 		JPanel queryPanel = new JPanel();
 		Box queryBox = new Box(BoxLayout.X_AXIS);
-		queryBox.add(new JLabel("ÊéÃû£º"));
+		queryBox.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
 		queryBox.add(Box.createHorizontalStrut(30));
 		nameQueryTextField = new JTextField(20);
 		queryBox.add(nameQueryTextField);
 		queryBox.add(Box.createHorizontalStrut(30));
-		queryButton = new JButton("²éÑ¯");
+		queryButton = new JButton("ï¿½ï¿½Ñ¯");
 		queryBox.add(queryButton);
 		queryPanel.add(queryBox);
 		this.add(queryPanel);
 		
-		//ÁÐ±íÎªÌí¼Ó½çÃæ
+		//ï¿½Ð±ï¿½Îªï¿½ï¿½Ó½ï¿½ï¿½ï¿½
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upPane, downPane);
 		split.setDividerSize(5);
 		this.add(split);
-		//Ìí¼Ó¼àÌýÆ÷
+		//ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		initListeners();
 	}
 	
 	private void initListeners() {
-		//±í¸ñÑ¡Ôñ¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		getJTable().getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
-				//µ±Ñ¡ÔñÐÐÊ±Êó±êÊÍ·ÅÊ±²ÅÖ´ÐÐ
+				//ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ê±ï¿½ï¿½Ö´ï¿½ï¿½
 				if (!event.getValueIsAdjusting()) {
-					//Èç¹ûÃ»ÓÐÑ¡ÖÐÈÎºÎÒ»ÐÐ, Ôò·µ»Ø
+					//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½, ï¿½ò·µ»ï¿½
 					if (getJTable().getSelectedRowCount() != 1) return;
 					view();
 				}
 			}
 		});
-		//Çå¿Õ°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½Õ°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		clearButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				clear();
 			}
 		});
-		//±£´æ°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½æ°´Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		saveButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				//ÑéÖ¤¿ÕÖµ
+				//ï¿½ï¿½Ö¤ï¿½ï¿½Öµ
 				if (bookName.getText().trim().equals("")) {
-					showWarn("ÇëÊäÈëÊéµÄÃû³Æ");
+					showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 					return;
 				}
 				save();
@@ -289,7 +280,7 @@ public class BookPanel extends CommonPanel {
 				query();
 			}
 		});
-		//Í¼Æ¬ÉÏ´«°´Å¥
+		//Í¼Æ¬ï¿½Ï´ï¿½ï¿½ï¿½Å¥
 		imageButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				addImage();
@@ -302,7 +293,7 @@ public class BookPanel extends CommonPanel {
 		});
 	}
 	
-	//´ò¿ªÏÔÊ¾Í¼Æ¬µÄJFrame
+	//ï¿½ï¿½ï¿½ï¿½Ê¾Í¼Æ¬ï¿½ï¿½JFrame
 	private void showImageFrame() {
 		if (this.imageFrame == null) {
 			this.imageFrame = new ImageFrame(this.currentImage);
@@ -310,43 +301,43 @@ public class BookPanel extends CommonPanel {
 		this.imageFrame.refresh(getBigImage());
 	}
 	
-	//»ñÈ¡´óÍ¼Æ¬µÄÂ·¾¶
+	//ï¿½ï¿½È¡ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Â·ï¿½ï¿½
 	private ImageIcon getBigImage() {
 		String smallImagePath = this.currentImagePath;
 		if (smallImagePath.equals(this.DEFAULT_File_Path)) {
 			return this.currentImage;
 		}
-		//»ñÈ¡ÎÞºó×ºÎÄ¼þÃû(´øÂ·¾¶)
+		//ï¿½ï¿½È¡ï¿½Þºï¿½×ºï¿½Ä¼ï¿½ï¿½ï¿½(ï¿½ï¿½Â·ï¿½ï¿½)
 		String temp = smallImagePath.substring(0, smallImagePath.lastIndexOf("."));
-		//Æ´×°´óÍ¼Â·¾¶È«ÎÄ¼þÃû
+		//Æ´×°ï¿½ï¿½Í¼Â·ï¿½ï¿½È«ï¿½Ä¼ï¿½ï¿½ï¿½
 		String bigImagePath = temp + "-big" + smallImagePath.substring(smallImagePath.lastIndexOf("."), 
 				smallImagePath.length());
 		return new ImageIcon(bigImagePath);
 	}
 	
-	//Ìí¼ÓÎÄ¼þµÄ·½·¨
+	//ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	private void addImage() {
 		chooser.showOpenDialog(this);
 	}
 	
-	//ÉÏ´«Í¼Æ¬
+	//ï¿½Ï´ï¿½Í¼Æ¬
 	public void upload(File selectFile) {
 		try {
-			//Ê¹ÓÃuuidÉú³ÉÎÄ¼þÃû£¬±£Ö¤ÎÄ¼þÃûÎ¨Ò»
+			//Ê¹ï¿½ï¿½uuidï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½Ä¼ï¿½ï¿½ï¿½Î¨Ò»
 			String uuid =  ImageUtil.getUUID();
-			//ËõÂÔÍ¼µÄurl
+			//ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½url
 			String smallFilePath = "upload/" + uuid + ".jpg";
-			//Ô­Í¼µÄurl
+			//Ô­Í¼ï¿½ï¿½url
 			String bigFilePath = "upload/" + uuid + "-big.jpg";
-			//Éú³ÉËõÂÔÍ¼
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
 			File file = ImageUtil.makeImage(selectFile, smallFilePath, "jpg", true);
-			//Éú³ÉÔ­Í¼
+			//ï¿½ï¿½ï¿½ï¿½Ô­Í¼
 			File source = ImageUtil.makeImage(selectFile, bigFilePath, "jpg", false);
-			//ÉèÖÃ½çÃæÏÔÊ¾µÄÍ¼Æ¬¶ÔÏó
+			//ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 			this.currentImage = new ImageIcon(file.getAbsolutePath());
-			//ÉèÖÃ½çÃæÏÔÊ¾µÄÍ¼Æ¬url
+			//ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Í¼Æ¬url
 			this.currentImagePath = smallFilePath;
-			//Ë¢ÐÂÍ¼Æ¬ÏÔÊ¾Çø
+			//Ë¢ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ê¾ï¿½ï¿½
 			refreshImage();
 		} catch (UploadException e) {
 			e.printStackTrace();
@@ -354,12 +345,12 @@ public class BookPanel extends CommonPanel {
 		}
 	}
 	
-	//Ë¢ÐÂÍ¼Æ¬ÏÔÊ¾µÄJLabel
+	//Ë¢ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ê¾ï¿½ï¿½JLabel
 	private void refreshImage() {
 		this.imageLabel.setIcon(this.currentImage);
 	}
 	
-	//¸ù¾ÝÃû³Æ²éÑ¯Êé
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ²ï¿½Ñ¯ï¿½ï¿½
 	private void query() {
 		String name = this.nameQueryTextField.getText();
 		Vector<Book> books = (Vector<Book>)bookService.find(name);
@@ -368,7 +359,7 @@ public class BookPanel extends CommonPanel {
 		refreshTable();
 	}
 	
-	//Çå¿Õ±íµ¥, Ë¢ÐÂÁÐ±í
+	//ï¿½ï¿½Õ±ï¿½, Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 	public void clear() {
 		refreshTable();
 		this.bookId.setText("");
@@ -380,15 +371,15 @@ public class BookPanel extends CommonPanel {
 		this.concernComboBox.removeAllItems();
 		addTypes();
 		addConcerns();
-		//Çå¿ÕÍ¼Æ¬Óò
+		//ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½
 		this.currentImage = new ImageIcon(DEFAULT_File_Path);
 		refreshImage();
 		this.currentImagePath = DEFAULT_File_Path;
 	}
 	
-	//±£´æ
+	//ï¿½ï¿½ï¿½ï¿½
 	private void save() {
-		//Èç¹ûbookIdµÄÎÄ±¾¿ò(Òþ²Ø)µÄÖµÎª¿Õ, ÔòÊÇÐÂÔö, ·ñÔòÎªÐÞ¸Ä
+		//ï¿½ï¿½ï¿½bookIdï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ÖµÎªï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Îªï¿½Þ¸ï¿½
 		if (this.bookId.getText().equals("")) {
 			add();
 		} else {
@@ -396,22 +387,22 @@ public class BookPanel extends CommonPanel {
 		}
 	}
 	
-	//ÐÂÔöÊé±¾
+	//ï¿½ï¿½ï¿½ï¿½ï¿½é±¾
 	private void add() {
 		if (!validatePrice()) {
-			JOptionPane.showMessageDialog(this, "ÇëÊäÈëÕýÈ·µÄ¼Û¸ñ");
+			JOptionPane.showMessageDialog(this, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½Ä¼Û¸ï¿½");
 			return;
 		}
-		//ÐÂÔöÊé±¾Ê±¿â´æÎª0
+		//ï¿½ï¿½ï¿½ï¿½ï¿½é±¾Ê±ï¿½ï¿½ï¿½Îª0
 		Book book = getBook();
 		bookService.add(book);
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//Ë¢ÐÂÁÐ±í, Çå¿Õ±íµ¥
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½, ï¿½ï¿½Õ±ï¿½
 		clear();
 	}
 	
-	//ÑéÖ¤ÊäÈë
+	//ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½
 	private boolean validatePrice() {
 		String price = this.price.getText();
 		try {
@@ -422,19 +413,19 @@ public class BookPanel extends CommonPanel {
 		}
 	}
 	
-	//ÐÞ¸ÄÊé±¾, ÐÞ¸ÄÊ±²»ÐèÒªÐÞ¸Ä¿â´æ, ÒòÎª¿â´æÈ¡¾öÓÚÏúÊÛÓëÈë»õ
+	//ï¿½Þ¸ï¿½ï¿½é±¾, ï¿½Þ¸ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Òªï¿½Þ¸Ä¿ï¿½ï¿½, ï¿½ï¿½Îªï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void update() {
 		Book book = getBook();
-		//ÓÉÓÚÊÇÐÞ¸Ä, Òò´ËÐèÒªÉèÖÃid
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½id
 		book.setID(this.bookId.getText());
 		bookService.update(book);
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//Ë¢ÐÂÁÐ±í, Çå¿Õ±íµ¥
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½, ï¿½ï¿½Õ±ï¿½
 		clear();
 	}
 	
-	//´Ó½çÃæÖÐ»ñÈ¡Êý¾Ý²¢·â×°³ÉBook¶ÔÏó
+	//ï¿½Ó½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½×°ï¿½ï¿½Bookï¿½ï¿½ï¿½ï¿½
 	private Book getBook() {
 		String bookName = this.bookName.getText();
 		String price = this.price.getText();
@@ -446,7 +437,7 @@ public class BookPanel extends CommonPanel {
 				concern.getID(), String.valueOf(0), this.currentImagePath, author);
 	}
 	
-	//²é¿´Êé±¾
+	//ï¿½é¿´ï¿½é±¾
 	private void view() {
 		String id = getSelectId(getJTable());
 		Book book = bookService.get(id);
@@ -463,18 +454,18 @@ public class BookPanel extends CommonPanel {
 	}
 	
 	/*
-	 * ÊµÏÖ¸¸Àà·½·¨, ²éÑ¯Êý¾Ý¿â²¢·µ»Ø¶ÔÓ¦µÄÊý¾Ý¸ñÊ½, µ÷ÓÃ¸¸ÀàµÄsetDatas·½·¨ÉèÖÃÊý¾Ý¼¯ºÏ
+	 * Êµï¿½Ö¸ï¿½ï¿½à·½ï¿½ï¿½, ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ý¿â²¢ï¿½ï¿½ï¿½Ø¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½Ê½, ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½setDatasï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½
 	 */
 	public void setViewDatas() {
-		//²éÕÒ¶ÔÓ¦µÄÊý¾Ý
+		//ï¿½ï¿½ï¿½Ò¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Vector<Book> books = (Vector<Book>)bookService.getAll();
-		//×ª»»ÏÔÊ¾¸ñÊ½
+		//×ªï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ê½
 		Vector<Vector> datas =  changeDatas(books);
-		//µ÷ÓÃ¸¸Àà·½·¨ÉèÖÃ½á¹û¼¯ºÏ
+		//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½à·½ï¿½ï¿½ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setDatas(datas);
 	}
 	
-	//½«Êý¾Ý×ª»»³ÉÊÓÍ¼±í¸ñµÄ¸ñÊ½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¸ï¿½Ê½
 	private Vector<Vector> changeDatas(Vector<Book> datas) {
 		Vector<Vector> view = new Vector<Vector>();
 		for (Book book : datas) {
@@ -499,24 +490,24 @@ public class BookPanel extends CommonPanel {
 
 	@Override
 	public void setTableFace() {
-		//Òþ²ØidÁÐ
+		//ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½
 		getJTable().getColumn("id").setMinWidth(-1);
 		getJTable().getColumn("id").setMaxWidth(-1);
-		getJTable().getColumn("¼ò½é").setMinWidth(350);
+		getJTable().getColumn("ï¿½ï¿½ï¿½").setMinWidth(350);
 		getJTable().setRowHeight(30);
 	}
 	
-	//´ÓÊý¾Ý¿âÖÐ»ñÈ¡È«²¿µÄÖÖÀà²¢Ìí¼Óµ½ÏÂÀ­¿òÖÐ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ð»ï¿½È¡È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à²¢ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void addTypes() {
-		//µ÷ÓÃÖÖÀàÒµÎñ½Ó¿ÚÈ¡µÃÈ«²¿µÄÖÖÀà
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ó¿ï¿½È¡ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Collection<Type> types = this.typeService.getAll();
 		for (Type type : types) {
-			//typeComboBoxÊÇÖÖÀàÏÂÀ­¿ò¶ÔÏó
+			//typeComboBoxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.typeComboBox.addItem(makeType(type));
 		}
 	}
 	
-	//´ÓÊý¾Ý¿âÖÐ»ñÈ¡È«²¿µÄ³ö°æÉç²¢Ìí¼Óµ½ÏÂÀ­¿òÖÐ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ð»ï¿½È¡È«ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ç²¢ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void addConcerns() {
 		Collection<Concern> concers = this.concernService.getAll();
 		for (Concern c : concers) {
@@ -524,7 +515,7 @@ public class BookPanel extends CommonPanel {
 		}
 	}
 
-	//´´½¨Ò»¸öType¶ÔÏó, ÓÃÓÚÌí¼Óµ½ÏÂÀ­¿òÖÐ, ¸Ã·½·¨ÖÐ´´½¨µÄType¶ÔÏóÖØÐ´ÁËtoStringºÍequals·½·¨
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Typeï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ã·ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Typeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½toStringï¿½ï¿½equalsï¿½ï¿½ï¿½ï¿½
 	private Type makeType(final Type source) {
 		Type type = new Type(){
 			public String toString(){
@@ -542,7 +533,7 @@ public class BookPanel extends CommonPanel {
 		return type;
 	}
 	
-	//´´½¨Ò»¸öConcern¶ÔÏó, ÓÃÓÚÌí¼Óµ½ÏÂÀ­¿òÖÐ, ¸Ã·½·¨ÖÐ´´½¨µÄConcern¶ÔÏóÖØÐ´ÁËtoStringºÍequals·½·¨
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Concernï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ã·ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Concernï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½toStringï¿½ï¿½equalsï¿½ï¿½ï¿½ï¿½
 	private Concern makeConcern(final Concern c) {
 		Concern concern = new Concern() {
 			public String toString(){
@@ -564,16 +555,16 @@ public class BookPanel extends CommonPanel {
 }
 
 class FileChooser extends JFileChooser {
-	//Êé±¾¹ÜÀí½çÃæ¶ÔÏó
+	//ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	BookPanel bookPanel;
 	public FileChooser(BookPanel bookPanel){
 		this.bookPanel = bookPanel;
 	}
-	//Ñ¡ÔñÁËÎÄ¼þºó´¥·¢
+	//Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ó´¥·ï¿½
 	public void approveSelection() {
-		//»ñµÃÑ¡ÔñµÄÎÄ¼þ
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		File file = getSelectedFile();
-		//µ÷ÓÃÊé±¾¹ÜÀí½çÃæ¶ÔÏóµÄupload·½·¨
+		//ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uploadï¿½ï¿½ï¿½ï¿½
 		this.bookPanel.upload(file);
 		super.approveSelection();
 	}

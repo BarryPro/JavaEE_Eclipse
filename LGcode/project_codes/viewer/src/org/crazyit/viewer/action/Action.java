@@ -1,23 +1,23 @@
 package org.crazyit.viewer.action;
 
-import org.crazyit.viewer.ViewerFrame;
-import org.crazyit.viewer.ViewerService;
+import viewer.src.org.crazyit.viewer.ViewerFrame;
+import viewer.src.org.crazyit.viewer.ViewerService;
 
 /**
- * Í¼Æ¬ä¯ÀÀÆ÷µÄAction½Ó¿Ú
+ * Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Actionï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface Action {
 	/**
-	 * ¾ßÌåÖ´ÐÐµÄ·½·¨
-	 * @param service Í¼Æ¬ä¯ÀÀÆ÷µÄÒµÎñ´¦ÀíÀà
-	 * @param frame Ö÷½çÃæ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ÐµÄ·ï¿½ï¿½ï¿½
+	 * @param service Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param frame ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	void execute(ViewerService service, ViewerFrame frame);
 }

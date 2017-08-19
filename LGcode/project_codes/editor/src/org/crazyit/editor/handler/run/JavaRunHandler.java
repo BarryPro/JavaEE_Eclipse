@@ -2,16 +2,15 @@ package org.crazyit.editor.handler.run;
 
 import java.io.File;
 
-import org.crazyit.editor.EditorFrame;
-import org.crazyit.editor.config.CompileConfig;
-import org.crazyit.editor.util.CommandUtil;
+import editor.src.org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.config.CompileConfig;
 
 /**
- * ÔËĞĞJavaÎÄ¼ş´¦ÀíÀà
+ * ï¿½ï¿½ï¿½ï¿½Javaï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -19,16 +18,16 @@ public class JavaRunHandler {
 
 	public String run(EditorFrame editorFrame) {
 		try {
-			//»ñµÃÏîÄ¿Ä¿Â¼µÄÂ·¾¶
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼ï¿½ï¿½Â·ï¿½ï¿½
 			String projectPath = editorFrame.getCurrentProject().getAbsolutePath();
-			//»ñµÃÔ´ÎÄ¼şµÄÈ«Â·¾¶
+			//ï¿½ï¿½ï¿½Ô´ï¿½Ä¼ï¿½ï¿½ï¿½È«Â·ï¿½ï¿½
 			String sourcePath = editorFrame.getCurrentFile().getFile().getAbsolutePath();
-			//»ñµÃÏîÄ¿µÄ±àÒëÂ·¾¶£¬ÏîÄ¿Ä¿Â¼¼ÓCompileConfigÖĞÅäÖÃµÄÊä³öÄ¿Â¼
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Ä±ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼ï¿½ï¿½CompileConfigï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 			String classPath = editorFrame.getCurrentProject().getAbsolutePath() 
 				+ File.separator + CompileConfig.OUTPUT_DIR;
-			//»ñÈ¡ÀàÃû
+			//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 			String className = getClassName(projectPath, sourcePath);
-			//Æ´×°ÃüÁî
+			//Æ´×°ï¿½ï¿½ï¿½ï¿½
 			String command = "java -cp \"" + classPath + "\" " + className;
 			Process p = CommandUtil.executeCommand(command);
 			return CommandUtil.getRunString(p);
@@ -37,7 +36,7 @@ public class JavaRunHandler {
 		}
 	}
 	
-	//¸ù¾İÏîÄ¿Ä¿Â¼µÄÂ·¾¶ºÍJavaÔ´ÎÄ¼şµÄÂ·¾¶»ñÈ¡Ò»¸öÀàµÄÈ«ÏŞ¶¨ÀàÃû
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½JavaÔ´ï¿½Ä¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½Ş¶ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String getClassName(String projectPath, String sourcePath) {
 		String temp = projectPath + File.separator + CompileConfig.SRC_DIR + 
 		File.separator;

@@ -1,49 +1,46 @@
 package org.crazyit.ioc.context;
 
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 
-import org.crazyit.ioc.xml.property.PropertyElement;
-
 /**
- * ÊôĞÔ´¦Àí½Ó¿Ú
+ * ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface PropertyHandler {
 
 	/**
-	 * Îª¶ÔÏóobjÉèÖÃÊôĞÔ
+	 * Îªï¿½ï¿½ï¿½ï¿½objï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param obj
-	 * @param properties ÊôĞÔ¼¯ºÏ
+	 * @param properties ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	Object setProperties(Object obj, Map<String, Object> properties);
 	
 //	/**
-//	 * ÒÔÊôĞÔ»ñµÃsetter·½·¨Ãû³Æ
+//	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	 * @param keys
 //	 * @return
 //	 */
 //	List<String> getSetterMethodName(Map<String, Object> properties);
 	
 	/**
-	 * ·µ»ØÒ»¸ö¶ÔÏóÀïÃæËùÓĞµÄsetter·½·¨, ·â×°³Émap, keyÎªsetter·½·¨Ãû²»Òªset
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½setterï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½×°ï¿½ï¿½map, keyÎªsetterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªset
 	 * @param obj
 	 * @return
 	 */
 	Map<String, Method> getSetterMethodsMap(Object obj);
 	
 	/**
-	 * Ö´ĞĞÒ»¸ö·½·¨
-	 * @param object ĞèÒªÖ´ĞĞ·½·¨µÄ¶ÔÏó
-	 * @param argBean ²ÎÊıµÄbean
-	 * @param method ·½·¨¶ÔÏó
+	 * Ö´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param object ï¿½ï¿½ÒªÖ´ï¿½Ğ·ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
+	 * @param argBean ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bean
+	 * @param method ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	void executeMethod(Object object, Object argBean, Method method);
 

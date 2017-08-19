@@ -1,59 +1,53 @@
 package org.crazyit.linkgame.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.io.IOException;
 import java.util.Random;
-import javax.swing.JLabel;
 
-import org.crazyit.linkgame.commons.GameConfiguration;
-import org.crazyit.linkgame.commons.LinkInfo;
-import org.crazyit.linkgame.commons.Piece;
-import org.crazyit.linkgame.commons.Point;
-import org.crazyit.linkgame.service.AbstractBoard;
-import org.crazyit.linkgame.service.GameService;
+import linkgame.src.org.crazyit.linkgame.commons.GameConfiguration;
+import linkgame.src.org.crazyit.linkgame.commons.LinkInfo;
+import linkgame.src.org.crazyit.linkgame.service.AbstractBoard;
+import linkgame.src.org.crazyit.linkgame.service.GameService;
 
 
 /**
- * ÓÎÏ·Âß¼­´¦ÀíÀà
+ * ï¿½ï¿½Ï·ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class GameServiceImpl implements GameService {
-	// ¶¨ÒåÒ»¸öÆåÅÌÊı×é£¬Ö»Ìá¹©getter·½·¨
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬Ö»ï¿½á¹©getterï¿½ï¿½ï¿½ï¿½
 	private Piece[][] pieces;
 
 	private GameConfiguration config;
 
 	private AbstractBoard board;
 
-	// ¼ÓÈë·ÖÊıÊôĞÔ,³õÊ¼ÖµÎª0
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½Ê¼ÖµÎª0
 	private long grade = 0;
 
 	public GameServiceImpl(GameConfiguration config) {
-		// ½«ÓÎÏ·µÄÅäÖÃ¶ÔÏóÉèÖÃ±¾ÀàÖĞ
+		// ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.config = config;
 	}
 
 	public void start() {
 		this.grade = 0;
-		// ´´½¨Ò»¸öÆåÅÌ¶ÔÏó
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½
 		AbstractBoard board = createBoard();
-		// Îª±¾¶ÔÏóÉèÖÃboard
+		// Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½board
 		this.board = board;
-		// »ñÈ¡ÆåÅÌÊı×é
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.pieces = board.create(config);
 	}
 
-	// ÊµÏÖ½Ó¿ÚµÄhasPieces·½·¨
+	// Êµï¿½Ö½Ó¿Úµï¿½hasPiecesï¿½ï¿½ï¿½ï¿½
 	public boolean hasPieces(Piece[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].length; j++) {
@@ -66,74 +60,74 @@ public class GameServiceImpl implements GameService {
 	}
 
 	public Piece findPiece(int mouseX, int mouseY) {
-		// ÓÉÓÚÊÇÔÚ±¾ÀàµÄ(ÆåÅÌ)boardÖĞÕÒPiece¶ÔÏó, Èç¹ûboardÎª¿Õ, ¼´ÆåÅÌÖĞÃ»ÓĞÆå×Ó
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)boardï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½boardÎªï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (this.board == null) {
 			return null;
 		}
-		// ÓÉÓÚÎÒÃÇÔÚ´´½¨Piece¶ÔÏóµÄÊ±ºò, ½«Ã¿¸öPieceµÄ¿ªÊ¼×ø±ê¼ÓÁË
-		// GameConfigurationÖĞÉèÖÃµÄbeginImageX/beginImageYÖµ, Òò´ËÕâÀïÒª¼õÈ¥Õâ¸öÖµ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½, ï¿½ï¿½Ã¿ï¿½ï¿½Pieceï¿½Ä¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// GameConfigurationï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½beginImageX/beginImageYÖµ, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½È¥ï¿½ï¿½ï¿½Öµ
 		int relativeX = mouseX - this.config.getBeginImageX();
 		int relativeY = mouseY - this.config.getBeginImageY();
-		// Èç¹ûÊó±êµã»÷µÄµØ·½±ÈÆåÅÌÖĞµÚÒ»ÕÅÍ¼Æ¬µÄ¿ªÊ¼x×ø±êºÍ¿ªÊ¼y×ø±êÒªĞ¡, ¼´Ã»ÓĞÕÒµ½Æå×Ó
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄµØ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½Ä¿ï¿½Ê¼xï¿½ï¿½ï¿½ï¿½Í¿ï¿½Ê¼yï¿½ï¿½ï¿½ï¿½ÒªĞ¡, ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½
 		if (relativeX < 0 || relativeY < 0) {
 			return null;
 		}
-		// »ñÈ¡relativeX×ø±êÔÚÆåÅÌÊı×éÖĞµÄÒ»Î¬Öµ, µÚ¶ş¸ö²ÎÊıÎªÃ¿ÕÅÍ¼Æ¬µÄ¿í
+		// ï¿½ï¿½È¡relativeXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Ò»Î¬Öµ, ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÃ¿ï¿½ï¿½Í¼Æ¬ï¿½Ä¿ï¿½
 		int indexX = getIndex(relativeX, this.board.getCommonImageWidth());
-		// »ñÈ¡relativeY×ø±êÔÚÆåÅÌÊı×éÖĞµÄ¶şÎ¬Öµ, µÚ¶ş¸ö²ÎÊıÎªÃ¿ÕÅÍ¼Æ¬µÄ¸ß
+		// ï¿½ï¿½È¡relativeYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ĞµÄ¶ï¿½Î¬Öµ, ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÃ¿ï¿½ï¿½Í¼Æ¬ï¿½Ä¸ï¿½
 		int indexY = getIndex(relativeY, this.board.getCommonImageHeight());
-		// ÕâÁ½¸öË÷Òı±ÈÊı×éµÄ×îĞ¡Ë÷Òı»¹Ğ¡, ·µ»Ønull
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡, ï¿½ï¿½ï¿½ï¿½null
 		if (indexX < 0 || indexY < 0) {
 			return null;
 		}
-		// ÕâÁ½¸öË÷Òı±ÈÊı×éµÄ×î´óË÷Òı»¹´ó(»òÕßµÈÓÚ), ·µ»Ønull
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½null
 		if (indexX >= this.config.getXSize()
 				|| indexY >= this.config.getYSize()) {
 			return null;
 		}
-		// ·µ»Ø±¾¶ÔÏóÖĞÆåÅÌÊı×éµÄÄ³¸öÖµ
+		// ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Öµ
 		return this.pieces[indexX][indexY];
 	}
 
-	// ÊµÏÖ½Ó¿ÚµÄlink·½·¨
+	// Êµï¿½Ö½Ó¿Úµï¿½linkï¿½ï¿½ï¿½ï¿½
 	public LinkInfo link(Piece p1, Piece p2) {
-		// Á½¸öPieceÊÇÍ¬Ò»¸ö, ¼´ÔÚÆåÅÌÖĞÑ¡ÔñÁËÍ¬Ò»¸öPiece, ·µ»Ønull
+		// ï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½Í¬Ò»ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½Piece, ï¿½ï¿½ï¿½ï¿½null
 		if (p1.equals(p2))
 			return null;
-		// Èç¹ûp1µÄÍ¼Æ¬Óëp2µÄÍ¼Æ¬²»ÏàÍ¬, Ôò·µ»Ønull
+		// ï¿½ï¿½ï¿½p1ï¿½ï¿½Í¼Æ¬ï¿½ï¿½p2ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Í¬, ï¿½ò·µ»ï¿½null
 		if (!p1.isSameImage(p2))
 			return null;
-		// Èç¹ûp2ÔÚp1µÄ×ó±ß, ÔòĞèÒªÖØĞÂÖ´ĞĞ±¾·½·¨, Á½¸ö²ÎÊı»¥»»
+		// ï¿½ï¿½ï¿½p2ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (p2.getIndexX() < p1.getIndexX())
 			return link(p2, p1);
-		// »ñÈ¡p1µÄÖĞĞÄµã
+		// ï¿½ï¿½È¡p1ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½
 		Point p1Point = getPieceCenter(p1);
-		// »ñÈ¡p2µÄÖĞĞÄµã
+		// ï¿½ï¿½È¡p2ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½
 		Point p2Point = getPieceCenter(p2);
-		// »ñÈ¡Ã¿ÕÅÍ¼Æ¬µÄ¿íºÍ¸ß
+		// ï¿½ï¿½È¡Ã¿ï¿½ï¿½Í¼Æ¬ï¿½Ä¿ï¿½Í¸ï¿½
 		int pieceWidth = this.board.getCommonImageWidth();
 		int pieceHeight = this.board.getCommonImageHeight();
-		// Èç¹ûÁ½¸öPieceÔÚÍ¬Ò»ĞĞ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½Í¬Ò»ï¿½ï¿½
 		if (p1.getIndexY() == p2.getIndexY()) {
-			// ËüÃÇÔÚÍ¬Ò»ĞĞ²¢Ö®¼ä¿ÉÒÔÁ¬
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½Ğ²ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (!isXBlock(p1Point, p2Point, pieceWidth)) {
 				return new LinkInfo(p1Point, p2Point);
 			}
 		}
-		// Èç¹ûÁ½¸öPieceÔÚÍ¬Ò»ÁĞ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pieceï¿½ï¿½Í¬Ò»ï¿½ï¿½
 		if (p1Point.getX() == p2Point.getX()) {
-			if (!isYBlock(p1Point, p2Point, pieceHeight)) {// ËüÃÇÖ®¼äÃ»ÓĞÕæ½ÓÕÏ°­, Ã»ÓĞ×ªÕÛµã
+			if (!isYBlock(p1Point, p2Point, pieceHeight)) {// ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, Ã»ï¿½ï¿½×ªï¿½Ûµï¿½
 				return new LinkInfo(p1Point, p2Point);
 			}
 		}
-		// ÓĞÒ»¸ö×ªÕÛµãµÄÇé¿ö
-		// »ñÈ¡Á½¸öµãµÄÖ±½ÇÏàÁ¬µÄµã, ¼´Ö»ÓĞÒ»¸ö×ªÕÛµã
+		// ï¿½ï¿½Ò»ï¿½ï¿½×ªï¿½Ûµï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½, ï¿½ï¿½Ö»ï¿½ï¿½Ò»ï¿½ï¿½×ªï¿½Ûµï¿½
 		Point cornerPoint = getCornerPoint(p1Point, p2Point, pieceWidth,
 				pieceHeight);
 		if (cornerPoint != null) {
 			return new LinkInfo(p1Point, cornerPoint, p2Point);
 		}
-		// ¸ÃmapµÄkey´æ·ÅµÚÒ»¸ö×ªÕÛµã, value´æ·ÅµÚ¶ş¸ö×ªÕÛµã, mapµÄsizeËµÃ÷ÓĞ¶àÉÙ¸ö¿ÉÒÔÁ¬µÄ·½Ê½
+		// ï¿½ï¿½mapï¿½ï¿½keyï¿½ï¿½Åµï¿½Ò»ï¿½ï¿½×ªï¿½Ûµï¿½, valueï¿½ï¿½ÅµÚ¶ï¿½ï¿½ï¿½×ªï¿½Ûµï¿½, mapï¿½ï¿½sizeËµï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Ê½
 		Map<Point, Point> turns = getLinkPoints(p1Point, p2Point, pieceWidth,
 				pieceHeight);
 		if (turns.size() != 0) {
@@ -149,20 +143,20 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * »ñÈ¡p1ºÍp2Ö®¼ä×î¶ÌµÄÁ¬½ÓĞÅÏ¢
+	 * ï¿½ï¿½È¡p1ï¿½ï¿½p2Ö®ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * 
 	 * @param p1
 	 * @param p2
 	 * @param turns
-	 *            ·Å×ªÕÛµãµÄmap
+	 *            ï¿½ï¿½×ªï¿½Ûµï¿½ï¿½map
 	 * @param shortDistance
-	 *            Á½µãÖ®¼äµÄ×î¶Ì¾àÀë
+	 *            ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private LinkInfo getShortcut(Point p1, Point p2, Map<Point, Point> turns,
 			int shortDistance) {
 		List<LinkInfo> infos = new ArrayList<LinkInfo>();
-		// ±éÀú½á¹ûmap, ½«×ªÕÛµãÓëÑ¡ÔñµÄµã·â×°³ÉLinkInfo¶ÔÏó, ·Åµ½¼¯ºÏÖĞ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½map, ï¿½ï¿½×ªï¿½Ûµï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Äµï¿½ï¿½×°ï¿½ï¿½LinkInfoï¿½ï¿½ï¿½ï¿½, ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for (Object info : turns.keySet()) {
 			Point point1 = (Point) info;
 			Point point2 = turns.get(point1);
@@ -172,7 +166,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ÔÚinfosÖĞ»ñÈ¡ÆäËÄ¸öµã×î¶ÌµÄÄÇ¸öLinkInfo¶ÔÏó
+	 * ï¿½ï¿½infosï¿½Ğ»ï¿½È¡ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½Ç¸ï¿½LinkInfoï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param infos
 	 * @return
@@ -182,14 +176,14 @@ public class GameServiceImpl implements GameService {
 		LinkInfo result = null;
 		for (int i = 0; i < infos.size(); i++) {
 			LinkInfo info = infos.get(i);
-			// ¼ÆËã³ö¼¸¸öµãµÄ×Ü¾àÀë
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½
 			int distance = countAll(info.getLinkPoints());
-			// ½«Ñ­»·µÚÒ»¸öµÄ²î¾àÓÃtemp1±£´æ
+			// ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½temp1ï¿½ï¿½ï¿½ï¿½
 			if (i == 0) {
 				temp1 = distance - shortDistance;
 				result = info;
 			}
-			// Èç¹ûÏÂÒ»´ÎÑ­»·µÄÖµ±Ètemp1µÄ»¹Ğ¡, ÔòÓÃµ±Ç°µÄÖµ×÷Îªtemp1
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½temp1ï¿½Ä»ï¿½Ğ¡, ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½Öµï¿½ï¿½Îªtemp1
 			if (distance - shortDistance < temp1) {
 				temp1 = distance - shortDistance;
 				result = info;
@@ -199,7 +193,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ¼ÆËãpointsÖĞËùÓĞµãµÄ¾àÀë×ÜºÍ
+	 * ï¿½ï¿½ï¿½ï¿½pointsï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Ä¾ï¿½ï¿½ï¿½ï¿½Üºï¿½
 	 * 
 	 * @param points
 	 * @return
@@ -207,7 +201,7 @@ public class GameServiceImpl implements GameService {
 	private int countAll(List<Point> points) {
 		int result = 0;
 		for (int i = 0; i < points.size(); i++) {
-			if (i == points.size() - 1) {// Ñ­»·µ½×îºóÒ»¸ö
+			if (i == points.size() - 1) {// Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 				break;
 			}
 			Point point1 = points.get(i);
@@ -218,7 +212,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * »ñÈ¡Á½¸öLinkPointÖ®¼äµÄ×î¶Ì¾àÀë
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½LinkPointÖ®ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½
 	 * 
 	 * @param p1
 	 * @param p2
@@ -231,7 +225,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * »ñÈ¡Á½¸ö×ªÕÛµãµÄÇé¿ö
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½×ªï¿½Ûµï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param point1
 	 * @param point2
@@ -240,59 +234,59 @@ public class GameServiceImpl implements GameService {
 	private Map<Point, Point> getLinkPoints(Point point1, Point point2,
 			int pieceWidth, int pieceHeight) {
 		Map<Point, Point> result = new HashMap<Point, Point>();
-		// »ñÈ¡ÒÔpoint1ÎªÖĞĞÄµÄÏòÉÏ, ÏòÓÒ, ÏòÏÂµÄÍ¨µÀ
+		// ï¿½ï¿½È¡ï¿½ï¿½point1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Âµï¿½Í¨ï¿½ï¿½
 		List<Point> p1UpChanel = getUpChanel(point1, point2.getY(), pieceHeight);
 		List<Point> p1RightChanel = getRightChanel(point1, point2.getX(),
 				pieceWidth);
 		List<Point> p1DownChanel = getDownChanel(point1, point2.getY(),
 				pieceHeight);
-		// »ñÈ¡ÒÔpoint2ÎªÖĞĞÄµÄÏòÏÂ, Ïò×ó, ÏòÉÏµÄÍ¨µÀ
+		// ï¿½ï¿½È¡ï¿½ï¿½point2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ïµï¿½Í¨ï¿½ï¿½
 		List<Point> p2DownChanel = getDownChanel(point2, point1.getY(),
 				pieceHeight);
 		List<Point> p2LeftChanel = getLeftChanel(point2, point1.getX(),
 				pieceWidth);
 		List<Point> p2UpChanel = getUpChanel(point2, point1.getY(), pieceHeight);
-		// »ñÈ¡ÆåÅÌµÄ×î´óÖµ, ¸ßºÍ¿í
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½Öµ, ï¿½ßºÍ¿ï¿½
 		int heightMax = (this.config.getYSize() + 1) * pieceHeight
 				+ this.config.getBeginImageY();
 		int widthMax = (this.config.getXSize() + 1) * pieceWidth
 				+ this.config.getBeginImageX();
-		// ÏÈÈ·¶¨Á½¸öµãµÄ¹ØÏµ
-		// point2ÔÚpoint1µÄ×óÉÏ½Ç»òÕß×óÏÂ½Ç
+		// ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½Ïµ
+		// point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ç»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 		if (isLeftUp(point1, point2) || isLeftDown(point1, point2)) {
-			// ²ÎÊı»»Î», µ÷ÓÃ±¾·½·¨
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î», ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½
 			return getLinkPoints(point2, point1, pieceWidth, pieceHeight);
 		}
-		if (isInLine(point1, point2)) {// ÔÚÍ¬Ò»ĞĞ
-			// ÏòÉÏ±éÀú
-			// ÒÔp1µÄÖĞĞÄµãÏòÉÏ±éÀú»ñÈ¡µã¼¯ºÏ
+		if (isInLine(point1, point2)) {// ï¿½ï¿½Í¬Ò»ï¿½ï¿½
+			// ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½
+			// ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			p1UpChanel = getUpChanel(point1, 0, pieceHeight);
-			// ÒÔp2µÄÖĞĞÄµãÏòÉÏ±éÀú»ñÈ¡µã¼¯ºÏ
+			// ï¿½ï¿½p2ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			p2UpChanel = getUpChanel(point2, 0, pieceHeight);
 			Map<Point, Point> upLinkPoints = getXLinkPoints(p1UpChanel,
 					p2UpChanel, pieceHeight);
-			// ÏòÏÂ±éÀú, ²»³¬¹ıÆåÅÌ(ÓĞÆå×ÓµÄµØ·½)µÄ±ß¿ò
-			// ÒÔp1ÖĞĞÄµãÏòÏÂ±éÀú»ñÈ¡µã¼¯ºÏ
+			// ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµØ·ï¿½)ï¿½Ä±ß¿ï¿½
+			// ï¿½ï¿½p1ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			p1DownChanel = getDownChanel(point1, heightMax, pieceHeight);
-			// ÒÔp2ÖĞĞÄµãÏòÏÂ±éÀú»ñÈ¡µã¼¯ºÏ
+			// ï¿½ï¿½p2ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			p2DownChanel = getDownChanel(point2, heightMax, pieceHeight);
 			Map<Point, Point> downLinkPoints = getXLinkPoints(p1DownChanel,
 					p2DownChanel, pieceHeight);
 			result.putAll(upLinkPoints);
 			result.putAll(downLinkPoints);
 		}
-		if (isInColumn(point1, point2)) {// ÔÚÍ¬Ò»ÁĞ
-			// Ïò×ó±éÀú
-			// ÒÔp1µÄÖĞĞÄµãÏò×ó±éÀú»ñÈ¡µã¼¯ºÏ
+		if (isInColumn(point1, point2)) {// ï¿½ï¿½Í¬Ò»ï¿½ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			List<Point> p1LeftChanel = getLeftChanel(point1, 0, pieceWidth);
-			// ÒÔp2µÄÖĞĞÄµãÏò×ó±éÀú»ñÈ¡µã¼¯ºÏ
+			// ï¿½ï¿½p2ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			p2LeftChanel = getLeftChanel(point2, 0, pieceWidth);
 			Map<Point, Point> leftLinkPoints = getYLinkPoints(p1LeftChanel,
 					p2LeftChanel, pieceWidth);
-			// ÏòÓÒ±éÀú, ²»µÃ³¬¹ıÆåÅÌµÄ±ß¿ò
-			// ÒÔp1µÄÖĞĞÄµãÏòÓÒ±éÀú»ñÈ¡µã¼¯ºÏ
+			// ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌµÄ±ß¿ï¿½
+			// ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			p1RightChanel = getRightChanel(point1, widthMax, pieceWidth);
-			// ÒÔp2µÄÖĞĞÄµãÏòÓÒ±éÀú»ñÈ¡µã¼¯ºÏ
+			// ï¿½ï¿½p2ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ã¼¯ï¿½ï¿½
 			List<Point> p2RightChanel = getRightChanel(point2, widthMax,
 					pieceWidth);
 			Map<Point, Point> rightLinkPoints = getYLinkPoints(p1RightChanel,
@@ -300,45 +294,45 @@ public class GameServiceImpl implements GameService {
 			result.putAll(leftLinkPoints);
 			result.putAll(rightLinkPoints);
 		}
-		if (isRightUp(point1, point2)) {// point2ÔÚpoint1µÄÓÒÉÏ½Ç
-			// »ñÈ¡point1ÏòÉÏ±éÀú, point2ÏòÏÂ±éÀúÊ±ºáÏò¿ÉÒÔÁ¬½ÓµÄµã
+		if (isRightUp(point1, point2)) {// point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> upDownLinkPoints = getXLinkPoints(p1UpChanel,
 					p2DownChanel, pieceWidth);
 
-			// »ñÈ¡point1ÏòÓÒ±éÀú, point2Ïò×ó±éÀúÊ±×İÏò¿ÉÒÔÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> rightLeftLinkPoints = getYLinkPoints(
 					p1RightChanel, p2LeftChanel, pieceHeight);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏòÉÏÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p1UpChanel = getUpChanel(point1, 0, pieceHeight);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏòÉÏÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p2UpChanel = getUpChanel(point2, 0, pieceHeight);
-			// »ñÈ¡point1ÏòÉÏ±éÀú, point2ÏòÉÏ±éÀúÊ±ºáÏò¿ÉÒÔÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> upUpLinkPoints = getXLinkPoints(p1UpChanel,
 					p2UpChanel, pieceWidth);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏòÏÂÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p1DownChanel = getDownChanel(point1, heightMax, pieceHeight);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏòÏÂÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p2DownChanel = getDownChanel(point2, heightMax, pieceHeight);
-			// »ñÈ¡point1ÏòÏÂ±éÀú, point2ÏòÏÂ±éÀúÊ±ºáÏò¿ÉÒÔÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> downDownLinkPoints = getXLinkPoints(p1DownChanel,
 					p2DownChanel, pieceWidth);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏòÓÒÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p1RightChanel = getRightChanel(point1, widthMax, pieceWidth);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏòÓÒÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			List<Point> p2RightChanel = getRightChanel(point2, widthMax,
 					pieceWidth);
-			// »ñÈ¡point1ÏòÓÒ±éÀú, point2ÏòÓÒ±éÀúÊ±×İÏò¿ÉÒÔÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> rightRightLinkPoints = getYLinkPoints(
 					p1RightChanel, p2RightChanel, pieceHeight);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏò×óÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			List<Point> p1LeftChanel = getLeftChanel(point1, 0, pieceWidth);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏò×óÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p2LeftChanel = getLeftChanel(point2, 0, pieceWidth);
-			// »ñÈ¡point1Ïò×ó±éÀú, point2ÏòÓÒ±éÀúÊ±×İÏò¿ÉÒÔÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> leftLeftLinkPoints = getYLinkPoints(p1LeftChanel,
 					p2LeftChanel, pieceHeight);
 			result.putAll(upDownLinkPoints);
@@ -348,49 +342,49 @@ public class GameServiceImpl implements GameService {
 			result.putAll(rightRightLinkPoints);
 			result.putAll(leftLeftLinkPoints);
 		}
-		if (isRightDown(point1, point2)) {// point2ÔÚpoint1µÄÓÒÏÂ½Ç
-			// »ñÈ¡point1ÏòÏÂ±éÀú, point2ÏòÉÏ±éÀúÊ±ºáÏò¿ÉÁ¬½ÓµÄµã
+		if (isRightDown(point1, point2)) {// point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> downUpLinkPoints = getXLinkPoints(p1DownChanel,
 					p2UpChanel, pieceWidth);
-			// »ñÈ¡point1ÏòÓÒ±éÀú, point2Ïò×ó±éÀúÊ±×İÏò¿ÉÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> rightLeftLinkPoints = getYLinkPoints(
 					p1RightChanel, p2LeftChanel, pieceHeight);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏòÉÏÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p1UpChanel = getUpChanel(point1, 0, pieceHeight);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏòÉÏÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p2UpChanel = getUpChanel(point2, 0, pieceHeight);
-			// »ñÈ¡point1ÏòÉÏ±éÀú, point2ÏòÉÏ±éÀúÊ±ºáÏò¿ÉÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> upUpLinkPoints = getXLinkPoints(p1UpChanel,
 					p2UpChanel, pieceWidth);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏòÏÂÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p1DownChanel = getDownChanel(point1, heightMax, pieceHeight);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏòÏÂÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p2DownChanel = getDownChanel(point2, heightMax, pieceHeight);
-			// »ñÈ¡point1ÏòÏÂ±éÀú, point2ÏòÏÂ±éÀúÊ±ºáÏò¿ÉÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> downDownLinkPoints = getXLinkPoints(p1DownChanel,
 					p2DownChanel, pieceWidth);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏò×óÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			List<Point> p1LeftChanel = getLeftChanel(point1, 0, pieceWidth);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏò×óÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p2LeftChanel = getLeftChanel(point2, 0, pieceWidth);
-			// »ñÈ¡point1Ïò×ó±éÀú, point2Ïò×ó±éÀúÊ±×İÏò¿ÉÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> leftLeftLinkPoints = getYLinkPoints(p1LeftChanel,
 					p2LeftChanel, pieceHeight);
 
-			// »ñÈ¡ÒÔp1ÎªÖĞĞÄµÄÏòÓÒÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p1Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			p1RightChanel = getRightChanel(point1, widthMax, pieceWidth);
-			// »ñÈ¡ÒÔp2ÎªÖĞĞÄµÄÏòÓÒÍ¨µÀ
+			// ï¿½ï¿½È¡ï¿½ï¿½p2Îªï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 			List<Point> p2RightChanel = getRightChanel(point2, widthMax,
 					pieceWidth);
-			// »ñÈ¡point1ÏòÓÒ±éÀú, point2ÏòÓÒ±éÀúÊ±×İÏò¿ÉÒÔÁ¬½ÓµÄµã
+			// ï¿½ï¿½È¡point1ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, point2ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄµï¿½
 			Map<Point, Point> rightRightLinkPoints = getYLinkPoints(
 					p1RightChanel, p2RightChanel, pieceHeight);
 
 			result.putAll(downUpLinkPoints);
-			result.putAll(rightLeftLinkPoints);// ½«¿ÉÒÔÁ¬½ÓµÄËùÓĞµã¶¼·Åµ½½á¹ûÖĞ
+			result.putAll(rightLeftLinkPoints);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Ğµã¶¼ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			result.putAll(upUpLinkPoints);
 			result.putAll(downDownLinkPoints);
 			result.putAll(leftLeftLinkPoints);
@@ -400,8 +394,8 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ±éÀúÁ½¸ö¼¯ºÏ, ÅĞ¶ÏËüÃÇÆäÖĞÔªËØµÄx×ù±êÓëÁíÍâµÄ¼¯ºÏÖĞµÄÔªËØx×ù±êÏàÍ¬(×İÏò), Èç¹ûÏàÍ¬, ¼´ÔÚÍ¬Ò»ĞĞ, ÔÙÅĞ¶ÏÊÇ·ñÓĞÕÏ°­, Ã»ÓĞ,
-	 * Ôò¼Óµ½½á¹ûµÄmapÖĞÈ¥
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Øµï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ğµï¿½Ôªï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬(ï¿½ï¿½ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½ï¿½Í¬, ï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½, ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, Ã»ï¿½ï¿½,
+	 * ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½È¥
 	 * 
 	 * @param p1Chanel
 	 * @param p2Chanel
@@ -415,9 +409,9 @@ public class GameServiceImpl implements GameService {
 			Point temp1 = p1Chanel.get(i);
 			for (int j = 0; j < p2Chanel.size(); j++) {
 				Point temp2 = p2Chanel.get(j);
-				// Èç¹ûx×ù±êÏàÍ¬(ÔÚÍ¬Ò»ÁĞ)
+				// ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬(ï¿½ï¿½Í¬Ò»ï¿½ï¿½)
 				if (temp1.getX() == temp2.getX()) {
-					// Ã»ÓĞÕÏ°­, ·Åµ½mapÖĞÈ¥
+					// Ã»ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½Åµï¿½mapï¿½ï¿½È¥
 					if (!isYBlock(temp1, temp2, pieceHeight)) {
 						result.put(temp1, temp2);
 					}
@@ -428,49 +422,49 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ÅĞ¶ÏÁ½¸öµãÊÇ·ñÔÚÍ¬Ò»ÁĞ(x×ù±êÏàÍ¬)
+	 * ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½(xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬)
 	 * 
 	 * @param point1
 	 * @param point2
-	 * @return true point1ºÍpoint2ÔÚÍ¬Ò»ÁĞ(x×ù±êÏàÍ¬) false point1ºÍpoint2²»ÔÚÍ¬Ò»ÁĞ
+	 * @return true point1ï¿½ï¿½point2ï¿½ï¿½Í¬Ò»ï¿½ï¿½(xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬) false point1ï¿½ï¿½point2ï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½
 	 */
 	private boolean isInColumn(Point point1, Point point2) {
 		return point1.getX() == point2.getX();
 	}
 
 	/**
-	 * ÅĞ¶ÏÁ½¸öµãÊÇ·ñÔÚÍ¬Ò»ĞĞ(y×ù±êÏàÍ¬)
+	 * ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½(yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬)
 	 * 
 	 * @param point1
 	 * @param point2
-	 * @return true point1ºÍpoint2ÔÚÍ¬Ò»ĞĞ(y×ù±êÏàÍ¬) false point1ºÍpoint2²»ÔÚÍ¬Ò»ĞĞ
+	 * @return true point1ï¿½ï¿½point2ï¿½ï¿½Í¬Ò»ï¿½ï¿½(yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬) false point1ï¿½ï¿½point2ï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½
 	 */
 	private boolean isInLine(Point point1, Point point2) {
 		return point1.getY() == point2.getY();
 	}
 
 	/**
-	 * ±éÀúÁ½¸ö¼¯ºÏ, ÅĞ¶ÏËüÃÇÆäÖĞÔªËØµÄy×ù±êÓëÁíÍâµÄ¼¯ºÏÖĞµÄÔªËØy×ù±êÏàÍ¬(ºáÏò), Èç¹ûÏàÍ¬, ¼´ÔÚÍ¬Ò»ĞĞ, ÔÙÅĞ¶ÏÊÇ·ñÓĞÕÏ°­, Ã»ÓĞ,
-	 * Ôò¼Óµ½½á¹ûµÄmapÖĞÈ¥
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Øµï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ğµï¿½Ôªï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬(ï¿½ï¿½ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½ï¿½Í¬, ï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½, ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, Ã»ï¿½ï¿½,
+	 * ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½È¥
 	 * 
 	 * @param p1Chanel
 	 * @param p2Chanel
 	 * @param pieceWidth
-	 * @return ´æ·Å¿ÉÒÔºáÏòÖ±ÏßÁ¬½ÓµÄÁ¬½ÓµãµÄ¼üÖµ¶Ô
+	 * @return ï¿½ï¿½Å¿ï¿½ï¿½Ôºï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Óµï¿½Ä¼ï¿½Öµï¿½ï¿½
 	 */
 	private Map<Point, Point> getXLinkPoints(List<Point> p1Chanel,
 			List<Point> p2Chanel, int pieceWidth) {
 		Map<Point, Point> result = new HashMap<Point, Point>();
 		for (int i = 0; i < p1Chanel.size(); i++) {
-			// ´ÓµÚÒ»Í¨µÀÖĞÈ¡Ò»¸öµã
+			// ï¿½Óµï¿½Ò»Í¨ï¿½ï¿½ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½
 			Point temp1 = p1Chanel.get(i);
-			// ÔÙ±éÀúµÚ¶ş¸öÍ¨µÀ, ¿´ÏÂµÚ¶şÍ¨µÀÖĞÊÇ·ñÓĞµã¿ÉÒÔÓëtemp1ºáÏòÏàÁ¬
+			// ï¿½Ù±ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½Í¨ï¿½ï¿½, ï¿½ï¿½ï¿½ÂµÚ¶ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½temp1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			for (int j = 0; j < p2Chanel.size(); j++) {
 				Point temp2 = p2Chanel.get(j);
-				// Èç¹ûy×ù±êÏàÍ¬(ÔÚÍ¬Ò»ĞĞ), ÔÙÅĞ¶ÏËüÃÇÖ®¼äÊÇ·ñÓĞÖ±½ÓÕÏ°­
+				// ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬(ï¿½ï¿½Í¬Ò»ï¿½ï¿½), ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½Ï°ï¿½
 				if (temp1.getY() == temp2.getY()) {
 					if (!isXBlock(temp1, temp2, pieceWidth)) {
-						// Ã»ÓĞÕÏ°­ÔòÖ±½Ó¼Óµ½½á¹ûµÄmapÖĞ
+						// Ã»ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½Ö±ï¿½Ó¼Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½
 						result.put(temp1, temp2);
 					}
 				}
@@ -480,51 +474,51 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ÅĞ¶Ïpoint2ÊÇ·ñÔÚpoint1µÄ×óÉÏ½Ç
+	 * ï¿½Ğ¶ï¿½point2ï¿½Ç·ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
 	 * 
 	 * @param point1
 	 * @param point2
-	 * @return true point2ÔÚpoint1µÄ×óÉÏ½Ç false point2²»ÔÚpoint1µÄ×óÉÏ½Ç
+	 * @return true point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ false point2ï¿½ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
 	 */
 	private boolean isLeftUp(Point point1, Point point2) {
 		return (point2.getX() < point1.getX() && point2.getY() < point1.getY());
 	}
 
 	/**
-	 * ÅĞ¶Ïpoint2ÊÇ·ñÔÚpoint1µÄ×óÏÂ½Ç
+	 * ï¿½Ğ¶ï¿½point2ï¿½Ç·ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 	 * 
 	 * @param point1
 	 * @param point2
-	 * @return true point2ÔÚpoint1µÄ×óÏÂ½Ç false point2²»ÔÚpoint1µÄ×óÏÂ½Ç
+	 * @return true point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½ false point2ï¿½ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 	 */
 	private boolean isLeftDown(Point point1, Point point2) {
 		return (point2.getX() < point1.getX() && point2.getY() > point1.getY());
 	}
 
 	/**
-	 * ÅĞ¶Ïpoint2ÊÇ·ñÔÚpoint1µÄÓÒÉÏ½Ç
+	 * ï¿½Ğ¶ï¿½point2ï¿½Ç·ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
 	 * 
 	 * @param point1
 	 * @param point2
-	 * @return true point2ÔÚpoint1µÄÓÒÉÏ½Ç false point2²»ÔÚpoint1µÄÓÒÉÏ½Ç
+	 * @return true point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ false point2ï¿½ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
 	 */
 	private boolean isRightUp(Point point1, Point point2) {
 		return (point2.getX() > point1.getX() && point2.getY() < point1.getY());
 	}
 
 	/**
-	 * ÅĞ¶Ïpoint2ÊÇ·ñÔÚpoint1µÄÓÒÏÂ½Ç
+	 * ï¿½Ğ¶ï¿½point2ï¿½Ç·ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 	 * 
 	 * @param point1
 	 * @param point2
-	 * @return true point2ÔÚpoint1µÄÓÒÏÂ½Ç false point2²»ÔÚpoint1µÄÓÒÏÂ½Ç
+	 * @return true point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½ false point2ï¿½ï¿½ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 	 */
 	private boolean isRightDown(Point point1, Point point2) {
 		return (point2.getX() > point1.getX() && point2.getY() > point1.getY());
 	}
 
 	/**
-	 * »ñÈ¡Á½¸ö²»ÔÚÍ¬Ò»ĞĞ»òÕßÍ¬Ò»ÁĞµÄ×ù±êµãµÄÖ±½ÇÁ¬½Óµã, ¼´Ö»ÓĞÒ»¸ö×ªÕÛµã
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½Ğ»ï¿½ï¿½ï¿½Í¬Ò»ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½, ï¿½ï¿½Ö»ï¿½ï¿½Ò»ï¿½ï¿½×ªï¿½Ûµï¿½
 	 * 
 	 * @param point1
 	 * @param point2
@@ -532,38 +526,38 @@ public class GameServiceImpl implements GameService {
 	 */
 	private Point getCornerPoint(Point point1, Point point2, int pieceWidth,
 			int pieceHeight) {
-		// ÏÈÅĞ¶ÏÕâÁ½¸öµãµÄÎ»ÖÃ¹ØÏµ
-		// point2ÔÚpoint1µÄ×óÉÏ½Ç, point2ÔÚpoint1µÄ×óÏÂ½Ç
+		// ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã¹ï¿½Ïµ
+		// point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½, point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 		if (isLeftUp(point1, point2) || isLeftDown(point1, point2)) {
-			// ²ÎÊı»»Î», ÖØĞÂµ÷ÓÃ±¾·½·¨
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î», ï¿½ï¿½ï¿½Âµï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½
 			return getCornerPoint(point2, point1, pieceWidth, pieceHeight);
 		}
-		// »ñÈ¡p1ÏòÓÒ, ÏòÉÏ, ÏòÏÂµÄÈı¸öÍ¨µÀ
+		// ï¿½ï¿½È¡p1ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 		List<Point> point1RightChanel = getRightChanel(point1, point2.getX(),
 				pieceWidth);
 		List<Point> point1UpChanel = getUpChanel(point1, point2.getY(),
 				pieceHeight);
 		List<Point> point1DownChanel = getDownChanel(point1, point2.getY(),
 				pieceHeight);
-		// »ñÈ¡p2ÏòÏÂ, Ïò×ó, ÏòÏÂµÄÈı¸öÍ¨µÀ
+		// ï¿½ï¿½È¡p2ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 		List<Point> point2DownChanel = getDownChanel(point2, point1.getY(),
 				pieceHeight);
 		List<Point> point2LeftChanel = getLeftChanel(point2, point1.getX(),
 				pieceWidth);
 		List<Point> point2UpChanel = getUpChanel(point2, point1.getY(),
 				pieceHeight);
-		if (isRightUp(point1, point2)) {// point2ÔÚpoint1µÄÓÒÉÏ½Ç
-			// »ñÈ¡p1ÏòÓÒºÍp2ÏòÏÂµÄ½»µã
+		if (isRightUp(point1, point2)) {// point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
+			// ï¿½ï¿½È¡p1ï¿½ï¿½ï¿½Òºï¿½p2ï¿½ï¿½ï¿½ÂµÄ½ï¿½ï¿½ï¿½
 			Point linkPoint1 = getWrapPoint(point1RightChanel, point2DownChanel);
-			// »ñÈ¡p1ÏòÉÏºÍp2Ïò×óµÄ½»µã
+			// ï¿½ï¿½È¡p1ï¿½ï¿½ï¿½Ïºï¿½p2ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½
 			Point linkPoint2 = getWrapPoint(point1UpChanel, point2LeftChanel);
-			// ·µ»ØÆäÖĞÒ»¸ö½»µã, Èç¹ûÃ»ÓĞ½»µã, Ôò·µ»Ønull
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½Ğ½ï¿½ï¿½ï¿½, ï¿½ò·µ»ï¿½null
 			return (linkPoint1 == null) ? linkPoint2 : linkPoint1;
 		}
-		if (isRightDown(point1, point2)) {// point2ÔÚpoint1µÄÓÒÏÂ½Ç
-			// »ñÈ¡p1ÏòÏÂºÍp2Ïò×óµÄ½»µã
+		if (isRightDown(point1, point2)) {// point2ï¿½ï¿½point1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
+			// ï¿½ï¿½È¡p1ï¿½ï¿½ï¿½Âºï¿½p2ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½
 			Point linkPoint1 = getWrapPoint(point1DownChanel, point2LeftChanel);
-			// »ñÈ¡p1ÏòÓÒºÍp2ÏòÏÂµÄ½»µã
+			// ï¿½ï¿½È¡p1ï¿½ï¿½ï¿½Òºï¿½p2ï¿½ï¿½ï¿½ÂµÄ½ï¿½ï¿½ï¿½
 			Point linkPoint2 = getWrapPoint(point1RightChanel, point2UpChanel);
 			return (linkPoint1 == null) ? linkPoint2 : linkPoint1;
 		}
@@ -571,7 +565,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ±éÀúÁ½¸öÍ¨µÀ, »ñÈ¡ËüÃÇµÄ½»µã
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½, ï¿½ï¿½È¡ï¿½ï¿½ï¿½ÇµÄ½ï¿½ï¿½ï¿½
 	 * 
 	 * @param p1Chanel
 	 * @param p2Chanel
@@ -583,7 +577,7 @@ public class GameServiceImpl implements GameService {
 			Point temp1 = p1Chanel.get(i);
 			for (int j = 0; j < p2Chanel.size(); j++) {
 				Point temp2 = p2Chanel.get(j);
-				if (temp1.equals(temp2)) {// Èç¹ûÁ½¸öListÖĞÓĞÔªËØÓĞÍ¬Ò»¸ö, ±íÃ÷ÕâÁ½¸öÍ¨µÀÓĞ½»µã
+				if (temp1.equals(temp2)) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Listï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Í¬Ò»ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½Ğ½ï¿½ï¿½ï¿½
 					return temp1;
 				}
 			}
@@ -592,19 +586,19 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ÅĞ¶ÏÁ½¸öy×ù±êÏàÍ¬µÄµã¶ÔÏóÖ®¼äÊÇ·ñÓĞÕÏ°­, ÒÔp1ÎªÖĞĞÄÏòÓÒ±éÀú
+	 * ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Äµï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½p1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½
 	 * 
 	 * @param p1
 	 * @param p2
 	 * @param pieceWidth
-	 * @return true ËüÃÇÖ®¼äÓĞÕÏ°­ false ËüÃÇÖ®¼äÃ»ÓĞÕÏ°­
+	 * @return true ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ false ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï°ï¿½
 	 */
 	private boolean isXBlock(Point p1, Point p2, int pieceWidth) {
-		if (p2.getX() < p1.getX()) {// Èç¹ûp2ÔÚp1×ó±ß, µ÷»»²ÎÊıÎ»ÖÃµ÷ÓÃ±¾·½·¨
+		if (p2.getX() < p1.getX()) {// ï¿½ï¿½ï¿½p2ï¿½ï¿½p1ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½
 			return isXBlock(p2, p1, pieceWidth);
 		}
 		for (int i = p1.getX() + pieceWidth; i < p2.getX(); i = i + pieceWidth) {
-			if (hasPiece(i, p1.getY())) {// ÓĞÕÏ°­
+			if (hasPiece(i, p1.getY())) {// ï¿½ï¿½ï¿½Ï°ï¿½
 				return true;
 			}
 		}
@@ -612,20 +606,20 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ÅĞ¶ÏÁ½¸öx×ù±êÏàÍ¬µÄµã¶ÔÏóÖ®¼äÊÇ·ñÓĞÕÏ°­, ÒÔp1ÎªÖĞĞÄÏòÏÂ±éÀú
+	 * ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Äµï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½p1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½
 	 * 
 	 * @param p1
 	 * @param p2
 	 * @param pieceHeight
-	 * @return true ËüÃÇÖ®¼äÓĞÕÏ°­ false ËüÃÇÖ®¼äÃ»ÓĞÕÏ°­
+	 * @return true ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ false ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï°ï¿½
 	 */
 	private boolean isYBlock(Point p1, Point p2, int pieceHeight) {
-		if (p2.getY() < p1.getY()) {// Èç¹ûp2ÔÚp1µÄÉÏÃæ, µ÷»»²ÎÊıÎ»ÖÃÖØĞÂµ÷ÓÃ±¾·½·¨
+		if (p2.getY() < p1.getY()) {// ï¿½ï¿½ï¿½p2ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½
 			return isYBlock(p2, p1, pieceHeight);
 		}
 		for (int i = p1.getY() + pieceHeight; i < p2.getY(); i = i
 				+ pieceHeight) {
-			if (hasPiece(p1.getX(), i)) {// ÓĞÕÏ°­
+			if (hasPiece(p1.getX(), i)) {// ï¿½ï¿½ï¿½Ï°ï¿½
 				return true;
 			}
 		}
@@ -633,11 +627,11 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ÅĞ¶ÏGamePanelÖĞµÄx, y×ù±êÖĞÊÇ·ñÓĞPiece¶ÔÏó
+	 * ï¿½Ğ¶ï¿½GamePanelï¿½Ğµï¿½x, yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param x
 	 * @param y
-	 * @return true ±íÊ¾ÓĞ¸Ã×ù±êÓĞpiece¶ÔÏó false ±íÊ¾Ã»ÓĞ
+	 * @return true ï¿½ï¿½Ê¾ï¿½Ğ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pieceï¿½ï¿½ï¿½ï¿½ false ï¿½ï¿½Ê¾Ã»ï¿½ï¿½
 	 */
 	private boolean hasPiece(int x, int y) {
 		if (findPiece(x, y) == null)
@@ -646,20 +640,20 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ¸øÒ»¸öPoint¶ÔÏó,·µ»ØËüµÄ×ó±ßÍ¨µÀ
+	 * ï¿½ï¿½Ò»ï¿½ï¿½Pointï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 	 * 
 	 * @param p
 	 * @param pieceWidth
-	 *            pieceÍ¼Æ¬µÄ¿í
+	 *            pieceÍ¼Æ¬ï¿½Ä¿ï¿½
 	 * @param min
-	 *            Ïò×ó±éÀúÊ±×îĞ¡µÄ½çÏŞ
+	 *            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ğ¡ï¿½Ä½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private List<Point> getLeftChanel(Point p, int min, int pieceWidth) {
 		List<Point> result = new ArrayList<Point>();
-		// »ñÈ¡Ïò×óÍ¨µÀ, ÓÉÒ»¸öµãÏò×ó±éÀú, ²½³¤ÎªPieceÍ¼Æ¬µÄ¿í
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½, ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ÎªPieceÍ¼Æ¬ï¿½Ä¿ï¿½
 		for (int i = p.getX() - pieceWidth; i >= min; i = i - pieceWidth) {
-			// Óöµ½ÕÏ°­, ±íÊ¾Í¨µÀÒÑ¾­µ½¾¡Í·, Ö±½Ó·µ»Ø
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½Ê¾Í¨ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Í·, Ö±ï¿½Ó·ï¿½ï¿½ï¿½
 			if (hasPiece(i, p.getY())) {
 				return result;
 			}
@@ -669,19 +663,19 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ¸øÒ»¸öPoint¶ÔÏó, ·µ»ØËüµÄÓÒ±ßÍ¨µÀ
+	 * ï¿½ï¿½Ò»ï¿½ï¿½Pointï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½Í¨ï¿½ï¿½
 	 * 
 	 * @param p
 	 * @param pieceWidth
 	 * @param max
-	 *            ÏòÓÒÊ±µÄ×îÓÒ½çÏŞ
+	 *            ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private List<Point> getRightChanel(Point p, int max, int pieceWidth) {
 		List<Point> result = new ArrayList<Point>();
-		// »ñÈ¡ÏòÓÒÍ¨µÀ, ÓÉÒ»¸öµãÏòÓÒ±éÀú, ²½³¤ÎªPieceÍ¼Æ¬µÄ¿í
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½, ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ÎªPieceÍ¼Æ¬ï¿½Ä¿ï¿½
 		for (int i = p.getX() + pieceWidth; i <= max; i = i + pieceWidth) {
-			// Óöµ½ÕÏ°­, ±íÊ¾Í¨µÀÒÑ¾­µ½¾¡Í·, Ö±½Ó·µ»Ø
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½Ê¾Í¨ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Í·, Ö±ï¿½Ó·ï¿½ï¿½ï¿½
 			if (hasPiece(i, p.getY())) {
 				return result;
 			}
@@ -691,21 +685,21 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ¸øÒ»¸öPoint¶ÔÏó, ·µ»ØËüµÄÉÏÃæÍ¨µÀ
+	 * ï¿½ï¿½Ò»ï¿½ï¿½Pointï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 	 * 
 	 * @param p
 	 * @param min
-	 *            ÏòÉÏ±éÀúÊ±×îĞ¡µÄ½çÏŞ
+	 *            ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ğ¡ï¿½Ä½ï¿½ï¿½ï¿½
 	 * @param pieceHeight
 	 * @return
 	 */
 	private List<Point> getUpChanel(Point p, int min, int pieceHeight) {
 		List<Point> result = new ArrayList<Point>();
-		// »ñÈ¡ÏòÉÏÍ¨µÀ, ÓÉÒ»¸öµãÏòÓÒ±éÀú, ²½³¤ÎªPieceÍ¼Æ¬µÄ¸ß
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½, ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ÎªPieceÍ¼Æ¬ï¿½Ä¸ï¿½
 		for (int i = p.getY() - pieceHeight; i >= min; i = i - pieceHeight) {
-			// Óöµ½ÕÏ°­, ±íÊ¾Í¨µÀÒÑ¾­µ½¾¡Í·, Ö±½Ó·µ»Ø
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½Ê¾Í¨ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Í·, Ö±ï¿½Ó·ï¿½ï¿½ï¿½
 			if (hasPiece(p.getX(), i)) {
-				return result;// Èç¹ûÒ»Óöµ½ÕÏ°­, Ö±½Ó·µ»Ø
+				return result;// ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, Ö±ï¿½Ó·ï¿½ï¿½ï¿½
 			}
 			result.add(new Point(p.getX(), i));
 		}
@@ -713,20 +707,20 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * ¸øÒ»¸öPoint¶ÔÏó, ·µ»ØËüµÄÏÂÃæÍ¨µÀ
+	 * ï¿½ï¿½Ò»ï¿½ï¿½Pointï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 	 * 
 	 * @param p
 	 * @param max
-	 *            ÏòÉÏ±éÀúÊ±µÄ×î´ó½çÏŞ
+	 *            ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private List<Point> getDownChanel(Point p, int max, int pieceHeight) {
 		List<Point> result = new ArrayList<Point>();
-		// »ñÈ¡ÏòÏÂÍ¨µÀ, ÓÉÒ»¸öµãÏòÓÒ±éÀú, ²½³¤ÎªPieceÍ¼Æ¬µÄ¸ß
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½, ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ÎªPieceÍ¼Æ¬ï¿½Ä¸ï¿½
 		for (int i = p.getY() + pieceHeight; i <= max; i = i + pieceHeight) {
-			// Óöµ½ÕÏ°­, ±íÊ¾Í¨µÀÒÑ¾­µ½¾¡Í·, Ö±½Ó·µ»Ø
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½Ê¾Í¨ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Í·, Ö±ï¿½Ó·ï¿½ï¿½ï¿½
 			if (hasPiece(p.getX(), i)) {
-				return result;// Èç¹ûÒ»Óöµ½ÕÏ°­, Ö±½Ó·µ»Ø
+				return result;// ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, Ö±ï¿½Ó·ï¿½ï¿½ï¿½
 			}
 			result.add(new Point(p.getX(), i));
 		}
@@ -734,7 +728,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	/**
-	 * »ñÈ¡Ò»¸öPieceµÄÖĞĞÄ×ù±êµã
+	 * ï¿½ï¿½È¡Ò»ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param piece
 	 * @return
@@ -745,42 +739,42 @@ public class GameServiceImpl implements GameService {
 				+ piece.getBeginY());
 	}
 
-	// ¹¤¾ß·½·¨, ¸ù¾İrelative×ø±ê»ñÈ¡ÆåÅÌÊı×éÖĞÒ»Î¬»òÕß¶şÎ¬µÄÖµ, sideÎªÃ¿ÕÅÍ¼Æ¬±ßµÄ³¤»òÕß¿í
+	// ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½relativeï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Î¬ï¿½ï¿½ï¿½ß¶ï¿½Î¬ï¿½ï¿½Öµ, sideÎªÃ¿ï¿½ï¿½Í¼Æ¬ï¿½ßµÄ³ï¿½ï¿½ï¿½ï¿½ß¿ï¿½
 	private int getIndex(int relative, int side) {
-		// ±íÊ¾×ø±êrelative²»ÔÚ¸ÃÊı×éÖĞ
+		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½relativeï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int index = -1;
-		// ÈÃ×ø±ê³ıÒÔ±ß³¤, Ã»ÓĞÓàÊı, Ë÷Òı¼õ1
-		// ÀıÈçµãÁËx×ø±êÎª20, ±ß¿íÎª10, 20 % 10 Ã»ÓĞÓàÊı, indexÎª1, ¼´ÔÚÊı×éÖĞµÄË÷ÒıÎª1(µÚ¶ş¸öÔªËØ)
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ß³ï¿½, Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½Îª20, ï¿½ß¿ï¿½Îª10, 20 % 10 Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, indexÎª1, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½Îª1(ï¿½Ú¶ï¿½ï¿½ï¿½Ôªï¿½ï¿½)
 		if (relative % side == 0) {
 			index = relative / side - 1;
 		} else {
-			// ÓĞÓàÊı, ÀıÈçµãÁËx×ø±êÎª21, ±ß¿íÎª10, 21 % 10ÓĞÓàÊı, indexÎª2
-			// ¼´ÔÚÊı×éÖĞµÄË÷ÒıÎª2(µÚÈı¸öÔªËØ)
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½Îª21, ï¿½ß¿ï¿½Îª10, 21 % 10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, indexÎª2
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½Îª2(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½)
 			index = relative / side;
 		}
 		return index;
 	}
 
-	// Ê¹ÓÃÒ»¸öË½ÓĞ·½·¨È¥´´½¨ÆåÅÌ¶ÔÏó
+	// Ê¹ï¿½ï¿½Ò»ï¿½ï¿½Ë½ï¿½Ğ·ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½
 	private AbstractBoard createBoard() {
 		Random random = new Random();
-		// »ñÈ¡Ò»¸öËæ»úÊı, ÒòÎªAbstractBoardÖ»ÓĞÁ½¸ö×ÓÀà, Òò´ËÕâÀïÎª2
+		// ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ÎªAbstractBoardÖ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª2
 		int index = random.nextInt(2);
 		switch (index) {
-		// 0·µ»ØSquareBoard
+		// 0ï¿½ï¿½ï¿½ï¿½SquareBoard
 		case 0:
 			return new SquareBoard();
-			// 1·µ»ØSimpleBoard
+			// 1ï¿½ï¿½ï¿½ï¿½SimpleBoard
 		case 1:
 			return new SimpleBoard();
-			// Ä¬ÈÏ·µ»ØSquareBoard
+			// Ä¬ï¿½Ï·ï¿½ï¿½ï¿½SquareBoard
 		default:
 			return new SquareBoard();
 		}
 	}
 
 	/*
-	 * Ö±½Ó·µ»Ø±¾¶ÔÏóµÄpieceÊı×é
+	 * Ö±ï¿½Ó·ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pieceï¿½ï¿½ï¿½ï¿½
 	 */
 	public Piece[][] getPieces() {
 		return this.pieces;

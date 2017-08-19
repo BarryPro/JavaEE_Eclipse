@@ -5,18 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.crazyit.foxmail.object.FileObject;
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.system.SystemHandler;
-import org.crazyit.foxmail.ui.MailContext;
-import org.crazyit.foxmail.util.FileUtil;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.system.SystemHandler;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
 
 /**
- * ±¾µØÏµÍ³ÓÊ¼þ´¦ÀíÀà
+ * ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -24,32 +22,32 @@ public class SystemHandlerImpl implements SystemHandler {
 
 	@Override
 	public void delete(Mail mail, MailContext ctx) {
-		//ÕÒµ½¶ÔÓ¦µÄxmlÎÄ¼þ
+		//ï¿½Òµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		File file = getMailXmlFile(mail.getXmlName(), ctx);
-		//É¾³ýÎÄ¼þ, ²¢ÔÚdeletedÄ¿Â¼ÖÐ´´½¨ÐÂµÄÎÄ¼þ
+		//É¾ï¿½ï¿½ï¿½Ä¼ï¿½, ï¿½ï¿½ï¿½ï¿½deletedÄ¿Â¼ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½
 		file.delete();
-		//´´½¨ÐÂµÄxmlÎÄ¼þ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½xmlï¿½Ä¼ï¿½
 		FileUtil.writeToXML(ctx, mail, FileUtil.DELETED);
 	}
 
 	@Override
 	public void realDelete(Mail mail, MailContext ctx) {
-		//ÕÒµ½¶ÔÓ¦µÄxmlÎÄ¼þ
+		//ï¿½Òµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		File xmlFile = getMailXmlFile(mail.getXmlName(), ctx);
-		//µÃµ½ËùÓÐµÄ¸½¼þ²¢É¾³ý
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ÐµÄ¸ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½
 		List<FileObject> files = mail.getFiles();
-		//É¾³ý¸½¼þ
+		//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for (FileObject f : files) f.getFile().delete();
-		//É¾³ýxmlÎÄ¼þ
+		//É¾ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		if (xmlFile.exists()) xmlFile.delete();
 	}
 
 	/*
-	 * ½«ÓÊ¼þ¶ÔÏó±£´æµ½²Ý¸åÏäµÄÄ¿Â¼ÖÐ
+	 * ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ó±£´æµ½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	 * @see org.crazyit.foxmail.system.SystemHandler#saveDraftBox(org.crazyit.foxmail.object.Mail, org.crazyit.foxmail.ui.MailContext)
 	 */
 	public void saveDraftBox(Mail mail, MailContext ctx) {
-		//±£´æMailµÄ¸½¼þ
+		//ï¿½ï¿½ï¿½ï¿½Mailï¿½Ä¸ï¿½ï¿½ï¿½
 		saveFiles(mail, ctx);
 		FileUtil.writeToXML(ctx, mail, FileUtil.DRAFT);
 	}
@@ -60,41 +58,41 @@ public class SystemHandlerImpl implements SystemHandler {
 	}
 
 	/*
-	 * ±£´æMail¶ÔÏóµ½·¢¼þÏä
+	 * ï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½óµ½·ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @see org.crazyit.foxmail.system.SystemHandler#saveOutBox(org.crazyit.foxmail.object.Mail, org.crazyit.foxmail.ui.MailContext)
 	 */
 	public void saveOutBox(Mail mail, MailContext ctx) {
-		//±£´æMailµÄ¸½¼þ
+		//ï¿½ï¿½ï¿½ï¿½Mailï¿½Ä¸ï¿½ï¿½ï¿½
 		saveFiles(mail, ctx);
 		FileUtil.writeToXML(ctx, mail, FileUtil.OUTBOX);
 	}
 
 	/*
-	 * ±£´æµ½·¢ËÍ³É¹¦µÄÓÊ¼þ, Ö»¿ÉÄÜÔÚÐ´ÓÊ¼þµÄÊ±ºò³öÏÖ, Òò´Ë¸ÃMail¶ÔÏóÖÐµÄËùÓÐ¸½¼þ, 
-	 * ¶¼ÔÚ±¾µØÏµÍ³µÄÁíÍâÄ¿Â¼ÏÂ, ÐèÒª½«ÕâÐ©¸½¼þ±£´æµ½Êý¾ÝÄ¿Â¼ÏÂ
+	 * ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½Í³É¹ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½, Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ê¼ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ë¸ï¿½Mailï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½, 
+	 * ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½, ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	 * @see org.crazyit.foxmail.system.SystemHandler#saveSent(org.crazyit.foxmail.object.Mail, org.crazyit.foxmail.ui.MailContext)
 	 */
 	public void saveSent(Mail mail, MailContext ctx) {
 		saveFiles(mail, ctx);
-		//ÎªMail¶ÔÏóÉú³ÉxmlÎÄ¼þ
+		//ÎªMailï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		FileUtil.writeToXML(ctx, mail, FileUtil.SENT);
 	}
 	
-	//±£´æMail¶ÔÏóÖÐµÄ¸½¼þ
+	//ï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ¸ï¿½ï¿½ï¿½
 	private void saveFiles(Mail mail, MailContext ctx) {
 		List<FileObject> files = mail.getFiles();
 		List<FileObject> newFiles = new ArrayList<FileObject>();
 		int byteSize = mail.getContent().getBytes().length;
 		for (FileObject f : files) {
 			String sentBoxPath = FileUtil.getBoxPath(ctx, FileUtil.FILE);
-			//Ê¹ÓÃUUIDÉú³ÉÐÂµÄÎÄ¼þÃû(¸ÃÎÄ¼þ±£´æÔÚfileÄ¿Â¼ÖÐ)
+			//Ê¹ï¿½ï¿½UUIDï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fileÄ¿Â¼ï¿½ï¿½)
 			String fileName = UUID.randomUUID().toString();
-			//µÃµ½ÎÄ¼þµÄºó×º
+			//ï¿½Ãµï¿½ï¿½Ä¼ï¿½ï¿½Äºï¿½×º
 			String sufix = FileUtil.getFileSufix(f.getFile().getName());
 			File targetFile = new File(sentBoxPath + fileName + sufix);
-			//¸´ÖÆµ½fileÄ¿Â¼ÖÐ
+			//ï¿½ï¿½ï¿½Æµï¿½fileÄ¿Â¼ï¿½ï¿½
 			FileUtil.copy(f.getFile(), targetFile);
-			//ÉèÖÃMail¶ÔÏóÖÐ¸½¼þ¼¯ºÏµÄÎÄ¼þ¶ÔÏóÎªÐÂµÄÎÄ¼þ¶ÔÏó(ÔÚfileÄ¿Â¼ÖÐ)
+			//ï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Âµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½fileÄ¿Â¼ï¿½ï¿½)
 			newFiles.add(new FileObject(f.getSourceName(), targetFile));
 			byteSize += targetFile.length();
 		}
@@ -104,21 +102,21 @@ public class SystemHandlerImpl implements SystemHandler {
 
 	@Override
 	public void saveMail(Mail mail, MailContext ctx) {
-		//ÐèÒªÑ°ÕÒ¸ÃMail¶ÔÏóËù¶ÔÓ¦µÄxmlÎÄ¼þ£¬¸ù¾ÝidÈ¥ÕÒÎÄ¼þ
+		//ï¿½ï¿½ÒªÑ°ï¿½Ò¸ï¿½Mailï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idÈ¥ï¿½ï¿½ï¿½Ä¼ï¿½
 		File xmlFile = getMailXmlFile(mail.getXmlName(), ctx);
 		FileUtil.writeToXML(xmlFile, mail);
 	}
 	
 	@Override
 	public void revert(Mail mail, MailContext ctx) {
-		//ÕÒµ½¶ÔÓ¦µÄxmlÎÄ¼þ
+		//ï¿½Òµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		File xmlFile = getMailXmlFile(mail.getXmlName(), ctx);
-		//É¾³ý¸ÃÎÄ¼þ, ÔÙ»¹Ô­µ½Ô­À´µÄÄ¿Â¼ÖÐ
+		//É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½, ï¿½Ù»ï¿½Ô­ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 		xmlFile.delete();
 		FileUtil.writeToXML(ctx, mail, mail.getFrom());
 	}
 
-	//´ÓËùÓÐµÄÓÊ¼þÖÐ²éÕÒÃû×ÖÎªxmlNameµÄxmlÎÄ¼þ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ê¼ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªxmlNameï¿½ï¿½xmlï¿½Ä¼ï¿½
 	private File getMailXmlFile(String xmlName, MailContext ctx) {
 		List<File> allXMLFiles = getAllFiles(ctx);
 		for (File f : allXMLFiles) {
@@ -127,7 +125,7 @@ public class SystemHandlerImpl implements SystemHandler {
 		return null;
 	}
 
-	//µÃµ½È«²¿µÄÓÊ¼þ£¨ÊÕ¼þÏä¡¢·¢¼þÏä¡¢²Ý¸åÏä¡¢À¬»øÏä¡¢ÒÑ·¢ËÍ£©µÄxmlÎÄ¼þ¼¯ºÏ
+	//ï¿½Ãµï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ä¡¢ï¿½ï¿½ï¿½ï¿½ï¿½ä¡¢ï¿½Ý¸ï¿½ï¿½ä¡¢ï¿½ï¿½ï¿½ï¿½ï¿½ä¡¢ï¿½Ñ·ï¿½ï¿½Í£ï¿½ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private List<File> getAllFiles(MailContext ctx) {
 		List<File> inboxXmls = FileUtil.getXMLFiles(ctx, FileUtil.INBOX);
 		List<File> outboxXmls = FileUtil.getXMLFiles(ctx, FileUtil.OUTBOX);

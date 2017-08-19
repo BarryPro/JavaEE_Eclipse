@@ -1,45 +1,42 @@
 package org.crazyit.image.tool;
 
-import org.crazyit.image.ImageFrame;
-import org.crazyit.image.MyImage;
-import org.crazyit.image.ImageService;
-import java.awt.event.MouseEvent;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import javax.swing.JViewport;
-import javax.swing.JPanel;
+
+import image.src.org.crazyit.image.ImageService;
+import image.src.org.crazyit.image.MyImage;
 
 /**
- * ¹¤¾ß³éÏóÀà
+ * ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public abstract class AbstractTool implements Tool {
-	// ¶¨ÒåImageFrame
+	// ï¿½ï¿½ï¿½ï¿½ImageFrame
 	private ImageFrame frame = null;
-	// ¶¨Òå»­°åµÄ¿í
+	// ï¿½ï¿½ï¿½å»­ï¿½ï¿½Ä¿ï¿½
 	public static int drawWidth = 0;
-	// ¶¨Òå»­°åµÄ¸ß
+	// ï¿½ï¿½ï¿½å»­ï¿½ï¿½Ä¸ï¿½
 	public static int drawHeight = 0;
-	// ¶¨ÒåÄ¬ÈÏÊó±êÖ¸Õë
+	// ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
 	private Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-	// °´ÏÂÊó±êµÄx×ø±ê
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	private int pressX = -1;
-	// °´ÏÂÊó±êµÄy×ø±ê
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	private int pressY = -1;
-	// ÑÕÉ«
+	// ï¿½ï¿½É«
 	public static Color color = Color.BLACK;
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param frame
 	 *            Image Frame
@@ -52,12 +49,12 @@ public abstract class AbstractTool implements Tool {
 
 	public AbstractTool(ImageFrame frame, String path) {
 		this(frame);
-		// ´´½¨¹¤¾ßÊó±êÍ¼ÐÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 		this.defaultCursor = ImageService.createCursor(path);
 	}
 
 	/**
-	 * »ñÈ¡ImageFrame
+	 * ï¿½ï¿½È¡ImageFrame
 	 * 
 	 * @return ImageFrame
 	 */
@@ -66,7 +63,7 @@ public abstract class AbstractTool implements Tool {
 	}
 
 	/**
-	 * »ñÈ¡Ä¬ÈÏÊó±êÖ¸Õë
+	 * ï¿½ï¿½È¡Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
 	 * 
 	 * @return Cursor
 	 */
@@ -75,7 +72,7 @@ public abstract class AbstractTool implements Tool {
 	}
 
 	/**
-	 * ÉèÖÃÄ¬ÈÏÊó±êÖ¸Õë
+	 * ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
 	 * 
 	 * @param cursor
 	 *            Cursor
@@ -86,107 +83,107 @@ public abstract class AbstractTool implements Tool {
 	}
 
 	/**
-	 * ÉèÖÃx×ø±ê
+	 * ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	 */
 	public void setPressX(int x) {
 		this.pressX = x;
 	}
 
 	/**
-	 * ÉèÖÃy×ø±ê
+	 * ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	 */
 	public void setPressY(int y) {
 		this.pressY = y;
 	}
 
 	/**
-	 * »ñÈ¡x×ø±ê
+	 * ï¿½ï¿½È¡xï¿½ï¿½ï¿½ï¿½
 	 */
 	public int getPressX() {
 		return this.pressX;
 	}
 
 	/**
-	 * »ñÈ¡y×ø±ê
+	 * ï¿½ï¿½È¡yï¿½ï¿½ï¿½ï¿½
 	 */
 	public int getPressY() {
 		return this.pressY;
 	}
 
 	/**
-	 * ÍÏ¶¯Êó±ê
+	 * ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
 	 * @return void
 	 */
 	public void mouseDragged(MouseEvent e) {
-		// ÍÏ¶¯Í¼ÐÎ±ß½ç
+		// ï¿½Ï¶ï¿½Í¼ï¿½Î±ß½ï¿½
 		dragBorder(e);
-		// »­Í¼
+		// ï¿½ï¿½Í¼
 		Graphics g = getFrame().getDrawSpace().getGraphics();
 		createShape(e, g);
 
 	}
 
 	/**
-	 * ÒÆ¶¯Êó±ê
+	 * ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
 	 * @return void
 	 */
 	public void mouseMoved(MouseEvent e) {
-		// »ñÈ¡Êó±êÏÖÔÚµÄxÓëy×ø±ê
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½xï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 		int x = e.getX();
 		int y = e.getY();
-		// »ñÈ¡Ä¬ÈÏÊó±êÖ¸Õë
+		// ï¿½ï¿½È¡Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
 		Cursor cursor = getDefaultCursor();
-		// Èç¹ûÊó±êÖ¸ÕëÔÚÓÒÏÂ½Ç
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 		if (x > AbstractTool.drawWidth - 4 && x < AbstractTool.drawWidth + 4
 				&& y > AbstractTool.drawHeight - 4
 				&& y < AbstractTool.drawHeight + 4) {
-			// ½«Êó±êÖ¸Õë¸Ä±äÎªÓÒÏÂÍÏ¶¯ÐÎ×´
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ä±ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½×´
 			cursor = new Cursor(Cursor.NW_RESIZE_CURSOR);
 		}
-		// Èç¹ûÊó±êÖ¸ÕëÔÚÓÒÖÐ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (x > AbstractTool.drawWidth - 4 && x < AbstractTool.drawWidth + 4
 				&& y > (int) AbstractTool.drawHeight / 2 - 4
 				&& y < (int) AbstractTool.drawHeight / 2 + 4) {
-			// ½«Êó±êÖ¸Õë¸Ä±äÎªÓÒÍÏ¶¯ÐÎ×´
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ä±ï¿½Îªï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½×´
 			cursor = new Cursor(Cursor.W_RESIZE_CURSOR);
 		}
-		// Èç¹ûÊó±êÖ¸ÕëÔÚÏÂÖÐ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (y > AbstractTool.drawHeight - 4 && y < AbstractTool.drawHeight + 4
 				&& x > (int) AbstractTool.drawWidth / 2 - 4
 				&& x < (int) AbstractTool.drawWidth / 2 + 4) {
-			// ½«Êó±êÖ¸Õë¸Ä±äÎªÏÂÍÏ¶¯ÐÎ×´
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ä±ï¿½Îªï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½×´
 			cursor = new Cursor(Cursor.S_RESIZE_CURSOR);
 		}
-		// ÉèÖÃÊó±êÖ¸ÕëÀàÐÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		getFrame().getDrawSpace().setCursor(cursor);
 	}
 
 	/**
-	 * ËÉ¿ªÊó±ê
+	 * ï¿½É¿ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
 	 * @return void
 	 */
 	public void mouseReleased(MouseEvent e) {
-		// »­Í¼
+		// ï¿½ï¿½Í¼
 		Graphics g = getFrame().getBufferedImage().getGraphics();
 		createShape(e, g);
-		// °ÑpressXÓëpressYÉèÖÃÎª³õÊ¼Öµ
+		// ï¿½ï¿½pressXï¿½ï¿½pressYï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê¼Öµ
 		setPressX(-1);
 		setPressY(-1);
-		// ÖØ»æ
+		// ï¿½Ø»ï¿½
 		getFrame().getDrawSpace().repaint();
 	}
 
 	/**
-	 * »­Í¼ÐÎ
+	 * ï¿½ï¿½Í¼ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -194,30 +191,30 @@ public abstract class AbstractTool implements Tool {
 	 *            Graphics
 	 */
 	private void createShape(MouseEvent e, Graphics g) {
-		// Èç¹ûÎ»ÖÃÔÚ»­²¼ÄÚ
+		// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (getPressX() > 0 && getPressY() > 0 && e.getX() > 0
 				&& e.getX() < AbstractTool.drawWidth && e.getY() > 0
 				&& e.getY() < AbstractTool.drawHeight) {
-			// ½«ÕûÕÅÍ¼Æ¬ÖØ»­
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ø»ï¿½
 			g.drawImage(getFrame().getBufferedImage(), 0, 0,
 					AbstractTool.drawWidth, AbstractTool.drawHeight, null);
-			// ÉèÖÃÑÕÉ«
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 			g.setColor(AbstractTool.color);
 			getFrame().getBufferedImage().setIsSaved(false);
-			// »­Í¼ÐÎ
+			// ï¿½ï¿½Í¼ï¿½ï¿½
 			draw(g, getPressX(), getPressY(), e.getX(), e.getY());
 		}
 	}
 
 	/**
-	 * °´ÏÂÊó±ê
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
 	 * @return void
 	 */
 	public void mousePressed(MouseEvent e) {
-		// Èç¹ûÎ»ÖÃÔÚÍ¼Æ¬·¶Î§ÄÚ£¬ÉèÖÃ°´ÏÂµÄ×ø±ê
+		// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Î§ï¿½Ú£ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
 		if (e.getX() > 0 && e.getX() < AbstractTool.drawWidth && e.getY() > 0
 				&& e.getY() < AbstractTool.drawHeight) {
 			setPressX(e.getX());
@@ -226,7 +223,7 @@ public abstract class AbstractTool implements Tool {
 	}
 
 	/**
-	 * µã»÷
+	 * ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -236,25 +233,25 @@ public abstract class AbstractTool implements Tool {
 	}
 
 	/**
-	 * »­Í¼ÐÎ
+	 * ï¿½ï¿½Í¼ï¿½ï¿½
 	 * 
 	 * @param g
 	 *            Graphics
 	 * @param x1
-	 *            Æðµãx×ø±ê
+	 *            ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	 * @param y1
-	 *            Æðµãy×ø±ê
+	 *            ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	 * @param x2
-	 *            ÖÕµãx×ø±ê
+	 *            ï¿½Õµï¿½xï¿½ï¿½ï¿½ï¿½
 	 * @param y2
-	 *            ÖÕµãy×ø±ê
+	 *            ï¿½Õµï¿½yï¿½ï¿½ï¿½ï¿½
 	 * @return void
 	 */
 	public void draw(Graphics g, int x1, int y1, int x2, int y2) {
 	}
 
 	/**
-	 * ÍÏ¶¯Í¼ÐÎ±ß½ç
+	 * ï¿½Ï¶ï¿½Í¼ï¿½Î±ß½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -262,29 +259,29 @@ public abstract class AbstractTool implements Tool {
 	 */
 	private void dragBorder(MouseEvent e) {
 		getFrame().getBufferedImage().setIsSaved(false);
-		// »ñÈ¡Êó±êÏÖÔÚµÄxÓëy×ø±ê
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½xï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 		int cursorType = getFrame().getDrawSpace().getCursor().getType();
 		int x = cursorType == Cursor.S_RESIZE_CURSOR ? AbstractTool.drawWidth
 				: e.getX();
 		int y = cursorType == Cursor.W_RESIZE_CURSOR ? AbstractTool.drawHeight
 				: e.getY();
 		MyImage img = null;
-		// Èç¹ûÊó±êÖ¸ÕëÊÇÍÏ¶¯×´Ì¬
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½×´Ì¬
 		if ((cursorType == Cursor.NW_RESIZE_CURSOR
 				|| cursorType == Cursor.W_RESIZE_CURSOR || cursorType == Cursor.S_RESIZE_CURSOR)
 				&& (x > 0 && y > 0)) {
 			// getFrame().getDrawSpace().setSize( x + 4, y + 4 );
-			// ¸Ä±äÍ¼Ïñ´óÐ¡
+			// ï¿½Ä±ï¿½Í¼ï¿½ï¿½ï¿½Ð¡
 			img = new MyImage(x, y, BufferedImage.TYPE_INT_RGB);
 			Graphics g = img.getGraphics();
 			g.setColor(Color.WHITE);
 			g.drawImage(getFrame().getBufferedImage(), 0, 0,
 					AbstractTool.drawWidth, AbstractTool.drawHeight, null);
 			getFrame().setBufferedImage(img);
-			// ÉèÖÃ»­²¼µÄ´óÐ¡
+			// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ä´ï¿½Ð¡
 			AbstractTool.drawWidth = x;
 			AbstractTool.drawHeight = y;
-			// ÉèÖÃviewport
+			// ï¿½ï¿½ï¿½ï¿½viewport
 			ImageService.setViewport(frame.getScroll(), frame.getDrawSpace(),
 					x, y);
 		}

@@ -2,38 +2,37 @@ package org.crazyit.ioc.xml;
 
 import java.util.List;
 
-import org.crazyit.ioc.xml.autowire.Autowire;
-import org.crazyit.ioc.xml.construct.DataElement;
-import org.crazyit.ioc.xml.property.PropertyElement;
-import org.dom4j.Element;
+import IoC.main.org.crazyit.ioc.xml.autowire.Autowire;
+import IoC.main.org.crazyit.ioc.xml.construct.DataElement;
+import IoC.main.org.crazyit.ioc.xml.property.PropertyElement;
 
 /**
- * 元素读取接口
+ * 元锟截讹拷取锟接匡拷
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>网站: <a href="http://www.crazyit.org">疯狂Java联盟</a>
+ * <br/>锟斤拷站: <a href="http://www.crazyit.org">锟斤拷锟絁ava锟斤拷锟斤拷</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface ElementReader {
 
 	/**
-	 * 判断一个bean元素是否需要延迟加载
+	 * 锟叫讹拷一锟斤拷bean元锟斤拷锟角凤拷锟斤拷要锟接迟硷拷锟斤拷
 	 * @param element
 	 * @return
 	 */
 	boolean isLazy(Element element);
 	
 	/**
-	 * 获得一个bean元素下的constructor-arg
+	 * 锟斤拷锟揭伙拷锟絙ean元锟斤拷锟铰碉拷constructor-arg
 	 * @param element
 	 * @return
 	 */
 	List<Element> getConstructorElements(Element element);
 	
 	/**
-	 * 得到元素属性为name的属性值
+	 * 锟矫碉拷元锟斤拷锟斤拷锟斤拷为name锟斤拷锟斤拷锟斤拷值
 	 * @param element
 	 * @param name
 	 * @return
@@ -41,35 +40,35 @@ public interface ElementReader {
 	String getAttribute(Element element, String name);
 	
 	/**
-	 * 判断一个元素是否为单态
+	 * 锟叫讹拷一锟斤拷元锟斤拷锟角凤拷为锟斤拷态
 	 * @param element
 	 * @return
 	 */
 	boolean isSingleton(Element element);
 	
 	/**
-	 * 获得一个bean元素下所有property元素
+	 * 锟斤拷锟揭伙拷锟絙ean元锟斤拷锟斤拷锟斤拷锟斤拷property元锟斤拷
 	 * @param element
 	 * @return
 	 */
 	List<Element> getPropertyElements(Element element);
 	
 	/**
-	 * 返回一个bean元素对应的Autowire对象
+	 * 锟斤拷锟斤拷一锟斤拷bean元锟截讹拷应锟斤拷Autowire锟斤拷锟斤拷
 	 * @param element
 	 * @return
 	 */
 	Autowire getAutowire(Element element);
 	
 	/**
-	 * 获取bean元素下所有constructor-arg的值(包括value和ref)
+	 * 锟斤拷取bean元锟斤拷锟斤拷锟斤拷锟斤拷constructor-arg锟斤拷值(锟斤拷锟斤拷value锟斤拷ref)
 	 * @param element
 	 * @return
 	 */
 	List<DataElement> getConstructorValue(Element element);
 	
 	/**
-	 * 获取bean元素下所有property元素的值(包括value和ref)
+	 * 锟斤拷取bean元锟斤拷锟斤拷锟斤拷锟斤拷property元锟截碉拷值(锟斤拷锟斤拷value锟斤拷ref)
 	 * @param element
 	 * @return
 	 */

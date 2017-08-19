@@ -4,29 +4,29 @@ import java.io.File;
 
 import javax.swing.JInternalFrame;
 
-import org.crazyit.editor.EditPane;
+import editor.src.org.crazyit.editor.EditPane;
 
 /**
- * ±à¼­µÄÎÄ¼þ¶ÔÏó
+ * ï¿½à¼­ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class EditFile {
 
-	//µ±Ç°±à¼­µÄÎÄ¼þ
+	//ï¿½ï¿½Ç°ï¿½à¼­ï¿½ï¿½ï¿½Ä¼ï¿½
 	private File file;
 	
-	//¸ÃÎÄ¼þÊÇ·ñÒÑ¾­±»±£´æ
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private boolean saved;
 	
-	//¸ÃÎÄ¼þ¶ÔÓ¦µÄ´°¿Ú
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ó¦ï¿½Ä´ï¿½ï¿½ï¿½
 	private JInternalFrame iframe;
 	
-	//¸ÃÎÄ¼þËù¶ÔÓ¦µÄ±à¼­Æ÷
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ä±à¼­ï¿½ï¿½
 	private EditPane editPane;
 	
 	public EditFile(File file, boolean saved, JInternalFrame iframe, 

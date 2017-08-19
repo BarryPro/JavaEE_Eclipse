@@ -2,13 +2,13 @@ package org.crazyit.transaction.ui.table;
 
 import javax.swing.ImageIcon;
 
-import org.crazyit.transaction.model.TransactionState;
+import transaction.src.org.crazyit.transaction.model.TransactionState;
 
 /**
- * ÊÂÎñ×´Ì¬ÏÂÀ­µÄÔªËØ¶ÔÏó
+ * ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø¶ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -16,20 +16,20 @@ public class State {
 
 	public final static String TRANSFER = "transfer";
 	
-	//×´Ì¬¶ÔÏó
-	public final static State PROCESS_STATE = new State("½øÐÐÖÐµÄÊÂÎñ", TransactionState.PROCESSING);
-	public final static State FINISHED_STATE = new State("ÒÑÍê³ÉµÄÊÂÎñ", TransactionState.FINISHED);
-	public final static State TRANSFER_STATE = new State("ÎÒ×ª·¢µÄÊÂÎñ", TRANSFER);
-	public final static State FOR_A_WHILE_STATE = new State("ÔÝÊ±²»×öµÄÊÂÎñ", TransactionState.FOR_A_WHILE);
-	public final static State NOT_TO_DO_STATE = new State("²»×öµÄÊÂÎñ", TransactionState.NOT_TO_DO);
-	public final static State INVALID_STATE = new State("ÎÞÐ§µÄÊÂÎñ", TransactionState.INVALID);
+	//×´Ì¬ï¿½ï¿½ï¿½ï¿½
+	public final static State PROCESS_STATE = new State("ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½", TransactionState.PROCESSING);
+	public final static State FINISHED_STATE = new State("ï¿½ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½ï¿½ï¿½", TransactionState.FINISHED);
+	public final static State TRANSFER_STATE = new State("ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", TRANSFER);
+	public final static State FOR_A_WHILE_STATE = new State("ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", TransactionState.FOR_A_WHILE);
+	public final static State NOT_TO_DO_STATE = new State("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", TransactionState.NOT_TO_DO);
+	public final static State INVALID_STATE = new State("ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", TransactionState.INVALID);
 	
 	//×´Ì¬Í¼Æ¬
-	public final static ImageIcon PROCESS_IMAGE = new ImageIcon("images/state/processing.gif", "½øÐÐÖÐ");
-	public final static ImageIcon FINISHED_IMAGE = new ImageIcon("images/state/finished.gif", "ÒÑÍê³É");
-	public final static ImageIcon FOR_A_WHILE_IMAGE = new ImageIcon("images/state/forAWhile.gif", "ÔÝÊ±²»×ö");
-	public final static ImageIcon NOT_TO_DO_IMAGE = new ImageIcon("images/state/notToDo.gif", "²»×ö");
-	public final static ImageIcon INVALID_IMAGE = new ImageIcon("images/state/invalid.gif", "ÎÞÐ§");	
+	public final static ImageIcon PROCESS_IMAGE = new ImageIcon("images/state/processing.gif", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	public final static ImageIcon FINISHED_IMAGE = new ImageIcon("images/state/finished.gif", "ï¿½ï¿½ï¿½ï¿½ï¿½");
+	public final static ImageIcon FOR_A_WHILE_IMAGE = new ImageIcon("images/state/forAWhile.gif", "ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½");
+	public final static ImageIcon NOT_TO_DO_IMAGE = new ImageIcon("images/state/notToDo.gif", "ï¿½ï¿½ï¿½ï¿½");
+	public final static ImageIcon INVALID_IMAGE = new ImageIcon("images/state/invalid.gif", "ï¿½ï¿½Ð§");	
 	
 	public State(String text, String value) {
 		this.text = text;

@@ -1,20 +1,15 @@
 package org.crazyit.image.tool;
 
-import org.crazyit.image.ImageFrame;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 /**
- * ¶à±ßÐÎ¹¤¾ß
+ * ï¿½ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -38,7 +33,7 @@ public class PolygonTool extends AbstractTool {
 	}
 
 	/**
-	 * ËÉ¿ªÊó±ê
+	 * ï¿½É¿ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -47,9 +42,9 @@ public class PolygonTool extends AbstractTool {
 	public void mouseReleased(MouseEvent e) {
 		int pressX = getPressX();
 		int pressY = getPressY();
-		// µ÷ÓÃ¸¸·½·¨»­Ö±Ïß
+		// ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½
 		super.mouseReleased(e);
-		// ÉèÖÃµÚÒ»¸öÓë×îºóÒ»¸ö×ø±ê
+		// ï¿½ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (firstX == -1) {
 			firstX = pressX;
 			firstY = pressY;
@@ -59,7 +54,7 @@ public class PolygonTool extends AbstractTool {
 	}
 
 	/**
-	 * µã»÷
+	 * ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -86,25 +81,25 @@ public class PolygonTool extends AbstractTool {
 	}
 
 	/**
-	 * »­Í¼ÐÎ
+	 * ï¿½ï¿½Í¼ï¿½ï¿½
 	 * 
 	 * @param g
 	 *            Graphics
 	 * @param x1
-	 *            Æðµãx×ø±ê
+	 *            ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	 * @param y1
-	 *            Æðµãy×ø±ê
+	 *            ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	 * @param x2
-	 *            ÖÕµãx×ø±ê
+	 *            ï¿½Õµï¿½xï¿½ï¿½ï¿½ï¿½
 	 * @param y2
-	 *            ÖÕµãy×ø±ê
+	 *            ï¿½Õµï¿½yï¿½ï¿½ï¿½ï¿½
 	 * @return void
 	 */
 	public void draw(Graphics g, int x1, int y1, int x2, int y2) {
-		// ¼ÆËãÆðµã
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int x = lastX > 0 ? lastX : getPressX();
 		int y = lastY > 0 ? lastY : getPressY();
-		// »­ÍÖÔ²
+		// ï¿½ï¿½ï¿½ï¿½Ô²
 		g.drawLine(x, y, x2, y2);
 	}
 }

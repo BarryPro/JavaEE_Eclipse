@@ -12,28 +12,26 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.crazyit.book.service.UserService;
-
 /**
- * µÇÂ¼µÄJFrame
+ * ï¿½ï¿½Â¼ï¿½ï¿½JFrame
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class LoginFrame extends JFrame {
 	
-	//¶¨Òå"ÕÊºÅ"ºÍ"ÃÜÂë"µÄ±êÇ©
-	private JLabel acc = new JLabel("ÕÊºÅ ");
-	private JLabel pass = new JLabel("ÃÜÂë ");
+	//ï¿½ï¿½ï¿½ï¿½"ï¿½Êºï¿½"ï¿½ï¿½"ï¿½ï¿½ï¿½ï¿½"ï¿½Ä±ï¿½Ç©
+	private JLabel acc = new JLabel("ï¿½Êºï¿½ ");
+	private JLabel pass = new JLabel("ï¿½ï¿½ï¿½ï¿½ ");
 	
-	//¶¨Òå´æ·ÅÓÃ»§ÕÊºÅºÍÃÜÂëµÄÎÄ±¾Ïî
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ÊºÅºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 	private JTextField accText = new JTextField();
 	private JPasswordField passText = new JPasswordField();
 
-	//¶¨ÒåµÇÂ¼½çÃæµÄBoxÈÝÆ÷£¬ÒÔ±ãÊ¹ÓÃBoxLayout²¼¾ÖÆ÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Boxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ê¹ï¿½ï¿½BoxLayoutï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Box up = Box.createHorizontalBox();
 	private Box center = Box.createHorizontalBox();
 	private Box upCenter = Box.createVerticalBox();
@@ -41,14 +39,14 @@ public class LoginFrame extends JFrame {
 	
 	UserService userService;
     
-	//¶¨ÒåµÇÂ¼°´Å¥
-	private JButton login = new JButton("µÇÂ¼");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Å¥
+	private JButton login = new JButton("ï¿½ï¿½Â¼");
 	
 	public LoginFrame(UserService userService)
 	{
 		this.userService = userService;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//²¼¾Ö¸÷ÈÝÆ÷£¬²¢ÉèÖÃ¸÷ÈÝÆ÷µÄË®Æ½ºÍ´¹Ö±¼ä¾à
+		//ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë®Æ½ï¿½Í´ï¿½Ö±ï¿½ï¿½ï¿½
 		up.add(Box.createHorizontalStrut(50));
 		up.add(acc);
 		up.add(Box.createHorizontalStrut(10));
@@ -109,9 +107,9 @@ public class LoginFrame extends JFrame {
 	
 	
 	
-	//ÏÔÊ¾¾¯¸æ
+	//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
 	protected int showWarn(String message) {
-		return JOptionPane.showConfirmDialog(this, message, "¾¯¸æ", 
+		return JOptionPane.showConfirmDialog(this, message, "ï¿½ï¿½ï¿½ï¿½", 
 				JOptionPane.OK_CANCEL_OPTION);
 	}
 }

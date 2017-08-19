@@ -13,50 +13,50 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.crazyit.editor.commons.AddInfo;
+import editor.src.org.crazyit.editor.commons.AddInfo;
 
 /**
- * Ìí¼Ó½çÃæ
+ * ï¿½ï¿½Ó½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class AddFrame extends JFrame {
 
-	//¸ÃFrameµÄJPanel
+	//ï¿½ï¿½Frameï¿½ï¿½JPanel
 	private JPanel mainPanel;
 	
-	//ÏîÄ¿Ãû³Æ
+	//ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
 	private JPanel namePanel;
 	
-	//ÏÔÊ¾ÎÄ¼þµÄJLabel
+	//ï¿½ï¿½Ê¾ï¿½Ä¼ï¿½ï¿½ï¿½JLabel
 	private JLabel nameLabel;
 	
-	//ÊäÈëÃû³ÆµÄJTextField
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½JTextField
 	private JTextField nameText;
 	
-	//·Å°´Å¥µÄPanel
+	//ï¿½Å°ï¿½Å¥ï¿½ï¿½Panel
 	private JPanel buttonPanel;
 	
-	//È·¶¨°´Å¥
+	//È·ï¿½ï¿½ï¿½ï¿½Å¥
 	private JButton confirmButton;
 	
-	//È¡Ïû°´Å¥
+	//È¡ï¿½ï¿½ï¿½ï¿½Å¥
 	private JButton cancelButton;
 	
 	
 	public AddFrame(final AddInfo info) {
 		mainPanel = new JPanel();
 		namePanel = new JPanel();
-		//ÉèÖÃnameLabelµÄÎÄ×Ö
+		//ï¿½ï¿½ï¿½ï¿½nameLabelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		nameLabel = new JLabel(info.getInfo());
 		nameText = new JTextField("", 20);
 		buttonPanel = new JPanel();
-		confirmButton = new JButton("È·¶¨");
-		cancelButton = new JButton("È¡Ïû");
+		confirmButton = new JButton("È·ï¿½ï¿½");
+		cancelButton = new JButton("È¡ï¿½ï¿½");
 		
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		addWindowListener(new WindowAdapter() {
@@ -66,13 +66,13 @@ public class AddFrame extends JFrame {
 		});
 		setLocation(200, 200);
 		setResizable(false);
-		//ÎÄ±¾¿òÇ°ÃæµÄ×Ö
+		//ï¿½Ä±ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));		
 		namePanel.add(nameLabel);
 		namePanel.add(nameText);
 		nameText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				//ÅÐ¶ÏÏîÄ¿Â·¾¶ÓëÃû³ÆÊÇ·ñÓÐÖµ, Èç¹ûÁ½¸ötext field¶¼ÓÐÖµ, ÔòÈ·¶¨°´Å¥¿ÉÓÃ
+				//ï¿½Ð¶ï¿½ï¿½ï¿½Ä¿Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Öµ, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½text fieldï¿½ï¿½ï¿½ï¿½Öµ, ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
 				if (nameText.getText().equals("")) {
 					confirmButton.setEnabled(false);
 				} else {
@@ -81,23 +81,23 @@ public class AddFrame extends JFrame {
 			}
 		});
 		
-		//È·¶¨ºÍÈ¡ÏûµÄ°´Å¥
+		//È·ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ä°ï¿½Å¥
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		confirmButton.setEnabled(false);
 		buttonPanel.add(confirmButton);
 		buttonPanel.add(new JLabel("    "));
 		buttonPanel.add(cancelButton);
 		
-		//ÎªÈ¡Ïû°´Å¥Ìí¼Ó¼àÌýÆ÷
+		//ÎªÈ¡ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		cancelButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				cancel(info);
 			}
 		});
-		//ÎªÈ·¶¨°´Å¥Ìí¼Ó¼àÌýÆ÷
+		//ÎªÈ·ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Èç¹ûÊäÈë¿òÃ»ÓÐÖµ£¬·µ»Ø
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				if (nameText.getText() == "") return;
 				handerConfirm(info);
 			}
@@ -108,18 +108,18 @@ public class AddFrame extends JFrame {
 		pack();
 	}
 	
-	//´¦ÀíÈ·¶¨°´Å¥µÄµã»÷
+	//ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Å¥ï¿½Äµï¿½ï¿½
 	private void handerConfirm(AddInfo info) {
-		//»ñÈ¡µÃÓÃ»§ÊäÈë
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 		String data = nameText.getText();
-		//ÐÂÔöºó»áÉæ¼°µÄÒ»Ð©ÓëÒµÎñÏà¹ØµÄ²Ù×÷Áô¸øHandlerÀà´¦Àí
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ¼°ï¿½ï¿½Ò»Ð©ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ØµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Handlerï¿½à´¦ï¿½ï¿½
 		info.getHandler().afterAdd(info.getEditorFrame(), this, data);
 	}
 	
 	private void cancel(AddInfo info) {
-		//ÉèÖÃEditorFrame¿ÉÓÃ
+		//ï¿½ï¿½ï¿½ï¿½EditorFrameï¿½ï¿½ï¿½ï¿½
 		info.getEditorFrame().setEnabled(true);
-		//ÈÃ±¾´°¿Ú²»¿É¼û
+		//ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½É¼ï¿½
 		setVisible(false);
 	}
 	

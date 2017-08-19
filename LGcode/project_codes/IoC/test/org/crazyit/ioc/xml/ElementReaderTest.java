@@ -2,15 +2,17 @@ package org.crazyit.ioc.xml;
 
 import java.util.List;
 
+import IoC.main.org.crazyit.ioc.xml.ElementLoader;
+import IoC.main.org.crazyit.ioc.xml.ElementLoaderImpl;
+import IoC.main.org.crazyit.ioc.xml.ElementReader;
+import IoC.main.org.crazyit.ioc.xml.ElementReaderImpl;
+import IoC.main.org.crazyit.ioc.xml.XmlDocumentHolder;
+import IoC.main.org.crazyit.ioc.xml.autowire.Autowire;
+import IoC.main.org.crazyit.ioc.xml.construct.DataElement;
+import IoC.main.org.crazyit.ioc.xml.construct.RefElement;
+import IoC.main.org.crazyit.ioc.xml.construct.ValueElement;
+import IoC.main.org.crazyit.ioc.xml.property.PropertyElement;
 import junit.framework.TestCase;
-
-import org.crazyit.ioc.xml.autowire.Autowire;
-import org.crazyit.ioc.xml.construct.DataElement;
-import org.crazyit.ioc.xml.construct.RefElement;
-import org.crazyit.ioc.xml.construct.ValueElement;
-import org.crazyit.ioc.xml.property.PropertyElement;
-import org.dom4j.Document;
-import org.dom4j.Element;
 
 public class ElementReaderTest extends TestCase {
 
@@ -35,15 +37,15 @@ public class ElementReaderTest extends TestCase {
 	}
 	
 	public void testIsLazy() {
-		//µÚÒ»¸öÔªËØ
+		//ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½ï¿½
 		Element e = elementLoader.getElement("test1-1");
 		boolean result = reader.isLazy(e);
 		assertTrue(result);
-		//µÚ¶þ¸öÔªËØ
+		//ï¿½Ú¶ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 		e = elementLoader.getElement("test1-2");
 		result = reader.isLazy(e);
 		assertFalse(result);
-		//µÚÈý¸öÔªËØ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 		e = elementLoader.getElement("test1-3");
 		result = reader.isLazy(e);
 		assertFalse(result);

@@ -4,13 +4,12 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.tetris.object.Piece;
-import org.crazyit.tetris.object.Square;
+import tetris.src.org.crazyit.tetris.object.Square;
 
 public class Piece3 extends Piece {
 
 	public Piece3(Image image) {
-		//第一种变化
+		//锟斤拷一锟街变化
 		List<Square> squares0 = new ArrayList<Square>();
 		squares0.add(new Square(image, image.getWidth(null), 0));
 		squares0.add(new Square(image, image.getWidth(null)*2, 0));

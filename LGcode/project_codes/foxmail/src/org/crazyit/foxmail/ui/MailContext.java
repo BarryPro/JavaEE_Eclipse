@@ -1,40 +1,39 @@
 package org.crazyit.foxmail.ui;
 
+import java.net.PasswordAuthentication;
 import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.URLName;
 
-import org.crazyit.foxmail.exception.MailConnectionException;
+import foxmail.src.org.crazyit.foxmail.exception.MailConnectionException;
 
 /**
- * ÓÊÏäÉÏÏÂÎÄ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class MailContext {
-	//ÏµÍ³ÓÃ»§
+	//ÏµÍ³ï¿½Ã»ï¿½
 	private String user;
-	//ÓÃ»§ÕÊºÅ
+	//ï¿½Ã»ï¿½ï¿½Êºï¿½
 	private String account;
-	//ÃÜÂë
+	//ï¿½ï¿½ï¿½ï¿½
 	private String password;
-	//smtpÓÊ¼ş·şÎñÆ÷
+	//smtpï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String smtpHost;
-	//smtp¶Ë¿Ú
+	//smtpï¿½Ë¿ï¿½
 	private int smtpPort;
-	//pop3ÓÊ¼ş·şÎñÆ÷
+	//pop3ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String pop3Host;
-	//pop3µÄ¶Ë¿Ú
+	//pop3ï¿½Ä¶Ë¿ï¿½
 	private int pop3Port;
-	//ÊÇ·ñ½øĞĞÖØÖÃĞÅÏ¢
+	//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	private boolean reset = false;
 	
 	public MailContext(String user, String account, String password, String smtpHost,
@@ -108,7 +107,7 @@ public class MailContext {
 	private Store store;
 	
 	public Store getStore() {
-		//ÖØÖÃÁËĞÅÏ¢, ÉèÖÃsessionÎªnull
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢, ï¿½ï¿½ï¿½ï¿½sessionÎªnull
 		if (this.reset) {
 			this.store = null;
 			this.session = null;
@@ -120,18 +119,18 @@ public class MailContext {
 				if (isGmail()) {
 					props.setProperty("mail.pop3.socketFactory.class", SSL_FACTORY);
 				}
-				//´´½¨mailµÄSession
+				//ï¿½ï¿½ï¿½ï¿½mailï¿½ï¿½Session
 				Session session = Session.getDefaultInstance(props, getAuthenticator());
-				//Ê¹ÓÃpop3Ğ­Òé½ÓÊÕÓÊ¼ş
+				//Ê¹ï¿½ï¿½pop3Ğ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½
 				URLName url = new URLName("pop3", getPop3Host(), getPop3Port(), null,   
 						getAccount(), getPassword());
-				//µÃµ½ÓÊÏäµÄ´æ´¢¶ÔÏó
+				//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½Ä´æ´¢ï¿½ï¿½ï¿½ï¿½
 				Store store = session.getStore(url);
 				store.connect();
 				this.store = store;
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new MailConnectionException("Á¬½ÓÓÊÏäÒì³££¬Çë¼ì²éÅäÖÃ");
+				throw new MailConnectionException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			}
 		}
 		return this.store;
@@ -142,7 +141,7 @@ public class MailContext {
 	private final static String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 	
 	public Session getSession() {
-		//ÖØÖÃÁËĞÅÏ¢, ÉèÖÃsessionÎªnull
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢, ï¿½ï¿½ï¿½ï¿½sessionÎªnull
 		if (this.reset) {
 			this.session = null;
 			this.store = null;

@@ -18,38 +18,36 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import org.crazyit.editor.util.FileUtil;
-
 /**
- * ±à¼­½çÃæ
+ * ï¿½à¼­ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class EditPane extends JTextPane {
 
-	//ÑùÊ½ÎÄµµ¶ÔÏó
+	//ï¿½ï¿½Ê½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
 	protected StyledDocument doc;
-	//¹¹ÔìÒ»¸öÎÄ±¾¸ñÊ½Æ÷
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ê½ï¿½ï¿½
 	protected SyntaxFormatter formatter = new SyntaxFormatter("java.stx");
 	private SimpleAttributeSet quotAttr = new SimpleAttributeSet();
-	//±£´æÎÄµµ¸Ä±äµÄ¿ªÊ¼Î»ÖÃ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½Ä±ï¿½Ä¿ï¿½Ê¼Î»ï¿½ï¿½
 	private int docChangeStart = 0;
-	//±£´æÎÄµµ¸Ä±äµÄ³¤¶È
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½Ä±ï¿½Ä³ï¿½ï¿½ï¿½
 	private int docChangeLength = 0;
-	//¶¨ÒåÎÄµµÖÐÐÐÊýÎÄ±¾µÄÍâ¹ÛÊôÐÔ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private SimpleAttributeSet lineAttr = new SimpleAttributeSet();
 	
 	public EditPane(File file) {
 		this.setText(FileUtil.readFile(file));
 		this.doc = getStyledDocument();
-		//ÉèÖÃ¸ÃÎÄµµµÄÒ³±ß¾à
+		//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Äµï¿½ï¿½ï¿½Ò³ï¿½ß¾ï¿½
 		this.setMargin(new Insets(3, 40, 0, 0));
 		syntaxParse();
-		//Ìí¼Ó°´¼ü¼àÌýÆ÷£¬µ±°´¼üËÉ¿ªÊ±½øÐÐÓï·¨·ÖÎö
+		//ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½
 		this.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke)
 			{
@@ -58,12 +56,12 @@ public class EditPane extends JTextPane {
 		});
 	}
 //	
-//	//ÖØÐ´¸¸Àà·½·¨£¬Ê¹JTextPane²»»á×Ô¶¯»»ÐÐ
+//	//ï¿½ï¿½Ð´ï¿½ï¿½ï¿½à·½ï¿½ï¿½ï¿½ï¿½Ê¹JTextPaneï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public boolean getScrollableTracksViewportWidth() { 
 //		return (getSize().width < getParent().getSize().width - 100); 
 //	} 
 //
-//	//ÖØÐ´¸¸Àà·½·¨£¬Ê¹JTextPane²»»á×Ô¶¯»»ÐÐ
+//	//ï¿½ï¿½Ð´ï¿½ï¿½ï¿½à·½ï¿½ï¿½ï¿½ï¿½Ê¹JTextPaneï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public void setSize(Dimension d) { 
 //		if (d.width < getParent().getSize().width) { 
 //		   d.width = getParent().getSize().width; 
@@ -74,33 +72,33 @@ public class EditPane extends JTextPane {
 	
 	public void syntaxParse() {
 		try {
-			//»ñÈ¡ÎÄµµµÄ¸ùÔªËØ£¬¼´ÎÄµµÄÚµÄÈ«²¿ÄÚÈÝ
+			//ï¿½ï¿½È¡ï¿½Äµï¿½ï¿½Ä¸ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½Úµï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Element root = doc.getDefaultRootElement();
-			//»ñÈ¡ÎÄµµÖÐ¹â±ê²åÈë·ûµÄÎ»ÖÃ
+			//ï¿½ï¿½È¡ï¿½Äµï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 			int cursorPos = this.getCaretPosition();
 			int line = root.getElementIndex(cursorPos);
-			//»ñÈ¡¹â±êËùÔÚÎ»ÖÃµÄÐÐ
+			//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½ï¿½
 			Element para = root.getElement(line);
-			//¶¨Òå¹â±êËùÔÚÐÐµÄÐÐÍ·ÔÚÎÄµµÖÐÎ»ÖÃ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½Î»ï¿½ï¿½
 			int start = para.getStartOffset();
-			//Èç¹ûÎÄµµÐÞ¸ÄÎ»ÖÃ±Èµ±Ç°ÐÐ»¹Ç°
+			//ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½Þ¸ï¿½Î»ï¿½Ã±Èµï¿½Ç°ï¿½Ð»ï¿½Ç°
 			if (start > docChangeStart)	{
 				start = docChangeStart;
 			}
-			//¶¨Òå±»ÐÞ¸Ä²¿·ÖµÄ³¤¶È
+			//ï¿½ï¿½ï¿½å±»ï¿½Þ¸Ä²ï¿½ï¿½ÖµÄ³ï¿½ï¿½ï¿½
 			int length = para.getEndOffset() - start;
 			if (length < docChangeLength) {
 				length = docChangeLength + 1;
 			}
-			//È¡³öËùÓÐ±»ÐÞ¸ÄµÄ×Ö·û´®
+			//È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½Þ¸Äµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 			String s = doc.getText(start, length);
-			//ÒÔ¿Õ¸ñ¡¢µãºÅµÈ×÷Îª·Ö¸ô·û
+			//ï¿½Ô¿Õ¸ñ¡¢µï¿½Åµï¿½ï¿½ï¿½Îªï¿½Ö¸ï¿½ï¿½ï¿½
 			String[] tokens = s.split("\\s+|\\.|\\(|\\)|\\{|\\}|\\[|\\]");
-			//¶¨Òåµ±Ç°·ÖÎöµ¥´ÊµÄÔÚs×Ö·û´®ÖÐµÄ¿ªÊ¼Î»ÖÃ
+			//ï¿½ï¿½ï¿½åµ±Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½sï¿½Ö·ï¿½ï¿½ï¿½ï¿½ÐµÄ¿ï¿½Ê¼Î»ï¿½ï¿½
 			int curStart = 0;
 			boolean isQuot = false;
 			for (String token : tokens) {
-				//ÕÒ³öµ±Ç°·ÖÎöµ¥´ÊÔÚs×Ö·û´®µÄÖÐÎ»ÖÃ
+				//ï¿½Ò³ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 				int tokenPos = s.indexOf(token , curStart);
 				if (isQuot && (token.endsWith("\"") || token.endsWith("\'"))) {
 					doc.setCharacterAttributes(start + tokenPos, token.length(), quotAttr, false);
@@ -119,10 +117,10 @@ public class EditPane extends JTextPane {
 					isQuot = true;
 				}
 				else {
-					//Ê¹ÓÃ¸ñÊ½Æ÷¶Ôµ±Ç°µ¥´ÊÉèÖÃÑÕÉ«
+					//Ê¹ï¿½Ã¸ï¿½Ê½ï¿½ï¿½ï¿½Ôµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 					formatter.setHighLight(doc , token , start + tokenPos, token.length());
 				}
-				//¿ªÊ¼·ÖÎöÏÂÒ»¸öµ¥´Ê
+				//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				curStart = tokenPos + token.length();
 			}
 		}
@@ -130,19 +128,19 @@ public class EditPane extends JTextPane {
 			ex.printStackTrace();
 		}
 	}
-	//ÖØ»­¸Ã×é¼þ£¬ÉèÖÃÐÐºÅ
+	//ï¿½Ø»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½
 	public void paint(Graphics g){
 		super.paint(g);
 		Element root = doc.getDefaultRootElement(); 
-		//»ñµÃÐÐºÅ
+		//ï¿½ï¿½ï¿½ï¿½Ðºï¿½
 		int line = root.getElementIndex(doc.getLength());
-		//ÉèÖÃÑÕÉ«
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		g.setColor(new Color(230, 230, 230));
-		//»æÖÆÐÐÊý¾ØÐÎ¿ò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½
 		g.fillRect(0, 0, this.getMargin().left - 10, getSize().height);
-		//ÉèÖÃÐÐºÅµÄÑÕÉ«
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ÐºÅµï¿½ï¿½ï¿½É«
 		g.setColor(new Color(40, 40, 40));
-		//Ã¿ÐÐ»æÖÆÒ»¸öÐÐºÅ
+		//Ã¿ï¿½Ð»ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ðºï¿½
 		for (int count = 0, j = 1; count <= line; count++, j++) {
 			g.drawString(String.valueOf(j), 3, 
 						(int)((count + 1) * 1.5020 * StyleConstants.getFontSize(lineAttr)));
@@ -150,86 +148,86 @@ public class EditPane extends JTextPane {
 	}
 }
 class SyntaxFormatter {
-	//ÒÔÒ»¸öMap±£´æ¹Ø¼ü×ÖºÍÑÕÉ«µÄ¶ÔÓ¦¹ØÏµ
+	//ï¿½ï¿½Ò»ï¿½ï¿½Mapï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½Öºï¿½ï¿½ï¿½É«ï¿½Ä¶ï¿½Ó¦ï¿½ï¿½Ïµ
 	private Map<SimpleAttributeSet , ArrayList> attMap
 		= new HashMap<SimpleAttributeSet , ArrayList>();
-	//¶¨ÒåÎÄµµµÄÕý³£ÎÄ±¾µÄÍâ¹ÛÊôÐÔ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	SimpleAttributeSet normalAttr = new SimpleAttributeSet();
 	public SyntaxFormatter(String syntaxFile) {
-		//ÉèÖÃÕý³£ÎÄ±¾µÄÑÕÉ«¡¢´óÐ¡
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½Ð¡
 		StyleConstants.setForeground(normalAttr, Color.BLACK);
 		//StyleConstants.setFontSize(normalAttr, 14);
-		//´´½¨Ò»¸öScanner¶ÔÏó£¬¸ºÔð¸ù¾ÝÓï·¨ÎÄ¼þ¼ÓÔØÑÕÉ«ÐÅÏ¢
+		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Scannerï¿½ï¿½ï¿½ó£¬¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï·¨ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½Ï¢
 		Scanner scaner = null;
 		try	{
 			scaner = new Scanner(new File(syntaxFile));
 		}
 		catch (FileNotFoundException e)	{
-			throw new RuntimeException("¶ªÊ§Óï·¨ÎÄ¼þ£º" + e.getMessage());
+			throw new RuntimeException("ï¿½ï¿½Ê§ï¿½ï·¨ï¿½Ä¼ï¿½ï¿½ï¿½" + e.getMessage());
 		}
 		int color = -1;
 		ArrayList<String> keywords = new ArrayList<String>();
-		//²»¶Ï¶ÁÈ¡Óï·¨ÎÄ¼þµÄÄÚÈÝÐÐ
+		//ï¿½ï¿½ï¿½Ï¶ï¿½È¡ï¿½ï·¨ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		while(scaner.hasNextLine())	{
 			String line = scaner.nextLine();
-			//Èç¹ûµ±Ç°ÐÐÒÔ#¿ªÍ·
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½#ï¿½ï¿½Í·
 			if (line.startsWith("#")) {
 				if (keywords.size() > 0 && color > -1) {
-					//È¡³öµ±Ç°ÐÐµÄÑÕÉ«Öµ£¬²¢·â×°³ÉSimpleAttributeSet¶ÔÏó
+					//È¡ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Ðµï¿½ï¿½ï¿½É«Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½SimpleAttributeSetï¿½ï¿½ï¿½ï¿½
 					SimpleAttributeSet att = new SimpleAttributeSet();
 					StyleConstants.setForeground(att, new Color(color));
 					//StyleConstants.setFontSize(att, 14);
-					//½«µ±Ç°ÑÕÉ«ºÍ¹Ø¼ü×ÖList¶ÔÓ¦ÆðÀ´
+					//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½É«ï¿½Í¹Ø¼ï¿½ï¿½ï¿½Listï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 					attMap.put(att , keywords);
 				}
-				//ÖØÐÂ´´½¨ÐÂµÄ¹Ø¼ü×ÖList£¬ÎªÏÂÒ»¸öÓï·¨¸ñÊ½×¼±¸
+				//ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ÂµÄ¹Ø¼ï¿½ï¿½ï¿½Listï¿½ï¿½Îªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï·¨ï¿½ï¿½Ê½×¼ï¿½ï¿½
 				keywords = new ArrayList<String>();
 				color = Integer.parseInt(line.substring(1) , 16);
 			} else {
-				//¶ÔÓÚÆÕÍ¨ÐÐ£¬Ã¿ÐÐÄÚÈÝÌí¼Óµ½¹Ø¼ü×ÖListÀï
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½Ð£ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½Ø¼ï¿½ï¿½ï¿½Listï¿½ï¿½
 				if (line.trim().length() > 0) {
 					keywords.add(line.trim());
 				}
 			}
 		}
-		//°Ñ×îºóµÄ¹Ø¼ü×ÖºÍÑÕÉ«¶ÔÓ¦ÆðÀ´
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹Ø¼ï¿½ï¿½Öºï¿½ï¿½ï¿½É«ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 		if (keywords.size() > 0 && color > -1) {
 			SimpleAttributeSet att = new SimpleAttributeSet();
 			StyleConstants.setForeground(att, new Color(color));
 			attMap.put(att , keywords);
 		}
 	}
-	//·µ»Ø¸Ã¸ñÊ½Æ÷ÀïÕý³£ÎÄ±¾µÄÍâ¹ÛÊôÐÔ
+	//ï¿½ï¿½ï¿½Ø¸Ã¸ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public SimpleAttributeSet getNormalAttributeSet() {
 		return normalAttr;
 	}
-	//ÉèÖÃÓï·¨¸ßÁÁ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½
 	public void setHighLight(StyledDocument doc , String token , 
 		int start , int length)	{
-		//±£´æÐèÒª¶Ôµ±Ç°µ¥´Ê¶ÔÓ¦µÄÍâ¹ÛÊôÐÔ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ôµï¿½Ç°ï¿½ï¿½ï¿½Ê¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		SimpleAttributeSet currentAttributeSet = null;
 		outer :
 		for (SimpleAttributeSet att : attMap.keySet())
 		{
-			//È¡³öµ±Ç°ÑÕÉ«¶ÔÓ¦µÄËùÓÐ¹Ø¼ü×Ö
+			//È¡ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½É«ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹Ø¼ï¿½ï¿½ï¿½
 			ArrayList keywords = attMap.get(att);
-			//±éÀúËùÓÐ¹Ø¼ü×Ö
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹Ø¼ï¿½ï¿½ï¿½
 			for (Object keyword : keywords)
 			{
-				//Èç¹û¸Ã¹Ø¼ü×ÖÓëµ±Ç°µ¥´ÊÏàÍ¬
+				//ï¿½ï¿½ï¿½ï¿½Ã¹Ø¼ï¿½ï¿½ï¿½ï¿½ëµ±Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 				if (keyword.toString().equals(token))
 				{
-					//Ìø³öÑ­»·£¬²¢ÉèÖÃµ±Ç°µ¥´Ê¶ÔÓ¦µÄÍâ¹ÛÊôÐÔ
+					//ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½Ê¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					currentAttributeSet = att;
 					break outer;
 				}
 			}
 		}
-		//Èç¹ûµ±Ç°µ¥´Ê¶ÔÓ¦µÄÍâ¹ÛÊôÐÔ²»Îª¿Õ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ê¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½Îªï¿½ï¿½
 		if (currentAttributeSet != null){
-			//ÉèÖÃµ±Ç°µ¥´ÊµÄÑÕÉ«
+			//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½É«
 			doc.setCharacterAttributes(start, length, currentAttributeSet, false);
-		} else {//·ñÔòÊ¹ÓÃÆÕÍ¨Íâ¹ÛÀ´ÉèÖÃ¸Ãµ¥´Ê
+		} else {//ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸Ãµï¿½ï¿½ï¿½
 			doc.setCharacterAttributes(start, length, normalAttr, false);
 		}
 	}

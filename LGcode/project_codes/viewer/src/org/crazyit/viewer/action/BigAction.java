@@ -1,15 +1,15 @@
 package org.crazyit.viewer.action;
 
-import org.crazyit.viewer.ViewerFrame;
-import org.crazyit.viewer.ViewerService;
+import viewer.src.org.crazyit.viewer.ViewerFrame;
+import viewer.src.org.crazyit.viewer.ViewerService;
 
 /**
- * ·Å´óÍ¼Æ¬µÄAction
+ * ï¿½Å´ï¿½Í¼Æ¬ï¿½ï¿½Action
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */

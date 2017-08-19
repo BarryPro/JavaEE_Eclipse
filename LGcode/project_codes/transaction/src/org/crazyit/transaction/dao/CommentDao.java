@@ -1,17 +1,15 @@
 package org.crazyit.transaction.dao;
 
-import org.crazyit.transaction.model.Comment;
-
 public interface CommentDao {
 
 	/**
-	 * ±£´æÒ»¸öÊÂÎñÆÀÂÛ
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param comment
 	 */
 	Integer save(Comment comment);
 	
 	/**
-	 * ¸ù¾İID²éÕÒÆÀÂÛ
+	 * ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */

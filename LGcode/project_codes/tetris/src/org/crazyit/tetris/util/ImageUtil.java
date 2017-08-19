@@ -1,33 +1,29 @@
 package org.crazyit.tetris.util;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.crazyit.tetris.exception.GameException;
-import org.crazyit.tetris.object.Piece;
-import org.crazyit.tetris.object.Square;
+import tetris.src.org.crazyit.tetris.object.Square;
 
 public class ImageUtil {
 
 	
 	public static BufferedImage getImage(String imagePath) {
     	try {
-    		//Ê¹ÓÃImageIO¶ÁÈ¡Í¼Æ¬
+    		//Ê¹ï¿½ï¿½ImageIOï¿½ï¿½È¡Í¼Æ¬
     		return ImageIO.read(new File(imagePath));
     	} catch (IOException e) {
-    		//¶ÁÈ¡Í¼Æ¬·¢ÉúÒì³££¬Å×³öGameException
+    		//ï¿½ï¿½È¡Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½×³ï¿½GameException
     		throw new GameException("read image error");
     	}
 	}
 	
 	/**
-	 * ÔÚ½çÃæÉÏ»­Ò»¸öPiece¶ÔÏó
+	 * ï¿½Ú½ï¿½ï¿½ï¿½ï¿½Ï»ï¿½Ò»ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½
 	 * @param g
 	 * @param piece
 	 */

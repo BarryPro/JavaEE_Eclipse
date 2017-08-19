@@ -3,8 +3,8 @@ package org.crazyit.transaction.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.transaction.dao.UserTransferDao;
-import org.crazyit.transaction.model.UserTransfer;
+import transaction.src.org.crazyit.transaction.dao.UserTransferDao;
+import transaction.src.org.crazyit.transaction.model.UserTransfer;
 
 public class UserTransferDaoImpl extends BaseDaoImpl implements UserTransferDao {
 

@@ -1,14 +1,13 @@
 package org.crazyit.editor.handler.save;
 
-import org.crazyit.editor.EditorFrame;
-import org.crazyit.editor.commons.EditFile;
+import editor.src.org.crazyit.editor.EditorFrame;
 
 /**
- * ±£´æ¶¯×÷µÄÖÐ½éÕßÊµÏÖ
+ * ï¿½ï¿½ï¿½æ¶¯ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½Êµï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -18,20 +17,20 @@ public class SaveMediatorConcrete extends SaveMediator {
 	
 	private SaveHandler javaHandler;
 	
-	//¹¹ÔìÁ½¸ö´¦Àí±£´æµÄ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 	public SaveMediatorConcrete() {
 		this.commonHandler = new CommonSaveHandler();
 		this.javaHandler = new JavaSaveHandler();
 	}
 	
 	public String doSave(EditorFrame editorFrame) {
-		//»ñµÃµ±Ç°±à¼­µÄÎÄ¼þÃû
+		//ï¿½ï¿½Ãµï¿½Ç°ï¿½à¼­ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		String fileName = editorFrame.getCurrentFile().getFile().getName();
 		String result = null;
-		//ÅÐ¶ÏÎÄ¼þÊÇ·ñÎªJavaÎÄ¼þ£¬ ÔÙ¾ö¶¨´¦ÀíÀà
-		if (fileName.endsWith(".java")) {//±£´æjavaÎÄ¼þ
+		//ï¿½Ð¶ï¿½ï¿½Ä¼ï¿½ï¿½Ç·ï¿½ÎªJavaï¿½Ä¼ï¿½ï¿½ï¿½ ï¿½Ù¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if (fileName.endsWith(".java")) {//ï¿½ï¿½ï¿½ï¿½javaï¿½Ä¼ï¿½
 			result = javaHandler.save(editorFrame);
-		} else {//Ö´ÐÐÆÕÍ¨µÄ±£´æ
+		} else {//Ö´ï¿½ï¿½ï¿½ï¿½Í¨ï¿½Ä±ï¿½ï¿½ï¿½
 			result = commonHandler.save(editorFrame);
 		}
 		return result;

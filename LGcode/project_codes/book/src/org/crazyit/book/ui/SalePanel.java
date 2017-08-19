@@ -23,99 +23,92 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.crazyit.book.commons.BusinessException;
-import org.crazyit.book.service.BookService;
-import org.crazyit.book.service.SaleRecordService;
-import org.crazyit.book.vo.Book;
-import org.crazyit.book.vo.BookSaleRecord;
-import org.crazyit.book.vo.SaleRecord;
-
 /**
- * ÏúÊÛ½çÃæ
+ * ï¿½ï¿½ï¿½Û½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class SalePanel extends CommonPanel {
 
 	BookService bookService;
-	//ÏúÊÛ¼ÇÂ¼ÁÐ
+	//ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½
 	Vector columns;
-	//ÊéµÄÏúÊÛ¼ÇÂ¼ÁÐ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½
 	Vector bookSaleRecordColumns;
-	//ÏúÊÛ¼ÇÂ¼µÄÒµÎñ½Ó¿Ú
+	//ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½Òµï¿½ï¿½Ó¿ï¿½
 	SaleRecordService saleRecordService;
-	//ÊéµÄ½»Ò×¼ÇÂ¼ÁÐ±í
+	//ï¿½ï¿½Ä½ï¿½ï¿½×¼ï¿½Â¼ï¿½Ð±ï¿½
 	JTable bookSaleRecordTable;
-	//Êé±¾Ñ¡ÔñµÄÏÂÀ­¿ò
+	//ï¿½é±¾Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JComboBox bookComboBox;
-	//ÊéµÄÏúÊÛ¼ÇÂ¼Êý¾Ý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
 	Vector<BookSaleRecord> bookSaleRecordDatas;
-	//ÏúÊÛ¼ÇÂ¼µÄidÎÄ±¾¿ò
+	//ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½idï¿½Ä±ï¿½ï¿½ï¿½
 	JTextField saleRecordId;
-	//ÏúÊÛ¼ÇÂ¼×Ü¼Û
+	//ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½Ü¼ï¿½
 	JTextField totalPrice;
-	//ÏúÊÛÈÕÆÚ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JTextField recordDate;
-	//ÏúÊÛ×ÜÊýÁ¿
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JTextField amount;
-	//Çå¿Õ°´Å¥
+	//ï¿½ï¿½Õ°ï¿½Å¥
 	JButton clearButton;
-	//ÊéµÄµ¥¼Û
+	//ï¿½ï¿½Äµï¿½ï¿½ï¿½
 	JLabel singlePrice;
-	//¹ºÂòÊéµÄÊýÁ¿
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JTextField bookAmount;
-	//Êé¶ÔÓ¦µÄ¿â´æ
+	//ï¿½ï¿½ï¿½Ó¦ï¿½Ä¿ï¿½ï¿½
 	JLabel repertorySize;
-	//Ìí¼ÓÊéµÄ°´Å¥
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä°ï¿½Å¥
 	JButton addBookButton;
-	//É¾³ýÊéµÄ°´Å¥
+	//É¾ï¿½ï¿½ï¿½ï¿½Ä°ï¿½Å¥
 	JButton deleteBookButton;
-	//³É½»°´Å¥
+	//ï¿½É½ï¿½ï¿½ï¿½Å¥
 	JButton confirmButton;
-	//²éÑ¯°´Å¥
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½Å¥
 	JButton queyrButton;
-	//²éÑ¯ÊäÈëµÄÈÕÆÚ
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JTextField queryDate;
-	//ÈÕÆÚ¸ñÊ½
+	//ï¿½ï¿½ï¿½Ú¸ï¿½Ê½
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	//Ê±¼ä¸ñÊ½
+	//Ê±ï¿½ï¿½ï¿½Ê½
 	private SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 	
 	private void initColumns() {
-		//³õÊ¼»¯ÏúÊÛ¼ÇÂ¼ÁÐ±íµÄÁÐ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½Ð±ï¿½ï¿½ï¿½ï¿½
 		this.columns = new Vector();
 		this.columns.add("id");
-		this.columns.add("¹ºÂòÊé±¾");
-		this.columns.add("×Ü¼Û");
-		this.columns.add("½»Ò×ÈÕÆÚ");
-		this.columns.add("×ÜÊýÁ¿");
-		//³õÊ¼»¯ÏúÊÛ¼ÇÂ¼ÖÐÊéÁÐ±íµÄÁÐ
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½é±¾");
+		this.columns.add("ï¿½Ü¼ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½
 		this.bookSaleRecordColumns = new Vector();
 		this.bookSaleRecordColumns.add("id");
-		this.bookSaleRecordColumns.add("ÊéÃû");
-		this.bookSaleRecordColumns.add("µ¥¼Û");
-		this.bookSaleRecordColumns.add("ÊýÁ¿");
+		this.bookSaleRecordColumns.add("ï¿½ï¿½ï¿½ï¿½");
+		this.bookSaleRecordColumns.add("ï¿½ï¿½ï¿½ï¿½");
+		this.bookSaleRecordColumns.add("ï¿½ï¿½ï¿½ï¿½");
 		this.bookSaleRecordColumns.add("bookId");
 	}
 	
 	public SalePanel(BookService bookService, SaleRecordService saleRecordService) {
 		this.bookService = bookService;
 		this.saleRecordService = saleRecordService;
-		//ÉèÖÃÁÐ±íÊý¾Ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//³õÊ¼»¯ÁÐ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 		initColumns();
-		//ÉèÖÃÁÐ±í
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		DefaultTableModel model = new DefaultTableModel(datas, columns);
 		JTable table = new CommonJTable(model);
 		setJTable(table);
 		JScrollPane upPane = new JScrollPane(table);
 		upPane.setPreferredSize(new Dimension(1000, 350));
-		//ÉèÖÃÌí¼Ó, ÐÞ¸ÄµÄ½çÃæ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Þ¸ÄµÄ½ï¿½ï¿½ï¿½
 		JPanel downPane = new JPanel();
 		downPane.setLayout(new BoxLayout(downPane, BoxLayout.Y_AXIS));
 		/*******************************************************/
@@ -123,32 +116,32 @@ public class SalePanel extends CommonPanel {
 		this.saleRecordId = new JTextField(10);
 		downBox1.add(this.saleRecordId);
 		this.saleRecordId.setVisible(false);
-		//ÁÐ±íÏÂÃæµÄbox
-		downBox1.add(new JLabel("×Ü¼Û£º"));
+		//ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½box
+		downBox1.add(new JLabel("ï¿½Ü¼Û£ï¿½"));
 		this.totalPrice = new JTextField(10);
 		this.totalPrice.setEditable(false);
 		downBox1.add(this.totalPrice);
 		downBox1.add(new JLabel("      "));
-		downBox1.add(new JLabel("½»Ò×ÈÕÆÚ£º"));
+		downBox1.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½"));
 		this.recordDate = new JTextField(10);
 		this.recordDate.setEditable(false);
-		//ÉèÖÃµ±Ç°½»Ò×Ê±¼ä
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 		setRecordDate();
 		downBox1.add(this.recordDate);
 		downBox1.add(new JLabel("      "));
-		downBox1.add(new JLabel("×ÜÊýÁ¿£º"));
+		downBox1.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
 		this.amount = new JTextField(10);
 		this.amount.setEditable(false);
 		downBox1.add(this.amount);
 		downBox1.add(new JLabel("      "));
 		/*******************************************************/
-		//ÊéÁÐ±í
+		//ï¿½ï¿½ï¿½Ð±ï¿½
 		Box downBox2 = new Box(BoxLayout.X_AXIS);
 		this.bookSaleRecordDatas = new Vector();
 		DefaultTableModel bookModel = new DefaultTableModel(this.bookSaleRecordDatas, 
 				this.bookSaleRecordColumns);
 		this.bookSaleRecordTable = new CommonJTable(bookModel);
-		//ÉèÖÃÊé±¾½»Ò×¼ÇÂ¼ÁÐ±íµÄÑùÊ½
+		//ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½×¼ï¿½Â¼ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Ê½
 		setBookSaleRecordTableFace();
 		JScrollPane bookScrollPane = new JScrollPane(this.bookSaleRecordTable);
 		bookScrollPane.setPreferredSize(new Dimension(1000, 120));
@@ -156,40 +149,40 @@ public class SalePanel extends CommonPanel {
 		/*******************************************************/
 		Box downBox3 = new Box(BoxLayout.X_AXIS);
 		downBox3.add(Box.createHorizontalStrut(100));
-		downBox3.add(new JLabel("Êé±¾£º"));
+		downBox3.add(new JLabel("ï¿½é±¾ï¿½ï¿½"));
 		downBox3.add(Box.createHorizontalStrut(20));
-		//´´½¨½çÃæÖÐÊéµÄÏÂÀ­¿ò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.bookComboBox = new JComboBox();
-		//ÎªÏÂÀ­¿òÌí¼ÓÊý¾Ý
+		//Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		buildBooksComboBox();
 		downBox3.add(this.bookComboBox);
 		downBox3.add(Box.createHorizontalStrut(50));
-		downBox3.add(new JLabel("ÊýÁ¿£º"));
+		downBox3.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
 		downBox3.add(Box.createHorizontalStrut(20));
 		this.bookAmount = new JTextField(10);
 		downBox3.add(this.bookAmount);
 		downBox3.add(Box.createHorizontalStrut(50));
-		downBox3.add(new JLabel("µ¥¼Û£º"));
+		downBox3.add(new JLabel("ï¿½ï¿½ï¿½Û£ï¿½"));
 		downBox3.add(Box.createHorizontalStrut(20));
 		this.singlePrice = new JLabel();
 		downBox3.add(this.singlePrice);
 		downBox3.add(Box.createHorizontalStrut(100));
-		downBox3.add(new JLabel("¿â´æ£º"));
+		downBox3.add(new JLabel("ï¿½ï¿½æ£º"));
 		downBox3.add(Box.createHorizontalStrut(20));
 		this.repertorySize = new JLabel();
 		downBox3.add(this.repertorySize);
 		downBox3.add(Box.createHorizontalStrut(80));
-		this.addBookButton = new JButton("Ìí¼Ó");
+		this.addBookButton = new JButton("ï¿½ï¿½ï¿½");
 		downBox3.add(this.addBookButton);
 		downBox3.add(Box.createHorizontalStrut(30));
-		this.deleteBookButton = new JButton("É¾³ý");
+		this.deleteBookButton = new JButton("É¾ï¿½ï¿½");
 		downBox3.add(this.deleteBookButton);
 		/*******************************************************/
 		Box downBox4 = new Box(BoxLayout.X_AXIS);
-		this.confirmButton = new JButton("³É½»");
+		this.confirmButton = new JButton("ï¿½É½ï¿½");
 		downBox4.add(this.confirmButton);
 		downBox4.add(Box.createHorizontalStrut(120));
-		clearButton = new JButton("Çå¿Õ");
+		clearButton = new JButton("ï¿½ï¿½ï¿½");
 		downBox4.add(clearButton);
 		/*******************************************************/
 		downPane.add(getSplitBox());
@@ -200,72 +193,72 @@ public class SalePanel extends CommonPanel {
 		downPane.add(downBox3);
 		downPane.add(getSplitBox());
 		downPane.add(downBox4);
-		/*******************²éÑ¯******************/
+		/*******************ï¿½ï¿½Ñ¯******************/
 		JPanel queryPanel = new JPanel();
 		Box queryBox = new Box(BoxLayout.X_AXIS);
-		queryBox.add(new JLabel("ÈÕÆÚ£º"));
+		queryBox.add(new JLabel("ï¿½ï¿½ï¿½Ú£ï¿½"));
 		queryBox.add(Box.createHorizontalStrut(30));
 		this.queryDate = new JTextField(20);
 		queryBox.add(this.queryDate);
 		queryBox.add(Box.createHorizontalStrut(30));
-		this.queyrButton = new JButton("²éÑ¯");
+		this.queyrButton = new JButton("ï¿½ï¿½Ñ¯");
 		queryBox.add(this.queyrButton);
 		queryPanel.add(queryBox);
 		this.add(queryPanel);
-		//ÁÐ±íÎªÌí¼Ó½çÃæ
+		//ï¿½Ð±ï¿½Îªï¿½ï¿½Ó½ï¿½ï¿½ï¿½
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upPane, downPane);
 		split.setDividerSize(5);
 		this.add(split);
-		//³õÊ¼»¯¼àÌýÆ÷
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		initListeners();
 	}
 	
-	//³õÊ¼»¯¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
-		//±í¸ñÑ¡Ôñ¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		getJTable().getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
-				//µ±Ñ¡ÔñÐÐÊ±Êó±êÊÍ·ÅÊ±²ÅÖ´ÐÐ
+				//ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ê±ï¿½ï¿½Ö´ï¿½ï¿½
 				if (!event.getValueIsAdjusting()) {
-					//Èç¹ûÃ»ÓÐÑ¡ÖÐÈÎºÎÒ»ÐÐ, Ôò·µ»Ø
+					//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½, ï¿½ò·µ»ï¿½
 					if (getJTable().getSelectedRowCount() != 1) return;
 					view();
 				}
 			}
 		});
-		//Çå¿Õ°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½Õ°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.clearButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				clear();
 			}
 		});
-		//Êé±¾Ñ¡ÔñÏÂÀ­¼àÌýÆ÷
+		//ï¿½é±¾Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.bookComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				changeBook();
 			}
 		});
-		//ÉèÖÃÏÔÊ¾ÊéµÄµ¥¼Û
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Äµï¿½ï¿½ï¿½
 		changeBook();
-		//ÏòÁÐ±íÌí¼ÓÒ»ÌõÊéµÄÏúÊÛ¼ÇÂ¼µÄ°´Å¥
+		//ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½Ä°ï¿½Å¥
 		this.addBookButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				appendBook();
 			}
 		});
-		//É¾³ýÊéµÄ½»Ò×¼ÇÂ¼°´Å¥
+		//É¾ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½×¼ï¿½Â¼ï¿½ï¿½Å¥
 		this.deleteBookButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				removeBook();
 			}
 		});
-		//³É½»°´Å¥
+		//ï¿½É½ï¿½ï¿½ï¿½Å¥
 		this.confirmButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				sale();
 			}
 		});
-		//²éÑ¯
+		//ï¿½ï¿½Ñ¯
 		this.queyrButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				query();
@@ -279,26 +272,26 @@ public class SalePanel extends CommonPanel {
 		try {
 			d = dateFormat.parse(date);
 		} catch (ParseException e) {
-			showWarn("ÇëÊäÈëyyyy-MM-ddµÄ¸ñÊ½ÈÕÆÚ");
+			showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yyyy-MM-ddï¿½Ä¸ï¿½Ê½ï¿½ï¿½ï¿½ï¿½");
 			return;
 		}
-		//ÖØÐÂÖ´ÐÐ²éÑ¯
+		//ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð²ï¿½Ñ¯
 		Vector<SaleRecord> records = (Vector<SaleRecord>)saleRecordService.getAll(d);
 		Vector<Vector> datas = changeDatas(records);
 		setDatas(datas);
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
 	}
 	
-	//³É½»µÄ·½·¨
+	//ï¿½É½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	private void sale() {
 		if (!this.saleRecordId.getText().equals("")) {
-			showWarn("ÇëÇå¿ÕÔÙ½øÐÐ²Ù×÷"); 
+			showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½"); 
 			return;
 		}
-		//Èç¹ûÃ»ÓÐ³É½»ÈÎºÎÊé, ·µ»Ø
+		//ï¿½ï¿½ï¿½Ã»ï¿½Ð³É½ï¿½ï¿½Îºï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
 		if (this.bookSaleRecordDatas.size() == 0) {
-			showWarn("Ã»ÓÐ³öÊÛÈÎºÎµÄÊé, ²»µÃ³É½»");
+			showWarn("Ã»ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ÎºÎµï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ã³É½ï¿½");
 			return;
 		}
 		SaleRecord r = new SaleRecord();
@@ -306,44 +299,44 @@ public class SalePanel extends CommonPanel {
 		r.setBookSaleRecords(this.bookSaleRecordDatas);
 		try {
 			saleRecordService.saveRecord(r);
-		} catch (BusinessException e) {//´Ë´¦µÄÒì³£ÊÇÒµÎñÒì³£
+		} catch (BusinessException e) {//ï¿½Ë´ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Òµï¿½ï¿½ï¿½ì³£
 			showWarn(e.getMessage());
 			return;
 		}
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//Çå¿Õ½çÃæ
+		//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½
 		clear();
 	}
 	
-	//ÏòÁÐ±íÌí¼ÓÒ»ÌõÊéµÄÏúÊÛ¼ÇÂ¼
+	//ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	private void appendBook() {
 		if (!this.saleRecordId.getText().equals("")) {
-			showWarn("ÇëÇå¿ÕÔÙ½øÐÐ²Ù×÷"); 
+			showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½"); 
 			return;
 		}
 		if (this.bookAmount.getText().equals("")) {
-			showWarn("ÇëÊäÈëÊéµÄÊýÁ¿"); 
+			showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"); 
 			return;
 		}
-		//»ñµÃÑ¡ÖÐµÄ¶ÔÏó
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ÐµÄ¶ï¿½ï¿½ï¿½
 		Book book = (Book)bookComboBox.getSelectedItem();
 		String amount = this.bookAmount.getText();
 		appendOrUpdate(book, amount);
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshBookSaleRecordTableData();
-		//¼ÆËã×Ü¼Û
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼ï¿½
 		countTotalPrice();
-		//¼ÆËã×ÜÊýÁ¿
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setTotalAmount();
 	}
 	
-	//Ìí¼Ó»òÕßÐÞ¸ÄÊé±¾½»Ò×¼ÇÂ¼ÖÐµÄ¶ÔÏó
+	//ï¿½ï¿½Ó»ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½é±¾ï¿½ï¿½ï¿½×¼ï¿½Â¼ï¿½ÐµÄ¶ï¿½ï¿½ï¿½
 	private void appendOrUpdate(Book book, String amount) {
 		BookSaleRecord r = getBookSaleRecordFromView(book);
-		//Èç¹ûÎª¿Õ, ÔòÎªÐÂÌí¼ÓµÄÊé, ·Ç¿Õ, Ôò¸ÃÊéÒÑ¾­ÔÚÁÐ±íÖÐ
+		//ï¿½ï¿½ï¿½Îªï¿½ï¿½, ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½, ï¿½Ç¿ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½
 		if (r == null) {
-			//´´½¨BookSaleRecord¶ÔÏó²¢Ìí¼Óµ½Êý¾Ý¼¯ºÏÖÐ
+			//ï¿½ï¿½ï¿½ï¿½BookSaleRecordï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½
 			BookSaleRecord record = new BookSaleRecord();
 			record.setBook(book);
 			record.setTRADE_SUM(amount);
@@ -354,7 +347,7 @@ public class SalePanel extends CommonPanel {
 		}
 	}
 	
-	//»ñÈ¡ÔÚÁÐ±íÖÐÊÇ·ñÒÑ¾­´æÔÚÏàÍ¬µÄÊé
+	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½
 	private BookSaleRecord getBookSaleRecordFromView(Book book) {
 		for (BookSaleRecord r : this.bookSaleRecordDatas) {
 			if (r.getBook().getID().equals(book.getID())) {
@@ -364,7 +357,7 @@ public class SalePanel extends CommonPanel {
 		return null;
 	}
 	
-	//ÉèÖÃ×ÜÊýÁ¿
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void setTotalAmount() {
 		int amount = 0;
 		for (BookSaleRecord r : this.bookSaleRecordDatas) {
@@ -373,7 +366,7 @@ public class SalePanel extends CommonPanel {
 		this.amount.setText(String.valueOf(amount));
 	}
 	
-	//¼ÆËã×Ü¼Û
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼ï¿½
 	private void countTotalPrice() {
 		double totalPrice = 0;
 		for (BookSaleRecord r : this.bookSaleRecordDatas) {
@@ -383,60 +376,60 @@ public class SalePanel extends CommonPanel {
 		this.totalPrice.setText(String.valueOf(totalPrice));
 	}
 	
-	//´ÓÁÐ±íÖÐÒÆ³ýÒ»ÌõÊéµÄÏúÊÛ¼ÇÂ¼
+	//ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Æ³ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	private void removeBook() {
 		if (!this.saleRecordId.getText().equals("")) {
-			showWarn("ÇëÇå¿ÕÔÙ½øÐÐ²Ù×÷"); 
+			showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½"); 
 			return;
 		}
 		if (bookSaleRecordTable.getSelectedRow() == -1) {
-			showWarn("ÇëÑ¡ÔñÐèÒªÉ¾³ýµÄÐÐ");
+			showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return;
 		}
-		//ÔÚ¼¯ºÏÖÐÉ¾³ý¶ÔÓ¦µÄË÷ÒýµÄÊý¾Ý
+		//ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.bookSaleRecordDatas.remove(bookSaleRecordTable.getSelectedRow());
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshBookSaleRecordTableData();
-		//ÖØÐÂ¼ÆËã×Ü¼ÛºÍ×ÜÊýÁ¿
+		//ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ü¼Ûºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setTotalAmount();
 		countTotalPrice();
 	}
 	
 	
-	//µ±Êé±¾Ñ¡ÔñÏÂÀ­¿ò·¢Éú¸Ä±äÊ±, Ö´ÐÐ¸Ã·½·¨
+	//ï¿½ï¿½ï¿½é±¾Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½Ê±, Ö´ï¿½Ð¸Ã·ï¿½ï¿½ï¿½
 	private void changeBook() {
-		//»ñµÃÑ¡ÔñµÄBook¶ÔÏó
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Bookï¿½ï¿½ï¿½ï¿½
 		Book book = (Book)bookComboBox.getSelectedItem();
 		if (book == null) return;
-		//ÉèÖÃÏÔÊ¾µÄÊéµÄ¼Û¸ñ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ä¼Û¸ï¿½
 		this.singlePrice.setText(book.getBOOK_PRICE());
 		this.repertorySize.setText(book.getREPERTORY_SIZE());
 	}
 	
-	//Çå¿Õ
+	//ï¿½ï¿½ï¿½
 	public void clear() {
-		//Ë¢ÐÂÖ÷ÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
 		this.saleRecordId.setText("");
 		this.totalPrice.setText("");
-		//ÉèÖÃ½çÃæµÄ½»Ò×Ê±¼äÎªµ±Ç°Ê±¼ä
+		//ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Îªï¿½ï¿½Ç°Ê±ï¿½ï¿½
 		setRecordDate();
 		this.amount.setText("");
 		this.bookSaleRecordDatas.removeAll(this.bookSaleRecordDatas);
 		refreshBookSaleRecordTableData();
-		//Ë¢ÐÂÏÂÀ­
+		//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.bookComboBox.removeAllItems();
 		buildBooksComboBox();
 	}
 	
-	//ÉèÖÃÊÓÍ¼Êý¾Ý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
 	public void setViewDatas() {
 		Vector<SaleRecord> records = (Vector<SaleRecord>)saleRecordService.getAll(new Date());
 		Vector<Vector> datas = changeDatas(records);
 		setDatas(datas);
 	}
 	
-	//½«Êý¾Ý×ª»»³ÉÖ÷ÁÐ±íµÄÊý¾Ý¸ñÊ½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½Ê½
 	private Vector<Vector> changeDatas(Vector<SaleRecord> records) {
 		Vector<Vector> view = new Vector<Vector>();
 		for (SaleRecord record : records) {
@@ -451,7 +444,7 @@ public class SalePanel extends CommonPanel {
 		return view;
 	}
 	
-	//´´½¨½çÃæÖÐÑ¡ÔñÊéµÄÏÂÀ­¿ò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void buildBooksComboBox() {
 		Collection<Book> books = bookService.getAll();
 		for (Book book : books) {
@@ -459,7 +452,7 @@ public class SalePanel extends CommonPanel {
 		}
 	}
 	
-	//´´½¨Book¶ÔÏó, ÓÃÓÚÌí¼Óµ½ÏÂÀ­¿òÖÐ, ÖØÐ´ÁËequalsºÍtoString·½·¨
+	//ï¿½ï¿½ï¿½ï¿½Bookï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ð´ï¿½ï¿½equalsï¿½ï¿½toStringï¿½ï¿½ï¿½ï¿½
 	private Book makeBook(final Book source) {
 		Book book = new Book(){
 			public boolean equals(Object obj) {
@@ -480,14 +473,14 @@ public class SalePanel extends CommonPanel {
 		return book;
 	}
 	
-	//²é¿´Ò»ÌõÏúÊÛ¼ÇÂ¼
+	//ï¿½é¿´Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	private void view() {
 		String saleRecordId = getSelectId(getJTable());
-		//µÃµ½ÊéµÄ½»Ò×¼ÇÂ¼
+		//ï¿½Ãµï¿½ï¿½ï¿½Ä½ï¿½ï¿½×¼ï¿½Â¼
 		SaleRecord record = saleRecordService.get(saleRecordId);
-		//ÉèÖÃµ±Ç°Êé±¾ÏúÊÛÊý¾Ý
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.bookSaleRecordDatas = record.getBookSaleRecords();
-		//Ë¢ÐÂÊé±¾ÏúÊÛÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshBookSaleRecordTableData();
 		this.saleRecordId.setText(record.getID());
 		this.totalPrice.setText(String.valueOf(record.getTotalPrice()));
@@ -495,7 +488,7 @@ public class SalePanel extends CommonPanel {
 		this.amount.setText(String.valueOf(record.getAmount()));
 	}
 	
-	//½«ÊéµÄÏúÊÛ¼ÇÂ¼×ª»»³ÉÁÐ±í¸ñÊ½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼×ªï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½Ê½
 	private Vector<Vector> changeBookSaleRecordDate(Vector<BookSaleRecord> records) {
 		Vector<Vector> view = new Vector<Vector>();
 		for (BookSaleRecord r : records) {
@@ -510,23 +503,23 @@ public class SalePanel extends CommonPanel {
 		return view;
 	}
 	
-	//Ë¢ÐÂÊé±¾ÏúÊÛ¼ÇÂ¼µÄÁÐ±í
+	//Ë¢ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½ï¿½Ð±ï¿½
 	private void refreshBookSaleRecordTableData() {
 		Vector<Vector> view = changeBookSaleRecordDate(this.bookSaleRecordDatas);
 		DefaultTableModel tableModel = (DefaultTableModel)this.bookSaleRecordTable.getModel();
-		//½«Êý¾ÝÉèÈë±í¸ñModelÖÐ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Modelï¿½ï¿½
 		tableModel.setDataVector(view, this.bookSaleRecordColumns);
-		//ÉèÖÃ±í¸ñÑùÊ½
+		//ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ê½
 		setBookSaleRecordTableFace();
 	}
 	
-	//ÉèÖÃÊé±¾ÏúÊÛ¼ÇÂ¼µÄÑùÊ½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ê½
 	private void setBookSaleRecordTableFace() {
 		this.bookSaleRecordTable.setRowHeight(30);
-		//Òþ²ØÏúÊÛ¼ÇÂ¼idÁÐ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼idï¿½ï¿½
 		this.bookSaleRecordTable.getColumn("id").setMinWidth(-1);
 		this.bookSaleRecordTable.getColumn("id").setMaxWidth(-1);
-		//Òþ²Ø¶ÔÓ¦µÄÊéidÁÐ
+		//ï¿½ï¿½ï¿½Ø¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½
 		this.bookSaleRecordTable.getColumn("bookId").setMinWidth(-1);
 		this.bookSaleRecordTable.getColumn("bookId").setMaxWidth(-1);
 	}
@@ -540,13 +533,13 @@ public class SalePanel extends CommonPanel {
 	public void setTableFace() {
 		getJTable().getColumn("id").setMinWidth(-1);
 		getJTable().getColumn("id").setMaxWidth(-1);
-		getJTable().getColumn("¹ºÂòÊé±¾").setMinWidth(350);
+		getJTable().getColumn("ï¿½ï¿½ï¿½ï¿½ï¿½é±¾").setMinWidth(350);
 		getJTable().setRowHeight(30);
 	}
 
-	//ÉèÖÃ½çÃæÏÔÊ¾µÄ½»Ò×Ê±¼ä
+	//ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ä½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	private void setRecordDate() {
-		//ÉèÖÃ³É½»ÈÕÆÚÎªµ±Ç°Ê±¼ä
+		//ï¿½ï¿½ï¿½Ã³É½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ç°Ê±ï¿½ï¿½
 		Date now = new Date();
 		timeFormat.format(now);
 		this.recordDate.setText(timeFormat.format(now));

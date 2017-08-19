@@ -2,48 +2,46 @@ package org.crazyit.book.dao;
 
 import java.util.Collection;
 
-import org.crazyit.book.vo.Type;
-
 /**
- * Êé±¾ÖÖÀàDAO½Ó¿Ú
+ * ï¿½é±¾ï¿½ï¿½ï¿½ï¿½DAOï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface TypeDao {
 
 	/**
-	 * ²éÕÒËùÓĞµÄÖÖÀà
-	 * @return ÖÖÀàµÄ¼¯ºÏ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 	 */
 	Collection<Type> find();
 	
 	/**
-	 * ¸ù¾İÃû×ÖÄ£ºı²éÕÒÖÖÀà
-	 * @param name ÖÖÀàÃû×Ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param name ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	Collection<Type> findByName(String name);
 	
 	/**
-	 * ¸ù¾İid²éÕÒÖÖÀà
-	 * @param id ÖÖÀàid
-	 * @return ÖÖÀàµÄÖµ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param id ï¿½ï¿½ï¿½ï¿½id
+	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
 	 */
 	Type find(String id);
 	
 	/**
-	 * Ìí¼ÓÒ»¸öÖÖÀà
-	 * @param type ĞèÒªÌí¼ÓµÄÖÖÀà
+	 * ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param type ï¿½ï¿½Òªï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	String add(Type type);
 	
 	/**
-	 * ĞŞ¸ÄÒ»¸öÖÖÀà
-	 * @param type ĞŞ¸ÄµÄÖÖÀà
+	 * ï¿½Ş¸ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param type ï¿½Ş¸Äµï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	String update(Type type);
 	

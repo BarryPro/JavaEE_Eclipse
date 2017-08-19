@@ -37,90 +37,85 @@ import javax.swing.Timer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.DownloadContext;
-import org.crazyit.flashget.info.Info;
-import org.crazyit.flashget.navigation.DownloadNode;
-import org.crazyit.flashget.navigation.DownloadingNode;
-import org.crazyit.flashget.navigation.FailNode;
-import org.crazyit.flashget.navigation.FinishNode;
-import org.crazyit.flashget.navigation.TaskNode;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.state.Downloading;
-import org.crazyit.flashget.state.Failed;
-import org.crazyit.flashget.state.Finished;
-import org.crazyit.flashget.state.Pause;
-import org.crazyit.flashget.util.DateUtil;
-import org.crazyit.flashget.util.FileUtil;
-import org.crazyit.flashget.util.ImageUtil;
+import flashget.src.org.crazyit.flashget.ContextHolder;
+import flashget.src.org.crazyit.flashget.DownloadContext;
+import flashget.src.org.crazyit.flashget.navigation.DownloadNode;
+import flashget.src.org.crazyit.flashget.navigation.DownloadingNode;
+import flashget.src.org.crazyit.flashget.navigation.FailNode;
+import flashget.src.org.crazyit.flashget.navigation.FinishNode;
+import flashget.src.org.crazyit.flashget.navigation.TaskNode;
+import flashget.src.org.crazyit.flashget.state.Downloading;
+import flashget.src.org.crazyit.flashget.state.Failed;
+import flashget.src.org.crazyit.flashget.state.Finished;
+import flashget.src.org.crazyit.flashget.state.Pause;
 
 /**
- * Ö÷½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class MainFrame extends JFrame {
 
-	//µ¼º½Ê÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private NavigationTree navTree;
-	//ÏÂÔØÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private DownloadTable downloadTable;
-	//ÐÅÏ¢ÁÐ±í
+	//ï¿½ï¿½Ï¢ï¿½Ð±ï¿½
 	private JList infoJList;
-	//¹¤¾ßÀ¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JToolBar toolBar = new JToolBar();
-	//ÐÂÈÎÎñ½çÃæ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private NewTaskFrame taskFrame;
-	//ËùÓÐÈÎÎñ½Úµã
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 	private TaskNode taskNode = new TaskNode();
-	//ÕýÔÚÏÂÔØ½Úµã
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø½Úµï¿½
 	private DownloadingNode downloadingNode = new DownloadingNode();
-	//ÏÂÔØÊ§°Ü½Úµã
+	//ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü½Úµï¿½
 	private FailNode failNode = new FailNode();
-	//ÏÂÔØÍê³É½Úµã
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É½Úµï¿½
 	private FinishNode finishNode = new FinishNode();
-	//µ±Ç°ÓÃ»§ä¯ÀÀµÄ½Úµã
+	//ï¿½ï¿½Ç°ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Úµï¿½
 	private DownloadNode currentNode = taskNode;
 	
-	//ÐÅÏ¢ÁÐ±íµÄ¶ÔÏó
-	private final static String FILE_SIZE_TEXT = "ÎÄ¼þ´óÐ¡: ";
-	private final static String FILE_PATH_TEXT = "ÎÄ¼þÂ·¾¶: ";
-	private final static String DOWNLOAD_DATE_TEXT = "ÏÂÔØÊ±¼ä: ";
-	private final static String RESOURCE_INFO_TEXT = "×ÊÔ´ÐÅÏ¢: ";
+	//ï¿½ï¿½Ï¢ï¿½Ð±ï¿½Ä¶ï¿½ï¿½ï¿½
+	private final static String FILE_SIZE_TEXT = "ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡: ";
+	private final static String FILE_PATH_TEXT = "ï¿½Ä¼ï¿½Â·ï¿½ï¿½: ";
+	private final static String DOWNLOAD_DATE_TEXT = "ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: ";
+	private final static String RESOURCE_INFO_TEXT = "ï¿½ï¿½Ô´ï¿½ï¿½Ï¢: ";
 	private List<Info> infoList = new ArrayList<Info>();
 	private Info fileSize = new Info(FILE_SIZE_TEXT);
 	private Info filePath = new Info(FILE_PATH_TEXT);
 	private Info downloadDate = new Info(DOWNLOAD_DATE_TEXT);
 	private Info info = new Info(RESOURCE_INFO_TEXT);
 	
-	private Action newTask = new AbstractAction("ÐÂÈÎÎñ", new ImageIcon("images/tool/new-download.gif")) {
+	private Action newTask = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/tool/new-download.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			newTask();
 		}
 	};
 	
-	private Action start = new AbstractAction("¿ªÊ¼", new ImageIcon("images/tool/do-download.gif")) {
+	private Action start = new AbstractAction("ï¿½ï¿½Ê¼", new ImageIcon("images/tool/do-download.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			start();
 		}
 	};
 	
-	private Action pause = new AbstractAction("ÔÝÍ£", new ImageIcon("images/tool/pause.gif")) {
+	private Action pause = new AbstractAction("ï¿½ï¿½Í£", new ImageIcon("images/tool/pause.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			pause();
 		}
 	};
 	
-	private Action delete = new AbstractAction("É¾³ýÈÎÎñ", new ImageIcon("images/tool/delete.gif")) {
+	private Action delete = new AbstractAction("É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/tool/delete.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			delete();
 		}
 	};
 	
-	private Action deleteFinished = new AbstractAction("É¾³ýÈÎÎñ", new ImageIcon("images/tool/remove-finished.gif")) {
+	private Action deleteFinished = new AbstractAction("É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/tool/remove-finished.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			deleteFinished();
 		}
@@ -128,54 +123,54 @@ public class MainFrame extends JFrame {
 	
 	ActionListener refreshTable = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			//Ë¢ÐÂÁÐ±í
+			//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 			downloadTable.updateUI();
 		}
 	};
 
-	//Ðü¸¡´°¿Ú
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private SuspendWindow suspendWindow;
-	//ÈÎÎñÀ¸Í¼±ê
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 	private TrayIcon trayIcon;
-	//ÈÎÎñÀ¸Í¼±ê²Ëµ¥
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ëµï¿½
 	private PopupMenu popupMenu = new PopupMenu();
-	private MenuItem openItem = new MenuItem("´ò¿ª/¹Ø±Õ");
-	private MenuItem newItem = new MenuItem("ÐÂ½¨ÏÂÔØÈÎÎñ");
-	private MenuItem startItem = new MenuItem("¿ªÊ¼È«²¿ÈÎÎñ");
-	private MenuItem pauseItem = new MenuItem("ÔÝÍ£È«²¿ÈÎÎñ");
-	private MenuItem removeItem = new MenuItem("É¾³ýÍê³ÉÈÎÎñ");
-	private MenuItem quitItem = new MenuItem("ÍË³ö");
+	private MenuItem openItem = new MenuItem("ï¿½ï¿½/ï¿½Ø±ï¿½");
+	private MenuItem newItem = new MenuItem("ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	private MenuItem startItem = new MenuItem("ï¿½ï¿½Ê¼È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	private MenuItem pauseItem = new MenuItem("ï¿½ï¿½Í£È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	private MenuItem removeItem = new MenuItem("É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	private MenuItem quitItem = new MenuItem("ï¿½Ë³ï¿½");
 	
 	private BufferedImage trayIconImage = ImageUtil.getImage(ImageUtil.TRAY_ICON_PATH);
 	
 	public MainFrame() {
-		//´´½¨µ¼º½Ê÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		createTree();
 		createDownloadTable();
-		//´´½¨ÐÅÏ¢ÁÐ±í
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ð±ï¿½
 		createList();
 		this.taskFrame = new NewTaskFrame();
-		//´´½¨Ðü¸¡´°¿Ú
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.suspendWindow = new SuspendWindow(this);
-		//´´½¨ÈÎÎñÀ¸Í¼±ê
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 		createTrayIcon();
-		//´´½¨¹¤¾ßÀ¸
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		createToolBar();
-		//µÃµ½ÆÁÄ»´óÐ¡
+		//ï¿½Ãµï¿½ï¿½ï¿½Ä»ï¿½ï¿½Ð¡
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		//µ¼º½¹ö¶¯
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JScrollPane navPane = new JScrollPane(this.navTree);
 		JScrollPane downloadPane = new JScrollPane(this.downloadTable);
 		int downloadPaneHeight = (int)(screen.height/1.5);
 		int downloadPaneWidth = (int)(screen.width/0.8);
 		downloadPane.setPreferredSize(new Dimension(downloadPaneWidth, downloadPaneHeight));
 		JScrollPane infoPane = new JScrollPane(this.infoJList);
-		//Ö÷½çÃæÓÒ±ßµÄ·Ö¸ôPane
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ßµÄ·Ö¸ï¿½Pane
 		JSplitPane rightPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
 				downloadPane, infoPane);
 		rightPane.setDividerLocation(500);
 		rightPane.setDividerSize(3);
-		//Ö÷½çÃæµÄ·Ö¸ôPane
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·Ö¸ï¿½Pane
 		JSplitPane mainPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
 				navPane, rightPane);
 		mainPane.setDividerSize(3);
@@ -184,13 +179,13 @@ public class MainFrame extends JFrame {
 		this.add(mainPane);
 		this.setPreferredSize(new Dimension(screen.width, screen.height - 30));
 		this.setVisible(true);
-		this.setTitle("ÏÂÔØ¹¤¾ß");
+		this.setTitle("ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½");
 		this.pack();
 		initlisteners();
-		//´´½¨¶¨Ê±Æ÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 		Timer timer = new Timer(1000, refreshTable);
 		timer.start();
-		//¶ÁÈ¡ÐòÁÐ»¯ÎÄ¼þ
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Ä¼ï¿½
 		reverseSer();
 	}
 	
@@ -199,7 +194,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * ´´½¨ÈÎÎñÀ¸Í¼±ê
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 	 */
 	private void createTrayIcon() {
 		this.popupMenu.add(openItem);
@@ -210,8 +205,8 @@ public class MainFrame extends JFrame {
 		this.popupMenu.add(quitItem);
 		try {
 			SystemTray tray = SystemTray.getSystemTray();
-			this.trayIcon = new TrayIcon(trayIconImage, "¶àÏß³ÌÏÂÔØ¹¤¾ß", this.popupMenu);
-			this.trayIcon.setToolTip("¶àÏß³ÌÏÂÔØ¹¤¾ß");
+			this.trayIcon = new TrayIcon(trayIconImage, "ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½", this.popupMenu);
+			this.trayIcon.setToolTip("ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½");
 			tray.add(this.trayIcon);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -219,24 +214,24 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void initlisteners() {
-		//µã»÷ÁÐ±íÊó±ê¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.downloadTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//µÃµ½µã»÷µÄ×ÊÔ´
+				//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 				Resource r = getResource();
 				if (r == null) return;
-				//ÉèÖÃÐÅÏ¢ÏÔÊ¾ÇøÓòµÄÖµ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 				fileSize.setValue(FILE_SIZE_TEXT + r.getSize());
 				filePath.setValue(FILE_PATH_TEXT + 
 						r.getSaveFile().getAbsolutePath());
 				downloadDate.setValue(DOWNLOAD_DATE_TEXT + 
 						DateUtil.formatDate(r.getDownloadDate()));
 				info.setValue(RESOURCE_INFO_TEXT + r.getState().getState());
-				//ÖØÐÂÉèÖÃJListÊý¾Ý
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JListï¿½ï¿½ï¿½ï¿½
 				infoJList.setListData(infoList.toArray());
 			}
 		});
-		//µã»÷µ¼º½Ê÷Êó±ê¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.navTree.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				selectTree();
@@ -247,7 +242,7 @@ public class MainFrame extends JFrame {
 				setVisible(false);
 			}
 		});
-		//ÈÎÎñÀ¸Í¼±ê¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.trayIcon.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
@@ -290,7 +285,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * µã»÷µ¼º½Ê÷´¥·¢µÄ·½·¨
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	 */
 	private void selectTree() {
 		DownloadNode selectNode = getSelectNode();
@@ -299,7 +294,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * Ë¢ÐÂÁÐ±í
+	 * Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 	 */
 	private void refreshTable() {
 		DownloadTableModel model = (DownloadTableModel)this.downloadTable.getModel();
@@ -309,57 +304,57 @@ public class MainFrame extends JFrame {
 	private DownloadNode getSelectNode() {
 		TreePath treePath = this.navTree.getSelectionPath();
 		if (treePath == null) return null;
-		//»ñµÃÑ¡ÖÐµÄTreeNode
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½Ðµï¿½TreeNode
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)treePath.getLastPathComponent();
 		return (DownloadNode)node.getUserObject();
 	}
 	
 	private void addTableData() {
 		DownloadTableModel model = (DownloadTableModel)this.downloadTable.getModel();
-		//½«±£´æµÄ×ÊÔ´ÉèÖÃµ½ÁÐ±íÖÐ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ãµï¿½ï¿½Ð±ï¿½ï¿½ï¿½
 		model.setResources(ContextHolder.ctx.resources);
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		this.downloadTable.refresh();
 	}
 	
 	/**
-	 * ·´ÐòÁÐ»¯
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½
 	 */
 	public void reverseSer() {
 		File serFile = FileUtil.SERIALIZABLE_FILE;
 		if (!serFile.exists()) return;
 		try {
-			//µÃµ½ÎÄ¼þÊäÈëÁ÷
+			//ï¿½Ãµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			FileInputStream fis = new FileInputStream(serFile);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			//ÉèÖÃContextHolderµÄDownloadContext
+			//ï¿½ï¿½ï¿½ï¿½ContextHolderï¿½ï¿½DownloadContext
 			ContextHolder.ctx = (DownloadContext)ois.readObject();
 			ois.close();
 			fis.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//ÉèÖÃÁÐ±í
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		addTableData();
 	}
 	
 	/**
-	 * ÐòÁÐ»¯(DownloadContext¶ÔÏó)
+	 * ï¿½ï¿½ï¿½Ð»ï¿½(DownloadContextï¿½ï¿½ï¿½ï¿½)
 	 */
 	public void serializable() {
 		try {
-			//ÐòÁÐ»¯Ç°ÏÈ½«ËùÓÐÕýÔÚÏÂÔØµÄÈÎÎñÍ£Ö¹
+			//ï¿½ï¿½ï¿½Ð»ï¿½Ç°ï¿½È½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Í£Ö¹
 			for (Resource r : ContextHolder.ctx.resources) {
 				if (r.getState() instanceof Downloading) {
 					r.setState(ContextHolder.ctx.PAUSE);
 				}
 			}
 			File serFile = FileUtil.SERIALIZABLE_FILE;
-			//ÅÐ¶ÏÐòÁÐ»¯ÎÄ¼þÊÇ·ñ´æÔÚ, ²»´æÔÚÔò´´½¨
+			//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Ä¼ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò´´½ï¿½
 			if (!serFile.exists()) serFile.createNewFile();
 			FileOutputStream fos = new FileOutputStream(serFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			//½«ÉÏÏÂÎÄ¶ÔÏóÐ´µ½ÐòÁÐ»¯ÎÄ¼þÖÐ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 			oos.writeObject(ContextHolder.ctx);
 			oos.close();
 			fos.close();
@@ -381,11 +376,11 @@ public class MainFrame extends JFrame {
 
 	private void createToolBar() {
 		this.toolBar.setFloatable(false);
-		this.toolBar.add(this.newTask).setToolTipText("ÐÂÏÂÔØÈÎÎñ");
-		this.toolBar.add(this.start).setToolTipText("¿ªÊ¼ÈÎÎñ");
-		this.toolBar.add(this.pause).setToolTipText("ÔÝÍ£");
-		this.toolBar.add(this.delete).setToolTipText("É¾³ý");
-		this.toolBar.add(this.deleteFinished).setToolTipText("ÒÆ³ýÒÑ¾­Íê³ÉµÄÈÎÎñ");
+		this.toolBar.add(this.newTask).setToolTipText("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.toolBar.add(this.start).setToolTipText("ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½");
+		this.toolBar.add(this.pause).setToolTipText("ï¿½ï¿½Í£");
+		this.toolBar.add(this.delete).setToolTipText("É¾ï¿½ï¿½");
+		this.toolBar.add(this.deleteFinished).setToolTipText("ï¿½Æ³ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½ï¿½ï¿½");
 		this.toolBar.setMargin(new Insets(5, 10, 5, 5));
 		this.add(this.toolBar, BorderLayout.NORTH);
 	}
@@ -399,7 +394,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * ¿ªÊ¼È«²¿ÈÎÎñ
+	 * ï¿½ï¿½Ê¼È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public void startAllTask() {
 		for (Resource r : ContextHolder.ctx.resources) {
@@ -410,7 +405,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * ÔÝÍ£È«²¿ÈÎÎñ
+	 * ï¿½ï¿½Í£È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public void pauseAllTask() {
 		for (Resource r : ContextHolder.ctx.resources) {
@@ -427,27 +422,27 @@ public class MainFrame extends JFrame {
 	private void pause() {
 		Resource r = getResource();
 		if (r == null) return;
-		//ÅÐ¶Ï×´Ì¬
+		//ï¿½Ð¶ï¿½×´Ì¬
 		if (!(r.getState() instanceof Downloading)) return;
 		r.setState(ContextHolder.ctx.PAUSE);
 	}
 	
 	/**
-	 * É¾³ý×ÊÔ´
+	 * É¾ï¿½ï¿½ï¿½ï¿½Ô´
 	 */
 	private void delete() {
 		Resource r = getResource();
 		if (r == null) return;
-		//ÏÈ½«ÈÎÎñÍ£Ö¹
+		//ï¿½È½ï¿½ï¿½ï¿½ï¿½ï¿½Í£Ö¹
 		r.setState(ContextHolder.ctx.PAUSE);
-		//É¾³ýËùÓÐµÄ.partÎÄ¼þ
+		//É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½.partï¿½Ä¼ï¿½
 		FileUtil.deletePartFiles(r);
-		//´ÓÉÏÏÂÎÄ¼¯ºÏÖÐÉ¾³ý×ÊÔ´
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½Ô´
 		ContextHolder.ctx.resources.remove(r);
 	}
 	
 	/**
-	 * É¾³ýÒÑÏÂÔØÍê³ÉµÄ×ÊÔ´
+	 * É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½Ô´
 	 */
 	public void deleteFinished() {
 		for (Iterator it = ContextHolder.ctx.resources.iterator(); it.hasNext();) {
@@ -459,7 +454,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * µÃµ½ÓÃ»§ÔÚÁÐ±íÖÐËùÑ¡ÔñµÄ×ÊÔ´
+	 * ï¿½Ãµï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 	 * @return
 	 */
 	private Resource getResource() {
@@ -472,13 +467,13 @@ public class MainFrame extends JFrame {
 
 	
 	/**
-	 * ´´½¨Ê÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void createTree() {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
 		DefaultMutableTreeNode tn = new DefaultMutableTreeNode(taskNode);
 		root.add(tn);
-		//´´½¨¸÷¸ö½Úµã
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 		tn.add(new DefaultMutableTreeNode(downloadingNode));
 		tn.add(new DefaultMutableTreeNode(failNode));
 		tn.add(new DefaultMutableTreeNode(finishNode));

@@ -4,17 +4,16 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import org.crazyit.editor.AddFrame;
-import org.crazyit.editor.EditorFrame;
-import org.crazyit.editor.exception.FileException;
-import org.crazyit.editor.tree.ProjectTreeNode;
+import editor.src.org.crazyit.editor.AddFrame;
+import editor.src.org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.tree.ProjectTreeNode;
 
 /**
- * Ìí¼ÓÄ¿Â¼´¦ÀíÀà
+ * ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -22,31 +21,31 @@ public class AddFolderHandler implements AddHandler {
 
 	public void afterAdd(EditorFrame editorFrame, AddFrame addFrame, Object data) {
 		try {
-			//»ñµÃÊ÷ÖÐËùÑ¡È¡µÄ½Úµã
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡È¡ï¿½Ä½Úµï¿½
 			ProjectTreeNode selectNode = editorFrame.getSelectNode();
-			//»ñÈ¡¸Ã½ÚµãËù¶ÔÓ¦µÄÎÄ¼þ¶ÔÏó
+			//ï¿½ï¿½È¡ï¿½Ã½Úµï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 			File folder = selectNode.getFile();
-			//Èç¹ûfolder²»ÊÇÒ»¸öÄ¿Â¼£¬ÔòÓÃselectNodeµÄ¸¸½Úµã£¨ÊÇÒ»¸öÄ¿Â¼£©×÷ÎªÐÂÄ¿Â¼µÄ¸¸Ä¿Â¼
+			//ï¿½ï¿½ï¿½folderï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½selectNodeï¿½Ä¸ï¿½ï¿½Úµã£¨ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ä¿Â¼ï¿½Ä¸ï¿½Ä¿Â¼
 			if (!folder.isDirectory()) {
 				ProjectTreeNode parent = (ProjectTreeNode)selectNode.getParent();
-				//ÈÃµ±Ç°ËùÑ¡ÔñµÄÎÄ¼þµÄ¸¸Ä¿Â¼×÷Îªµ±Ç°Ñ¡ÔñµÄÄ¿Â¼
+				//ï¿½Ãµï¿½Ç°ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ä¸ï¿½Ä¿Â¼ï¿½ï¿½Îªï¿½ï¿½Ç°Ñ¡ï¿½ï¿½ï¿½Ä¿Â¼
 				selectNode = parent;
 				folder = parent.getFile();
 			}
-			//´´½¨Ò»¸öÎÄ¼þÄ¿Â¼¶ÔÏó
+			//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä¼ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½
 			File newFolder = new File(folder.getAbsoluteFile() + File.separator + data);
-			//Èç¹û¸ÃÄ¿Â¼ÒÑ¾­´æÔÚ£¬µ¯³öÌáÊ¾²¢·µ»Ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (newFolder.exists()) {
-				JOptionPane.showMessageDialog(addFrame, "Ä¿Â¼ÒÑ¾­´æÔÚ");
+				JOptionPane.showMessageDialog(addFrame, "Ä¿Â¼ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½");
 				return;
 			}
-			//´´½¨ÐÂµÄÄ¿Â¼
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Ä¿Â¼
 			newFolder.mkdir();
-			//Ë¢ÐÂÊ÷µÄ½Úµã
+			//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Úµï¿½
 			editorFrame.reloadNode(selectNode);
-			//ÈÃEditorFrame¿ÉÓÃ
+			//ï¿½ï¿½EditorFrameï¿½ï¿½ï¿½ï¿½
 			editorFrame.setEnabled(true);
-			//ÈÃÌí¼ÓµÄframe²»¿É¼û
+			//ï¿½ï¿½ï¿½ï¿½Óµï¿½frameï¿½ï¿½ï¿½É¼ï¿½
 			addFrame.setVisible(false);
 		} catch (Exception e) {
 			throw new FileException("create folder error: " + e.getMessage());

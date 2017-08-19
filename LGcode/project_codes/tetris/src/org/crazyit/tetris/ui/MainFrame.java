@@ -23,42 +23,40 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import org.crazyit.tetris.object.Piece;
-import org.crazyit.tetris.object.PieceCreator;
-import org.crazyit.tetris.object.Square;
-import org.crazyit.tetris.object.impl.PieceCreatorImpl;
-import org.crazyit.tetris.util.ImageUtil;
+import tetris.src.org.crazyit.tetris.object.PieceCreator;
+import tetris.src.org.crazyit.tetris.object.Square;
+import tetris.src.org.crazyit.tetris.object.impl.PieceCreatorImpl;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	
-	//ÓÎÏ·µÄPanel
+	//ï¿½ï¿½Ï·ï¿½ï¿½Panel
 	private GamePanel gamePanel;
 	
 
-	//¼¶±ð
-	private JLabel levelTextLabel = new JLabel("¼¶     ±ð");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel levelTextLabel = new JLabel("ï¿½ï¿½     ï¿½ï¿½");
 	private JLabel levelLabel = new JLabel();
 	private Box levelTextBox = Box.createHorizontalBox();
 	private Box levelBox = Box.createHorizontalBox();
 	
-	//·ÖÊý
+	//ï¿½ï¿½ï¿½ï¿½
 	private Box scoreTextBox = Box.createHorizontalBox();
 	private Box scoreBox = Box.createHorizontalBox();
-	private JLabel scoreTextLabel = new JLabel("·Ö     Êý");
+	private JLabel scoreTextLabel = new JLabel("ï¿½ï¿½     ï¿½ï¿½");
 	private JLabel scoreLabel = new JLabel();
 	
-	//ÏÂÒ»¸ö
+	//ï¿½ï¿½Ò»ï¿½ï¿½
 	private Box nextTextBox = Box.createHorizontalBox();
-	private JLabel nextTextLabel = new JLabel("ÏÂÒ»¸ö");
+	private JLabel nextTextLabel = new JLabel("ï¿½ï¿½Ò»ï¿½ï¿½");
 	
-	//¼ÌÐø
+	//ï¿½ï¿½ï¿½ï¿½
 	private Box resumeBox = Box.createHorizontalBox();
 	private JLabel resumeLabel = new JLabel();
-	//ÔÝÍ£
+	//ï¿½ï¿½Í£
 	private Box pauseBox = Box.createHorizontalBox();
 	private JLabel pauseLabel = new JLabel();
-	//¿ªÊ¼
+	//ï¿½ï¿½Ê¼
 	private Box startBox = Box.createHorizontalBox();
 	private JLabel startLabel = new JLabel();
 	
@@ -67,23 +65,23 @@ public class MainFrame extends JFrame {
 	
 	private PieceCreator creator = new PieceCreatorImpl();
 	
-	//µ±Ç°ÕýÔÚÔË¶¯µÄ¶ÔÏó
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 	private Piece currentPiece;
-	//ÏÂÒ»¸ö´ó·½¿é¶ÔÏó
+	//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ó·½¿ï¿½ï¿½ï¿½ï¿½
 	private Piece nextPiece;
 	
 	TetrisTask tetrisTask;
 	
 	private Timer timer;
-	//µ±Ç°ÓÎÏ·¼¶±ð
+	//ï¿½ï¿½Ç°ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
 	private int currentLevel;
 	
 	private Square[][] squares;
 	
-	//·ÖÊý
+	//ï¿½ï¿½ï¿½ï¿½
 	private int score = 0;
 	
-	//ÔÝÍ£µÄ±êÊ¶, trueÎªÔÝÍ£
+	//ï¿½ï¿½Í£ï¿½Ä±ï¿½Ê¶, trueÎªï¿½ï¿½Í£
 	private boolean pauseFlag = false;
 
 	public MainFrame() {
@@ -95,27 +93,27 @@ public class MainFrame extends JFrame {
 		this.toolPanel.setLayout(toolPanelLayout);
 		this.toolPanel.setBorder(new EtchedBorder());
 		this.toolPanel.setBackground(Color.gray);
-		//·ÖÊý
+		//ï¿½ï¿½ï¿½ï¿½
 		this.scoreTextBox.add(this.scoreTextLabel);
 		this.scoreLabel.setText(String.valueOf(this.score));
 		this.scoreBox.add(this.scoreLabel);
-		//¼¶±ð
+		//ï¿½ï¿½ï¿½ï¿½
 		this.levelTextBox.add(this.levelTextLabel);
 		this.levelLabel.setText(String.valueOf(this.currentLevel));
 		this.levelBox.add(this.levelLabel);
-		//¼ÌÐø°´Å¥
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥
 		this.resumeLabel.setIcon(RESUME_ICON);
 		this.resumeLabel.setPreferredSize(new Dimension(3, 25));
 		this.resumeBox.add(this.resumeLabel);
-		//ÔÝÍ£°´Å¥
+		//ï¿½ï¿½Í£ï¿½ï¿½Å¥
 		this.pauseLabel.setIcon(PAUSE_ICON);
 		this.pauseLabel.setPreferredSize(new Dimension(3, 25));
 		this.pauseBox.add(this.pauseLabel);
-		//¿ªÊ¼
+		//ï¿½ï¿½Ê¼
 		this.startLabel.setIcon(START_ICON);
 		this.startLabel.setPreferredSize(new Dimension(3, 25));
 		this.startBox.add(this.startLabel);
-		//ÏÂÒ»¸ö
+		//ï¿½ï¿½Ò»ï¿½ï¿½
 		this.nextTextBox.add(this.nextTextLabel);
 
 		this.toolPanel.add(Box.createVerticalStrut(10));
@@ -144,27 +142,27 @@ public class MainFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocation(350, 200);
 		this.setResizable(false);
-		this.setTitle("¶íÂÞË¹·½¿é");
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½ï¿½ï¿½");
 		this.pack();
 		initListeners();
 	}
 	
-	//·µ»Øµ±Ç°ÔË¶¯µÄPiece¶ÔÏó
+	//ï¿½ï¿½ï¿½Øµï¿½Ç°ï¿½Ë¶ï¿½ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½
 	public Piece getCurrentPiece() {
 		return this.currentPiece;
 	}
 	
-	//µ±Êó±ê¾­¹ýÔÝÍ£°´Å¥Ê±ÏÔÊ¾µÄÍ¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½ê¾­ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½Å¥Ê±ï¿½ï¿½Ê¾ï¿½ï¿½Í¼Æ¬
 	private final static ImageIcon PAUSE_ON_ICON = new ImageIcon("images/button-bg-pause-on.gif");
-	//ÔÝÍ£°´Å¥Í¼Æ¬
+	//ï¿½ï¿½Í£ï¿½ï¿½Å¥Í¼Æ¬
 	private final static ImageIcon PAUSE_ICON = new ImageIcon("images/button-bg-pause.gif");
-	//¼ÌÐø°´Å¥Í¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥Í¼Æ¬
 	private final static ImageIcon RESUME_ICON = new ImageIcon("images/button-bg-resume.gif");
-	//Êó±ê¾­¹ýÊ±µÄ°´Å¥Í¼Æ¬
+	//ï¿½ï¿½ê¾­ï¿½ï¿½Ê±ï¿½Ä°ï¿½Å¥Í¼Æ¬
 	private final static ImageIcon RESUME_ON_ICON = new ImageIcon("images/button-bg-resume-on.gif");
-	//¿ªÊ¼°´Å¥Í¼Æ¬
+	//ï¿½ï¿½Ê¼ï¿½ï¿½Å¥Í¼Æ¬
 	private final static ImageIcon START_ICON = new ImageIcon("images/button-bg-start.gif");
-	//Êó±ê¾­¹ýÊ±µÄ°´Å¥Í¼Æ¬
+	//ï¿½ï¿½ê¾­ï¿½ï¿½Ê±ï¿½Ä°ï¿½Å¥Í¼Æ¬
 	private final static ImageIcon START_ON_ICON = new ImageIcon("images/button-bg-start-on.gif");
 	
 	private void initListeners() {
@@ -201,136 +199,136 @@ public class MainFrame extends JFrame {
 				start();
 			}
 		});
-		//Ìí¼Ó¼üÅÌ¼àÌýÆ÷
+		//ï¿½ï¿½Ó¼ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				//ÉÏ
+				//ï¿½ï¿½
 				if (e.getKeyCode() == 38) change();
-				//ÏÂ
+				//ï¿½ï¿½
 				if (e.getKeyCode() == 40) down();
-				//×ó
+				//ï¿½ï¿½
 				if (e.getKeyCode() == 37) left(1);
-				//ÓÒ
+				//ï¿½ï¿½
 				if (e.getKeyCode() == 39) right(1);
 			}
 		});
 	}
 	
-	//°´¼üÅÌÉÏÊ±´¥·¢µÄ·½·¨
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	public void change() {
 		if (this.pauseFlag) return;
 		if (this.currentPiece == null) return;
 		this.currentPiece.change();
-		//ÅÐ¶Ï×ª»»ºó×ó±ßÊÇ·ñÔ½½ç
-		//µÃµ½µ±Ç°·½¿é×îÐ¡µÄX×ù±ê
+		//ï¿½Ð¶ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ô½ï¿½ï¿½
+		//ï¿½Ãµï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½
 		int minX = this.currentPiece.getMinXLocation();
-		//×ó±ßÔ½½ç
+		//ï¿½ï¿½ï¿½Ô½ï¿½ï¿½
 		if (minX < 0) {
-			//ÓÒÒÆ³¬¹ýµÄ²¿·Ö
+			//ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½
 			this.currentPiece.setSquaresXLocation(-minX);
 		}
-		//ÅÐ¶Ï×ª»»ºóÓÒ±ßÊÇ·ñÔ½½ç
+		//ï¿½Ð¶ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½Ç·ï¿½Ô½ï¿½ï¿½
 		int maxX = this.currentPiece.getMaxXLocation();
 		int gamePanelWidth = this.gamePanel.getWidth();
-		//ÓÒ±ßÔ½½ç
+		//ï¿½Ò±ï¿½Ô½ï¿½ï¿½
 		if (maxX > gamePanelWidth) {
-			//×óÒÆ³¬¹ýGamePanel¿íµÄ²¿·Ö
+			//ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½GamePanelï¿½ï¿½Ä²ï¿½ï¿½ï¿½
 			this.currentPiece.setSquaresXLocation(-(maxX - gamePanelWidth));
 		}
 		this.gamePanel.repaint();
 	}
 
 	
-	//ÓÒ, ²ÎÊýÎª¾àÀë(Ò»¸ñ)
+	//ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½(Ò»ï¿½ï¿½)
 	public void right(int size) {
 		if (this.pauseFlag) return;
 		if (this.currentPiece == null) return;
-		//ÅÐ¶ÏÓÒ±ßÊÇ·ñÓÐSquare
+		//ï¿½Ð¶ï¿½ï¿½Ò±ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Square
 		if (isRightBolck()) return;
-		//ÅÐ¶ÏÊÇ·ñ³¬¹ýGamePanelµÄ¿í
+		//ï¿½Ð¶ï¿½ï¿½Ç·ñ³¬¹ï¿½GamePanelï¿½Ä¿ï¿½
 		if (this.currentPiece.getMaxXLocation() >= this.gamePanel.getWidth()) return;
 		int distance = Piece.SQUARE_BORDER * size;
 		this.currentPiece.setSquaresXLocation(distance);
 		this.gamePanel.repaint();
 	}
 	
-	//×ó, ²ÎÊýÎª¾àÀë(Ò»¸ñ)
+	//ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½(Ò»ï¿½ï¿½)
 	public void left(int size) {
 		if (this.pauseFlag) return;
 		if (this.currentPiece == null) return;
-		//ÅÐ¶Ï×ó±ßÊÇ·ñÓÐSquare
+		//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Square
 		if (isLeftBlock()) return;
-		//ÅÐ¶ÏÊÇ·ñÒÑ¾­ÔÚ×î×ó±ß±ß½ç
+		//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß±ß½ï¿½
 		if (this.currentPiece.getMinXLocation() <= 0) return;
-		//µÃ³öÒÆ¶¯¾àÀë
+		//ï¿½Ã³ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
 		int distance = -(Piece.SQUARE_BORDER * size);
 		this.currentPiece.setSquaresXLocation(distance);
 		this.gamePanel.repaint();
 	}
 	
-	//ÅÐ¶Ïµ±Ç°µÄPiece¶ÔÏó×ó±ßÊÇ·ñÓÐÕÏ°­, ·µ»Øtrue±íÊ¾ÓÐ, ·µ»Øfalse±íÊ¾Ã»ÓÐ
+	//ï¿½Ð¶Ïµï¿½Ç°ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½Ê¾ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½falseï¿½ï¿½Ê¾Ã»ï¿½ï¿½
 	private boolean isLeftBlock() {
 		List<Square> squares = this.currentPiece.getSquares();
 		for (int i = 0; i < squares.size(); i++) {
 			Square s = squares.get(i);
-			//²éÕÒ½çÃæÊý×éÖÐµÄSquare¶ÔÏó
+			//ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Squareï¿½ï¿½ï¿½ï¿½
 			Square block = getSquare(s.getBeginX() - Piece.SQUARE_BORDER, s.getBeginY());
-			//block·Ç¿Õ±íÊ¾Óöµ½ÕÏ°­
+			//blockï¿½Ç¿Õ±ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
 			if (block != null) return true;
 		}
 		return false;
 	}
 	
-	//ÅÐ¶Ïµ±Ç°µÄPiece¶ÔÏóÓÒ±ßÊÇ·ñÓÐÕÏ°­, ·µ»Øtrue±íÊ¾ÓÐ, ·µ»Øfalse±íÊ¾Ã»ÓÐ
+	//ï¿½Ð¶Ïµï¿½Ç°ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½Ê¾ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½falseï¿½ï¿½Ê¾Ã»ï¿½ï¿½
 	private boolean isRightBolck() {
 		List<Square> squares = this.currentPiece.getSquares();
 		for (int i = 0; i < squares.size(); i++) {
 			Square s = squares.get(i);
-			//²éÕÒ½çÃæÊý×éÖÐµÄSquare¶ÔÏó
+			//ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Squareï¿½ï¿½ï¿½ï¿½
 			Square block = getSquare(s.getBeginX() + Piece.SQUARE_BORDER, s.getBeginY());
-			//block·Ç¿Õ±íÊ¾Óöµ½ÕÏ°­
+			//blockï¿½Ç¿Õ±ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
 			if (block != null) return true;
 		}
 		return false;
 	}
 	
-	//ÏÂ¼ÓËÙ
+	//ï¿½Â¼ï¿½ï¿½ï¿½
 	public void down() {
 		if (this.pauseFlag) return;
 		if (this.currentPiece == null) return;
-		//ÅÐ¶Ï¿ìÕûÏÂ½µºóÊÇ·ñÓÐÕÏ°­»òÕßµ½µ×²¿
+		//ï¿½Ð¶Ï¿ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½×²ï¿½
 		if (isBlock() || isBottom()) return;
 		int distance = Piece.SQUARE_BORDER;
 		this.currentPiece.setSquaresYLocation(distance);
-		//¸Ä±äÎ»ÖÃºóÔÙÅÐ¶ÏÊÇ·ñÐèÒªÏÔÊ¾ÏÂÒ»¸ö
+		//ï¿½Ä±ï¿½Î»ï¿½Ãºï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê¾ï¿½ï¿½Ò»ï¿½ï¿½
 		showNext();
 		this.gamePanel.repaint();
 	}
 	
 	
-	//´´½¨ÏÂÒ»¸ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 	private void createNextPiece() {
 		this.nextPiece = this.creator.createPiece(NEXT_X, NEXT_Y);
 		this.repaint();
 	}
 	
-	//ÏÂÒ»¸öPieceµÄÎ»ÖÃ
+	//ï¿½ï¿½Ò»ï¿½ï¿½Pieceï¿½ï¿½Î»ï¿½ï¿½
 	private final static int NEXT_X = 270;
 	private final static int NEXT_Y = 320;
-	//µ±Ç°PieceµÄ¿ªÊ¼X×ù±ê
+	//ï¿½ï¿½Ç°Pieceï¿½Ä¿ï¿½Ê¼Xï¿½ï¿½ï¿½ï¿½
 	private final static int BEGIN_X = Piece.SQUARE_BORDER * 6;
-	//µ±Ç°PieceµÄ¿ªÊ¼Y×ù±ê
+	//ï¿½ï¿½Ç°Pieceï¿½Ä¿ï¿½Ê¼Yï¿½ï¿½ï¿½ï¿½
 	private final static int BEGIN_Y = -32;
 	
-	//¿ªÊ¼ÓÎÏ·
+	//ï¿½ï¿½Ê¼ï¿½ï¿½Ï·
 	public void start() {
-		//³õÊ¼»¯½çÃæ¶þÎ¬Êý×é
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
 		initSquares();
 		if (this.timer != null) this.timer.cancel();
 		createNextPiece();
 		this.currentPiece = creator.createPiece(BEGIN_X, BEGIN_Y);
 		this.timer = new Timer();
-		//³õÊ¼»¯¶¨Ê±Æ÷
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 		this.tetrisTask = new TetrisTask(this);
 		int time = 1000 / this.currentLevel;
 		this.timer.schedule(this.tetrisTask, 0, time);
@@ -340,14 +338,14 @@ public class MainFrame extends JFrame {
 		this.scoreLabel.setText(String.valueOf(this.score));
 	}
 	
-	//ÔÝÍ£ÓÎÏ·
+	//ï¿½ï¿½Í£ï¿½ï¿½Ï·
 	public void pause() {
 		this.pauseFlag = true;
 		if (this.timer != null) this.timer.cancel();
 		this.timer = null;
 	}
 	
-	//¼ÌÐøÓÎÏ·
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·
 	public void resume() {
 		if (!this.pauseFlag) return;
 		this.timer = new Timer();
@@ -358,13 +356,13 @@ public class MainFrame extends JFrame {
 	}
 	
 	/************************************/
-	//³õÊ¼»¯½çÃæ¶þÎ¬Êý×é
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
 	private void initSquares() {
-		//µÃµ½¿í¿ÉÒÔ´æ·ÅµÄ·½¿é¸öÊý
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ÅµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int xSize = this.gamePanel.getWidth()/Piece.SQUARE_BORDER;
-		//µÃµ½¸ß¿ÉÒÔ´æ·ÅµÄ·½¿é¸öÊý
+		//ï¿½Ãµï¿½ï¿½ß¿ï¿½ï¿½Ô´ï¿½ÅµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int ySize = this.gamePanel.getHeight()/Piece.SQUARE_BORDER;
-		//¹¹Ôì½çÃæµÄ¶þÎ¬Êý×é
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
 		this.squares = new Square[xSize][ySize];
 		for(int i = 0; i < this.squares.length; i++) {
 			for (int j = 0; j < this.squares[i].length; j++) {
@@ -389,40 +387,40 @@ public class MainFrame extends JFrame {
 	}
 
 	
-	//½øÐÐÏÂÒ»¸ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 	public void showNext() {
 		if (isBlock() || isBottom()) {
-			//½«µ±Ç°µÄPieceÖÐµÄËùÓÐSquare¼ÓÈë¼Ó½çÃæ¶þÎ¬Êý×éÖÐ
+			//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Pieceï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Squareï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			appendToSquares();
-			//ÅÐ¶ÏÊÇ·ñÊ§°Ü
+			//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Ê§ï¿½ï¿½
 			if (isLost()) {
 				this.repaint();
 				this.timer.cancel();
 				this.currentPiece = null;
-				JOptionPane.showConfirmDialog(this, "ÓÎÏ·Ê§°Ü", "¾¯¸æ", 
+				JOptionPane.showConfirmDialog(this, "ï¿½ï¿½Ï·Ê§ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", 
 						JOptionPane.OK_CANCEL_OPTION);
 				return;
 			}
-			//Ïû³ýÐÐ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			cleanRows();
 			finishDown();
 		}
 	}
 	
-	//µÃµ½¿ÉÒÔÇåÀíÐÐ¼¯ºÏ
+	//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
 	private void cleanRows() {
-		//Ê¹ÓÃÒ»¸ö¼¯ºÏ±£´æ±»É¾³ýµÄÐÐµÄË÷Òý
+		//Ê¹ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ï¿½æ±»É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 		List<Integer> rowIndexs = new ArrayList<Integer>();
 		for (int j = 0; j < this.squares[0].length; j++) {
 			int k = 0;
 			for (int i = 0; i < this.squares.length; i++) {
 				Square s = this.squares[i][j];
-				//Èç¹û¸Ã¸ñÓÐÍ¼Æ¬, Ôòk+1
+				//ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Í¼Æ¬, ï¿½ï¿½k+1
 				if (s.getImage() != null) k++;
 			}
-			//Èç¹ûÕûÐÐ¶¼ÓÐÍ¼Æ¬, ÔòÏû³ý
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Í¼Æ¬, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (k == this.squares.length) {
-				//ÔÙ´Î¶Ô¸ÃÐÐ½øÐÐ±éÀú, ÉèÖÃ¸ÃÐÐËùÓÐ¸ñµÄÍ¼Æ¬Îªnull
+				//ï¿½Ù´Î¶Ô¸ï¿½ï¿½Ð½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½Í¼Æ¬Îªnull
 				for (int i = 0; i < this.squares.length; i++) {
 					Square s = this.squares[i][j];
 					s.setImage(null);
@@ -431,20 +429,20 @@ public class MainFrame extends JFrame {
 				addScore();
 			}
 		}
-		//´¦ÀíÐü¸¡µÄSquare
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Square
 		handleDown(rowIndexs);
 	}
 	
-	//¼ÓÈë·ÖÊý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void addScore() {
-		//¼Ó·Ö
+		//ï¿½Ó·ï¿½
 		this.score += 10;
 		this.scoreLabel.setText(String.valueOf(score));
-		//Èç¹û¿ÉÒÔ±»100Õû³ý, Ôò¼ÓÒ»¼¶
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½100ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		if ((this.score % 100) == 0) {
 			this.currentLevel += 1;
 			this.levelLabel.setText(String.valueOf(this.currentLevel));
-			//ÖØÐÂÉèÖÃ¶¨Ê±Æ÷
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½Ê±ï¿½ï¿½
 			this.timer.cancel();
 			this.timer = new Timer();
 			this.tetrisTask = new TetrisTask(this);
@@ -453,23 +451,23 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
-	//´¦ÀíÐÐÏû³ýºóÆäËûSquareµÄ"ÏÂ½µ", ²ÎÊýÎª±»É¾³ýµÄÐÐµÄË÷Òý¼¯ºÏ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Squareï¿½ï¿½"ï¿½Â½ï¿½", ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void handleDown(List<Integer> rowIndexs) {
-		//´Ó±»É¾³ýµÄÐÐÖÐÄÃ³öË÷Òý×îÐ¡µÄÐÐ
+		//ï¿½Ó±ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½
 		if (rowIndexs.size() == 0) return;
 		int minCleanRow = rowIndexs.get(0);
 		int cleanRowSize = rowIndexs.size();
-		//´¦ÀíÏÂ½µµÄSquare
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½Square
 		for (int j = this.squares[0].length - 1; j >= 0; j--) {
 			if (j < minCleanRow) {
-				//±éÀúÉÏÃæµÄÐÐ, ¼´Ðü¸¡µÄÐÐ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				for (int i = 0; i < this.squares.length; i++) {
 					Square s = this.squares[i][j];
 					if (s.getImage() != null) {
-						//µÃµ½ÏÂ½µÇ°µÄÍ¼Æ¬
+						//ï¿½Ãµï¿½ï¿½Â½ï¿½Ç°ï¿½ï¿½Í¼Æ¬
 						Image image = s.getImage();
 						s.setImage(null);
-						//µÃµ½ÏÂ½µºó¶ÔÓ¦µÄSquare¶ÔÏó, Êý×éµÄ¶þÎ¬ÖµÒª¼ÓÉÏÏû³ýÐÐµÄÐÐÊý
+						//ï¿½Ãµï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Squareï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Î¬ÖµÒªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 						Square sdown = this.squares[i][j + cleanRowSize];
 						sdown.setImage(image);
 					}
@@ -478,31 +476,31 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
-	//ÅÐ¶ÏÊÇ·ñµ½×îµ×²¿
+	//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½×²ï¿½
 	public boolean isBottom() {
 		return this.currentPiece.getMaxYLocation() >= this.gamePanel.getHeight();
 	}
 	
-	//ÅÐ¶Ïµ±Ç°µÄPieceÊÇ·ñÓöµ½ÕÏ°­, ·µ»Øtrue±íÊ¾Óöµ½ÕÏ°­, ·µ»Øfalse±íÊ¾Ã»ÓÐÓöµ½
+	//ï¿½Ð¶Ïµï¿½Ç°ï¿½ï¿½Pieceï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½falseï¿½ï¿½Ê¾Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public boolean isBlock() {
 		List<Square> squares = this.currentPiece.getSquares();
 		for (int i = 0; i < squares.size(); i++) {
 			Square s = squares.get(i);
-			//²éÕÒ½çÃæÊý×éÖÐµÄSquare¶ÔÏó, ×¢ÒâÒª½«Y¼ÓÉÏ±ß¾à, ÒòÎªYÊÇ¿ªÊ¼×ù±ê
-			//ÐèÒªÄÃÒ»¸öSquareµÄ×î´óY×ù±ê
+			//ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Squareï¿½ï¿½ï¿½ï¿½, ×¢ï¿½ï¿½Òªï¿½ï¿½Yï¿½ï¿½ï¿½Ï±ß¾ï¿½, ï¿½ï¿½ÎªYï¿½Ç¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
+			//ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½Squareï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½
 			Square block = getSquare(s.getBeginX(), s.getBeginY() + Piece.SQUARE_BORDER);
-			//block·Ç¿Õ±íÊ¾Óöµ½ÕÏ°­
+			//blockï¿½Ç¿Õ±ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
 			if (block != null) return true;
 		}
 		return false;
 	}
 	
-	//¸ù¾Ý¿ªÊ¼×ù±êÔÚµ±Ç°½çÃæÊý×éÖÐ²éÕÒÏàÓ¦µÄSquare
+	//ï¿½ï¿½ï¿½Ý¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Square
 	private Square getSquare(int beginX, int beginY) {
 		for (int i = 0; i < this.squares.length; i++) {
 			for (int j = 0; j < this.squares[i].length; j++) {
 				Square s = this.squares[i][j];
-				//Óë²ÎÊýµÄ¿ªÊ¼×ù±êÏàÍ¬²¢ÇÒÍ¼Æ¬²»Îª¿Õ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Îªï¿½ï¿½
 				if (s.getImage() != null && (s.getBeginX() == beginX) && 
 						(s.getBeginY() == beginY)) {
 					return s;
@@ -512,7 +510,7 @@ public class MainFrame extends JFrame {
 		return null;
 	}
 	
-	//ÅÐ¶ÏÊÇ·ñÊ§°Ü, trueÎªÊ§°Ü, false·´Ö®
+	//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Ê§ï¿½ï¿½, trueÎªÊ§ï¿½ï¿½, falseï¿½ï¿½Ö®
 	private boolean isLost() {
 		for (int i = 0; i < this.squares.length; i++) {
 			Square s = this.squares[i][0];
@@ -523,29 +521,29 @@ public class MainFrame extends JFrame {
 		return false;
 	}
 
-	//Ò»¸öPiece¶ÔÏóÍê³ÉÏÂ½µ
+	//Ò»ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 	private void finishDown() {
-		//½«µ±Ç°µÄPieceÉèÖÃÎªÏÂÒ»¸öPiece
+		//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ò»ï¿½ï¿½Piece
 		this.currentPiece = this.nextPiece;
-		//ÉèÖÃÐÂµÄPiece×ù±ê
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Pieceï¿½ï¿½ï¿½ï¿½
 		this.currentPiece.setSquaresXLocation(-NEXT_X);
 		this.currentPiece.setSquaresXLocation(BEGIN_X);
 		this.currentPiece.setSquaresYLocation(-NEXT_Y);
 		this.currentPiece.setSquaresYLocation(BEGIN_Y);
-		//´´½¨ÏÂÒ»¸öPiece
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Piece
 		createNextPiece();
 	}
 	
-	//½«PieceÖÐËùÓÐµÄSquare¶¼¼ÓÈëµ½¶þÎ¬Êý×éÖÐ
+	//ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Squareï¿½ï¿½ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void appendToSquares() {
 		List<Square> squares = this.currentPiece.getSquares();
-		//±éÀúPieceÖÐµÄSquare
+		//ï¿½ï¿½ï¿½ï¿½Pieceï¿½Ðµï¿½Square
 		for(Square square : squares) {
 			for(int i = 0; i < this.squares.length; i++) {
 				for (int j = 0; j < this.squares[i].length; j++) {
-					//µÃµ½µ±Ç°½çÃæÖÐµÄSquare
+					//ï¿½Ãµï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Square
 					Square s = this.squares[i][j];
-					//ÅÐ¶ÏSquareÊÇ·ñÒ»ÖÂ
+					//ï¿½Ð¶ï¿½Squareï¿½Ç·ï¿½Ò»ï¿½ï¿½
 					if (s.equals(square)) this.squares[i][j] = square;
 				}
 			}
@@ -555,15 +553,15 @@ public class MainFrame extends JFrame {
 }
 
 class TetrisTask extends TimerTask {
-	//Ö÷½çÃæ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private MainFrame mainFrame;
 	public TetrisTask(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 	public void run() {
-		//µÃµ½µ±Ç°ÕýÔÚÔË¶¯µÄ´ó·½¿é
+		//ï¿½Ãµï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½Ä´ó·½¿ï¿½
 		Piece currentPiece = this.mainFrame.getCurrentPiece();
-		//ÅÐ¶Ï¿ìÕûÏÂ½µºóÊÇ·ñÓÐÕÏ°­»òÕßµ½µ×²¿
+		//ï¿½Ð¶Ï¿ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½×²ï¿½
 		if (this.mainFrame.isBlock() || this.mainFrame.isBottom()) {
 			this.mainFrame.showNext();
 			return;

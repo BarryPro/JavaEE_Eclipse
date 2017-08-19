@@ -13,14 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.crazyit.editor.commons.WorkSpace;
+import editor.src.org.crazyit.editor.commons.WorkSpace;
 
 /**
- * ¹¤×÷¿Õ¼ä½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -34,7 +34,7 @@ public class SpaceFrame extends JFrame {
 	
 	private JLabel workTextLabel;
 	
-	//¹¤×÷¿Õ¼äÖÐÏÔÊ¾ÓÃ»§Ñ¡ÔñÎÄ¼þÄ¿Â¼µÄJTextField
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½Ä¼ï¿½Ä¿Â¼ï¿½ï¿½JTextField
 	private JTextField pathText;
 	
 	private JButton choseButton;
@@ -42,32 +42,32 @@ public class SpaceFrame extends JFrame {
 	
 	private JPanel buttonPanel;
 	
-	//¹¤×÷¿Õ¼äÖÐµÄÈ·¶¨°´Å¥
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½Ðµï¿½È·ï¿½ï¿½ï¿½ï¿½Å¥
 	private JButton confirmButton;
 	
 	private JButton cancelButton;
 	
 	private SpaceChooser chooser;
 	
-	//ÓÃ»§Ñ¡ÔñµÄÎÄ¼þÄ¿Â¼¶ÔÏó
+	//ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½
 	private File folder;
 	
 	public SpaceFrame(EditorFrame editorFrame) {
 		mainPanel = new JPanel();
-		infoLabel = new JLabel("ÇëÑ¡Ôñ¹¤×÷¿Õ¼ä");
+		infoLabel = new JLabel("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½");
 		chosePanel = new JPanel();
-		workTextLabel = new JLabel("¹¤×÷¿Õ¼ä: ");
+		workTextLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½: ");
 		pathText = new JTextField("", 40);
-		choseButton = new JButton("Ñ¡Ôñ");
+		choseButton = new JButton("Ñ¡ï¿½ï¿½");
 		buttonPanel = new JPanel();
-		confirmButton = new JButton("È·¶¨");
-		cancelButton = new JButton("È¡Ïû");
+		confirmButton = new JButton("È·ï¿½ï¿½");
+		cancelButton = new JButton("È¡ï¿½ï¿½");
 		chooser = new SpaceChooser(this);
 		
-		//ÉèÖÃÖ÷PanelµÄ²¼¾Ö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Panelï¿½Ä²ï¿½ï¿½ï¿½
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.add(infoLabel);
-		//ÉèÖÃÑ¡ÔñÇøµÄ²¼¾Ö
+		//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½
 		chosePanel.setLayout(new BoxLayout(chosePanel, BoxLayout.X_AXIS));
 		choseButton.addActionListener(new ChoseButtonListener(chooser));
 		pathText.setEditable(false);
@@ -77,12 +77,12 @@ public class SpaceFrame extends JFrame {
 		mainPanel.add(chosePanel);
 
 		confirmButton.setEnabled(false);
-		//ÎªÈ·¶¨°´Å¥Ìí¼ÓÈ·¶¨µÄÊÂ¼þ, ¼´´´½¨Ò»¸öWorkSpace¶ÔÏó
+		//ÎªÈ·ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½WorkSpaceï¿½ï¿½ï¿½ï¿½
 		confirmButton.addActionListener(new ConfirmButtonListener(this, editorFrame));
 		buttonPanel.add(confirmButton);
 		buttonPanel.add(new Label("    "));
 		buttonPanel.add(cancelButton);
-		//ÎªÈ¡Ïû°´Å¥Ìí¼ÓÍË³öÊÂ¼þ
+		//ÎªÈ¡ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½Â¼ï¿½
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
@@ -114,7 +114,7 @@ public class SpaceFrame extends JFrame {
 }
 
 /**
- * È·¶¨°´Å¥µÄ¼àÌýÆ÷
+ * È·ï¿½ï¿½ï¿½ï¿½Å¥ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author hp
  *
  */
@@ -130,18 +130,18 @@ class ConfirmButtonListener implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		//µ÷EditorFrameµÄinitFrame·½·¨³õÊ¼»¯½çÃæ
+		//ï¿½ï¿½EditorFrameï¿½ï¿½initFrameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		editorFrame.initFrame(new WorkSpace(spaceFrame.getFolder(), editorFrame));
-		//½«EditorFrameÉèÎª¿É¼û
+		//ï¿½ï¿½EditorFrameï¿½ï¿½Îªï¿½É¼ï¿½
 		editorFrame.setVisible(true);
 		editorFrame.setSize(900, 600);
-		//ÈÃ¹¤×÷Ñ¡Ôñ¿Õ¼ä½çÃæ²»¿É¼û
+		//ï¿½Ã¹ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½æ²»ï¿½É¼ï¿½
 		spaceFrame.setVisible(false);
 	}
 }
 
 /**
- * Ñ¡Ôñ°´Å¥µÄ¼àÌýÆ÷
+ * Ñ¡ï¿½ï¿½Å¥ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author hp
  *
  */
@@ -162,7 +162,7 @@ class ChoseButtonListener implements ActionListener {
 }
 
 /**
- * ÎÄ¼þÑ¡ÔñÆ÷
+ * ï¿½Ä¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
  * @author hp
  *
  */
@@ -170,24 +170,24 @@ class SpaceChooser extends JFileChooser {
 	
 	private SpaceFrame spaceFrame;
 	
-	//ÐèÒª½«SpaceFrame×÷Îª¹¹Ôì²ÎÊý
+	//ï¿½ï¿½Òªï¿½ï¿½SpaceFrameï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public SpaceChooser(SpaceFrame spaceFrame) {
-		//ÉèÖÃÑ¡ÔñÆ÷´ò¿ªÊ±µÄÄ¿Â¼
+		//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ä¿Â¼
 		super("/");
 		this.spaceFrame = spaceFrame;
 	}
 	
-	//ÖØÐ´¸¸ÀàµÄÑ¡ÔñÎÄ¼þ·½·¨
+	//ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void approveSelection() {
-		//»ñÈ¡ÓÃ»§Ñ¡ÔñµÄÎÄ¼þ
+		//ï¿½ï¿½È¡ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		File folder = getSelectedFile();
-		//ÉèÖÃSpaceFrameµÄÊôÐÔfolderµÄÖµ
+		//ï¿½ï¿½ï¿½ï¿½SpaceFrameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½folderï¿½ï¿½Öµ
 		spaceFrame.setFolder(folder);
-		//ÉèÖÃSpaceFrameÎÄ±¾¿ò
+		//ï¿½ï¿½ï¿½ï¿½SpaceFrameï¿½Ä±ï¿½ï¿½ï¿½
 		spaceFrame.getPathText().setText(folder.getAbsolutePath());
-		//ÉèÖÃÈ·¶¨°´Å¥¿ÉÓÃ
+		//ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
 		spaceFrame.getConfirmButton().setEnabled(true);
-		//µ÷ÓÃ¸¸ÀàµÄÑ¡ÔñÎÄ¼þ·½·¨
+		//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		super.approveSelection();
 	}
 }

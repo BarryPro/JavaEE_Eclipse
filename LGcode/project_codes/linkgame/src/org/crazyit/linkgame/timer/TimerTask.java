@@ -2,21 +2,18 @@ package org.crazyit.linkgame.timer;
 
 import javax.swing.JLabel;
 
-import org.crazyit.linkgame.utils.ImageUtil;
-import org.crazyit.linkgame.view.GamePanel;
-
 
 /**
- * ¶¨Ê±ÈÎÎñ¶ÔÏó
+ * ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class TimerTask extends java.util.TimerTask {
-	// µ±Ç°ÓÃµôµÄÊ±ºò
+	// ï¿½ï¿½Ç°ï¿½Ãµï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	private long time;
 
 	private GamePanel gamePanel;
@@ -33,18 +30,18 @@ public class TimerTask extends java.util.TimerTask {
 	}
 
 	public void run() {
-		// ÓÎÏ·Ê±¼äÒÑµ½
+		// ï¿½ï¿½Ï·Ê±ï¿½ï¿½ï¿½Ñµï¿½
 		if (this.gameTime - this.time <= 0) {
-			// ÉèÖÃÓÎÏ·Í¼Æ¬ÎªÊ§°Ü
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·Í¼Æ¬ÎªÊ§ï¿½ï¿½
 			this.gamePanel.setOverImage(ImageUtil.getImage("images/lose.gif"));
-			// È¡ÏûÕâ¸öÈÎÎñ
+			// È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.cancel();
 			this.gamePanel.repaint();
 		}
-		// Èç¹ûÓÎÏ·ÈÔÈ»¼ÌÐø, ÉèÖÃÊ±¼ä
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 		this.timeLabel.setText(String.valueOf(this.gameTime - this.time));
 		this.timeLabel.repaint();
-		// Ê¹ÓÃµÄÊ±¼ä+1
+		// Ê¹ï¿½Ãµï¿½Ê±ï¿½ï¿½+1
 		this.time += 1;
 	}
 }

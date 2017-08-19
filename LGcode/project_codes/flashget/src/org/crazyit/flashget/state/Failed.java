@@ -1,12 +1,8 @@
 package org.crazyit.flashget.state;
 
-import java.util.TimerTask;
-
 import javax.swing.ImageIcon;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.util.ImageUtil;
+import flashget.src.org.crazyit.flashget.ContextHolder;
 
 public class Failed extends AbstractState {
 
@@ -22,8 +18,8 @@ public class Failed extends AbstractState {
 	@Override
 	public void init(Resource resource) {
 		System.out.println(resource.getSaveFile().getAbsolutePath());
-		System.out.println("±»Í£Ö¹ÁË");
-		//µ±ÈÎÎñ±»ÉèÖÃÎª²»¿ÉÏÂÔØÊ±, Í£Ö¹Ê±¼ä¼ÆËãÆ÷
+		System.out.println("ï¿½ï¿½Í£Ö¹ï¿½ï¿½");
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±, Í£Ö¹Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ContextHolder.dh.stopTimer(resource);		
 	}
 

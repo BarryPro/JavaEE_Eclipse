@@ -2,36 +2,34 @@ package org.crazyit.book.dao;
 
 import java.util.Collection;
 
-import org.crazyit.book.vo.InRecord;
-
 /**
- * Èë¿â¼ÇÂ¼DAO½Ó¿Ú
+ * ï¿½ï¿½ï¿½ï¿½Â¼DAOï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface InRecordDao {
 
 	/**
-	 * ¸ù¾ÝÈÕÆÚÇø¼ä²éÕÒÈë¿â¼ÇÂ¼
-	 * @param begin ¿ªÊ¼ÈÕÆÚµÄ×Ö·û´®
-	 * @param end ½áÊøÈÕÆÚµÄ×Ö·û
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
+	 * @param begin ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Úµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+	 * @param end ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ö·ï¿½
 	 * @return
 	 */
 	Collection<InRecord> findByDate(String begin, String end);
 	
 	/**
-	 * ¸ù¾ÝÈë¿â¼ÇÂ¼id»ñµÃÈë¿â¼ÇÂ¼¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */
 	InRecord findById(String id);
 	
 	/**
-	 * ±£´æÒ»¸öÈë¿â¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
 	 * @param r
 	 * @return
 	 */

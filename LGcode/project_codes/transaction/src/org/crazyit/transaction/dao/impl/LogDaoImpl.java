@@ -3,8 +3,7 @@ package org.crazyit.transaction.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.transaction.dao.LogDao;
-import org.crazyit.transaction.model.Log;
+import transaction.src.org.crazyit.transaction.dao.LogDao;
 
 public class LogDaoImpl extends BaseDaoImpl implements LogDao {
 

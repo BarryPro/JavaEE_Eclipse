@@ -12,36 +12,32 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import org.crazyit.foxmail.exception.LoginException;
-import org.crazyit.foxmail.util.FileUtil;
-import org.crazyit.foxmail.util.PropertiesUtil;
-
 /**
- * µÇÂ¼½çÃæ
+ * ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class LoginFrame extends JFrame {
 
 	
-	//ÓÃ»§Ãû
-	private JLabel userLabel = new JLabel("ÓÃ»§Ãû£º");	
+	//ï¿½Ã»ï¿½ï¿½ï¿½
+	private JLabel userLabel = new JLabel("ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½");	
 	private JTextField userField = new JTextField(20);
-	//È·¶¨°´Å¥
-	private JButton confirmButton = new JButton("È·¶¨");
-	//È¡Ïû°´Å¥
-	private JButton cancelButton = new JButton("È¡Ïû");
-	//°´Å¥Box
+	//È·ï¿½ï¿½ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("È·ï¿½ï¿½");
+	//È¡ï¿½ï¿½ï¿½ï¿½Å¥
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
+	//ï¿½ï¿½Å¥Box
 	private Box buttonBox = Box.createHorizontalBox();
-	//ÓÃ»§Box
+	//ï¿½Ã»ï¿½Box
 	private Box userBox = Box.createHorizontalBox();
-	//×î´óµÄBox
+	//ï¿½ï¿½ï¿½ï¿½Box
 	private Box mainBox = Box.createVerticalBox();
-	//ÏµÍ³Ö÷½çÃæ
+	//ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private MainFrame mainFrame;
 	
 	public LoginFrame() {
@@ -51,7 +47,7 @@ public class LoginFrame extends JFrame {
 		this.userBox.add(userField);
 		this.userBox.add(Box.createHorizontalStrut(30));
 		
-		//°´Å¥µÄBox
+		//ï¿½ï¿½Å¥ï¿½ï¿½Box
 		this.buttonBox.add(Box.createHorizontalStrut(30));
 		this.buttonBox.add(this.confirmButton);
 		this.buttonBox.add(Box.createHorizontalStrut(20));
@@ -67,11 +63,11 @@ public class LoginFrame extends JFrame {
 		this.setLocation(300, 200);
 		this.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("ÓÊ¼þÊÕ·¢¿Í»§¶Ë");
+		this.setTitle("ï¿½Ê¼ï¿½ï¿½Õ·ï¿½ï¿½Í»ï¿½ï¿½ï¿½");
 		initListener();
 	}
 	
-	//³õÊ¼»¯¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListener() {
 		this.confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -88,34 +84,34 @@ public class LoginFrame extends JFrame {
 	private void confirm() {
 		String user = this.userField.getText();
 		if (user.trim().equals("")) {
-			JOptionPane.showConfirmDialog(this, "ÇëÊäÈëÓÃ»§Ãû", "¾¯¸æ", 
+			JOptionPane.showConfirmDialog(this, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", 
 					JOptionPane.OK_CANCEL_OPTION);
 			return;
 		}
-		//µÃµ½ÓÃ»§Ãû¶ÔÓ¦µÄÄ¿Â¼
+		//ï¿½Ãµï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ä¿Â¼
 		File folder = new File(FileUtil.DATE_FOLDER + user);
-		//¸ÃÓÃ»§µÚÒ»´Î½øÈëÏµÍ³£¬ ´´½¨Ä¿Â¼
+		//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ò»ï¿½Î½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 		if (!folder.exists()) {
 			folder.mkdir();
 		}
-		//µÃµ½ÅäÖÃÎÄ¼þ
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		File config = new File(folder.getAbsolutePath() + FileUtil.CONFIG_FILE);
 		try {
-			//Ã»ÓÐ¶ÔÓ¦µÄÅäÖÃÎÄ¼þ£¬Ôò´´½¨
+			//Ã»ï¿½Ð¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ò´´½ï¿½
 			if (!config.exists()) {
 				config.createNewFile();
 			}
-			//¶ÁÈ¡ÅäÖÃ²¢×ª»»ÎªMailContext¶ÔÏó
+			//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ã²ï¿½×ªï¿½ï¿½ÎªMailContextï¿½ï¿½ï¿½ï¿½
 			MailContext ctx = PropertiesUtil.createContext(config);
-			//ÉèÖÃMailContextµÄuserÊôÐÔ
+			//ï¿½ï¿½ï¿½ï¿½MailContextï¿½ï¿½userï¿½ï¿½ï¿½ï¿½
 			ctx.setUser(user);
-			//´´½¨ÏµÍ³½çÃæÖ÷¶ÔÏó
+			//ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.mainFrame = new MainFrame(ctx);
 			this.mainFrame.setVisible(true);
 			this.setVisible(false);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new LoginException("ÅäÖÃÎÄ¼þ´íÎó");
+			throw new LoginException("ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 	

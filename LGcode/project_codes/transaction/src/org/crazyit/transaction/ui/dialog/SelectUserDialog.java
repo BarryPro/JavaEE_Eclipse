@@ -13,38 +13,35 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.ui.handler.UserSelectHandler;
-import org.crazyit.transaction.ui.table.UserTable;
-import org.crazyit.transaction.ui.table.UserTableModel;
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.ui.handler.UserSelectHandler;
+import transaction.src.org.crazyit.transaction.ui.table.UserTableModel;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 /**
- * ÓÃ»§Ñ¡Ôñ¶Ô»°¿ò
+ * ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class SelectUserDialog extends JDialog {
 
 	private JScrollPane tableScrollPane;
-	//ÓÃ»§²éÑ¯
-	private JLabel realNameLabel = new JLabel("ÕæÊµÐÕÃû: ");
+	//ï¿½Ã»ï¿½ï¿½ï¿½Ñ¯
+	private JLabel realNameLabel = new JLabel("ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField realName = new JTextField(10);
-	private JButton queryButton = new JButton("²éÑ¯");
+	private JButton queryButton = new JButton("ï¿½ï¿½Ñ¯");
 	
-	//ÓÃ»§ÁÐ±í
+	//ï¿½Ã»ï¿½ï¿½Ð±ï¿½
 	private UserTable userTable;
 	private UserTableModel tableModel;
 	
-	//°´Å¥
-	private JButton confirmButton = new JButton("È·¶¨");
-	private JButton cancelButton = new JButton("È¡Ïû");
+	//ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("È·ï¿½ï¿½");
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
 	
-	//ÓÃ»§Ñ¡Ôñ´¦ÀíÀà
+	//ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private UserSelectHandler selectHandler;
 	
 	public SelectUserDialog(UserSelectHandler selectHandler) {
@@ -73,13 +70,13 @@ public class SelectUserDialog extends JDialog {
 		this.add(mainBox);
 		this.pack();
 		this.setResizable(false);
-		this.setTitle("Ñ¡ÔñÓÃ»§");
+		this.setTitle("Ñ¡ï¿½ï¿½ï¿½Ã»ï¿½");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation((int)screen.getWidth()/4, (int)screen.getHeight()/5);
 		initListeners();
 	}
 	
-	//³õÊ¼»¯°´Å¥¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
 		this.queryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -103,40 +100,40 @@ public class SelectUserDialog extends JDialog {
 	public void setVisible(boolean b) {
 		super.setVisible(b);
 		if (!b) return;
-		//´ÓÊý¾Ý¿âÖÐ²éÑ¯È«²¿µÄÓÃ»§
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ð²ï¿½Ñ¯È«ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 		List<User> users = ApplicationContext.userService.getUsers();
 		refreshDate(users);
 	}
 
-	//²éÑ¯·½·¨
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	private void query() {
 		String realName = this.realName.getText();
-		//µ÷ÓÃÓÃ»§ÒµÎñ½Ó¿Ú½øÐÐÓÃ»§Ä£ºý²éÑ¯
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Òµï¿½ï¿½Ó¿Ú½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ñ¯
 		List<User> users = ApplicationContext.userService.query(realName);
 		refreshDate(users);
 	}
 	
-	//µã»÷È·¶¨Ö´ÐÐµÄ·½·¨
+	//ï¿½ï¿½ï¿½È·ï¿½ï¿½Ö´ï¿½ÐµÄ·ï¿½ï¿½ï¿½
 	private void confirm() {
 		String id = ViewUtil.getSelectValue(this.userTable, "id");
 		if (id == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÒ»¸öÓÃ»§", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½", this);
 			return;
 		}
-		//µÃµ½ÕæÊµÐÕÃû
+		//ï¿½Ãµï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
 		String realName = ViewUtil.getSelectValue(this.userTable, UserTableModel.REAL_NAME);
-		//µ÷ÓÃÓÃ»§Ñ¡Ôñ´¦ÀíÀàµÄ·½·¨
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 		this.selectHandler.confirm(id, realName);
 		this.setVisible(false);
 	}
 	
-	//¹¤¾ß·½·¨, ÓÃÓÚË¢ÐÂÁÐ±í
+	//ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 	private void refreshDate(List<User> users) {
 		this.tableModel.setDatas(users);
 		this.userTable.updateUI();
 	}
 
-	//´´½¨ÊÂÎñÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private void createTable() {
 		this.tableModel = new UserTableModel();
 		this.userTable = new UserTable(this.tableModel);

@@ -2,79 +2,77 @@ package org.crazyit.transaction.service;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.Comment;
-import org.crazyit.transaction.model.Transaction;
-import org.crazyit.transaction.model.User;
+import transaction.src.org.crazyit.transaction.model.Transaction;
 
 public interface TransactionService {
 
 	/**
-	 * ¸ù¾İ´¦ÀíÈË»ñÈ¡ÏàÓ¦×´Ì¬µÄÊÂÎñ
+	 * ï¿½ï¿½ï¿½İ´ï¿½ï¿½ï¿½ï¿½Ë»ï¿½È¡ï¿½ï¿½Ó¦×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param user
 	 * @return
 	 */
 	List<Transaction> getHandlerTransaction(User user, String state);
 	 
 	/**
-	 * ¸ù¾İ·¢ÆğÈË»ñÈ¡ÏàÓ¦×´Ì¬µÄÊÂÎñ
+	 * ï¿½ï¿½ï¿½İ·ï¿½ï¿½ï¿½ï¿½Ë»ï¿½È¡ï¿½ï¿½Ó¦×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param user
 	 * @return
 	 */
 	List<Transaction> getInitiatorTransaction(User user, String state);
 	
 	/**
-	 * ¸ù¾İid»ñÈ¡ÊÂÎñ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */
 	Transaction get(String id);
 	
 	/**
-	 * ĞÂÔöÒ»¸öÊÂÎñ
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param t
 	 */
 	void save(Transaction t);
 	
 	/**
-	 * ´ß°ìÊÂÎñ
+	 * ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param t
 	 */
 	void hurry(String id);
 	
 	/**
-	 * ½«ÊÂÎñÖÃÎªÎŞĞ§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ğ§
 	 * @param id
 	 */
 	void invalid(String id);
 	
 	/**
-	 * ½«ÊÂÎñÖÃÎªÔİÊ±²»×öµÄ×´Ì¬
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 	 * @param id
 	 */
 	void forAWhile(String id, String userId, Comment comment);
 	
 	/**
-	 * ½«ÊÂÎñÖÃÎª²»×öµÄ×´Ì¬
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 	 * @param id
 	 */
 	void notToDo(String id, String userId, Comment comment);
 	
 	/**
-	 * Íê³ÉÊÂÎñ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 */
 	void finish(String id, String userId, Comment comment);
 	
 	/**
-	 * ×ª·¢ÊÂÎñ
-	 * @param targetId Ä¿±êÓÃ»§id
-	 * @param sourceId ×ª·¢µÄÓÃ»§id
-	 * @param comment ÆÀÂÛ
+	 * ×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param targetId Ä¿ï¿½ï¿½ï¿½Ã»ï¿½id
+	 * @param sourceId ×ªï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½id
+	 * @param comment ï¿½ï¿½ï¿½ï¿½
 	 */
 	void transfer(String targetUserId, String sourceUserId, Comment comment);
 	
 	/**
-	 * ²é¿´ÊÂÎñ
+	 * ï¿½é¿´ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */

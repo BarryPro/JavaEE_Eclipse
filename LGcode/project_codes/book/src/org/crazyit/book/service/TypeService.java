@@ -1,50 +1,47 @@
 package org.crazyit.book.service;
 
 import java.util.Collection;
-import java.util.List;
-
-import org.crazyit.book.vo.Type;
 
 /**
- * Êé±¾ÖÖÀàÒµÎñ½Ó¿Ú
+ * ï¿½é±¾ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface TypeService {
 
 	/**
-	 * ²éÕÒËùÓĞµÄÖÖÀà
-	 * @return ·µ»ØÖÖÀàÖµ¶ÔÏó¼¯ºÏ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ó¼¯ºï¿½
 	 */
 	Collection<Type> getAll();
 	
 	/**
-	 * ¸ù¾İÖÖÀàÃû×ÖÄ£ºı²éÕÒÖÖÀà
-	 * @param name ÖÖÀàÃû³Æ
-	 * @return ²éÕÒµÄ½á¹û¼¯
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param name ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ÒµÄ½ï¿½ï¿½ï¿½ï¿½
 	 */
 	Collection<Type> query(String name);
 	
 	/**
-	 * ĞÂÔöÒ»¸öÊé±¾ÖÖÀà
-	 * @param type ĞèÒªĞÂÔöµÄ¶ÔÏó
-	 * @return ĞÂÔöºóµÄÖÖÀà¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½
+	 * @param type ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	Type add(Type type);
 	
 	/**
-	 * ĞŞ¸ÄÒ»¸öÊé±¾ÖÖÀà
-	 * @param type ĞèÒªĞŞ¸ÄµÄ¶ÔÏó
-	 * @return ĞŞ¸ÄºóµÄ¶ÔÏó
+	 * ï¿½Ş¸ï¿½Ò»ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½
+	 * @param type ï¿½ï¿½Òªï¿½Ş¸ÄµÄ¶ï¿½ï¿½ï¿½
+	 * @return ï¿½Ş¸Äºï¿½Ä¶ï¿½ï¿½ï¿½
 	 */
 	Type update(Type type);
 	
 	/**
-	 * ¸ù¾İÖ÷¼ü²éÕÒÒ»¸öÖÖÀà
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */

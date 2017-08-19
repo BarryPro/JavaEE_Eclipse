@@ -2,23 +2,23 @@ package org.crazyit.editor.commons;
 
 import java.io.File;
 
-import org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.EditorFrame;
 
 /**
- * ¹¤×÷¿Õ¼ä¶ÔÏó
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class WorkSpace {
 
-	//¹¤×÷¿Õ¼ä¶ÔÓ¦µÄÄ¿Â¼
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½Ó¦ï¿½ï¿½Ä¿Â¼
 	private File folder;
 	
-	//¹¤×÷¿Õ¼äÖÐµÄÖ÷±à¼­Çø¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private EditorFrame editorFrame;
 	
 	public WorkSpace(File folder, EditorFrame editorFrame) {

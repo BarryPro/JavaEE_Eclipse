@@ -2,15 +2,14 @@ package org.crazyit.editor.util;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * ÃüÁî¹¤¾ßÀà
+ * ï¿½ï¿½ï¿½î¹¤ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -18,7 +17,7 @@ public class CommandUtil {
 	
 	public final static String WINDOWS_COMMAND = "cmd /c ";
 	
-	//·µ»Ø½ø³ÌprocessµÄ´íÎóĞÅÏ¢
+	//ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½processï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	public static String getErrorMessage(Process process) {
 		return getProcessString(process.getErrorStream());
 	}
@@ -36,37 +35,37 @@ public class CommandUtil {
 		}
 	}
 	
-	//»ñÈ¡Ò»¸ö½ø³ÌµÄ´íÎóĞÅÏ¢
+	//ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ÌµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	public static String getProcessString(Process process) {
 		StringBuffer result = new StringBuffer();
-		//µ÷ÓÃCommandUtilµÄ·½·¨
+		//ï¿½ï¿½ï¿½ï¿½CommandUtilï¿½Ä·ï¿½ï¿½ï¿½
 		String errorString = getErrorMessage(process);
-		if (errorString.length() != 0) result.append("´íÎó: " + errorString);
-		else result.append("Ö´ĞĞÍê³É");
+		if (errorString.length() != 0) result.append("ï¿½ï¿½ï¿½ï¿½: " + errorString);
+		else result.append("Ö´ï¿½ï¿½ï¿½ï¿½ï¿½");
 		return result.toString();
 	}
 	
-	//·µ»ØÒ»¸ö½ø³ÌµÄĞÅÏ¢
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½Ï¢
 	public static String getRunString(Process process) {
 		String error = getErrorMessage(process);
 		String message = getProcessString(process.getInputStream());
 		return error + message;
 	}
 	
-	//Ö´ĞĞÒ»¸öÃüÁî²¢·µ»ØÏàÓ¦µÄĞÅÏ¢
+	//Ö´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½î²¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ï¢
 	public static Process executeCommand(String command) {
 		try {
-			//ÔÚwindowsÏÂ½«ÃüÁîÉú³ÉÒ»·İbatÎÄ¼ş, ÔÙÖ´ĞĞ¸ÃbatÎÄ¼ş
+			//ï¿½ï¿½windowsï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½batï¿½Ä¼ï¿½, ï¿½ï¿½Ö´ï¿½Ğ¸ï¿½batï¿½Ä¼ï¿½
 			File batFile = new File("dump.bat");
 			if (!batFile.exists()) batFile.createNewFile();
-			//½«ÃüÁîĞ´ÈëÎÄ¼şÖĞ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 			FileWriter writer = new FileWriter(batFile);
 			writer.write(command);
 			writer.close();
-			//Ö´ĞĞ¸ÃbatÎÄ¼ş
+			//Ö´ï¿½Ğ¸ï¿½batï¿½Ä¼ï¿½
 			Process process =Runtime.getRuntime().exec(WINDOWS_COMMAND + batFile.getAbsolutePath());
 			process.waitFor();
-			//½«batÎÄ¼şÉ¾³ı
+			//ï¿½ï¿½batï¿½Ä¼ï¿½É¾ï¿½ï¿½
 			batFile.delete();
 			return process;
 		} catch (Exception e) {

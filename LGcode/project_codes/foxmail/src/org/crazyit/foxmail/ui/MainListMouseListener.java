@@ -8,15 +8,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import org.crazyit.foxmail.object.FileObject;
-import org.crazyit.foxmail.util.FileUtil;
-
 /**
- * Ö÷½çÃæÖÐÓÊ¼þ¸½¼þÁÐ±íµÄ¼àÌýÆ÷
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -33,30 +30,30 @@ public class MainListMouseListener extends MouseAdapter {
 	}
 	
 	public void handle(FileObject file) {
-		int result = JOptionPane.showOptionDialog(null, "ÇëÑ¡Ôñ²Ù×÷", "Ñ¡Ôñ",
+		int result = JOptionPane.showOptionDialog(null, "ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½", "Ñ¡ï¿½ï¿½",
 				0, JOptionPane.QUESTION_MESSAGE, null, 
-				new Object[]{"´ò¿ª", "Áí´æÎª", "È¡Ïû"}, null);
+				new Object[]{"ï¿½ï¿½", "ï¿½ï¿½ï¿½Îª", "È¡ï¿½ï¿½"}, null);
 		if (result == 0) {
-			openFile(file);//´ò¿ª²Ù×÷
+			openFile(file);//ï¿½ò¿ª²ï¿½ï¿½ï¿½
 		} else if (result == 1) {
-			saveAs(file);//Áí´æÎª²Ù×÷
+			saveAs(file);//ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		}
 	}
 	
-	//´ò¿ª²Ù×÷
+	//ï¿½ò¿ª²ï¿½ï¿½ï¿½
 	public void openFile(FileObject file) {
 		try {
 			Runtime.getRuntime().exec("cmd /c \"" + 
 					file.getFile().getAbsolutePath() + "\"");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showConfirmDialog(null, "´ò¿ªÎÄ¼þ´íÎó, " + 
-					file.getSourceName() + "ÎÄ¼þ²»´æÔÚ", "´íÎó", 
+			JOptionPane.showConfirmDialog(null, "ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½, " + 
+					file.getSourceName() + "ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", 
 					JOptionPane.OK_CANCEL_OPTION);
 		}
 	}
 	
-	//Áí´æÎª²Ù×÷, ´ò¿ªÎÄ¼þÑ¡ÔñÆ÷
+	//ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ä¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
 	public void saveAs(FileObject file) {
 		FolderChooser chooser = new FolderChooser(file);
 		chooser.showSaveDialog(null);
@@ -64,24 +61,24 @@ public class MainListMouseListener extends MouseAdapter {
 }
 
 class FolderChooser extends JFileChooser {
-	//ÐèÒªÁí´æÎªµÄÎÄ¼þ
+	//ï¿½ï¿½Òªï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ä¼ï¿½
 	private FileObject sourceFile;
 	
 	public FolderChooser(FileObject sourceFile) {
 		this.sourceFile = sourceFile;
-		//Ö»ÄÜÑ¡Ä¿Â¼
+		//Ö»ï¿½ï¿½Ñ¡Ä¿Â¼
 		this.setFileSelectionMode(DIRECTORIES_ONLY); 
 	}
-	//ÔÚÎÄ¼þÑ¡ÔñÆ÷ÖÐÑ¡ÔñÁËÎÄ¼þ»òÕßÄ¿Â¼ºó
+	//ï¿½ï¿½ï¿½Ä¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	public void approveSelection() {
 		File targetFile = getSelectedFile();
 		if (targetFile.isDirectory()) {
-			//Èç¹ûÓÃ»§Ñ¡µÄÊÇÄ¿Â¼, ¼´Ã»ÓÐÊäÈëÐÂµÄÎÄ¼þÃû, ÔòÓÃsourceName×÷ÎªÎÄ¼þÃû
+			//ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ä¿Â¼, ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½sourceNameï¿½ï¿½Îªï¿½Ä¼ï¿½ï¿½ï¿½
 			File newFile = new File(targetFile.getAbsolutePath() + File.separator 
 					+ this.sourceFile.getSourceName());
 			FileUtil.copy(this.sourceFile.getFile(), newFile);
 		} else {
-			//ÓÃ»§ÊäÈëÁËÐÂµÄÎÄ¼þÃû, Ö±½Ó¸´ÖÆ
+			//ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½, Ö±ï¿½Ó¸ï¿½ï¿½ï¿½
 			FileUtil.copy(this.sourceFile.getFile(), targetFile);
 		}
 		super.approveSelection();

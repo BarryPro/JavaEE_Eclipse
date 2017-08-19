@@ -12,41 +12,40 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 public class LoginFrame extends JFrame {
 
-	//ÓÃ»§Ãû
-	private JLabel userNameLabel = new JLabel("ÓÃ»§Ãû: ");
+	//ï¿½Ã»ï¿½ï¿½ï¿½
+	private JLabel userNameLabel = new JLabel("ï¿½Ã»ï¿½ï¿½ï¿½: ");
 	private JTextField userName = new JTextField(20);
-	//ÃÜÂë
-	private JLabel passwordLabel = new JLabel("ÃÜÂë: ");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel passwordLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½: ");
 	private JPasswordField password = new JPasswordField(20);
-	//°´Å¥
-	private JButton confirmButton = new JButton("È·¶¨");
-	private JButton cancelButton = new JButton("È¡Ïû");
+	//ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("È·ï¿½ï¿½");
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
 	
 	public LoginFrame() {
-		//ÓÃ»§Ãû
+		//ï¿½Ã»ï¿½ï¿½ï¿½
 		Box userNameBox = Box.createHorizontalBox();
 		userNameBox.add(Box.createHorizontalStrut(50));
 		userNameBox.add(this.userNameLabel);
 		userNameBox.add(this.userName);
 		userNameBox.add(Box.createHorizontalStrut(50));
-		//ÃÜÂë
+		//ï¿½ï¿½ï¿½ï¿½
 		Box passwordBox = Box.createHorizontalBox();
 		passwordBox.add(Box.createHorizontalStrut(50));
 		passwordBox.add(this.passwordLabel);
 		passwordBox.add(Box.createHorizontalStrut(13));
 		passwordBox.add(this.password);
 		passwordBox.add(Box.createHorizontalStrut(50));
-		//°´Å¥
+		//ï¿½ï¿½Å¥
 		Box buttonBox = Box.createHorizontalBox();
 		buttonBox.add(this.confirmButton);
 		buttonBox.add(Box.createHorizontalStrut(40));
 		buttonBox.add(this.cancelButton);
-		//Ö÷Box
+		//ï¿½ï¿½Box
 		Box mainBox = Box.createVerticalBox();
 		mainBox.add(Box.createVerticalStrut(30));
 		mainBox.add(userNameBox);
@@ -55,18 +54,18 @@ public class LoginFrame extends JFrame {
 		mainBox.add(Box.createVerticalStrut(20));
 		mainBox.add(buttonBox);
 		mainBox.add(Box.createVerticalStrut(20));
-		//»ñµÃÆÁÄ»´óÐ¡
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½Ð¡
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.add(mainBox);
 		this.setLocation((int)screen.getWidth()/3, (int)screen.getHeight()/3);
 		this.pack();
-		this.setTitle("µÇÂ¼ÊÂÎñ¸ú×ÙÏµÍ³");
+		this.setTitle("ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³");
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initListeners();
 	}
 	
-	//³õÊ¼»¯¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
 		this.confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -80,7 +79,7 @@ public class LoginFrame extends JFrame {
 		});
 	}
 	
-	//·µ»ØÃÜÂë×Ö·û´®
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	private String getPassword() {
 		char[] passes = this.password.getPassword();
 		StringBuffer password = new StringBuffer();
@@ -90,13 +89,13 @@ public class LoginFrame extends JFrame {
 		return password.toString();
 	}
 	
-	//µã»÷È·¶¨°´Å¥´¥·¢µÄ·½·¨
+	//ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	private void login() {
-		//µÃµ½ÓÃ»§Ãû
+		//ï¿½Ãµï¿½ï¿½Ã»ï¿½ï¿½ï¿½
 		String userName = this.userName.getText();
-		//µÃµ½ÃÜÂë
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½
 		String passwd = getPassword();
-		//½øÐÐµÇÂ¼
+		//ï¿½ï¿½ï¿½Ðµï¿½Â¼
 		try {
 			ApplicationContext.userService.login(userName, passwd);
 			this.setVisible(false);

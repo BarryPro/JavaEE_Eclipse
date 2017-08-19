@@ -1,14 +1,12 @@
 package org.crazyit.transaction.ui.handler.impl;
 
-import org.crazyit.transaction.model.Comment;
-import org.crazyit.transaction.ui.handler.TransactionHandler;
-import org.crazyit.transaction.util.ApplicationContext;
+import transaction.src.org.crazyit.transaction.ui.handler.TransactionHandler;
 
 public class ForAWhileHandler implements TransactionHandler {
 
 
 	public void handler(Comment comment) {
-		//½«ÊÂÎñÖÃÎªÔİÊ±²»×ö×´Ì¬, ĞèÒªÏÈÉèÖÃÊÂÎñµÄ×´Ì¬, ÔÙÌí¼ÓÆÀÂÛ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½×´Ì¬, ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ApplicationContext.transactionService.forAWhile(comment.getTRANSACTION_ID(), 
 				comment.getUSER_ID(), comment);
 //		ApplicationContext.commentService.save(comment);

@@ -8,15 +8,14 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
-import org.crazyit.editor.EditorFrame;
-import org.crazyit.editor.util.ImageUtil;
+import editor.src.org.crazyit.editor.EditorFrame;
 
 /**
- * Ê÷´´½¨ÊµÏÖÀà
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -29,78 +28,78 @@ public class TreeCreatorImpl implements TreeCreator {
 		ProjectTreeNode root = new ProjectTreeNode(spaceFolder, true);
 		ProjectTreeModel treeModel = new ProjectTreeModel(root);
 		JTree tree = new JTree(treeModel);
-		//»ñÈ¡¹¤×÷¿Õ¼äÏÂÃæËùÓÐµÄÄ¿Â¼£¨¼´ÓëÓÐprojectName.projectÏà¶ÔÓ¦µÄÄ¿Â¼£©£¬Ò²¾ÍÊÇÏîÄ¿Ä¿Â¼
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½projectName.projectï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼
 		List<File> projectFolders = getProjectFolders(spaceFolder);
-		//±éÀúÏîÄ¿Ä¿Â¼¼¯ºÏ£¬²¢ÎªÆä´´½¨×Ó½Úµã
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½Îªï¿½ä´´ï¿½ï¿½ï¿½Ó½Úµï¿½
 		for (int i = 0; i < projectFolders.size(); i++) {
-			//»ñÈ¡Ñ­»·ÖÐµÄÄ¿Â¼
+			//ï¿½ï¿½È¡Ñ­ï¿½ï¿½ï¿½Ðµï¿½Ä¿Â¼
 			File projectFolder = projectFolders.get(i);
-			//µ÷ÓÃcreateNode´´½¨ËüËùÓÐµÄ×Ó½Úµã
+			//ï¿½ï¿½ï¿½ï¿½createNodeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ó½Úµï¿½
 			ProjectTreeNode node = createNode(projectFolder);
-			//Ïò¸ù½ÚµãÌí¼Ó×Ó½Úµã£¨ÏîÄ¿Ä¿Â¼£©
+			//ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½Ó½Úµã£¨ï¿½ï¿½Ä¿Ä¿Â¼ï¿½ï¿½
 			root.add(node);
 		}
 
-		//¶¨ÖÆ½ÚµãÍ¼Æ¬
+		//ï¿½ï¿½ï¿½Æ½Úµï¿½Í¼Æ¬
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-		//Ä¿Â¼´ò¿ªÊ±µÄÍ¼Æ¬
+		//Ä¿Â¼ï¿½ï¿½Ê±ï¿½ï¿½Í¼Æ¬
 		renderer.setOpenIcon(ImageUtil.getImageIcon(ImageUtil.FOLDER_OPEN));
-		//½ÚµãÃ»ÓÐ×Ó½ÚµãµÄÍ¼Æ¬
+		//ï¿½Úµï¿½Ã»ï¿½ï¿½ï¿½Ó½Úµï¿½ï¿½Í¼Æ¬
 		renderer.setLeafIcon(ImageUtil.getImageIcon(ImageUtil.FILE));
-		//Ä¿Â¼¹Ø±ÕÊ±µÄÍ¼Æ¬
+		//Ä¿Â¼ï¿½Ø±ï¿½Ê±ï¿½ï¿½Í¼Æ¬
 		renderer.setClosedIcon(ImageUtil.getImageIcon(ImageUtil.FOLDER_CLOSE));
-		//ÉèÖÃÊ÷µÄ²¿¼þ´¦ÀíÀàÎªÉÏÃæµÄrenderer
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½renderer
 		tree.setCellRenderer(renderer);
-		//ÎªÏîÄ¿Ê÷Ìí¼ÓÒ»¸öÊ÷Ñ¡Ôñ¼àÌýÆ÷
+		//Îªï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		tree.addMouseListener(new ProjectTreeSelectionListener(editorFrame));
-		//´´½¨¸ùÔÚÏîÄ¿Ê÷ÖÐµÄÂ·¾¶
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ðµï¿½Â·ï¿½ï¿½
 		TreePath path = new TreePath(root);
-		//ÈÃÊ÷Ä¬ÈÏÕ¹¿ª¸ù½Úµã
+		//ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 		tree.expandPath(path);
-		//ÉèÖÃÊ÷µÄ¸ù½Úµã²»¿É¼û
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Úµã²»ï¿½É¼ï¿½
 		tree.setRootVisible(false);
 		return tree;
 	}
 	
 	/*
-	 * ¸ù¾ÝÒ»¸öÄ¿Â¼´´½¨ËüµÄËùÓÐÖ±½Ó½Úµã
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó½Úµï¿½
 	 */
 	private List<ProjectTreeNode> createNodes(File folder) {
-		//»ñÈ¡¸ÃÄ¿Â¼ÏÂµÄËùÓÐÎÄ¼þ
+		//ï¿½ï¿½È¡ï¿½ï¿½Ä¿Â¼ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		File[] files = folder.listFiles();
 		List<ProjectTreeNode> result = new ArrayList<ProjectTreeNode>();
-		//¶Ô¸ÃÄ¿Â¼ÏÂµÄËùÓÐÎÄ¼þµÄÊý×é½øÐÐÁ½´Î±éÀú
+		//ï¿½Ô¸ï¿½Ä¿Â¼ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½
 		for (File file : files) {
-			//µÚÒ»´Î±éÀú£¬Èç¹ûÊÇÄ¿Â¼µÄ»°£¬¾Í¼ÓÈëµ½½á¹û¼¯ºÏÖÐ
+			//ï¿½ï¿½Ò»ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (file.isDirectory()) {
 				result.add(new ProjectTreeNode(file, true));
 			}
 		}
 		for (File file : files) {
-			//µÚ¶þ´Î±éÀú£¬Èç¹û·ÇÄ¿Â¼µÄ»°£¬¾Í¼ÓÈëµ½½á¹û¼¯ºÏÖÐ
-			if (!file.isDirectory()) {//ÔÙ¼ÓÆÕÍ¨ÎÄ¼þ
+			//ï¿½Ú¶ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			if (!file.isDirectory()) {//ï¿½Ù¼ï¿½ï¿½ï¿½Í¨ï¿½Ä¼ï¿½
 				result.add(new ProjectTreeNode(file, false));
 			}
 		}
 		return result;
 	}
 	
-	//¸ù¾ÝÒ»¸öÄ¿Â¼È¥´´½¨¸ÃÄ¿Â¼Ëù¶ÔÓ¦µÄ½Úµã¶ÔÏó£¬¸Ã¶ÔÏóµÄËùÓÐµÄ×Ó½Úµã¶¼ÒÑ¾­´´½¨
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ä½Úµï¿½ï¿½ï¿½ó£¬¸Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ó½Úµã¶¼ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ProjectTreeNode createNode(File folder) {
-		//´´½¨Ò»¸ö¸¸½Úµã£¬¼´±¾·½·¨¼´½«·µ»ØµÄ½Úµã¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Úµã£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ØµÄ½Úµï¿½ï¿½ï¿½ï¿½
 		ProjectTreeNode parent = null;
-		//Èç¹û²ÎÊýfoler²»ÊÇÒ»¸öÄ¿Â¼µÄ»°£¬´´½¨Ò»¸öProjectTreeNode¶ÔÏó²¢·µ»Ø£¬±íÃ÷Ëü²»ÔÊÐíÓµÓÐ×Ó½Úµã
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½folerï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ProjectTreeNodeï¿½ï¿½ï¿½ó²¢·ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½Ó½Úµï¿½
 		if (!folder.isDirectory()) {
 			return new ProjectTreeNode(folder, false);
 		} else {
-			//Èç¹ûÊÇÒ»¸öÄ¿Â¼µÄ»°£¬Ôò´´½¨ÉÏÃæµÄparent£¬±íÃ÷ËüÊÇÒ»¸öÄ¿Â¼£¬¿ÉÒÔÓµÓÐ×Ó½Úµã
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ò´´½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½parentï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½Ó½Úµï¿½
 			parent = new ProjectTreeNode(folder, true);
 		}
-		//ÀûÓÃÉÏÃæµÄparent½ÚµãÈ¥²éÕÒËüÏÂÃæËùÓÐµÄÖ±½Ó½Úµã
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½parentï¿½Úµï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ö±ï¿½Ó½Úµï¿½
 		List<ProjectTreeNode> nodes = createNodes(parent.getFile());
-		//»ñÈ¡µ½parentÏÂÃæµÄËùÓÐÖ±½Ó×Ó½Úµãºó£¬ÔÙÈ¥Ñ­»·µÝ¹éµ÷ÓÃ±¾·½·¨
+		//ï¿½ï¿½È¡ï¿½ï¿½parentï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½Ó½Úµï¿½ï¿½ï¿½ï¿½È¥Ñ­ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½
 		for (ProjectTreeNode node : nodes) {
-			//µÝ¹é´´½¨×Ó½Úµã£¬²¢½«·µ»ØµÄ½ÚµãÌí¼Óµ½parentÖÐ
+			//ï¿½Ý¹é´´ï¿½ï¿½ï¿½Ó½Úµã£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ØµÄ½Úµï¿½ï¿½ï¿½Óµï¿½parentï¿½ï¿½
 			parent.add(createNode(node.getFile()));
 		}
 		return parent;
@@ -108,13 +107,13 @@ public class TreeCreatorImpl implements TreeCreator {
 	
 	
 	/**
-	 * »ñÈ¡¹¤×÷¿Õ¼äÄ¿Â¼ÏÂËùÓÐµÄÏîÄ¿Ãû³Æ
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private List<String> getProjectNames(File spaceFolder) {
 		List<String> result = new ArrayList<String>();
 		for (File file : spaceFolder.listFiles()) {
-			if (file.getName().endsWith(".project")) {//È¡ÒÔ.project½áÎ²µÄÎÄ¼þ
+			if (file.getName().endsWith(".project")) {//È¡ï¿½ï¿½.projectï¿½ï¿½Î²ï¿½ï¿½ï¿½Ä¼ï¿½
 				result.add(file.getName().substring(0, file.getName().indexOf(".project")));
 			}
 		}
@@ -122,16 +121,16 @@ public class TreeCreatorImpl implements TreeCreator {
 	}
 	
 	/*
-	 * »ñÈ¡¹¤×÷¿Õ¼äÄ¿Â¼ÏÂËùÓÐµÄÏîÄ¿Ä¿Â¼
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Ä¿Ä¿Â¼
 	 */
 	private List<File> getProjectFolders(File spaceFolder) {
 		List<String> projectNames = getProjectNames(spaceFolder);
 		List<File> result = new ArrayList<File>();
-		//»ñÈ¡¹¤×÷¿Õ¼äÏÂÃæËùÓÐµÄÎÄ¼þ
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ä¼ï¿½
 		File[] files = spaceFolder.listFiles();
 		for (String projectName : projectNames) {
 			for (File file : files) {
-				if (file.isDirectory()) {//Èç¹û¹¤×÷¿Õ¼äÏÂÃæµÄÎÄ¼þÊÇÄ¿Â¼£¬ÔÙÈ¥ÅÐ¶ÏÊÇ·ñÊÇÏîÄ¿Ä¿Â¼
+				if (file.isDirectory()) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½È¥ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼
 					if (projectName.equals(file.getName())) {
 						result.add(file);
 					}

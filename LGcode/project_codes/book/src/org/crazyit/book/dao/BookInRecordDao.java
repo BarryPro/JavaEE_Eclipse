@@ -2,28 +2,26 @@ package org.crazyit.book.dao;
 
 import java.util.Collection;
 
-import org.crazyit.book.vo.BookInRecord;
-
 /**
- * Êé±¾Èë¿â¼ÇÂ¼DAO½Ó¿Ú
+ * ï¿½é±¾ï¿½ï¿½ï¿½ï¿½Â¼DAOï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface BookInRecordDao {
 
 	/**
-	 * ¸ù¾ÝÈë¿â¼ÇÂ¼²éÕÒÈ«²¿µÄÊéµÄÈë¿â¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
 	 * @param inRecordId
 	 * @return
 	 */
 	Collection<BookInRecord> findByInRecord(String inRecordId);
 	
 	/**
-	 * ±£´æÒ»ÌõÊéµÄÈë¿â¼ÇÂ¼, ²¢·µ»Ø¸Ã¼ÇÂ¼µÄid
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼, ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸Ã¼ï¿½Â¼ï¿½ï¿½id
 	 * @param r
 	 * @return
 	 */

@@ -2,18 +2,16 @@ package org.crazyit.transaction.dao;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.Log;
-
 public interface LogDao {
 
 	/**
-	 * 保存一个日志
+	 * 锟斤拷锟斤拷一锟斤拷锟斤拷志
 	 * @param log
 	 */
 	void save(Log log);
 	
 	/**
-	 * 根据事务id查找日志
+	 * 锟斤拷锟斤拷锟斤拷锟斤拷id锟斤拷锟斤拷锟斤拷志
 	 * @param transactionId
 	 * @return
 	 */

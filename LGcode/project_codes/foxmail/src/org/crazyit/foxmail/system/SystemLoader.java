@@ -2,50 +2,50 @@ package org.crazyit.foxmail.system;
 
 import java.util.List;
 
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.ui.MailContext;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
 
 /**
- * ¼ÓÔØ±¾µØµÄÓÊ¼þµÄ½Ó¿Ú
+ * ï¿½ï¿½ï¿½Ø±ï¿½ï¿½Øµï¿½ï¿½Ê¼ï¿½ï¿½Ä½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface SystemLoader {
 
 	/**
-	 * ¸ù¾ÝMailContextµÃµ½¶ÔÓ¦µÄÊÕ¼þÏäÓÊ¼þ(ÔÚ±¾µØÏµÍ³ÖÐ»ñÈ¡)
+	 * ï¿½ï¿½ï¿½ï¿½MailContextï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½(ï¿½Ú±ï¿½ï¿½ï¿½ÏµÍ³ï¿½Ð»ï¿½È¡)
 	 * @param ctx
 	 * @return
 	 */
 	List<Mail> getInBoxMails(MailContext ctx);
 	
 	/**
-	 * ¸ù¾ÝMailContextµÃµ½¶ÔÓ¦µÄ·¢¼þÏäÓÊ¼þ(ÔÚ±¾µØÏµÍ³ÖÐ»ñÈ¡)
+	 * ï¿½ï¿½ï¿½ï¿½MailContextï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½(ï¿½Ú±ï¿½ï¿½ï¿½ÏµÍ³ï¿½Ð»ï¿½È¡)
 	 * @param ctx
 	 * @return
 	 */
 	List<Mail> getOutBoxMails(MailContext ctx);
 	
 	/**
-	 * ¸ù¾ÝMailContextµÃµ½¶ÔÓ¦µÄÒÑ·¢ËÍµÄÓÊ¼þ(ÔÚ±¾µØÏµÍ³ÖÐ»ñÈ¡)
+	 * ï¿½ï¿½ï¿½ï¿½MailContextï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½Íµï¿½ï¿½Ê¼ï¿½(ï¿½Ú±ï¿½ï¿½ï¿½ÏµÍ³ï¿½Ð»ï¿½È¡)
 	 * @param ctx
 	 * @return
 	 */
 	List<Mail> getSentBoxMails(MailContext ctx);
 	
 	/**
-	 * ¸ù¾ÝMailContextµÃµ½¶ÔÓ¦µÄ²Ý¸åÏäµÄÓÊ¼þ(ÔÚ±¾µØÏµÍ³ÖÐ»ñÈ¡)
+	 * ï¿½ï¿½ï¿½ï¿½MailContextï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½Ä²Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½(ï¿½Ú±ï¿½ï¿½ï¿½ÏµÍ³ï¿½Ð»ï¿½È¡)
 	 * @param ctx
 	 * @return
 	 */
 	List<Mail> getDraftBoxMails(MailContext ctx);
 	
 	/**
-	 * ¸ù¾ÝMailContextµÃµ½¶ÔÓ¦µÄÀ¬»øÏäµÄÓÊ¼þ(ÔÚ±¾µØÏµÍ³ÖÐ»ñÈ¡)
+	 * ï¿½ï¿½ï¿½ï¿½MailContextï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½(ï¿½Ú±ï¿½ï¿½ï¿½ÏµÍ³ï¿½Ð»ï¿½È¡)
 	 * @param ctx
 	 * @return
 	 */

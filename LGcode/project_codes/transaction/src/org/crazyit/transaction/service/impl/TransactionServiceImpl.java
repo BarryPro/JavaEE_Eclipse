@@ -6,21 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.crazyit.transaction.dao.CommentDao;
-import org.crazyit.transaction.dao.LogDao;
-import org.crazyit.transaction.dao.TransactionDao;
-import org.crazyit.transaction.dao.UserDao;
-import org.crazyit.transaction.dao.UserTransferDao;
-import org.crazyit.transaction.model.Comment;
-import org.crazyit.transaction.model.Log;
-import org.crazyit.transaction.model.Transaction;
-import org.crazyit.transaction.model.TransactionState;
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.model.UserTransfer;
-import org.crazyit.transaction.service.BusinessException;
-import org.crazyit.transaction.service.TransactionService;
-import org.crazyit.transaction.ui.table.State;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.dao.CommentDao;
+import transaction.src.org.crazyit.transaction.dao.LogDao;
+import transaction.src.org.crazyit.transaction.dao.TransactionDao;
+import transaction.src.org.crazyit.transaction.dao.UserTransferDao;
+import transaction.src.org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.model.TransactionState;
+import transaction.src.org.crazyit.transaction.model.UserTransfer;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 public class TransactionServiceImpl implements TransactionService {
 
@@ -44,10 +37,10 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	public List<Transaction> getHandlerTransaction(User user, String state) {
-		//Èç¹û×´Ì¬²ÎÊýÊÇtransfer(×ª·¢µÄÊÂÎñ), Ôò²éÕÒÎÒ×ª·¢µÄÊÂÎñ
+		//ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½transfer(×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (state.equals(State.TRANSFER)) {
 			List<Transaction> datas = new ArrayList<Transaction>();
-			//²éÕÒ×ª·¢¼ÇÂ¼
+			//ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Â¼
 			List<UserTransfer> transfers = this.userTransferDao.find(user.getID());
 			for (UserTransfer ut : transfers) {
 				Transaction t = this.transactionDao.find(ut.getTS_ID());
@@ -56,14 +49,14 @@ public class TransactionServiceImpl implements TransactionService {
 			datas = removeRepeat(datas);
 			return setUnion(datas);
 		}
-		//ÆäËû×´Ì¬ÔòÖ±½Ó¸ù¾Ý×´Ì¬È¥Êý¾Ý¿â²éÑ¯
+		//ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½Ö±ï¿½Ó¸ï¿½ï¿½ï¿½×´Ì¬È¥ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ñ¯
 		List<Transaction> datas = this.transactionDao.findHandlerTransactions(state, 
 				user.getID());
 		return setUnion(datas);
 	}
 	
 	/**
-	 * È¥µôÖØ¸´µÄÊÂÎñ£¨²éÑ¯×ª·¢ÊÂÎñÊ±Ê¹ÓÃ£©
+	 * È¥ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ£¨²ï¿½Ñ¯×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ê¹ï¿½Ã£ï¿½
 	 * @param datas
 	 * @return
 	 */
@@ -80,7 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	/**
-	 * ÉèÖÃ¹ØÁªÊôÐÔ
+	 * ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param datas
 	 * @return
 	 */
@@ -92,7 +85,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	/**
-	 * ÉèÖÃ²ÎÊýÊÂÎñµÄÓÃ»§¹ØÁª¶ÔÏó
+	 * ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param t
 	 */
 	private void setUser(Transaction t) {
@@ -105,7 +98,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	/*
-	 * ¸ù¾ÝÊÂÎñ·¢ÆðÈËºÍ×´Ì¬²éÕÒ¸ÃÓÃ»§ËùÓÐµÄÊÂÎñ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½×´Ì¬ï¿½ï¿½ï¿½Ò¸ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @see org.crazyit.transaction.service.TransactionService#getInitiatorProcessing(org.crazyit.transaction.model.User)
 	 */
 	public List<Transaction> getInitiatorTransaction(User user, String state) {
@@ -119,21 +112,21 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	public void hurry(String id) {
-		//Èç¹ûÊÂÎñµÄ×´Ì¬Îª½øÐÐÖÐ»òÕßÔÝÊ±²»×ö, Ôò¿ÉÒÔ´ß°ì
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬Îªï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ô´ß°ï¿½
 		Transaction t = this.transactionDao.find(id);
 		if (t.getTS_STATE().equals(TransactionState.PROCESSING)
 				|| t.getTS_STATE().equals(TransactionState.FOR_A_WHILE)) {
 			this.transactionDao.hurry(id);
 		} else {
-			throw new BusinessException("ÊÂÎñ·Ç½øÐÐÖÐ, ²»¿ÉÒÔ´ß°ì");
+			throw new BusinessException("ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ß°ï¿½");
 		}
 	}
 
 	public void invalid(String id) {
-		//Èç¹ûÊÂÎñÒÑ¾­Íê³É£¬Ôò²»¿ÉÒÔÖÃÎªÎÞÐ§
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½É£ï¿½ï¿½ò²»¿ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ð§
 		Transaction t = this.transactionDao.find(id);
 		if (t.getTS_STATE().equals(TransactionState.FINISHED)) {
-			throw new BusinessException("ÊÂÎñÒÑ¾­Íê³É£¬²»¿ÉÒÔÉèÖÃÎªÎÞÐ§");
+			throw new BusinessException("ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ð§");
 		} else {
 			this.transactionDao.invalid(id);
 		}
@@ -141,65 +134,65 @@ public class TransactionServiceImpl implements TransactionService {
 
 	public void forAWhile(String id, String userId, Comment comment) {
 		Transaction t = this.transactionDao.find(id);
-		//Ö»ÓÐ×Ô¼ºµÄÊÂÎñ²Å¿ÉÒÔÖÃÎªÔÝÊ±²»×ö×´Ì¬
+		//Ö»ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½×´Ì¬
 		if (!t.getHANDLER_ID().equals(userId)) {
-			throw new BusinessException("Ö»ÄÜ´¦Àí×Ô¼ºµÄÊÂÎñ");
+			throw new BusinessException("Ö»ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
-		//Ö»ÓÐÔÚ½øÐÐÖÐµÄÊÂÎñ²Å¿ÉÒÔ¸Ä±ä´Ë×´Ì¬
+		//Ö»ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½Ô¸Ä±ï¿½ï¿½×´Ì¬
 		if (t.getTS_STATE().equals(TransactionState.PROCESSING)) {
 			this.transactionDao.forAWhile(id);
-			//±£´æÆÀÂÛ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Integer commentId = this.commentDao.save(comment);
-			createLog(id, userId, String.valueOf(commentId), " ÔÝÊ±²»×ö");
+			createLog(id, userId, String.valueOf(commentId), " ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½");
 		} else {
-			throw new BusinessException("ÊÂÎñ·Ç½øÐÐÖÐ, ²»¿ÉÒÔÖÃÎªÔÝÊ±²»×ö×´Ì¬");
+			throw new BusinessException("ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½×´Ì¬");
 		}
 	}
 
 	public void notToDo(String id, String userId, Comment comment) {
 		Transaction t = this.transactionDao.find(id);
-		//Ö»ÓÐ×Ô¼ºµÄÊÂÎñ²Å¿ÉÒÔÖÃÎª²»×ö×´Ì¬
+		//Ö»ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½×´Ì¬
 		if (!t.getHANDLER_ID().equals(userId)) {
-			throw new BusinessException("Ö»ÄÜ´¦Àí×Ô¼ºµÄÊÂÎñ");
+			throw new BusinessException("Ö»ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
-		//Ö»ÓÐÔÚ½øÐÐÖÐµÄÊÂÎñÓëÔÝÊ±²»×öµÄÊÂÎñ²Å¿ÉÒÔ¸Ä±ä´Ë×´Ì¬
+		//Ö»ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½Ô¸Ä±ï¿½ï¿½×´Ì¬
 		if (t.getTS_STATE().equals(TransactionState.PROCESSING) 
 				|| t.getTS_STATE().equals(TransactionState.FOR_A_WHILE)) {
 			this.transactionDao.notToDo(id);
-			//±£´æÆÀÂÛ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Integer commentId = this.commentDao.save(comment);
-			createLog(id, userId, String.valueOf(commentId), " ¾ö¶¨²»×ö");
+			createLog(id, userId, String.valueOf(commentId), " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		} else {
-			throw new BusinessException("²»¿ÉÒÔÖÃÎªÔÝÊ±²»×ö×´Ì¬");
+			throw new BusinessException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½×´Ì¬");
 		}
 	}
 	
 	public void finish(String id, String userId, Comment comment) {
 		Transaction t = this.transactionDao.find(id);
-		//Ö»ÓÐ×Ô¼ºµÄÊÂÎñ²Å¿ÉÒÔÖÃÎªÍê³É×´Ì¬
+		//Ö»ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½×´Ì¬
 		if (!t.getHANDLER_ID().equals(userId)) {
-			throw new BusinessException("Ö»ÄÜ´¦Àí×Ô¼ºµÄÊÂÎñ");
+			throw new BusinessException("Ö»ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
-		//Ö»ÓÐÔÚ½øÐÐÖÐµÄÊÂÎñÓëÔÝÊ±²»×öµÄÊÂÎñ²Å¿ÉÒÔ¸Ä±ä´Ë×´Ì¬
+		//Ö»ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½Ô¸Ä±ï¿½ï¿½×´Ì¬
 		if (t.getTS_STATE().equals(TransactionState.PROCESSING) 
 				|| t.getTS_STATE().equals(TransactionState.FOR_A_WHILE)) {
 			this.transactionDao.finish(id, ViewUtil.formatDate(new Date()));
-			//±£´æÆÀÂÛ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Integer commentId = this.commentDao.save(comment);
-			createLog(id, userId, String.valueOf(commentId), "×öÍêÁË");
+			createLog(id, userId, String.valueOf(commentId), "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		} else {
-			throw new BusinessException("Ö»ÓÐ½øÐÐÖÐ»òÕßÔÝÊ±²»×öµÄÊÂÎñ²Å¿ÉÒÔÍê³É");
+			throw new BusinessException("Ö»ï¿½Ð½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 	
 	public void transfer(String targetUserId, String sourceUserId,
 			Comment comment) {
 		Transaction t = this.transactionDao.find(comment.getTRANSACTION_ID());
-		//Ö»ÓÐ×Ô¼ºµÄÊÂÎñ²Å¿ÉÒÔ×ª·¢
+		//Ö»ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½×ªï¿½ï¿½
 		if (!t.getHANDLER_ID().equals(sourceUserId)) {
-			throw new BusinessException("Ö»ÄÜ´¦Àí×Ô¼ºµÄÊÂÎñ");
+			throw new BusinessException("Ö»ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
-		//Ö»ÓÐÔÚ½øÐÐÖÐµÄÊÂÎñÓëÔÝÊ±²»×öµÄÊÂÎñ²Å¿ÉÒÔ×ª·¢
+		//Ö»ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½×ªï¿½ï¿½
 		if (t.getTS_STATE().equals(TransactionState.PROCESSING) 
 				|| t.getTS_STATE().equals(TransactionState.FOR_A_WHILE)) {
 			UserTransfer ut = new UserTransfer();
@@ -207,17 +200,17 @@ public class TransactionServiceImpl implements TransactionService {
 			ut.setUSER_ID(sourceUserId);
 			ut.setTARGET_USER_ID(targetUserId);
 			ut.setOPERATE_DATE(ViewUtil.formatDate(new Date()));
-			//ÐÂÔö×ª·¢¼ÇÂ¼
+			//ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Â¼
 			this.userTransferDao.save(ut);
-			//±£´æÆÀÂÛ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Integer commentId = this.commentDao.save(comment);
-			//¸Ä±äÊÂÎñ¼ÇÂ¼µÄµ±Ç°´¦ÀíÈËidÓëÇ°Ò»´¦ÀíÈËid
+			//ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½Äµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½Ç°Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id
 			this.transactionDao.changeHandler(targetUserId, 
 					sourceUserId, comment.getTRANSACTION_ID());
 			User targetUser = this.userDao.find(targetUserId);
-			createLog(t.getID(), sourceUserId, String.valueOf(commentId), "×ª·¢¸ø " + targetUser.getREAL_NAME() + " ");
+			createLog(t.getID(), sourceUserId, String.valueOf(commentId), "×ªï¿½ï¿½ï¿½ï¿½ " + targetUser.getREAL_NAME() + " ");
 		} else {
-			throw new BusinessException("Ö»ÓÐ½øÐÐÖÐ»òÕßÔÝÊ±²»×öµÄÊÂÎñ²Å¿ÉÒÔ×ª·¢");
+			throw new BusinessException("Ö»ï¿½Ð½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½×ªï¿½ï¿½");
 		}
 	}
 	
@@ -237,11 +230,11 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	/**
-	 * ´´½¨ÈÕÖ¾
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
 	 * @param tsId
 	 * @param handlerId
 	 * @param commentId
-	 * @param desc ÃèÊö
+	 * @param desc ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void createLog(String tsId, String handlerId, String commentId, String desc) {
 		Log log = new Log();

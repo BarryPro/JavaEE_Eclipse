@@ -1,17 +1,13 @@
 package org.crazyit.ioc.context;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import IoC.main.org.crazyit.ioc.context.PropertyHandlerImpl;
+import IoC.test.org.crazyit.ioc.context.object.PropertyHandlerObject1;
+import IoC.test.org.crazyit.ioc.context.object.School;
 import junit.framework.TestCase;
-
-import org.crazyit.ioc.context.object.PropertyHandlerObject1;
-import org.crazyit.ioc.context.object.School;
-import org.crazyit.ioc.context.object.interfaces.Implement;
-import org.crazyit.ioc.context.object.interfaces.TestImplement;
 
 public class PropertyHandlerTest extends TestCase {
 

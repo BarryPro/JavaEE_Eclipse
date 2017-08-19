@@ -1,32 +1,29 @@
 package org.crazyit.ioc.context;
 
-import java.lang.reflect.Constructor;
 import java.util.List;
 
-import org.crazyit.ioc.xml.construct.DataElement;
-
 /**
- * Bean创建接口
+ * Bean锟斤拷锟斤拷锟接匡拷
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>网站: <a href="http://www.crazyit.org">疯狂Java联盟</a>
+ * <br/>锟斤拷站: <a href="http://www.crazyit.org">锟斤拷锟絁ava锟斤拷锟斤拷</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface BeanCreator {
 
 	/**
-	 * 使用无参的构造器创建bean实例, 不设置任何属性
+	 * 使锟斤拷锟睫参的癸拷锟斤拷锟斤拷锟斤拷锟斤拷bean实锟斤拷, 锟斤拷锟斤拷锟斤拷锟轿猴拷锟斤拷锟斤拷
 	 * @param className
 	 * @return
 	 */
 	Object createBeanUseDefaultConstruct(String className);
 	
 	/**
-	 * 使用有参数的构造器创建bean实例, 不设置任何属性
+	 * 使锟斤拷锟叫诧拷锟斤拷锟侥癸拷锟斤拷锟斤拷锟斤拷锟斤拷bean实锟斤拷, 锟斤拷锟斤拷锟斤拷锟轿猴拷锟斤拷锟斤拷
 	 * @param className 
-	 * @param args 参数集合
+	 * @param args 锟斤拷锟斤拷锟斤拷锟斤拷
 	 * @return
 	 */
 	Object createBeanUseDefineConstruce(String className, List<Object> args);

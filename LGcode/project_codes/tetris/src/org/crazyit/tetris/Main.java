@@ -1,7 +1,5 @@
 package org.crazyit.tetris;
 
-import org.crazyit.tetris.ui.MainFrame;
-
 public class Main {
 
 	/**

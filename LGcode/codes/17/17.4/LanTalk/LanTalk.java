@@ -4,10 +4,11 @@ import java.util.Date;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 import java.net.*;
 /**
  * Description:
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br/>Copyright (C), 2001-2016, Yeeku.H.Lee
  * <br/>This program is protected by copyright laws.
  * <br/>Program Name:
@@ -19,23 +20,23 @@ public class LanTalk extends JFrame
 {
 	private DefaultListModel<UserInfo> listModel
 		= new DefaultListModel<>();
-	// ¶¨ÒåÒ»¸öJList¶ÔÏó
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JListï¿½ï¿½ï¿½ï¿½
 	private JList<UserInfo> friendsList = new JList<>(listModel);
-	// ¶¨ÒåÒ»¸öÓÃÓÚ¸ñÊ½»¯ÈÕÆÚµÄ¸ñÊ½Æ÷
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ¸ï¿½Ê½ï¿½ï¿½
 	private DateFormat formatter = DateFormat.getDateTimeInstance();
 	public LanTalk()
 	{
-		super("¾ÖÓòÍøÁÄÌì");
-		// ÉèÖÃ¸ÃJListÊ¹ÓÃImageCellRenderer×÷Îªµ¥Ôª¸ñ»æÖÆÆ÷
+		super("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½Ã¸ï¿½JListÊ¹ï¿½ï¿½ImageCellRendererï¿½ï¿½Îªï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		friendsList.setCellRenderer(new ImageCellRenderer());
-		listModel.addElement(new UserInfo("all" , "ËùÓĞÈË"
+		listModel.addElement(new UserInfo("all" , "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 			, null , -2000));
 		friendsList.addMouseListener(new ChangeMusicListener());
 		add(new JScrollPane(friendsList));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(2, 2, 160 , 600);
 	}
-	// ¸ù¾İµØÖ·À´²éÑ¯ÓÃ»§
+	// ï¿½ï¿½ï¿½İµï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½Ã»ï¿½
 	public UserInfo getUserBySocketAddress(SocketAddress address)
 	{
 		for (int i = 1 ; i < getUserNum() ; i++)
@@ -49,44 +50,44 @@ public class LanTalk extends JFrame
 		}
 		return null;
 	}
-	// ------ÏÂÃæËÄ¸ö·½·¨ÊÇ¶ÔListModelµÄ°ü×°------
-	// ÏòÓÃ»§ÁĞ±íÖĞÌí¼ÓÓÃ»§
+	// ------ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ListModelï¿½Ä°ï¿½×°------
+	// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	public void addUser(UserInfo user)
 	{
 		listModel.addElement(user);
 	}
-	// ´ÓÓÃ»§ÁĞ±íÖĞÉ¾³ıÓÃ»§
+	// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ã»ï¿½
 	public void removeUser(int pos)
 	{
 		listModel.removeElementAt(pos);
 	}
-	// »ñÈ¡¸ÃÁÄÌì´°¿ÚµÄÓÃ»§ÊıÁ¿
+	// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ì´°ï¿½Úµï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int getUserNum()
 	{
 		return listModel.size();
 	}
-	// »ñÈ¡Ö¸¶¨Î»ÖÃµÄÓÃ»§
+	// ï¿½ï¿½È¡Ö¸ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½Ã»ï¿½
 	public UserInfo getUser(int pos)
 	{
 		return listModel.elementAt(pos);
 	}
-	// ÊµÏÖJListÉÏµÄÊó±êË«»÷ÊÂ¼şµÄ¼àÌıÆ÷
+	// Êµï¿½ï¿½JListï¿½Ïµï¿½ï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	class ChangeMusicListener extends MouseAdapter
 	{
 		public void mouseClicked(MouseEvent e)
 		{
-			// Èç¹ûÊó±êµÄ»÷¼ü´ÎÊı´óÓÚ2
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 			if (e.getClickCount() >= 2)
 			{
-				// È¡³öÊó±êË«»÷Ê±Ñ¡ÖĞµÄÁĞ±íÏî
+				// È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ë«ï¿½ï¿½Ê±Ñ¡ï¿½Ğµï¿½ï¿½Ğ±ï¿½ï¿½ï¿½
 				UserInfo user = (UserInfo)friendsList.getSelectedValue();
-				// Èç¹û¸ÃÁĞ±íÏî¶ÔÓ¦ÓÃ»§µÄ½»Ì¸´°¿ÚÎªnull
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã»ï¿½ï¿½Ä½ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½Îªnull
 				if (user.getChatFrame() == null)
 				{
-					// Îª¸ÃÓÃ»§´´½¨Ò»¸ö½»Ì¸´°¿Ú£¬²¢ÈÃ¸ÃÓÃ»§ÒıÓÃ¸Ã´°¿Ú
+					// Îªï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ã¸Ã´ï¿½ï¿½ï¿½
 					user.setChatFrame(new ChatFrame(null , user));
 				}
-				// Èç¹û¸ÃÓÃ»§µÄ´°¿ÚÃ»ÓĞÏÔÊ¾£¬ÔòÈÃ¸ÃÓÃ»§µÄ´°¿ÚÏÔÊ¾³öÀ´
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ä´ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Ã»ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
 				if (!user.getChatFrame().isShowing())
 				{
 					user.getChatFrame().setVisible(true);
@@ -95,18 +96,18 @@ public class LanTalk extends JFrame
 		}
 	}
 	/**
-	 * ´¦ÀíÍøÂçÊı¾İ±¨£¬¸Ã·½·¨½«¸ù¾İÁÄÌìĞÅÏ¢µÃµ½ÁÄÌìÕß£¬
-	 * ²¢½«ĞÅÏ¢ÏÔÊ¾ÔÚÁÄÌì¶Ô»°¿òÖĞ¡£
-	 * @param packet ĞèÒª´¦ÀíµÄÊı¾İ±¨
-	 * @param single ¸ÃĞÅÏ¢ÊÇ·ñÎªË½ÁÄĞÅÏ¢
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ±ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½
+	 * @param packet ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ±ï¿½
+	 * @param single ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ç·ï¿½ÎªË½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	public void processMsg(DatagramPacket packet , boolean single)
 	{
-		// »ñÈ¡¸Ã·¢ËÍ¸ÃÊı¾İ±¨µÄSocketAddress
+		// ï¿½ï¿½È¡ï¿½Ã·ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½İ±ï¿½ï¿½ï¿½SocketAddress
 		InetSocketAddress srcAddress = (InetSocketAddress)
 			packet.getSocketAddress();
-		// Èç¹ûÊÇË½ÁÄĞÅÏ¢£¬Ôò¸ÃPacket»ñÈ¡µÄÊÇDatagramSocketµÄµØÖ·£¬
-		// ½«¶Ë¿Ú¼õ1²ÅÊÇ¶ÔÓ¦µÄMulticastSocketµÄµØÖ·
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½Packetï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½DatagramSocketï¿½Äµï¿½Ö·ï¿½ï¿½
+		// ï¿½ï¿½ï¿½Ë¿Ú¼ï¿½1ï¿½ï¿½ï¿½Ç¶ï¿½Ó¦ï¿½ï¿½MulticastSocketï¿½Äµï¿½Ö·
 		if (single)
 		{
 			srcAddress = new InetSocketAddress(srcAddress.getHostName()
@@ -115,17 +116,17 @@ public class LanTalk extends JFrame
 		UserInfo srcUser = getUserBySocketAddress(srcAddress);
 		if (srcUser != null)
 		{
-			// È·¶¨ÏûÏ¢½«ÒªÏÔÊ¾µ½ÄÄ¸öÓÃ»§¶ÔÓ¦´°¿ÚÉÏ¡£
+			// È·ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Òªï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Ï¡ï¿½
 			UserInfo alertUser = single ? srcUser : getUser(0);
-			// Èç¹û¸ÃÓÃ»§¶ÔÓ¦µÄ´°¿ÚÎª¿Õ£¬ÏÔÊ¾¸Ã´°¿Ú
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ó¦ï¿½Ä´ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½ï¿½ï¿½Ê¾ï¿½Ã´ï¿½ï¿½ï¿½
 			if (alertUser.getChatFrame() == null)
 			{
 				alertUser.setChatFrame(new ChatFrame(null , alertUser));
 			}
-			// ¶¨ÒåÌí¼ÓµÄÌáÊ¾ĞÅÏ¢
-			String tipMsg = single ? "¶ÔÄúËµ£º" : "¶Ô´ó¼ÒËµ£º";
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢
+			String tipMsg = single ? "ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½" : "ï¿½Ô´ï¿½ï¿½Ëµï¿½ï¿½";
 			try{
-				// ÏÔÊ¾ÌáÊ¾ĞÅÏ¢
+				// ï¿½ï¿½Ê¾ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢
 				alertUser.getChatFrame().addString(srcUser.getName()
 					+ tipMsg + "......................("
 					+ formatter.format(new Date()) + ")\n"
@@ -138,40 +139,40 @@ public class LanTalk extends JFrame
 			}
 		}
 	}
-	// Ö÷·½·¨£¬³ÌĞòµÄÈë¿Ú
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static void main(String[] args)
 	{
 		LanTalk lanTalk = new LanTalk();
-		new LoginFrame(lanTalk , "ÇëÊäÈëÓÃ»§Ãû¡¢Í·ÏñºóµÇÂ¼");
+		new LoginFrame(lanTalk , "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Â¼");
 	}
 }
-// ¶¨ÒåÓÃÓÚ¸Ä±äJListÁĞ±íÏîÍâ¹ÛµÄÀà
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸Ä±ï¿½JListï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½
 class ImageCellRenderer extends JPanel
 	implements ListCellRenderer<UserInfo>
 {
 	private ImageIcon icon;
 	private String name;
-	// ¶¨Òå»æÖÆµ¥Ôª¸ñÊ±µÄ±³¾°É«
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Ôªï¿½ï¿½Ê±ï¿½Ä±ï¿½ï¿½ï¿½É«
 	private Color background;
-	// ¶¨Òå»æÖÆµ¥Ôª¸ñÊ±µÄÇ°¾°É«
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Ôªï¿½ï¿½Ê±ï¿½ï¿½Ç°ï¿½ï¿½É«
 	private Color foreground;
 	@Override
 	public Component getListCellRendererComponent(JList list
 		, UserInfo userInfo , int index
 		, boolean isSelected , boolean cellHasFocus)
 	{
-		// ÉèÖÃÍ¼±ê
+		// ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 		icon = new ImageIcon("ico/" + userInfo.getIcon() + ".gif");
 		name = userInfo.getName();
-		// ÉèÖÃ±³¾°É«¡¢Ç°¾°É«
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«ï¿½ï¿½Ç°ï¿½ï¿½É«
 		background = isSelected ? list.getSelectionBackground()
 			: list.getBackground();
 		foreground = isSelected ? list.getSelectionForeground()
 			: list.getForeground();
-		// ·µ»Ø¸ÃJPanel¶ÔÏó×÷Îªµ¥Ôª¸ñ»æÖÆÆ÷
+		// ï¿½ï¿½ï¿½Ø¸ï¿½JPanelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		return this;
 	}
-	// ÖØĞ´paintComponent·½·¨£¬¸Ä±äJPanelµÄÍâ¹Û
+	// ï¿½ï¿½Ğ´paintComponentï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½JPanelï¿½ï¿½ï¿½ï¿½ï¿½
 	public void paintComponent(Graphics g)
 	{
 		int imageWidth = icon.getImage().getWidth(null);
@@ -179,15 +180,15 @@ class ImageCellRenderer extends JPanel
 		g.setColor(background);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(foreground);
-		// »æÖÆºÃÓÑÍ¼±ê
+		// ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 		g.drawImage(icon.getImage() , getWidth() / 2 - imageWidth / 2
 			, 10 , null);
 		g.setFont(new Font("SansSerif" , Font.BOLD , 18));
-		// »æÖÆºÃÓÑÓÃ»§Ãû
+		// ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½
 		g.drawString(name, getWidth() / 2 - name.length() * 10
 			, imageHeight + 30 );
 	}
-	// Í¨¹ı¸Ã·½·¨À´ÉèÖÃ¸ÃImageCellRendererµÄ×î¼Ñ´óĞ¡
+	// Í¨ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ImageCellRendererï¿½ï¿½ï¿½ï¿½Ñ´ï¿½Ğ¡
 	public Dimension getPreferredSize()
 	{
 		return new Dimension(60, 80);

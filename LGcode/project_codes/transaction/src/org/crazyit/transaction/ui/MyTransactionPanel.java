@@ -13,27 +13,24 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-import org.crazyit.transaction.model.Transaction;
-import org.crazyit.transaction.model.TransactionState;
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.ui.dialog.HandleTransactionDialog;
-import org.crazyit.transaction.ui.dialog.TransferTransactionDialog;
-import org.crazyit.transaction.ui.dialog.ViewTransactionDialog;
-import org.crazyit.transaction.ui.handler.TransactionHandler;
-import org.crazyit.transaction.ui.handler.impl.FinishHandler;
-import org.crazyit.transaction.ui.handler.impl.ForAWhileHandler;
-import org.crazyit.transaction.ui.handler.impl.NotToDoHandler;
-import org.crazyit.transaction.ui.table.State;
-import org.crazyit.transaction.ui.table.TransactionTable;
-import org.crazyit.transaction.ui.table.TransactionTableModel;
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.model.TransactionState;
+import transaction.src.org.crazyit.transaction.ui.dialog.HandleTransactionDialog;
+import transaction.src.org.crazyit.transaction.ui.dialog.TransferTransactionDialog;
+import transaction.src.org.crazyit.transaction.ui.dialog.ViewTransactionDialog;
+import transaction.src.org.crazyit.transaction.ui.handler.TransactionHandler;
+import transaction.src.org.crazyit.transaction.ui.handler.impl.FinishHandler;
+import transaction.src.org.crazyit.transaction.ui.handler.impl.ForAWhileHandler;
+import transaction.src.org.crazyit.transaction.ui.handler.impl.NotToDoHandler;
+import transaction.src.org.crazyit.transaction.ui.table.TransactionTable;
+import transaction.src.org.crazyit.transaction.ui.table.TransactionTableModel;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 /**
- * ÎÒµÄÊÂÎñ½çÃæ
+ * ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -41,28 +38,28 @@ public class MyTransactionPanel extends BasePanel {
 	
 	private JScrollPane tableScrollPane;
 	
-	//Êý¾ÝÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private TransactionTable dataTable;
 	private TransactionTableModel tableModel;
 	
-	//²Ù×÷ÇøÓò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Box handleBox = Box.createVerticalBox();
 	
-	//²éÑ¯
+	//ï¿½ï¿½Ñ¯
 	private Box queryBox = Box.createHorizontalBox();
 	private JComboBox stateSelect = new JComboBox();
-	private JButton queryButton = new JButton("²éÑ¯");
+	private JButton queryButton = new JButton("ï¿½ï¿½Ñ¯");
 	
-	//²Ù×÷
+	//ï¿½ï¿½ï¿½ï¿½
 	private Box operateBox = Box.createHorizontalBox();
-	private JButton finishButton = new JButton("Íê³É");
-	private JButton transferButton = new JButton("×ª·¢");
-	private JButton forAWhileButton = new JButton("ÔÝÊ±²»×ö");
-	private JButton notToDoButton = new JButton("²»×ö");
+	private JButton finishButton = new JButton("ï¿½ï¿½ï¿½");
+	private JButton transferButton = new JButton("×ªï¿½ï¿½");
+	private JButton forAWhileButton = new JButton("ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½");
+	private JButton notToDoButton = new JButton("ï¿½ï¿½ï¿½ï¿½");
 	
-	//²é¿´ÊÂÎñ½çÃæ
+	//ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private ViewTransactionDialog vtDialog;
-	//´¦ÀíÊÂÎñ½çÃæ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private HandleTransactionDialog htDialog;
 	
 	private String currentState = TransactionState.PROCESSING;
@@ -86,7 +83,7 @@ public class MyTransactionPanel extends BasePanel {
 		initListeners();
 	}
 	
-	//³õÊ¼»¯°´Å¥¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
 		this.queryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -121,59 +118,59 @@ public class MyTransactionPanel extends BasePanel {
 		readData();
 	}
 	
-	//×ª·¢ÊÂÎñ¶Ô»°¿ò
+	//×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 	private TransferTransactionDialog transferDialog;
 	
-	//×ª·¢ÊÂÎñ
+	//×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void transfer() {
 		String id = ViewUtil.getSelectValue(this.dataTable, "id");
 		if (id == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÐèÒª²Ù×÷µÄÊÂÎñ", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", this);
 			return;
 		}
-		//µÃµ½ÊÂÎñ¶ÔÏó
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Transaction t = ApplicationContext.transactionService.get(id);
-		//ÏÔÊ¾´¦Àí¶Ô»°¿ò		
+		//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½		
 		this.transferDialog.setTransaction(t);
 		this.transferDialog.setVisible(true);
 	}
 	
-	//ÔÝÊ±²»×ö´¦ÀíÀà
+	//ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private TransactionHandler forAWhileHandler = new ForAWhileHandler();
 	
-	//ÔÝÊ±²»×ö
+	//ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 	private void forAWhile() {
 		String id = ViewUtil.getSelectValue(this.dataTable, "id");
 		if (id == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÐèÒª²Ù×÷µÄÊÂÎñ", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", this);
 			return;
 		}
-		//µÃµ½ÊÂÎñ¶ÔÏó
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Transaction t = ApplicationContext.transactionService.get(id);
-		//ÏÔÊ¾´¦Àí¶Ô»°¿ò
+		//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 		this.htDialog.setTransaction(t);
 		this.htDialog.setHandler(this.forAWhileHandler);
 		this.htDialog.setVisible(true);
 	}
 	
-	//¾ö¶¨²»×ö´¦ÀíÀà
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private TransactionHandler notToDoHandler = new NotToDoHandler();
 	
 	private void notToDo() {
 		String id = ViewUtil.getSelectValue(this.dataTable, "id");
 		if (id == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÐèÒª²Ù×÷µÄÊÂÎñ", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", this);
 			return;
 		}
-		//µÃµ½ÊÂÎñ¶ÔÏó
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Transaction t = ApplicationContext.transactionService.get(id);
-		//ÏÔÊ¾´¦Àí¶Ô»°¿ò
+		//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 		this.htDialog.setTransaction(t);
 		this.htDialog.setHandler(this.notToDoHandler);
 		this.htDialog.setVisible(true);
 	}
 	
-	//´´½¨ÊÂÎñÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private void createTable() {
 		this.tableModel = new TransactionTableModel();
 		this.dataTable = new TransactionTable(this.tableModel);
@@ -185,18 +182,18 @@ public class MyTransactionPanel extends BasePanel {
 				}
 			}
 		});
-		//ÓÉÓÚÎÒµÄÊÂÎñ½çÃæÊÇ×îÏÈÕ¹ÏÖµÄ½çÃæ, Òò´ËÐèÒª¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¹ï¿½ÖµÄ½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		readData();
 	}
 	
-	//´ÓÊý¾Ý¿âÖÐ¶ÁÈ¡Êý¾Ý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ð¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	private List<Transaction> getDatas() {
 		User loginUser = ApplicationContext.loginUser;
 		List<Transaction> datas = ApplicationContext.transactionService.getHandlerTransaction(loginUser, currentState);
 		return datas;
 	}
 	
-	//ÎÒµÄÊÂÎñ½çÃæ¶ÁÈ¡Êý¾Ý, ÊµÏÖ¸¸ÀàµÄ³éÏó·½·¨
+	//ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½, Êµï¿½Ö¸ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ó·½·ï¿½
 	public void readData() {
 		List<Transaction> datas = getDatas();
 		this.tableModel.setDatas(datas);
@@ -205,7 +202,7 @@ public class MyTransactionPanel extends BasePanel {
 
 	private void createOperateBox() {
 		this.operateBox.add(Box.createHorizontalStrut(160));
-		this.operateBox.add(new JLabel("Ñ¡Ôñ²Ù×÷: "));
+		this.operateBox.add(new JLabel("Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½: "));
 		this.operateBox.add(Box.createHorizontalStrut(40));
 		this.operateBox.add(this.finishButton);
 		this.operateBox.add(Box.createHorizontalStrut(40));
@@ -219,22 +216,22 @@ public class MyTransactionPanel extends BasePanel {
 	
 	private TransactionHandler finishHandler = new FinishHandler();
 	
-	//½«ÊÂÎñÖÃÎªÍê³É×´Ì¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½×´Ì¬
 	private void finish() {
 		String id = ViewUtil.getSelectValue(this.dataTable, "id");
 		if (id == null) {
-			ViewUtil.showWarn("ÇëÑ¡ÔñÐèÒª²Ù×÷µÄÊÂÎñ", this);
+			ViewUtil.showWarn("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", this);
 			return;
 		}
-		//µÃµ½ÊÂÎñ¶ÔÏó
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Transaction t = ApplicationContext.transactionService.get(id);
-		//ÏÔÊ¾´¦Àí¶Ô»°¿ò
+		//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 		this.htDialog.setTransaction(t);
 		this.htDialog.setHandler(this.finishHandler);
 		this.htDialog.setVisible(true);
 	}
 	
-	//´´½¨²éÑ¯ÇøÓò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	private void createQueryBox() {
 		this.stateSelect.addItem(State.PROCESS_STATE);
 		this.stateSelect.addItem(State.FINISHED_STATE);

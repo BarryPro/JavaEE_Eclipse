@@ -3,34 +3,32 @@ package org.crazyit.book.service;
 import java.util.Collection;
 import java.util.Date;
 
-import org.crazyit.book.vo.SaleRecord;
-
 /**
- * ÏúÊÛÒµÎñ½Ó¿Ú
+ * ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface SaleRecordService {
 
 	/**
-	 * ĞÂÔöÒ»ÌõÏúÊÛ¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	 * @param record
 	 */
 	void saveRecord(SaleRecord record);
 	
 	/**
-	 * ¸ù¾İÈÕÆÚ»ñÈ¡¸ÃÈÕÆÚ¶ÔÓ¦µÄÏúÊÛ¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	 * @param date
 	 * @return
 	 */
 	Collection<SaleRecord> getAll(Date date);
 	
 	/**
-	 * ¸ù¾İid»ñÈ¡ÏúÊÛ¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½È¡ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	 * @param id
 	 * @return
 	 */

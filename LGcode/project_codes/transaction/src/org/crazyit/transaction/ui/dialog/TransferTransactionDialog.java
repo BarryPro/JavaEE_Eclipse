@@ -14,91 +14,88 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.crazyit.transaction.model.Comment;
-import org.crazyit.transaction.model.Transaction;
-import org.crazyit.transaction.ui.MyTransactionPanel;
-import org.crazyit.transaction.ui.handler.TransactionHandler;
-import org.crazyit.transaction.ui.handler.UserSelectHandler;
-import org.crazyit.transaction.ui.handler.impl.TransferUserSelectHandler;
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.ui.MyTransactionPanel;
+import transaction.src.org.crazyit.transaction.ui.handler.UserSelectHandler;
+import transaction.src.org.crazyit.transaction.ui.handler.impl.TransferUserSelectHandler;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 /**
- * ×ª·¢ÊÂÎñ½çÃæ
+ * ×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class TransferTransactionDialog extends JDialog {
 
-	//±êÌâ
-	private JLabel titleLabel = new JLabel("±êÌâ: ");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel titleLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField title = new JTextField(10);
 	//ID
 	private JTextField transationId = new JTextField();
 	
-	//Ñ¡Ôñ×ª·¢Ä¿±êÓÃ»§
-	private JLabel targetUserLabel = new JLabel("×ª¸ø: ");
+	//Ñ¡ï¿½ï¿½×ªï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ã»ï¿½
+	private JLabel targetUserLabel = new JLabel("×ªï¿½ï¿½: ");
 	private JTextField targetRealName = new JTextField(10);
 	private JTextField targetUserId = new JTextField(10);
-	//´¦ÀíÈËÑ¡Ôñ°´Å¥
-	private JButton handlerSelectButton = new JButton("Ñ¡ÔñÓÃ»§");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Å¥
+	private JButton handlerSelectButton = new JButton("Ñ¡ï¿½ï¿½ï¿½Ã»ï¿½");
 	private SelectUserDialog userDialog;
 	
-	//ÄÚÈÝ
+	//ï¿½ï¿½ï¿½ï¿½
 	
-	private JLabel contentLabel = new JLabel("ËµÃ÷: ");
+	private JLabel contentLabel = new JLabel("Ëµï¿½ï¿½: ");
 	private JTextArea content = new JTextArea(10, 40);
 	private JScrollPane contentPane = new JScrollPane(content);
 	
-	//°´Å¥
-	private JButton confirmButton = new JButton("´¦Àí");
-	private JButton cancelButton = new JButton("È¡Ïû");
+	//ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("ï¿½ï¿½ï¿½ï¿½");
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
 	
 	private Transaction t;
 	
 	private MyTransactionPanel myPanel;
 	
-	//ÓÃ»§Ñ¡Ôñ´¦ÀíÀà
+	//ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private UserSelectHandler selectHandler;
 	
 	public TransferTransactionDialog(MyTransactionPanel myPanel) {
 		this.targetUserId.setVisible(false);
 		this.myPanel = myPanel;
 		this.targetRealName.setEditable(false);
-		//ÓÃ»§Ñ¡Ôñ´¦ÀíÀà
+		//ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.selectHandler = new TransferUserSelectHandler(this);
-		//ÓÃ»§Ñ¡Ôñ¶Ô»°¿ò
+		//ï¿½Ã»ï¿½Ñ¡ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 		this.userDialog = new SelectUserDialog(this.selectHandler);
 		this.title.setEditable(false);
 		this.transationId.setVisible(false);
-		//±êÌâ
+		//ï¿½ï¿½ï¿½ï¿½
 		Box titleBox = Box.createHorizontalBox();
 		titleBox.add(Box.createHorizontalStrut(30));
 		titleBox.add(this.titleLabel);
 		titleBox.add(this.title);
 		titleBox.add(Box.createHorizontalStrut(30));
-		//Ñ¡ÔñÓÃ»§
+		//Ñ¡ï¿½ï¿½ï¿½Ã»ï¿½
 		Box userBox = Box.createHorizontalBox();
 		userBox.add(Box.createHorizontalStrut(30));
 		userBox.add(this.targetUserLabel);
 		userBox.add(this.targetRealName);
 		userBox.add(this.targetUserId);
 		userBox.add(Box.createHorizontalStrut(230));
-		//Ñ¡ÔñÓÃ»§°´Å¥
+		//Ñ¡ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Å¥
 		Box selectButtonBox = Box.createHorizontalBox();
 		selectButtonBox.add(Box.createHorizontalStrut(30));
 		selectButtonBox.add(this.handlerSelectButton);
 		selectButtonBox.add(Box.createHorizontalStrut(355));
-		//ÄÚÈÝ
+		//ï¿½ï¿½ï¿½ï¿½
 		Box contentBox = Box.createHorizontalBox();
 		contentBox.add(Box.createHorizontalStrut(30));
 		contentBox.add(this.contentLabel);
 		contentBox.add(this.contentPane);
 		contentBox.add(Box.createHorizontalStrut(30));
-		//°´Å¥
+		//ï¿½ï¿½Å¥
 		Box buttonBox = Box.createHorizontalBox();
 		buttonBox.add(this.confirmButton);
 		buttonBox.add(Box.createHorizontalStrut(40));
@@ -119,13 +116,13 @@ public class TransferTransactionDialog extends JDialog {
 		this.add(mainBox);	
 		this.pack();
 		this.setResizable(false);
-		this.setTitle("´¦ÀíÊÂÎñ");
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation((int)screen.getWidth()/4, (int)screen.getHeight()/5);
 		initListeners();
 	}
 	
-	//ÈÃÍâ½çÉèÖÃÏàÓ¦µÄÊÂÎñ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void setTransaction(Transaction t) {
 		this.t = t;
 	}
@@ -139,7 +136,7 @@ public class TransferTransactionDialog extends JDialog {
 		}
 	}
 
-	//³õÊ¼»¯°´Å¥¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
 		this.confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -166,26 +163,26 @@ public class TransferTransactionDialog extends JDialog {
 		return this.targetRealName;
 	}
 	
-	//È·¶¨½øÐÐÊÂÎñ´¦Àí
+	//È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void confirm() {
 		String targetUserId = this.targetUserId.getText();
 		String sourceUserId = ApplicationContext.loginUser.getID();
 		if (targetUserId.equals("")) {
-			ViewUtil.showWarn("ÇëÊäÈëÍêÕûµÄÐÅÏ¢", this);
+			ViewUtil.showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢", this);
 			return;
 		}
 		if (targetUserId.equals(sourceUserId)) {
-			ViewUtil.showWarn("²»¿ÉÒÔ°Ñ×Ô¼º×÷Îª×ª·¢ÈË", this);
+			ViewUtil.showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½Ô°ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½Îª×ªï¿½ï¿½ï¿½ï¿½", this);
 			return;
 		}
-		//´´½¨ÆÀÂÛ¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¶ï¿½ï¿½ï¿½
 		Comment comment = new Comment();
 		comment.setCM_CONTENT(this.content.getText());
 		comment.setCM_DATE(ViewUtil.formatDate(new Date()));
 		comment.setTRANSACTION_ID(this.transationId.getText());
 		comment.setUSER_ID(sourceUserId);
 		try {
-			//µ÷ÓÃÒµÎñ½Ó¿Ú½øÐÐÊÂÎñ×ª·¢
+			//ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ó¿Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
 			ApplicationContext.transactionService.transfer(targetUserId, sourceUserId, 
 					comment);
 			this.myPanel.readData();

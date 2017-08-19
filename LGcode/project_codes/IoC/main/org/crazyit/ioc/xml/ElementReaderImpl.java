@@ -3,21 +3,20 @@ package org.crazyit.ioc.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.ioc.xml.autowire.Autowire;
-import org.crazyit.ioc.xml.autowire.ByNameAutowire;
-import org.crazyit.ioc.xml.autowire.NoAutowire;
-import org.crazyit.ioc.xml.construct.DataElement;
-import org.crazyit.ioc.xml.construct.RefElement;
-import org.crazyit.ioc.xml.construct.ValueElement;
-import org.crazyit.ioc.xml.property.PropertyElement;
-import org.dom4j.Element;
+import IoC.main.org.crazyit.ioc.xml.autowire.Autowire;
+import IoC.main.org.crazyit.ioc.xml.autowire.ByNameAutowire;
+import IoC.main.org.crazyit.ioc.xml.autowire.NoAutowire;
+import IoC.main.org.crazyit.ioc.xml.construct.DataElement;
+import IoC.main.org.crazyit.ioc.xml.construct.RefElement;
+import IoC.main.org.crazyit.ioc.xml.construct.ValueElement;
+import IoC.main.org.crazyit.ioc.xml.property.PropertyElement;
 
 /**
- * 元素读取实现类
+ * 元锟截讹拷取实锟斤拷锟斤拷
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>网站: <a href="http://www.crazyit.org">疯狂Java联盟</a>
+ * <br/>锟斤拷站: <a href="http://www.crazyit.org">锟斤拷锟絁ava锟斤拷锟斤拷</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -54,13 +53,13 @@ public class ElementReaderImpl implements ElementReader {
 		String value = this.getAttribute(element, "autowire");
 		String parentValue = this.getAttribute(element.getParent(), "default-autowire");
 		if ("no".equals(parentValue)) {
-			//根节点不需要自动装配
+			//锟斤拷锟节点不锟斤拷要锟皆讹拷装锟斤拷
 			if ("byName".equals(value)) {
 				return new ByNameAutowire(value);
 			}
 			return new NoAutowire(value);
 		} else if ("byName".equals(parentValue)) {
-			//根节点byName
+			//锟斤拷锟节碉拷byName
 			if ("no".equals(value)) {
 				return new NoAutowire(value);
 			}
@@ -74,13 +73,13 @@ public class ElementReaderImpl implements ElementReader {
 		Element parent = element.getParent();
 		Boolean parentLazy = new Boolean(getAttribute(parent, "default-lazy-init"));
 		if (parentLazy) {
-			//根节点需要延迟加载
+			//锟斤拷锟节碉拷锟斤拷要锟接迟硷拷锟斤拷
 			if ("false".equals(lazy)) {
 				return false;
 			}
 			return true;
 		} else {
-			//根节点不需要延迟加载
+			//锟斤拷锟节点不锟斤拷要锟接迟硷拷锟斤拷
 			if ("true".equals(lazy)) {
 				return true;
 			}
@@ -94,11 +93,11 @@ public class ElementReaderImpl implements ElementReader {
 	}
 
 	public List<DataElement> getConstructorValue(Element element) {
-		//调用本类中的getConstructorElements方法取得全部的constructor-arg元素
+		//锟斤拷锟矫憋拷锟斤拷锟叫碉拷getConstructorElements锟斤拷锟斤拷取锟斤拷全锟斤拷锟斤拷constructor-arg元锟斤拷
 		List<Element> cons = getConstructorElements(element);
 		List<DataElement> result = new ArrayList<DataElement>();
 		for (Element e : cons) {
-			//获得constructor-arg下的ref元素或者value元素(只有一个)
+			//锟斤拷锟絚onstructor-arg锟铰碉拷ref元锟截伙拷锟斤拷value元锟斤拷(只锟斤拷一锟斤拷)
 			List<Element> els = e.elements();
 			DataElement dataElement = getDataElement(els.get(0));
 			result.add(dataElement);
@@ -110,11 +109,11 @@ public class ElementReaderImpl implements ElementReader {
 		List<Element> properties = getPropertyElements(element);
 		List<PropertyElement> result = new ArrayList<PropertyElement>();
 		for (Element e : properties) {
-			//获得property下的ref元素或者value元素(只有一个)
+			//锟斤拷锟絧roperty锟铰碉拷ref元锟截伙拷锟斤拷value元锟斤拷(只锟斤拷一锟斤拷)
 			List<Element> els = e.elements();
 			DataElement dataElement = getDataElement(els.get(0));
 			String propertyNameAtt = this.getAttribute(e, "name");
-			//将数据值和property元素的name属性封装成PropertyElement对象
+			//锟斤拷锟斤拷锟斤拷值锟斤拷property元锟截碉拷name锟斤拷锟皆凤拷装锟斤拷PropertyElement锟斤拷锟斤拷
 			PropertyElement pe = new PropertyElement(propertyNameAtt, dataElement);
 			result.add(pe);
 		}
@@ -122,7 +121,7 @@ public class ElementReaderImpl implements ElementReader {
 	}
 
 	/**
-	 * 判断Element类型是ref还是value, 并将其封装成DataElement对象
+	 * 锟叫讹拷Element锟斤拷锟斤拷锟斤拷ref锟斤拷锟斤拷value, 锟斤拷锟斤拷锟斤拷锟阶帮拷锟紻ataElement锟斤拷锟斤拷
 	 * @param dataElement
 	 * @return
 	 */
@@ -139,7 +138,7 @@ public class ElementReaderImpl implements ElementReader {
 	}
 	
 	/**
-	 * 判断className的类型是否为基础类型, 是的话进行转换
+	 * 锟叫讹拷className锟斤拷锟斤拷锟斤拷锟角凤拷为锟斤拷锟斤拷锟斤拷锟斤拷, 锟角的伙拷锟斤拷锟斤拷转锟斤拷
 	 * @param className
 	 * @param data
 	 * @return

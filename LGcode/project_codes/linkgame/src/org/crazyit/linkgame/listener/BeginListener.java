@@ -1,22 +1,20 @@
 package org.crazyit.linkgame.listener;
 
-import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JLabel;
-
-import org.crazyit.linkgame.commons.GameConfiguration;
-import org.crazyit.linkgame.service.GameService;
-import org.crazyit.linkgame.timer.TimerTask;
-import org.crazyit.linkgame.view.GamePanel;
-
 import java.util.Timer;
 
+import javax.swing.JLabel;
+import javax.swing.event.MouseInputAdapter;
+
+import linkgame.src.org.crazyit.linkgame.commons.GameConfiguration;
+import linkgame.src.org.crazyit.linkgame.service.GameService;
+
 /**
- * ¿ªÊ¼°´Å¥¼àÌýÆ÷
+ * ï¿½ï¿½Ê¼ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -48,7 +46,7 @@ public class BeginListener extends MouseInputAdapter {
 		return this.timer;
 	}
 
-	// µ±Êó±êµã»÷Ê±£¬Ö´ÐÐÕâ¸ö·½·¨
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	public void mousePressed(MouseEvent e) {
 		if (this.timer != null) {
@@ -57,18 +55,18 @@ public class BeginListener extends MouseInputAdapter {
 		this.timer = new Timer();
 		gamePanel.setSelectPiece(null);
 		gamePanel.setOverImage(null);
-		// ½«·ÖÊýÇå0
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
 		pointLabel.setText("0");
-		// ½«Ê±¼ä±ä³ÉÔ­À´ÉèÖÃµÄÊ±¼ä(ÔÚGameConfigurationÖÐÉèÖÃ)
+		// ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½Ê±ï¿½ï¿½(ï¿½ï¿½GameConfigurationï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		timeLabel.setText(String.valueOf(config.getGameTime()));
-		// µ÷ÓÃgameServiceµÄstart·½·¨
+		// ï¿½ï¿½ï¿½ï¿½gameServiceï¿½ï¿½startï¿½ï¿½ï¿½ï¿½
 
 		gameService.start();
-		// ¿ªÊ¼½øÐÐÈÎÎñ
+		// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		task = new TimerTask(this.gamePanel, this.config.getGameTime(),
 				this.timeLabel);
 		timer.schedule(task, 0, 1000);
-		// ¶ÔgamePanel½øÐÐÖØÐÂ»æÖÆ
+		// ï¿½ï¿½gamePanelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½
 		gamePanel.repaint();
 	}
 }

@@ -4,14 +4,14 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.ioc.context.exception.BeanCreateException;
+import IoC.main.org.crazyit.ioc.context.exception.BeanCreateException;
 
 /**
- * Bean´´½¨ÊµÏÖÀà
+ * Beanï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -29,9 +29,9 @@ public class BeanCreatorImpl implements BeanCreator {
 	}
 	
 	/**
-	 * ²éÕÒÒ»¸öÀàµÄ¹¹ÔìÆ÷
-	 * @param clazz ÀàĞÍ
-	 * @param argsClass ¹¹Ôì²ÎÊı
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param clazz ï¿½ï¿½ï¿½ï¿½
+	 * @param argsClass ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private Constructor getConstructor(Class clazz, Class[] argsClass) {
@@ -44,7 +44,7 @@ public class BeanCreatorImpl implements BeanCreator {
 	}
 	
 	/**
-	 * ²éÕÒÒ»¸öÀàµÄ¹¹ÔìÆ÷, Ò»¸öÀàÖĞ¹¹ÔìÆ÷²ÎÊıÓĞ¿ÉÄÜÊÇÔ­À´¹¹ÔìÆ÷ÀàĞÍµÄ×ÓÀà
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½, Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¿ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param clazz
 	 * @param argsClass
 	 * @return
@@ -56,9 +56,9 @@ public class BeanCreatorImpl implements BeanCreator {
 		if (constructor == null) {
 			Constructor[] constructors = clazz.getConstructors();
 			for (Constructor c : constructors) {
-				//»ñÈ¡¸ÃÀàËùÓĞµÄ¹¹ÔìÆ÷
+				//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ĞµÄ¹ï¿½ï¿½ï¿½ï¿½ï¿½
 				Class[] constructorArgsCLass = c.getParameterTypes();
-				//²ÎÊıÊıÁ¿Óë¹¹ÔìÆ÷µÄ²ÎÊıÊıÁ¿ÏàÍ¬
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¹¹ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 				if (constructorArgsCLass.length == argsClass.length) {
 					if (isSameArgs(argsClass, constructorArgsCLass)) {
 						return c;
@@ -72,7 +72,7 @@ public class BeanCreatorImpl implements BeanCreator {
 	}
 	
 	/**
-	 * ÅĞ¶ÏÁ½¸ö²ÎÊıÊı×éÀàĞÍÊÇ·ñÆ¥Åä
+	 * ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Æ¥ï¿½ï¿½
 	 * @param argsClass
 	 * @param constructorArgsCLass
 	 * @return
@@ -80,14 +80,14 @@ public class BeanCreatorImpl implements BeanCreator {
 	private boolean isSameArgs(Class[] argsClass, Class[] constructorArgsCLass) {
 		for (int i = 0; i < argsClass.length; i++) {
 			try {
-				//½«²ÎÊıÀàĞÍÓë¹¹ÔìÆ÷ÖĞµÄ²ÎÊıÀàĞÍ½øĞĞÇ¿ÖÆ×ª»»
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¹¹ï¿½ï¿½ï¿½ï¿½ï¿½ĞµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½×ªï¿½ï¿½
 				argsClass[i].asSubclass(constructorArgsCLass[i]);
-				//Ñ­»·µ½×îºóÒ»¸ö¶¼Ã»ÓĞ³ö´í, ±íÊ¾¸Ã¹¹ÔìÆ÷ºÏÊÊ
+				//Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ğ³ï¿½ï¿½ï¿½, ï¿½ï¿½Ê¾ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				if (i == (argsClass.length - 1)) {
 					return true;
 				}
 			} catch (Exception e) {
-				//ÓĞÒ»¸ö²ÎÊıÀàĞÍ²»·ûºÏ, Ìø³ö¸ÃÑ­»·
+				//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 				break;
 			}
 		}
@@ -114,7 +114,7 @@ public class BeanCreatorImpl implements BeanCreator {
 	}
 	
 	/**
-	 * »ñµÃÒ»¸öObjectµÄclass
+	 * ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Objectï¿½ï¿½class
 	 * @param obj
 	 * @return
 	 */
@@ -140,7 +140,7 @@ public class BeanCreatorImpl implements BeanCreator {
 	}
 	
 	/**
-	 * µÃµ½²ÎÊıµÄÀàĞÍ
+	 * ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param args
 	 * @return
 	 */

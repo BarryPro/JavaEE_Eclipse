@@ -1,0 +1,14 @@
+@startuml
+package com.xu81.uml{
+    class TestA {
+        -String name
+        +int id
+    }
+
+    class TestB extends TestA{
+        -String desc
+        +String getDesc()
+        +void setDesc(String desc)
+    }
+}
+@enduml

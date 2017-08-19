@@ -1,20 +1,14 @@
 package org.crazyit.image.tool;
 
-import org.crazyit.image.ImageFrame;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 /**
- * ¾ØÐÎ¹¤¾ß
+ * ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -33,25 +27,25 @@ public class RectTool extends AbstractTool {
 	}
 
 	/**
-	 * »­Í¼ÐÎ
+	 * ï¿½ï¿½Í¼ï¿½ï¿½
 	 * 
 	 * @param g
 	 *            Graphics
 	 * @param x1
-	 *            Æðµãx×ø±ê
+	 *            ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	 * @param y1
-	 *            Æðµãy×ø±ê
+	 *            ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	 * @param x2
-	 *            ÖÕµãx×ø±ê
+	 *            ï¿½Õµï¿½xï¿½ï¿½ï¿½ï¿½
 	 * @param y2
-	 *            ÖÕµãy×ø±ê
+	 *            ï¿½Õµï¿½yï¿½ï¿½ï¿½ï¿½
 	 * @return void
 	 */
 	public void draw(Graphics g, int x1, int y1, int x2, int y2) {
-		// ¼ÆËãÆðµã
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int x = x2 > x1 ? x1 : x2;
 		int y = y2 > y1 ? y1 : y2;
-		// »­¾ØÐÎ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		g.drawRect(x, y, Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
 }

@@ -4,16 +4,16 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.crazyit.ioc.xml.exception.DocumentException;
-import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
+import IoC.main.org.crazyit.ioc.xml.exception.DocumentException;
+
 /**
- * xmlÎÄµµ³ÖÓÐÕß
+ * xmlï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -24,14 +24,14 @@ public class XmlDocumentHolder implements DocumentHolder {
 	public Document getDocument(String filePath) {
 		Document doc = this.docs.get(filePath);
 		if (doc == null) {
-			//Ê¹ÓÃSAXReaderÀ´¶ÁÈ¡xmlÎÄ¼þ
+			//Ê¹ï¿½ï¿½SAXReaderï¿½ï¿½ï¿½ï¿½È¡xmlï¿½Ä¼ï¿½
 			this.docs.put(filePath, readDocument(filePath));
 		}
 		return this.docs.get(filePath);
 	}
 	
 	/**
-	 * ¸ù¾ÝÎÄ¼þÂ·¾¶¶ÁÈ¡Document
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Â·ï¿½ï¿½ï¿½ï¿½È¡Document
 	 * @param filePath
 	 * @return
 	 */

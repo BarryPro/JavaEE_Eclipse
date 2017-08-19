@@ -6,28 +6,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.mail.Address;
 import javax.mail.BodyPart;
-import javax.mail.Flags;
 import javax.mail.Folder;
-import javax.mail.Message;
 import javax.mail.Multipart;
-import javax.mail.Part;
 import javax.mail.Store;
-import javax.mail.internet.MimeUtility;
 
-import org.crazyit.foxmail.object.FileObject;
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.object.MailComparator;
-import org.crazyit.foxmail.ui.MailContext;
-import org.crazyit.foxmail.util.FileUtil;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
+
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.object.MailComparator;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
+import jdk.nashorn.internal.ir.Flags;
 
 /**
- * ¶ÁÈ¡ÓÊ¼şÊµÏÖÀà
+ * ï¿½ï¿½È¡ï¿½Ê¼ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -36,19 +32,19 @@ public class MailLoaderImpl implements MailLoader {
 	
 	@Override
 	public List<Mail> getMessages(MailContext ctx) {
-		//µÃµ½INBOX¶ÔÓ¦µÄFolder
+		//ï¿½Ãµï¿½INBOXï¿½ï¿½Ó¦ï¿½ï¿½Folder
 		Folder inbox = getINBOXFolder(ctx);
 		try {
 			inbox.open(Folder.READ_WRITE);
-			//µÃµ½INBOXÀïµÄËùÓĞĞÅÏ¢
+			//ï¿½Ãµï¿½INBOXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 			Message[] messages = inbox.getMessages();
-			//½«MessageÊı×é·â×°³ÉMail¼¯ºÏ
+			//ï¿½ï¿½Messageï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½
 			List<Mail> result = getMailList(ctx, messages);
-			//°´ÕÕÊ±¼ä½µĞòÅÅĞò
+			//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä½µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			sort(result);
-			//É¾³ıÓÊÏäÖĞÈ«²¿µÄÓÊ¼ş, ÄÇÃ´Ã¿´ÎÊ¹ÓÃÓÊ¼şÏµÍ³, Ö»»áÄÃĞÂÊÕµ½µÄÓÊ¼ş
+			//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½, ï¿½ï¿½Ã´Ã¿ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Ê¼ï¿½ÏµÍ³, Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Ê¼ï¿½
 			deleteFromServer(messages);
-			//É¾³ıÓÊ¼ş²¢Ìá½»É¾³ı×´Ì¬
+			//É¾ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½á½»É¾ï¿½ï¿½×´Ì¬
 			inbox.close(true);
 			return result;
 		} catch (Exception e) {
@@ -56,33 +52,33 @@ public class MailLoaderImpl implements MailLoader {
 		}
 	}
 
-	//½«javamailÖĞµÄMessage¶ÔÏó×ª»»³É±¾ÏîÄ¿ÖĞµÄMail¶ÔÏó
+	//ï¿½ï¿½javamailï¿½Ğµï¿½Messageï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½É±ï¿½ï¿½ï¿½Ä¿ï¿½Ğµï¿½Mailï¿½ï¿½ï¿½ï¿½
 	private List<Mail> getMailList(MailContext ctx, Message[] messages) {
 		List<Mail> result = new ArrayList<Mail>();
 		try {
-			//½«µÃµ½µÄMessage¶ÔÏó·â×°³ÉMail¶ÔÏó
+			//ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Messageï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½
 			for (Message m : messages) {
-				//Éú³ÉUUIDµÄÎÄ¼şÃû
+				//ï¿½ï¿½ï¿½ï¿½UUIDï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 				String xmlName = UUID.randomUUID().toString() + ".xml"; 
-				//»ñµÃÄÚÈİ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				String content = getContent(m, new StringBuffer()).toString();
-				//µÃµ½ÓÊ¼şµÄ¸÷¸öÖµ
+				//ï¿½Ãµï¿½ï¿½Ê¼ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½Öµ
 				Mail mail = new Mail(xmlName, getAllRecipients(m), getSender(m), 
 						m.getSubject(), getReceivedDate(m), Mail.getSize(m.getSize()), hasRead(m), 
 						content, FileUtil.INBOX);
-				//Îªmail¶ÔÏóÉèÖÃ³­ËÍ
+				//Îªmailï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½
 				mail.setCcs(getCC(m));
-				//ÉèÖÃ¸½¼ş¼¯ºÏ
+				//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				mail.setFiles(getFiles(ctx, m));
 				result.add(mail);
 			}
 			return result;
 		} catch (Exception e) {
-			throw new LoadMailException("µÃµ½ÓÊ¼şµÄĞÅÏ¢³ö´í: " + e.getMessage());
+			throw new LoadMailException("ï¿½Ãµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½: " + e.getMessage());
 		}
 	}
 	
-	//µÃµ½½ÓÊÕµÄÈÕÆÚ, ÓÅÏÈ·µ»Ø·¢ËÍÈÕÆÚ, Æä´Î·µ»ØÊÕĞÅÈÕÆÚ
+	//ï¿½Ãµï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½È·ï¿½ï¿½Ø·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Î·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Date getReceivedDate(Message m) throws Exception {
 		if (m.getSentDate() != null) return m.getSentDate();
 		if (m.getReceivedDate() != null) return m.getReceivedDate();
@@ -91,23 +87,23 @@ public class MailLoaderImpl implements MailLoader {
 	
 
 	
-	//µÃµ½³­ËÍµÄµØÖ·
+	//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ÍµÄµï¿½Ö·
 	private List<String> getCC(Message m) throws Exception {
 		Address[] addresses = m.getRecipients(Message.RecipientType.CC);
 		return getAddresses(addresses);
 	}
 	
-	//»ñµÃÓÊ¼şµÄ¸½¼ş
+	//ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½
 	private List<FileObject> getFiles(MailContext ctx, Message m) throws Exception {
 		List<FileObject> files = new ArrayList<FileObject>();
-		//ÊÇ»ìºÏÀàĞÍ, ¾Í½øĞĞ´¦Àí
+		//ï¿½Ç»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Í½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½
 		if (m.isMimeType("multipart/mixed")) {
 			Multipart mp = (Multipart)m.getContent();
-			//µÃµ½ÓÊ¼şÄÚÈİµÄMultipart¶ÔÏó²¢µÃµ½ÄÚÈİÖĞPartµÄÊıÁ¿
+			//ï¿½Ãµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½İµï¿½Multipartï¿½ï¿½ï¿½ó²¢µÃµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Partï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			int count = mp.getCount();
 			for (int i = 1; i < count; i++) {
 				Part part = mp.getBodyPart(i);
-				//ÔÚ±¾µØ´´½¨ÎÄ¼ş²¢Ìí¼Óµ½½á¹ûÖĞ
+				//ï¿½Ú±ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				files.add(FileUtil.createFileFromPart(ctx, part));
 			}
 		}
@@ -115,39 +111,39 @@ public class MailLoaderImpl implements MailLoader {
 	}
 	
 	
-	//·µ»ØÓÊ¼şÕıÎÄ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private StringBuffer getContent(Part part, StringBuffer result) throws Exception {
 		if (part.isMimeType("multipart/*")) {
 			Multipart p = (Multipart)part.getContent();
 			int count = p.getCount();
-			//MultipartµÄµÚÒ»²¿·ÖÊÇtext/plain, µÚ¶ş²¿·ÖÊÇtext/htmlµÄ¸ñÊ½, Ö»ĞèÒª½âÎöµÚÒ»²¿·Ö¼´¿É
+			//Multipartï¿½Äµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½text/plain, ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½text/htmlï¿½Ä¸ï¿½Ê½, Ö»ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½
 			if (count > 1) count = 1; 
 			for(int i = 0; i < count; i++) {
 				BodyPart bp = p.getBodyPart(i);
-				//µİ¹éµ÷ÓÃ
+				//ï¿½İ¹ï¿½ï¿½ï¿½ï¿½
 				getContent(bp, result);
 			}
 		} else if (part.isMimeType("text/*")) {
-			//Óöµ½ÎÄ±¾¸ñÊ½»òÕßhtml¸ñÊ½, Ö±½ÓµÃµ½ÄÚÈİ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½htmlï¿½ï¿½Ê½, Ö±ï¿½ÓµÃµï¿½ï¿½ï¿½ï¿½ï¿½
 			result.append(part.getContent());
 		}
 		return result;
 	}	
 	
-	//ÅĞ¶ÏÒ»·âÓÊ¼şÊÇ·ñÒÑ¶Á, true±íÊ¾ÒÑ¶ÁÈ¡, false±íÊ¾Ã»ÓĞ¶ÁÈ¡
+	//ï¿½Ğ¶ï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ç·ï¿½ï¿½Ñ¶ï¿½, trueï¿½ï¿½Ê¾ï¿½Ñ¶ï¿½È¡, falseï¿½ï¿½Ê¾Ã»ï¿½Ğ¶ï¿½È¡
 	private boolean hasRead(Message m) throws Exception {
 		Flags flags = m.getFlags();
 		if (flags.contains(Flags.Flag.SEEN)) return true;
 		return false;
 	}
 	
-	//µÃµ½Ò»·âÓÊ¼şµÄËùÓĞÊÕ¼şÈË
+	//ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½
 	private List<String> getAllRecipients(Message m) throws Exception {
 		Address[] addresses = m.getAllRecipients();
 		return getAddresses(addresses);
 	}
 	
-	//¹¤¾ß·½·¨, ½«²ÎÊıµÄµØÖ·×Ö·û´®·â×°³É¼¯ºÏ
+	//ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½É¼ï¿½ï¿½ï¿½
 	private List<String> getAddresses(Address[] addresses) {
 		List<String> result = new ArrayList<String>();
 		if (addresses == null) return result;
@@ -157,7 +153,7 @@ public class MailLoaderImpl implements MailLoader {
 		return result;
 	}
 	
-	//µÃµ½·¢ËÍÈËµÄµØÖ·
+	//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ËµÄµï¿½Ö·
 	private String getSender(Message m) throws Exception  {
 		Address[] addresses = m.getFrom();
 		return MimeUtility.decodeText(addresses[0].toString());
@@ -165,25 +161,25 @@ public class MailLoaderImpl implements MailLoader {
 	
 	
 	/*
-	 * µÃµ½ÓÊÏäINBOX
+	 * ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½INBOX
 	 */
 	private Folder getINBOXFolder(MailContext ctx) {
 		Store store = ctx.getStore();
 		try {
 			return store.getFolder("INBOX");
 		} catch (Exception e) {
-			throw new LoadMailException("¼ÓÔØÓÊÏä´íÎó£¬Çë¼ì²éÅäÖÃ");
+			throw new LoadMailException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 	
-	//½«ÓÊ¼şÊı×éÉèÖÃÎªÉ¾³ı×´Ì¬
+	//ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÉ¾ï¿½ï¿½×´Ì¬
 	private void deleteFromServer(Message[] messages) throws Exception {
 		for (Message m : messages) {
 			m.setFlag(Flags.Flag.DELETED, true);
 		}
 	}
 	
-	//½øĞĞÊ±¼äÅÅĞò
+	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void sort(List<Mail> mails) {
 		Collections.sort(mails, new MailComparator());
 	}

@@ -1,13 +1,8 @@
 package org.crazyit.flashget.state;
 
-import java.util.Timer;
-
 import javax.swing.ImageIcon;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.util.FileUtil;
-import org.crazyit.flashget.util.ImageUtil;
+import flashget.src.org.crazyit.flashget.ContextHolder;
 
 public class Finished extends AbstractState {
 
@@ -21,9 +16,9 @@ public class Finished extends AbstractState {
 	}
 
 	public void init(Resource resource) {
-		//É¾³ıÁÙÊ±ÎÄ¼ş
+		//É¾ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä¼ï¿½
 		FileUtil.deletePartFiles(resource);
-		//×ÊÔ´ÏÂÔØÍê³ÉºóÈ¡ÏûÈÎÎñ
+		//ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éºï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ContextHolder.dh.stopTimer(resource);
 	}
 	

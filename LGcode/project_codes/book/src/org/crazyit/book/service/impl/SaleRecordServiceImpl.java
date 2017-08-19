@@ -4,22 +4,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Vector;
 
-import org.crazyit.book.commons.BusinessException;
-import org.crazyit.book.commons.DateUtil;
-import org.crazyit.book.dao.BookDao;
-import org.crazyit.book.dao.BookSaleRecordDao;
-import org.crazyit.book.dao.SaleRecordDao;
-import org.crazyit.book.service.SaleRecordService;
-import org.crazyit.book.vo.Book;
-import org.crazyit.book.vo.BookSaleRecord;
-import org.crazyit.book.vo.SaleRecord;
-
 /**
- * ÏúÊÛ¼ÇÂ¼ÒµÎñÊµÏÖÀà
+ * ï¿½ï¿½ï¿½Û¼ï¿½Â¼Òµï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -45,13 +35,13 @@ public class SaleRecordServiceImpl implements SaleRecordService {
 	}
 
 	@Override
-	//ÊµÏÖ½Ó¿Ú·½·¨
+	//Êµï¿½Ö½Ó¿Ú·ï¿½ï¿½ï¿½
 	public Collection<SaleRecord> getAll(Date date) {
-		//µÃµ½ÏÂÒ»Ìì
+		//ï¿½Ãµï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		Date nextDate = DateUtil.getNextDate(date);
-		//µÃµ½½ñÌìµÄÈÕÆÚ, ¸ñÊ½Îªyyyy-MM-dd
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê½Îªyyyy-MM-dd
 		String today = DateUtil.getDateString(date);
-		//µÃµ½Ã÷ÌìµÄÈÕÆÚ, ¸ñÊ½Îªyyyy-MM-dd
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê½Îªyyyy-MM-dd
 		String tomorrow = DateUtil.getDateString(nextDate);
 		Collection<SaleRecord> records = saleRecordDao.findByDate(today, tomorrow);
 		for (SaleRecord r : records) {
@@ -60,55 +50,55 @@ public class SaleRecordServiceImpl implements SaleRecordService {
 		return records;
 	}
 	
-	//´¦ÀíÒ»¸öSaleRecord, ÉèÖÃËüµÄÊé±¾ÏúÊÛ¼ÇÂ¼ÊôÐÔºÍÊé±¾Ãû×ÖÊôÐÔ
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½SaleRecord, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½ï¿½Ôºï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private SaleRecord processDatas(SaleRecord r) {
-		//²éÕÒ¸Ã¼ÇÂ¼Ëù¶ÔÓ¦µÄÊéµÄÏúÊÛ¼ÇÂ¼
+		//ï¿½ï¿½ï¿½Ò¸Ã¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 		Collection<BookSaleRecord> brs = bookSaleRecordDao.findBySaleRecord(r.getID());
-		//ÉèÖÃ½á¹û¼¯ÖÐµÄÃ¿Ò»¸öbookÊôÐÔ
+		//ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ã¿Ò»ï¿½ï¿½bookï¿½ï¿½ï¿½ï¿½
 		setBook(brs);
-		//ÉèÖÃSaleRecord¶ÔÏóÖÐµÄÊéµÄÏúÊÛ¼ÇÂ¼¼¯ºÏ
+		//ï¿½ï¿½ï¿½ï¿½SaleRecordï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
 		r.setBookSaleRecords((Vector<BookSaleRecord>)brs);
-		//ÉèÖÃSaleRecordµÄÊéÃû¼¯ºÏ
+		//ï¿½ï¿½ï¿½ï¿½SaleRecordï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		r.setBookNames(getBookNames(brs));
-		//ÉèÖÃÊýÁ¿Óë×Ü¼Û
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼ï¿½
 		r.setAmount(getAmount(brs));
 		r.setTotalPrice(getTotalPrice(brs));
 		return r;
 	}
 	
-	//»ñÈ¡Ò»´Î½»Ò×ÖÐÉæ¼°µÄ×Ü¼Û
+	//ï¿½ï¿½È¡Ò»ï¿½Î½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ¼°ï¿½ï¿½ï¿½Ü¼ï¿½
 	private double getTotalPrice(Collection<BookSaleRecord> brs) {
 		double result = 0;
 		for (BookSaleRecord br : brs) {
-			//Êé±¾µÄ½»Ò×Á¿
+			//ï¿½é±¾ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½
 			int tradeSum = Integer.valueOf(br.getTRADE_SUM());
-			//ÊéµÄµ¥¼Û
+			//ï¿½ï¿½Äµï¿½ï¿½ï¿½
 			double bookPrice = Double.valueOf(br.getBook().getBOOK_PRICE());
 			result += (bookPrice * tradeSum);
 		}
 		return result;
 	}
 	
-	//»ñÈ¡Ò»´Î½»Ò×ÖÐËùÓÐÊé±¾µÄ½»Ò×Á¿
+	//ï¿½ï¿½È¡Ò»ï¿½Î½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private int getAmount(Collection<BookSaleRecord> brs) {
 		int result = 0;
-		//±éÀúÊéµÄ½»Ò×¼ÇÂ¼£¬¼ÆËã×Ü¼Û
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½×¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼ï¿½
 		for (BookSaleRecord br : brs) {
 			result += Integer.valueOf(br.getTRADE_SUM());
 		}
 		return result;
 	}
 	
-	//ÉèÖÃ²ÎÊýÖÐµÄÃ¿Ò»¸öBookSaleRecordµÄbookÊôÐÔ
+	//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ã¿Ò»ï¿½ï¿½BookSaleRecordï¿½ï¿½bookï¿½ï¿½ï¿½ï¿½
 	private void setBook(Collection<BookSaleRecord> brs) {
 		for (BookSaleRecord br : brs) {
-			//µ÷Êé±¾µÄÊý¾Ý·ÃÎÊ²ã½Ó¿Ú
+			//ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Ê²ï¿½Ó¿ï¿½
 			Book book = bookDao.find(br.getBOOK_ID_FK());
 			br.setBook(book);
 		}
 	}
 	
-	//»ñÈ¡Ò»´Î½»Ò×ÖÐËùÓÐÊé±¾µÄÃû×Ö, ÒÔ¶ººÅ¸ô¿ª
+	//ï¿½ï¿½È¡Ò»ï¿½Î½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ô¶ï¿½ï¿½Å¸ï¿½ï¿½ï¿½
 	private String getBookNames(Collection<BookSaleRecord> brs) {
 		if (brs.size() == 0) return ""; 
 		StringBuffer result = new StringBuffer();
@@ -116,37 +106,37 @@ public class SaleRecordServiceImpl implements SaleRecordService {
 			Book book = br.getBook();
 			result.append(book.getBOOK_NAME() + ", ");
 		}
-		//È¥µô×îºóµÄ¶ººÅ²¢·µ»Ø
+		//È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½
 		return result.substring(0, result.lastIndexOf(","));
 	}
 	
 
 	@Override
 	public void saveRecord(SaleRecord record) {
-		//±éÀúÅÐ¶ÏÊéµÄ¿â´æÊÇ·ñ²»¹»
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ç·ñ²»¹ï¿½
 		for (BookSaleRecord r : record.getBookSaleRecords()) {
 			String bookId = r.getBook().getID();
 			Book b = bookDao.find(bookId);
-			//µ±´æ¿â²»¹»Ê±,Å×³öÒì³£
+			//ï¿½ï¿½ï¿½ï¿½â²»ï¿½ï¿½Ê±,ï¿½×³ï¿½ï¿½ì³£
 			if (Integer.valueOf(r.getTRADE_SUM()) > 
 				Integer.valueOf(b.getREPERTORY_SIZE())) {
-				throw new BusinessException(b.getBOOK_NAME() + " µÄ¿â´æ²»¹»");
+				throw new BusinessException(b.getBOOK_NAME() + " ï¿½Ä¿ï¿½æ²»ï¿½ï¿½");
 			}
 		}
-		//ÏÈ±£´æ½»Ò×¼ÇÂ¼
+		//ï¿½È±ï¿½ï¿½æ½»ï¿½×¼ï¿½Â¼
 		String id = saleRecordDao.save(record);
-		//ÔÙ±£´æÊéµÄ½»Ò×¼ÇÂ¼
+		//ï¿½Ù±ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½×¼ï¿½Â¼
 		for (BookSaleRecord r : record.getBookSaleRecords()) {
-			//ÉèÖÃÏúÊÛ¼ÇÂ¼id
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼id
 			r.setT_SALE_RECORD_ID_FK(id);
 			bookSaleRecordDao.saveBookSaleRecord(r);
-			//ÐÞ¸ÄÊéµÄ¿â´æ
+			//ï¿½Þ¸ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
 			String bookId = r.getBook().getID();
 			Book b = bookDao.find(bookId);
-			//¼ÆËãÊ£ÓàµÄ¿â´æ
+			//ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½Ä¿ï¿½ï¿½
 			int leave = Integer.valueOf(b.getREPERTORY_SIZE()) - 
 				Integer.valueOf(r.getTRADE_SUM());
-			//ÉèÖÃ¿â´æ²¢½«¿â´æÊý±£´æµ½Êý¾Ý¿â
+			//ï¿½ï¿½ï¿½Ã¿ï¿½æ²¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½Ý¿ï¿½
 			b.setREPERTORY_SIZE(String.valueOf(leave));
 			bookDao.updateRepertory(b);
 		}

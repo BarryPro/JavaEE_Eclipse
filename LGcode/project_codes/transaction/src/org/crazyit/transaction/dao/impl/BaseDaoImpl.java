@@ -3,22 +3,18 @@ package org.crazyit.transaction.dao.impl;
 import java.sql.ResultSet;
 import java.util.Collection;
 
-import org.crazyit.transaction.jdbc.JDBCExecutor;
-import org.crazyit.transaction.model.ValueObject;
-import org.crazyit.transaction.util.DataUtil;
-
 public class BaseDaoImpl {
-	//·µ»ØJDBCExecutor¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½JDBCExecutorï¿½ï¿½ï¿½ï¿½
 	public JDBCExecutor getJDBCExecutor() {
 		return JDBCExecutor.getJDBCExecutor();
 	}
 	
-	//¸ù¾Ý²ÎÊýµÄSQL, ´æ·Å½á¹ûµÄ¼¯ºÏ¶ÔÏó, ºÍ¾ßÌåµÄÊý¾Ý¿âÓ³Éä¶ÔÏó·µ»ØÒ»¸ö¼¯ºÏ
+	//ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½SQL, ï¿½ï¿½Å½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½, ï¿½Í¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½Ó³ï¿½ï¿½ï¿½ï¿½ó·µ»ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Collection getDatas(String sql, Collection<ValueObject> result, 
 			Class clazz) {
-		//Ö´ÐÐSQL·µ»ØResultSet¶ÔÏó
+		//Ö´ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ResultSetï¿½ï¿½ï¿½ï¿½
 		ResultSet rs = getJDBCExecutor().executeQuery(sql);
-		//¶ÔResultSet½øÐÐ·â×°²¢·µ»Ø¼¯ºÏ
+		//ï¿½ï¿½ResultSetï¿½ï¿½ï¿½Ð·ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
 		return DataUtil.getDatas(result, rs, clazz);
 	}
 }

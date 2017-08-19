@@ -9,7 +9,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -20,57 +19,54 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.crazyit.book.service.TypeService;
-import org.crazyit.book.vo.Type;
-
 /**
- * ÖÖÀà¹ÜÀí½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class TypePanel extends CommonPanel {
 
-	//ÒµÎñ¶ÔÏó
+	//Òµï¿½ï¿½ï¿½ï¿½ï¿½
 	private TypeService service;
 	
-	//ÁÐµÄ¼¯ºÏ
+	//ï¿½ÐµÄ¼ï¿½ï¿½ï¿½
 	private Vector columns;
 	
-	//ÖÖÀà½éÉÜµÄÎÄ±¾Óò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Üµï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 	private JTextArea intro;
 	
-	//ÖÖÀàÃû³ÆµÄÎÄ±¾¿ò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 	private JTextField typeName;
 	
-	//Òþ²ØµÄÖÖÀàid
+	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½id
 	private JTextField typeId;
 	
-	//±£´æµÄ°´Å¥
+	//ï¿½ï¿½ï¿½ï¿½Ä°ï¿½Å¥
 	private JButton saveButton;
 	
-	//Çå¿ÕµÄ°´Å¥
+	//ï¿½ï¿½ÕµÄ°ï¿½Å¥
 	private JButton clearButton;
 	
-	//¸ù¾ÝÃû×Ö²éÑ¯µÄÊäÈë¿ò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JTextField queryByNameTextField;
 	
-	//²éÑ¯°´Å¥
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½Å¥
 	private JButton queryButton;
 	
-	//³õÊ¼»¯ÁÐ
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 	public void initColumns() {
 		this.columns = new Vector();
 		this.columns.add("id");
-		this.columns.add("ÖÖÀàÃû³Æ");
-		this.columns.add("¼ò½é");
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½ï¿½");
 	}
 	
 	/*
-	 * ÊµÏÖ¸¸Àà·½·¨, ²éÑ¯Êý¾Ý¿â²¢·µ»Ø¶ÔÓ¦µÄÊý¾Ý¸ñÊ½, µ÷ÓÃ¸¸ÀàµÄsetDatas·½·¨ÉèÖÃÊý¾Ý¼¯ºÏ
+	 * Êµï¿½Ö¸ï¿½ï¿½à·½ï¿½ï¿½, ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ý¿â²¢ï¿½ï¿½ï¿½Ø¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½Ê½, ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½setDatasï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½
 	 */
 	public void setViewDatas() {
 		Vector<Type> types = (Vector<Type>)service.getAll();
@@ -80,29 +76,29 @@ public class TypePanel extends CommonPanel {
 	
 	public TypePanel(TypeService service) {
 		this.service = service;
-		//ÉèÖÃÊý¾Ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//³õÊ¼»¯ÁÐ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 		initColumns();
-		//ÉèÖÃÁÐ±í
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		DefaultTableModel model = new DefaultTableModel(null, this.columns);
 		JTable table = new CommonJTable(model);
-		//ÉèÖÃ¸¸ÀàµÄJTable¶ÔÏó
+		//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½JTableï¿½ï¿½ï¿½ï¿½
 		setJTable(table);
 		JScrollPane upPane = new JScrollPane(table);
 		upPane.setPreferredSize(new Dimension(1000, 350));
 
-		//ÉèÖÃÌí¼Ó, ÐÞ¸ÄµÄ½çÃæ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Þ¸ÄµÄ½ï¿½ï¿½ï¿½
 		JPanel downPane = new JPanel();
 		downPane.setLayout(new BoxLayout(downPane, BoxLayout.Y_AXIS));
 		
 		Box downBox1 = new Box(BoxLayout.X_AXIS);
-		//´æ·ÅidµÄÎÄ±¾¿ò
+		//ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 		typeId = new JTextField();
 		typeId.setVisible(false);
 		downBox1.add(typeId);
-		//ÁÐ±íÏÂÃæµÄbox
-		downBox1.add(new JLabel("ÖÖÀàÃû³Æ£º"));
+		//ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½box
+		downBox1.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½"));
 		downBox1.add(Box.createHorizontalStrut(10));
 		
 		typeName = new JTextField(10);
@@ -110,7 +106,7 @@ public class TypePanel extends CommonPanel {
 		downBox1.add(Box.createHorizontalStrut(100));
 
 		Box downBox2 = new Box(BoxLayout.X_AXIS);
-		downBox2.add(new JLabel("ÖÖÀà¼ò½é£º"));
+		downBox2.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½é£º"));
 		downBox2.add(Box.createHorizontalStrut(10));
 
 		intro = new JTextArea("", 5, 5);
@@ -121,10 +117,10 @@ public class TypePanel extends CommonPanel {
 		/*******************************************************/
 		Box downBox3 = new Box(BoxLayout.X_AXIS);
 		
-		saveButton = new JButton("±£´æ");
+		saveButton = new JButton("ï¿½ï¿½ï¿½ï¿½");
 		downBox3.add(saveButton);
 		downBox3.add(Box.createHorizontalStrut(30));
-		clearButton = new JButton("Çå¿Õ");
+		clearButton = new JButton("ï¿½ï¿½ï¿½");
 		downBox3.add(clearButton);
 		downBox3.add(Box.createHorizontalStrut(30));
 
@@ -135,15 +131,15 @@ public class TypePanel extends CommonPanel {
 		downPane.add(getSplitBox());
 		downPane.add(downBox3);
 		
-		//²éÑ¯µÄJPanel
+		//ï¿½ï¿½Ñ¯ï¿½ï¿½JPanel
 		JPanel queryPanel = new JPanel();
 		Box queryBox = new Box(BoxLayout.X_AXIS);
-		queryBox.add(new JLabel("Ãû³Æ£º"));
+		queryBox.add(new JLabel("ï¿½ï¿½ï¿½Æ£ï¿½"));
 		queryBox.add(Box.createHorizontalStrut(30));
 		queryByNameTextField = new JTextField(20);
 		queryBox.add(queryByNameTextField);
 		queryBox.add(Box.createHorizontalStrut(30));
-		queryButton = new JButton("²éÑ¯");
+		queryButton = new JButton("ï¿½ï¿½Ñ¯");
 		queryBox.add(queryButton);
 		queryPanel.add(queryBox);
 		this.add(queryPanel);
@@ -151,40 +147,40 @@ public class TypePanel extends CommonPanel {
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upPane, downPane);
 		split.setDividerSize(5);
 		this.add(split);
-		//Ìí¼Ó¼àÌýÆ÷
+		//ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		initListeners();
 	}
 	
-	//Ìí¼Ó¼àÌýÆ÷
+	//ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
-		//±í¸ñÑ¡Ôñ¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		getJTable().getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
-				//µ±Ñ¡ÔñÐÐÊ±Êó±êÊÍ·ÅÊ±²ÅÖ´ÐÐ
+				//ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ê±ï¿½ï¿½Ö´ï¿½ï¿½
 				if (!event.getValueIsAdjusting()) {
-					//Èç¹ûÃ»ÓÐÑ¡ÖÐÈÎºÎÒ»ÐÐ, Ôò·µ»Ø
+					//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½, ï¿½ò·µ»ï¿½
 					if (getJTable().getSelectedRowCount() != 1) return;
-					//µ÷ÓÃ¸¸ÀàµÄ·½·¨»ñµÃÑ¡ÔñÐÐµÄid
+					//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ðµï¿½id
 					String id = getSelectId(getJTable());
 					view(id);
 				}
 			}
 		});
-		//Çå¿Õ°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½Õ°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		clearButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				clear();
 			}
 		});
-		//±£´æ°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½æ°´Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		saveButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				//ÑéÖ¤¿ÕÖµ
+				//ï¿½ï¿½Ö¤ï¿½ï¿½Öµ
 				if (typeName.getText().trim().equals("")) {
-					showWarn("ÇëÊäÈëÃû³Æ");
+					showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 					return;
 				}
-				//ÅÐ¶ÏÖÖÀàidÊÇ·ñÓÐÖµ, ÓÐÖµÔòÎªÐÞ¸Ä, Ã»ÓÐÖµÎªÐÂÔö
+				//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½idï¿½Ç·ï¿½ï¿½ï¿½Öµ, ï¿½ï¿½Öµï¿½ï¿½Îªï¿½Þ¸ï¿½, Ã»ï¿½ï¿½ÖµÎªï¿½ï¿½ï¿½ï¿½
 				if (typeId.getText().equals("")) add();
 				else update();
 			}
@@ -197,19 +193,19 @@ public class TypePanel extends CommonPanel {
 		});
 	}
 	
-	//²éÑ¯·½·¨
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	private void query(String name) {
-		//Í¨¹ýservice·½·¨²éÕÒ½á¹û
+		//Í¨ï¿½ï¿½serviceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½
 		Vector<Type> types = (Vector<Type>)service.query(name);
-		//×ª»»Êý¾Ý¸ñÊ½
+		//×ªï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½Ê½
 		Vector<Vector> datas =  changeDatas(types);
-		//ÉèÖÃÊý¾Ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setDatas(datas);
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
 	}
 	
-	//Çå¿Õ
+	//ï¿½ï¿½ï¿½
 	public void clear() {
 		refreshTable();
 		typeId.setText("");
@@ -217,45 +213,45 @@ public class TypePanel extends CommonPanel {
 		intro.setText("");
 	}
 	
-	//ÐÂÔöÒ»¸öÖÖÀà
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void add() {
 		String typeName = this.typeName.getText();
 		String intro = this.intro.getText();
 		Type type = new Type(null, typeName, intro);
-		//µ÷ÓÃÒµÎñ·½·¨ÐÂÔöÒ»¸öÖÖÀà
+		//ï¿½ï¿½ï¿½ï¿½Òµï¿½ñ·½·ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		type = service.add(type);
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		clear();
 	}
 	
-	//ÐÞ¸ÄÒ»¸öÖÖÀà
+	//ï¿½Þ¸ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void update() {
 		String typeId = this.typeId.getText();
 		String typeName = this.typeName.getText();
 		String intro = this.intro.getText();
 		Type type = new Type(typeId, typeName, intro);
 		service.update(type);
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
 	}
 
 	
-	//ÊµÏÖ¸¸ÀàµÄ·½·¨, ÉèÖÃÁÐ±íµÄÍâ¹Û
+	//Êµï¿½Ö¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void setTableFace() {
-		//Òþ²ØidÁÐ
+		//ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½
 		getJTable().getColumn("id").setMinWidth(-1);
 		getJTable().getColumn("id").setMaxWidth(-1); 
-		//ÉèÖÃ¼ò½éÁÐµÄ×îÐ¡¿í¶È
-		getJTable().getColumn("¼ò½é").setMinWidth(350);
-		//ÉèÖÃ±í¸ñµÄÐÐ¿í
+		//ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½
+		getJTable().getColumn("ï¿½ï¿½ï¿½").setMinWidth(350);
+		//ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½
 		getJTable().setRowHeight(30);
 	}
 	
-	//²é¿´Ò»¸öÖÖÀà
+	//ï¿½é¿´Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void view(String id) {
 		Type data = service.get(id);
 		typeId.setText(data.getID());
@@ -264,13 +260,13 @@ public class TypePanel extends CommonPanel {
 	}
 
 
-	//ÊµÏÖ¸¸ÀàµÄ·½·¨, »ñµÃÕâ¸ö½çÃæµÄÁÐ
+	//Êµï¿½Ö¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Vector<String> getColumns() {
 		return this.columns;
 	}
 
 	/**
-	 * ½«Êý¾Ý×ª»»³ÉÊÓÍ¼±í¸ñµÄ¸ñÊ½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¸ï¿½Ê½
 	 * @param datas
 	 * @return
 	 */

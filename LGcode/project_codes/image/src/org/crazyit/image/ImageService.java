@@ -1,29 +1,31 @@
 package org.crazyit.image;
 
-import org.crazyit.image.tool.AbstractTool;
-import java.awt.Toolkit;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 import javax.swing.JColorChooser;
-import javax.swing.JViewport;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JOptionPane;
-import java.io.File;
-import javax.imageio.ImageIO;
+import javax.swing.JViewport;
+
+import image.src.org.crazyit.image.tool.AbstractTool;
 
 /**
- * »­Í¼¹¤¾ß´¦ÀíÂß¼­Àà(·Ç¹¤¾ß)
+ * ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½(ï¿½Ç¹ï¿½ï¿½ï¿½)
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -31,7 +33,7 @@ public class ImageService {
 	private ImageFileChooser fileChooser = new ImageFileChooser();
 
 	/**
-	 * »ñÈ¡ÆÁÄ»µÄ·Ö±æÂÊ
+	 * ï¿½ï¿½È¡ï¿½ï¿½Ä»ï¿½Ä·Ö±ï¿½ï¿½ï¿½
 	 * 
 	 * @return Dimension
 	 */
@@ -41,22 +43,22 @@ public class ImageService {
 	}
 
 	/**
-	 * ³õÊ¼»¯ÐÂdrawSpace
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½drawSpace
 	 * 
 	 * @param frame
 	 *            ImageFrame
 	 * @return void
 	 */
 	public void initDrawSpace(ImageFrame frame) {
-		// »ñÈ¡»­Í¼¶ÔÏó
+		// ï¿½ï¿½È¡ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
 		Graphics g = frame.getBufferedImage().getGraphics();
-		// »ñÈ¡»­²¼µÄ´óÐ¡
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½Ð¡
 		Dimension d = frame.getDrawSpace().getPreferredSize();
-		// »ñÈ¡¿í
+		// ï¿½ï¿½È¡ï¿½ï¿½
 		int drawWidth = (int) d.getWidth();
-		// »ñÈ¡¸ß
+		// ï¿½ï¿½È¡ï¿½ï¿½
 		int drawHeight = (int) d.getHeight();
-		// »æ»­Çø
+		// ï¿½æ»­ï¿½ï¿½
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, drawWidth, drawHeight);
 	}
@@ -69,24 +71,24 @@ public class ImageService {
 		int drawWidth = bufferedImage.getWidth();
 		int drawHeight = bufferedImage.getHeight();
 		Dimension screenSize = getScreenSize();
-		// ÉèÖÃ·Ç»æ»­ÇøµÄÑÕÉ«
+		// ï¿½ï¿½ï¿½Ã·Ç»æ»­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, (int) screenSize.getWidth() * 10, (int) screenSize
 				.getHeight() * 10);
-		// ÉèÖÃÍÏ¶¯µãµÄÑÕÉ«
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		g.setColor(Color.BLUE);
 		g.fillRect(drawWidth, drawHeight, 4, 4);
 		g.fillRect(drawWidth, (int) drawHeight / 2 - 2, 4, 4);
 		g.fillRect((int) drawWidth / 2 - 2, drawHeight, 4, 4);
-		// °Ñ»º³åµÄÍ¼Æ¬»æ»­³öÀ´
+		// ï¿½Ñ»ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½æ»­ï¿½ï¿½ï¿½ï¿½
 		g.drawImage(bufferedImage, 0, 0, drawWidth, drawHeight, null);
 	}
 
 	/**
-	 * ´´½¨Êó±êÍ¼ÐÎ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 	 * 
 	 * @param path
-	 *            String Í¼ÐÎÂ·¾¶
+	 *            String Í¼ï¿½ï¿½Â·ï¿½ï¿½
 	 * @return Cursor;
 	 */
 	public static Cursor createCursor(String path) {
@@ -96,7 +98,7 @@ public class ImageService {
 	}
 
 	/**
-	 * ÉèÖÃJViewport
+	 * ï¿½ï¿½ï¿½ï¿½JViewport
 	 * 
 	 * @param scroll
 	 *            JScrollPane
@@ -109,65 +111,65 @@ public class ImageService {
 	 */
 	public static void setViewport(JScrollPane scroll, JPanel panel, int width,
 			int height) {
-		// ÐÂ½¨Ò»¸öJViewport
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½JViewport
 		JViewport viewport = new JViewport();
-		// ÉèÖÃviewportµÄ´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½viewportï¿½Ä´ï¿½Ð¡
 		panel.setPreferredSize(new Dimension(width + 50, height + 50));
-		// ÉèÖÃviewport
+		// ï¿½ï¿½ï¿½ï¿½viewport
 		viewport.setView(panel);
 		scroll.setViewport(viewport);
 	}
 
 	/**
-	 * ±£´æÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @param b
-	 *            boolean ÊÇ·ñÖ±½Ó±£´æ
+	 *            boolean ï¿½Ç·ï¿½Ö±ï¿½Ó±ï¿½ï¿½ï¿½
 	 * @param frame
 	 *            ImageFrame
 	 * @return void
 	 */
 	public void save(boolean b, ImageFrame frame) {
 		if (b) {
-			// Èç¹ûÑ¡Ôñ±£´æ
+			// ï¿½ï¿½ï¿½Ñ¡ï¿½ñ±£´ï¿½
 			if (fileChooser.showSaveDialog(frame) == ImageFileChooser.APPROVE_OPTION) {
-				// »ñÈ¡µ±Ç°Â·¾¶
+				// ï¿½ï¿½È¡ï¿½ï¿½Ç°Â·ï¿½ï¿½
 				File currentDirectory = fileChooser.getCurrentDirectory();
-				// »ñÈ¡ÎÄ¼þÃû
+				// ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½
 				String fileName = fileChooser.getSelectedFile().getName();
-				// »ñÈ¡ºó×ºÃû
+				// ï¿½ï¿½È¡ï¿½ï¿½×ºï¿½ï¿½
 				String suf = fileChooser.getSuf();
-				// ×éºÏ±£´æÂ·¾¶
+				// ï¿½ï¿½Ï±ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 				String savePath = currentDirectory + "\\" + fileName + "."
 						+ suf;
 				try {
-					// ½«Í¼Æ¬Ð´µ½±£´æÂ·¾¶
+					// ï¿½ï¿½Í¼Æ¬Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 					ImageIO.write(frame.getBufferedImage(), suf, new File(
 							savePath));
 				} catch (java.io.IOException ie) {
 					ie.printStackTrace();
 				}
-				// ÉèÖÃ±£´æºóµÄ´°¿Ú±êÌâ
-				frame.setTitle(fileName + "." + suf + " - »­Í¼");
-				// ÒÑ±£´æ
+				// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½Ú±ï¿½ï¿½ï¿½
+				frame.setTitle(fileName + "." + suf + " - ï¿½ï¿½Í¼");
+				// ï¿½Ñ±ï¿½ï¿½ï¿½
 				frame.getBufferedImage().setIsSaved(true);
 			}
 		} else if (!frame.getBufferedImage().isSaved()) {
-			// ÐÂ½¨Ò»¸ö¶Ô»°¿ò
+			// ï¿½Â½ï¿½Ò»ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 			JOptionPane option = new JOptionPane();
-			// ÏÔÊ¾È·ÈÏ±£´æ¶Ô»°¿òYES_NO_OPTION
-			int checked = option.showConfirmDialog(frame, "±£´æ¸Ä¶¯?", "»­Í¼",
+			// ï¿½ï¿½Ê¾È·ï¿½Ï±ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½YES_NO_OPTION
+			int checked = option.showConfirmDialog(frame, "ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½?", "ï¿½ï¿½Í¼",
 					option.YES_NO_OPTION, option.WARNING_MESSAGE);
-			// Èç¹ûÑ¡ÔñÊÇ
+			// ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
 			if (checked == option.YES_OPTION) {
-				// ±£´æÍ¼Æ¬
+				// ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 				save(true, frame);
 			}
 		}
 	}
 
 	/**
-	 * ´ò¿ªÍ¼Æ¬
+	 * ï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @param frame
 	 *            ImageFrame
@@ -175,43 +177,43 @@ public class ImageService {
 	 */
 	public void open(ImageFrame frame) {
 		save(false, frame);
-		// Èç¹û´ò¿ªÒ»¸öÎÄ¼þ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä¼ï¿½
 		if (fileChooser.showOpenDialog(frame) == ImageFileChooser.APPROVE_OPTION) {
-			// »ñÈ¡Ñ¡ÔñµÄÎÄ¼þ
+			// ï¿½ï¿½È¡Ñ¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 			File file = fileChooser.getSelectedFile();
-			// ÉèÖÃµ±Ç°ÎÄ¼þ¼Ð
+			// ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½Ä¼ï¿½ï¿½ï¿½
 			fileChooser.setCurrentDirectory(file);
 			BufferedImage image = null;
 			try {
-				// ´ÓÎÄ¼þ¶ÁÈ¡Í¼Æ¬
+				// ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È¡Í¼Æ¬
 				image = ImageIO.read(file);
 			} catch (java.io.IOException e) {
 				e.printStackTrace();
 				return;
 			}
-			// ¿í£¬¸ß
+			// ï¿½ï¿½ï¿½ï¿½
 			int width = image.getWidth();
 			int height = image.getHeight();
 			AbstractTool.drawWidth = width;
 			AbstractTool.drawHeight = height;
-			// ´´½¨Ò»¸öMyImage
+			// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½MyImage
 			MyImage myImage = new MyImage(width, height,
 					BufferedImage.TYPE_INT_RGB);
-			// °Ñ¶ÁÈ¡µ½µÄÍ¼Æ¬»­µ½myImageÉÏÃæ
+			// ï¿½Ñ¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½myImageï¿½ï¿½ï¿½ï¿½
 			myImage.getGraphics().drawImage(image, 0, 0, width, height, null);
 			frame.setBufferedImage(myImage);
 			// repaint
 			frame.getDrawSpace().repaint();
-			// ÖØÐÂÉèÖÃviewport
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½viewport
 			ImageService.setViewport(frame.getScroll(), frame.getDrawSpace(),
 					width, height);
-			// ÉèÖÃ±£´æºóµÄ´°¿Ú±êÌâ
-			frame.setTitle(fileChooser.getSelectedFile().getName() + " - »­Í¼");
+			// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½Ú±ï¿½ï¿½ï¿½
+			frame.setTitle(fileChooser.getSelectedFile().getName() + " - ï¿½ï¿½Í¼");
 		}
 	}
 
 	/**
-	 * ÐÂÍ¼Æ¬
+	 * ï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @param frame
 	 *            ImageFrame
@@ -219,12 +221,12 @@ public class ImageService {
 	 */
 	public void createGraphics(ImageFrame frame) {
 		save(false, frame);
-		// ¿í£¬¸ß
+		// ï¿½ï¿½ï¿½ï¿½
 		int width = (int) getScreenSize().getWidth() / 2;
 		int height = (int) getScreenSize().getHeight() / 2;
 		AbstractTool.drawWidth = width;
 		AbstractTool.drawHeight = height;
-		// ´´½¨Ò»¸öMyImage
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½MyImage
 		MyImage myImage = new MyImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = myImage.getGraphics();
 		g.setColor(Color.WHITE);
@@ -232,33 +234,33 @@ public class ImageService {
 		frame.setBufferedImage(myImage);
 		// repaint
 		frame.getDrawSpace().repaint();
-		// ÖØÐÂÉèÖÃviewport
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½viewport
 		ImageService.setViewport(frame.getScroll(), frame.getDrawSpace(),
 				width, height);
-		// ÉèÖÃ±£´æºóµÄ´°¿Ú±êÌâ
-		frame.setTitle("Î´ÃüÃû - »­Í¼");
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½Ú±ï¿½ï¿½ï¿½
+		frame.setTitle("Î´ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½Í¼");
 	}
 
 	/**
-	 * ±à¼­ÑÕÉ«
+	 * ï¿½à¼­ï¿½ï¿½É«
 	 * 
 	 * @param frame
 	 *            ImageFrame
 	 * @rerun void
 	 */
 	public void editColor(ImageFrame frame) {
-		// »ñÈ¡ÑÕÉ«
-		Color color = JColorChooser.showDialog(frame.getColorChooser(), "±à¼­ÑÕÉ«",
+		// ï¿½ï¿½È¡ï¿½ï¿½É«
+		Color color = JColorChooser.showDialog(frame.getColorChooser(), "ï¿½à¼­ï¿½ï¿½É«",
 				Color.BLACK);
 		color = color == null ? AbstractTool.color : color;
-		// ÉèÖÃ¹¤¾ßµÄÑÕÉ«
+		// ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ßµï¿½ï¿½ï¿½É«
 		AbstractTool.color = color;
-		// ÉèÖÃÄ¿Ç°ÏÔÊ¾µÄÑÕÉ«
+		// ï¿½ï¿½ï¿½ï¿½Ä¿Ç°ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½É«
 		frame.getCurrentColorPanel().setBackground(color);
 	}
 
 	/**
-	 * ÍË³ö
+	 * ï¿½Ë³ï¿½
 	 * 
 	 * @parame frame ImageFrame
 	 * @return void
@@ -269,7 +271,7 @@ public class ImageService {
 	}
 
 	/**
-	 * ÉèÖÃÊÇ·ñ¿É¼û
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½É¼ï¿½
 	 * 
 	 * @param panel
 	 *            JPanel
@@ -281,7 +283,7 @@ public class ImageService {
 	}
 
 	/**
-	 * ´¦Àí²Ëµ¥ÊÂ¼þ
+	 * ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½Â¼ï¿½
 	 * 
 	 * @param frame
 	 *            ImageFrame
@@ -289,31 +291,31 @@ public class ImageService {
 	 * @return void
 	 */
 	public void menuDo(ImageFrame frame, String cmd) {
-		if (cmd.equals("±à¼­ÑÕÉ«")) {
+		if (cmd.equals("ï¿½à¼­ï¿½ï¿½É«")) {
 			editColor(frame);
 		}
 
-		if (cmd.equals("¹¤¾ßÏä(T)")) {
+		if (cmd.equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(T)")) {
 			setVisible(frame.getToolPanel());
 		}
 
-		if (cmd.equals("ÑÕÁÏºÐ(C)")) {
+		if (cmd.equals("ï¿½ï¿½ï¿½Ïºï¿½(C)")) {
 			setVisible(frame.getColorPanel());
 		}
 
-		if (cmd.equals("ÐÂ½¨(N)")) {
+		if (cmd.equals("ï¿½Â½ï¿½(N)")) {
 			createGraphics(frame);
 		}
 
-		if (cmd.equals("´ò¿ª(O)")) {
+		if (cmd.equals("ï¿½ï¿½(O)")) {
 			open(frame);
 		}
 
-		if (cmd.equals("±£´æ(S)")) {
+		if (cmd.equals("ï¿½ï¿½ï¿½ï¿½(S)")) {
 			save(true, frame);
 		}
 
-		if (cmd.equals("ÍË³ö(X)")) {
+		if (cmd.equals("ï¿½Ë³ï¿½(X)")) {
 			exit(frame);
 		}
 

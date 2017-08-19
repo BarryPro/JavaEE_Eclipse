@@ -1,44 +1,41 @@
 package org.crazyit.cal;
 
-import java.math.BigDecimal;
-
-
 /**
- * ¼ÆËãÒµÎñÀà
+ * ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class CalService {
-	// ´æ´¢Æ÷,Ä¬ÈÏÎª0£¬ÓÃÓÚ±£´æÐèÒªÔÝÊ±±£´æµÄ¼ÆËã½á¹û
+	// ï¿½æ´¢ï¿½ï¿½,Ä¬ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private double store = 0;
-	// µÚÒ»¸ö²Ù×÷Êý
+	// ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String firstNum = null;
-	// ÉÏ´Î²Ù×÷
+	// ï¿½Ï´Î²ï¿½ï¿½ï¿½
 	private String lastOp = null;
-	// µÚ¶þ¸ö²Ù×÷Êý
+	// ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String secondNum = null;
-	// ÊÇ·ñµÚ¶þ¸ö²Ù×÷Êý£¬Èç¹ûÊÇ£¬µã»÷Êý×Ö¼üÊ±£¬ÔòÔÚÎÄ±¾¿òÖÐÖØÐÂÊäÈë
+	// ï¿½Ç·ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private boolean isSecondNum = false;
 
-	// Êý×Ö
+	// ï¿½ï¿½ï¿½ï¿½
 	private String numString = "0123456789.";
-	// ËÄÔòÔËËã
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String opString = "+-*/";
 
 	/**
-	 * Ä¬ÈÏ¹¹ÔìÆ÷
+	 * Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public CalService() {
 		super();
 	}
 
 	/**
-	 * µ÷ÓÃ·½·¨²¢·µ»Ø¼ÆËã½á¹û
+	 * ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return String
 	 */
@@ -69,28 +66,28 @@ public class CalService {
 	}
 
 	/**
-	 * ¼ÆËãËÄÔòÔËËã½á¹û
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param text
-	 *            String ÊäÈë¿òÖÐµÄÖµ
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Öµ
 	 * @param isPercent
-	 *            boolean ÊÇ·ñÓÐ"%"ÔËËã
-	 * @return String ·â±Õ³É×Ö·û´®µÄ¼ÆËã½á¹û
+	 *            boolean ï¿½Ç·ï¿½ï¿½ï¿½"%"ï¿½ï¿½ï¿½ï¿½
+	 * @return String ï¿½ï¿½Õ³ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public String cal(String text, boolean isPercent) throws Exception {
-		// ³õÊ¼»¯µÚ¶þ¸ö²Ù×÷Êý
+		// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		double secondResult = secondNum == null ? Double.valueOf(text)
 				.doubleValue() : Double.valueOf(secondNum).doubleValue();
-		// Èç¹û³ýÊýÎª0£¬²»´¦Àí
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (secondResult == 0 && this.lastOp.equals("/")) {
 			return "0";
 		}
-		// Èç¹ûÓÐ"%"²Ù×÷£¬ÔòµÚ¶þ¸ö²Ù×÷ÊýµÈÓÚÁ½ÊýÏà³ËÔÙ³ýÒÔ100
+		// ï¿½ï¿½ï¿½ï¿½ï¿½"%"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù³ï¿½ï¿½ï¿½100
 		if (isPercent) {
 			secondResult = MyMath.multiply(Double.valueOf(firstNum), MyMath
 					.divide(secondResult, 100));
 		}
-		// ËÄÔòÔËËã£¬·µ»Ø½á¹û¸³¸øµÚÒ»¸ö²Ù×÷Êý
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (this.lastOp.equals("+")) {
 			firstNum = String.valueOf(MyMath.add(Double.valueOf(firstNum),
 					secondResult));
@@ -104,106 +101,106 @@ public class CalService {
 			firstNum = String.valueOf(MyMath.divide(Double.valueOf(firstNum),
 					secondResult));
 		}
-		// ¸øµÚ¶þ¸ö²Ù×÷ÊýÖØÐÂ¸³Öµ
+		// ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½Öµ
 		secondNum = secondNum == null ? text : secondNum;
-		// °ÑisSecondNum±êÖ¾Îªtrue
+		// ï¿½ï¿½isSecondNumï¿½ï¿½Ö¾Îªtrue
 		this.isSecondNum = true;
 		return firstNum;
 	}
 
 	/**
-	 * ¼ÆËãµ¹Êý
+	 * ï¿½ï¿½ï¿½ãµ¹ï¿½ï¿½
 	 * 
 	 * @param text
-	 *            String ÊäÈë¿òÖÐµÄÖµ
-	 * @return String ·â±Õ³É×Ö·û´®µÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Öµ
+	 * @return String ï¿½ï¿½Õ³ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 */
 	public String setReciprocal(String text) {
-		// Èç¹ûtextÎª0£¬Ôò²»Çóµ¹Êý
+		// ï¿½ï¿½ï¿½textÎª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (text.equals("0")) {
 			return text;
 		} else {
-			// ½«isSecondNum±êÖ¾Îªtrue
+			// ï¿½ï¿½isSecondNumï¿½ï¿½Ö¾Îªtrue
 			this.isSecondNum = true;
-			// ¼ÆËã½á¹û²¢·µ»Ø
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			return String.valueOf(MyMath.divide(1, Double.valueOf(text)));
 		}
 	}
 
 	/**
-	 * ¼ÆËã¿ª·½
+	 * ï¿½ï¿½ï¿½ã¿ªï¿½ï¿½
 	 * 
 	 * @param text
-	 *            String ÊäÈë¿òÖÐµÄÖµ
-	 * @return String ·â±Õ³É×Ö·û´®µÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Öµ
+	 * @return String ï¿½ï¿½Õ³ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 */
 	public String sqrt(String text) {
-		// ½«isSecondNum±êÖ¾Îªtrue
+		// ï¿½ï¿½isSecondNumï¿½ï¿½Ö¾Îªtrue
 		this.isSecondNum = true;
-		// ¼ÆËã½á¹û²¢·µ»Ø
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		return String.valueOf(Math.sqrt(Double.valueOf(text)));
 	}
 
 	/**
-	 * ÉèÖÃ²Ù×÷·ûºÅ
+	 * ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param cmd
-	 *            String ²Ù×÷·ûºÅ
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param text
-	 *            String ÊäÈë¿òÖÐµÄÖµ
-	 * @return String ·â±Õ³É×Ö·û´®µÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Öµ
+	 * @return String ï¿½ï¿½Õ³ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 */
 	public String setOp(String cmd, String text) {
-		// ½«´Ë²Ù×÷·ûºÅÉèÖÃÎªÉÏ´ÎµÄ²Ù×÷
+		// ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ï´ÎµÄ²ï¿½ï¿½ï¿½
 		this.lastOp = cmd;
-		// ÉèÖÃµÚÒ»¸ö²Ù×÷ÊýµÄÖµ
+		// ï¿½ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 		this.firstNum = text;
-		// ½«µÚ¶þ¸ö²Ù×÷Êý¸³ÖµÎª¿Õ
+		// ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎªï¿½ï¿½
 		this.secondNum = null;
-		// ½«isSecondNum±êÖ¾Îªtrue
+		// ï¿½ï¿½isSecondNumï¿½ï¿½Ö¾Îªtrue
 		this.isSecondNum = true;
-		// ·µ»Ø¿ÕÖµ
+		// ï¿½ï¿½ï¿½Ø¿ï¿½Öµ
 		return null;
 	}
 
 	/**
-	 * ÉèÖÃÕý¸ºÊý
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param text
-	 *            String ÊäÈë¿òÖÐµÄÖµ
-	 * @return String ·â±Õ³É×Ö·û´®µÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Öµ
+	 * @return String ï¿½ï¿½Õ³ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 */
 	public String setNegative(String text) {
-		// Èç¹ûtextÊÇ¸ºÊý£¬¾Í½«Ëü±äÎªÕýÊý
+		// ï¿½ï¿½ï¿½textï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		if (text.indexOf("-") == 0) {
 			return text.substring(1, text.length());
 		}
-		// ·ñÔò£¬½«ÕýÊý±ä³É¸ºÊý
+		// ï¿½ï¿½ï¿½ò£¬½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¸ï¿½ï¿½ï¿½
 		return text.equals("0") ? text : "-" + text;
 	}
 
 	/**
-	 * Á¬½ÓÊäÈëµÄÊý×Ö£¬Ã¿´Îµã»÷Êý×Ö °ÑÐÂ¼ÓµÄÊý×Ö×·¼Óµ½ºóÃæ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½Ã¿ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¼Óµï¿½ï¿½ï¿½ï¿½ï¿½×·ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param cmd
-	 *            String ²Ù×÷·ûºÅ
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param text
-	 *            String ÊäÈë¿òÖÐµÄÖµ
-	 * @return String ·â±Õ³É×Ö·û´®µÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Öµ
+	 * @return String ï¿½ï¿½Õ³ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 */
 	public String catNum(String cmd, String text) {
 		String result = cmd;
-		// Èç¹ûÄ¿Ç°µÄtext²»µÈÓÚ0
+		// ï¿½ï¿½ï¿½Ä¿Ç°ï¿½ï¿½textï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
 		if (!text.equals("0")) {
 			if (isSecondNum) {
-				// ½«isSecondNum±êÖ¾Îªfalse
+				// ï¿½ï¿½isSecondNumï¿½ï¿½Ö¾Îªfalse
 				isSecondNum = false;
 			} else {
-				// ¸Õ·µ»Ø½á¹ûÎªÄ¿Ç°µÄtext¼ÓÉÏÐÂµã»÷µÄÊý×Ö
+				// ï¿½Õ·ï¿½ï¿½Ø½ï¿½ï¿½ÎªÄ¿Ç°ï¿½ï¿½textï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				result = text + cmd;
 			}
 		}
-		// Èç¹ûÓÐ.¿ªÍ·£¬¸ÕÔÚÇ°Ãæ²¹0
+		// ï¿½ï¿½ï¿½ï¿½ï¿½.ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½æ²¹0
 		if (result.indexOf(".") == 0) {
 			result = "0" + result;
 		}
@@ -211,10 +208,10 @@ public class CalService {
 	}
 
 	/**
-	 * ÊµÏÖbackspace¹¦ÄÜ
+	 * Êµï¿½ï¿½backspaceï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param text
-	 *            String ÏÖÔÚÎÄÌå¿òµÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 * @return String
 	 */
 	public String backSpace(String text) {
@@ -223,49 +220,49 @@ public class CalService {
 	}
 
 	/**
-	 * ÊµÏÖ´æ´¢²Ù×÷ÃüÁî
+	 * Êµï¿½Ö´æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param cmd
-	 *            String ²Ù×÷·ûºÅ
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param text
-	 *            String ÏÖÔÚÎÄÌå¿òµÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 * @return String
 	 */
 	public String mCmd(String cmd, String text) {
 		if (cmd.equals("M+")) {
-			// Èç¹ûÊÇ"M+"²Ù×÷,¸Õ°Ñ¼ÆËã½á¹ûÀÛ»ýµ½storeÖÐ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½"M+"ï¿½ï¿½ï¿½ï¿½,ï¿½Õ°Ñ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û»ï¿½ï¿½ï¿½storeï¿½ï¿½
 			store = MyMath.add(store, Double.valueOf(text));
 		} else if (cmd.equals("MC")) {
-			// Èç¹ûÊÇ"MC"²Ù×÷£¬ÔòÇå³ýstore
+			// ï¿½ï¿½ï¿½ï¿½ï¿½"MC"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½store
 			store = 0;
 		} else if (cmd.equals("MR")) {
-			// Èç¹ûÊÇ"MR"²Ù×÷£¬Ôò°ÑstoreµÄÖµ¶Á³öÀ´
+			// ï¿½ï¿½ï¿½ï¿½ï¿½"MR"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½storeï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			isSecondNum = true;
 			return String.valueOf(store);
 		} else if (cmd.equals("MS")) {
-			// Èç¹ûÊÇ"MS"²Ù×÷£¬Ôò°Ñ¼ÆËã½á¹û±£´æµ½store
+			// ï¿½ï¿½ï¿½ï¿½ï¿½"MS"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æµ½store
 			store = Double.valueOf(text).doubleValue();
 		}
 		return null;
 	}
 
 	/**
-	 * Çå³ýËùÓÐ¼ÆËã½á¹û
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return String
 	 */
 	public String clearAll() {
-		// ½«µÚÒ»µÚ¶þ²Ù×÷Êý»Ö¸´ÎªÄ¬ÈÏÖµ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ÎªÄ¬ï¿½ï¿½Öµ
 		this.firstNum = "0";
 		this.secondNum = null;
 		return this.firstNum;
 	}
 
 	/**
-	 * Çå³ýÉÏ´Î¼ÆËã½á¹û
+	 * ï¿½ï¿½ï¿½ï¿½Ï´Î¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param text
-	 *            String ÏÖÔÚÎÄÌå¿òµÄ½á¹û
+	 *            String ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	 * @return String
 	 */
 	public String clear(String text) {
@@ -273,7 +270,7 @@ public class CalService {
 	}
 
 	/**
-	 * ·µ»Ø´æ´¢Æ÷ÖÐµÄ½á¹û
+	 * ï¿½ï¿½ï¿½Ø´æ´¢ï¿½ï¿½ï¿½ÐµÄ½ï¿½ï¿½
 	 * 
 	 * @return double
 	 */

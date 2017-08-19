@@ -1,20 +1,16 @@
 package org.crazyit.image.tool;
 
-import org.crazyit.image.ImageFrame;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 /**
- * ÏðÆ¤²Á¹¤¾ß
+ * ï¿½ï¿½Æ¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -33,7 +29,7 @@ public class EraserTool extends AbstractTool {
 	}
 
 	/**
-	 * ÍÏ¶¯Êó±ê
+	 * ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -44,7 +40,7 @@ public class EraserTool extends AbstractTool {
 		Graphics g = getFrame().getBufferedImage().getGraphics();
 		int x = 0;
 		int y = 0;
-		// ÏðÆ¤²Á
+		// ï¿½ï¿½Æ¤ï¿½ï¿½
 		int size = 4;
 		if (getPressX() > 0 && getPressY() > 0) {
 			g.setColor(Color.WHITE);

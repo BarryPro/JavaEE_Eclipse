@@ -33,149 +33,148 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.crazyit.foxmail.box.DeletedBox;
-import org.crazyit.foxmail.box.DraftBox;
-import org.crazyit.foxmail.box.InBox;
-import org.crazyit.foxmail.box.MailBox;
-import org.crazyit.foxmail.box.OutBox;
-import org.crazyit.foxmail.box.SentBox;
-import org.crazyit.foxmail.mail.MailLoader;
-import org.crazyit.foxmail.mail.MailLoaderImpl;
-import org.crazyit.foxmail.mail.MailSender;
-import org.crazyit.foxmail.mail.MailSenderImpl;
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.system.SystemHandler;
-import org.crazyit.foxmail.system.SystemLoader;
-import org.crazyit.foxmail.system.impl.SystemHandlerImpl;
-import org.crazyit.foxmail.system.impl.SystemLoaderImpl;
-import org.crazyit.foxmail.util.FileUtil;
+import foxmail.src.org.crazyit.foxmail.box.DeletedBox;
+import foxmail.src.org.crazyit.foxmail.box.DraftBox;
+import foxmail.src.org.crazyit.foxmail.box.InBox;
+import foxmail.src.org.crazyit.foxmail.box.MailBox;
+import foxmail.src.org.crazyit.foxmail.box.OutBox;
+import foxmail.src.org.crazyit.foxmail.box.SentBox;
+import foxmail.src.org.crazyit.foxmail.mail.MailLoader;
+import foxmail.src.org.crazyit.foxmail.mail.MailLoaderImpl;
+import foxmail.src.org.crazyit.foxmail.mail.MailSender;
+import foxmail.src.org.crazyit.foxmail.mail.MailSenderImpl;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.system.SystemHandler;
+import foxmail.src.org.crazyit.foxmail.system.SystemLoader;
+import foxmail.src.org.crazyit.foxmail.system.impl.SystemHandlerImpl;
+import foxmail.src.org.crazyit.foxmail.system.impl.SystemLoaderImpl;
 
 /**
- * Ö÷½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class MainFrame extends JFrame {
 
-	//»¶Ó­µÄJLabel
-	private JLabel welcome = new JLabel("»¶Ó­Äú£º");
-	//·Ö¸ô×ó±ßµÄÊ÷ÓëÓÒ±ßÓÊ¼þÐÅÏ¢µÄJSplitPane
+	//ï¿½ï¿½Ó­ï¿½ï¿½JLabel
+	private JLabel welcome = new JLabel("ï¿½ï¿½Ó­ï¿½ï¿½ï¿½ï¿½");
+	//ï¿½Ö¸ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½JSplitPane
 	private JSplitPane mailSplitPane;
-	//ÓÒ±ßÓÊ¼þÁÐ±íÓëÓÊ¼þÐÅÏ¢µÄJSplitPane
+	//ï¿½Ò±ï¿½ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½JSplitPane
 	private JSplitPane mailListInfoPane;
-	//ÓÊ¼þÏêÏ¸ÐÅÏ¢µÄJSplitPane, ×ó±ßÊÇÓÊ¼þÐÅÏ¢, ÓÒ±ßÊÇ¸½¼þ
+	//ï¿½Ê¼ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ï¢ï¿½ï¿½JSplitPane, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢, ï¿½Ò±ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½
 	private JSplitPane mailInfoPane;
-	//ÓÊ¼þÁÐ±íµÄJTable
+	//ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½JTable
 	private MailListTable mailListTable;
-	//´æ·ÅÁÐ±íµÄµÄJScrollPane
+	//ï¿½ï¿½ï¿½ï¿½Ð±ï¿½Äµï¿½JScrollPane
 	private JScrollPane tablePane;
-	//ÓÊ¼þµ¼º½Ê÷µÄJScrollPane
+	//ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JScrollPane
 	private JScrollPane treePane;
-	//ÓÊ¼þµ¼º½Ê÷
+	//ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JTree tree;
-	//ÓÊ¼þÏÔÊ¾JTextArea
+	//ï¿½Ê¼ï¿½ï¿½ï¿½Ê¾JTextArea
 	private JTextArea mailTextArea = new JTextArea(10, 80);
-	//ÓÊ¼þÏÔÊ¾µÄJScrollPane, ´æ·ÅÏÔÊ¾ÓÊ¼þµÄJTextArea
+	//ï¿½Ê¼ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½JScrollPane, ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ê¼ï¿½ï¿½ï¿½JTextArea
 	private JScrollPane mailScrollPane;
-	//ÓÊ¼þ¸½¼þÁÐ±í
+	//ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private JScrollPane filePane;
-	//ÓÊ¼þ¸½¼þÃû³ÆÏÔÊ¾
+	//ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 	private JList fileList;
-	//¹¤¾ßÀ¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JToolBar toolBar = new JToolBar();
 	
-	//ÊÕ¼þÏäµÄMail¶ÔÏó¼¯ºÏ£¬´ú±íËùÓÐÔÚÊÕ¼þÏäÖÐµÄÓÊ¼þ
+	//ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ó¼¯ºÏ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ê¼ï¿½
 	private List<Mail> inMails;
-	//·¢¼þÏäµÄÓÊ¼þ¼¯ºÏ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private List<Mail> outMails;
-	//³É¹¦·¢ËÍµÄÓÊ¼þ¼¯ºÏ
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private List<Mail> sentMails;
-	//²Ý¸åÏäµÄÓÊ¼þ¼¯ºÏ
+	//ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private List<Mail> draftMails;
-	//À¬»øÏäµÄÓÊ¼þ¼¯ºÏ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private List<Mail> deleteMails;
-	//µ±Ç°½çÃæÁÐ±íËùÏÔÊ¾µÄ¶ÔÏó
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ä¶ï¿½ï¿½ï¿½
 	private List<Mail> currentMails;
 	
-	//Ð´ÓÊ¼þµÄJFrame
+	//Ð´ï¿½Ê¼ï¿½ï¿½ï¿½JFrame
 	private MailFrame mailFrame;
-	//ÏµÍ³ÉèÖÃ½çÃæ¶ÔÏó
+	//ÏµÍ³ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private SetupFrame setupFrame;
-	//ÓÊÏä¼ÓÔØ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
 	private MailLoader mailLoader = new MailLoaderImpl();
-	//±¾µØÖÐµÄÓÊ¼þ´¦Àí¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private SystemHandler systemHandler = new SystemHandlerImpl();
-	//±¾µØÖÐµÄÓÊ¼þ¼ÓÔØ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
 	private SystemLoader systemLoader = new SystemLoaderImpl();
-	//·¢ËÍÓÊ¼þ¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private MailSender mailSender = new MailSenderImpl();
-	//µ±Ç°´ò¿ªµÄÎÄ¼þ¶ÔÏó
+	//ï¿½ï¿½Ç°ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Mail currentMail;
-	//½ÓÊÕÓÊ¼þµÄ¼ä¸ô, µ¥Î»ºÁÃë
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ä¼ï¿½ï¿½, ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½
 	private long receiveInterval = 1000 * 10;
 	
-	//ÊÕÈ¡ÓÊ¼þ
-	private Action in = new AbstractAction("ÊÕÈ¡ÓÊ¼þ", new ImageIcon("images/in.gif")) {
+	//ï¿½ï¿½È¡ï¿½Ê¼ï¿½
+	private Action in = new AbstractAction("ï¿½ï¿½È¡ï¿½Ê¼ï¿½", new ImageIcon("images/in.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			receive();
 		}
 	};
 	
-	//·¢ËÍÓÊ¼þ
-	private Action sent = new AbstractAction("·¢ËÍÓÊ¼þ", new ImageIcon("images/out.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½
+	private Action sent = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½", new ImageIcon("images/out.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			send();
 		}
 	};
 	
-	//Ð´ÓÊ¼þ
-	private Action write = new AbstractAction("Ð´ÓÊ¼þ", new ImageIcon("images/new.gif")) {
+	//Ð´ï¿½Ê¼ï¿½
+	private Action write = new AbstractAction("Ð´ï¿½Ê¼ï¿½", new ImageIcon("images/new.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			write();
 		}
 	};
 	
-	//»Ø¸´ÓÊ¼þ
-	private Action reply = new AbstractAction("»Ø¸´ÓÊ¼þ", new ImageIcon("images/reply.gif")) {
+	//ï¿½Ø¸ï¿½ï¿½Ê¼ï¿½
+	private Action reply = new AbstractAction("ï¿½Ø¸ï¿½ï¿½Ê¼ï¿½", new ImageIcon("images/reply.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			reply();
 		}
 	};
 	
-	//»Ø¸´ÓÊ¼þ
-	private Action transmit = new AbstractAction("×ª·¢ÓÊ¼þ", new ImageIcon("images/transmit.gif")) {
+	//ï¿½Ø¸ï¿½ï¿½Ê¼ï¿½
+	private Action transmit = new AbstractAction("×ªï¿½ï¿½ï¿½Ê¼ï¿½", new ImageIcon("images/transmit.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			transmit();
 		}
 	};
 	
-	//É¾³ýÓÊ¼þ, ·Å½øÀ¬»øÏä
-	private Action delete = new AbstractAction("É¾³ýÓÊ¼þ", new ImageIcon("images/delete.gif")) {
+	//É¾ï¿½ï¿½ï¿½Ê¼ï¿½, ï¿½Å½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Action delete = new AbstractAction("É¾ï¿½ï¿½ï¿½Ê¼ï¿½", new ImageIcon("images/delete.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			delete();
 		}
 	};
 	
-	//³¹µ×É¾³ýÓÊ¼þ
-	private Action realDelete = new AbstractAction("³¹µ×É¾³ýÓÊ¼þ", new ImageIcon("images/real-delete.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ê¼ï¿½
+	private Action realDelete = new AbstractAction("ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ê¼ï¿½", new ImageIcon("images/real-delete.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			realDelete();
 		}
 	};
 	
-	//´ÓÀ¬»øÏäÖÐ»¹Ô­ÓÊ¼þ
-	private Action revert = new AbstractAction("»¹Ô­ÓÊ¼þ", new ImageIcon("images/revert.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½Ô­ï¿½Ê¼ï¿½
+	private Action revert = new AbstractAction("ï¿½ï¿½Ô­ï¿½Ê¼ï¿½", new ImageIcon("images/revert.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			revert();
 		}
 	};
 	
-	//ÉèÖÃ
-	private Action setup = new AbstractAction("ÉèÖÃ", new ImageIcon("images/setup.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½
+	private Action setup = new AbstractAction("ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/setup.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			setup();
 		}
@@ -186,21 +185,21 @@ public class MainFrame extends JFrame {
 	public MainFrame(MailContext ctx) {
 		this.ctx = ctx;
 		this.mailFrame = new MailFrame(this);
-		//³õÊ¼»¯¸÷¸öÁÐ±í¼¯ºÏ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½
 		initMails();
-		//ÉèÖÃµ±Ç°ÏÔÊ¾µÄÓÊ¼þ¼¯ºÏÎªÊÕ¼þÏäµÄ¼¯ºÏ
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ¼ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		this.currentMails = this.inMails;
-		//´´½¨ÓÊ¼þµ¼º½Ê÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.tree = createTree();
-		//ÓÊ¼þÁÐ±íJTable
+		//ï¿½Ê¼ï¿½ï¿½Ð±ï¿½JTable
 		DefaultTableModel tableMode = new DefaultTableModel();
 		this.mailListTable = new MailListTable(tableMode);
 		tableMode.setDataVector(createViewDatas(this.currentMails), getListColumn());
-		//ÉèÖÃÓÊ¼þÁÐ±íµÄÑùÊ½
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Ê½
 		setTableFace();
 		this.tablePane = new JScrollPane(this.mailListTable);
 		this.tablePane.setBackground(Color.WHITE);
-		//ÓÊ¼þ¸½¼þÁÐ±í
+		//ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		this.fileList = new JList();
 		this.fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.fileList.addMouseListener(new MainListMouseListener());
@@ -208,33 +207,33 @@ public class MainFrame extends JFrame {
 		this.mailTextArea.setLineWrap(true);
 		this.mailTextArea.setEditable(false);
 		this.mailTextArea.setFont(new Font(null, Font.BOLD, 14));
-		//ÏÔÊ¾ÓÊ¼þÄÚÈÝµÄJScrollPane
+		//ï¿½ï¿½Ê¾ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ýµï¿½JScrollPane
 		this.mailScrollPane =  new JScrollPane(this.mailTextArea);
-		//ÓÊ¼þµÄÐÅÏ¢
+		//ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		this.mailInfoPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
 				this.filePane, this.mailScrollPane);
 		this.mailInfoPane.setDividerSize(3);
 		this.mailInfoPane.setDividerLocation(80);
-		//ÓÊ¼þÁÐ±íºÍÓÊ¼þÐÅÏ¢µÄJSplitPane
+		//ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½JSplitPane
 		this.mailListInfoPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
 				this.tablePane, mailInfoPane);
 		this.mailListInfoPane.setDividerLocation(300);
 		this.mailListInfoPane.setDividerSize(20);
 		
-		//Ê÷µÄJScrollPane
+		//ï¿½ï¿½ï¿½ï¿½JScrollPane
 		this.treePane = new JScrollPane(this.tree);
-		//Ö÷Õû¸öÓÊ¼þ½çÃæµÄJSplitPane
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JSplitPane
 		this.mailSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
 				this.treePane, this.mailListInfoPane);
 		this.mailSplitPane.setDividerLocation(150);
 		this.mailSplitPane.setDividerSize(3);
-		//ÉèÖÃÓÃ»§ÓÊÏäµØÖ·µÄÏÔÊ¾
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ê¾
 		this.welcome.setText(this.welcome.getText() + ctx.getUser());
-		//´´½¨¹¤¾ßÀ¸
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		createToolBar();
-		//ÉèÖÃJFrameµÄ¸÷¸öÊôÐÔ
+		//ï¿½ï¿½ï¿½ï¿½JFrameï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.add(mailSplitPane);
-		this.setTitle("ÓÊ¼þÊÕ·¢¿Í»§¶Ë");
+		this.setTitle("ï¿½Ê¼ï¿½ï¿½Õ·ï¿½ï¿½Í»ï¿½ï¿½ï¿½");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		initListeners();
@@ -251,12 +250,12 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void initListeners() {
-		//ÁÐ±íÑ¡Ôñ¼àÌýÆ÷
+		//ï¿½Ð±ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.mailListTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
-				//µ±Ñ¡ÔñÐÐÊ±Êó±êÊÍ·ÅÊ±²ÅÖ´ÐÐ
+				//ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ê±ï¿½ï¿½Ö´ï¿½ï¿½
 				if (!event.getValueIsAdjusting()) {
-					//Èç¹ûÃ»ÓÐÑ¡ÖÐÈÎºÎÒ»ÐÐ, Ôò·µ»Ø
+					//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½, ï¿½ò·µ»ï¿½
 					if (mailListTable.getSelectedRowCount() != 1) return;
 					viewMail();
 				}
@@ -266,37 +265,37 @@ public class MainFrame extends JFrame {
 	
 	private boolean noSelectData(Mail mail) {
 		if (mail == null) {
-			showMessage("ÇëÑ¡ÔñÐèÒª²Ù×÷µÄÊý¾Ý");
+			showMessage("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return true;
 		}
 		return false;
 	}
 	
-	//·¢ËÍÒ»·âÓÊ¼þ
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½
 	private void send() {
 		Mail mail = getSelectMail();
 		if (noSelectData(mail)) return;
 		if (isReceive(mail)) {
-			showMessage("ÊÕ¼þÏäµÄÓÊ¼þ²»ÄÜ·¢ËÍ");
+			showMessage("ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½");
 			return;
 		}
-		//½øÈëÐ´ÓÊ¼þ½çÃæ
+		//ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.mailFrame.sendInit(mail);
 	}
 	
-	//»Ø¸´ÓÊ¼þ
+	//ï¿½Ø¸ï¿½ï¿½Ê¼ï¿½
 	private void reply() {
 		Mail mail = getSelectMail();
 		if (noSelectData(mail)) return;
-		//ÐèÒªÅÐ¶Ï»Ø¸´ÓÊ¼þÊÇ·ñÔÚÊÕ¼þÏäÖÐ
+		//ï¿½ï¿½Òªï¿½Ð¶Ï»Ø¸ï¿½ï¿½Ê¼ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (!isReceive(mail)) {
-			showMessage("Ö»ÄÜ»Ø¸´ÊÕ¼þÏäÖÐµÄÓÊ¼þ");
+			showMessage("Ö»ï¿½Ü»Ø¸ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ê¼ï¿½");
 			return;
 		}
 		this.mailFrame.replyInit(mail);
 	}
 	
-	//ÅÐ¶ÏÓÊ¼þÊÇ·ñÔÚÊÕ¼þÏäÖÐ
+	//ï¿½Ð¶ï¿½ï¿½Ê¼ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private boolean isReceive(Mail mail) {
 		for (Mail m : this.inMails) {
 			if (m.getXmlName().equals(mail.getXmlName())) return true;
@@ -304,24 +303,24 @@ public class MainFrame extends JFrame {
 		return false;
 	}
 	
-	//×ª·¢
+	//×ªï¿½ï¿½
 	private void transmit() {
 		Mail mail = getSelectMail();
 		if (noSelectData(mail)) return;
 		this.mailFrame.transmitInit(mail);
 	}
 	
-	//»¹Ô­ÓÊ¼þ
+	//ï¿½ï¿½Ô­ï¿½Ê¼ï¿½
 	public void revert() {
 		Mail mail = getSelectMail();
 		if (noSelectData(mail)) return;
-		//À¬»øÏä°üº¬Õâ¸öMail¶ÔÏó²Å½øÐÐ»¹Ô­
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½Å½ï¿½ï¿½Ð»ï¿½Ô­
 		if (this.deleteMails.contains(mail)) {
-			//´ÓÀ¬»øÏä¼¯ºÏÖÐÉ¾³ý
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä¼¯ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½
 			this.deleteMails.remove(mail);
-			//²Ù×÷ÎÄ¼þ, ²¢deletedÄ¿Â¼ÖÐµÄxmlÖÐ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½, ï¿½ï¿½deletedÄ¿Â¼ï¿½Ðµï¿½xmlï¿½ï¿½
 			this.systemHandler.revert(mail, this.ctx);
-			//»¹Ô­µ½¸÷¸ö¼¯ºÏÖÐ
+			//ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			revertMailToList(mail);
 		}
 		this.currentMail = null;
@@ -329,7 +328,7 @@ public class MainFrame extends JFrame {
 		cleanMailInfo();
 	}
 	
-	//»¹Ô­Mail¶ÔÏóµ½¸÷¸öÏàÓ¦µÄ¼¯ºÏ
+	//ï¿½ï¿½Ô­Mailï¿½ï¿½ï¿½óµ½¸ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ä¼ï¿½ï¿½ï¿½
 	private void revertMailToList(Mail mail) {
 		if (mail.getFrom().equals(FileUtil.INBOX)) {
 			this.inMails.add(mail);
@@ -342,39 +341,39 @@ public class MainFrame extends JFrame {
 		}
 	}
 		
-	//É¾³ýÓÊ¼þ
+	//É¾ï¿½ï¿½ï¿½Ê¼ï¿½
 	public void delete() {
 		Mail mail = getSelectMail();
 		if (noSelectData(mail)) return;
-		//ÅÐ¶ÏÀ¬»øÏäÖÐÊÇ·ñÓÐ¸Ã·ÝÓÊ¼þ(ÒÑ¾­±»·Åµ½À¬»øÏäÖÐ), ÓÐµÄ»°²»½øÐÐ´¦Àí
+		//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ð¸Ã·ï¿½ï¿½Ê¼ï¿½(ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½), ï¿½ÐµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
 		if (!this.deleteMails.contains(mail)) {
-			//´Óµ±Ç°µÄ¼¯ºÏÖÐÉ¾³ý
+			//ï¿½Óµï¿½Ç°ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½
 			this.currentMails.remove(mail);
-			//¼Óµ½À¬»øÏäµÄ¼¯ºÏÖÐ
+			//ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.deleteMails.add(0, mail);
-			//½«ÓÊ¼þ¶ÔÓ¦µÄxmlÎÄ¼þ·Åµ½deletedµÄÄ¿Â¼ÖÐ
+			//ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½Åµï¿½deletedï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 			this.systemHandler.delete(mail, this.ctx);
 		}
 		this.currentMail = null;
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
 		cleanMailInfo();
 	}
 	
-	//³¹µ×É¾³ýÒ»·âÓÊ¼þ
+	//ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½
 	private void realDelete() {
 		Mail mail = getSelectMail();
 		if (noSelectData(mail)) return;
-		//´Óµ±Ç°µÄ¼¯ºÏÖÐÉ¾³ý 
+		//ï¿½Óµï¿½Ç°ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ 
 		this.currentMails.remove(mail);
-		//É¾³ýxmlÎÄ¼þºÍ¶ÔÓ¦µÄ¸½¼þ
+		//É¾ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½Í¶ï¿½Ó¦ï¿½Ä¸ï¿½ï¿½ï¿½
 		this.systemHandler.realDelete(mail, this.ctx);
 		this.currentMail = null;
 		refreshTable();
 		cleanMailInfo();
 	}
 	
-	//»ñµÃÁÐ±íÖÐËùÑ¡ÐÐµÄxmlNameÁÐµÄÖµ£¨¸ÃÖµÊÇÎ¨Ò»µÄ£©
+	//ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½Ðµï¿½xmlNameï¿½Ðµï¿½Öµï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Î¨Ò»ï¿½Ä£ï¿½
 	private String getSelectXmlName() {
 		int row = this.mailListTable.getSelectedRow();
 		int column = this.mailListTable.getColumn("xmlName").getModelIndex();
@@ -383,43 +382,43 @@ public class MainFrame extends JFrame {
 		return xmlName;
 	}
 	
-	//²é¿´Ò»·âÓÊ¼þ
+	//ï¿½é¿´Ò»ï¿½ï¿½ï¿½Ê¼ï¿½
 	private void viewMail() {
 		this.mailTextArea.setText("");
 		Mail mail = getSelectMail();
-		this.mailTextArea.append("·¢ËÍÈË£º  " + mail.getSender());
+		this.mailTextArea.append("ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½  " + mail.getSender());
 		this.mailTextArea.append("\n");
-		this.mailTextArea.append("³­ËÍ£º  " + mail.getCCString());
+		this.mailTextArea.append("ï¿½ï¿½ï¿½Í£ï¿½  " + mail.getCCString());
 		this.mailTextArea.append("\n");
-		this.mailTextArea.append("ÊÕ¼þÈË:   " + mail.getReceiverString());
+		this.mailTextArea.append("ï¿½Õ¼ï¿½ï¿½ï¿½:   " + mail.getReceiverString());
 		this.mailTextArea.append("\n");
-		this.mailTextArea.append("Ö÷Ìâ£º  " + mail.getSubject());
+		this.mailTextArea.append("ï¿½ï¿½ï¿½â£º  " + mail.getSubject());
 		this.mailTextArea.append("\n");
-		this.mailTextArea.append("½ÓÊÕÈÕÆÚ£º  " + dateFormat.format(mail.getReceiveDate()));
+		this.mailTextArea.append("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½  " + dateFormat.format(mail.getReceiveDate()));
 		this.mailTextArea.append("\n\n");
-		this.mailTextArea.append("ÓÊ¼þÕýÎÄ£º  ");
+		this.mailTextArea.append("ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½  ");
 		this.mailTextArea.append("\n\n");
 		this.mailTextArea.append(mail.getContent());
-		//Ìí¼Ó¸½¼þ
+		//ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½
 		this.fileList.setListData(mail.getFiles().toArray());
-		//ÉèÖÃµ±Ç°±»´ò¿ªµÄÓÊ¼þ¶ÔÏó
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ò¿ªµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.currentMail = mail;
-		//Èç¹ûÓÊ¼þÃ»ÓÐ±»²é¿´¹ý£¬¾ÍÐÞ¸ÄÍ¼±ê£¬²¢±£´æÒÑ¾­´ò¿ªµÄ×´Ì¬
+		//ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½Ã»ï¿½Ð±ï¿½ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½Í¼ï¿½ê£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ò¿ªµï¿½×´Ì¬
 		if (!mail.getHasRead()) {
-			//ÉèÖÃÓÊ¼þÒÑ¾­±»²é¿´
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½é¿´
 			mail.setHasRead(true);
-			//¸üÐÂÐÅ·âÍ¼±ê
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Å·ï¿½Í¼ï¿½ï¿½
 			openEnvelop();
 		}
 	}
 	
 	
-	//»ñÈ¡ÔÚÁÐ±íÖÐËùÑ¡ÔñµÄMail¶ÔÏó
+	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½
 	private Mail getSelectMail() {
 		String xmlName = getSelectXmlName();
 		return getMail(xmlName, this.currentMails);
 	}
-	//´Ó¼¯ºÏÖÐÕÒµ½xmlNameÓë²ÎÊýÒ»ÖÂµÄMail¶ÔÏó
+	//ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½xmlNameï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Âµï¿½Mailï¿½ï¿½ï¿½ï¿½
 	private Mail getMail(String xmlName, List<Mail> mails) {
 		for (Mail m : mails) {
 			if (m.getXmlName().equals(xmlName))return m;
@@ -427,7 +426,7 @@ public class MainFrame extends JFrame {
 		return null;
 	}
 	
-	//³õÊ¼»¯Ê±´´½¨¸÷¸öboxÖÐµÄÊý¾Ý
+	//ï¿½ï¿½Ê¼ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½boxï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initMails() {
 		this.inMails = this.systemLoader.getInBoxMails(this.ctx);
 		this.draftMails = this.systemLoader.getDraftBoxMails(this.ctx);
@@ -437,17 +436,17 @@ public class MainFrame extends JFrame {
 	}
 	
 	/*
-	 * µ½·þÎñÆ÷ÖÐÊÕÈ¡ÓÊ¼þ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ê¼ï¿½
 	 */
 	public void receive() {
 		try {
-			System.out.println("½ÓÊÕÓÊ¼þ");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½");
 			List<Mail> newMails = this.mailLoader.getMessages(this.ctx);
-			//µÃµ½Mail¶ÔÏó, Ìí¼Óµ½inMails¼¯ºÏÖÐ
+			//ï¿½Ãµï¿½Mailï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Óµï¿½inMailsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.inMails.addAll(0, newMails);
-			//±£´æµ½±¾µØµÄÊÕ¼þÏäÖÐ
+			//ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½Øµï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 			saveToInBox(newMails);
-			//Ë¢ÐÂÁÐ±í
+			//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 			refreshTable();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -456,54 +455,54 @@ public class MainFrame extends JFrame {
 	}
 	
 	private int showMessage(String s) {
-		return JOptionPane.showConfirmDialog(this, s, "¾¯¸æ", 
+		return JOptionPane.showConfirmDialog(this, s, "ï¿½ï¿½ï¿½ï¿½", 
 				JOptionPane.OK_CANCEL_OPTION);
 	}
 	
-	//±£´æµ½±¾µØµÄÊÕ¼þÏäÖÐ, ¾ßÌåÄ¿Â¼ÊÇ: ÓÃ»§Ãû/ÓÊ¼þÕÊºÅÃû/inbox/Mail¶ÔÏóµÄuuid.xml
+	//ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½Øµï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½: ï¿½Ã»ï¿½ï¿½ï¿½/ï¿½Ê¼ï¿½ï¿½Êºï¿½ï¿½ï¿½/inbox/Mailï¿½ï¿½ï¿½ï¿½ï¿½uuid.xml
 	private void saveToInBox(List<Mail> newMails) {
 		for (Mail mail : newMails) {
-			//Éú³ÉxmlÀ´´æ·ÅÕâÐ©ÐÂµÄÓÊ¼þ
+			//ï¿½ï¿½ï¿½ï¿½xmlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½Âµï¿½ï¿½Ê¼ï¿½
 			systemHandler.saveInBox(mail, this.ctx);
 		}
 	}
 	
-	//ÔÚÒÑ·¢ËÍµÄ¼¯ºÏÖÐÌí¼ÓÒ»¸öÓÊ¼þ¶ÔÏó
+	//ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ÍµÄ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void addSentMail(Mail mail) {
 		this.sentMails.add(0, mail);
 		refreshTable();
 	}
 	
-	//ÔÚ·¢¼þÏäµÄ¼¯ºÏÖÐÌí¼ÓÒ»¸öÓÊ¼þ¶ÔÏó
+	//ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void addOutMail(Mail mail) {
 		this.outMails.add(0, mail);
 		refreshTable();
 	}
 	
-	//ÔÚ²Ý¸åÏäµÄ¼¯ºÏÖÐÌí¼ÓÒ»¸öÓÊ¼þ¶ÔÏó
+	//ï¿½Ú²Ý¸ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void addDraftMail(Mail mail) {
 		this.draftMails.add(0, mail);
 		refreshTable();
 	}
 	
-	//Ë¢ÐÂÁÐ±íµÄ·½·¨, ²ÎÊýÊÇ²»Í¬µÄÊý¾Ý
+	//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½Ä·ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void refreshTable() {
 		DefaultTableModel tableModel = (DefaultTableModel)this.mailListTable.getModel();
 		tableModel.setDataVector(createViewDatas(this.currentMails), getListColumn());
 		setTableFace();
 	}
 	
-	//µ±¶ÁÈ¡ÓÊ¼þºó½«Í¼Æ¬¸Ä±äÎª´ò¿ªÐÅ·âÍ¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ê¼ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ä±ï¿½Îªï¿½ï¿½ï¿½Å·ï¿½Í¼Æ¬
 	private void openEnvelop() {
 		int row = this.mailListTable.getSelectedRow();
-		int column = this.mailListTable.getColumn("´ò¿ª").getModelIndex();
+		int column = this.mailListTable.getColumn("ï¿½ï¿½").getModelIndex();
 		this.mailListTable.setValueAt(this.envelopOpen, row, column);
-		//ÖØÐÂ±£´æÓÊ¼þ×´Ì¬µ½xmlÎÄ¼þ
+		//ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½×´Ì¬ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		this.systemHandler.saveMail(this.currentMail, this.ctx);
 	}
 	
 	/*
-	 * ÉèÖÃ·½·¨£¬ ´ò¿ªÉèÖÃ½çÃæ
+	 * ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½
 	 */
 	private void setup() {
 		if (this.setupFrame == null) {
@@ -512,7 +511,7 @@ public class MainFrame extends JFrame {
 		this.setupFrame.setVisible(true);
 	}
 	
-	//¿ÉÒÔÈÃÍâ½çÖØÐÂÉè½çÓÊÏäÉÏÏÂÎÄ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void setMailContext(MailContext ctx) {
 		this.ctx = ctx;
 	}
@@ -533,18 +532,18 @@ public class MainFrame extends JFrame {
 		this.mailFrame.setVisible(true);
 	}
 	
-	//Ã»ÓÐ²é¿´µÄÓÊ¼þÏÔÊ¾¹Ø±ÕµÄÐÅ·âµÄÍ¼Æ¬µØÖ·
+	//Ã»ï¿½Ð²é¿´ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ê¾ï¿½Ø±Õµï¿½ï¿½Å·ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ö·
 	private static String CLOSE_ENVELOP_PATH = "images/envelop-close.gif";
-	//ÒÑ¾­²é¿´µÄÓÊ¼þÏÔÊ¾´ò¿ªµÄÐÅ·âµÄÍ¼Æ¬µØÖ·
+	//ï¿½Ñ¾ï¿½ï¿½é¿´ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ê¾ï¿½ò¿ªµï¿½ï¿½Å·ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ö·
 	private static String OPEN_ENVELOP_PATH = "images/envelop-open.gif";
-	//ÐÅ·â´ò¿ªµÄIcon¶ÔÏó
+	//ï¿½Å·ï¿½ò¿ªµï¿½Iconï¿½ï¿½ï¿½ï¿½
 	private ImageIcon envelopOpen = new ImageIcon(OPEN_ENVELOP_PATH);
-	//ÐÅ·â¹Ø±ÕµÄIcon¶ÔÏó
+	//ï¿½Å·ï¿½Ø±Õµï¿½Iconï¿½ï¿½ï¿½ï¿½
 	private ImageIcon envelopClose = new ImageIcon(CLOSE_ENVELOP_PATH);
-	//Ê±¼ä¸ñÊ½¶ÔÏó
-	private DateFormat dateFormat = new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ HH:mm:ss");
+	//Ê±ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½
+	private DateFormat dateFormat = new SimpleDateFormat("yyyyï¿½ï¿½MMï¿½ï¿½ddï¿½ï¿½ HH:mm:ss");
 	
-	//½«ÓÊ¼þÊý¾Ý¼¯ºÏ×ª»»³ÉÊÓÍ¼µÄ¸ñÊ½
+	//ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ä¸ï¿½Ê½
 	@SuppressWarnings("unchecked")
 	private Vector<Vector> createViewDatas(List<Mail> mails) {
 		Vector<Vector> views = new Vector<Vector>();
@@ -562,76 +561,76 @@ public class MainFrame extends JFrame {
 		return views;
 	}
 	
-	//¸ñÊ½Ê±¼ä
+	//ï¿½ï¿½Ê½Ê±ï¿½ï¿½
 	private String formatDate(Date date) {
 		return dateFormat.format(date);
 	}
 	
-	//»ñµÃÓÊ¼þÁÐ±íµÄÁÐÃû
+	//ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@SuppressWarnings("unchecked")
 	private Vector getListColumn() {
 		Vector columns = new Vector();
 		columns.add("xmlName");
-		columns.add("´ò¿ª");
-		columns.add("·¢¼þÈË");
-		columns.add("Ö÷Ìâ");
-		columns.add("ÈÕÆÚ");
-		columns.add("´óÐ¡");
+		columns.add("ï¿½ï¿½");
+		columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		columns.add("ï¿½ï¿½ï¿½ï¿½");
+		columns.add("ï¿½ï¿½ï¿½ï¿½");
+		columns.add("ï¿½ï¿½Ð¡");
 		return columns;
 	}
 	
-	//ÉèÖÃÓÊ¼þÁÐ±íµÄÑùÊ½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Ê½
 	private void setTableFace() {
-		//Òþ²ØÓÊ¼þ¶ÔÓ¦µÄxmlÎÄ¼þµÄÃû×Ö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.mailListTable.getColumn("xmlName").setMinWidth(0);
 		this.mailListTable.getColumn("xmlName").setMaxWidth(0);
-		this.mailListTable.getColumn("´ò¿ª").setCellRenderer(new MailTableCellRenderer());
-		this.mailListTable.getColumn("´ò¿ª").setMaxWidth(40);
-		this.mailListTable.getColumn("·¢¼þÈË").setMinWidth(200);
-		this.mailListTable.getColumn("Ö÷Ìâ").setMinWidth(320);
-		this.mailListTable.getColumn("ÈÕÆÚ").setMinWidth(130);
-		this.mailListTable.getColumn("´óÐ¡").setMinWidth(80);
+		this.mailListTable.getColumn("ï¿½ï¿½").setCellRenderer(new MailTableCellRenderer());
+		this.mailListTable.getColumn("ï¿½ï¿½").setMaxWidth(40);
+		this.mailListTable.getColumn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½").setMinWidth(200);
+		this.mailListTable.getColumn("ï¿½ï¿½ï¿½ï¿½").setMinWidth(320);
+		this.mailListTable.getColumn("ï¿½ï¿½ï¿½ï¿½").setMinWidth(130);
+		this.mailListTable.getColumn("ï¿½ï¿½Ð¡").setMinWidth(80);
 		this.mailListTable.setRowHeight(30);
 	}
 	
-	//³õÊ¼»¯¹¤¾ßÀ¸
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void createToolBar() {
-		this.toolBar.add(this.in).setToolTipText("ÊÕÈ¡ÓÊ¼þ");
-		this.toolBar.add(this.sent).setToolTipText("·¢ËÍÓÊ¼þ");
-		this.toolBar.add(this.write).setToolTipText("Ð´ÓÊ¼þ");
+		this.toolBar.add(this.in).setToolTipText("ï¿½ï¿½È¡ï¿½Ê¼ï¿½");
+		this.toolBar.add(this.sent).setToolTipText("ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½");
+		this.toolBar.add(this.write).setToolTipText("Ð´ï¿½Ê¼ï¿½");
 		this.toolBar.addSeparator(new Dimension(20, 0));
-		this.toolBar.add(this.reply).setToolTipText("»Ø¸´ÓÊ¼þ");
-		this.toolBar.add(this.transmit).setToolTipText("×ª·¢ÓÊ¼þ");
-		this.toolBar.add(this.delete).setToolTipText("É¾³ýÓÊ¼þ");
-		this.toolBar.add(this.realDelete).setToolTipText("³¹µ×É¾³ýÓÊ¼þ");
-		this.toolBar.add(this.revert).setToolTipText("»¹Ô­ÓÊ¼þ");
+		this.toolBar.add(this.reply).setToolTipText("ï¿½Ø¸ï¿½ï¿½Ê¼ï¿½");
+		this.toolBar.add(this.transmit).setToolTipText("×ªï¿½ï¿½ï¿½Ê¼ï¿½");
+		this.toolBar.add(this.delete).setToolTipText("É¾ï¿½ï¿½ï¿½Ê¼ï¿½");
+		this.toolBar.add(this.realDelete).setToolTipText("ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ê¼ï¿½");
+		this.toolBar.add(this.revert).setToolTipText("ï¿½ï¿½Ô­ï¿½Ê¼ï¿½");
 		this.toolBar.addSeparator(new Dimension(20, 0));
-		this.toolBar.add(this.setup).setToolTipText("ÉèÖÃ");
+		this.toolBar.add(this.setup).setToolTipText("ï¿½ï¿½ï¿½ï¿½");
 		
 		this.toolBar.addSeparator(new Dimension(50, 0));
 		this.toolBar.add(this.welcome);
-		this.toolBar.setFloatable(false);//ÉèÖÃ¹¤¾ßÀ¸²»¿ÉÒÆ¶¯
-		this.toolBar.setMargin(new Insets(5, 10, 5, 5));//ÉèÖÃ¹¤¾ßÀ¸µÄ±ß¾à
+		this.toolBar.setFloatable(false);//ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
+		this.toolBar.setMargin(new Insets(5, 10, 5, 5));//ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ß¾ï¿½
 		this.add(this.toolBar, BorderLayout.NORTH);
 	}
 	
-	//´´½¨µ¼º½µÄÊ÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JTree createTree() {
-		//´´½¨¸ù½Úµã
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
-		//¼ÓÈë¸÷¸ö×Ó½Úµã
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½Úµï¿½
 		root.add(new DefaultMutableTreeNode(new InBox()));
 		root.add(new DefaultMutableTreeNode(new OutBox()));
 		root.add(new DefaultMutableTreeNode(new SentBox()));
 		root.add(new DefaultMutableTreeNode(new DraftBox()));
 		root.add(new DefaultMutableTreeNode(new DeletedBox()));
-		//´´½¨Ê÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		JTree tree = new JTree(root);
-		//¼ÓÈëÊó±ê¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		tree.addMouseListener(new SailTreeListener(this));
-		//Òþ²Ø¸ù½Úµã
+		//ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½Úµï¿½
 		tree.setRootVisible(false);
-		//ÉèÖÃ½Úµã´¦ÀíÀà
+		//ï¿½ï¿½ï¿½Ã½Úµã´¦ï¿½ï¿½ï¿½ï¿½
 		SailTreeCellRenderer cellRenderer = new SailTreeCellRenderer();
 		tree.setCellRenderer(cellRenderer);
 		return tree;
@@ -652,32 +651,32 @@ public class MainFrame extends JFrame {
 		} else {
 			this.currentMails = this.deleteMails;
 		}
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
-		//ÉèÖÃµ±Ç°´ò¿ªµÄÓÊ¼þ¶ÔÏóÎª¿Õ²¢Çå¿Õ×é¼þ
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ò¿ªµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		cleanMailInfo();
 	}
 	
-	//Çå¿Õµ±Ç°´ò¿ªµÄÓÊ¼þ¼°¶ÔÓ¦µÄ½çÃæ×é¼þ
+	//ï¿½ï¿½Õµï¿½Ç°ï¿½ò¿ªµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void cleanMailInfo() {
-		//ÉèÖÃµ±Ç°´ò¿ªµÄÓÊ¼þ¶ÔÏóÎª¿Õ
+		//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ò¿ªµï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
 		this.currentMail = null;
 		this.mailTextArea.setText("");
 		this.fileList.setListData(this.emptyListData);
 	}
 	
-	//»ñµÃµ±Ç°Ñ¡ÖÐµÄbox
+	//ï¿½ï¿½Ãµï¿½Ç°Ñ¡ï¿½Ðµï¿½box
 	private MailBox getSelectBox() {
 		TreePath treePath = this.tree.getSelectionPath();
 		if (treePath == null) return null;
-		//»ñµÃÑ¡ÖÐµÄTreeNode
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½Ðµï¿½TreeNode
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)treePath.getLastPathComponent();
 		return (MailBox)node.getUserObject();
 	}
 }
 
 /**
- * ÓÊ¼þ½ÓÊÕµÄtask¶ÔÏó
+ * ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Õµï¿½taskï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong
  *
  */
@@ -695,7 +694,7 @@ class ReceiveTask extends TimerTask {
 			this.mainFrame.receive();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("·¢ÉúÒì³£, ²»½ÓÊÕ");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ì³£, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 

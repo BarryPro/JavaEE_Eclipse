@@ -2,7 +2,6 @@ package org.crazyit.transaction.ui.table;
 
 import java.awt.Component;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -15,7 +14,7 @@ public class UserTableCellRenderer extends DefaultTableCellRenderer {
 		JLabel c = (JLabel)super.getTableCellRendererComponent(table, value, 
 				isSelected, hasFocus, row, column);
 		c.setToolTipText(value.toString());
-		//ÉèÖÃ¾ÓÖÐ
+		//ï¿½ï¿½ï¿½Ã¾ï¿½ï¿½ï¿½
 		c.setHorizontalAlignment(JLabel.CENTER);
 		return c;
 	}

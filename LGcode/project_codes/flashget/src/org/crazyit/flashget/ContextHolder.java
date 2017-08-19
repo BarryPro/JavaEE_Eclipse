@@ -1,10 +1,10 @@
 package org.crazyit.flashget;
 
-import org.crazyit.flashget.thread.DownloadHandler;
+import flashget.src.org.crazyit.flashget.thread.DownloadHandler;
 
 public class ContextHolder {
-	//обть╧╓╬ъиообнд
+	//О©╫О©╫О©╫ь╧О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	public static DownloadContext ctx = new DownloadContext();
-	//обть╢╕юМюЮ
+	//О©╫О©╫О©╫ь╢О©╫О©╫О©╫О©╫О©╫
 	public static DownloadHandler dh = new DownloadHandler();
 }

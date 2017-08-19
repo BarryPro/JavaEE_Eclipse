@@ -2,35 +2,32 @@ package org.crazyit.ioc.xml;
 
 import java.util.Collection;
 
-import org.dom4j.Document;
-import org.dom4j.Element;
-
 /**
- * ÔªËØ¼ÓÔØ½Ó¿Ú
+ * Ôªï¿½Ø¼ï¿½ï¿½Ø½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface ElementLoader {
 	
 	/**
-	 * ¼ÓÈëÒ»·ÝdocµÄËùÓÐElement
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½docï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Element
 	 * @param doc
 	 */
 	void addElements(Document doc);
 	
 	/**
-	 * ¸ù¾ÝÔªËØid»ñµÃElement¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½idï¿½ï¿½ï¿½Elementï¿½ï¿½ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */
 	Element getElement(String id);
 	
 	/**
-	 * ·µ»ØÈ«²¿µÄElement
+	 * ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½Element
 	 * @return
 	 */
 	Collection<Element> getElements();

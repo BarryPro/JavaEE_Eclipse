@@ -1,0 +1,55 @@
+================================================================================
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+================================================================================
+
+$Revision: 678487 $ $Date: 2008-07-22 01:11:50 +0800 (周二, 22 七月 2008) $
+
+                         =================================
+                         Apache Tomcat 6.0 Patch Proposals
+                         =================================
+
+
+RELEASE SHOWSTOPPERS:
+
+
+PATCHES ACCEPTED TO BACKPORT:
+  [ start all new proposals below, under PATCHES PROPOSED. ]
+
+PATCHES PROPOSED TO BACKPORT:
+  [ New proposals should be added at the end of the list ]
+
+*  Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=36155
+   Port the fix from the JK Connector to the AJP and APR Connectors
+   http://svn.apache.org/viewvc?rev=672454&view=rev
+   +1: billbarker
+   -1: remm: No, this gets called all the time, and we're trying to fix a small issue. The real
+             solution would be to recycle the fields since as mentioned here it is the cause of 
+             the problem (the "local" fields will often never change, but there's no real 
+             guarantee overall - it mostly breaks down if there are multiple connectors, with AJP,
+             and seems impossible to anticipate):
+             https://issues.apache.org/bugzilla/show_bug.cgi?id=36155#c17
+
+* Add in startup options, so that cluster can be started in TCP mode only, when using static membership
+  Also document the multicast recovery options
+  http://svn.apache.org/viewvc?rev=674125&view=rev
+  +1: fhanik, markt
+  -1: 
+
+* Fix comet behavior
+  Invoke READ when there is a body and make sure END is called if CometEvent.close is called during an invokation
+  http://svn.apache.org/viewvc?rev=677473&view=rev
+  +1: fhanik
+  -1: 

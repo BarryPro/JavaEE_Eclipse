@@ -1,14 +1,14 @@
 package org.crazyit.editor;
 
-import org.crazyit.editor.tree.TreeCreator;
-import org.crazyit.editor.tree.TreeCreatorImpl;
+import editor.src.org.crazyit.editor.tree.TreeCreator;
+import editor.src.org.crazyit.editor.tree.TreeCreatorImpl;
 
 /**
- * ³ÌÐòÈë¿ÚÀà
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -16,11 +16,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		TreeCreator treeCreator = new TreeCreatorImpl();
-		//´´½¨EditorFrame£¬ÔÝÊ±²»ÓÃÉèÖÃ¿É¼û
+		//ï¿½ï¿½ï¿½ï¿½EditorFrameï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿É¼ï¿½
 		EditorFrame editorFrame = new EditorFrame("ide", treeCreator);
-		//½«editorFrame¶ÔÏó×÷ÎªSpaceFrameµÄ¹¹Ôì²ÎÊý
+		//ï¿½ï¿½editorFrameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªSpaceFrameï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		SpaceFrame spaceFrame = new SpaceFrame(editorFrame);
-		//ÈÃSpaceFrame¿É¼û
+		//ï¿½ï¿½SpaceFrameï¿½É¼ï¿½
 		spaceFrame.setVisible(true);
 	}
 }

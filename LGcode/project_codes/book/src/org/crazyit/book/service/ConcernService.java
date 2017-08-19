@@ -2,48 +2,46 @@ package org.crazyit.book.service;
 
 import java.util.Collection;
 
-import org.crazyit.book.vo.Concern;
-
 /**
- * ³ö°æÉçÒµÎñ½Ó¿Ú
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface ConcernService {
 
 	/**
-	 * »ñÈ¡È«²¿µÄ³ö°æÉç
+	 * ï¿½ï¿½È¡È«ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	Collection<Concern> getAll();
 	
 	/**
-	 * ¸ù¾Ýid²éÕÒÒ»¸ö³ö°æÉç
-	 * @param id ³ö°æÉçid
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param id ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id
 	 * @return
 	 */
 	Concern find(String id);
 	
 	/**
-	 * Ìí¼ÓÒ»¸ö³ö°æÉç
+	 * ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param c
 	 * @return
 	 */
 	Concern add(Concern c);
 	
 	/**
-	 * ÐÞ¸ÄÒ»¸ö³ö°æÉç
+	 * ï¿½Þ¸ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param c
 	 * @return
 	 */
 	Concern update(Concern c);
 	
 	/**
-	 * ¸ù¾Ý³ö°æÉçÃû×ÖÄ£ºý²éÕÒ
+	 * ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param name
 	 * @return
 	 */

@@ -3,7 +3,6 @@ package org.crazyit.book.ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -20,15 +19,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.crazyit.book.service.ConcernService;
-import org.crazyit.book.vo.Concern;
-
 /**
- * ³ö°æÉçµÄJPanel¶ÔÏó
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JPanelï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -38,97 +34,97 @@ public class ConcernPanel extends CommonPanel {
 	
 	private ConcernService service;
 	
-	//Çå¿Õ°´Å¥
+	//ï¿½ï¿½Õ°ï¿½Å¥
 	JButton clearButton;
 	
-	//±£´æ°´Å¥
+	//ï¿½ï¿½ï¿½æ°´Å¥
 	JButton saveButton;
 	
-	//id(Òþ²Ø)
+	//id(ï¿½ï¿½ï¿½ï¿½)
 	JTextField concernId;
 	
-	//³ö°æÉçÃû³Æ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JTextField concernName;
 	
-	//ÁªÏµÈË
+	//ï¿½ï¿½Ïµï¿½ï¿½
 	JTextField pubLinkMan;
 	
-	//ÁªÏµµç»°
+	//ï¿½ï¿½Ïµï¿½ç»°
 	JTextField pubTel;
 	
-	//¼ò½é
+	//ï¿½ï¿½ï¿½
 	JTextArea pubIntro;
 	
-	//²éÑ¯°´Å¥
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½Å¥
 	JButton queryButton;
 	
-	//¸ù¾ÝÃû³Æ²éÑ¯µÄÊäÈë¿ò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JTextField queryName;
 	
-	//³õÊ¼»¯ÁÐ
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 	private void initColumns() {
 		this.columns = new Vector();
 		this.columns.add("id");
-		this.columns.add("³ö°æÉçÃû³Æ");
-		this.columns.add("ÁªÏµÈË");
-		this.columns.add("ÁªÏµµç»°");
-		this.columns.add("¼ò½é");
+		this.columns.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½Ïµï¿½ï¿½");
+		this.columns.add("ï¿½ï¿½Ïµï¿½ç»°");
+		this.columns.add("ï¿½ï¿½ï¿½");
 	}
 
 	public ConcernPanel(ConcernService service) {
 		this.service = service;
-		//³õÊ¼»¯ÁÐ¼¯ºÏ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½
 		initColumns();
-		//ÉèÖÃÁÐ±íÊý¾Ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//ÉèÖÃÁÐ±í
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		DefaultTableModel model = new DefaultTableModel(null, this.columns);
 		JTable table = new CommonJTable(model);
 		setJTable(table);
 		JScrollPane upPane = new JScrollPane(table);
 		upPane.setPreferredSize(new Dimension(1000, 350));
-		//ÉèÖÃÌí¼Ó, ÐÞ¸ÄµÄ½çÃæ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Þ¸ÄµÄ½ï¿½ï¿½ï¿½
 		JPanel downPane = new JPanel();
 		downPane.setLayout(new BoxLayout(downPane, BoxLayout.Y_AXIS));
 		/*******************************************************/
 		Box downBox1 = new Box(BoxLayout.X_AXIS);
-		//ÐÂ½¨JTextField±£´æid
+		//ï¿½Â½ï¿½JTextFieldï¿½ï¿½ï¿½ï¿½id
 		concernId = new JTextField();
-		//ÉèÖÃÎª²»¿É¼û
+		//ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½É¼ï¿½
 		concernId.setVisible(false);
 		downBox1.add(concernId);
-		//ÁÐ±íÏÂÃæµÄbox
-		downBox1.add(new JLabel("³ö°æÉçÃû³Æ£º"));
+		//ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½box
+		downBox1.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½"));
 		downBox1.add(Box.createHorizontalStrut(10));
 		concernName = new JTextField(10);
 		downBox1.add(concernName);
 		downBox1.add(Box.createHorizontalStrut(400));
 		/*******************************************************/
 		Box downBox2 = new Box(BoxLayout.X_AXIS);
-		downBox2.add(new JLabel("Áª  Ïµ  ÈË£º"));
+		downBox2.add(new JLabel("ï¿½ï¿½  Ïµ  ï¿½Ë£ï¿½"));
 		downBox2.add(Box.createHorizontalStrut(10));
 		pubLinkMan = new JTextField(10); 
 		downBox2.add(pubLinkMan);
 		downBox2.add(Box.createHorizontalStrut(50));
-		downBox2.add(new JLabel("ÁªÏµµç»°£º"));
+		downBox2.add(new JLabel("ï¿½ï¿½Ïµï¿½ç»°ï¿½ï¿½"));
 		downBox2.add(Box.createHorizontalStrut(10));
 		pubTel = new JTextField(10);
 		downBox2.add(pubTel);
 		/*******************************************************/
 		Box downBox3 = new Box(BoxLayout.X_AXIS);
-		downBox3.add(new JLabel("¼ò½é£º"));
+		downBox3.add(new JLabel("ï¿½ï¿½é£º"));
 		downBox3.add(Box.createHorizontalStrut(35));
 		pubIntro = new JTextArea("", 5, 5);
 		JScrollPane introScrollPane = new JScrollPane(pubIntro);
-		//ÉèÖÃ»»ÐÐ
+		//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½
 		pubIntro.setLineWrap(true);
 		downBox3.add(introScrollPane);
 		/*******************************************************/
 		Box downBox4 = new Box(BoxLayout.X_AXIS);
-		saveButton = new JButton("±£´æ");
+		saveButton = new JButton("ï¿½ï¿½ï¿½ï¿½");
 		downBox4.add(saveButton);
 		downBox4.add(Box.createHorizontalStrut(30));
-		clearButton = new JButton("Çå¿Õ");
+		clearButton = new JButton("ï¿½ï¿½ï¿½");
 		downBox4.add(clearButton);
 		downBox4.add(Box.createHorizontalStrut(30));
 		/*******************************************************/
@@ -140,54 +136,54 @@ public class ConcernPanel extends CommonPanel {
 		downPane.add(downBox3);
 		downPane.add(getSplitBox());
 		downPane.add(downBox4);
-		/*******************²éÑ¯******************/
+		/*******************ï¿½ï¿½Ñ¯******************/
 		JPanel queryPanel = new JPanel();
 		Box queryBox = new Box(BoxLayout.X_AXIS);
-		queryBox.add(new JLabel("Ãû³Æ£º"));
+		queryBox.add(new JLabel("ï¿½ï¿½ï¿½Æ£ï¿½"));
 		queryBox.add(Box.createHorizontalStrut(30));
 		queryName = new JTextField(20);
 		queryBox.add(queryName);
 		queryBox.add(Box.createHorizontalStrut(30));
-		queryButton = new JButton("²éÑ¯");
+		queryButton = new JButton("ï¿½ï¿½Ñ¯");
 		queryBox.add(queryButton);
 		queryPanel.add(queryBox);
 		this.add(queryPanel);
-		//ÁÐ±íÎªÌí¼Ó½çÃæ
+		//ï¿½Ð±ï¿½Îªï¿½ï¿½Ó½ï¿½ï¿½ï¿½
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upPane, downPane);
 		split.setDividerSize(5);
 		this.add(split);
-		//³õÊ¼»¯¼àÌýÆ÷
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		initListeners();
 	}
 	
-	//³õÊ¼»¯¼àÌýÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListeners() {
-		//±í¸ñÑ¡Ôñ¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		getJTable().getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
-				//µ±Ñ¡ÔñÐÐÊ±Êó±êÊÍ·ÅÊ±²ÅÖ´ÐÐ
+				//ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ê±ï¿½ï¿½Ö´ï¿½ï¿½
 				if (!event.getValueIsAdjusting()) {
-					//Èç¹ûÃ»ÓÐÑ¡ÖÐÈÎºÎÒ»ÐÐ, Ôò·µ»Ø
+					//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½, ï¿½ò·µ»ï¿½
 					if (getJTable().getSelectedRowCount() != 1) return;
-					//µ÷ÓÃ¸¸ÀàµÄ·½·¨»ñµÃÑ¡ÔñÐÐµÄid
+					//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ðµï¿½id
 					String id = getSelectId(getJTable());
 					view(id);
 				}
 			}
 		});
-		//Çå¿Õ°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½Õ°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		clearButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				clear();
 			}
 		});
-		//±£´æ°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½æ°´Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		saveButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				save();
 			}
 		});
-		//²éÑ¯°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½Ñ¯ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		queryButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				query();
@@ -195,71 +191,71 @@ public class ConcernPanel extends CommonPanel {
 		});
 	}
 	
-	//°´Ãû×ÖÄ£ºý²éÑ¯
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ñ¯
 	private void query() {
 		String name = this.queryName.getText();
 		Vector<Concern> concerns = (Vector<Concern>)service.query(name);
-		//×ª»»Êý¾Ý¸ñÊ½
+		//×ªï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½Ê½
 		Vector<Vector> datas =  changeDatas(concerns);
-		//ÉèÖÃÊý¾Ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		setDatas(datas);
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
 	}
 	
-	//²é¿´Ò»¸ö³ö°æÉç
+	//ï¿½é¿´Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void view(String id) {
 		Concern c = service.find(id);
-		//ÉèÖÃIDµÄJTextFiled£¨Òþ²Ø£©
+		//ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½JTextFiledï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½
 		this.concernId.setText(c.getID());
-		//ÉèÖÃ³ö°æÉçÃû³ÆµÄÎÄ±¾¿ò
+		//ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 		this.concernName.setText(c.getPUB_NAME());
-		//ÉèÖÃÁªÏµÈËµÄÎÄ±¾¿ò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ëµï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 		this.pubLinkMan.setText(c.getPUB_LINK_MAN());
-		//ÉèÖÃÁªÏµµç»°µÄÎÄ±¾¿ò
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ç»°ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 		this.pubTel.setText(c.getPUB_TEL());
-		//ÉèÖÃ¼ò½éµÄÎÄ±¾Óò
+		//ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 		this.pubIntro.setText(c.getPUB_INTRO());
 	}
 	
-	//±£´æ·½·¨
+	//ï¿½ï¿½ï¿½æ·½ï¿½ï¿½
 	private void save() {
 		if (this.concernName.getText().trim().equals("")) {
-			//µ÷ÓÃ¸¸ÀàµÄ·½·¨£¬µ¯³ö´íÎóÌáÊ¾
-			showWarn("ÇëÊäÈë³ö°æÉçÃû³Æ");
+			//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+			showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return;
 		}
-		//Èç¹ûidÎª¿Õ, ÔòÎªÐÂÔö, ²»Îª¿ÕÔòÎªÐÞ¸Ä²Ù×÷
+		//ï¿½ï¿½ï¿½idÎªï¿½ï¿½, ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Îªï¿½Þ¸Ä²ï¿½ï¿½ï¿½
 		if (this.concernId.getText().equals("")) add();
 		else update();
 	}
 	
-	//ÐÂÔö·½·¨
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void add() {
-		//»ñµÃ½çÃæÖÐµÄÖµ²¢·â×°³É¶ÔÏó
+		//ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Öµï¿½ï¿½ï¿½ï¿½×°ï¿½É¶ï¿½ï¿½ï¿½
 		Concern c = getConcern();
 		service.add(c);
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//Ë¢ÐÂ±íµ¥
+		//Ë¢ï¿½Â±ï¿½
 		clear();
 	}
 	
-	//ÐÞ¸Ä·½·¨
+	//ï¿½Þ¸Ä·ï¿½ï¿½ï¿½
 	private void update() {
-		//È¡µÃµ±Ç°ÐÞ¸Ä¼ÇÂ¼µÄID
+		//È¡ï¿½Ãµï¿½Ç°ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½ID
 		String id = this.concernId.getText();
-		//¸ù¾Ý½çÃæÊý¾Ý»ñµÃConcern¶ÔÏó
+		//ï¿½ï¿½ï¿½Ý½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý»ï¿½ï¿½Concernï¿½ï¿½ï¿½ï¿½
 		Concern c = getConcern();
 		c.setID(id);
 		service.update(c);
-		//ÖØÐÂ¶ÁÈ¡Êý¾Ý
+		//ï¿½ï¿½ï¿½Â¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		setViewDatas();
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
 	}
 	
-	//´Ó±íµ¥ÖÐ»ñÈ¡Êý¾Ý²¢·â×°³ÉConcern¶ÔÏó, Ã»ÓÐid
+	//ï¿½Ó±ï¿½ï¿½Ð»ï¿½È¡ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½×°ï¿½ï¿½Concernï¿½ï¿½ï¿½ï¿½, Ã»ï¿½ï¿½id
 	private Concern getConcern() {
 		String concernName = this.concernName.getText();
 		String pubTel = this.pubTel.getText();
@@ -268,11 +264,11 @@ public class ConcernPanel extends CommonPanel {
 		return new Concern(null, concernName, pubTel, pubLinkMan, pubIntro);
 	}
 	
-	//Çå¿Õ±íµ¥²¢Ë¢ÐÂÁÐ±í
+	//ï¿½ï¿½Õ±ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 	public void clear() {
-		//Ë¢ÐÂÁÐ±í
+		//Ë¢ï¿½ï¿½ï¿½Ð±ï¿½
 		refreshTable();
-		//Çå¿Õ±íµ¥ÖÐµÄ¸÷¸öÎÄ±¾¿ò£¨Óò£©µÄÖµ
+		//ï¿½ï¿½Õ±ï¿½ï¿½ÐµÄ¸ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ò£©µï¿½Öµ
 		this.concernId.setText("");
 		this.concernName.setText("");
 		this.pubLinkMan.setText("");
@@ -286,19 +282,19 @@ public class ConcernPanel extends CommonPanel {
 	}
 
 	/*
-	 * ÉèÖÃ±í¸ñÑùÊ½(non-Javadoc)
+	 * ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ê½(non-Javadoc)
 	 * @see org.crazyit.book.ui.CommonPanel#setTableFace()
 	 */
 	public void setTableFace() {
-		//Òþ²ØidÁÐ
+		//ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½
 		getJTable().getColumn("id").setMinWidth(-1);
 		getJTable().getColumn("id").setMaxWidth(-1); 
-		getJTable().getColumn("¼ò½é").setMinWidth(400);
+		getJTable().getColumn("ï¿½ï¿½ï¿½").setMinWidth(400);
 		getJTable().setRowHeight(30);
 	}
 	
 	/**
-	 * ½«Êý¾Ý×ª»»³ÉÊÓÍ¼±í¸ñµÄ¸ñÊ½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¸ï¿½Ê½
 	 * @param datas
 	 * @return
 	 */
@@ -317,14 +313,14 @@ public class ConcernPanel extends CommonPanel {
 	}
 	
 	/*
-	 * ÊµÏÖ¸¸Àà·½·¨, ²éÑ¯Êý¾Ý¿â²¢·µ»Ø¶ÔÓ¦µÄÊý¾Ý¸ñÊ½, µ÷ÓÃ¸¸ÀàµÄsetDatas·½·¨ÉèÖÃÊý¾Ý¼¯ºÏ
+	 * Êµï¿½Ö¸ï¿½ï¿½à·½ï¿½ï¿½, ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ý¿â²¢ï¿½ï¿½ï¿½Ø¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½Ê½, ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½setDatasï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½
 	 */
 	public void setViewDatas() {
-		//Ê¹ÓÃÒµÎñ½Ó¿ÚµÃµ½Êý¾Ý
+		//Ê¹ï¿½ï¿½Òµï¿½ï¿½Ó¿ÚµÃµï¿½ï¿½ï¿½ï¿½ï¿½
 		Vector<Concern> concerns = (Vector<Concern>)service.getAll();
-		//½«Êý¾Ý×ª»»³ÉÏÔÊ¾¸ñÊ½
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ê½
 		Vector<Vector> datas =  changeDatas(concerns);
-		//µ÷ÓÃ¸¸ÀàµÄsetDatas·½·¨
+		//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½setDatasï¿½ï¿½ï¿½ï¿½
 		setDatas(datas);
 	}
 

@@ -2,47 +2,45 @@ package org.crazyit.linkgame.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
-
-import org.crazyit.linkgame.commons.GameException;
-
-import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 
 /**
- * Í¼Æ¬¹¤¾ßÀà
+ * Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class ImageUtil {
 
 	/**
-	 * ÓÃÓÚ»ñÈ¡Ä³¸öÎÄ¼þ¼ÐÏÂÃæµÄËùÓÐÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½Ú»ï¿½È¡Ä³ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @param folder
-	 *            Ä¿±êÎÄ¼þ¼Ð
+	 *            Ä¿ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 	 * @param subfix
-	 *            Í¼Æ¬ºó×º
-	 * @return ·µ»ØÍ¼Æ¬¼¯ºÏ£¬ÆäÔªËØÎªBufferedImage
+	 *            Í¼Æ¬ï¿½ï¿½×º
+	 * @return ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½Ôªï¿½ï¿½ÎªBufferedImage
 	 * @throws IOException
-	 *             Èç¹û¶ÁÈ¡²»ÁËÍ¼Æ¬»òÕß¶ÁÈ¡Í¼Æ¬³ö´íÅ×³öÒì³£
+	 *             ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ß¶ï¿½È¡Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£
 	 */
 	public static List<BufferedImage> getImages(File folder, String subfix)
 			throws IOException {
-		// ´ÓÄ¿±êÎÄ¼þ¼ÐÖÐ»ñÈ¡ÎÄ¼þÁÐ±í
+		// ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡ï¿½Ä¼ï¿½ï¿½Ð±ï¿½
 		File[] items = folder.listFiles();
-		// ´´½¨½á¹û¼¯ºÏ¶ÔÏó
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½
 		List<BufferedImage> result = new ArrayList<BufferedImage>();
-		// ¶ÔÎÄ¼þÁÐ±í½øÐÐ±éÀú
+		// ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½
 		for (File file : items) {
-			// Èç¹û¸ÃÎÄ¼þ·ûºÏÖ¸¶¨µÄÎÄ¼þºó×º, Ôò¼Óµ½½á¹û¼¯ÖÐ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½×º, ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (file.getName().endsWith(subfix)) {
 				result.add(ImageIO.read(file));
 			}
@@ -51,30 +49,30 @@ public class ImageUtil {
 	}
 
 	/**
-	 * Ëæ»ú´ÓsourceImagesµÄ¼¯ºÏÖÐ»ñÈ¡sizeÕÅÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½sourceImagesï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡sizeï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @param sourceImages
-	 *            Ô´Í¼Æ¬µÄ¶ÔÏó¼¯ºÏ
+	 *            Ô´Í¼Æ¬ï¿½Ä¶ï¿½ï¿½ó¼¯ºï¿½
 	 * @param size
-	 *            ÐèÒª»ñÈ¡µÄÍ¼Æ¬ÊýÁ¿
-	 * @return ·µ»ØËæ»ú»ñÈ¡µÄÍ¼Æ¬¼¯ºÏ
+	 *            ï¿½ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 	 */
 	public static List<BufferedImage> getRandomImages(
 			List<BufferedImage> sourceImages, int size) {
-		// ´´½¨Ò»¸öËæ»úÊýÉú³ÉÆ÷
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Random random = new Random();
-		// ´´½¨½á¹û¼¯ºÏ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<BufferedImage> result = new ArrayList<BufferedImage>();
 		for (int i = 0; i < size; i++) {
 			try {
-				// Ëæ»ú»ñÈ¡Ò»¸öÊý×Ö£¬°üÀ¨0£¬²»°üÀ¨Ô´Í¼Æ¬¼¯ºÏµÄsize
+				// ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Í¼Æ¬ï¿½ï¿½ï¿½Ïµï¿½size
 				int index = random.nextInt(sourceImages.size());
-				// ´ÓÔ´Í¼Æ¬¼¯ºÏÖÐ»ñÈ¡¸ÃÍ¼Æ¬¶ÔÏó
+				// ï¿½ï¿½Ô´Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 				BufferedImage image = sourceImages.get(index);
-				// Ìí¼Óµ½½á¹û¼¯ÖÐ
+				// ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				result.add(image);
 			} catch (IndexOutOfBoundsException e) {
-				// µ±Ô´Í¼Æ¬¼¯ºÏµÄsizeÎª0Ê±£¬»á·¢ÉúÊý×éÔ½½ç£¬Ö±½Ó·µ»Ø½á¹û¼¯
+				// ï¿½ï¿½Ô´Í¼Æ¬ï¿½ï¿½ï¿½Ïµï¿½sizeÎª0Ê±ï¿½ï¿½ï¿½á·¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ç£¬Ö±ï¿½Ó·ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½
 				return result;
 			}
 
@@ -83,77 +81,77 @@ public class ImageUtil {
 	}
 
 	/**
-	 * Ëæ»ú´òÂÒsourceImages
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sourceImages
 	 * 
 	 * @param sourceImages
-	 *            ÐèÒª±»´òÂÒµÄÍ¼Æ¬¼¯ºÏ
+	 *            ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	public static List<BufferedImage> randomImages(
 			List<BufferedImage> sourceImages) {
-		// ´´½¨Ò»¸öËæ»úÊýÉú³ÉÆ÷
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Random random = new Random();
-		// ´´½¨Ò»¸ö´æ·ÅÊý×ÖµÄ¼¯ºÏ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÄ¼ï¿½ï¿½ï¿½
 		List<Integer> numbers = new ArrayList<Integer>();
-		// »ñÈ¡Ò»¸ö¼¯ºÏ, ÀïÃæÊÇÒ»Ð©±»´òÂÒµÄÊý×Ö
+		// ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ð©ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½
 		for (int i = 0; i < sourceImages.size(); i++) {
-			// Ëæ»ú´´½¨Ò»¸öÊý×Ö£¬·¶Î§ÊÇ0µ½²ÎÊýsourceImageµÄsize, °üÀ¨0²»°üÀ¨size
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½Î§ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sourceImageï¿½ï¿½size, ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½size
 			Integer temp = random.nextInt(sourceImages.size());
-			// ÎªÁËÈ·±£Êý×ÖÃ»ÓÐÖØ¸´£¬Èç¹û¸ÃÊý×ÖÒÑ¾­ÔÚ´æ·ÅÊý×ÖµÄ¼¯ºÏÖÐ£¬ÖØÐÂÔÙ»ñÈ¡Ò»´ÎÊý×Ö
+			// Îªï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÄ¼ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù»ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (!numbers.contains(temp)) {
-				// ´æ·ÅÊý×ÖµÄ¼¯ºÏÖÐÃ»ÓÐ¸ÃËæ»úÊý£¬Ìí¼Ó¼¯ºÏÖÐ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÄ¼ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½
 				numbers.add(temp);
 			} else {
-				// ¸ÃÊý×ÖÒÑ¾­´æÔÚÓÚ¼¯ºÏÖÐ£¬i - 1Ö´ÐÐÑ­»·
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½Ð£ï¿½i - 1Ö´ï¿½ï¿½Ñ­ï¿½ï¿½
 				i--;
 				continue;
 			}
 		}
-		// ´´½¨Ò»¸ö½á¹û¼¯ºÏ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<BufferedImage> result = new ArrayList<BufferedImage>();
-		// ¶ÔÔ´Í¼Æ¬¼¯ºÏ½øÐÐ±éÀú
+		// ï¿½ï¿½Ô´Í¼Æ¬ï¿½ï¿½ï¿½Ï½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½
 		for (int i = 0; i < sourceImages.size(); i++) {
-			// ´ÓÊý×Ö¼¯ºÏÖÐ»ñÈ¡ÒÑ¾­±»´òÂÒµÄË÷Òý£¬Ô´Í¼Æ¬¼¯ºÏ»ñÈ¡Õâ¸öË÷ÒýµÄÖµ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Í¼Æ¬ï¿½ï¿½ï¿½Ï»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 			result.add(sourceImages.get(numbers.get(i)));
 		}
 		return result;
 	}
 
 	/**
-	 * ´Ó²ÎÊýfolderÖÐ¶ÁÈ¡sizeÕÅ£¬ÆäÖÐsizeÎªÓÎÏ·ÊýÁ¿£¬±ØÐë¿ÉÒÔ±»2Õû³ý
+	 * ï¿½Ó²ï¿½ï¿½ï¿½folderï¿½Ð¶ï¿½È¡sizeï¿½Å£ï¿½ï¿½ï¿½ï¿½ï¿½sizeÎªï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½2ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param folder
-	 *            ÐèÒª±»´òÂÒµÄÍ¼Æ¬¼¯ºÏ
+	 *            ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 	 * @param size
-	 *            ÐèÒª±»´òÂÒµÄÍ¼Æ¬¼¯ºÏ
+	 *            ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	public static List<BufferedImage> getPlayImages(File folder, int size) {
-		if (size % 2 != 0) {// Èç¹û¸ÃÊý³ý2ÓÐÓàÊý£¬Å×³öÔËÐÐÊ±Òì³£
+		if (size % 2 != 0) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ì³£
 			throw new GameException("image size error");
 		}
 		try {
-			// ÏÈ´ÓÄ¿±êÎÄ¼þ¼ÐÖÐ»ñÈ¡È«²¿ÒÔ.gif½áÎ²µÄÍ¼Æ¬
+			// ï¿½È´ï¿½Ä¿ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡È«ï¿½ï¿½ï¿½ï¿½.gifï¿½ï¿½Î²ï¿½ï¿½Í¼Æ¬
 			List<BufferedImage> images = getImages(folder, ".gif");
-			// ÔÙ´ÓËùÓÐµÄÍ¼Æ¬ÖÐËæ»ú»ñÈ¡sizeµÄÒ»°ëÊýÁ¿
+			// ï¿½Ù´ï¿½ï¿½ï¿½ï¿½Ðµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡sizeï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			List<BufferedImage> playImages = getRandomImages(images, size / 2);
-			// ½«ÕâÉÏÃæµÄÍ¼Æ¬¼¯ºÏ´òÂÒ£¬²¢¹¹³ÉÁíÍâÒ»¸öÍ¼Æ¬¼¯ºÏ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Ï´ï¿½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 			List<BufferedImage> randomImages = randomImages(playImages);
-			// Ç°ÃæµÄÍ¼Æ¬¼ÓÉÏºóÃæ´òÂÒµÄÍ¼Æ¬£¬×é³É½á¹û¼¯
+			// Ç°ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Ïºï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½É½ï¿½ï¿½ï¿½ï¿½
 			playImages.addAll(randomImages);
 			return playImages;
 		} catch (IOException e) {
-			// ¶ÁÈ¡Í¼Æ¬³ö´í£¬Å×³ö×Ô¶¨ÒåµÄÔËÐÐÊ±Òì³£
+			// ï¿½ï¿½È¡Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ì³£
 			throw new GameException("read images error");
 		}
 	}
 
 	public static BufferedImage getImage(String imagePath) {
 		try {
-			// Ê¹ÓÃImageIO¶ÁÈ¡Í¼Æ¬
+			// Ê¹ï¿½ï¿½ImageIOï¿½ï¿½È¡Í¼Æ¬
 			return ImageIO.read(new File(imagePath));
 		} catch (IOException e) {
-			// ¶ÁÈ¡Í¼Æ¬·¢ÉúÒì³££¬Å×³öGameException
+			// ï¿½ï¿½È¡Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½×³ï¿½GameException
 			throw new GameException("read image error");
 		}
 	}

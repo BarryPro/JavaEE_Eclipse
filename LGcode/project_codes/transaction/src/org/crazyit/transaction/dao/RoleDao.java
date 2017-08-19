@@ -2,19 +2,17 @@ package org.crazyit.transaction.dao;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.Role;
-
 public interface RoleDao {
 
 	/**
-	 * ¸ù¾ÝID²éÕÒ½ÇÉ«
+	 * ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Ò½ï¿½É«
 	 * @param id
 	 * @return
 	 */
 	Role find(String id);
 	
 	/**
-	 * ²éÕÒÈ«²¿µÄ½ÇÉ«
+	 * ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½Ä½ï¿½É«
 	 * @return
 	 */
 	List<Role> findRoles();

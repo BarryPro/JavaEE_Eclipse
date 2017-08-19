@@ -13,38 +13,37 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.crazyit.transaction.model.Log;
-import org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.model.Transaction;
 
 public class ViewTransactionDialog extends JDialog {
 
-	//±êÌâ
-	private JLabel titleLabel = new JLabel("±êÌâ: ");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel titleLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField title = new JTextField(10);
 	
-	//ÄÚÈÝ
-	private JLabel contentLabel = new JLabel("ÄÚÈÝ: ");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel contentLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½: ");
 	private JTextArea content = new JTextArea(10, 40);
 	private JScrollPane contentPane = new JScrollPane(content);
 	
-	//Ä¿±êÍê³ÉÊ±¼ä
-	private JLabel targetDateLabel = new JLabel("Íê³ÉÊ±¼ä: ");
+	//Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	private JLabel targetDateLabel = new JLabel("ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: ");
 	private JTextField targetDate = new JTextField(10);
 	
-	//´¦ÀíÈË
-	private JLabel handlerLabel = new JLabel("µ±Ç°´¦ÀíÈË: ");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private JLabel handlerLabel = new JLabel("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField handler = new JTextField(10);
-	//´¦ÀíÈËid(Òþ²Ø)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id(ï¿½ï¿½ï¿½ï¿½)
 	private JTextField handlerId = new JTextField();
 	
-	//·¢ÆðÈË(ÏµÍ³)
-	private JLabel initiatorLabel = new JLabel("·¢ÆðÈË: ");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ÏµÍ³)
+	private JLabel initiatorLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField initiator = new JTextField(10);
 	
-	//°´Å¥
-	private JButton confirmButton = new JButton("¹Ø±Õ");
+	//ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("ï¿½Ø±ï¿½");
 	
-	private JLabel processLabel = new JLabel("´¦Àí¹ý³Ì");
+	private JLabel processLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	private JTextArea processArea = new JTextArea(5, 40);
 	private JScrollPane processScrollPane;
 	
@@ -59,41 +58,41 @@ public class ViewTransactionDialog extends JDialog {
 		this.handler.setEditable(false);
 		this.processArea.setEditable(false);
 		this.processScrollPane = new JScrollPane(this.processArea);
-		//±êÌâ
+		//ï¿½ï¿½ï¿½ï¿½
 		Box titleBox = Box.createHorizontalBox();
 		titleBox.add(Box.createHorizontalStrut(43));
 		titleBox.add(this.titleLabel);
 		titleBox.add(this.title);
 		titleBox.add(Box.createHorizontalStrut(30));
-		//ÄÚÈÝ
+		//ï¿½ï¿½ï¿½ï¿½
 		Box contentBox = Box.createHorizontalBox();
 		contentBox.add(Box.createHorizontalStrut(43));
 		contentBox.add(this.contentLabel);
 		contentBox.add(this.contentPane);
 		contentBox.add(Box.createHorizontalStrut(30));
-		//Íê³ÉÊ±¼ä
+		//ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 		Box targetDateBox = Box.createHorizontalBox();
 		targetDateBox.add(Box.createHorizontalStrut(17));
 		targetDateBox.add(this.targetDateLabel);
 		targetDateBox.add(this.targetDate);
 		targetDateBox.add(Box.createHorizontalStrut(230));
-		//´¦ÀíÈË
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Box handlerBox = Box.createHorizontalBox();
 		handlerBox.add(Box.createHorizontalStrut(4));
 		handlerBox.add(this.handlerLabel);
 		handlerBox.add(this.handler);
 		handlerBox.add(this.handlerId);
 		handlerBox.add(Box.createHorizontalStrut(230));
-		//´¦Àí¹ý³Ì
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Box processTextBox = Box.createHorizontalBox();
 		processTextBox.add(this.processLabel);
-		//·¢ÆðÈË
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Box initiatorBox = Box.createHorizontalBox();
 		initiatorBox.add(Box.createHorizontalStrut(30));
 		initiatorBox.add(this.initiatorLabel);
 		initiatorBox.add(this.initiator);
 		initiatorBox.add(Box.createHorizontalStrut(312));
-		//°´Å¥
+		//ï¿½ï¿½Å¥
 		Box buttonBox = Box.createHorizontalBox();
 		buttonBox.add(this.confirmButton);
 		
@@ -118,7 +117,7 @@ public class ViewTransactionDialog extends JDialog {
 		this.add(mainBox);	
 		this.pack();
 		this.setResizable(false);
-		this.setTitle("´´½¨ÐÂÊÂÎñ");
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation((int)screen.getWidth()/4, (int)screen.getHeight()/7);
 		initListeners();
@@ -140,7 +139,7 @@ public class ViewTransactionDialog extends JDialog {
 	public void setVisible(boolean b) {
 		super.setVisible(b);
 		if (!b) return;
-		//Èç¹ûµ±Ç°½çÃæµÄTransaction¶ÔÏó²»Îª¿Õ,ÔòÉèÖÃÏàÓ¦µÄÖµ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Transactionï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Öµ
 		if (this.transaction != null) {
 			this.title.setText(this.transaction.getTS_TITLE());
 			this.content.setText(this.transaction.getTS_CONTENT());
@@ -149,8 +148,8 @@ public class ViewTransactionDialog extends JDialog {
 			this.initiator.setText(this.transaction.getInitiator().getREAL_NAME());
 			this.processArea.setText("");
 			for (Log log : this.transaction.getLogs()) {
-				this.processArea.append(log.getHandler().getREAL_NAME() + " ÓÚ " 
-						+ log.getLOG_DATE() + " ½«ÊÂÎñ " + log.getTS_DESC() + ": " 
+				this.processArea.append(log.getHandler().getREAL_NAME() + " ï¿½ï¿½ " 
+						+ log.getLOG_DATE() + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ " + log.getTS_DESC() + ": " 
 						+ log.getComment().getCM_CONTENT() + "\n");
 			}
 		}

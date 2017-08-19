@@ -11,67 +11,65 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.crazyit.foxmail.exception.ValidateException;
-import org.crazyit.foxmail.util.FileUtil;
-import org.crazyit.foxmail.util.PropertiesUtil;
+import foxmail.src.org.crazyit.foxmail.exception.ValidateException;
 
 /**
- * ÓÊÏäÅäÖÃ½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class SetupFrame extends JFrame {
 
-	//ÕÊºÅµÄJLabel
-	private JLabel accountLabel = new JLabel("ÓÊÏäµØÖ·£º");
-	//ÃÜÂëJabel
-	private JLabel passwordLabel = new JLabel("ÓÊÏäÃÜÂë£º");
-	//ÓÊ¼şµØÖ·ÊäÈë¿ò
+	//ï¿½ÊºÅµï¿½JLabel
+	private JLabel accountLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½");
+	//ï¿½ï¿½ï¿½ï¿½Jabel
+	private JLabel passwordLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£º");
+	//ï¿½Ê¼ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JTextField accountField = new JTextField(20);
-	//ÃÜÂëÊäÈë¿ò
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JPasswordField passwordField = new JPasswordField(20);
-	//È·¶¨°´Å¥
-	private JButton confirmButton = new JButton("È·¶¨");
-	//È¡Ïû°´Å¥
-	private JButton cancelButton = new JButton("È¡Ïû");
-	//ÓÊÏäÕÊºÅBox
+	//È·ï¿½ï¿½ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("È·ï¿½ï¿½");
+	//È¡ï¿½ï¿½ï¿½ï¿½Å¥
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½Box
 	private Box accountBox = Box.createHorizontalBox();
-	//ÃÜÂëµÄBox
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Box
 	private Box passwordBox = Box.createHorizontalBox();
-	//·¢ËÍÓÊ¼ş·şÎñÆ÷µÄBox
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 	private Box smtpBox = Box.createHorizontalBox();
-	//½ÓÊÕÓÊ¼ş·şÎñÆ÷µÄBox
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 	private Box pop3Box = Box.createHorizontalBox();
-	//°´Å¥Box
+	//ï¿½ï¿½Å¥Box
 	private Box buttonBox = Box.createHorizontalBox();
-	//¼ÓÈëµ½JFrameµÄBox
+	//ï¿½ï¿½ï¿½ëµ½JFrameï¿½ï¿½Box
 	private Box main = Box.createVerticalBox();
-	//ÓÊ¼şÏµÍ³Ö÷½çÃæ
+	//ï¿½Ê¼ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private MainFrame mainFrame;
-	//·¢ËÍÓÊ¼ş·şÎñÆ÷(SMTP)
-	private JLabel smtpLabel = new JLabel("·¢ËÍÓÊ¼ş·şÎñÆ÷£¨SMTP£©£º");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(SMTP)
+	private JLabel smtpLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SMTPï¿½ï¿½ï¿½ï¿½");
 	private JTextField smtpField = new JTextField(10);
-	private JLabel smtpPortLabel = new JLabel("¶Ë¿Ú£º");
+	private JLabel smtpPortLabel = new JLabel("ï¿½Ë¿Ú£ï¿½");
 	private JTextField smtpPortField = new JTextField(5);
-	//½ÓÊÕÓÊ¼ş·şÎñÆ÷£¨POP3£©
-	private JLabel pop3Label = new JLabel("½ÓÊÕÓÊ¼ş·şÎñÆ÷£¨POP3£©£º");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½POP3ï¿½ï¿½
+	private JLabel pop3Label = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½POP3ï¿½ï¿½ï¿½ï¿½");
 	private JTextField pop3Field = new JTextField(10);
-	private JLabel pop3PortLabel = new JLabel("¶Ë¿Ú£º");
+	private JLabel pop3PortLabel = new JLabel("ï¿½Ë¿Ú£ï¿½");
 	private JTextField pop3PortField = new JTextField(5);
 	
 	public SetupFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
-		//³õÊ¼»¯½çÃæ×é¼ş
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		initFrame(this.mainFrame.getMailContext());
-		//³õÊ¼»¯¼àÌıÆ÷
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		initListener();
 	}
 	
-	//³õÊ¼»¯¼àÌıÆ÷
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void initListener() {
 		this.confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -86,14 +84,14 @@ public class SetupFrame extends JFrame {
 	}
 	
 	/*
-	 * Òş²Ø
+	 * ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void hideFrame() {
 		this.setVisible(false);
 	}
 	
 	/*
-	 * ·µ»ØÃÜÂë×Ö·û´®
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	 */
 	private String getPassword() {
 		char[] passes = this.passwordField.getPassword();
@@ -104,29 +102,29 @@ public class SetupFrame extends JFrame {
 		return password.toString();
 	}
 	
-	//È·¶¨°´Å¥
+	//È·ï¿½ï¿½ï¿½ï¿½Å¥
 	private void confirm() {
 		try {
-			//ÖØĞÂÉèÖÃÏµÍ³ÉÏÏÂÎÄµÄĞÅÏ¢
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½Ï¢
 			MailContext ctx = getMailContext(this.mainFrame.getMailContext());
-			//ÉèÖÃÒÑ¾­¶ÔĞÅÏ¢½øĞĞÁËÖØĞÂÉè¶¨
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨
 			ctx.setReset(true);
-			//½«ĞÂµÄÉÏÏÂÎÄĞ´ÈëÅäÖÃÎÄ¼şÖĞ
+			//ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 			PropertiesUtil.store(ctx);
-			//ÉèÖÃÖ÷½çÃæµÄMailContext¶ÔÏó
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MailContextï¿½ï¿½ï¿½ï¿½
 			this.mainFrame.setMailContext(ctx);
-			//´´½¨´æ·ÅÓÊ¼şµÄÄ¿Â¼(²¢·ÇÓÃ»§µÄÄ¿Â¼, Ò»¸öÓÃ»§¿ÉÄÜÓĞ¶à¸öÓÊÏäµØÖ·)
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ä¿Â¼(ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ä¿Â¼, Ò»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·)
 			FileUtil.createFolder(ctx);
 			this.setVisible(false);
 		} catch (Exception e) {
-			JOptionPane.showConfirmDialog(this, e.getMessage(), "¾¯¸æ", 
+			JOptionPane.showConfirmDialog(this, e.getMessage(), "ï¿½ï¿½ï¿½ï¿½", 
 					JOptionPane.OK_CANCEL_OPTION);
 			return;
 		}
 	}
 	
 	/*
-	 * ¸ù¾İ½çÃæµÄÖµ·â×°MailContext
+	 * ï¿½ï¿½ï¿½İ½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½×°MailContext
 	 */
 	private MailContext getMailContext(MailContext ctx) {
 		String account = this.accountField.getText();
@@ -137,9 +135,9 @@ public class SetupFrame extends JFrame {
 		String pop3PortStr = this.pop3PortField.getText();
 		String[] values = new String[]{account, password, smtpHost, smtpPortStr, 
 				pop3Host, pop3Host, pop3PortStr};
-		//ÑéÖ¤±ØÌîÊäÈë
+		//ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		validateRequire(values);
-		//ÑéÖ¤¶Ë¿ÚÊı×Ö
+		//ï¿½ï¿½Ö¤ï¿½Ë¿ï¿½ï¿½ï¿½ï¿½ï¿½
 		validateLegal(new String[]{smtpPortStr, pop3PortStr});
 		Integer smtpPort = Integer.valueOf(smtpPortStr);
 		Integer pop3Port = Integer.valueOf(pop3PortStr);
@@ -149,14 +147,14 @@ public class SetupFrame extends JFrame {
 		ctx.setSmtpPort(smtpPort);
 		ctx.setPop3Host(pop3Host);
 		ctx.setPop3Port(pop3Port);
-		//ÓÉÓÚÖØĞÂÉèÖÃÁËÁ¬½ÓĞÅÏ¢, Òò´ËÉèÖÃMailContextµÄresetÖµÎªtrue
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MailContextï¿½ï¿½resetÖµÎªtrue
 		ctx.setReset(true);
 		return ctx;
 	}
 	
 	
 	/*
-	 * ÑéÖ¤Êı×ÖÊÇ·ñºÏ·¨
+	 * ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ï·ï¿½
 	 */
 	private void validateLegal(String[] values) {
 		try {
@@ -164,37 +162,37 @@ public class SetupFrame extends JFrame {
 				Integer.valueOf(s);
 			}
 		} catch (NumberFormatException e) {
-			throw new ValidateException("ÇëÊäÈëÕıÈ·µÄÊı×Ö");
+			throw new ValidateException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 	
 	/*
-	 * ÑéÖ¤±ØÌîÊäÈë
+	 * ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void validateRequire(String[] values) {
 		for (String s :values) {
 			if (s.trim().equals("")) {
-				throw new ValidateException("ÇëÊäÈëÍêÕûµÄĞÅÏ¢");
+				throw new ValidateException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢");
 			}
 		}
 	}
 	
 	
-	//³õÊ¼»¯JFrame
+	//ï¿½ï¿½Ê¼ï¿½ï¿½JFrame
 	private void initFrame(MailContext ctx) {
-		//ÓÊÏäÕÊºÅµÄBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ÊºÅµï¿½Box
 		this.accountBox.add(Box.createHorizontalStrut(30));
 		this.accountBox.add(this.accountLabel);
 		this.accountBox.add(Box.createHorizontalStrut(13));
 		this.accountBox.add(this.accountField);
 		this.accountBox.add(Box.createHorizontalStrut(30));
-		//ÓÊÏäÃÜÂëµÄBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 		this.passwordBox.add(Box.createHorizontalStrut(30));
 		this.passwordBox.add(this.passwordLabel);
 		this.passwordBox.add(Box.createHorizontalStrut(13));
 		this.passwordBox.add(this.passwordField);
 		this.passwordBox.add(Box.createHorizontalStrut(30));
-		//·¢ËÍÓÊ¼ş·şÎñÆ÷µÄBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 		this.smtpBox.add(Box.createHorizontalStrut(30));
 		this.smtpBox.add(this.smtpLabel);
 		this.smtpBox.add(this.smtpField);
@@ -202,7 +200,7 @@ public class SetupFrame extends JFrame {
 		this.smtpBox.add(this.smtpPortLabel);
 		this.smtpBox.add(this.smtpPortField);
 		this.smtpBox.add(Box.createHorizontalStrut(30));
-		//½ÓÊÕÓÊ¼ş·şÎñÆ÷µÄBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 		this.pop3Box.add(Box.createHorizontalStrut(31));
 		this.pop3Box.add(this.pop3Label);
 		this.pop3Box.add(this.pop3Field);
@@ -210,13 +208,13 @@ public class SetupFrame extends JFrame {
 		this.pop3Box.add(this.pop3PortLabel);
 		this.pop3Box.add(this.pop3PortField);
 		this.pop3Box.add(Box.createHorizontalStrut(30));
-		//°´Å¥µÄBox
+		//ï¿½ï¿½Å¥ï¿½ï¿½Box
 		this.buttonBox.add(Box.createHorizontalStrut(30));
 		this.buttonBox.add(this.confirmButton);
 		this.buttonBox.add(Box.createHorizontalStrut(20));
 		this.buttonBox.add(this.cancelButton);
 		this.buttonBox.add(Box.createHorizontalStrut(30));
-		//·ÅÖÃÓÚJFrameÖĞµÄBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JFrameï¿½Ğµï¿½Box
 		this.main.add(Box.createVerticalStrut(20));
 		this.main.add(this.accountBox);
 		this.main.add(Box.createVerticalStrut(10));
@@ -228,15 +226,15 @@ public class SetupFrame extends JFrame {
 		this.main.add(Box.createVerticalStrut(10));
 		this.main.add(this.buttonBox);
 		this.main.add(Box.createVerticalStrut(20));
-		//³õÊ¼»¯¸÷¸öÅäÖÃ
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.accountField.setText(ctx.getAccount());
 		this.passwordField.setText(ctx.getPassword());
 		this.smtpField.setText(ctx.getSmtpHost());
 		this.pop3Field.setText(ctx.getPop3Host());
 		this.smtpPortField.setText(String.valueOf(ctx.getSmtpPort()));
 		this.pop3PortField.setText(String.valueOf(ctx.getPop3Port()));
-		//ÉèÖÃJFrameµÄ¸÷¸öÊôĞÔ
-		this.setTitle("ÓÊ¼şÊÕ·¢¿Í»§¶Ë");
+		//ï¿½ï¿½ï¿½ï¿½JFrameï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		this.setTitle("ï¿½Ê¼ï¿½ï¿½Õ·ï¿½ï¿½Í»ï¿½ï¿½ï¿½");
 		this.setLocation(300, 200); 
 		this.setResizable(false);
 		this.add(this.main);

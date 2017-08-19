@@ -5,15 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
-import org.crazyit.book.dao.BookDao;
-import org.crazyit.book.vo.Book;
-
 /**
- * Êé±¾DAOÊµÏÖÀà
+ * ï¿½é±¾DAOÊµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -34,12 +31,12 @@ public class BookDaoImpl extends CommonDaoImpl implements BookDao {
 
 	@Override
 	public String add(Book book) {
-		//¸ù¾Ýbook¶ÔÏóÆ´×°SQL
+		//ï¿½ï¿½ï¿½ï¿½bookï¿½ï¿½ï¿½ï¿½Æ´×°SQL
 		String sql = "INSERT INTO T_BOOK VALUES (ID, '" + book.getBOOK_NAME() + "', '" + 
 		book.getBOOK_INTRO() + "', '" + book.getBOOK_PRICE() + "', '" + book.getTYPE_ID_FK() + 
 		"', '" + book.getPUB_ID_FK() + "', '" + book.getIMAGE_URL() + 
 		"', '" + book.getAUTHOR() + "', '" + book.getREPERTORY_SIZE() + "')";
-		//Ö´ÐÐSQL²¢·µ»ØID
+		//Ö´ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ID
 		return String.valueOf(getJDBCExecutor().executeUpdate(sql));
 	}
 

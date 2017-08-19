@@ -1,19 +1,16 @@
 package org.crazyit.editor.handler.save;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.InputStream;
 
-import org.crazyit.editor.EditorFrame;
-import org.crazyit.editor.config.CompileConfig;
-import org.crazyit.editor.util.CommandUtil;
+import editor.src.org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.config.CompileConfig;
 
 /**
- * ±£´æJavaÎÄ¼şµÄ´¦ÀíÀà
+ * ï¿½ï¿½ï¿½ï¿½Javaï¿½Ä¼ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -22,20 +19,20 @@ public class JavaSaveHandler extends CommonSaveHandler {
 	
 	
 	public String save(EditorFrame editorFrame) {
-		//µ÷ÓÃ¸¸ÀàµÄ±£´æ·½·¨
+		//ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Ä±ï¿½ï¿½æ·½ï¿½ï¿½
 		super.save(editorFrame);
 		return javac(editorFrame);
 	}
 
-	//Ö´ĞĞjavacÃüÁî
+	//Ö´ï¿½ï¿½javacï¿½ï¿½ï¿½ï¿½
 	private String javac(EditorFrame editorFrame) {
 		try {
-			//»ñµÃÏîÄ¿µÄ±àÒëÂ·¾¶£¬ÏîÄ¿Ä¿Â¼¼ÓCompileConfigÖĞÅäÖÃµÄÊä³öÄ¿Â¼
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Ä±ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼ï¿½ï¿½CompileConfigï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 			String classPath = editorFrame.getCurrentProject().getAbsolutePath() 
 				+ File.separator + CompileConfig.OUTPUT_DIR;
-			//»ñµÃÔ´ÎÄ¼şµÄÎÄ¼şÂ·¾¶
+			//ï¿½ï¿½ï¿½Ô´ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Â·ï¿½ï¿½
 			String filePath = editorFrame.getCurrentFile().getFile().getAbsolutePath();
-			//Æ´×°×Ö·û´®ÃüÁî£¬¸ÃÃüÁîÖ»¿ÉÔÚwindowsÏÂÔËĞĞ
+			//Æ´×°ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½windowsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String command = "javac -d \"" + classPath + "\" \"" + filePath + "\"";
 			Process p = CommandUtil.executeCommand(command);
 			return CommandUtil.getProcessString(p);

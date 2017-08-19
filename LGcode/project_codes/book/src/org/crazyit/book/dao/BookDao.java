@@ -2,55 +2,53 @@ package org.crazyit.book.dao;
 
 import java.util.Collection;
 
-import org.crazyit.book.vo.Book;
-
 /**
- * Êé±¾DAO½Ó¿Ú
+ * ï¿½é±¾DAOï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface BookDao {
 
 	/**
-	 * ²éÕÒÈ«²¿µÄÊé±¾
+	 * ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½é±¾
 	 * @return
 	 */
 	Collection<Book> findAll();
 	
 	/**
-	 * ¸ù¾ÝÊé±¾ID»ñÈ¡Êé
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½é±¾IDï¿½ï¿½È¡ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */
 	Book find(String id);
 	
 	/**
-	 * Ìí¼ÓÒ»±¾Êé, ²¢·µ»ØÌí¼ÓºóÊéµÄid
+	 * ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óºï¿½ï¿½ï¿½ï¿½id
 	 * @param book
 	 * @return
 	 */
 	String add(Book book);
 	
 	/**
-	 * ÐÞ¸ÄÒ»±¾Êé, ·µ»ØÊéµÄid
+	 * ï¿½Þ¸ï¿½Ò»ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id
 	 * @param book
 	 * @return
 	 */
 	String update(Book book);
 	
 	/**
-	 * ¸ù¾ÝÊéÃû³ÆÄ£ºý²éÕÒÊé
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param name
 	 * @return
 	 */
 	Collection<Book> findByName(String name);
 	
 	/**
-	 * ÐÞ¸ÄÊéµÄ¿â´æ
+	 * ï¿½Þ¸ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
 	 * @param b
 	 */
 	void updateRepertory(Book b);

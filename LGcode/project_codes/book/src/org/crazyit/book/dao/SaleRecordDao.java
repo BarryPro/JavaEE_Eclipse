@@ -1,38 +1,35 @@
 package org.crazyit.book.dao;
 
 import java.util.Collection;
-import java.util.Date;
-
-import org.crazyit.book.vo.SaleRecord;
 
 /**
- * ÏúÊÛ¼ÇÂ¼DAO½Ó¿Ú
+ * ï¿½ï¿½ï¿½Û¼ï¿½Â¼DAOï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface SaleRecordDao {
 
 	/**
-	 * ¸ù¾ÝÁ½¸öÈÕÆÚ, ²éÕÒÁ½¸öÈÕÆÚÖ®¼äµÄ½»Ò×¼ÇÂ¼
-	 * @param begin ¿ªÊ¼ÈÕÆÚµÄ×Ö·û´®, ¸ñÊ½Îªyyyy-MM-dd
-	 * @param end ½áÊøÈÕÆÚµÄ×Ö·û´®, ¸ñÊ½Îªyyyy-MM-dd
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ä½ï¿½ï¿½×¼ï¿½Â¼
+	 * @param begin ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Úµï¿½ï¿½Ö·ï¿½ï¿½ï¿½, ï¿½ï¿½Ê½Îªyyyy-MM-dd
+	 * @param end ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ö·ï¿½ï¿½ï¿½, ï¿½ï¿½Ê½Îªyyyy-MM-dd
 	 * @return
 	 */
 	Collection<SaleRecord> findByDate(String begin, String end);
 	
 	/**
-	 * ¸ù¾Ýid²éÕÒÏúÊÛ¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	 * @param id
 	 * @return
 	 */
 	SaleRecord findById(String id);
 	
 	/**
-	 * ±£´æÒ»ÌõÏúÊÛ¼ÇÂ¼
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	 * @param record
 	 * @return
 	 */

@@ -2,7 +2,6 @@ package org.crazyit.flashget.ui;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 
 import javax.swing.JProgressBar;
 import javax.swing.JTable;

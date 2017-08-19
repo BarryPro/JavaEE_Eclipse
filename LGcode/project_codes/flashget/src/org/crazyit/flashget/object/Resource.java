@@ -11,43 +11,42 @@ import java.util.UUID;
 
 import javax.swing.Icon;
 
-import org.crazyit.flashget.DownloadContext;
-import org.crazyit.flashget.state.TaskState;
-import org.crazyit.flashget.util.FileUtil;
+import flashget.src.org.crazyit.flashget.DownloadContext;
+import flashget.src.org.crazyit.flashget.state.TaskState;
 
 public class Resource implements Serializable {
 
-	//╠Йй╤╦цвйт╢╣дid
+	//О©╫О©╫й╤О©╫О©╫О©╫О©╫т╢О©╫О©╫id
 	private String id;
-	//вйт╢╣ьж╥
+	//О©╫О©╫т╢О©╫О©╫ж╥
 	private String url;
-	//вйт╢╠ё╢Фб╥╬╤
+	//О©╫О©╫т╢О©╫О©╫О©╫О©╫б╥О©╫О©╫
 	private String filePath;
-	//вйт╢обть╨С╣дцШЁф
+	//О©╫О©╫т╢О©╫О©╫О©╫ь╨О©╫О©╫О©╫О©╫О©╫О©╫
 	private String fileName;
-	//вйт╢цШЁф
+	//О©╫О©╫т╢О©╫О©╫О©╫О©╫
 	private String sourceName;
-	//вйт╢обть╨С╣днд╪Ч╤тоС
+	//О©╫О©╫т╢О©╫О©╫О©╫ь╨О©╫О©╫О©╫д╪О©╫О©╫О©╫О©╫О©╫
 	private File saveFile;
 	//в╢л╛
 	private TaskState state;
-	//нд╪Ч╢Сп║
+	//О©╫д╪О©╫О©╫О©╫п║
 	private int size = -1;
-	//обтьхуфз
+	//О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	private Date downloadDate;
-	//╫Ь╤х
+	//О©╫О©╫О©╫О©╫
 	private float progress;
-	//обтькы╤х
+	//О©╫О©╫О©╫О©╫О©╫ы╤О©╫
 	private float speed;
-	//й╧сц╣дй╠╪Д
+	//й╧О©╫ц╣О©╫й╠О©╫О©╫
 	private int costTime;
-	//йёоб╣дй╠╪Д
+	//йёО©╫б╣О©╫й╠О©╫О©╫
 	private int spareTime;
-	//нд╪ЧкЫ╡П╥ж╣д©И
+	//О©╫д╪О©╫О©╫О©╫О©╫О©╫ж╣д©О©╫
 	private List<Part> parts;
-	//обть╣доъЁлйЩ
+	//О©╫О©╫О©╫ь╣О©╫О©╫ъЁО©╫О©╫О©╫
 	private int threadSize;
-	//иор╩╢нобть╣д╢Сп║
+	//О©╫О©╫р╩О©╫О©╫О©╫О©╫О©╫ь╣д╢О©╫п║
 	private int preLength;
 	
 	public Resource(String url, String filePath, String fileName, int threadSize) {
@@ -96,12 +95,12 @@ public class Resource implements Serializable {
 
 	public void setState(TaskState state) {
 		if (this.state != null) {
-			//еп╤о╡нйЩ╣дв╢л╛сК╠╬╤тоС╣дв╢л╛йг╥Яр╩жб
+			//О©╫п╤о╡О©╫О©╫О©╫О©╫О©╫в╢л╛О©╫К╠╬О©╫О©╫О©╫О©╫О©╫в╢л╛О©╫г╥О©╫р╩О©╫О©╫
 			if (!this.state.equals(state)) {
-				//а╫╦Жв╢л╛р╩жб, ╡╩пХр╙╫Ьппхн╨н╤╞вВ, ╡╩р╩жб, ж╢пп╦цв╢л╛╣д╥╫╥╗
-				//ж╢ппт╜ю╢в╢л╛╣доЗ╩ы╥╫╥╗
+				//О©╫О©╫О©╫О©╫в╢л╛р╩О©╫О©╫, О©╫О©╫О©╫О©╫р╙О©╫О©╫О©╫О©╫О©╫н╨н╤О©╫О©╫О©╫, О©╫О©╫р╩О©╫О©╫, ж╢О©╫п╦О©╫в╢л╛О©╫д╥О©╫О©╫О©╫
+				//ж╢О©╫О©╫т╜О©╫О©╫в╢л╛О©╫О©╫О©╫О©╫О©╫ы╥О©╫О©╫О©╫
 				this.state.destory(this);
-				//ж╢пппбв╢л╛╣дinit╥╫╥╗
+				//ж╢О©╫О©╫О©╫О©╫в╢л╛О©╫О©╫initО©╫О©╫О©╫О©╫
 				state.init(this);
 			}
 		}
@@ -109,19 +108,19 @@ public class Resource implements Serializable {
 	}
 
 	/**
-	 * ╥╣╩ьнд╪Ч╢Сп║
+	 * О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫п║
 	 * @return
 	 */
 	public int getSize() {
 		try {
-			//╫Ьппр╩╢ннд╪Ча╛╫с
+			//О©╫О©╫О©╫О©╫р╩О©╫О©╫О©╫д╪О©╫О©╫О©╫О©╫О©╫
 			URL resourceURL = new URL(this.url);
-			//еп╤ож╝г╟йг╥Яря╬╜х║╧Щнд╪Ч╢Сп║
+			//О©╫п╤О©╫ж╝г╟О©╫г╥О©╫О©╫я╬О©╫х║О©╫О©╫О©╫д╪О©╫О©╫О©╫п║
 			if (this.size == -1) {
 				HttpURLConnection urlConnection = (HttpURLConnection)resourceURL.openConnection();
 				urlConnection.connect();
 				this.size = urlConnection.getContentLength();
-				//х║╣цнд╪Ч╢Сп║╨С╥╣╩ь
+				//х║О©╫О©╫О©╫д╪О©╫О©╫О©╫п║О©╫С╥╣╩О©╫
 				urlConnection.disconnect();
 			}
 		} catch (Exception e) {
@@ -144,22 +143,22 @@ public class Resource implements Serializable {
 	}
 	
 	/**
-	 * ╥╣╩ьобтькы╤х, пХр╙╣ц╣╫х╚╡©ряобть╣дЁ╓╤х
+	 * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ы╤О©╫, О©╫О©╫р╙О©╫ц╣О©╫х╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫ь╣дЁО©╫О©╫О©╫
 	 * @return
 	 */
 	public float getSpeed() {
-		//╣ц╣╫╣╠г╟кЫсп©Иобть╣д╢Сп║
+		//О©╫ц╣О©╫О©╫О©╫г╟О©╫О©╫О©╫п©О©╫О©╫О©╫О©╫ь╣д╢О©╫п║
 		int currentLength = getCurrentLength();
-		//╫╚╣╠г╟обть╣дЁ╓╤х╪Ух╔г╟р╩╢нобть╣дЁ╓╤х, ╣ц╣╫вэобтьа©╡╒╪фкЦЁЖкы╤х
+		//О©╫О©╫О©╫О©╫г╟О©╫О©╫О©╫ь╣дЁО©╫О©╫х╪О©╫х╔г╟р╩О©╫О©╫О©╫О©╫О©╫ь╣дЁО©╫О©╫О©╫, О©╫ц╣О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ы╤О©╫
 		speed = (currentLength - preLength) / 1024.0f;
-		//╫╚╣╠г╟обть╣дЁ╓╤хиХжцн╙г╟р╩╢нобть╣дЁ╓╤х(╠╬╢нкы╤х╪фкЦря╬╜мЙЁи)
+		//О©╫О©╫О©╫О©╫г╟О©╫О©╫О©╫ь╣дЁО©╫О©╫О©╫О©╫О©╫О©╫О©╫н╙г╟р╩О©╫О©╫О©╫О©╫О©╫ь╣дЁО©╫О©╫О©╫(О©╫О©╫О©╫О©╫О©╫ы╤х╪О©╫О©╫О©╫О©╫я╬О©╫О©╫О©╫О©╫)
 		preLength = currentLength;
 		speed = Math.round(speed * 100) / 100.0f;
 		return speed;
 	}
 	
 	/**
-	 * ╣ц╣╫╦цвйт╢ря╬╜обть╣дЁ╓╤х(╪фкЦкЫсп©И╣дЁ╓╤х)
+	 * О©╫ц╣О©╫О©╫О©╫О©╫О©╫т╢О©╫я╬О©╫О©╫О©╫О©╫ь╣дЁО©╫О©╫О©╫(О©╫О©╫О©╫О©╫О©╫О©╫О©╫п©О©╫дЁО©╫О©╫О©╫)
 	 * @return
 	 */
 	public int getCurrentLength() {
@@ -183,7 +182,7 @@ public class Resource implements Serializable {
 	}
 
 	public int getSpareTime() {
-		//╣ц╣╫йёсЮЁ╓╤х
+		//О©╫ц╣О©╫йёО©╫ЮЁ╓О©╫О©╫
 		int spareSize = getSize() - getCurrentLength();
 		if (this.speed == 0) return this.spareTime; 
 		return (spareSize / (int)this.speed) / 1000;

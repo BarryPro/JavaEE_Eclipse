@@ -6,15 +6,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.crazyit.foxmail.exception.PropertiesException;
-import org.crazyit.foxmail.ui.MailContext;
+import foxmail.src.org.crazyit.foxmail.exception.PropertiesException;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
 
 /**
- * 属性工具类
+ * 锟斤拷锟皆癸拷锟斤拷锟斤拷
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>网站: <a href="http://www.crazyit.org">疯狂Java联盟</a>
+ * <br/>锟斤拷站: <a href="http://www.crazyit.org">锟斤拷锟絁ava锟斤拷锟斤拷</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -22,7 +22,7 @@ public class PropertiesUtil {
 
 	
 	/*
-	 * 根据文件得到对应的properties文件
+	 * 锟斤拷锟斤拷锟侥硷拷锟矫碉拷锟斤拷应锟斤拷properties锟侥硷拷
 	 */
 	private static Properties getProperties(File propertyFile) throws IOException {
 		Properties prop = new Properties();
@@ -32,13 +32,13 @@ public class PropertiesUtil {
 	}
 
 	/*
-	 * 根据配置文件的对象来构造MailContext对象
+	 * 锟斤拷锟斤拷锟斤拷锟斤拷锟侥硷拷锟侥讹拷锟斤拷锟斤拷锟斤拷锟斤拷MailContext锟斤拷锟斤拷
 	 */
 	public static MailContext createContext(File propertyFile) throws IOException {
 		Properties props = getProperties(propertyFile);
-		//如果没有配置smtp的端口，则使用默认的25端口
+		//锟斤拷锟矫伙拷锟斤拷锟斤拷锟絪mtp锟侥端口ｏ拷锟斤拷使锟斤拷默锟较碉拷25锟剿匡拷
 		Integer smtpPort = getInteger(props.getProperty("smtpPort"), 25);
-		//如果没有配置pop3的端口，则使用默认的110端口
+		//锟斤拷锟矫伙拷锟斤拷锟斤拷锟絧op3锟侥端口ｏ拷锟斤拷使锟斤拷默锟较碉拷110锟剿匡拷
 		Integer pop3Port = getInteger(props.getProperty("pop3Port"), 110);
 		return new MailContext(null, 
 				props.getProperty("account"), props.getProperty("password"), 
@@ -46,7 +46,7 @@ public class PropertiesUtil {
 				props.getProperty("pop3Host"), pop3Port);
 	}
 	
-	//将参数s转换成一个Integer对象，该字符串为空则返回参数中的默认值
+	//锟斤拷锟斤拷锟斤拷s转锟斤拷锟斤拷一锟斤拷Integer锟斤拷锟襟，革拷锟街凤拷锟斤拷为锟斤拷锟津返回诧拷锟斤拷锟叫碉拷默锟斤拷值
 	private static Integer getInteger(String s, int defaultValue) {
 		if (s == null || s.trim().equals("")) {
 			return defaultValue;
@@ -55,7 +55,7 @@ public class PropertiesUtil {
 	}
 	
 	/*
-	 * 保存一个MailContext对象， 将它的属性写入文件中
+	 * 锟斤拷锟斤拷一锟斤拷MailContext锟斤拷锟斤拷 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷写锟斤拷锟侥硷拷锟斤拷
 	 */
 	public static void store(MailContext ctx) {
 		try {
@@ -72,7 +72,7 @@ public class PropertiesUtil {
 			prop.store(fos, "These are mail configs.");
 			fos.close();
 		} catch (IOException e) {
-			throw new PropertiesException("请检查系统的配置文件, " + FileUtil.DATE_FOLDER + ctx.getUser() + 
+			throw new PropertiesException("锟斤拷锟斤拷系统锟斤拷锟斤拷锟斤拷锟侥硷拷, " + FileUtil.DATE_FOLDER + ctx.getUser() + 
 					FileUtil.CONFIG_FILE);
 		}
 	}

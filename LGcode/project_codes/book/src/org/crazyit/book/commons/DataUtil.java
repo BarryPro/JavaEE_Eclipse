@@ -3,42 +3,38 @@ package org.crazyit.book.commons;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.crazyit.book.jdbc.JDBCExecutor;
-import org.crazyit.book.vo.Type;
-
 /**
- * Êý¾Ý×ª»»¹¤¾ßÀà
+ * ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class DataUtil {
 
-	//½«rsÖÐµÄÖµ·â×°³ÉÒ»¸ö¼¯ºÏ
+	//ï¿½ï¿½rsï¿½Ðµï¿½Öµï¿½ï¿½×°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static Collection getDatas(Collection result, ResultSet rs, Class clazz) {
 		try {
 			while (rs.next()) {
-				//´´½¨ÀàµÄÊµÀý
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 				Object vo = clazz.newInstance();
-				//»ñÈ¡±¾¶ÔÏóµÄÊôÐÔ
+				//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				Field[] fields = clazz.getDeclaredFields();
-				//»ñÈ¡¸¸ÀàµÄÊôÐÔ
+				//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				Field[] superFields = clazz.getSuperclass().getDeclaredFields();
-				//¸¸ÀàµÄÊôÐÔºÍ×Ô¼ºµÄÊôÐÔÏà¼Ó
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôºï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				Field[] allFields = addFields(superFields, fields);
-				//±éÀúËùÓÐµÄÊôÐÔ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 				for (Field field : allFields) {
-					//»ñµÃsetter·½·¨µÄ·½·¨Ãû
+					//ï¿½ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½
 					String setterMethodName = getSetterMethodName(field.getName());
-					//»ñµÃsetter·½·¨
+					//ï¿½ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½
 					Method setterMethod = clazz.getMethod(setterMethodName, field.getType());
 					invokeMethod(rs, field, vo, setterMethod);
 				}
@@ -52,20 +48,20 @@ public class DataUtil {
 		return result;
 	}
 	
-	//Ö´ÐÐÒ»¸ö·½·¨, ´ÓResultSetÖÐ»ñÈ¡Ò»¸ö×Ö¶ÎµÄÊý¾Ý, µ÷ÓÃvoµÄsetter·½·¨
+	//Ö´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ResultSetï¿½Ð»ï¿½È¡Ò»ï¿½ï¿½ï¿½Ö¶Îµï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½voï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½
 	private static void invokeMethod(ResultSet rs, Field field, Object vo, 
 			Method setterMethod) {
 		try {
-			//µ±Ê¹ÓÃResultSet»ñÈ¡Ä³¸ö×Ö¶ÎµÄÊ±ºò, Èç¹ûÃ»ÓÐ¸Ã×Ö¶Î, »á³öÏÖSQLException, ÔÚÕâÀïºöÂÔ¸ÃÒì³£
+			//ï¿½ï¿½Ê¹ï¿½ï¿½ResultSetï¿½ï¿½È¡Ä³ï¿½ï¿½ï¿½Ö¶Îµï¿½Ê±ï¿½ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½Ð¸ï¿½ï¿½Ö¶ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½SQLException, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ì³£
 			String value = rs.getString(field.getName());
-			//´ÓResultSetÖÐ»ñÈ¡Óë¸Ã¶ÔÏóÊôÐÔÃûÒ»ÖÂµÄ×Ö¶Î, ²¢Ö´ÐÐsetter·½·¨
+			//ï¿½ï¿½ResultSetï¿½Ð»ï¿½È¡ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Âµï¿½ï¿½Ö¶ï¿½, ï¿½ï¿½Ö´ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½
 			setterMethod.invoke(vo, value);
 		} catch (Exception e) {
-			//ºöÂÔÒì³£
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ì³£
 		}
 	}
 	
-	//¸ù¾ÝÊôÐÔÃû»ñµÃsetter·½·¨µÄ·½·¨Ãû
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½setterï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½
 	private static String getSetterMethodName(String fieldName) {
 		String begin = fieldName.substring(0, 1).toUpperCase();
 		String end = fieldName.substring(1, fieldName.length());
@@ -73,7 +69,7 @@ public class DataUtil {
 		return methodName;
 	}
 	
-	//Ïà¼ÓÁ½¸öÊý×é
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private static Field[] addFields(Field[] f1, Field[] f2) {
 		List<Field> l = new ArrayList<Field>();
 		for (Field f : f1) l.add(f);

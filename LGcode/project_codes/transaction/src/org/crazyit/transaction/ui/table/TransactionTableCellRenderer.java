@@ -1,6 +1,5 @@
 package org.crazyit.transaction.ui.table;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.List;
@@ -10,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.model.Transaction;
 
 public class TransactionTableCellRenderer extends DefaultTableCellRenderer {
 	
@@ -26,7 +25,7 @@ public class TransactionTableCellRenderer extends DefaultTableCellRenderer {
 		JLabel c = (JLabel)super.getTableCellRendererComponent(table, value, 
 				isSelected, hasFocus, row, column);
 		c.setText("");
-		//ÉèÖÃÍ¼Æ¬
+		//ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 		if (value instanceof ImageIcon) {
 			ImageIcon icon = (ImageIcon)value;
 			c.setIcon(icon);
@@ -34,12 +33,12 @@ public class TransactionTableCellRenderer extends DefaultTableCellRenderer {
 		} else {
 			c.setText(value.toString());
 		}
-		//ÉèÖÃ¾ÓÖÐ
+		//ï¿½ï¿½ï¿½Ã¾ï¿½ï¿½ï¿½
 		c.setHorizontalAlignment(JLabel.CENTER);
 		TransactionTableModel model = (TransactionTableModel)table.getModel();
 		List<Transaction> datas = model.getDatas();
 		if (datas != null) {
-			//ÅÐ¶ÏÊÇ·ñÐèÒª½ô¼±´¦Àí
+			//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (datas.get(row).getIS_HURRY().equals("1")) {
 				c.setFont(hurryFont);
 			}

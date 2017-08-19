@@ -1,6 +1,5 @@
 package org.crazyit.flashget.ui;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.Icon;
@@ -13,13 +12,13 @@ public class DownloadTableCellRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		//ÅÐ¶ÏÊÇ·ñÐèÒªÏÔÊ¾Í¼Æ¬
+		//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê¾Í¼Æ¬
 		if (value instanceof Icon) this.setIcon((Icon)value);
 		else this.setText(value.toString());
-		//ÅÐ¶ÏÊÇ·ñÑ¡ÖÐ
+		//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Ñ¡ï¿½ï¿½
 		if (isSelected) super.setBackground(table.getSelectionBackground());
 		else setBackground(table.getBackground());
-		//ÉèÖÃ¾ÓÖÐ
+		//ï¿½ï¿½ï¿½Ã¾ï¿½ï¿½ï¿½
 		this.setHorizontalAlignment(JLabel.CENTER);
 		this.setToolTipText(value.toString());
 		return this;

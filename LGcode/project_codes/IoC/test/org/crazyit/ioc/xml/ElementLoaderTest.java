@@ -2,10 +2,10 @@ package org.crazyit.ioc.xml;
 
 import java.util.Collection;
 
+import IoC.main.org.crazyit.ioc.xml.ElementLoader;
+import IoC.main.org.crazyit.ioc.xml.ElementLoaderImpl;
+import IoC.main.org.crazyit.ioc.xml.XmlDocumentHolder;
 import junit.framework.TestCase;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
 
 public class ElementLoaderTest extends TestCase {
 

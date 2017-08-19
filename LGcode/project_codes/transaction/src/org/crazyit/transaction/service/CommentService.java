@@ -1,12 +1,10 @@
 package org.crazyit.transaction.service;
 
-import org.crazyit.transaction.model.Comment;
-
 public interface CommentService {
 
 	/**
-	 * ±£´æÒ»¸öÊÂÎñÆÀÂÛ
-	 * @param comment ÆÀÂÛ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param comment ï¿½ï¿½ï¿½Û¶ï¿½ï¿½ï¿½
 	 */
 	void save(Comment comment);
 }

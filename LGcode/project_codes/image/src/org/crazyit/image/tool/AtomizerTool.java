@@ -1,19 +1,16 @@
 package org.crazyit.image.tool;
 
-import org.crazyit.image.ImageFrame;
-import java.util.Random;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 /**
- * ÅçÄ«¹¤¾ß
+ * ï¿½ï¿½Ä«ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -32,7 +29,7 @@ public class AtomizerTool extends AbstractTool {
 	}
 
 	/**
-	 * °´ÏÂÊó±ê
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -49,7 +46,7 @@ public class AtomizerTool extends AbstractTool {
 	}
 
 	/**
-	 * ÍÏ¶¯Êó±ê
+	 * ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -62,7 +59,7 @@ public class AtomizerTool extends AbstractTool {
 	}
 
 	/**
-	 * »­Í¼
+	 * ï¿½ï¿½Í¼
 	 * 
 	 * @param e
 	 *            MouseEvent
@@ -73,9 +70,9 @@ public class AtomizerTool extends AbstractTool {
 	public void draw(MouseEvent e, Graphics g) {
 		int x = 0;
 		int y = 0;
-		// ÅçÇ¹´óÐ¡
+		// ï¿½ï¿½Ç¹ï¿½ï¿½Ð¡
 		int size = 8;
-		// ÅçÇ¹µãÊý
+		// ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½
 		int count = 10;
 		if (getPressX() > 0 && getPressY() > 0
 				&& e.getX() < AbstractTool.drawWidth

@@ -27,53 +27,51 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListModel;
 
-import org.crazyit.foxmail.mail.MailSender;
-import org.crazyit.foxmail.object.FileObject;
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.system.SystemHandler;
-import org.crazyit.foxmail.util.FileUtil;
+import foxmail.src.org.crazyit.foxmail.mail.MailSender;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.system.SystemHandler;
 
 /**
- * ÓÊ¼þ±àÐ´½çÃæ
+ * ï¿½Ê¼ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class MailFrame extends JFrame {
 
-	//ÊÕÐÅÈË
-	private JLabel receiverLabel = new JLabel("ÊÕÐÅÈË£º");
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private JLabel receiverLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½");
 	private JTextField receiver = new JTextField(60);
-	//³­ËÍ
-	private JLabel ccLabel = new JLabel("³­  ËÍ£º");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel ccLabel = new JLabel("ï¿½ï¿½  ï¿½Í£ï¿½");
 	private JTextField cc = new JTextField(60);
-	//Ö÷Ìâ
-	private JLabel subjectLabel = new JLabel("Ö÷  Ìâ£º");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel subjectLabel = new JLabel("ï¿½ï¿½  ï¿½â£º");
 	private JTextField subject = new JTextField(60);
-	//´æ·ÅÕýÎÄJTextAreaµÄJScrollPane
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JTextAreaï¿½ï¿½JScrollPane
 	private JScrollPane textScrollPane;
-	//ÕýÎÄ
+	//ï¿½ï¿½ï¿½ï¿½
 	private JTextArea textArea = new JTextArea(20, 50);
-	//ÉÏÏÂ·Ö¸ôµÄJSplitPane
+	//ï¿½ï¿½ï¿½Â·Ö¸ï¿½ï¿½ï¿½JSplitPane
 	private JSplitPane mainPane;
-	//ÕýÎÄµÄ×óÓÒ·Ö¸ôJSplitPane
+	//ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ò·Ö¸ï¿½JSplitPane
 	private JSplitPane textSplitPane;
-	//´æ·Å¸½¼þÁÐ±íJList¶ÔÏóµÄJScrollPane
+	//ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½Ð±ï¿½JListï¿½ï¿½ï¿½ï¿½ï¿½JScrollPane
 	private JScrollPane fileScrollPane;
-	//¸½¼þÁÐ±í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	private JList fileList;
-	//ÊÕ¼þÈËBox
+	//ï¿½Õ¼ï¿½ï¿½ï¿½Box
 	private Box receiverBox = Box.createHorizontalBox();
-	//³­ËÍBox
+	//ï¿½ï¿½ï¿½ï¿½Box
 	private Box ccBox = Box.createHorizontalBox();
-	//Ö÷ÌâBox
+	//ï¿½ï¿½ï¿½ï¿½Box
 	private Box subjectBox = Box.createHorizontalBox();
-	//´æ·ÅÊÕ¼þÈËBox£¬³­ËÍBoxºÍÖ÷ÌâBoxµÄBox
+	//ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½Boxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Boxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Boxï¿½ï¿½Box
 	private Box upBox = Box.createVerticalBox();
-	//¹¤¾ßÀ¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private JToolBar toolBar = new JToolBar();
 	
 //	private MailContext ctx;
@@ -84,36 +82,36 @@ public class MailFrame extends JFrame {
 	
 	private MainFrame mainFrame;
 	
-	//·¢ËÍ
-	private Action send = new AbstractAction("·¢ËÍ", new ImageIcon("images/send.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½
+	private Action send = new AbstractAction("ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/send.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			send();
 		}
 	};
 	
-	//±£´æÖÁ·¢¼þÏä
-	private Action saveOut = new AbstractAction("±£´æÖÁ·¢¼þÏä", new ImageIcon("images/out-save.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Action saveOut = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/out-save.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			saveOut();
 		}
 	};
 	
-	//±£´æÖÁ²Ý¸åÏä
-	private Action saveDraft = new AbstractAction("±£´æÖÁ²Ý¸åÏä", new ImageIcon("images/draft-save.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½
+	private Action saveDraft = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½", new ImageIcon("images/draft-save.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			saveDraft();
 		}
 	};
 	
-	//ÉÏ´«¸½¼þ
-	private Action file = new AbstractAction("ÉÏ´«¸½¼þ", new ImageIcon("images/file.gif")) {
+	//ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Action file = new AbstractAction("ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/file.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			upload();
 		}
 	};
 	
-	//É¾³ý¸½¼þ
-	private Action deleteFile = new AbstractAction("É¾³ý¸½¼þ", new ImageIcon("images/delete.gif")) {
+	//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Action deleteFile = new AbstractAction("É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/delete.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			deleteFile();
 		}
@@ -124,38 +122,38 @@ public class MailFrame extends JFrame {
 		this.mainFrame = mainFrame;
 		this.systemHander = mainFrame.getSystemHandler();
 		this.mailSender = mainFrame.getMailSender();
-		//³õÊ¼»¯¹¤¾ßÀ¸
-		this.toolBar.add(this.send).setToolTipText("·¢ËÍ");
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		this.toolBar.add(this.send).setToolTipText("ï¿½ï¿½ï¿½ï¿½");
 		this.toolBar.addSeparator();
-		this.toolBar.add(this.saveOut).setToolTipText("±£´æÖÁ·¢¼þÏä");
+		this.toolBar.add(this.saveOut).setToolTipText("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		this.toolBar.addSeparator();
-		this.toolBar.add(this.saveDraft).setToolTipText("±£´æÖÁ²Ý¸åÏä");
+		this.toolBar.add(this.saveDraft).setToolTipText("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½");
 		this.toolBar.addSeparator();
-		this.toolBar.add(this.file).setToolTipText("ÉÏ´«¸½¼þ");
-		this.toolBar.add(this.deleteFile).setToolTipText("É¾³ý¸½¼þ");
-		this.toolBar.setMargin(new Insets(5, 10, 5, 5));//ÉèÖÃ¹¤¾ßÀ¸µÄ±ß¾à
+		this.toolBar.add(this.file).setToolTipText("ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.toolBar.add(this.deleteFile).setToolTipText("É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.toolBar.setMargin(new Insets(5, 10, 5, 5));//ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ß¾ï¿½
 
-		//¼ÓÈëÊó±êÊÂ¼þ¼àÌýÆ÷
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.fileList.addMouseListener(new SendListMouseListener());
-		//ÊÕ¼þÈËµÄBox
+		//ï¿½Õ¼ï¿½ï¿½Ëµï¿½Box
 		this.receiverBox.add(Box.createHorizontalStrut(10));
 		this.receiverBox.add(receiverLabel);
 		this.receiverBox.add(Box.createHorizontalStrut(5));
 		this.receiverBox.add(receiver);
 		this.receiverBox.add(Box.createHorizontalStrut(10));
-		//³­ËÍµÄBox
+		//ï¿½ï¿½ï¿½Íµï¿½Box
 		this.ccBox.add(Box.createHorizontalStrut(10));
 		this.ccBox.add(ccLabel);
 		this.ccBox.add(Box.createHorizontalStrut(12));
 		this.ccBox.add(cc);
 		this.ccBox.add(Box.createHorizontalStrut(10));
-		//Ö÷ÌâµÄBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Box
 		this.subjectBox.add(Box.createHorizontalStrut(10));
 		this.subjectBox.add(subjectLabel);
 		this.subjectBox.add(Box.createHorizontalStrut(12));
 		this.subjectBox.add(subject);
 		this.subjectBox.add(Box.createHorizontalStrut(10));
-		//ÕýÎÄÒÔÉÏµÄBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Box
 		this.upBox.add(Box.createVerticalStrut(10));
 		this.upBox.add(this.receiverBox);
 		this.upBox.add(Box.createVerticalStrut(5));
@@ -166,20 +164,20 @@ public class MailFrame extends JFrame {
 		
 		this.textArea.setLineWrap(true);
 		this.textScrollPane = new JScrollPane(this.textArea);
-		//¸½¼þµÄJScrollPane
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½JScrollPane
 		this.fileScrollPane = new JScrollPane(this.fileList);
-		//ÕýÎÄÓë¸½¼þµÄJSplitPane
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ë¸½ï¿½ï¿½ï¿½ï¿½JSplitPane
 		this.textSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
 				this.fileScrollPane, this.textScrollPane);
 		this.textSplitPane.setDividerSize(5);
 		this.textSplitPane.setDividerLocation(100);
-		//ÕýÎÄºÍÉÏÃæÐÅÏ¢µÄJSplitPane
+		//ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½JSplitPane
 		this.mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
 				this.upBox, this.textSplitPane);
 		this.mainPane.setDividerSize(5);
-		//ÉèÖÃJFrameµÄÐÅÏ¢
+		//ï¿½ï¿½ï¿½ï¿½JFrameï¿½ï¿½ï¿½ï¿½Ï¢
 		this.add(this.toolBar, BorderLayout.NORTH);
-		this.setTitle("Ð´ÓÊ¼þ");
+		this.setTitle("Ð´ï¿½Ê¼ï¿½");
 		this.add(this.mainPane);
 		this.pack();
 		this.addWindowListener(new WindowAdapter(){
@@ -190,37 +188,37 @@ public class MailFrame extends JFrame {
 		this.setLocation(140, 80);
 	}
 	
-	//±£´æµ½²Ý¸åÏä
+	//ï¿½ï¿½ï¿½æµ½ï¿½Ý¸ï¿½ï¿½ï¿½
 	private void saveDraft() {
 		if (!validateInput()) return;
-		//µÃµ½½çÃæÖÐµÄMail, ¸Ã¶ÔÏóµÄÎ»ÖÃÔÚ²Ý¸åÏä
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Mail, ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½Ú²Ý¸ï¿½ï¿½ï¿½
 		Mail mail = getMail(FileUtil.DRAFT);
 		this.systemHander.saveDraftBox(mail, this.mainFrame.getMailContext());
-		//Ìí¼Óµ½MainFrameµÄ·¢¼þÏä¼¯ºÏÖÐ
+		//ï¿½ï¿½Óµï¿½MainFrameï¿½Ä·ï¿½ï¿½ï¿½ï¿½ä¼¯ï¿½ï¿½ï¿½ï¿½
 		this.mainFrame.addDraftMail(mail);
-		showMessage("±£´æµ½²Ý¸åÏä³É¹¦");
+		showMessage("ï¿½ï¿½ï¿½æµ½ï¿½Ý¸ï¿½ï¿½ï¿½É¹ï¿½");
 	}
 	
-	//±£´æµ½·¢¼þÏä
+	//ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void saveOut() {
 		if (!validateInput()) return;
-		//µÃµ½½çÃæÖÐµÄMail, ¸Ã¶ÔÏóÔ­À´µÄÎ»ÖÃµÄ·¢¼þÏä
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Mail, ï¿½Ã¶ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Î»ï¿½ÃµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½
 		Mail mail = getMail(FileUtil.OUTBOX);
 		saveOut(mail);
-		showMessage("±£´æµ½·¢¼þÏä³É¹¦");
+		showMessage("ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
 	}
 	
 	private void saveOut(Mail mail) {
 		this.systemHander.saveOutBox(mail, this.mainFrame.getMailContext());
-		//Ìí¼Óµ½MainFrameµÄ·¢¼þÏä¼¯ºÏÖÐ
+		//ï¿½ï¿½Óµï¿½MainFrameï¿½Ä·ï¿½ï¿½ï¿½ï¿½ä¼¯ï¿½ï¿½ï¿½ï¿½
 		this.mainFrame.addOutMail(mail);
 	}
 	
-	//É¾³ý¸½¼þ
+	//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void deleteFile() {
 		FileObject file = (FileObject)this.fileList.getSelectedValue();
 		if (file == null) {
-			showMessage("ÇëÑ¡ÔñÐèÒªÉ¾³ýµÄ¸½¼þ");
+			showMessage("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½");
 			return;
 		}
 		List<FileObject> files = getFileListObjects();
@@ -228,7 +226,7 @@ public class MailFrame extends JFrame {
 		this.fileList.setListData(files.toArray());
 	}
 	
-	//»Ø¸´ÓÊ¼þ³õÊ¼»¯½çÃæ×é¼þ
+	//ï¿½Ø¸ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void replyInit(Mail mail) {
 		this.setVisible(true);
 		this.fileList.setListData(mail.getFiles().toArray());
@@ -238,7 +236,7 @@ public class MailFrame extends JFrame {
 		this.cc.setText(mail.getCCString());
 	}
 	
-	//×ª·¢ÓÊ¼þ³õÊ¼»¯½çÃæ
+	//×ªï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void transmitInit(Mail mail) {
 		this.setVisible(true);
 		this.fileList.setListData(mail.getFiles().toArray());
@@ -247,7 +245,7 @@ public class MailFrame extends JFrame {
 		this.cc.setText(mail.getCCString());
 	}
 	
-	//Ö÷½çÃæµã»÷·¢ËÍÓÊ¼þÊ±³õÊ¼»¯½çÃæ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½Ê±ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void sendInit(Mail mail) {
 		this.setVisible(true);
 		this.fileList.setListData(mail.getFiles().toArray());
@@ -266,7 +264,7 @@ public class MailFrame extends JFrame {
 		chooser.showOpenDialog(this);
 	}
 	
-	//½«½çÃæµÄ×é¼þ·â×°³ÉÒ»¸öMail¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Ò»ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½
 	private Mail getMail(String fromBox) {
 		String xmlName = UUID.randomUUID().toString() + ".xml";
 		Mail mail = new Mail(xmlName, getAddressList(this.receiver), 
@@ -278,32 +276,32 @@ public class MailFrame extends JFrame {
 		return mail;
 	}
 	
-	//·¢ËÍ·½·¨
+	//ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½
 	private void send() {
 		if (!validateInput()) return;
-		//µÃµ½Mail¶ÔÏó, ¸Ã¶ÔÏó±íÊ¾Ô­À´µÄÎ»ÖÃÔÚÒÑ·¢ËÍ
+		//ï¿½Ãµï¿½Mailï¿½ï¿½ï¿½ï¿½, ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½Ê¾Ô­ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ï¿½
 		Mail mail = getMail(FileUtil.SENT);
 		try {
 			this.mailSender.send(mail, this.mainFrame.getMailContext());
-			//½«Mail¶ÔÏó±£´æµ½·¢ËÍ³É¹¦µÄÄ¿Â¼(sent)
+			//ï¿½ï¿½Mailï¿½ï¿½ï¿½ó±£´æµ½ï¿½ï¿½ï¿½Í³É¹ï¿½ï¿½ï¿½Ä¿Â¼(sent)
 			this.systemHander.saveSent(mail, this.mainFrame.getMailContext());
-			//Ìí¼ÓÁËÒÑ·¢ËÍµÄ¼¯ºÏÖÐ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ÍµÄ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.mainFrame.addSentMail(mail);
-			showMessage("ÄãµÄÓÊ¼þÒÑ³É¹¦·¢ËÍ");
-			//Çå¿Õ½çÃæ×é¼þµÄÖµ
+			showMessage("ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ñ³É¹ï¿½ï¿½ï¿½ï¿½ï¿½");
+			//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 			clean();
 			this.setVisible(false);
 		} catch (Exception e) {
-			//·¢ËÍÊ§°Ü±£´æµ½·¢¼þÏä
+			//ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü±ï¿½ï¿½æµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			saveOut(mail);
 			showMessage(e.getMessage());
 		}
 	}
 
 	
-	//¿ÕµÄ¸½¼þÁÐ±íÊý¾Ý
+	//ï¿½ÕµÄ¸ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Object[] emptyListData = new Object[]{};
-	//Çå¿Õ½çÃæ¸÷¸öÔªËØ
+	//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 	private void clean() {
 		this.receiver.setText("");
 		this.cc.setText("");
@@ -312,7 +310,7 @@ public class MailFrame extends JFrame {
 		this.fileList.setListData(this.emptyListData);
 	}
 	
-	//·µ»ØµØÖ·
+	//ï¿½ï¿½ï¿½Øµï¿½Ö·
 	private List<String> getAddressList(JTextField field) {
 		String all = field.getText();
 		List<String> result = new ArrayList<String>();
@@ -325,27 +323,27 @@ public class MailFrame extends JFrame {
 	
 	private boolean validateInput() {
 		if (this.receiver.getText().equals("")) {
-			showMessage("ÇëÊäÈëÊÕ¼þÈË");
+			showMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½");
 			return false;
 		}
 		if (this.subject.getText().equals("")) {
-			showMessage("ÇëÊäÈëÖ÷Ìâ");
+			showMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return false;
 		}
 		if (this.mainFrame.getMailContext().getAccount() == null || 
 				"".equals(this.mainFrame.getMailContext())) {
-			showMessage("ÇëÅäÖÃÄãµÄÕÊºÅÐÅÏ¢");
+			showMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½ï¿½ï¿½Ï¢");
 			return false;
 		}
 		return true;
 	}
 	
 	private int showMessage(String s) {
-		return JOptionPane.showConfirmDialog(this, s, "¾¯¸æ", 
+		return JOptionPane.showConfirmDialog(this, s, "ï¿½ï¿½ï¿½ï¿½", 
 				JOptionPane.OK_CANCEL_OPTION);
 	}
 	
-	//´ÓJListÖÐµÃµ½¸½¼þµÄ¶ÔÏó¼¯ºÏ
+	//ï¿½ï¿½JListï¿½ÐµÃµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ó¼¯ºï¿½
 	public List<FileObject> getFileListObjects() {
 		ListModel model = this.fileList.getModel();
 		List<FileObject> files = new ArrayList<FileObject>();

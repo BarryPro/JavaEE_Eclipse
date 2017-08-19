@@ -1,43 +1,44 @@
 package org.crazyit.viewer;
 
-import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.io.File;
-import javax.swing.filechooser.FileFilter;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.filechooser.FileFilter;
 
 /**
- * Í¼Æ¬ä¯ÀÀÆ÷ÒµÎñÀà
+ * Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class ViewerService {
 	private static ViewerService service = null;
-	// ÐÂ½¨Ò»¸öViewerFileChooser
+	// ï¿½Â½ï¿½Ò»ï¿½ï¿½ViewerFileChooser
 	private ViewerFileChooser fileChooser = new ViewerFileChooser();
-	// ·Å´ó»òÕßËõÐ¡µÄ±ÈÀý
+	// ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Ä±ï¿½ï¿½ï¿½
 	private double range = 0.2;
-	// Ä¿Ç°µÄÎÄ¼þ¼Ð
+	// Ä¿Ç°ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 	private File currentDirectory = null;
-	// Ä¿Ç°ÎÄ¼þ¼ÐÏÂµÄËùÓÐÍ¼Æ¬ÎÄ¼þ
+	// Ä¿Ç°ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ä¼ï¿½
 	private List<File> currentFiles = null;
-	// Ä¿Ç°Í¼Æ¬ÎÄ¼þ
+	// Ä¿Ç°Í¼Æ¬ï¿½Ä¼ï¿½
 	private File currentFile = null;
 
 	/**
-	 * Ë½ÓÐ¹¹ÔìÆ÷
+	 * Ë½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private ViewerService() {
 	}
 
 	/**
-	 * »ñÈ¡µ¥Ì¬ÊµÀý
+	 * ï¿½ï¿½È¡ï¿½ï¿½Ì¬Êµï¿½ï¿½
 	 * 
 	 * @return ViewerService
 	 */
@@ -49,33 +50,33 @@ public class ViewerService {
 	}
 
 	/**
-	 * ´ò¿ªÍ¼Æ¬
+	 * ï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @param frame
 	 *            ViewerFrame
 	 * @return void
 	 */
 	public void open(ViewerFrame frame) {
-		// Èç¹ûÑ¡Ôñ´ò¿ª
+		// ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½
 		if (fileChooser.showOpenDialog(frame) == ViewerFileChooser.APPROVE_OPTION) {
-			// ¸øÄ¿Ç°´ò¿ªµÄÎÄ¼þ¸³Öµ
+			// ï¿½ï¿½Ä¿Ç°ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Öµ
 			this.currentFile = fileChooser.getSelectedFile();
-			// »ñÈ¡ÎÄ¼þÂ·¾¶
+			// ï¿½ï¿½È¡ï¿½Ä¼ï¿½Â·ï¿½ï¿½
 			String name = this.currentFile.getPath();
-			// »ñÈ¡Ä¿Ç°ÎÄ¼þ¼Ð
+			// ï¿½ï¿½È¡Ä¿Ç°ï¿½Ä¼ï¿½ï¿½ï¿½
 			File cd = fileChooser.getCurrentDirectory();
-			// Èç¹ûÎÄ¼þ¼ÐÓÐ¸Ä±ä
+			// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð¸Ä±ï¿½
 			if (cd != this.currentDirectory || this.currentDirectory == null) {
-				// »òÕßfileChooserµÄËùÓÐFileFilter
+				// ï¿½ï¿½ï¿½ï¿½fileChooserï¿½ï¿½ï¿½ï¿½ï¿½ï¿½FileFilter
 				FileFilter[] fileFilters = fileChooser
 						.getChoosableFileFilters();
 				File files[] = cd.listFiles();
 				this.currentFiles = new ArrayList<File>();
 				for (File file : files) {
 					for (FileFilter filter : fileFilters) {
-						// Èç¹ûÊÇÍ¼Æ¬ÎÄ¼þ
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ä¼ï¿½
 						if (filter.accept(file)) {
-							// °ÑÎÄ¼þ¼Óµ½currentFilesÖÐ
+							// ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Óµï¿½currentFilesï¿½ï¿½
 							this.currentFiles.add(file);
 						}
 					}
@@ -87,39 +88,39 @@ public class ViewerService {
 	}
 
 	/**
-	 * ·Å´óËõÐ¡
+	 * ï¿½Å´ï¿½ï¿½ï¿½Ð¡
 	 * 
 	 * @param frame
 	 *            ViewerFrame
 	 * @return void
 	 */
 	public void zoom(ViewerFrame frame, boolean isEnlarge) {
-		// »ñÈ¡·Å´ó»òÕßËõÐ¡µÄ³Ë±È
+		// ï¿½ï¿½È¡ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Ä³Ë±ï¿½
 		double enLargeRange = isEnlarge ? 1 + range : 1 - range;
-		// »ñÈ¡Ä¿Ç°µÄÍ¼Æ¬
+		// ï¿½ï¿½È¡Ä¿Ç°ï¿½ï¿½Í¼Æ¬
 		ImageIcon icon = (ImageIcon) frame.getLabel().getIcon();
 		if (icon != null) {
 			int width = (int) (icon.getIconWidth() * enLargeRange);
-			// »ñÈ¡¸Ä±ä´óÐ¡ºóµÄÍ¼Æ¬
+			// ï¿½ï¿½È¡ï¿½Ä±ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½Í¼Æ¬
 			ImageIcon newIcon = new ImageIcon(icon.getImage()
 					.getScaledInstance(width, -1, Image.SCALE_DEFAULT));
-			// ¸Ä±äÏÔÊ¾µÄÍ¼Æ¬
+			// ï¿½Ä±ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Í¼Æ¬
 			frame.getLabel().setIcon(newIcon);
 		}
 	}
 
 	/**
-	 * ÉÏÒ»¸ö
+	 * ï¿½ï¿½Ò»ï¿½ï¿½
 	 * 
 	 * @param frame
 	 *            ViewerFrame
 	 * @return void
 	 */
 	public void last(ViewerFrame frame) {
-		// Èç¹ûÓÐ´ò¿ª°üº¬Í¼Æ¬µÄÎÄ¼þ¼Ð
+		// ï¿½ï¿½ï¿½ï¿½Ð´ò¿ª°ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		if (this.currentFiles != null && !this.currentFiles.isEmpty()) {
 			int index = this.currentFiles.indexOf(this.currentFile);
-			// ´ò¿ªÉÏÒ»¸ö
+			// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 			if (index > 0) {
 				File file = (File) this.currentFiles.get(index - 1);
 				ImageIcon icon = new ImageIcon(file.getPath());
@@ -130,17 +131,17 @@ public class ViewerService {
 	}
 
 	/**
-	 * ÏÂÒ»¸ö
+	 * ï¿½ï¿½Ò»ï¿½ï¿½
 	 * 
 	 * @param frame
 	 *            ViewerFrame
 	 * @return void
 	 */
 	public void next(ViewerFrame frame) {
-		// Èç¹ûÓÐ´ò¿ª°üº¬Í¼Æ¬µÄÎÄ¼þ¼Ð
+		// ï¿½ï¿½ï¿½ï¿½Ð´ò¿ª°ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		if (this.currentFiles != null && !this.currentFiles.isEmpty()) {
 			int index = this.currentFiles.indexOf(this.currentFile) + 1;
-			// ´ò¿ªÏÂÒ»¸ö
+			// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 			if (index + 1 < this.currentFiles.size()) {
 				File file = (File) this.currentFiles.get(index + 1);
 				ImageIcon icon = new ImageIcon(file.getPath());
@@ -151,7 +152,7 @@ public class ViewerService {
 	}
 
 	/**
-	 * ÏìÓ¦²Ëµ¥µÄ¶¯×÷
+	 * ï¿½ï¿½Ó¦ï¿½Ëµï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 	 * 
 	 * @param frame
 	 *            ViewerFrame
@@ -160,28 +161,28 @@ public class ViewerService {
 	 * @return void
 	 */
 	public void menuDo(ViewerFrame frame, String cmd) {
-		// ´ò¿ª
-		if (cmd.equals("´ò¿ª(O)")) {
+		// ï¿½ï¿½
+		if (cmd.equals("ï¿½ï¿½(O)")) {
 			open(frame);
 		}
-		// ·Å´ó
-		if (cmd.equals("·Å´ó(M)")) {
+		// ï¿½Å´ï¿½
+		if (cmd.equals("ï¿½Å´ï¿½(M)")) {
 			zoom(frame, true);
 		}
-		// ËõÐ¡
-		if (cmd.equals("ËõÐ¡(O)")) {
+		// ï¿½ï¿½Ð¡
+		if (cmd.equals("ï¿½ï¿½Ð¡(O)")) {
 			zoom(frame, false);
 		}
-		// ÉÏÒ»¸ö
-		if (cmd.equals("ÉÏÒ»¸ö(X)")) {
+		// ï¿½ï¿½Ò»ï¿½ï¿½
+		if (cmd.equals("ï¿½ï¿½Ò»ï¿½ï¿½(X)")) {
 			last(frame);
 		}
-		// ÏÂÒ»¸ö
-		if (cmd.equals("ÏÂÒ»¸ö(P)")) {
+		// ï¿½ï¿½Ò»ï¿½ï¿½
+		if (cmd.equals("ï¿½ï¿½Ò»ï¿½ï¿½(P)")) {
 			next(frame);
 		}
-		// ÍË³ö
-		if (cmd.equals("ÍË³ö(X)")) {
+		// ï¿½Ë³ï¿½
+		if (cmd.equals("ï¿½Ë³ï¿½(X)")) {
 			System.exit(0);
 		}
 	}

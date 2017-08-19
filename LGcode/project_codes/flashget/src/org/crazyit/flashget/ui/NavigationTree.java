@@ -2,14 +2,13 @@ package org.crazyit.flashget.ui;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 /**
- * µ¼º½Ê÷
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -20,7 +19,7 @@ public class NavigationTree extends JTree {
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
 		this.setCellRenderer(new NavigationTreeCellRender());
-		//Õ¹¿ªµÚÒ»²ã½Úµã
+		//Õ¹ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Úµï¿½
 		for (int i = 0; i < root.getChildCount(); i++) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode)root.getChildAt(i);
 			this.expandPath(new TreePath(node.getPath()));

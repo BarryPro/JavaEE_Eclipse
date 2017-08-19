@@ -5,34 +5,31 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.crazyit.tetris.object.Piece;
-import org.crazyit.tetris.object.PieceCreator;
-import org.crazyit.tetris.object.Square;
-import org.crazyit.tetris.piece.Piece0;
-import org.crazyit.tetris.piece.Piece1;
-import org.crazyit.tetris.piece.Piece2;
-import org.crazyit.tetris.piece.Piece3;
-import org.crazyit.tetris.piece.Piece4;
-import org.crazyit.tetris.piece.Piece5;
-import org.crazyit.tetris.piece.Piece6;
-import org.crazyit.tetris.util.ImageUtil;
+import tetris.src.org.crazyit.tetris.object.PieceCreator;
+import tetris.src.org.crazyit.tetris.piece.Piece0;
+import tetris.src.org.crazyit.tetris.piece.Piece1;
+import tetris.src.org.crazyit.tetris.piece.Piece2;
+import tetris.src.org.crazyit.tetris.piece.Piece3;
+import tetris.src.org.crazyit.tetris.piece.Piece4;
+import tetris.src.org.crazyit.tetris.piece.Piece5;
+import tetris.src.org.crazyit.tetris.piece.Piece6;
 
 public class PieceCreatorImpl implements PieceCreator {
 
-	//»º´æ¸÷¸öSquare
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Square
 	private Map<Integer, Image> images = new HashMap<Integer, Image>();
 	
-	//×Ü¹²ÓÐÆßÖÖÑÕÉ«µÄ·½¿é
+	//ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½Ä·ï¿½ï¿½ï¿½
 	private final static int COLOR_SIZE = 7;
 	
-	//×Ü¹²ÓÐÆßÖÖ´ó·½¿é
+	//ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ó·½¿ï¿½
 	private final static int SQUARE_SIZE = 7;
 	
 	private Random random = new Random();
 		
 	@Override
 	public Piece createPiece(int x, int y) {
-		//Ëæ»úµÃµ½Ò»ÕÅ·½¿éÍ¼Æ¬
+		//ï¿½ï¿½ï¿½ï¿½Ãµï¿½Ò»ï¿½Å·ï¿½ï¿½ï¿½Í¼Æ¬
 		Image image = getImage(random.nextInt(COLOR_SIZE));
 		Piece piece = initPiece(image);
 		piece.setSquaresXLocation(x);
@@ -43,7 +40,7 @@ public class PieceCreatorImpl implements PieceCreator {
 	private Piece initPiece(Image image) {
 		Piece piece = null;
 		int pieceType = random.nextInt(SQUARE_SIZE);
-		//³õÊ¼»¯Piece£¬Ëæ»ú´´½¨¸÷¸ö´ó·½¿é
+		//ï¿½ï¿½Ê¼ï¿½ï¿½Pieceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó·½¿ï¿½
 		if (pieceType == 0) {
 			piece = new Piece0(image);
 		} else if (pieceType == 1) {
@@ -64,7 +61,7 @@ public class PieceCreatorImpl implements PieceCreator {
 	}
 	
 	/**
-	 * ´ÓmapÖÐµÃµ½Í¼Æ¬¶ÔÏó£¬Èç¹ûmapÖÐÃ»ÓÐ´æÔÚÍ¼Æ¬¶ÔÏó, Ôò´´½¨
+	 * ï¿½ï¿½mapï¿½ÐµÃµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½Ã»ï¿½Ð´ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½, ï¿½ò´´½ï¿½
 	 * @param key
 	 * @return
 	 */

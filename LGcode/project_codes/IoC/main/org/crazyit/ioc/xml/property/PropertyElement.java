@@ -1,22 +1,22 @@
 package org.crazyit.ioc.xml.property;
 
-import org.crazyit.ioc.xml.construct.DataElement;
+import IoC.main.org.crazyit.ioc.xml.construct.DataElement;
 
 /**
- * property½Úµã
+ * propertyï¿½Úµï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class PropertyElement {
 
-	//propertyÔªËØµÄnameÊôĞÔÖµ
+	//propertyÔªï¿½Øµï¿½nameï¿½ï¿½ï¿½ï¿½Öµ
 	private String name;
 	
-	//propertyÔªËØÏÂµÄref»òÕßvalueÊôĞÔ¶ÔÏó
+	//propertyÔªï¿½ï¿½ï¿½Âµï¿½refï¿½ï¿½ï¿½ï¿½valueï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½
 	private DataElement dataElement;
 
 	public PropertyElement(String name, DataElement dataElement) {

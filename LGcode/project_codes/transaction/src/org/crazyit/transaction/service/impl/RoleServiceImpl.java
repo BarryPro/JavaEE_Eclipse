@@ -2,9 +2,8 @@ package org.crazyit.transaction.service.impl;
 
 import java.util.List;
 
-import org.crazyit.transaction.dao.RoleDao;
-import org.crazyit.transaction.model.Role;
-import org.crazyit.transaction.service.RoleService;
+import transaction.src.org.crazyit.transaction.dao.RoleDao;
+import transaction.src.org.crazyit.transaction.service.RoleService;
 
 public class RoleServiceImpl implements RoleService {
 

@@ -6,26 +6,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import javax.swing.JTextArea;
-
-import org.crazyit.editor.exception.FileException;
-
 /**
- * 文件处理工具类
+ * 锟侥硷拷锟斤拷锟斤拷锟斤拷锟斤拷
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>网站: <a href="http://www.crazyit.org">疯狂Java联盟</a>
+ * <br/>锟斤拷站: <a href="http://www.crazyit.org">锟斤拷锟絁ava锟斤拷锟斤拷</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class FileUtil {
 	
-	//读取一个文件的内容
+	//锟斤拷取一锟斤拷锟侥硷拷锟斤拷锟斤拷锟斤拷
 	public static String readFile(File file) {
 		StringBuffer result = new StringBuffer();
 		try	{
-			//使用IO流读取文件
+			//使锟斤拷IO锟斤拷锟斤拷取锟侥硷拷
 			FileInputStream fis= new FileInputStream(file);
 			String content = null;
 			byte[] arr = new byte[1024];
@@ -42,7 +38,7 @@ public class FileUtil {
 		return result.toString();
 	}
 	
-	//使用IO流将参数content写入到参数file中
+	//使锟斤拷IO锟斤拷锟斤拷锟斤拷锟斤拷content写锟诫到锟斤拷锟斤拷file锟斤拷
 	public static void writeFile(File file, String content) {
 		try {
 			FileOutputStream fos = new FileOutputStream(file);

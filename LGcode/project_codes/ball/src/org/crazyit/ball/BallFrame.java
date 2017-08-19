@@ -1,99 +1,99 @@
 package org.crazyit.ball;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 /**
- * ÓÎÏ·½çÃæ
+ * ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class BallFrame extends JFrame {
-	// ¶¨ÒåJPanelµÄ¿í¶È
+	// ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä¿ï¿½ï¿½
 	private final int BALLPANEL_WIDTH = 307;
-	// ¶¨ÒåJPanelµÄ¸ß¶È
+	// ï¿½ï¿½ï¿½ï¿½JPanelï¿½Ä¸ß¶ï¿½
 	private final int BALLPANEL_HEIGHT = 400;
-	// ¶¨Òå»­°å
+	// ï¿½ï¿½ï¿½å»­ï¿½ï¿½
 	private BallPanel ballPanel = null;
-	// ¶¨Òåµµ°å
+	// ï¿½ï¿½ï¿½åµµï¿½ï¿½
 	// private Image stick = null;
-	// ÉèÖÃµµ°åx×ø±ê
+	// ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	private int stickX = -1;
-	// ´´½¨Ò»¸öBallServiceÊµÀý
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½BallServiceÊµï¿½ï¿½
 	private BallService service = null;
-	// ¶¨ÒåÒ»¸ötimer
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½timer
 	Timer timer = null;
 
 	/**
-	 * Ä¬ÈÏ¹¹ÔìÆ÷
+	 * Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public BallFrame() throws IOException {
 		super();
-		// ³õÊ¼»¯
+		// ï¿½ï¿½Ê¼ï¿½ï¿½
 		initialize();
 	}
 
 	/**
-	 * ³õÊ¼»¯½çÃæ
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	public void initialize() throws IOException {
-		// ÉèÖÃ´°¿ÚµÄ±êÌâ
-		this.setTitle("µ¯Çò");
-		// ÉèÖÃÎª²»¿É¸Ä±ä´óÐ¡
+		// ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ÚµÄ±ï¿½ï¿½ï¿½
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½É¸Ä±ï¿½ï¿½Ð¡
 		this.setResizable(false);
-		// ÉèÖÃ±³¾°ÎªºÚÉ«
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½Îªï¿½ï¿½É«
 		this.setBackground(Color.BLACK);
-		// »ñÈ¡»­°å
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 		ballPanel = getBallPanel();
-		// ´´½¨BallServiceÊµÀý
+		// ï¿½ï¿½ï¿½ï¿½BallServiceÊµï¿½ï¿½
 		service = new BallService(this, BALLPANEL_WIDTH, BALLPANEL_HEIGHT);
 
-		// ¶¨ÒåÃ¿0.1ÃëÖ´ÐÐÒ»´Î¼àÌýÆ÷
+		// ï¿½ï¿½ï¿½ï¿½Ã¿0.1ï¿½ï¿½Ö´ï¿½ï¿½Ò»ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		ActionListener task = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// ¿ªÊ¼¸Ä±äÎ»ÖÃ
+				// ï¿½ï¿½Ê¼ï¿½Ä±ï¿½Î»ï¿½ï¿½
 				service.run();
-				// Ë¢ÐÂ»­°å
+				// Ë¢ï¿½Â»ï¿½ï¿½ï¿½
 				ballPanel.repaint();
 			}
 		};
-		// Èç¹ûtimer²»Îª¿Õ
+		// ï¿½ï¿½ï¿½timerï¿½ï¿½Îªï¿½ï¿½
 		if (timer != null) {
-			// ÖØÐÂ¿ªÊ¼timer
+			// ï¿½ï¿½ï¿½Â¿ï¿½Ê¼timer
 			timer.restart();
 		} else {
-			// ÐÂ½¨Ò»¸ötimer
+			// ï¿½Â½ï¿½Ò»ï¿½ï¿½timer
 			timer = new Timer(100, task);
-			// ¿ªÊ¼timer
+			// ï¿½ï¿½Ê¼timer
 			timer.start();
 		}
 
 		this.add(ballPanel);
-		// Ôö¼ÓÊÂ¼þ¼àÌýÆ÷
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		KeyListener[] klarr = this.getKeyListeners();
 		if (klarr.length == 0) {
-			// ¶¨Òå¼üÅÌ¼àÌýÊÊÅäÆ÷
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			KeyListener keyAdapter = new KeyAdapter() {
 				public void keyPressed(KeyEvent ke) {
-					// ¸Ä±äµµ°åµÄ×ø±ê
+					// ï¿½Ä±äµµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					service.setStickPos(ke);
 				}
 			};
@@ -102,33 +102,33 @@ public class BallFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡»­°å
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * @return BallPanel ·µ»ØBallPanle
+	 * @return BallPanel ï¿½ï¿½ï¿½ï¿½BallPanle
 	 */
 	public BallPanel getBallPanel() {
 
 		if (ballPanel == null) {
-			// ÐÂ½¨Ò»¸ö»­°å
+			// ï¿½Â½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			ballPanel = new BallPanel();
-			// ÉèÖÃ»­°åµÄ´óÐ¡
+			// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ä´ï¿½Ð¡
 			ballPanel.setPreferredSize(new Dimension(BALLPANEL_WIDTH,
 					BALLPANEL_HEIGHT));
 		}
 		return ballPanel;
 	}
 
-	// ¶¨ÒåÒ»¸öJPanelÄÚ²¿ÀàÀ´Íê³É»­Í¼¹¦ÄÜ
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanelï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É»ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
 	public class BallPanel extends JPanel {
 		/**
-		 * ÖØÐ´void paint( Graphics g )·½·¨
+		 * ï¿½ï¿½Ð´void paint( Graphics g )ï¿½ï¿½ï¿½ï¿½
 		 * 
 		 * @param g
 		 *            Graphics
 		 * @return void
 		 */
 		public void paint(Graphics g) {
-			// »­Í¼
+			// ï¿½ï¿½Í¼
 			service.draw(g);
 		}
 	}

@@ -1,38 +1,32 @@
 package org.crazyit.transaction.util;
 
-import org.crazyit.transaction.dao.CommentDao;
-import org.crazyit.transaction.dao.LogDao;
-import org.crazyit.transaction.dao.RoleDao;
-import org.crazyit.transaction.dao.TransactionDao;
-import org.crazyit.transaction.dao.UserDao;
-import org.crazyit.transaction.dao.UserTransferDao;
-import org.crazyit.transaction.dao.impl.CommentDaoImpl;
-import org.crazyit.transaction.dao.impl.LogDaoImpl;
-import org.crazyit.transaction.dao.impl.RoleDaoImpl;
-import org.crazyit.transaction.dao.impl.TransactionDaoImpl;
-import org.crazyit.transaction.dao.impl.UserDaoImpl;
-import org.crazyit.transaction.dao.impl.UserTransferDaoImpl;
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.service.CommentService;
-import org.crazyit.transaction.service.RoleService;
-import org.crazyit.transaction.service.TransactionService;
-import org.crazyit.transaction.service.UserService;
-import org.crazyit.transaction.service.impl.CommentServiceImpl;
-import org.crazyit.transaction.service.impl.RoleServiceImpl;
-import org.crazyit.transaction.service.impl.TransactionServiceImpl;
-import org.crazyit.transaction.service.impl.UserServiceImpl;
+import transaction.src.org.crazyit.transaction.dao.CommentDao;
+import transaction.src.org.crazyit.transaction.dao.LogDao;
+import transaction.src.org.crazyit.transaction.dao.RoleDao;
+import transaction.src.org.crazyit.transaction.dao.TransactionDao;
+import transaction.src.org.crazyit.transaction.dao.UserTransferDao;
+import transaction.src.org.crazyit.transaction.dao.impl.CommentDaoImpl;
+import transaction.src.org.crazyit.transaction.dao.impl.LogDaoImpl;
+import transaction.src.org.crazyit.transaction.dao.impl.RoleDaoImpl;
+import transaction.src.org.crazyit.transaction.dao.impl.TransactionDaoImpl;
+import transaction.src.org.crazyit.transaction.dao.impl.UserTransferDaoImpl;
+import transaction.src.org.crazyit.transaction.service.CommentService;
+import transaction.src.org.crazyit.transaction.service.RoleService;
+import transaction.src.org.crazyit.transaction.service.impl.CommentServiceImpl;
+import transaction.src.org.crazyit.transaction.service.impl.RoleServiceImpl;
+import transaction.src.org.crazyit.transaction.service.impl.TransactionServiceImpl;
 
 /**
- * Ó¦ÓÃÉÏÏÂÎÄ
+ * Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class ApplicationContext {
 
-	//ÏµÍ³µÇÂ¼ÓÃ»§
+	//ÏµÍ³ï¿½ï¿½Â¼ï¿½Ã»ï¿½
 	public static User loginUser;
 
 	public static UserDao userDao;

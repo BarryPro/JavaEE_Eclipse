@@ -11,50 +11,47 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.util.ApplicationContext;
-
 public class MainFrame extends JFrame {
 
 	private JMenuBar menuBar = new JMenuBar();
 	
-	private JMenu tsMenu = new JMenu("ÊÂÎñ");
+	private JMenu tsMenu = new JMenu("ï¿½ï¿½ï¿½ï¿½");
 	
-	//µ±Ç°µÄ½çÃæ
+	//ï¿½ï¿½Ç°ï¿½Ä½ï¿½ï¿½ï¿½
 	private BasePanel currentPanel;
 	
-	//ÎÒµÄÊÂÎñ
+	//ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½
 	private MyTransactionPanel myTransactionPanel;
 	
-	//ÊÂÎñ¹ÜÀí
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private TransactionManagePanel transactionManagePanel;
 	
-	//ÓÃ»§¹ÜÀí
+	//ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 	private UserPanel userPanel;
 		
-	//ÎÒµÄÊÂÎñ
-	private Action myTransaction = new AbstractAction("ÎÒµÄÊÂÎñ", new ImageIcon("images/menu/myTransaction.gif")) {
+	//ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½
+	private Action myTransaction = new AbstractAction("ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/menu/myTransaction.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(myTransactionPanel);
 		}
 	};
 	
-	//ÊÂÎñ¹ÜÀí(¹ÜÀíÔ±»òÕßÉÏ¼¶µÈ·ÖÅÉÈÎÎñ)
-	private Action transactionManage = new AbstractAction("ÊÂÎñ¹ÜÀí", new ImageIcon("images/menu/transactionManage.gif")) {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	private Action transactionManage = new AbstractAction("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/menu/transactionManage.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(transactionManagePanel);
 		}
 	};
 	
-	//ÓÃ»§¹ÜÀí
-	private Action userManage = new AbstractAction("ÓÃ»§¹ÜÀí", new ImageIcon("images/menu/userManage.gif")) {
+	//ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Action userManage = new AbstractAction("ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½", new ImageIcon("images/menu/userManage.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			changePanel(userPanel);
 		}
 	};
 	
-	//ÍË³öÏµÍ³
-	private Action exit = new AbstractAction("ÍË³öÏµÍ³", new ImageIcon("images/menu/exit.gif")) {
+	//ï¿½Ë³ï¿½ÏµÍ³
+	private Action exit = new AbstractAction("ï¿½Ë³ï¿½ÏµÍ³", new ImageIcon("images/menu/exit.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			
 		}
@@ -68,7 +65,7 @@ public class MainFrame extends JFrame {
 		this.add(this.myTransactionPanel);
 		this.currentPanel = this.myTransactionPanel;
 		this.pack();
-		this.setTitle("ÊÂÎñ¸ú×ÙÏµÍ³");
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -80,7 +77,7 @@ public class MainFrame extends JFrame {
 		this.tsMenu.add(this.transactionManage);
 		this.tsMenu.add(this.userManage);
 		this.tsMenu.add(this.exit);
-		//ÅÐ¶ÏÈ¨ÏÞ
+		//ï¿½Ð¶ï¿½È¨ï¿½ï¿½
 		User loginUser = ApplicationContext.loginUser;
 		System.out.println(loginUser.getRole().getROLE_NAME());
 		if (loginUser.getRole().getROLE_NAME().equals("manager")) {
@@ -94,12 +91,12 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * µã»÷²Ëµ¥Ö´ÐÐµÄ·½·¨
+	 * ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ö´ï¿½ÐµÄ·ï¿½ï¿½ï¿½
 	 */
 	private void changePanel(BasePanel panel) {
-		//ÒÆ³ýµ±Ç°ÏÔÊ¾µÄJPanel
+		//ï¿½Æ³ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ê¾ï¿½ï¿½JPanel
 		this.remove(this.currentPanel);
-		//Ìí¼ÓÐèÒªÏÔÊ¾µÄJPanel
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê¾ï¿½ï¿½JPanel
 		this.add(panel);
 		this.currentPanel = panel;
 		this.currentPanel.readData();

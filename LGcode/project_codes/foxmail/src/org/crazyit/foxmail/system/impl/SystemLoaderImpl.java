@@ -5,32 +5,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.object.MailComparator;
-import org.crazyit.foxmail.system.SystemLoader;
-import org.crazyit.foxmail.ui.MailContext;
-import org.crazyit.foxmail.util.FileUtil;
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.object.MailComparator;
+import foxmail.src.org.crazyit.foxmail.system.SystemLoader;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
 
 /**
- * ±¾µØÏµÍ³ÓÊ¼þ¼ÓÔØÊµÏÖÀà
+ * ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class SystemLoaderImpl implements SystemLoader {
 
-	//ÊµÏÖ½Ó¿Ú·½·¨, µÃµ½À¬»øÏäµÄÓÊ¼þ
+	//Êµï¿½Ö½Ó¿Ú·ï¿½ï¿½ï¿½, ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½
 	public List<Mail> getDeletedBoxMails(MailContext ctx) {
-		//ÏÈ´ÓÓëÓÃ»§¶ÔÓ¦µÄdeletedÄ¿Â¼ÖÐµÃµ½È«²¿µÄxmlÎÄ¼þ
+		//ï¿½È´ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½deletedÄ¿Â¼ï¿½ÐµÃµï¿½È«ï¿½ï¿½ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		return getMails(ctx, FileUtil.DELETED);
 	}
 
-	//ÊµÏÖ½Ó¿Ú·½·¨, µÃµ½²Ý¸åÏäµÄÓÊ¼þ
+	//Êµï¿½Ö½Ó¿Ú·ï¿½ï¿½ï¿½, ï¿½Ãµï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½
 	public List<Mail> getDraftBoxMails(MailContext ctx) {
-		//ÏÈ´ÓÓëÓÃ»§¶ÔÓ¦µÄdraftÖÐµÃµ½È«²¿µÄxmlÎÄ¼þ
+		//ï¿½È´ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½draftï¿½ÐµÃµï¿½È«ï¿½ï¿½ï¿½ï¿½xmlï¿½Ä¼ï¿½
 		return getMails(ctx, FileUtil.DRAFT);
 	}
 
@@ -39,11 +38,11 @@ public class SystemLoaderImpl implements SystemLoader {
 		return getMails(ctx, FileUtil.INBOX);
 	}
 	
-	//½«xmlÎÄ¼þ×ª»»³ÉMail¶ÔÏó, ²¢ÅÅÐò
+	//ï¿½ï¿½xmlï¿½Ä¼ï¿½×ªï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private List<Mail> convert(List<File> xmlFiles, MailContext ctx) {
 		List<Mail> result = new ArrayList<Mail>();
 		for (File file : xmlFiles) {
-			//½«xml×ª»»³ÉMail¶ÔÏó
+			//ï¿½ï¿½xml×ªï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½
 			Mail mail = FileUtil.fromXML(ctx, file);
 			result.add(mail);
 		}
@@ -51,17 +50,17 @@ public class SystemLoaderImpl implements SystemLoader {
 		return result;
 	}
 	
-	//°´ÕÕÊ±¼ä½µÐòÅÅÐò
+	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä½µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void sort(List<Mail> mails) {
 		Collections.sort(mails, new MailComparator());
 	}
 
-	//ÊµÏÖ½Ó¿Ú·½·¨, µÃµ½·¢¼þÏäÖÐµÄÓÊ¼þ
+	//Êµï¿½Ö½Ó¿Ú·ï¿½ï¿½ï¿½, ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ê¼ï¿½
 	public List<Mail> getOutBoxMails(MailContext ctx) {
 		return getMails(ctx, FileUtil.OUTBOX);
 	}
 
-	//ÊµÏÖ½Ó¿Ú·½·¨, µÃµ½ÒÑ·¢ËÍµÄÓÊ¼þ
+	//Êµï¿½Ö½Ó¿Ú·ï¿½ï¿½ï¿½, ï¿½Ãµï¿½ï¿½Ñ·ï¿½ï¿½Íµï¿½ï¿½Ê¼ï¿½
 	public List<Mail> getSentBoxMails(MailContext ctx) {
 		return getMails(ctx, FileUtil.SENT);
 	}

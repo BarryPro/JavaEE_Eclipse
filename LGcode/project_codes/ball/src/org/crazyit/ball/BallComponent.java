@@ -1,35 +1,36 @@
-package org.crazyit.ball;
+package ball.src.org.crazyit.ball;
 
 import java.awt.Image;
 import java.io.File;
-import javax.imageio.ImageIO;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
 /**
- * ×ÀÃæµ¯ÇòÓÎÏ·Ïà¹Ø×é¼þµÄ¸¸Àà
+ * ï¿½ï¿½ï¿½æµ¯ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class BallComponent {
-	// ÉèÖÃx×ø±ê
+	// ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	private int x = -1;
-	// ÉèÖÃy×ø±ê
+	// ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	private int y = -1;
-	// ÉèÖÃÍ¼Æ¬
+	// ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	private Image image = null;
-	// ÉèÖÃÍ¼Æ¬ËÙ¶È
+	// ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ù¶ï¿½
 	private int speed = 5;
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param path
-	 *            String Í¼Æ¬Â·¾¶
+	 *            String Í¼Æ¬Â·ï¿½ï¿½
 	 */
 	public BallComponent(String path) throws IOException {
 		super();
@@ -37,74 +38,74 @@ public class BallComponent {
 	}
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param panelWidth
-	 *            int »­°å¿í¶È
+	 *            int ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param panelHeight
-	 *            int »­°å¸ß¶È
+	 *            int ï¿½ï¿½ï¿½ï¿½ß¶ï¿½
 	 * @param path
-	 *            String Í¼Æ¬Â·¾¶
+	 *            String Í¼Æ¬Â·ï¿½ï¿½
 	 */
 	public BallComponent(int panelWidth, int panelHeight, String path)
 			throws IOException {
 		super();
-		// ¶ÁÈ¡Í¼Æ¬
+		// ï¿½ï¿½È¡Í¼Æ¬
 		this.image = ImageIO.read(new File(path));
-		// ÉèÖÃx×ø±ê
+		// ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 		this.x = (int) ((panelWidth - image.getWidth(null)) / 2);
 	}
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param x
-	 *            int Í¼ÏñµÄx×ø±ê
+	 *            int Í¼ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	 * @param y
-	 *            int Í¼ÏñµÄy×ø±ê
+	 *            int Í¼ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	 * @param path
-	 *            String Í¼Æ¬Â·¾¶
+	 *            String Í¼Æ¬Â·ï¿½ï¿½
 	 */
 	public BallComponent(String path, int x, int y) throws IOException {
 		super();
-		// ¶ÁÈ¡Í¼Æ¬
+		// ï¿½ï¿½È¡Í¼Æ¬
 		this.image = ImageIO.read(new File(path));
 		this.x = x;
 		this.y = y;
 	}
 
 	/**
-	 * »ñÈ¡x×ø±ê
+	 * ï¿½ï¿½È¡xï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * @return int x×ø±ê
+	 * @return int xï¿½ï¿½ï¿½ï¿½
 	 */
 	public int getX() {
 		return this.x;
 	}
 
 	/**
-	 * »ñÈ¡y×ø±ê
+	 * ï¿½ï¿½È¡yï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * @return int y×ø±ê
+	 * @return int yï¿½ï¿½ï¿½ï¿½
 	 */
 	public int getY() {
 		return this.y;
 	}
 
 	/**
-	 * »ñÈ¡Í¼Æ¬ËÙ¶È
+	 * ï¿½ï¿½È¡Í¼Æ¬ï¿½Ù¶ï¿½
 	 * 
-	 * @return int Í¼Æ¬ËÙ¶È
+	 * @return int Í¼Æ¬ï¿½Ù¶ï¿½
 	 */
 	public int getSpeed() {
 		return this.speed;
 	}
 
 	/**
-	 * ÉèÖÃx×ø±ê
+	 * ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param x
-	 *            int x×ø±ê
+	 *            int xï¿½ï¿½ï¿½ï¿½
 	 * @return void
 	 */
 	public void setX(int x) {
@@ -112,10 +113,10 @@ public class BallComponent {
 	}
 
 	/**
-	 * ÉèÖÃy×ø±ê
+	 * ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param y
-	 *            int y×ø±ê
+	 *            int yï¿½ï¿½ï¿½ï¿½
 	 * @return void
 	 */
 	public void setY(int y) {
@@ -123,7 +124,7 @@ public class BallComponent {
 	}
 
 	/**
-	 * ·µ»ØÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @return Image Í¼Æ¬
 	 */

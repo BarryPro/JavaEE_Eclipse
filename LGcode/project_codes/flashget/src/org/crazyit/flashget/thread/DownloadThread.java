@@ -10,16 +10,11 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.DownloadContext;
-import org.crazyit.flashget.exception.URLException;
-import org.crazyit.flashget.object.Part;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.state.Pause;
-import org.crazyit.flashget.util.FileUtil;
+import flashget.src.org.crazyit.flashget.ContextHolder;
+import flashget.src.org.crazyit.flashget.DownloadContext;
+import flashget.src.org.crazyit.flashget.exception.URLException;
+import flashget.src.org.crazyit.flashget.state.Pause;
 
 public class DownloadThread extends Thread {
 
@@ -27,14 +22,14 @@ public class DownloadThread extends Thread {
 	
 	private RandomAccessFile raf;
 	
-	//обть╣двйт╢╤тоС
+	//О©╫О©╫О©╫ь╣О©╫О©╫О©╫т╢О©╫О©╫О©╫О©╫
 	private Resource resource;
 	
-	//╠╬оъЁлпХр╙обть╣д©И
+	//О©╫О©╫О©╫ъЁО©╫О©╫О©╫р╙О©╫О©╫О©╫ь╣д©О©╫
 	private Part part;
 	
 	/**
-	 * обтьоъЁл╧╧тЛфВ
+	 * О©╫О©╫О©╫О©╫О©╫ъЁл╧О©╫О©╫О©╫О©╫О©╫
 	 */
 	public DownloadThread(Resource resource, RandomAccessFile raf, Part part) {
 		this.url = createURL(resource.getUrl());
@@ -55,39 +50,39 @@ public class DownloadThread extends Thread {
 
 	public void run() {
 		try {
-			//╪фкЦ©╙й╪╣ЦсК╫АйЬ╣Ц
+			//О©╫О©╫О©╫Ц©╙й╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 			int begin = part.getBegin() + part.getCurrentLength();
 			int end = part.getBegin() + part.getLength() - 1;
-			//хГ╧Шйг©╙й╪╣Ц╢Ссз╫АйЬ╣Ц, ж╓цВ╦ц©Иря╬╜обтьмЙЁи
+			//О©╫О©╫О©╫О©╫г©О©╫й╪О©╫О©╫О©╫О©╫з╫О©╫О©╫О©╫О©╫О©╫, ж╓О©╫О©╫О©╫ц©О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 			if (begin >= end) {
 				this.raf.close();
 				return;
 			}
 			HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
 			urlConnection.setRequestProperty("Range", "bytes=" + begin + "-" + end); 
-			//хГ╧Ша╛╫с╡╩иооЮс╕╣д╣ьж╥, евЁЖjava.net.UnknownHostException
+			//О©╫О©╫О©╫О©╫О©╫О©╫с╡О©╫О©╫О©╫О©╫О©╫с╕О©╫д╣О©╫ж╥, О©╫вЁО©╫java.net.UnknownHostException
 			urlConnection.connect();
-			//хГ╧Шур╡╩╣╫оЮс╕╣двйт╢, ╫╚евЁЖjava.io.FileNotFoundException
+			//О©╫О©╫О©╫О©╫р╡О©╫О©╫О©╫О©╫О©╫с╕О©╫О©╫О©╫О©╫т╢, О©╫О©╫О©╫вЁО©╫java.io.FileNotFoundException
 			InputStream is = urlConnection.getInputStream();
 			byte[] buffer = new byte[MAX_BUFFER_SIZE];
 			int perRead = 0;
-			//иХжцв╢л╛н╙обть
+			//О©╫О©╫О©╫О©╫в╢л╛н╙О©╫О©╫О©╫О©╫
 			this.resource.setState(DownloadContext.DOWNLOADING);
-			//тз.partнд╪ЧжпиХжц╣╠г╟кЫ╤ах║╣дж╦уК
+			//О©╫О©╫.partО©╫д╪О©╫О©╫О©╫О©╫О©╫О©╫ц╣О©╫г╟О©╫О©╫О©╫О©╫х║О©╫О©╫ж╦О©╫О©╫
 			this.raf.seek(this.part.getCurrentLength());
 			while ((perRead = is.read(buffer)) != -1) {
-				//еп╤овйт╢╤тоС╣дв╢л╛йг╥Я╠╩пч╦дЁитщмё
+				//О©╫п╤О©╫О©╫О©╫т╢О©╫О©╫О©╫О©╫О©╫в╢л╛О©╫г╥О©╫О©╫ч╦дЁО©╫О©╫О©╫мё
 				if (this.resource.getState() instanceof Pause) {
 					closeStream(is, urlConnection, this.raf);
 					return;
 				}
-				//еп╤овйт╢╤тоСв╢л╛
+				//О©╫п╤О©╫О©╫О©╫т╢О©╫О©╫О©╫О©╫в╢л╛
 				raf.write(buffer, 0, perRead);
 				this.part.setCurrentLength(this.part.getCurrentLength() + perRead);
 			}
 			closeStream(is, urlConnection, this.raf);
-			//еп╤ойг╥ЯобтьмЙЁи, хГ╧ШобтьмЙЁи, тР╫Ьпп╨о╡╒нд╪Ч
-			//в╒рБуБюОпХр╙╣ц╣╫уШ╦Жнд╪Ч╣д╢Сп║, ╤Ь╡╩йгдЁ╦Ж.partнд╪Ч╣д╢Сп║
+			//О©╫п╤О©╫О©╫г╥О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫п╨о╡О©╫О©╫д╪О©╫
+			//в╒О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╙О©╫ц╣О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫д╢О©╫п║, О©╫О©╫О©╫О©╫О©╫О©╫дЁО©╫О©╫.partО©╫д╪О©╫О©╫д╢О©╫п║
 			if (isFinished(this.resource.getSize())) uniteParts();
 		} catch (Exception e) {
 			this.resource.setState(DownloadContext.FAILED);
@@ -103,38 +98,38 @@ public class DownloadThread extends Thread {
 	}
 
 	/**
-	 * еп╤ойг╥ЯобтьмЙЁи, ╠ИюЗобтьнд╪Ч╣д╦В╦Ж.partнд╪Ч
+	 * О©╫п╤О©╫О©╫г╥О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫д╦О©╫О©╫О©╫.partО©╫д╪О©╫
 	 * @param fileLength
 	 * @return
 	 */
 	private boolean isFinished(int fileLength) {
 		List<Part> parts = this.resource.getParts();
-		//╪фкЦряобть╣двэйЩ
+		//О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ь╣О©╫О©╫О©╫О©╫О©╫
 		int downCount = 0;
 		for (Part part : parts) downCount += part.getCurrentLength();
 		return (downCount >= fileLength) ? true : false;
 	}
 	
 	/**
-	 * ╨о╡╒partнд╪Ч
+	 * О©╫о╡О©╫partО©╫д╪О©╫
 	 */
 	private void uniteParts() throws IOException {
 		List<Part> parts = this.resource.getParts();
-		//╢╢╫╗нд╪ЧйДЁЖаВ, йДЁЖ╣╫обтьнд╪Ч
+		//О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫
 		OutputStream bos = new FileOutputStream(this.resource.getSaveFile(), 
 				false);
 		for (Part part : parts) {
-			//╣ц╣╫.partнд╪Ч
+			//О©╫ц╣О©╫.partО©╫д╪О©╫
 			File partFile = new File(FileUtil.getPartFilePath(this.resource, 
 					part));
-			//╩Я╣цнд╪ЧйДхКаВ
+			//О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 			InputStream is = new FileInputStream(partFile);
             byte[] buffer = new byte[1024];
             int bytesRead;
             int temp = 0;
             while ((bytesRead = is.read(buffer)) != -1) {
             	temp += bytesRead;
-            	//п╢╣╫нд╪Чжп
+            	//п╢О©╫О©╫О©╫д╪О©╫О©╫О©╫
                 bos.write(buffer, 0, bytesRead);
             }
             is.close();

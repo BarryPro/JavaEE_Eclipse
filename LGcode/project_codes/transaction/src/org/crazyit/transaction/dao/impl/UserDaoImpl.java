@@ -1,11 +1,7 @@
 package org.crazyit.transaction.dao.impl;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.crazyit.transaction.dao.UserDao;
-import org.crazyit.transaction.model.User;
 
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 

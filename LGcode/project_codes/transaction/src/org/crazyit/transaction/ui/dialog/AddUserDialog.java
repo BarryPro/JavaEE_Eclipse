@@ -14,70 +14,67 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.crazyit.transaction.model.Role;
-import org.crazyit.transaction.model.User;
-import org.crazyit.transaction.ui.UserPanel;
-import org.crazyit.transaction.util.ApplicationContext;
-import org.crazyit.transaction.util.ViewUtil;
+import transaction.src.org.crazyit.transaction.ui.UserPanel;
+import transaction.src.org.crazyit.transaction.util.ViewUtil;
 
 /**
- * Ìí¼ÓÓÃ»§½çÃæ
+ * ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class AddUserDialog extends JDialog {
 
-	//ÓÃ»§Ãû
-	private JLabel userNameLabel = new JLabel("ÓÃ»§Ãû: ");
+	//ï¿½Ã»ï¿½ï¿½ï¿½
+	private JLabel userNameLabel = new JLabel("ï¿½Ã»ï¿½ï¿½ï¿½: ");
 	private JTextField userName = new JTextField(10);
 	
-	//ÕæÊµÐÕÃû
-	private JLabel realNameLabel = new JLabel("ÕæÊµÐÕÃû: ");
+	//ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
+	private JLabel realNameLabel = new JLabel("ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½: ");
 	private JTextField realName = new JTextField(10);
 	
-	//ÃÜÂë
-	private JLabel passwordLabel = new JLabel("ÃÜÂë: ");
+	//ï¿½ï¿½ï¿½ï¿½
+	private JLabel passwordLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½: ");
 	private JPasswordField password = new JPasswordField(20);
 	
-	private JLabel roleLabel = new JLabel("½ÇÉ«: ");
+	private JLabel roleLabel = new JLabel("ï¿½ï¿½É«: ");
 	private JComboBox roleSelect = new JComboBox();
 	
-	//°´Å¥
-	private JButton confirmButton = new JButton("È·¶¨");
-	private JButton cancelButton = new JButton("È¡Ïû");
+	//ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("È·ï¿½ï¿½");
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
 	
 	private UserPanel userPanel;
 	
 	public AddUserDialog(UserPanel userPanel) {
 		this.userPanel = userPanel;
-		//ÓÃ»§Ãû
+		//ï¿½Ã»ï¿½ï¿½ï¿½
 		Box userNameBox = Box.createHorizontalBox();
 		userNameBox.add(Box.createHorizontalStrut(30));
 		userNameBox.add(this.userNameLabel);
 		userNameBox.add(this.userName);
 		userNameBox.add(Box.createHorizontalStrut(30));
-		//ÕæÊµÐÕÃû
+		//ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
 		Box realNameBox = Box.createHorizontalBox();
 		realNameBox.add(Box.createHorizontalStrut(17));
 		realNameBox.add(this.realNameLabel);
 		realNameBox.add(this.realName);
 		realNameBox.add(Box.createHorizontalStrut(30));
-		//ÃÜÂë
+		//ï¿½ï¿½ï¿½ï¿½
 		Box passwdBox = Box.createHorizontalBox();
 		passwdBox.add(Box.createHorizontalStrut(43));
 		passwdBox.add(this.passwordLabel);
 		passwdBox.add(this.password);
 		passwdBox.add(Box.createHorizontalStrut(30));
-		//½ÇÉ«Ñ¡Ôñ
+		//ï¿½ï¿½É«Ñ¡ï¿½ï¿½
 		Box roleSelectBox = Box.createHorizontalBox();
 		roleSelectBox.add(Box.createHorizontalStrut(43));
 		roleSelectBox.add(this.roleLabel);
 		roleSelectBox.add(this.roleSelect);
 		roleSelectBox.add(Box.createHorizontalStrut(30));
-		//°´Å¥
+		//ï¿½ï¿½Å¥
 		Box buttonBox = Box.createHorizontalBox();
 		buttonBox.add(this.confirmButton);
 		buttonBox.add(Box.createHorizontalStrut(40));
@@ -98,13 +95,13 @@ public class AddUserDialog extends JDialog {
 		this.add(mainBox);	
 		this.pack();
 		this.setResizable(false);
-		this.setTitle("ÐÂ½¨ÓÃ»§");
+		this.setTitle("ï¿½Â½ï¿½ï¿½Ã»ï¿½");
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation((int)screen.getWidth()/4, (int)screen.getHeight()/5);
 		initListeners();
 	}
 	
-	//´´½¨½ÇÉ«ÏÂÀ­
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½
 	private void createRoleSelect() {
 		this.roleSelect.removeAllItems();
 		List<Role> roles = ApplicationContext.roleService.getRoles();
@@ -132,7 +129,7 @@ public class AddUserDialog extends JDialog {
 		});
 	}
 	
-	//·µ»ØÃÜÂë×Ö·û´®
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	private String getPassword() {
 		char[] passes = this.password.getPassword();
 		StringBuffer password = new StringBuffer();
@@ -142,15 +139,15 @@ public class AddUserDialog extends JDialog {
 		return password.toString();
 	}
 	
-	//Ìí¼ÓÓÃ»§
+	//ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	private void add() {
 		if (this.userName.getText().equals("") || this.realName.getText().equals("")
 				|| getPassword().equals("")) {
-			ViewUtil.showWarn("ÇëÊäÈëÍê³ÉµÄÓÃ»§ÐÅÏ¢", this);
+			ViewUtil.showWarn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢", this);
 			return;
 		}
 		try {
-			//µ÷ÓÃÒµÎñ½Ó¿ÚÌí¼ÓÓÃ»§
+			//ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 			ApplicationContext.userService.addUser(getUser());
 			this.setVisible(false);
 			this.userPanel.readData();
@@ -161,14 +158,14 @@ public class AddUserDialog extends JDialog {
 		}
 	}
 	
-	//Çå¿Õ½çÃæÔªËØ
+	//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 	private void clean() {
 		this.userName.setText("");
 		this.realName.setText("");
 		this.password.setText("");
 	}
 	
-	//´Ó½çÃæÔªËØÖÐµÃµ½¸÷¸öÖµ, ²¢´´½¨User¶ÔÏó
+	//ï¿½Ó½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ÐµÃµï¿½ï¿½ï¿½ï¿½ï¿½Öµ, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Userï¿½ï¿½ï¿½ï¿½
 	private User getUser() {
 		String userName = this.userName.getText();
 		String realName = this.realName.getText();

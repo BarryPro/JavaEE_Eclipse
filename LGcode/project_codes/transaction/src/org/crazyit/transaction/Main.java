@@ -1,20 +1,10 @@
 package org.crazyit.transaction;
 
-import org.crazyit.transaction.dao.RoleDao;
-import org.crazyit.transaction.dao.UserDao;
-import org.crazyit.transaction.dao.impl.RoleDaoImpl;
-import org.crazyit.transaction.dao.impl.UserDaoImpl;
-import org.crazyit.transaction.service.RoleService;
-import org.crazyit.transaction.service.UserService;
-import org.crazyit.transaction.service.impl.RoleServiceImpl;
-import org.crazyit.transaction.service.impl.UserServiceImpl;
-import org.crazyit.transaction.ui.LoginFrame;
-
 /**
- * ÊÂÎñ¹ÜÀíÏµÍ³Èë¿Ú
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */

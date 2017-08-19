@@ -3,8 +3,7 @@ package org.crazyit.transaction.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.transaction.dao.RoleDao;
-import org.crazyit.transaction.model.Role;
+import transaction.src.org.crazyit.transaction.dao.RoleDao;
 
 public class RoleDaoImpl extends BaseDaoImpl implements RoleDao {
 	public Role find(String id) {

@@ -5,14 +5,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.crazyit.editor.commons.EditFile;
+import editor.src.org.crazyit.editor.commons.EditFile;
 
 /**
- * tabÒ³×ª»»¼àÌýÆ÷
+ * tabÒ³×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -25,18 +25,18 @@ public class TabListener implements ChangeListener {
 	}
 	
 	public void stateChanged(ChangeEvent e) {
-		//»ñµÃµ±Ç°µã»÷tabÒ³¶ÔÏó
+		//ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½tabÒ³ï¿½ï¿½ï¿½ï¿½
 		JTabbedPane tab = (JTabbedPane)e.getSource();
-		//»ñµÃtabÒ³µÄË÷Òý
+		//ï¿½ï¿½ï¿½tabÒ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int index = tab.getSelectedIndex();
 		if (index == -1) return; 
-		//¸ù¾ÝtabÒ³µÄtips(ÎÄ¼þµÄ¾ø¶ÔÂ·¾¶)»ñµÃµ±Ç°µÄJInternalFrame¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½tabÒ³ï¿½ï¿½tips(ï¿½Ä¼ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½Â·ï¿½ï¿½)ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½JInternalFrameï¿½ï¿½ï¿½ï¿½
 		JInternalFrame currentFrame = editorFrame.getIFrame(tab.getToolTipTextAt(index));
-		//ÈÃµ±Ç°µã»÷µÄJInternalFrame¶ÔÏó¿É¼û
+		//ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½JInternalFrameï¿½ï¿½ï¿½ï¿½É¼ï¿½
 		editorFrame.showIFrame(currentFrame);
-		//¸ù¾Ýµ±Ç°µÄJInternalFrame¶ÔÏó»ñµÃ¶ÔÓ¦µÄÎÄ¼þ
+		//ï¿½ï¿½ï¿½Ýµï¿½Ç°ï¿½ï¿½JInternalFrameï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½Ó¦ï¿½ï¿½ï¿½Ä¼ï¿½
 		EditFile currentFile = editorFrame.getEditFile(currentFrame);
-		//ÉèÖÃEditorFrameµ±Ç°±à¼­µÄÎÄ¼þÎªtab¶ÔÓ¦µÄÎÄ¼þ
+		//ï¿½ï¿½ï¿½ï¿½EditorFrameï¿½ï¿½Ç°ï¿½à¼­ï¿½ï¿½ï¿½Ä¼ï¿½Îªtabï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ä¼ï¿½
 		editorFrame.setCurrentFile(currentFile);
 	}
 

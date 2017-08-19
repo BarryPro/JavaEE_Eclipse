@@ -2,17 +2,10 @@ package org.crazyit.tetris.ui;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
-import org.crazyit.tetris.object.Piece;
-import org.crazyit.tetris.object.PieceCreator;
-import org.crazyit.tetris.object.Square;
-import org.crazyit.tetris.object.impl.PieceCreatorImpl;
-import org.crazyit.tetris.util.ImageUtil;
+import tetris.src.org.crazyit.tetris.object.Square;
 
 public class GamePanel extends JPanel {
 

@@ -1,13 +1,12 @@
 package org.crazyit.flashget.ui;
 
 import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import org.crazyit.flashget.navigation.DownloadNode;
+import flashget.src.org.crazyit.flashget.navigation.DownloadNode;
 
 public class NavigationTreeCellRender extends DefaultTreeCellRenderer {
 	
@@ -17,11 +16,11 @@ public class NavigationTreeCellRender extends DefaultTreeCellRenderer {
 			boolean hasFocus) {
 		super.getTreeCellRendererComponent(tree, value, sel, 
 				expanded, leaf, row, hasFocus);
-		//µÃµ½Ê÷½Úµã
+		//ï¿½Ãµï¿½ï¿½ï¿½ï¿½Úµï¿½
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
-		//µÃµ½½Úµã¶ÔÏó
+		//ï¿½Ãµï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½
 		DownloadNode obj = (DownloadNode)node.getUserObject();
-		//ÉèÖÃÎÄ±¾ÓëÍ¼Æ¬
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Í¼Æ¬
 		if (obj != null) {
 			this.setIcon(obj.getImageIcon());
 			this.setText(obj.getText());

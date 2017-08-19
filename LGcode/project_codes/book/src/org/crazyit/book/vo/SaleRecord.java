@@ -1,28 +1,27 @@
 package org.crazyit.book.vo;
 
-import java.util.List;
 import java.util.Vector;
 
 /**
- * ÏúÊÛ¼ÇÂ¼
+ * ï¿½ï¿½ï¿½Û¼ï¿½Â¼
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class SaleRecord extends ValueObject {
-	//½»Ò×ÈÕÆÚ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String RECORD_DATE;
-	//ÏúÊÛµÄ×ÜÊıÁ¿
+	//ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private int amount;
-	//×Ü¼ÛÇ®
+	//ï¿½Ü¼ï¿½Ç®
 	private double totalPrice;
-	//ÊéµÄÏúÊÛ¼ÇÂ¼
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Â¼
 	private Vector<BookSaleRecord> bookSaleRecords;
 	
-	//¸Ã¼ÇÂ¼ÖĞ¶ÔÓ¦ËùÓĞÊéµÄÃû³Æ, ÏÔÊ¾ÓÃ
+	//ï¿½Ã¼ï¿½Â¼ï¿½Ğ¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê¾ï¿½ï¿½
 	private String bookNames;
 
 	public String getRECORD_DATE() {

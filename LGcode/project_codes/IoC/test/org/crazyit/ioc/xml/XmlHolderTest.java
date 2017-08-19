@@ -1,9 +1,7 @@
 package org.crazyit.ioc.xml;
 
+import IoC.main.org.crazyit.ioc.xml.XmlDocumentHolder;
 import junit.framework.TestCase;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
 
 public class XmlHolderTest extends TestCase {
 
@@ -19,13 +17,13 @@ public class XmlHolderTest extends TestCase {
 	
 	public void testGetDoc() {
 		String filePath = "test/resources/XmlHolder.xml";
-		//»ñµÃDocument¶ÔÏó
+		//ï¿½ï¿½ï¿½Documentï¿½ï¿½ï¿½ï¿½
 		Document doc = holder.getDocument(filePath);
 		assertNotNull(doc);
 		Element root = doc.getRootElement();
 		assertEquals(root.getName(), "beans");
 		System.out.println(root.getName());
-		//ÖØÐÂ»ñÈ¡Ò»´Î, ÅÐ¶ÏÁ½¸öDocument¶ÔÏóÊÇ·ñÒ»ÖÂ
+		//ï¿½ï¿½ï¿½Â»ï¿½È¡Ò»ï¿½ï¿½, ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Documentï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ò»ï¿½ï¿½
 		Document doc2 = holder.getDocument(filePath);
 		System.out.println(doc);
 		System.out.println(doc2);

@@ -1,22 +1,23 @@
 package org.crazyit.image;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+
 /**
- * ÎÄ¼þ¶Ô»°¿ò
+ * ï¿½Ä¼ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class ImageFileChooser extends JFileChooser {
 	/**
-	 * Ê¹ÓÃÓÃ»§Ä¬ÈÏÂ·¾¶´´½¨Ò»¸öImageFileChooser
+	 * Ê¹ï¿½ï¿½ï¿½Ã»ï¿½Ä¬ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ImageFileChooser
 	 * 
 	 * @return void
 	 */
@@ -27,10 +28,10 @@ public class ImageFileChooser extends JFileChooser {
 	}
 
 	/**
-	 * Ê¹ÓÃ×Ô¶¨ÒåµÄÂ·¾¶Â·¾¶´´½¨Ò»¸öImageFileChooser
+	 * Ê¹ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ImageFileChooser
 	 * 
 	 * @param currentDirectoryPath
-	 *            String ×Ô¶¨ÒåÂ·¾¶
+	 *            String ï¿½Ô¶ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 	 * @return void
 	 */
 	public ImageFileChooser(String currentDirectoryPath) {
@@ -40,21 +41,21 @@ public class ImageFileChooser extends JFileChooser {
 	}
 
 	/**
-	 * »ñÈ¡ºó×ºÃû
+	 * ï¿½ï¿½È¡ï¿½ï¿½×ºï¿½ï¿½
 	 * 
 	 * @return String
 	 */
 	public String getSuf() {
-		// »ñÈ¡ÎÄ¼þ¹ýÂË¶ÔÏó
+		// ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
 		FileFilter fileFilter = this.getFileFilter();
 		String desc = fileFilter.getDescription();
 		String[] sufarr = desc.split(" ");
-		String suf = sufarr[0].equals("ËùÓÐÍ¼ÐÎÎÄ¼þ") ? "" : sufarr[0];
+		String suf = sufarr[0].equals("ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¼ï¿½") ? "" : sufarr[0];
 		return suf.toLowerCase();
 	}
 
 	/**
-	 * Ôö¼ÓÎÄ¼þ¹ýÂËÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
@@ -75,13 +76,13 @@ public class ImageFileChooser extends JFileChooser {
 				"ICO (*.ICO)"));
 		this.addChoosableFileFilter(new MyFileFilter(new String[] { ".BMP",
 				".JPG", ".JPEG", ".JPE", ".JFIF", ".GIF", ".TIF", ".TIFF",
-				".PNG", ".ICO" }, "ËùÓÐÍ¼ÐÎÎÄ¼þ"));
+				".PNG", ".ICO" }, "ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¼ï¿½"));
 	}
 
 	class MyFileFilter extends FileFilter {
-		// ºó×ºÃûÊý×é
+		// ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String[] suffarr;
-		// ÃèÊö
+		// ï¿½ï¿½ï¿½ï¿½
 		String decription;
 
 		public MyFileFilter() {
@@ -89,7 +90,7 @@ public class ImageFileChooser extends JFileChooser {
 		}
 
 		/**
-		 * ÓÃ°üº¬ºó×ºÃûµÄÊý×éÓëÃèÊö´´½¨Ò»¸öMyFileFilter
+		 * ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½MyFileFilter
 		 * 
 		 * @param suffarr
 		 *            String[]
@@ -104,24 +105,24 @@ public class ImageFileChooser extends JFileChooser {
 		}
 
 		/**
-		 * ÖØÐ´boolean accept( File f )·½·¨
+		 * ï¿½ï¿½Ð´boolean accept( File f )ï¿½ï¿½ï¿½ï¿½
 		 * 
 		 * @paream f File
 		 * @return boolean
 		 */
 		public boolean accept(File f) {
-			// Èç¹ûÎÄ¼þµÄºó×ºÃûºÏ·¨£¬·µ»Øtrue
+			// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Äºï¿½×ºï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½true
 			for (String s : suffarr) {
 				if (f.getName().toUpperCase().endsWith(s)) {
 					return true;
 				}
 			}
-			// Èç¹ûÊÇÄ¿Â¼£¬·µ»Øtrue,»òÕß·µ»Øfalse
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½true,ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½false
 			return f.isDirectory();
 		}
 
 		/**
-		 * »ñÈ¡ÃèÊöÐÅÏ¢
+		 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		 * 
 		 * @return String
 		 */

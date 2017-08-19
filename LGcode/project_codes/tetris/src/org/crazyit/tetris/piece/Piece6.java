@@ -4,19 +4,18 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.tetris.object.Piece;
-import org.crazyit.tetris.object.Square;
+import tetris.src.org.crazyit.tetris.object.Square;
 
 public class Piece6 extends Piece {
 
 	public Piece6(Image image) {
-		//第一种变化
+		//锟斤拷一锟街变化
 		List<Square> squares0 = new ArrayList<Square>();
 		squares0.add(new Square(image, 0, image.getHeight(null)));
 		squares0.add(new Square(image, image.getWidth(null), image.getHeight(null)));
 		squares0.add(new Square(image, image.getWidth(null)*2, image.getHeight(null)));
 		squares0.add(new Square(image, image.getWidth(null)*3, image.getHeight(null)));
-		//第二种变化
+		//锟节讹拷锟街变化
 		List<Square> squares1 = new ArrayList<Square>();
 		squares1.add(new Square(image, image.getWidth(null), 0));
 		squares1.add(new Square(image, image.getWidth(null), image.getHeight(null)));

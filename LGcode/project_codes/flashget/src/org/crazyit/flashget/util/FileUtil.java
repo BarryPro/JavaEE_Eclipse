@@ -3,15 +3,12 @@ package org.crazyit.flashget.util;
 import java.io.File;
 import java.util.List;
 
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.object.Part;
-
 public class FileUtil {
 
 	public final static File SERIALIZABLE_FILE = new File("serializable.txt");
 	
 	/**
-	 * и╬ЁЩ╦цобтьнд╪Ч╣д.partнд╪Ч, 
+	 * и╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫.partО©╫д╪О©╫, 
 	 * @param file
 	 */
 	public static void deletePartFiles(Resource resource) {
@@ -19,7 +16,7 @@ public class FileUtil {
 		for (Part part : parts) {
 			File partFile = new File(getPartFilePath(resource, part));
 			if (!partFile.exists()) continue;
-			//ж╩р╙спр╩╥щнд╪Чи╬ЁЩй╖╟э, ты╣щ╧Ии╬ЁЩ, ж╠╣╫©ирти╬ЁЩн╙ж╧
+			//ж╩р╙О©╫О©╫р╩О©╫О©╫О©╫д╪О©╫и╬О©╫О©╫й╖О©╫О©╫, О©╫ы╣щ╧О©╫и╬О©╫О©╫, ж╠О©╫О©╫О©╫О©╫О©╫О©╫и╬О©╫О©╫н╙ж╧
 			if (partFile.delete() == false) {
 				deletePartFiles(resource);
 			}
@@ -35,7 +32,7 @@ public class FileUtil {
 	}
 	
 	/**
-	 * ╣ц╣╫.partнд╪Ч╣д╬Ь╤тб╥╬╤
+	 * О©╫ц╣О©╫.partО©╫д╪О©╫О©╫д╬О©╫О©╫О©╫б╥О©╫О©╫
 	 * @param resource
 	 * @param part
 	 * @return

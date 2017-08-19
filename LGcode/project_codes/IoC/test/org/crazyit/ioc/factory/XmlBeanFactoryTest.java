@@ -1,9 +1,7 @@
 package org.crazyit.ioc.factory;
 
+import IoC.main.org.crazyit.ioc.beans.factory.XmlBeanFactory;
 import junit.framework.TestCase;
-
-import org.crazyit.ioc.beans.factory.XmlBeanFactory;
-import org.crazyit.ioc.context.ApplicationContext;
 
 public class XmlBeanFactoryTest extends TestCase {
 
@@ -18,10 +16,10 @@ public class XmlBeanFactoryTest extends TestCase {
 	}
 	
 	/**
-	 * ²âÊÔbeanÊÇ·ñÔÚÈÝÆ÷´´½¨µÄÊ±ºò±»³õÊ¼»¯
+	 * ï¿½ï¿½ï¿½ï¿½beanï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ò±»³ï¿½Ê¼ï¿½ï¿½
 	 */
 	public void testGetBean() {
-		//test1Ã»ÓÐ±»ÇëÇó, ËùÒÔÈÝÆ÷´´½¨µÄÊ±ºòÃ»ÓÐ±»´´½¨
+		//test1Ã»ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ã»ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
 		Object obj = ctx.getBeanIgnoreCreate("test1");
 		assertNull(obj);
 		obj = ctx.getBean("test1");

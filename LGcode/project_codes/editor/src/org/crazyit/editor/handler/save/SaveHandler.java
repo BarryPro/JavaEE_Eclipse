@@ -1,18 +1,18 @@
 package org.crazyit.editor.handler.save;
 
-import org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.EditorFrame;
 
 /**
- * ±£´æ´¦Àí½Ó¿Ú
+ * ï¿½ï¿½ï¿½æ´¦ï¿½ï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface SaveHandler {
 
-	//Ö´ÐÐ±£´æµÄ½Ó¿Ú·½·¨
+	//Ö´ï¿½Ð±ï¿½ï¿½ï¿½Ä½Ó¿Ú·ï¿½ï¿½ï¿½
 	String save(EditorFrame editorFrame);
 }

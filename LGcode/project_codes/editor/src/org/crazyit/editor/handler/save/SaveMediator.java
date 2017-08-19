@@ -1,18 +1,18 @@
 package org.crazyit.editor.handler.save;
 
-import org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.EditorFrame;
 
 /**
- * ±£´æµÄÖÐ½éÕß
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public abstract class SaveMediator {
 
-	//ÐèÒª×ÓÀàÈ¥ÊµÏÖµÄ±£´æ·½·¨
+	//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½È¥Êµï¿½ÖµÄ±ï¿½ï¿½æ·½ï¿½ï¿½
 	public abstract String doSave(EditorFrame editorFramet);
 }

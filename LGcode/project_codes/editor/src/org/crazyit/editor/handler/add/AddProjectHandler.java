@@ -5,18 +5,16 @@ import java.io.File;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 
-import org.crazyit.editor.AddFrame;
-import org.crazyit.editor.EditorFrame;
-import org.crazyit.editor.commons.WorkSpace;
-import org.crazyit.editor.config.CompileConfig;
-import org.crazyit.editor.exception.FileException;
+import editor.src.org.crazyit.editor.AddFrame;
+import editor.src.org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.config.CompileConfig;
 
 /**
- * Ìí¼ÓÏîÄ¿´¦ÀíÀà
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -24,37 +22,37 @@ public class AddProjectHandler implements AddHandler {
 
 	public void afterAdd(EditorFrame editorFrame, AddFrame addFrame, Object data) {
 		try {
-			//»ñÈ¡¹¤×÷¿Õ¼äËùÔÚµÄÄ¿Â¼
+			//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Úµï¿½Ä¿Â¼
 			File spaceFolder = editorFrame.getWorkSpace().getFolder();
-			//´´½¨.projectÎÄ¼þ
+			//ï¿½ï¿½ï¿½ï¿½.projectï¿½Ä¼ï¿½
 			File projectFile = new File(spaceFolder.getAbsoluteFile() + 
 					File.separator + data + ".project");
-			//´´½¨ÏîÄ¿Ä¿Â¼
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ä¿Â¼
 			File projectFolder = new File(spaceFolder.getAbsoluteFile() + File.separator + data);
-			//ÏîÄ¿ÒÑ¾­´æÔÚ£¬µ¯³ö¾¯¸æ²¢·µ»Ø
+			//ï¿½ï¿½Ä¿ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ²¢ï¿½ï¿½ï¿½ï¿½
 			if (projectFile.exists() && projectFolder.exists()) {
-				JOptionPane.showMessageDialog(addFrame, "ÏîÄ¿ÒÑ¾­´æÔÚ");
+				JOptionPane.showMessageDialog(addFrame, "ï¿½ï¿½Ä¿ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½");
 				return;
 			}
-			//ÏîÄ¿ÎÄ¼þ²»´æÔÚ£¬ ´´½¨ÏîÄ¿ÎÄ¼þ
+			//ï¿½ï¿½Ä¿ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Ä¼ï¿½
 			if (!projectFile.exists()) projectFile.createNewFile();
-			//ÏîÄ¿Ä¿Â¼²»´æÔÚ£¬ ´´½¨ÏîÄ¿ÎÄ¼þÄ¿Â¼
+			//ï¿½ï¿½Ä¿Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Ä¼ï¿½Ä¿Â¼
 			if (!projectFolder.exists()) projectFolder.mkdir();
-			//´´½¨ÏîÄ¿µÄsrcÄ¿Â¼ºÍ±àÒëÄ¿Â¼
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½srcÄ¿Â¼ï¿½Í±ï¿½ï¿½ï¿½Ä¿Â¼
 			File src = new File(projectFolder.getAbsoluteFile() + 
 					File.separator + CompileConfig.SRC_DIR);
-			//JavaÎÄ¼þ±àÒëµÄÊäÈëÄ¿Â¼
+			//Javaï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 			File output = new File(projectFolder.getAbsoluteFile() + 
 					File.separator + CompileConfig.OUTPUT_DIR);
-			//´´½¨srcºÍoutputÁ½¸öÄ¿Â¼
+			//ï¿½ï¿½ï¿½ï¿½srcï¿½ï¿½outputï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 			src.mkdir();
 			output.mkdir();
-			//Ë¢ÐÂÕû¿ÃÊ÷
+			//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			JTree newTree = editorFrame.getTreeCreator().createTree(editorFrame);
 			editorFrame.refreshTree(newTree); 
-			//ÈÃEditorFrame±äµÃ¿ÉÓÃ
+			//ï¿½ï¿½EditorFrameï¿½ï¿½Ã¿ï¿½ï¿½ï¿½
 			editorFrame.setEnabled(true);
-			//ÈÃÌí¼ÓµÄframe²»¿É¼û
+			//ï¿½ï¿½ï¿½ï¿½Óµï¿½frameï¿½ï¿½ï¿½É¼ï¿½
 			addFrame.setVisible(false);
 		} catch (Exception e) {
 			throw new FileException("create project error: " + e.getMessage());

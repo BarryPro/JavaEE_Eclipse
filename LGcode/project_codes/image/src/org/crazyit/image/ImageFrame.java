@@ -1,87 +1,98 @@
 package org.crazyit.image;
 
-import org.crazyit.image.tool.*;
-import org.crazyit.image.ImageAction;
+import static java.awt.Color.BLACK;
+import static java.awt.Color.BLUE;
+import static java.awt.Color.CYAN;
+import static java.awt.Color.GRAY;
+import static java.awt.Color.GREEN;
+import static java.awt.Color.LIGHT_GRAY;
+import static java.awt.Color.MAGENTA;
+import static java.awt.Color.ORANGE;
+import static java.awt.Color.PINK;
+import static java.awt.Color.RED;
+import static java.awt.Color.WHITE;
+import static java.awt.Color.YELLOW;
 import static org.crazyit.image.tool.Tool.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JColorChooser;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Color;
-import static java.awt.Color.*;
-import java.awt.Insets;
+
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.MouseMotionListener;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseAdapter;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
+
+import image.src.org.crazyit.image.tool.ToolFactory;
+
 /**
- * ½çÃæ¶ÔÏó
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class ImageFrame extends JFrame {
-	// ¶¨ÒåÒµÎñÂß¼­Àà
+	// ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½
 	private ImageService service = new ImageService();
-	// ³õÊ¼»¯ÆÁÄ»µÄ³ß´ç
+	// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ä³ß´ï¿½
 	private Dimension screenSize = service.getScreenSize();
-	// ÉèÖÃÄ¬ÈÏ»­°å
+	// ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ï»ï¿½ï¿½ï¿½
 	private JPanel drawSpace = createDrawSpace();
-	// ÉèÖÃ»º³åÍ¼Æ¬
+	// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Í¼Æ¬
 	private MyImage bufferedImage = new MyImage(
 			(int) screenSize.getWidth() / 2, (int) screenSize.getHeight() / 2,
 			BufferedImage.TYPE_INT_RGB);
-	// ÉèÖÃµ±Ç°Ê¹ÓÃµÄ¹¤¾ß
+	// ï¿½ï¿½ï¿½Ãµï¿½Ç°Ê¹ï¿½ÃµÄ¹ï¿½ï¿½ï¿½
 	private Tool tool = null;
-	// ÉèÖÃ»­Í¼¶ÔÏó
+	// ï¿½ï¿½ï¿½Ã»ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
 	Graphics g = bufferedImage.getGraphics();
-	// ÑÕÉ«ÏÔÊ¾Ãæ°å
+	// ï¿½ï¿½É«ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½
 	private JPanel currentColorPanel = null;
-	// ÑÕÉ«Ñ¡ÔñÆ÷
+	// ï¿½ï¿½É«Ñ¡ï¿½ï¿½ï¿½ï¿½
 	private JColorChooser colorChooser = getColorChooser();
-	// ¼Ó¸ø²Ëµ¥µÄÊÂ¼þ¼àÌýÆ÷
+	// ï¿½Ó¸ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ActionListener menuListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			service.menuDo(ImageFrame.this, e.getActionCommand());
 		}
 	};
-	// Ä¬ÈÏJScrollPane
+	// Ä¬ï¿½ï¿½JScrollPane
 	private JScrollPane scroll = null;
-	// ¹¤¾ßÀ¸
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JPanel toolPanel = createToolPanel();
-	// ÑÕÉ«Ãæ°å
+	// ï¿½ï¿½É«ï¿½ï¿½ï¿½
 	JPanel colorPanel = createColorPanel();
 
 	/**
-	 * Ä¬ÈÏ¹¹ÔìÆ÷
+	 * Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	public ImageFrame() {
 		super();
-		// ³õÊ¼»¯
+		// ï¿½ï¿½Ê¼ï¿½ï¿½
 		init();
 	}
 
@@ -90,45 +101,45 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * ³õÊ¼»¯ImageFrame
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ImageFrame
 	 * 
 	 * @return void
 	 */
 	public void init() {
-		// ÉèÖÃ±êÌâ
-		this.setTitle("Î´ÃüÃû - »­Í¼");
-		// ³õÊ¼»¯»­Í¼
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½
+		this.setTitle("Î´ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½Í¼");
+		// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Í¼
 		service.initDrawSpace(this);
-		// ÉèÖÃ±êÌâ
-		// »ñÈ¡ÕýÔÚÊ¹ÓÃµÄ¹¤¾ß
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ÃµÄ¹ï¿½ï¿½ï¿½
 		tool = ToolFactory.getToolInstance(this, PENCIL_TOOL);
 
-		// ´´½¨Êó±êÔË¶¯¼àÌýÆ÷
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MouseMotionListener motionListener = new MouseMotionAdapter() {
-			// ÍÏ¶¯Êó±ê
+			// ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½
 			public void mouseDragged(MouseEvent e) {
 				tool.mouseDragged(e);
 			}
 
-			// ÒÆ¶¯Êó±ê
+			// ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½
 			public void mouseMoved(MouseEvent e) {
 				tool.mouseMoved(e);
 			}
 
 		};
-		// ´´½¨Êó±ê¼àÌýÆ÷
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MouseListener mouseListener = new MouseAdapter() {
-			// ËÉ¿ªÊó±ê
+			// ï¿½É¿ï¿½ï¿½ï¿½ï¿½
 			public void mouseReleased(MouseEvent e) {
 				tool.mouseReleased(e);
 			}
 
-			// °´ÏÂÊó±ê
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			public void mousePressed(MouseEvent e) {
 				tool.mousePressed(e);
 			}
 
-			// µã»÷Êó±ê
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			public void mouseClicked(MouseEvent e) {
 				tool.mouseClicked(e);
 			}
@@ -138,19 +149,19 @@ public class ImageFrame extends JFrame {
 		drawSpace.addMouseListener(mouseListener);
 
 		createMenuBar();
-		// Ê¹ÓÃdrawSpace´´½¨Ò»¸ö¹ö¶¯´°¿Ú
+		// Ê¹ï¿½ï¿½drawSpaceï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		scroll = new JScrollPane(drawSpace);
-		// ÉèÖÃviewport
+		// ï¿½ï¿½ï¿½ï¿½viewport
 		ImageService.setViewport(scroll, drawSpace, bufferedImage.getWidth(),
 				bufferedImage.getHeight());
-		// ½«panel¼Óµ½±¾FrameÉÏÃæ
+		// ï¿½ï¿½panelï¿½Óµï¿½ï¿½ï¿½Frameï¿½ï¿½ï¿½ï¿½
 		this.add(scroll, BorderLayout.CENTER);
 		this.add(toolPanel, BorderLayout.WEST);
 		this.add(colorPanel, BorderLayout.SOUTH);
 	}
 
 	/**
-	 * »ñÈ¡»­²¼
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
@@ -159,7 +170,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡JScroolPane
+	 * ï¿½ï¿½È¡JScroolPane
 	 * 
 	 * @return JScrollPane
 	 */
@@ -168,7 +179,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡¹¤¾ßÀ¸
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
@@ -177,7 +188,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡ÑÕÉ«Ãæ°å
+	 * ï¿½ï¿½È¡ï¿½ï¿½É«ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
@@ -186,7 +197,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡Í¼Æ¬
+	 * ï¿½ï¿½È¡Í¼Æ¬
 	 * 
 	 * @return MyImage
 	 */
@@ -195,7 +206,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * ÉèÖÃÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	 * 
 	 * @param bufferedImage
 	 *            MyImage
@@ -206,7 +217,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * ÉèÖÃ¹¤¾ß
+	 * ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½
 	 * 
 	 * @param tool
 	 *            Tool
@@ -217,7 +228,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡¹¤¾ß
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return Tool
 	 */
@@ -226,7 +237,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡ÑÕÉ«Ñ¡ÔñÆ÷
+	 * ï¿½ï¿½È¡ï¿½ï¿½É«Ñ¡ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return JColorChooser
 	 */
@@ -238,49 +249,49 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * ´´½¨¼òµ¥ÑÕÉ«Ñ¡Ôñ°å
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Ñ¡ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
 	public JPanel createColorPanel() {
-		// ÐÂ½¨Ò»¸öJPanel
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½JPanel
 		JPanel panel = new JPanel();
-		// ÉèÖÃ²¼¾Ö·½Ê½
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö·ï¿½Ê½
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		// ÐÂ½¨Ò»¸öJToolBar
-		JToolBar toolBar = new JToolBar("ÑÕÉ«");
-		// ÉèÖÃÎª²»¿ÉÍÏ¶¯
+		// ï¿½Â½ï¿½Ò»ï¿½ï¿½JToolBar
+		JToolBar toolBar = new JToolBar("ï¿½ï¿½É«");
+		// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
 		toolBar.setFloatable(false);
-		// ÉèÖÃÓë±ß½çµÄ¾àÀë
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½Ä¾ï¿½ï¿½ï¿½
 		toolBar.setMargin(new Insets(2, 2, 2, 2));
-		// ÉèÖÃ²¼¾Ö·½Ê½
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö·ï¿½Ê½
 		toolBar.setLayout(new GridLayout(2, 6, 2, 2));
-		// ColorÀàÖÐµÄÒÑÓÐÑÕÉ«
+		// Colorï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		Color[] colorArr = { BLACK, BLUE, CYAN, GRAY, GREEN, LIGHT_GRAY,
 				MAGENTA, ORANGE, PINK, RED, WHITE, YELLOW };
 		JButton[] panelArr = new JButton[colorArr.length];
-		// ÕýÔÚÊ¹ÓÃµÄÑÕÉ«
+		// ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½É«
 		currentColorPanel = new JPanel();
 		currentColorPanel.setBackground(Color.BLACK);
 		currentColorPanel.setPreferredSize(new Dimension(20, 20));
-		// ´´½¨ÕâÐ©ÑÕÉ«µÄbutton
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½É«ï¿½ï¿½button
 		for (int i = 0; i < panelArr.length; i++) {
-			// ´´½¨JButton
+			// ï¿½ï¿½ï¿½ï¿½JButton
 			panelArr[i] = new JButton(new ImageAction(colorArr[i],
 					currentColorPanel));
-			// ÉèÖÃbuttonµÄÑÕÉ«
+			// ï¿½ï¿½ï¿½ï¿½buttonï¿½ï¿½ï¿½ï¿½É«
 			panelArr[i].setBackground(colorArr[i]);
-			// °Ñbutton¼Óµ½toobarÖÐ
+			// ï¿½ï¿½buttonï¿½Óµï¿½toobarï¿½ï¿½
 			toolBar.add(panelArr[i]);
 		}
 		panel.add(currentColorPanel);
 		panel.add(toolBar);
-		// ·µ»Ø
+		// ï¿½ï¿½ï¿½ï¿½
 		return panel;
 	}
 
 	/**
-	 * »ñÈ¡ÑÕÉ«ÏÔÊ¾Ãæ°å
+	 * ï¿½ï¿½È¡ï¿½ï¿½É«ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
@@ -289,7 +300,7 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * »ñÈ¡screenSize
+	 * ï¿½ï¿½È¡screenSize
 	 * 
 	 * @return Dimension
 	 */
@@ -298,94 +309,94 @@ public class ImageFrame extends JFrame {
 	}
 
 	/**
-	 * ´´½¨²Ëµ¥À¸
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½
 	 * 
 	 * @return void
 	 */
 	public void createMenuBar() {
-		// ´´½¨Ò»¸öJMenuBar·ÅÖÃ²Ëµ¥
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JMenuBarï¿½ï¿½ï¿½Ã²Ëµï¿½
 		JMenuBar menuBar = new JMenuBar();
-		// ²Ëµ¥ÎÄ×ÖÊý×é£¬ÓëÏÂÃæµÄmenuItemArrÒ»Ò»¶ÔÓ¦
-		String[] menuArr = { "ÎÄ¼þ(F)", "²é¿´(V)", "ÑÕÉ«(C)", "°ïÖú(H)" };
-		// ²Ëµ¥ÏîÎÄ×ÖÊý×é
-		String[][] menuItemArr = { { "ÐÂ½¨(N)", "´ò¿ª(O)", "±£´æ(S)", "-", "ÍË³ö(X)" },
-				{ "¹¤¾ßÏä(T)", "ÑÕÁÏºÐ(C)" }, { "±à¼­ÑÕÉ«" }, { "°ïÖúÖ÷Ìâ", "¹ØÓÚ" } };
-		// ±éÀúmenuArrÓëmenuItemArrÈ¥´´½¨²Ëµ¥
+		// ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½menuItemArrÒ»Ò»ï¿½ï¿½Ó¦
+		String[] menuArr = { "ï¿½Ä¼ï¿½(F)", "ï¿½é¿´(V)", "ï¿½ï¿½É«(C)", "ï¿½ï¿½ï¿½ï¿½(H)" };
+		// ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		String[][] menuItemArr = { { "ï¿½Â½ï¿½(N)", "ï¿½ï¿½(O)", "ï¿½ï¿½ï¿½ï¿½(S)", "-", "ï¿½Ë³ï¿½(X)" },
+				{ "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(T)", "ï¿½ï¿½ï¿½Ïºï¿½(C)" }, { "ï¿½à¼­ï¿½ï¿½É«" }, { "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½" } };
+		// ï¿½ï¿½ï¿½ï¿½menuArrï¿½ï¿½menuItemArrÈ¥ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½
 		for (int i = 0; i < menuArr.length; i++) {
-			// ÐÂ½¨Ò»¸öJMenu²Ëµ¥
+			// ï¿½Â½ï¿½Ò»ï¿½ï¿½JMenuï¿½Ëµï¿½
 			JMenu menu = new JMenu(menuArr[i]);
 			for (int j = 0; j < menuItemArr[i].length; j++) {
-				// Èç¹ûmenuItemArr[i][j]µÈÓÚ"-"
+				// ï¿½ï¿½ï¿½menuItemArr[i][j]ï¿½ï¿½ï¿½ï¿½"-"
 				if (menuItemArr[i][j].equals("-")) {
-					// ÉèÖÃ²Ëµ¥·Ö¸ô
+					// ï¿½ï¿½ï¿½Ã²Ëµï¿½ï¿½Ö¸ï¿½
 					menu.addSeparator();
 				} else {
-					// ÐÂ½¨Ò»¸öJMenuItem²Ëµ¥Ïî
+					// ï¿½Â½ï¿½Ò»ï¿½ï¿½JMenuItemï¿½Ëµï¿½ï¿½ï¿½
 					JMenuItem menuItem = new JMenuItem(menuItemArr[i][j]);
 					menuItem.addActionListener(menuListener);
-					// °Ñ²Ëµ¥Ïî¼Óµ½JMenu²Ëµ¥ÀïÃæ
+					// ï¿½Ñ²Ëµï¿½ï¿½ï¿½Óµï¿½JMenuï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
 					menu.add(menuItem);
 				}
 			}
-			// °Ñ²Ëµ¥¼Óµ½JMenuBarÉÏ
+			// ï¿½Ñ²Ëµï¿½ï¿½Óµï¿½JMenuBarï¿½ï¿½
 			menuBar.add(menu);
 		}
-		// ÉèÖÃJMenubar
+		// ï¿½ï¿½ï¿½ï¿½JMenubar
 		this.setJMenuBar(menuBar);
 	}
 
 	/**
-	 * ´´½¨»­°å
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
 	public JPanel createDrawSpace() {
 		JPanel drawSpace = new DrawSpace();
-		// ÉèÖÃdrawSpaceµÄ´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½drawSpaceï¿½Ä´ï¿½Ð¡
 		drawSpace.setPreferredSize(new Dimension((int) screenSize.getWidth(),
 				(int) screenSize.getHeight() - 150));
 		return drawSpace;
 	}
 
 	/**
-	 * ´´½¨¹¤¾ßÀ¸
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return JPanel
 	 */
 	public JPanel createToolPanel() {
-		// ´´½¨Ò»¸öJPanel
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½JPanel
 		JPanel panel = new JPanel();
-		// ´´½¨Ò»¸ö±êÌâÎª"¹¤¾ß"µÄ¹¤¾ßÀ¸
-		JToolBar toolBar = new JToolBar("¹¤¾ß");
-		// ÉèÖÃÎª´¹Ö±ÅÅÁÐ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª"ï¿½ï¿½ï¿½ï¿½"ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½
+		JToolBar toolBar = new JToolBar("ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½
 		toolBar.setOrientation(toolBar.VERTICAL);
-		// ÉèÖÃÎª¿ÉÒÔÍÏ¶¯
+		// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
 		toolBar.setFloatable(true);
-		// ÉèÖÃÓë±ß½çµÄ¾àÀë
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½Ä¾ï¿½ï¿½ï¿½
 		toolBar.setMargin(new Insets(2, 2, 2, 2));
-		// ÉèÖÃ²¼¾Ö·½Ê½
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö·ï¿½Ê½
 		toolBar.setLayout(new GridLayout(5, 2, 2, 2));
-		// ¹¤¾ßÊý×é
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String[] toolarr = { PENCIL_TOOL, BRUSH_TOOL, COLORPICKED_TOOL,
 				ATOMIZER_TOOL, ERASER_TOOL, LINE_TOOL, POLYGON_TOOL, RECT_TOOL,
 				ROUND_TOOL, ROUNDRECT_TOOL };
 		for (int i = 0; i < toolarr.length; i++) {
 			ImageAction action = new ImageAction(new ImageIcon("img/"
 					+ toolarr[i] + ".jpg"), toolarr[i], this);
-			// ÒÔÍ¼±ê´´½¨Ò»¸öÐÂµÄbutton
+			// ï¿½ï¿½Í¼ï¿½ê´´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½button
 			JButton button = new JButton(action);
-			// °Ñbutton¼Óµ½¹¤¾ßÀ¸ÖÐ
+			// ï¿½ï¿½buttonï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			toolBar.add(button);
 		}
 		panel.add(toolBar);
-		// ·µ»Ø
+		// ï¿½ï¿½ï¿½ï¿½
 		return panel;
 	}
 
-	// »­Í¼ÇøÓò
+	// ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
 	public class DrawSpace extends JPanel {
 		/**
-		 * ÖØÐ´void paint( Graphics g )·½·¨
+		 * ï¿½ï¿½Ð´void paint( Graphics g )ï¿½ï¿½ï¿½ï¿½
 		 * 
 		 * @param g
 		 *            Graphics

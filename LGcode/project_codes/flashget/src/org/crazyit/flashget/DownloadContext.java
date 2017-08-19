@@ -4,31 +4,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.flashget.navigation.DownloadNode;
-import org.crazyit.flashget.navigation.DownloadingNode;
-import org.crazyit.flashget.navigation.FailNode;
-import org.crazyit.flashget.navigation.FinishNode;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.state.Connecting;
-import org.crazyit.flashget.state.Downloading;
-import org.crazyit.flashget.state.Failed;
-import org.crazyit.flashget.state.Finished;
-import org.crazyit.flashget.state.Pause;
-import org.crazyit.flashget.state.TaskState;
+import flashget.src.org.crazyit.flashget.navigation.DownloadNode;
+import flashget.src.org.crazyit.flashget.navigation.DownloadingNode;
+import flashget.src.org.crazyit.flashget.navigation.FailNode;
+import flashget.src.org.crazyit.flashget.navigation.FinishNode;
+import flashget.src.org.crazyit.flashget.state.Connecting;
+import flashget.src.org.crazyit.flashget.state.Downloading;
+import flashget.src.org.crazyit.flashget.state.Failed;
+import flashget.src.org.crazyit.flashget.state.Finished;
+import flashget.src.org.crazyit.flashget.state.Pause;
+import flashget.src.org.crazyit.flashget.state.TaskState;
 
 public class DownloadContext implements Serializable {
 
-	//×î´óÏß³ÌÊý
+	//ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½
 	public static final int MAX_THREAD_COUNT = 5;
 	
-	//ÏÂÔØÈÎÎñ×´Ì¬µÄ¸÷¸öÊµÏÖÀà
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ä¸ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½
 	public static Connecting CONNECTION = new Connecting();
 	public static Downloading DOWNLOADING = new Downloading();
 	public static Failed FAILED = new Failed();
 	public static Finished FINISHED = new Finished();
 	public static Pause PAUSE = new Pause();
 	
-	//µ±Ç°ÏÂÔØ³ÌÐòÖÐËùÓÐµÄÈÎÎñ
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
 	public List<Resource> resources = new ArrayList<Resource>();
 	
 	public List<Resource> getFaileds() {
@@ -54,7 +53,7 @@ public class DownloadContext implements Serializable {
 	}
 	
 	/**
-	 * ¸ù¾ÝIDÈ¥µ±Ç°µÄ×ÊÔ´¼¯ºÏÖÐ²éÕÒÏàÓ¦µÄ×ÊÔ´
+	 * ï¿½ï¿½ï¿½ï¿½IDÈ¥ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ô´
 	 * @param id
 	 * @return
 	 */

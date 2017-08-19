@@ -3,37 +3,35 @@ package org.crazyit.editor.tree;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.event.TreeSelectionEvent;
-
-import org.crazyit.editor.EditorFrame;
+import editor.src.org.crazyit.editor.EditorFrame;
 
 /**
- * ÏîÄ¿Ê÷Ñ¡Ôñ¼àÌýÆ÷
+ * ï¿½ï¿½Ä¿ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class ProjectTreeSelectionListener extends MouseAdapter {
 
-	//Ö÷½çÃæµÄframe
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½frame
 	private EditorFrame editorFrame;
 	
-	//½«Ö÷½çÃæµÄframe(EditorFrame)×÷Îª¹¹Ôì²ÎÊý´«Èë¼àÌýÆ÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½frame(EditorFrame)ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ProjectTreeSelectionListener(EditorFrame editorFrame) {
 		this.editorFrame = editorFrame;
 	}
 
 	public void mousePressed(MouseEvent e) {
-		//µÃµ½µ±Ç°ËùÑ¡ÔñµÄ½Úµã
+		//ï¿½Ãµï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ñ¡ï¿½ï¿½Ä½Úµï¿½
 		ProjectTreeNode selectNode = this.editorFrame.getSelectNode();
-		//Èç¹ûÃ»ÓÐÑ¡Ôñ½Úµã£¬¾Í·µ»Ø
+		//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½Úµã£¬ï¿½Í·ï¿½ï¿½ï¿½
 		if (selectNode == null) return;
-		//Èç¹ûÑ¡ÔñµÄÊÇÒ»¸öÄ¿Â¼£¬·µ»Ø
+		//ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (selectNode.getFile().isDirectory()) return;
-		//Ê¹ÓÃEditorFrameµÄ·½·¨À´´ò¿ªÎÄ¼þ
+		//Ê¹ï¿½ï¿½EditorFrameï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		this.editorFrame.openFile(selectNode.getFile());
 	}
 

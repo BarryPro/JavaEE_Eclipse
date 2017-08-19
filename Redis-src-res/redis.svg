@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 13.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="800px" height="600px" viewBox="0 0 800 600" enable-background="new 0 0 800 600" xml:space="preserve">
+<text transform="matrix(1 0 0 1 210.4873 307.0706)" font-family="'MinionPro-Regular'" font-size="162.5387">Redis</text>
+<rect x="201.944" y="313.859" fill="#B3B3B3" width="86.325" height="33.333"/>
+<rect x="307.758" y="327.321" fill="#B3B3B3" width="86.324" height="33.333"/>
+<rect x="404.603" y="314.541" fill="#F15A24" width="86.325" height="33.332"/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="541.1445" y1="530.5012" x2="540.1445" y2="332.5012">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.5318" style="stop-color:#777777"/>
+	<stop  offset="1" style="stop-color:#000000"/>
+</linearGradient>
+<rect x="497.047" y="328.859" fill="url(#SVGID_1_)" width="86.324" height="33.334"/>
+<rect x="228.868" y="357.021" fill="#B3B3B3" width="69.658" height="26.067"/>
+<rect x="375.125" y="387.039" fill="#B3B3B3" width="69.658" height="26.064"/>
+<rect x="408.363" y="356.441" fill="#B3B3B3" width="69.657" height="26.067"/>
+<rect x="489.654" y="368.235" fill="#B3B3B3" width="69.655" height="26.067"/>
+<rect x="309.424" y="373.382" fill="#006837" width="58.332" height="19.965"/>
+<rect x="257.5" y="388.766" fill="#B3B3B3" width="42.095" height="37.061"/>
+<rect x="310.979" y="402.296" fill="#B3B3B3" width="55.067" height="35.494"/>
+<rect x="455.685" y="390.202" fill="#B3B3B3" width="25.747" height="50.151"/>
+<rect x="497.565" y="399.604" fill="#B3B3B3" width="47.112" height="31.352"/>
+</svg>

@@ -1,55 +1,52 @@
-package org.crazyit.ball;
+package ball.src.org.crazyit.ball;
 
-import java.awt.Image;
-import java.io.File;
-import javax.imageio.ImageIO;
 import java.io.IOException;
 
 /**
- * Ğ¡Çò¶ÔÏó
+ * Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @author Kelvin Mak kelvin.mak125@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class Ball extends BallComponent {
-	// ¶¨ÒåÇòµÄÊúÏòËÙ¶È
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 	private int speedY = 10;
-	// ¶¨Òåµ¯ÇòµÄºáÏòËÙ¶È
+	// ï¿½ï¿½ï¿½åµ¯ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 	private int speedX = 8;
-	// ¶¨ÒåÊÇ·ñÔÚÔË¶¯
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	private boolean started = false;
-	// ¶¨ÒåÊÇ·ñ½áÊøÔË¶¯
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	private boolean stop = false;
 
 	/**
-	 * m ÓĞ²ÎÊı¹¹ÔìÆ÷
+	 * m ï¿½Ğ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param panelWidth
-	 *            int »­°å¿í¶È
+	 *            int ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param panelHeight
-	 *            int »­°å¸ß¶È
+	 *            int ï¿½ï¿½ï¿½ï¿½ß¶ï¿½
 	 * @param offset
-	 *            int Î»ÒÆ
+	 *            int Î»ï¿½ï¿½
 	 * @param path
-	 *            String Í¼Æ¬Â·¾¶
+	 *            String Í¼Æ¬Â·ï¿½ï¿½
 	 */
 	public Ball(int panelWidth, int panelHeight, int offset, String path)
 			throws IOException {
-		// µ÷ÓÃ¸¸¹¹ÔìÆ÷
+		// ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		super(panelWidth, panelHeight, path);
-		// ÉèÖÃy×ø±ê
+		// ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 		this.setY(panelHeight - super.getImage().getHeight(null) - offset);
 	}
 
 	/**
-	 * ÉèÖÃºáÏòËÙ¶È
+	 * ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 	 * 
 	 * @param speed
-	 *            int ËÙ¶È
+	 *            int ï¿½Ù¶ï¿½
 	 * @return void
 	 */
 	public void setSpeedX(int speed) {
@@ -57,10 +54,10 @@ public class Ball extends BallComponent {
 	}
 
 	/**
-	 * ÉèÖÃÊúÏòËÙ¶È
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 	 * 
 	 * @param speed
-	 *            int ËÙ¶È
+	 *            int ï¿½Ù¶ï¿½
 	 * @return void
 	 */
 	public void setSpeedY(int speed) {
@@ -68,7 +65,7 @@ public class Ball extends BallComponent {
 	}
 
 	/**
-	 * ÉèÖÃÊÇ·ñÔÚÔË¶¯
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	 * 
 	 * @param b
 	 *            boolean
@@ -79,7 +76,7 @@ public class Ball extends BallComponent {
 	}
 
 	/**
-	 * ÉèÖÃÊÇ·ñ½áÊøÔË¶¯
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	 * 
 	 * @param b
 	 *            boolean
@@ -90,36 +87,36 @@ public class Ball extends BallComponent {
 	}
 
 	/**
-	 * ·µ»ØºáÏòËÙ¶È
+	 * ï¿½ï¿½ï¿½Øºï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 	 * 
-	 * @return int ËÙ¶È
+	 * @return int ï¿½Ù¶ï¿½
 	 */
 	public int getSpeedX() {
 		return this.speedX;
 	}
 
 	/**
-	 * ·µ»ØÊúÏòËÙ¶È
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 	 * 
-	 * @return int ËÙ¶È
+	 * @return int ï¿½Ù¶ï¿½
 	 */
 	public int getSpeedY() {
 		return this.speedY;
 	}
 
 	/**
-	 * ÊÇ·ñÔÚÔË¶¯
+	 * ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	 * 
-	 * @return boolean ÊÇ·ñÔÚÔË¶¯
+	 * @return boolean ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	 */
 	public boolean isStarted() {
 		return this.started;
 	}
 
 	/**
-	 * ÊÇ·ñÒÑ¾­½áÊøÔË¶¯
+	 * ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	 * 
-	 * @return boolean ÊÇ·ñÒÑ¾­½áÊøÔË¶¯
+	 * @return boolean ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½
 	 */
 	public boolean isStop() {
 		return this.stop;

@@ -4,17 +4,15 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.crazyit.transaction.model.User;
-
 public class UserTableModel extends DefaultTableModel {
 
 	public final static String USER_ID = "id";
 	
-	public final static String USER_NAME = "ÓÃ»§Ãû";
+	public final static String USER_NAME = "ï¿½Ã»ï¿½ï¿½ï¿½";
 	
-	public final static String REAL_NAME = "ÕæÊµÐÕÃû";
+	public final static String REAL_NAME = "ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½";
 	
-	public final static String ROLE = "½ÇÉ«";
+	public final static String ROLE = "ï¿½ï¿½É«";
 	
 	private List<User> datas;
 	

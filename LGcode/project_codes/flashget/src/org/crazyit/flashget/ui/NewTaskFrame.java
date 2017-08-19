@@ -17,62 +17,60 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.crazyit.flashget.ContextHolder;
-import org.crazyit.flashget.DownloadContext;
-import org.crazyit.flashget.object.Resource;
-import org.crazyit.flashget.util.FileUtil;
+import flashget.src.org.crazyit.flashget.ContextHolder;
+import flashget.src.org.crazyit.flashget.DownloadContext;
 
 public class NewTaskFrame extends JFrame {
 
-	//ÏÂÔØµØÖ·
-	private JLabel addressLabel = new JLabel("ÏÂÔØµØÖ·: ");
+	//ï¿½ï¿½ï¿½Øµï¿½Ö·
+	private JLabel addressLabel = new JLabel("ï¿½ï¿½ï¿½Øµï¿½Ö·: ");
 	private JTextField address = new JTextField(30);
 	
-	//ÌáÊ¾µÄJLabel
+	//ï¿½ï¿½Ê¾ï¿½ï¿½JLabel
 	private JLabel warnLabel = new JLabel(" ");
 	
-	//±£´æÂ·¾¶
-	private JLabel targetLabel = new JLabel("±£´æÄ¿Â¼: ");
+	//ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
+	private JLabel targetLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½Ä¿Â¼: ");
 	private JTextField target = new JTextField(getDefaultFolder(), 22);
 		
-	//Ïß³ÌÊý
-	private JLabel threadCountLabel = new JLabel("Ïß³ÌÊý: ");
+	//ï¿½ß³ï¿½ï¿½ï¿½
+	private JLabel threadCountLabel = new JLabel("ï¿½ß³ï¿½ï¿½ï¿½: ");
 	private JComboBox threadCount;
-	private JButton targetSelectButton = new JButton("Ñ¡ÔñÄ¿Â¼");
+	private JButton targetSelectButton = new JButton("Ñ¡ï¿½ï¿½Ä¿Â¼");
 	
-	//ÎÄ¼þÃû
-	private JLabel saveFileNameLabel = new JLabel("Áí´æÎÄ¼þÃû: ");
+	//ï¿½Ä¼ï¿½ï¿½ï¿½
+	private JLabel saveFileNameLabel = new JLabel("ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½: ");
 	private JTextField saveFileName = new JTextField(5);
 	
-	//°´Å¥
-	private JButton confirmButton = new JButton("È·¶¨");
-	private JButton cancelButton = new JButton("È¡Ïû");
+	//ï¿½ï¿½Å¥
+	private JButton confirmButton = new JButton("È·ï¿½ï¿½");
+	private JButton cancelButton = new JButton("È¡ï¿½ï¿½");
 	
 	private FolderChooser folderChooser;
 		
 	public NewTaskFrame() {
-		//´´½¨Ïß³ÌÏÂÀ­
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½
 		createThreadCountSelect();
 		this.targetSelectButton.setFont(new Font(null, Font.PLAIN, 12));
 		this.target.setEditable(false);
-		//ÐÅÏ¢ÌáÊ¾µÄJLabel
+		//ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾ï¿½ï¿½JLabel
 		Box warnBox = Box.createHorizontalBox();
 		warnBox.add(this.warnLabel);
-		//ÏÂÔØµØÖ·Box
+		//ï¿½ï¿½ï¿½Øµï¿½Ö·Box
 		Box addressBox = Box.createHorizontalBox();
 		addressBox.add(Box.createHorizontalStrut(50));
 		addressBox.add(this.addressLabel);
 		addressBox.add(Box.createHorizontalStrut(20));
 		addressBox.add(this.address);
 		addressBox.add(Box.createHorizontalStrut(50));
-		//ÏÂÔØÎÄ¼þ±£´æÄ¿Â¼
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 		Box targetBox = Box.createHorizontalBox();
 		targetBox.add(Box.createHorizontalStrut(50));
 		targetBox.add(this.targetLabel);
 		targetBox.add(Box.createHorizontalStrut(20));
 		targetBox.add(this.target);		
 		targetBox.add(Box.createHorizontalStrut(50));
-		//Áí´æÎÄ¼þÃûºÍÄ¿Â¼Ñ¡Ôñ°´Å¥
+		//ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼Ñ¡ï¿½ï¿½Å¥
 		Box selectFolderBox = Box.createHorizontalBox();
 		selectFolderBox.add(Box.createHorizontalStrut(50));
 		selectFolderBox.add(this.saveFileNameLabel);
@@ -81,21 +79,21 @@ public class NewTaskFrame extends JFrame {
 		selectFolderBox.add(Box.createHorizontalStrut(50));
 		selectFolderBox.add(this.targetSelectButton);
 		selectFolderBox.add(Box.createHorizontalStrut(50));
-		//Ïß³ÌÑ¡Ôñ
+		//ï¿½ß³ï¿½Ñ¡ï¿½ï¿½
 		Box threadBox = Box.createHorizontalBox();
 		threadBox.add(Box.createHorizontalStrut(50));
 		threadBox.add(this.threadCountLabel);
 		threadBox.add(Box.createHorizontalStrut(33));
 		threadBox.add(this.threadCount);
 		threadBox.add(Box.createHorizontalStrut(330));
-		//°´Å¥Box
+		//ï¿½ï¿½Å¥Box
 		Box buttonBox = Box.createHorizontalBox();
 		buttonBox.add(Box.createHorizontalStrut(70));
 		buttonBox.add(this.confirmButton);
 		buttonBox.add(Box.createHorizontalStrut(40));
 		buttonBox.add(this.cancelButton);
 		buttonBox.add(Box.createHorizontalStrut(50));
-		//Ö÷²¼¾ÖBox
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Box
 		Box mainBox = Box.createVerticalBox();
 		mainBox.add(Box.createVerticalStrut(10));
 		mainBox.add(warnBox);
@@ -110,14 +108,14 @@ public class NewTaskFrame extends JFrame {
 		mainBox.add(Box.createVerticalStrut(20));
 		mainBox.add(buttonBox);
 		mainBox.add(Box.createVerticalStrut(20));
-		//µÃµ½ÆÁÄ»´óÐ¡
+		//ï¿½Ãµï¿½ï¿½ï¿½Ä»ï¿½ï¿½Ð¡
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(screen.width/4, screen.height/4);
 		
 		this.add(mainBox);
-		this.setTitle("ÐÂ½¨ÏÂÔØÈÎÎñ");
+		this.setTitle("ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		this.pack();
-		//³õÊ¼»¯°´Å¥¼àÌýÆ÷
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		initLinsteners();
 	}
 	
@@ -152,7 +150,7 @@ public class NewTaskFrame extends JFrame {
 	
 	private void confirm() {
 		if (getSaveFileName() == null) {
-			this.warnLabel.setText("ÇëÊäÈëÕýÈ·µÄÎÄ¼þÃû");
+			this.warnLabel.setText("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½");
 			return;
 		}
 		this.warnLabel.setText(" ");
@@ -162,7 +160,7 @@ public class NewTaskFrame extends JFrame {
 		this.setVisible(false);
 	}
 	
-	//¸ù¾Ý½çÃæÊäÈë´´½¨Resource¶ÔÏó
+	//ï¿½ï¿½ï¿½Ý½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë´´ï¿½ï¿½Resourceï¿½ï¿½ï¿½ï¿½
 	private Resource createResource() {
 		String url = this.address.getText();
 		String filePath = this.target.getText();
@@ -172,7 +170,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * Èç¹û±£´æµÄÎÄ¼þÃû³ÆÎª¿Õ, Ôò´ÓurlÖÐ½ØÈ¡ÎÄ¼þÃû³Æ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½, ï¿½ï¿½ï¿½urlï¿½Ð½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	private String getSaveFileName() {
@@ -185,7 +183,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * ÉèÖÃÁí´æÎªÃû³ÆµÄÖµ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Æµï¿½Öµ
 	 */
 	private void setSaveFileName() {
 		saveFileName.setText("");
@@ -193,7 +191,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * ´´½¨Ïß³ÌÏÂÀ­
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void createThreadCountSelect() {
 		this.threadCount = new JComboBox();
@@ -203,7 +201,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * ´ò¿ªÎÄ¼þÑ¡ÔñÆ÷
+	 * ï¿½ï¿½ï¿½Ä¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void openFolderChooser() {
 		if (this.folderChooser == null) {
@@ -217,7 +215,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * Ñ¡ÔñÄ¿Â¼ºóÖ´ÐÐµÄ·½·¨
+	 * Ñ¡ï¿½ï¿½Ä¿Â¼ï¿½ï¿½Ö´ï¿½ÐµÄ·ï¿½ï¿½ï¿½
 	 * @param filePath
 	 */
 	public void selectFolder(String filePath) {
@@ -233,7 +231,7 @@ public class NewTaskFrame extends JFrame {
 		
 		public void approveSelection() {
 			super.approveSelection();
-			//ÉèÖÃµ±Ç°´ò¿ªµÄÄ¿Â¼ÎªÄ¬ÈÏÄ¿Â¼
+			//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ò¿ªµï¿½Ä¿Â¼ÎªÄ¬ï¿½ï¿½Ä¿Â¼
 			this.setCurrentDirectory(this.getSelectedFile());
 			selectFolder(this.getSelectedFile().getAbsolutePath());
 		}

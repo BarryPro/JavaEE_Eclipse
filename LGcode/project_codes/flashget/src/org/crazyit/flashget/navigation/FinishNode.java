@@ -2,13 +2,11 @@ package org.crazyit.flashget.navigation;
 
 import javax.swing.ImageIcon;
 
-import org.crazyit.flashget.util.ImageUtil;
-
 /**
- * обтьмЙЁи╫з╣Ц
+ * О©╫О©╫О©╫О©╫О©╫О©╫и╫з╣О©╫
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>мЬу╬: <a href="http://www.crazyit.org">╥Х©ЯJavaа╙цк</a>
+ * <br/>О©╫О©╫у╬: <a href="http://www.crazyit.org">О©╫О©╫О©╫JavaО©╫О©╫О©╫О©╫</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
@@ -19,7 +17,7 @@ public class FinishNode implements DownloadNode {
 	}
 
 	public String getText() {
-		return "обтьмЙЁи";
+		return "О©╫О©╫О©╫О©╫О©╫О©╫О©╫";
 	}
 
 }

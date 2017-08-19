@@ -2,48 +2,46 @@ package org.crazyit.book.service;
 
 import java.util.Collection;
 
-import org.crazyit.book.vo.Book;
-
 /**
- * Êé±¾ÒµÎñ½Ó¿Ú
+ * ï¿½é±¾Òµï¿½ï¿½Ó¿ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface BookService {
 
 	/**
-	 * ²éÕÒÈ«²¿µÄÊé
+	 * ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	Collection<Book> getAll();
 	
 	/**
-	 * ¸ù¾Ýid»ñÈ¡Êé
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½È¡ï¿½ï¿½
 	 * @param id
 	 * @return
 	 */
 	Book get(String id);
 	
 	/**
-	 * ÐÂÔöÒ»±¾Êé
+	 * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½
 	 * @param book
 	 * @return
 	 */
 	Book add(Book book);
 	
 	/**
-	 * ÐÞ¸ÄÒ»±¾Êé
+	 * ï¿½Þ¸ï¿½Ò»ï¿½ï¿½ï¿½ï¿½
 	 * @param book
 	 * @return
 	 */
 	Book update(Book book);
 	
 	/**
-	 * ¸ù¾ÝÃû³ÆÄ£ºý²éÑ¯
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ñ¯
 	 * @param name
 	 * @return
 	 */

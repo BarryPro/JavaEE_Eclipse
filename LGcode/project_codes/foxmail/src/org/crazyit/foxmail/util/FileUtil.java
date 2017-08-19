@@ -10,94 +10,90 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.mail.Part;
-import javax.mail.internet.MimeUtility;
-
-import org.crazyit.foxmail.exception.FileException;
-import org.crazyit.foxmail.object.FileObject;
-import org.crazyit.foxmail.object.Mail;
-import org.crazyit.foxmail.ui.MailContext;
-
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
 import com.thoughtworks.xstream.XStream;
 
+import foxmail.src.org.crazyit.foxmail.object.Mail;
+import foxmail.src.org.crazyit.foxmail.ui.MailContext;
+
 /**
- * ÎÄ¼þ¹¤¾ßÀà
+ * ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class FileUtil {
 
-	//´æ·ÅËùÓÐÓÃ»§Êý¾ÝµÄÄ¿Â¼
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ýµï¿½Ä¿Â¼
 	public static final String DATE_FOLDER = "datas" + File.separator;
-	//´æ·Å¾ßÌåÄ³¸öÓÃ»§ÅäÖÃµÄpropertiesÎÄ¼þ
+	//ï¿½ï¿½Å¾ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ãµï¿½propertiesï¿½Ä¼ï¿½
 	public static final String CONFIG_FILE = File.separator + "mail.properties";
 	
-	//ÊÕ¼þÏäµÄÄ¿Â¼Ãû
+	//ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	public static final String INBOX = "inbox";
-	//·¢¼þÏäµÄÄ¿Â¼Ãû
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	public static final String OUTBOX = "outbox";
-	//ÒÑ·¢ËÍµÄÄ¿Â¼Ãû
+	//ï¿½Ñ·ï¿½ï¿½Íµï¿½Ä¿Â¼ï¿½ï¿½
 	public static final String SENT = "sent";
-	//²Ý¸åÏäµÄÄ¿Â¼Ãû
+	//ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	public static final String DRAFT = "draft";
-	//À¬»øÏäµÄÄ¿Â¼Ãû
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	public static final String DELETED = "deleted";
-	//¸½¼þµÄ´æ·ÅÄ¿Â¼Ãû
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 	public static final String FILE = "file";
 	
 	/**
-	 * ´´½¨ÓÃ»§µÄÕÊºÅÄ¿Â¼ºÍÏà¹ØµÄ×ÓÄ¿Â¼
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Êºï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ä¿Â¼
 	 * @param ctx
 	 */
 	public static void createFolder(MailContext ctx) {
 		String accountRoot = getAccountRoot(ctx);
-		//Ê¹ÓÃÓÃ»§µ±Ç°ÉèÖÃµÄÕÊºÅÀ´Éú³ÉÄ¿Â¼, ÀýÈçÒ»¸öÓÃ»§½Ðuser1,ÄÇÃ´½«»áÔÚdatas/user1/ÏÂÉú³ÉÒ»¸öÕÊºÅÄ¿Â¼
+		//Ê¹ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ãµï¿½ï¿½Êºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼, ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½user1,ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½datas/user1/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Êºï¿½Ä¿Â¼
 		mkdir(new File(accountRoot));
-		//´´½¨INBOXÄ¿Â¼
+		//ï¿½ï¿½ï¿½ï¿½INBOXÄ¿Â¼
 		mkdir(new File(accountRoot + INBOX));
-		//·¢¼þÏä
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		mkdir(new File(accountRoot + OUTBOX));
-		//ÒÑ·¢ËÍ
+		//ï¿½Ñ·ï¿½ï¿½ï¿½
 		mkdir(new File(accountRoot + SENT));
-		//²Ý¸åÏä
+		//ï¿½Ý¸ï¿½ï¿½ï¿½
 		mkdir(new File(accountRoot + DRAFT));
-		//À¬»øÏä
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		mkdir(new File(accountRoot + DELETED));
-		//¸½¼þ´æ·ÅÄ¿Â¼
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 		mkdir(new File(accountRoot + FILE));
 	}
 	
-	//µÃµ½ÓÊ¼þÕÊºÅµÄ¸ùÄ¿Â¼
+	//ï¿½Ãµï¿½ï¿½Ê¼ï¿½ï¿½ÊºÅµÄ¸ï¿½Ä¿Â¼
 	private static String getAccountRoot(MailContext ctx) {
 		String accountRoot = DATE_FOLDER + ctx.getUser() + 
 		File.separator + ctx.getAccount() + File.separator;
 		return accountRoot;
 	}
 	
-	//µÃµ½Ä³¸öÄ¿Â¼Ãû×Ö, ÀýÈçµÃµ½fileµÄÄ¿Â¼, inboxµÄÄ¿Â¼
+	//ï¿½Ãµï¿½Ä³ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ãµï¿½fileï¿½ï¿½Ä¿Â¼, inboxï¿½ï¿½Ä¿Â¼
 	public static String getBoxPath(MailContext ctx, String folderName) {
 		return getAccountRoot(ctx) + folderName + File.separator;
 	}
 	
-	//Îª¸½¼þ´´½¨±¾µØÎÄ¼þ, Ä¿Â¼ÊÇµÇÂ¼ÓÃ»§µÄÓÊÏäÃûµÄfileÏÂ
+	//Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½, Ä¿Â¼ï¿½Çµï¿½Â¼ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fileï¿½ï¿½
 	public static FileObject createFileFromPart(MailContext ctx, Part part) {
 		try {
-			//µÃµ½ÎÄ¼þ´æ·ÅµÄÄ¿Â¼
+			//ï¿½Ãµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Åµï¿½Ä¿Â¼
 			String fileRepository = getBoxPath(ctx, FILE);
 			String serverFileName = MimeUtility.decodeText(part.getFileName());
-			//Éú³ÉUUID×÷ÎªÔÚ±¾µØÏµÍ³ÖÐÎ¨Ò»µÄÎÄ¼þ±êÊ¶
+			//ï¿½ï¿½ï¿½ï¿½UUIDï¿½ï¿½Îªï¿½Ú±ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½Î¨Ò»ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê¶
 			String fileName = UUID.randomUUID().toString();
 			File file = new File(fileRepository + fileName + 
 					getFileSufix(serverFileName));
-			//¶ÁÐ´ÎÄ¼þ
+			//ï¿½ï¿½Ð´ï¿½Ä¼ï¿½
 			FileOutputStream fos = new FileOutputStream(file);
 			InputStream is = part.getInputStream();
 			BufferedOutputStream outs = new BufferedOutputStream(fos);
-			//Èç¹û¸½¼þÄÚÈÝÎª¿Õpart.getSizeÎª-1, Èç¹ûÖ±½Ónew byte, ½«Å×³öÒì³£
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½part.getSizeÎª-1, ï¿½ï¿½ï¿½Ö±ï¿½ï¿½new byte, ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£
 			int size = (part.getSize() > 0) ? part.getSize() : 0;
 			byte[] b = new byte[size];
 			is.read(b);
@@ -105,7 +101,7 @@ public class FileUtil {
 			outs.close();
 			is.close();
 			fos.close();
-			//·â×°¶ÔÏó
+			//ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
 			FileObject fileObject = new FileObject(serverFileName, file);
 			return fileObject;
 		} catch (Exception e) {
@@ -114,18 +110,18 @@ public class FileUtil {
 		}
 	}
 	
-	//´ÓÏàÓ¦µÄboxÖÐµÃµ½È«²¿µÄxmlÎÄ¼þ
+	//ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½boxï¿½ÐµÃµï¿½È«ï¿½ï¿½ï¿½ï¿½xmlï¿½Ä¼ï¿½
 	public static List<File> getXMLFiles(MailContext ctx, String box) {
 		String rootPath = getAccountRoot(ctx);
 		String boxPath = rootPath + box;
-		//µÃµ½Ä³¸öboxµÄÄ¿Â¼
+		//ï¿½Ãµï¿½Ä³ï¿½ï¿½boxï¿½ï¿½Ä¿Â¼
 		File boxFolder = new File(boxPath);
-		//¶ÔÎÄ¼þ½øÐÐºó×º¹ýÂË
+		//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ðºï¿½×ºï¿½ï¿½ï¿½ï¿½
 		List<File> files = filterFiles(boxFolder, ".xml");
 		return files;
 	}
 	
-	//´ÓÒ»¸öÎÄ¼þÄ¿Â¼ÖÐ, ÒÔ²ÎÊýÎÄ¼þºó×ºsubfixÎªÌõ¼þ, ¹ýÂËÎÄ¼þ
+	//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä¼ï¿½Ä¿Â¼ï¿½ï¿½, ï¿½Ô²ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½×ºsubfixÎªï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 	private static List<File> filterFiles(File folder, String sufix) {
 		List<File> result = new ArrayList<File>();
 		File[] files = folder.listFiles();
@@ -136,7 +132,7 @@ public class FileUtil {
 		return result;
 	}
 		
-	//µÃµ½ÎÄ¼þÃûµÄºó×º
+	//ï¿½Ãµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Äºï¿½×º
 	public static String getFileSufix(String fileName) {
 		if (fileName == null || fileName.trim().equals("")) return "";
 		if (fileName.indexOf(".") != -1) {
@@ -145,20 +141,20 @@ public class FileUtil {
 		return "";
 	}
 	
-	//´´½¨XStream¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½XStreamï¿½ï¿½ï¿½ï¿½
 	private static XStream xstream = new XStream();
 	
-	//½«Ò»¸öÓÊ¼þ¶ÔÏóÊ¹ÓÃXStreamÐ´µ½xmlÎÄ¼þÖÐ
+	//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½XStreamÐ´ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½ï¿½
 	public static void writeToXML(MailContext ctx, Mail mail, String boxFolder) {
-		//µÃµ½mail¶ÔÓ¦µÄxmlÎÄ¼þµÄÎÄ¼þÃû
+		//ï¿½Ãµï¿½mailï¿½ï¿½Ó¦ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		String xmlName = mail.getXmlName();
-		//µÃµ½¶ÔÓ¦µÄÄ¿Â¼Â·¾¶
+		//ï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ä¿Â¼Â·ï¿½ï¿½
 		String boxPath = getAccountRoot(ctx) + boxFolder + File.separator;
 		File xmlFile = new File(boxPath + xmlName);
 		writeToXML(xmlFile, mail);
 	}
 	
-	//½«Ò»¸ömail¶ÔÏóÐ´µ½xmlFileÖÐ
+	//ï¿½ï¿½Ò»ï¿½ï¿½mailï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½xmlFileï¿½ï¿½
 	public static void writeToXML(File xmlFile, Mail mail) {
 		try {
 			if (!xmlFile.exists()) xmlFile.createNewFile();
@@ -168,23 +164,23 @@ public class FileUtil {
 			writer.close();
 			fos.close();
 		} catch (Exception e) {
-			throw new FileException("Ð´ÈëÎÄ¼þÒì³£: " + xmlFile.getAbsolutePath());
+			throw new FileException("Ð´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ì³£: " + xmlFile.getAbsolutePath());
 		}
 	}
 	
-	//½«Ò»·ÝxmlÎÄµµ×ª»»³ÉMail¶ÔÏó
+	//ï¿½ï¿½Ò»ï¿½ï¿½xmlï¿½Äµï¿½×ªï¿½ï¿½ï¿½ï¿½Mailï¿½ï¿½ï¿½ï¿½
 	public static Mail fromXML(MailContext ctx, File xmlFile) {
 		try {
 			FileInputStream fis = new FileInputStream(xmlFile);
-			//µ÷ÓÃXStreamµÄ×ª»»·½·¨½«ÎÄ¼þ×ª»»³É¶ÔÏó
+			//ï¿½ï¿½ï¿½ï¿½XStreamï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½×ªï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½
 			Mail mail = (Mail)xstream.fromXML(fis);
 			fis.close();
 			return mail;
 		} catch (Exception e) {
-			throw new FileException("×ª»»Êý¾ÝÒì³£: " + xmlFile.getAbsolutePath());
+			throw new FileException("×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£: " + xmlFile.getAbsolutePath());
 		}
 	}
-	//¸´ÖÆÎÄ¼þµÄ·½·¨
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	public static void copy(File sourceFile, File targetFile) {
 		try {
 			Process process = Runtime.getRuntime().exec("cmd /c copy \"" + 
@@ -192,12 +188,12 @@ public class FileUtil {
 					targetFile.getAbsolutePath() + "\"");
 			process.waitFor();
 		} catch (Exception e) {
-			throw new FileException("Áí´æÎÄ¼þ´íÎó: " + targetFile.getAbsolutePath());
+			throw new FileException("ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½: " + targetFile.getAbsolutePath());
 		}
 	}
 
 	/*
-	 * ´´½¨Ä¿Â¼µÄ¹¤¾ß·½·¨, ÅÐ¶ÏÄ¿Â¼ÊÇ·ñ´æÔÚ
+	 * ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ä¹ï¿½ï¿½ß·ï¿½ï¿½ï¿½, ï¿½Ð¶ï¿½Ä¿Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 	 */
 	private static void mkdir(File file) {
 		if (!file.exists()) file.mkdir();

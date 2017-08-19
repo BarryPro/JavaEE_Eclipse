@@ -3,27 +3,25 @@ package org.crazyit.foxmail.ui;
 import java.awt.Component;
 import java.awt.Font;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
-import org.crazyit.foxmail.box.MailBox;
+import foxmail.src.org.crazyit.foxmail.box.MailBox;
 
 /**
- * ¼Ì³ÐDefaultTreeCellRenderer£¬ÊµÏÖÃ¿¸ö½Úµã¶¼ÓÐ²»Í¬µÄÍ¼±ê
+ * ï¿½Ì³ï¿½DefaultTreeCellRendererï¿½ï¿½Êµï¿½ï¿½Ã¿ï¿½ï¿½ï¿½Úµã¶¼ï¿½Ð²ï¿½Í¬ï¿½ï¿½Í¼ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class SailTreeCellRenderer extends DefaultTreeCellRenderer {
 
-	//Ê÷½Úµã±»Ñ¡ÖÐÊ±µÄ×ÖÌå
+	//ï¿½ï¿½ï¿½Úµã±»Ñ¡ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Font selectFont;
 	
 	public SailTreeCellRenderer() {
@@ -36,7 +34,7 @@ public class SailTreeCellRenderer extends DefaultTreeCellRenderer {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
 		MailBox box = (MailBox)node.getUserObject();
 		this.setText(box.getText());
-		//ÅÐ¶ÏÊÇ·ñÑ¡ÖÐ, ÔÙ¾ö¶¨Ê¹ÓÃ×ÖÌå
+		//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Ñ¡ï¿½ï¿½, ï¿½Ù¾ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (isSelected(node, tree)) {
 			this.setFont(this.selectFont);
 		} else {
@@ -46,12 +44,12 @@ public class SailTreeCellRenderer extends DefaultTreeCellRenderer {
 		return this;
 	}
 	
-	//ÅÐ¶ÏÒ»¸önodeÊÇ·ñ±»Ñ¡ÖÐ
+	//ï¿½Ð¶ï¿½Ò»ï¿½ï¿½nodeï¿½Ç·ï¿½Ñ¡ï¿½ï¿½
 	private boolean isSelected(DefaultMutableTreeNode node, JTree tree) {
-		//µÃµ½Ñ¡ÖÐµÄTreePath
+		//ï¿½Ãµï¿½Ñ¡ï¿½Ðµï¿½TreePath
 		TreePath treePath = tree.getSelectionPath();
 		if (treePath == null) return false;
-		//µÃµ½±»Ñ¡ÖÐµÄ½Úµã
+		//ï¿½Ãµï¿½ï¿½ï¿½Ñ¡ï¿½ÐµÄ½Úµï¿½
 		DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode)treePath.getLastPathComponent();
 		if (node.equals(selectNode)) {
 			return true;

@@ -3,9 +3,7 @@ package org.crazyit.transaction.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.crazyit.transaction.dao.CommentDao;
-import org.crazyit.transaction.model.Comment;
-import org.crazyit.transaction.model.Transaction;
+import transaction.src.org.crazyit.transaction.dao.CommentDao;
 
 public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
 

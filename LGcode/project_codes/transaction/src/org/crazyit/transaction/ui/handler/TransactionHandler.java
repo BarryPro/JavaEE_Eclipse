@@ -1,19 +1,17 @@
 package org.crazyit.transaction.ui.handler;
 
-import org.crazyit.transaction.model.Comment;
-
 /**
- * ÊÂÎñ´¦Àí½Ó¿Ú
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public interface TransactionHandler {
 
 	/**
-	 * ´¦ÀíÄ³¸öÊÂÎñ
+	 * ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param comment
 	 */
 	void handler(Comment comment);

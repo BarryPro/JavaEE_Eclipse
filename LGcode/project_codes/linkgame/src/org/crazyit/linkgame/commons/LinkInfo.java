@@ -1,36 +1,36 @@
 package org.crazyit.linkgame.commons;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Á¬½ÓĞÅÏ¢Àà
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
  * 
  * @author yangenxiong yangenxiong2009@gmail.com
  * @version  1.0
- * <br/>ÍøÕ¾: <a href="http://www.crazyit.org">·è¿ñJavaÁªÃË</a>
+ * <br/>ï¿½ï¿½Õ¾: <a href="http://www.crazyit.org">ï¿½ï¿½ï¿½Javaï¿½ï¿½ï¿½ï¿½</a>
  * <br>Copyright (C), 2009-2010, yangenxiong
  * <br>This program is protected by copyright laws.
  */
 public class LinkInfo {
-	// ´´½¨Ò»¸ö¼¯ºÏÓÃÓÚ±£´æÁ¬½Óµã
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½
 	private List<Point> points = new ArrayList<Point>();
 
-	// Ìá¹©µÚÒ»¸ö¹¹ÔìÆ÷, ±íÊ¾Á½¸öPoint¿ÉÒÔÖ±½ÓÏàÁ¬, Ã»ÓĞ×ªÕÛµã
+	// ï¿½á¹©ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Pointï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, Ã»ï¿½ï¿½×ªï¿½Ûµï¿½
 	public LinkInfo(Point p1, Point p2) {
-		// ¼Óµ½¼¯ºÏÖĞÈ¥
+		// ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥
 		points.add(p1);
 		points.add(p2);
 	}
 
-	// Ìá¹©µÚ¶ş¸ö¹¹ÔìÆ÷, ±íÊ¾Èı¸öPoint¿ÉÒÔÏàÁ¬, p2ÊÇp1Óëp3Ö®¼äµÄ×ªÕÛµã
+	// ï¿½á¹©ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Pointï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, p2ï¿½ï¿½p1ï¿½ï¿½p3Ö®ï¿½ï¿½ï¿½×ªï¿½Ûµï¿½
 	public LinkInfo(Point p1, Point p2, Point p3) {
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
 	}
 
-	// Ìá¹©µÚÈı¸ö¹¹ÔìÆ÷, ±íÊ¾ËÄ¸öPoint¿ÉÒÔÏàÁ¬, p2, p3ÊÇp1Óëp4µÄ×ªÕÛµã
+	// ï¿½á¹©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ê¾ï¿½Ä¸ï¿½Pointï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, p2, p3ï¿½ï¿½p1ï¿½ï¿½p4ï¿½ï¿½×ªï¿½Ûµï¿½
 	public LinkInfo(Point p1, Point p2, Point p3, Point p4) {
 		points.add(p1);
 		points.add(p2);
@@ -38,7 +38,7 @@ public class LinkInfo {
 		points.add(p4);
 	}
 
-	// ·µ»ØÁ¬½Ó¼¯ºÏ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½
 	public List<Point> getLinkPoints() {
 		return points;
 	}

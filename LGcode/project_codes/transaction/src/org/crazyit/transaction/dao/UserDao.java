@@ -2,12 +2,10 @@ package org.crazyit.transaction.dao;
 
 import java.util.List;
 
-import org.crazyit.transaction.model.User;
-
 public interface UserDao {
 
 	/**
-	 * ¸ù¾İÓÃ»§ÃûÓëÃÜÂë²éÕÒÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param userName
 	 * @param passwd
 	 * @return
@@ -15,45 +13,45 @@ public interface UserDao {
 	User findUser(String userName, String passwd);
 	
 	/**
-	 * ²éÕÒÈ«²¿µÄÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @return
 	 */
 	List<User> findUsers();
 	
 	/**
-	 * ±£´æĞÂÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param user
 	 */
 	void save(User user);
 	
 	/**
-	 * ¸ù¾İÓÃ»§Ãû²éÕÒÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param userName
 	 * @return
 	 */
 	User findUser(String userName);
 	
 	/**
-	 * ĞŞ¸ÄÓÃ»§
+	 * ï¿½Ş¸ï¿½ï¿½Ã»ï¿½
 	 * @param user
 	 */
 	void delete(String id);
 	
 	/**
-	 * ·µ»ØÓÃ»§Êı
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	int getUserCount();
 	
 	/**
-	 * ¸ù¾İÓÃ»§Ä£ºı²éÕÒÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param userName
 	 * @return
 	 */
 	List<User> query(String realName);
 	
 	/**
-	 * ¸ù¾İID²éÕÒÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param id
 	 * @return
 	 */
