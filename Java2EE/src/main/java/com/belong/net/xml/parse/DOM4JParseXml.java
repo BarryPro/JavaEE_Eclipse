@@ -12,7 +12,16 @@ import com.belong.net.xml.bean.Address;
 import com.belong.net.xml.bean.ReadXmlFileStream;  
   
 /**
- * @Description: <p></p>
+ * @Description: <p>DOM4J(Document Object Model for Java)</p>
+ * 
+ * 简单易用，采用Java集合框架，并完全支持DOM、SAX和JAXP
+ *	【优点】
+ *		①大量使用了Java集合类，方便Java开发人员，同时提供一些提高性能的替代方法。
+ *		②支持XPath。
+ *		③有很好的性能。
+ *	【缺点】
+ *		①大量使用了接口，API较为复杂。
+ * 
  * @Author : belong
  * @Date : 2017年8月21日
  */

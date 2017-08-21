@@ -11,7 +11,16 @@ import org.jdom.input.SAXBuilder;
 import com.belong.net.xml.bean.Address;
 import com.belong.net.xml.bean.ReadXmlFileStream;
 /**
- * @Description: <p></p>
+ * @Description: <p>JDOM(Java-based Document Object Model)</p>
+ * 
+ * Java特定的文档对象模型。自身不包含解析器，使用SAX
+ *	【优点】
+ *		①使用具体类而不是接口，简化了DOM的API。
+ *		②大量使用了Java集合类，方便了Java开发人员。
+ *	【缺点】
+ *		①没有较好的灵活性。
+ *		②性能较差。
+ * 
  * @Author : belong
  * @Date : 2017年8月21日
  */

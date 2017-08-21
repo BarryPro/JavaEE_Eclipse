@@ -15,14 +15,26 @@ import org.xml.sax.SAXException;
 import com.belong.net.xml.bean.Address;
 import com.belong.net.xml.bean.ReadXmlFileStream;
 /**
- * @Description: <p>DOM（JAXP<Java API for XML Processing,XML处理的Java API> Crimson解析器）</p> 
+ * @Description: <p>DOM(Document Object Model)Crimson解析器）</p> 
  * 
- * DOM是用与平台和语言无关的方式表示XML文档的官方W3C标准。
- * DOM是以层次结构组织的节点或信息片断的集合。这个层次结构允许开发人员在树中寻找 特定信息。
- * 分析该结构通常需要加载整个文档和构造层次结构，然后才能做任何工作。由于它是基于信息层次的，
- * 因而DOM被认为是基于树或基于对象的。DOM 以及广义的基于树的处理具有几个优点。首先，由于
- * 树在内存中是持久的，因此可以修改它以便应用程序能对数据和结构作出更改。它还可以在任何时候
- * 在树中上下 导航，而不是像SAX那样是一次性的处理。DOM使用起来也要简单得多
+ * DOM是html和xml的应用程序接口(API)，以层次结构（类似于树型）来组织节点和信息片段，
+ * 映射XML文档的结构，允许获取和操作文档的任意部分，是W3C的官方标准
+ *  【优点】
+ *		①允许应用程序对数据和结构做出更改。
+ *		②访问是双向的，可以在任何时候在树中上下导航，获取和操作任意部分的数据。
+ *	【缺点】
+ *		①通常需要加载整个XML文档来构造层次结构，消耗资源大。
+ *	【解析详解】
+ *		①构建Document对象：
+ *			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+ * 			DocumentBuilder db = bdf.newDocumentBuilder();
+ *			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(xml文件);
+ *			Document doc = bd.parse(is);
+ *		②遍历DOM对象
+ *			Document：	XML文档对象，由解析器获取
+ *			NodeList：	节点数组
+ *			Node：		节点(包括element、#text)
+ *			Element：	元素，可用于获取属性参数
  * 
  * @Author : belong
  * @Date : 2017年8月21日
