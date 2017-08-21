@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<addresses>  
+    <value>  
+        <no>A100</no>  
+        <addr>广州天河区天河路</addr>  
+    </value>  
+    <value>  
+        <no>A101</no>  
+        <addr>广州天河区五山路</addr>  
+    </value>  
+</addresses>

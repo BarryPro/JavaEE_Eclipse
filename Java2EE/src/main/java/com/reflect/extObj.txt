@@ -1,2 +1,0 @@
-b=com.weikun.A.B
-b%name=ÖÐ¹ú

@@ -3,6 +3,7 @@ package com.belong.test;
 import java.util.Scanner;
 
 /**
+ * 编程题最多的数
  * Created by belong on 2016/12/15.
  */
 public class MostNum {

@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/java/com/belong/shell/hta/HtaDemo.hta=GBK
 encoding//src/main/resources/db/hikaricp.ini=GBK
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

@@ -3,7 +3,7 @@ package com.belong.test;
 import java.util.Scanner;
 
 /**
- * Created by belong on 2016/12/15.
+ * 笔试编程题，最大矩形面积
  */
 public class MaxRect {
     public static void main(String[] args) {

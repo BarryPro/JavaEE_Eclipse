@@ -1,8 +1,8 @@
 package com.belong.reflect;
 
-import com.belong.basic.DeepClone;
-
 import java.lang.reflect.Constructor;
+
+import com.belong.clone.DeepClone;
 
 /**
  * Created by belong on 2016/12/11.

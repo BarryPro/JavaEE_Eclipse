@@ -3,7 +3,7 @@ package com.belong.test;
 import java.util.Scanner;
 
 /**
- * Created by belong on 2016/12/17.
+ * 笔试编程题
  */
 public class ID2 {
     public static void main(String[] args) {
