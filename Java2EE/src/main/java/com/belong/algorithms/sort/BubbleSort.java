@@ -22,13 +22,13 @@ public class BubbleSort {
     public void bubbleSort() {
         System.out.println("开始排序");
         int arrayLength = data.length;
-        for (int i = 0; i < arrayLength - 1; i++)////-1的原因是最大的数再不用排了
+        for (int i = 0; i < arrayLength - 1; i++) // -1的原因是最大的数再不用排了
         {
             boolean flag = false;
-            for (int j = 0; j < arrayLength - 1 - i; j++)//-1-i的原因是没走一次i，
-            //相当于把最大的数已经放到最后了，因此在没有循环的必要了
+            for (int j = 0; j < arrayLength - 1 - i; j++) // -1-i的原因是没走一次i，
+            // 相当于把最大的数已经放到最后了，因此在没有循环的必要了
             {
-                //如果j索引处的元素大于j+1索引处的元素
+                // 如果j索引处的元素大于j+1索引处的元素
                 if (data[j] - (data[j + 1]) > 0) {
                     //交换它们
                     int tmp = data[j + 1];
@@ -38,7 +38,7 @@ public class BubbleSort {
                 }
             }
             System.out.println(Arrays.toString(data));
-            //如果某趟没有发生交换，则表明已处于有序状态
+            // 如果某趟没有发生交换，则表明已处于有序状态
             if (!flag) {
                 break;
             }

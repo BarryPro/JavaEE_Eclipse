@@ -1,8 +1,13 @@
-package com.belong.algorithms.sort;
+package com.belong.test;
 
 import java.util.Arrays;
 
-public class MergeSort {
+/**
+ * @Description: <p>归并排序</p>
+ * @Author : belong
+ * @Date : 2017年8月22日
+ */
+public class MergeSortTest {
 	public static void main(String[] args) {
 		int [] data = {4,6,5,4,6,7,567,6,87,564,6,45,645};
 		mergesort(data);

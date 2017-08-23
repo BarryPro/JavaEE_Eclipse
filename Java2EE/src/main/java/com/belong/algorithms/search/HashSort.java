@@ -218,7 +218,6 @@ public class HashSort<K, V> {
             this.key = k;
             this.value = v;
             this.hash = hash;
-
         }
     }
 

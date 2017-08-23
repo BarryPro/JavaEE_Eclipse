@@ -26,8 +26,5 @@ public class BinarySearch {
 			}
 		}
 		return -1;//没找到
-
 	}
-
-
 }
