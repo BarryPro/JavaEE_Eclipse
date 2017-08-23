@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 /**
- * ²âÊÔÖ¸Õë
+ * æŒ‡é’ˆæµ‹è¯•
  */
 int main(void){
 	char* str = "ASFDJKFD";
