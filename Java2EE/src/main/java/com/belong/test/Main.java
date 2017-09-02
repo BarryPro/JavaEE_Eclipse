@@ -1,8 +1,6 @@
 package com.belong.test;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
 	public static <v> void main(String[] args) {
@@ -11,47 +9,22 @@ public class Main {
 		// minHeapSort(a);
 		// mergeSort(a);
 		// quickSort(a);
+		// dubbo(a);
 		// insertSort(a);
-		// binaryInsertSort(a);
-		// dubboSort(a);
-		// inversionArray(a);
-		// System.out.println(maxSubSum(a));
-		// System.out.println((int) binarySearch(a, 11));
+		binarySort(a);
+		System.out.println(binarySearch(a,11));
 		System.out.println(Arrays.toString(a));
 	}
 
-	private static int maxSubSum(int[] a) {
-		int max = Integer.MIN_VALUE;
-		int sum = 0;
-		for (int i = 0; i < a.length; i++) {
-			sum += a[i];
-			if (sum > max) {
-				max = sum;
-			}
-			if (sum < 0) {
-				sum = 0;
-			}
-		}
-		return max;
-	}
-
-	private static void inversionArray(int[] a) {
-		for (int i = 0; i < a.length / 2; i++) {
-			int tmp = a[i];
-			a[i] = a[a.length - 1 - i];
-			a[a.length - 1 - i] = tmp;
-		}
-	}
-
-	private static int binarySearch(int[] a, int i) {
+	private static int binarySearch(int[] a,int key) {
 		int l = 0;
-		int r = a.length - 1;
-		while (l < r) {
-			int mid = (l + r) / 2;
-			if (a[mid] < i) {
-				l = mid + 1;
-			} else if (a[mid] > i) {
-				r = mid - 1;
+		int r = a.length-1;
+		while(l<r) {
+			int mid = (l+r)/2;
+			if(a[mid] > key) {
+				r = mid -1;
+			} else if (a[mid] < key) {
+				l = mid +1;
 			} else {
 				return mid;
 			}
@@ -59,35 +32,20 @@ public class Main {
 		return -1;
 	}
 
-	private static void dubboSort(int[] a) {
-		for (int i = 0; i < a.length - 1; i++) {
-			boolean flag = true;
-			for (int j = 0; j < a.length - 1 - i; j++) {
-				if (a[j] > a[j + 1]) {
-					swap(a, j, j + 1);
-					flag = false;
-				}
-			}
-			if (flag) {
-				break;
-			}
-		}
-	}
-
-	private static void binaryInsertSort(int[] a) {
+	private static void binarySort(int[] a) {
 		for (int i = 1; i < a.length; i++) {
-			if (a[i] < a[i - 1]) {
+			if(a[i] < a[i-1]) {
 				int tmp = a[i];
 				int l = 0;
 				int r = i;
 				while (l <= r) {
 					int mid = (l + r) / 2;
-					if (a[mid] < a[i]) {
-						l = mid + 1;
-					} else {
+					if (a[mid] > a[i]) {
 						r = mid - 1;
+					} else {
+						l = mid + 1;
 					}
-				}
+				}				
 				backMove(a, l, i);
 				a[l] = tmp;
 			}
@@ -117,12 +75,27 @@ public class Main {
 		}
 	}
 
-	private static void quickSort(int[] a) {
-		sortQuick(a, 0, a.length - 1);
+	private static void dubbo(int[] a) {
+		for (int i = 0; i < a.length - 1; i++) {
+			boolean flag = false;
+			for (int j = 0; j < a.length - 1 - i; j++) {
+				if (a[j] > a[j + 1]) {
+					swap(a, j, j + 1);
+					flag = true;
+				}
+			}
+			if (!flag) {
+				break;
+			}
+		}
 	}
 
-	private static void sortQuick(int[] a, int i, int j) {
-		boolean flag = true;
+	private static void quickSort(int[] a) {
+		sortQ(a, 0, a.length - 1);
+	}
+
+	private static void sortQ(int[] a, int i, int j) {
+		boolean flag = false;
 		int l = i;
 		int r = j;
 		if (l >= r) {
@@ -141,8 +114,8 @@ public class Main {
 		}
 		r++;
 		l--;
-		sortQuick(a, i, l);
-		sortQuick(a, r, j);
+		sortQ(a, i, l);
+		sortQ(a, r, j);
 	}
 
 	private static void mergeSort(int[] a) {
@@ -159,25 +132,25 @@ public class Main {
 	}
 
 	private static void merge(int[] a, int i, int mid, int j) {
-		int t[] = new int[a.length];
+		int[] tmp = new int[a.length];
 		int index = i;
 		int lf = i;
 		int rf = mid + 1;
 		while (lf <= mid && rf <= j) {
 			if (a[lf] < a[rf]) {
-				t[index++] = a[lf++];
+				tmp[index++] = a[lf++];
 			} else {
-				t[index++] = a[rf++];
+				tmp[index++] = a[rf++];
 			}
 		}
-		while (lf <= mid) {
-			t[index++] = a[lf++];
-		}
 		while (rf <= j) {
-			t[index++] = a[rf++];
+			tmp[index++] = a[rf++];
+		}
+		while (lf <= mid) {
+			tmp[index++] = a[lf++];
 		}
 		while (i <= j) {
-			a[i] = t[i++];
+			a[i] = tmp[i++];
 		}
 	}
 
@@ -192,7 +165,7 @@ public class Main {
 		for (int j = (i - 1) / 2; j >= 0; j--) {
 			int cur = j;
 			int l = cur * 2 + 1;
-			int r = l + 1;
+			int r = cur * 2 + 2;
 			int min = l;
 			while (l <= i) {
 				if (r <= i) {
@@ -244,4 +217,5 @@ public class Main {
 		a[cur] = a[max];
 		a[max] = t;
 	}
+
 }
