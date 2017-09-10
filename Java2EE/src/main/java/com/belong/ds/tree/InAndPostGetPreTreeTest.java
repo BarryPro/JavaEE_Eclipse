@@ -38,6 +38,7 @@ public class InAndPostGetPreTreeTest {
      */
     public void BuildTree(int[] postArray, int[] midArray, DataNode rootNode) {
         //得到根节点的索引位置
+    	
         int index_root = getIndex(midArray, rootNode.data);
         //得到右子树的节点个数（左子树的节点个数就是根节点的索引号 ）
         int lengthOfRightTree = postArray.length - index_root - 1;
@@ -131,9 +132,9 @@ public class InAndPostGetPreTreeTest {
 
     public static void main(String[] args) {
         //前序数组
-        int[] postArray = {16,15,28,30,29,20,45,55,50,40,35};
+        int[] postArray = {3,1,4,7,6,2,5};
         //中序数组
-        int[] midArray = {15,16,20,28,29,30,35,40,45,50,55};
+        int[] midArray = {3,4,1,5,7,2,6};
         InAndPostGetPreTreeTest tree = new InAndPostGetPreTreeTest();
         DataNode headNode = tree.initRootNode(postArray);
         tree.BuildTree(postArray, midArray, headNode);

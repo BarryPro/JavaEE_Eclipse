@@ -83,6 +83,17 @@ public class HeapSort {
         data[i] = data[j];
         data[j] = tmp;
     }
+    /**
+     * 使用位运算来进行交换两个数  异或
+     * @param a
+     * @param cur
+     * @param max
+     */
+	// private static void swap(int[] a, int cur, int max) {
+	// a[cur] = a[cur] ^ a[max];
+	// a[max] = a[cur] ^ a[max];
+	// a[cur] = a[cur] ^ a[max];
+	// }
 
     public static void main(String[] args) {
         HeapSort h = new HeapSort();

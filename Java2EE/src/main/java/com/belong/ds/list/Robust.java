@@ -4,9 +4,9 @@ import com.belong.ds.list.LinkedList.Node;
 
 /**
  * @Description:
- *               <p>
- *               单链表获取倒数第k个数，一次循环，时间复杂度O(n)
- *               </p>
+ * <p>
+ * 单链表获取倒数第k个数，一次循环，时间复杂度O(n)
+ * </p>
  * @Author : belong
  * @Date : 2017年9月2日
  */
@@ -29,14 +29,15 @@ public class Robust {
 			before = before.next;
 			cur = cur.next;
 		}
-		return before.value;
+		return (int)before.value;
 	}
 
 	public static void main(String[] args) {
 		for (int i = 0; i < 6; i++) {
-			LinkedList.insert(i);
+			LinkedList.set(i);
 		}
 		System.out.println(LinkedList.show());
 		System.out.println(findKthToTail(LinkedList.head, 2));
+		System.out.println(LinkedList.get(3));
 	}
 }
