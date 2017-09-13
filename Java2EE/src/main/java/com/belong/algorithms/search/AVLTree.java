@@ -8,9 +8,10 @@ package com.belong.algorithms.search;
  */
 
 public class AVLTree<T extends Comparable<T>> {
-	private AVLTreeNode<T> mRoot; // 根结点
+	private AVLTreeNode<T> mRoot;    // 根结点
 
 	// AVL树的节点(内部类)
+	
 	class AVLTreeNode<T extends Comparable<T>> {
 		T key; // 关键字(键值)
 		int height; // 高度
@@ -144,29 +145,40 @@ public class AVLTree<T extends Comparable<T>> {
 	}
 
 	/*
-	 * LL：左左对应的情况(左单旋转)。 2 A B / 1 / \ B -->>LL--->> X A / 0 X 返回值：旋转后的根节点
+	 * LL：左左对应的情况(左单旋转)。
+	 *        2
+	 *     A                     B     
+	 *    /  1                 /   \
+	 *   B   -->>LL--->>      X     A
+	 *  /  0
+	 * X
+	 * 返回值：旋转后的根节点
 	 * (插入的节点是左子树的左边节点)
 	 */
-	private AVLTreeNode<T> leftLeftRotation(AVLTreeNode<T> k2) {
-		AVLTreeNode<T> k1;
-
-		k1 = k2.left;
-		k2.left = k1.right;
-		k1.right = k2;
+	private AVLTreeNode<T> leftLeftRotation(AVLTreeNode<T> A) {
+		AVLTreeNode<T> B;
+		B = A.left;
+		A.left = B.right;
+		B.right = A;
 		// 关于高度，树的高度即为最大层次。
 		// 即空的二叉树的高度是0，非空树的高度从1计数，等于它的最大层次(根的层次为1，根的子节点为第2层，依次类推)。
-		k2.height = max(height(k2.left), height(k2.right)) + 1;
-		k1.height = max(height(k1.left), k2.height) + 1;// 左右比较
-
-		return k1;
+		A.height = max(height(A.left), height(A.right)) + 1;
+		B.height = max(height(B.left), A.height) + 1;// 左右比较
+		return B;
 	}
 
 	/*
 	 * RR：右右对应的情况(右单旋转)。
 	 *
-	 * -2 0 A B \ -1 /0 \0 B -->>RR--->> A X \ 0 X
+	 *      -2                              0
+	 *     A                               B     
+	 *      \ -1                         /0  \0
+	 *       B         -->>RR--->>      A     X
+	 *        \ 0
+	 *         X
 	 *
-	 * (插入节点是右子树的右边节点) 返回值：旋转后的根节点
+	 *(插入节点是右子树的右边节点)
+	 * 返回值：旋转后的根节点
 	 */
 	private AVLTreeNode<T> rightRightRotation(AVLTreeNode<T> k1) {
 		AVLTreeNode<T> k2;
@@ -175,14 +187,16 @@ public class AVLTree<T extends Comparable<T>> {
 		k1.right = k2.left;
 		k2.left = k1;
 
-		k1.height = max(height(k1.left), height(k1.right)) + 1;
-		k2.height = max(height(k2.right), k1.height) + 1;
+		k1.height = max( height(k1.left), height(k1.right)) + 1;
+		k2.height = max( height(k2.right), k1.height) + 1;
 
 		return k2;
 	}
 
 	/*
-	 * LR：左右对应的情况(左双旋转)。--对应RR-LL (插入节点是左子树的右边节点) 返回值：旋转后的根节点
+	 * LR：左右对应的情况(左双旋转)。--对应RR-LL
+	 *(插入节点是左子树的右边节点)
+	 * 返回值：旋转后的根节点
 	 */
 	private AVLTreeNode<T> leftRightRotation(AVLTreeNode<T> k3) {
 		k3.left = rightRightRotation(k3.left);
@@ -191,18 +205,24 @@ public class AVLTree<T extends Comparable<T>> {
 	}
 
 	/*
-	 * RL：右左对应的情况(右双旋转)。对应 LL-RR (插入节点是右子树的左边节点) 返回值：旋转后的根节点
+	 * RL：右左对应的情况(右双旋转)。对应 LL-RR
+	 *(插入节点是右子树的左边节点)
+	 * 返回值：旋转后的根节点
 	 */
 	private AVLTreeNode<T> rightLeftRotation(AVLTreeNode<T> k1) {
 		k1.right = leftLeftRotation(k1.right);
 
 		return rightRightRotation(k1);
 	}
-
-	/*
+	
+	/* 
 	 * 将结点插入到AVL树中，并返回根节点
 	 *
-	 * 参数说明： tree AVL树的根结点 key 插入的结点的键值 返回值： 根节点
+	 * 参数说明：
+	 *     tree AVL树的根结点
+	 *     key 插入的结点的键值
+	 * 返回值：
+	 *     根节点
 	 */
 	private AVLTreeNode<T> insert(AVLTreeNode<T> tree, T key) {
 		if (tree == null) {
@@ -250,12 +270,13 @@ public class AVLTree<T extends Comparable<T>> {
 		mRoot = insert(mRoot, key);
 	}
 
-	/*
+
+	/* 
 	 * 销毁AVL树
 	 */
 	private void destroy(AVLTreeNode<T> tree) {
-		if (tree == null)
-			return;
+		if (tree==null)
+			return ;
 
 		if (tree.left != null)
 			destroy(tree.left);
@@ -319,9 +340,7 @@ public class AVLTree<T extends Comparable<T>> {
 		System.out.printf("== 最大值: %d\n", tree.maximum());
 		System.out.printf("== 树的详细信息: \n");
 		tree.print();
-
 		// 销毁二叉树
 		tree.destroy();
 	}
-
 }

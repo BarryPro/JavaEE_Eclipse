@@ -1,17 +1,10 @@
 package com.belong.test;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Scanner;
 
-import com.sun.org.apache.bcel.internal.generic.SWAP;
-
-/**
- * Created by Administrator on 2017/9/8.
- */
 public class Main {
-	public static void main(String[] args) throws IOException {
-		int a[] = { 4, 3, 5, 3, 5, 6, 4, 6, 756, 78, 8, 645 };
+	public static void main(String[] args) {
+		int[] a = { 343, 35, 46, 5, 52, 23, 5, 26, 2, 624265, 47, 6, 43, 534, 45, 345, 25, };
 		// minHeapSort(a);
 		// maxHeapSort(a);
 		// mergeSort(a);
@@ -19,7 +12,7 @@ public class Main {
 		// dubboSort(a);
 		// insertSort(a);
 		binaryInsertSort(a);
-		System.out.println(binarySearch(a, 756));
+		System.out.println((int) binarySearch(a, 624265));
 		System.out.println(Arrays.toString(a));
 	}
 
@@ -46,10 +39,10 @@ public class Main {
 				int r = i;
 				while (l <= r) {
 					int mid = (l + r) / 2;
-					if (a[mid] < a[i]) {
-						l = mid + 1;
-					} else {
+					if (a[mid] > a[i]) {
 						r = mid - 1;
+					} else {
+						l = mid + 1;
 					}
 				}
 				int tmp = a[i];
@@ -85,7 +78,7 @@ public class Main {
 	private static void dubboSort(int[] a) {
 		for (int i = 0; i < a.length - 1; i++) {
 			boolean flag = true;
-			for (int j = 0; j <= a.length - 1 - i; i++) {
+			for (int j = 0; j < a.length - 1 - i; j++) {
 				if (a[j] > a[j + 1]) {
 					swap(a, j, j + 1);
 					flag = false;
@@ -102,15 +95,15 @@ public class Main {
 	}
 
 	private static void sortQ(int[] a, int i, int j) {
-		boolean flag = false;
+		boolean flag = true;
 		int l = i;
 		int r = j;
-		if (l >= j) {
+		if (l >= r) {
 			return;
 		}
-		while (l != j) {
-			if (a[l] > a[j]) {
-				swap(a, l, j);
+		while (l != r) {
+			if (a[l] > a[r]) {
+				swap(a, l, r);
 				flag = !flag;
 			}
 			if (flag) {
@@ -139,7 +132,7 @@ public class Main {
 	}
 
 	private static void merge(int[] a, int i, int mid, int j) {
-		int tmp[] = new int[a.length];
+		int[] tmp = new int[a.length];
 		int index = i;
 		int lf = i;
 		int rf = mid + 1;
@@ -159,6 +152,7 @@ public class Main {
 		while (i <= j) {
 			a[i] = tmp[i++];
 		}
+
 	}
 
 	private static void maxHeapSort(int[] a) {
@@ -168,14 +162,14 @@ public class Main {
 		}
 	}
 
-	private static void buildMaxHeap(int[] a, int i) {
-		for (int j = (i - 1) / 2; j >= 0; j--) {
-			int cur = j;
+	private static void buildMaxHeap(int[] a, int len) {
+		for (int i = (len - 1) / 2; i >= 0; i--) {
+			int cur = i;
 			int l = cur * 2 + 1;
-			int r = cur * 2 + 2;
+			int r = l + 1;
 			int max = l;
-			while (l <= i) {
-				if (r <= i) {
+			while (l <= len) {
+				if (r <= len) {
 					if (a[l] < a[r]) {
 						max = r;
 					}
